@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 14 Scatter plots and Box plots | R primer for omics</title>
+  <meta name="description" content="NEOF book for the R primer for omics workshop" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 14 Scatter plots and Box plots | R primer for omics" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the R primer for omics workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 14 Scatter plots and Box plots | R primer for omics" />
+  
+  <meta name="twitter:description" content="NEOF book for the R primer for omics workshop" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Matthew R. Gemmell" />
+
+
+<meta name="date" content="2022-11-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="13-Plots_line_graphs_and_histograms.html"/>
+<link rel="next" href="15-Plots_exercises.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/vembedr-0.1.5/css/vembedr.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li><a>R primer for omics</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>Start</b></span></li>
+<li class="chapter" data-level="1" data-path="01-Intro_to_R.html"><a href="01-Intro_to_R.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="part"><span><b>Foundations &amp; Objects</b></span></li>
+<li class="chapter" data-level="2" data-path="02-Foundations.html"><a href="02-Foundations.html"><i class="fa fa-check"></i><b>2</b> Foundations of R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-Foundations.html"><a href="02-Foundations.html#operators"><i class="fa fa-check"></i><b>2.1</b> Operators</a></li>
+<li class="chapter" data-level="2.2" data-path="02-Foundations.html"><a href="02-Foundations.html#variables"><i class="fa fa-check"></i><b>2.2</b> Variables</a></li>
+<li class="chapter" data-level="2.3" data-path="02-Foundations.html"><a href="02-Foundations.html#functions"><i class="fa fa-check"></i><b>2.3</b> Functions</a></li>
+<li class="chapter" data-level="2.4" data-path="02-Foundations.html"><a href="02-Foundations.html#directories"><i class="fa fa-check"></i><b>2.4</b> Directories</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="02-Foundations.html"><a href="02-Foundations.html#commands"><i class="fa fa-check"></i><b>2.4.1</b> Commands</a></li>
+<li class="chapter" data-level="2.4.2" data-path="02-Foundations.html"><a href="02-Foundations.html#rstudio-interface"><i class="fa fa-check"></i><b>2.4.2</b> RStudio Interface</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="02-Foundations.html"><a href="02-Foundations.html#scripteditor"><i class="fa fa-check"></i><b>2.5</b> Script editor</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="02-Foundations.html"><a href="02-Foundations.html#running-commands"><i class="fa fa-check"></i><b>2.5.1</b> Running commands</a></li>
+<li class="chapter" data-level="2.5.2" data-path="02-Foundations.html"><a href="02-Foundations.html#annotations"><i class="fa fa-check"></i><b>2.5.2</b> Annotations</a></li>
+<li class="chapter" data-level="2.5.3" data-path="02-Foundations.html"><a href="02-Foundations.html#saving-scripts"><i class="fa fa-check"></i><b>2.5.3</b> Saving scripts</a></li>
+<li class="chapter" data-level="2.5.4" data-path="02-Foundations.html"><a href="02-Foundations.html#open-a-saved-script"><i class="fa fa-check"></i><b>2.5.4</b> Open a saved script</a></li>
+<li class="chapter" data-level="2.5.5" data-path="02-Foundations.html"><a href="02-Foundations.html#new-script"><i class="fa fa-check"></i><b>2.5.5</b> New script</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="02-Foundations.html"><a href="02-Foundations.html#foundations-mcqs"><i class="fa fa-check"></i><b>2.6</b> Foundations MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-Foundations_exercises.html"><a href="03-Foundations_exercises.html"><i class="fa fa-check"></i><b>3</b> Foundations of R exercises</a></li>
+<li class="chapter" data-level="4" data-path="04-R_objects.html"><a href="04-R_objects.html"><i class="fa fa-check"></i><b>4</b> R objects</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-R_objects.html"><a href="04-R_objects.html#codesections"><i class="fa fa-check"></i><b>4.1</b> Code sections</a></li>
+<li class="chapter" data-level="4.2" data-path="04-R_objects.html"><a href="04-R_objects.html#classes"><i class="fa fa-check"></i><b>4.2</b> Classes</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="04-R_objects.html"><a href="04-R_objects.html#numeric"><i class="fa fa-check"></i><b>4.2.1</b> Numeric</a></li>
+<li class="chapter" data-level="4.2.2" data-path="04-R_objects.html"><a href="04-R_objects.html#logical"><i class="fa fa-check"></i><b>4.2.2</b> Logical</a></li>
+<li class="chapter" data-level="4.2.3" data-path="04-R_objects.html"><a href="04-R_objects.html#string"><i class="fa fa-check"></i><b>4.2.3</b> String</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="04-R_objects.html"><a href="04-R_objects.html#code-section-continued"><i class="fa fa-check"></i><b>4.3</b> Code section continued</a></li>
+<li class="chapter" data-level="4.4" data-path="04-R_objects.html"><a href="04-R_objects.html#data-structures"><i class="fa fa-check"></i><b>4.4</b> Data structures</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="04-R_objects.html"><a href="04-R_objects.html#scalar"><i class="fa fa-check"></i><b>4.4.1</b> Scalar</a></li>
+<li class="chapter" data-level="4.4.2" data-path="04-R_objects.html"><a href="04-R_objects.html#vectors-lists"><i class="fa fa-check"></i><b>4.4.2</b> Vectors &amp; Lists</a></li>
+<li class="chapter" data-level="4.4.3" data-path="04-R_objects.html"><a href="04-R_objects.html#data-frames-matrices"><i class="fa fa-check"></i><b>4.4.3</b> Data frames &amp; Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="04-R_objects.html"><a href="04-R_objects.html#objects-mcqs"><i class="fa fa-check"></i><b>4.5</b> Objects MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="05-R_objects_exercises.html"><a href="05-R_objects_exercises.html"><i class="fa fa-check"></i><b>5</b> R objects exercises</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-R_objects_exercises.html"><a href="05-R_objects_exercises.html#df"><i class="fa fa-check"></i><b>5.1</b> df</a></li>
+<li class="chapter" data-level="5.2" data-path="05-R_objects_exercises.html"><a href="05-R_objects_exercises.html#beach_df_2"><i class="fa fa-check"></i><b>5.2</b> beach_df_2</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html"><i class="fa fa-check"></i><b>6</b> R objects solutions</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#df-solution"><i class="fa fa-check"></i><b>6.1</b> df solution</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-1"><i class="fa fa-check"></i><b>6.1.1</b> Step 1</a></li>
+<li class="chapter" data-level="6.1.2" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-2a"><i class="fa fa-check"></i><b>6.1.2</b> Step 2a</a></li>
+<li class="chapter" data-level="6.1.3" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-2b"><i class="fa fa-check"></i><b>6.1.3</b> Step 2b</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#beach_df_2-solution"><i class="fa fa-check"></i><b>6.2</b> beach_df_2 solution</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-1-1"><i class="fa fa-check"></i><b>6.2.1</b> Step 1</a></li>
+<li class="chapter" data-level="6.2.2" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-2a-1"><i class="fa fa-check"></i><b>6.2.2</b> Step 2a</a></li>
+<li class="chapter" data-level="6.2.3" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-2b-1"><i class="fa fa-check"></i><b>6.2.3</b> Step 2b</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Files, Subsetting, &amp; Tips</b></span></li>
+<li class="chapter" data-level="7" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html"><i class="fa fa-check"></i><b>7</b> Files and subsetting data</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#reading-from-a-file"><i class="fa fa-check"></i><b>7.1</b> Reading from a file</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#directory-and-file-setup"><i class="fa fa-check"></i><b>7.1.1</b> Directory and file setup</a></li>
+<li class="chapter" data-level="7.1.2" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#viewing-the-file"><i class="fa fa-check"></i><b>7.1.2</b> Viewing the file</a></li>
+<li class="chapter" data-level="7.1.3" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#read.csv"><i class="fa fa-check"></i><b>7.1.3</b> read.csv()</a></li>
+<li class="chapter" data-level="7.1.4" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#tsv-files"><i class="fa fa-check"></i><b>7.1.4</b> TSV files</a></li>
+<li class="chapter" data-level="7.1.5" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#excel-files-and-r"><i class="fa fa-check"></i><b>7.1.5</b> Excel files and R</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#subsetting-data"><i class="fa fa-check"></i><b>7.2</b> Subsetting data</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#vectors"><i class="fa fa-check"></i><b>7.2.1</b> Vectors</a></li>
+<li class="chapter" data-level="7.2.2" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#data-frames"><i class="fa fa-check"></i><b>7.2.2</b> Data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#writing-to-a-file"><i class="fa fa-check"></i><b>7.3</b> Writing to a file</a></li>
+<li class="chapter" data-level="7.4" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#files-subsetting-mcqs"><i class="fa fa-check"></i><b>7.4</b> Files &amp; subsetting MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="08-Files_exercises.html"><a href="08-Files_exercises.html"><i class="fa fa-check"></i><b>8</b> Files exercises</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="08-Files_exercises.html"><a href="08-Files_exercises.html#bats"><i class="fa fa-check"></i><b>8.1</b> Bats</a></li>
+<li class="chapter" data-level="8.2" data-path="08-Files_exercises.html"><a href="08-Files_exercises.html#honey-bee-colonies"><i class="fa fa-check"></i><b>8.2</b> Honey bee colonies</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="09-Files_solutions.html"><a href="09-Files_solutions.html"><i class="fa fa-check"></i><b>9</b> Files solutions</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="09-Files_solutions.html"><a href="09-Files_solutions.html#bats-solution"><i class="fa fa-check"></i><b>9.1</b> Bats solution</a></li>
+<li class="chapter" data-level="9.2" data-path="09-Files_solutions.html"><a href="09-Files_solutions.html#honey-bee-colonies-1"><i class="fa fa-check"></i><b>9.2</b> Honey bee colonies</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html"><i class="fa fa-check"></i><b>10</b> Handy tips &amp; tricks</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#r-conventions"><i class="fa fa-check"></i><b>10.1</b> R conventions</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#variable-names"><i class="fa fa-check"></i><b>10.1.1</b> Variable names</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#rstudio"><i class="fa fa-check"></i><b>10.2</b> RStudio</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#global-options"><i class="fa fa-check"></i><b>10.2.1</b> Global options</a></li>
+<li class="chapter" data-level="10.2.2" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#sweep-buttons"><i class="fa fa-check"></i><b>10.2.2</b> Sweep buttons</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#multiplication-table"><i class="fa fa-check"></i><b>10.3</b> Multiplication table</a></li>
+<li class="chapter" data-level="10.4" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#tab-complete"><i class="fa fa-check"></i><b>10.4</b> Tab complete</a></li>
+<li class="chapter" data-level="10.5" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#tea"><i class="fa fa-check"></i><b>10.5</b> Tea</a></li>
+<li class="chapter" data-level="10.6" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#english-speakers-across-the-world"><i class="fa fa-check"></i><b>10.6</b> English speakers across the world</a></li>
+<li class="chapter" data-level="10.7" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#identical"><i class="fa fa-check"></i><b>10.7</b> Identical</a></li>
+<li class="chapter" data-level="10.8" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#shortcuts"><i class="fa fa-check"></i><b>10.8</b> Shortcuts</a></li>
+<li class="chapter" data-level="10.9" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#handy-tips-tricks-mcqs"><i class="fa fa-check"></i><b>10.9</b> Handy tips &amp; tricks MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html"><i class="fa fa-check"></i><b>11</b> Handy exercises</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html#tea-exercise"><i class="fa fa-check"></i><b>11.1</b> Tea exercise</a></li>
+<li class="chapter" data-level="11.2" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html#english-speakers-across-the-world-exercise"><i class="fa fa-check"></i><b>11.2</b> English speakers across the world exercise</a></li>
+<li class="chapter" data-level="11.3" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html#extra-exercise"><i class="fa fa-check"></i><b>11.3</b> Extra exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="12-Tips_solutions.html"><a href="12-Tips_solutions.html"><i class="fa fa-check"></i><b>12</b> Handy Solutions</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="12-Tips_solutions.html"><a href="12-Tips_solutions.html#tea-solution"><i class="fa fa-check"></i><b>12.1</b> Tea solution</a></li>
+<li class="chapter" data-level="12.2" data-path="12-Tips_solutions.html"><a href="12-Tips_solutions.html#english-speakers-across-the-world-solution"><i class="fa fa-check"></i><b>12.2</b> English speakers across the world solution</a></li>
+</ul></li>
+<li class="part"><span><b>Plots</b></span></li>
+<li class="chapter" data-level="13" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html"><i class="fa fa-check"></i><b>13</b> Histograms and Line graphs</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#histogram"><i class="fa fa-check"></i><b>13.1</b> Histogram</a></li>
+<li class="chapter" data-level="13.2" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#line-graphs"><i class="fa fa-check"></i><b>13.2</b> Line graphs</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#read-in-data"><i class="fa fa-check"></i><b>13.2.1</b> Read in data</a></li>
+<li class="chapter" data-level="13.2.2" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#plotting-a-line-graph"><i class="fa fa-check"></i><b>13.2.2</b> Plotting a line graph</a></li>
+<li class="chapter" data-level="13.2.3" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#adding-lines-to-a-plot"><i class="fa fa-check"></i><b>13.2.3</b> Adding lines to a plot</a></li>
+<li class="chapter" data-level="13.2.4" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#axis-limits"><i class="fa fa-check"></i><b>13.2.4</b> Axis limits</a></li>
+<li class="chapter" data-level="13.2.5" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#axis-labels"><i class="fa fa-check"></i><b>13.2.5</b> Axis labels</a></li>
+<li class="chapter" data-level="13.2.6" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#plot-titles"><i class="fa fa-check"></i><b>13.2.6</b> Plot titles</a></li>
+<li class="chapter" data-level="13.2.7" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#line-colours"><i class="fa fa-check"></i><b>13.2.7</b> Line colours</a></li>
+<li class="chapter" data-level="13.2.8" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#plot-legend"><i class="fa fa-check"></i><b>13.2.8</b> Plot legend</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html"><i class="fa fa-check"></i><b>14</b> Scatter plots and Box plots</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#scatter-plot"><i class="fa fa-check"></i><b>14.1</b> Scatter plot</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#basic-examples"><i class="fa fa-check"></i><b>14.1.1</b> Basic examples</a></li>
+<li class="chapter" data-level="14.1.2" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#animal-sizes"><i class="fa fa-check"></i><b>14.1.2</b> Animal sizes</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#factors"><i class="fa fa-check"></i><b>14.2</b> Factors</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#box-plot"><i class="fa fa-check"></i><b>14.3</b> Box plot</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#saving-a-plot-to-a-file"><i class="fa fa-check"></i><b>14.4</b> Saving a plot to a file</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html"><i class="fa fa-check"></i><b>15</b> Plots exercises</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html#line-graph"><i class="fa fa-check"></i><b>15.1</b> Line graph</a></li>
+<li class="chapter" data-level="15.2" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html#histogram-1"><i class="fa fa-check"></i><b>15.2</b> Histogram</a></li>
+<li class="chapter" data-level="15.3" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html#scatterplot"><i class="fa fa-check"></i><b>15.3</b> Scatterplot</a></li>
+<li class="chapter" data-level="15.4" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html#boxplot"><i class="fa fa-check"></i><b>15.4</b> Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html"><i class="fa fa-check"></i><b>16</b> Plots solutions</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html#line-graph-solution"><i class="fa fa-check"></i><b>16.1</b> Line graph solution</a></li>
+<li class="chapter" data-level="16.2" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html#histogram-solution"><i class="fa fa-check"></i><b>16.2</b> Histogram solution</a></li>
+<li class="chapter" data-level="16.3" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html#scatterplot-solution"><i class="fa fa-check"></i><b>16.3</b> Scatterplot solution</a></li>
+<li class="chapter" data-level="16.4" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html#boxplot-solutions"><i class="fa fa-check"></i><b>16.4</b> Boxplot solutions</a></li>
+</ul></li>
+<li class="part"><span><b>Stats &amp; Programming</b></span></li>
+<li class="chapter" data-level="17" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html"><i class="fa fa-check"></i><b>17</b> Basic stats</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#linear-regression"><i class="fa fa-check"></i><b>17.1</b> Linear regression</a>
+<ul>
+<li class="chapter" data-level="17.1.1" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#fish-market-dataset"><i class="fa fa-check"></i><b>17.1.1</b> Fish market dataset</a></li>
+<li class="chapter" data-level="17.1.2" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#scatterplot-1"><i class="fa fa-check"></i><b>17.1.2</b> Scatterplot</a></li>
+<li class="chapter" data-level="17.1.3" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#linear-model"><i class="fa fa-check"></i><b>17.1.3</b> Linear model</a></li>
+</ul></li>
+<li class="chapter" data-level="17.2" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#t-test"><i class="fa fa-check"></i><b>17.2</b> t-test</a>
+<ul>
+<li class="chapter" data-level="17.2.1" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#boxplot-1"><i class="fa fa-check"></i><b>17.2.1</b> Boxplot</a></li>
+<li class="chapter" data-level="17.2.2" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#t-test-comparison"><i class="fa fa-check"></i><b>17.2.2</b> t-test comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#some-more-useful-functions"><i class="fa fa-check"></i><b>17.3</b> Some more useful functions</a>
+<ul>
+<li class="chapter" data-level="17.3.1" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#summary"><i class="fa fa-check"></i><b>17.3.1</b> Summary</a></li>
+<li class="chapter" data-level="17.3.2" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#table"><i class="fa fa-check"></i><b>17.3.2</b> Table</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#further-resources"><i class="fa fa-check"></i><b>17.4</b> Further resources</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="18-Stats_exercises.html"><a href="18-Stats_exercises.html"><i class="fa fa-check"></i><b>18</b> Stats exercises</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="18-Stats_exercises.html"><a href="18-Stats_exercises.html#world-happiness-report"><i class="fa fa-check"></i><b>18.1</b> World happiness report</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="18-Stats_exercises.html"><a href="18-Stats_exercises.html#data"><i class="fa fa-check"></i><b>18.1.1</b> Data</a></li>
+<li class="chapter" data-level="18.1.2" data-path="18-Stats_exercises.html"><a href="18-Stats_exercises.html#tasks-questions"><i class="fa fa-check"></i><b>18.1.2</b> Tasks &amp; questions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="19-Stats_solutions.html"><a href="19-Stats_solutions.html"><i class="fa fa-check"></i><b>19</b> Stats solutions</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="19-Stats_solutions.html"><a href="19-Stats_solutions.html#world-happiness-report-solutions"><i class="fa fa-check"></i><b>19.1</b> World happiness report solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html"><i class="fa fa-check"></i><b>20</b> Basic programming</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#recycle-rule"><i class="fa fa-check"></i><b>20.1</b> Recycle rule</a></li>
+<li class="chapter" data-level="20.2" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#loops"><i class="fa fa-check"></i><b>20.2</b> Loops</a>
+<ul>
+<li class="chapter" data-level="20.2.1" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#for-loops"><i class="fa fa-check"></i><b>20.2.1</b> For loops</a></li>
+<li class="chapter" data-level="20.2.2" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#while-loops"><i class="fa fa-check"></i><b>20.2.2</b> While loops</a></li>
+</ul></li>
+<li class="chapter" data-level="20.3" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#if-statements"><i class="fa fa-check"></i><b>20.3</b> If statements</a></li>
+<li class="chapter" data-level="20.4" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#functions-1"><i class="fa fa-check"></i><b>20.4</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html"><i class="fa fa-check"></i><b>21</b> Student grades example</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#the-student-grades-data"><i class="fa fa-check"></i><b>21.1</b> The student grades data</a></li>
+<li class="chapter" data-level="21.2" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#analysis-script"><i class="fa fa-check"></i><b>21.2</b> Analysis script</a></li>
+<li class="chapter" data-level="21.3" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#reading-in-and-preprocessing-the-data"><i class="fa fa-check"></i><b>21.3</b> Reading in and preprocessing the data</a></li>
+<li class="chapter" data-level="21.4" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#combining-the-data-frames"><i class="fa fa-check"></i><b>21.4</b> Combining the data frames</a></li>
+<li class="chapter" data-level="21.5" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#saving-the-data-frame"><i class="fa fa-check"></i><b>21.5</b> Saving the data frame</a></li>
+<li class="chapter" data-level="21.6" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#scaling-grading"><i class="fa fa-check"></i><b>21.6</b> Scaling &amp; Grading</a></li>
+<li class="chapter" data-level="21.7" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#some-quick-plots"><i class="fa fa-check"></i><b>21.7</b> Some quick plots</a></li>
+<li class="chapter" data-level="21.8" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#tips-for-creating-your-own-loops-and-functions"><i class="fa fa-check"></i><b>21.8</b> Tips for creating your own loops and functions</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="22-Further_resources.html"><a href="22-Further_resources.html"><i class="fa fa-check"></i><b>A</b> Workshop slides &amp; videos</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="22-Further_resources.html"><a href="22-Further_resources.html#intro-and-foundations"><i class="fa fa-check"></i><b>A.1</b> Intro and foundations</a></li>
+<li class="chapter" data-level="A.2" data-path="22-Further_resources.html"><a href="22-Further_resources.html#classes-and-data-structures"><i class="fa fa-check"></i><b>A.2</b> Classes and data structures</a></li>
+<li class="chapter" data-level="A.3" data-path="22-Further_resources.html"><a href="22-Further_resources.html#files-and-subsetting"><i class="fa fa-check"></i><b>A.3</b> Files and subsetting</a></li>
+<li class="chapter" data-level="A.4" data-path="22-Further_resources.html"><a href="22-Further_resources.html#handy-tips-and-tricks"><i class="fa fa-check"></i><b>A.4</b> Handy tips and tricks</a></li>
+<li class="chapter" data-level="A.5" data-path="22-Further_resources.html"><a href="22-Further_resources.html#plots-part-1"><i class="fa fa-check"></i><b>A.5</b> Plots part 1</a></li>
+<li class="chapter" data-level="A.6" data-path="22-Further_resources.html"><a href="22-Further_resources.html#plots-part-2"><i class="fa fa-check"></i><b>A.6</b> Plots part 2</a></li>
+<li class="chapter" data-level="A.7" data-path="22-Further_resources.html"><a href="22-Further_resources.html#basic-stats-1"><i class="fa fa-check"></i><b>A.7</b> Basic stats</a></li>
+<li class="chapter" data-level="A.8" data-path="22-Further_resources.html"><a href="22-Further_resources.html#basic-programming-1"><i class="fa fa-check"></i><b>A.8</b> Basic programming</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="22-Further_resources.html"><a href="22-Further_resources.html#workshopfiles"><i class="fa fa-check"></i><b>B</b> Workshop files</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-7-files"><i class="fa fa-check"></i><b>B.1</b> Chapter 7 files</a></li>
+<li class="chapter" data-level="B.2" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-8-files"><i class="fa fa-check"></i><b>B.2</b> Chapter 8 files</a></li>
+<li class="chapter" data-level="B.3" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-10-11-files"><i class="fa fa-check"></i><b>B.3</b> Chapter 10-11 files</a></li>
+<li class="chapter" data-level="B.4" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-13-16-files"><i class="fa fa-check"></i><b>B.4</b> Chapter 13-16 files</a></li>
+<li class="chapter" data-level="B.5" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-17-19"><i class="fa fa-check"></i><b>B.5</b> Chapter 17-19</a></li>
+<li class="chapter" data-level="B.6" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-20-21"><i class="fa fa-check"></i><b>B.6</b> Chapter 20-21</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="22-Further_resources.html"><a href="22-Further_resources.html#r-user-groups-and-forums"><i class="fa fa-check"></i><b>C</b> R user groups and forums</a></li>
+<li class="chapter" data-level="D" data-path="22-Further_resources.html"><a href="22-Further_resources.html#base-r-books-and-links"><i class="fa fa-check"></i><b>D</b> Base R books and links</a></li>
+<li class="chapter" data-level="E" data-path="22-Further_resources.html"><a href="22-Further_resources.html#r-cheat-sheets"><i class="fa fa-check"></i><b>E</b> R cheat sheets</a></li>
+<li class="chapter" data-level="F" data-path="22-Further_resources.html"><a href="22-Further_resources.html#advanced-r-topics"><i class="fa fa-check"></i><b>F</b> Advanced R topics</a></li>
+<li class="chapter" data-level="G" data-path="22-Further_resources.html"><a href="22-Further_resources.html#datasets"><i class="fa fa-check"></i><b>G</b> Datasets</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R primer for omics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="scatter-plots-and-box-plots" class="section level1 hasAnchor" number="14">
+<h1><span class="header-section-number">Chapter 14</span> Scatter plots and Box plots<a href="14-Plots_scatterplot_and_box_plots.html#scatter-plots-and-box-plots" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/large_brush.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>Last chapter we learnt how to make Histograms and Line graphs. In this chapter it is Scatter plots and Box plots.</p>
+<p>Continue using the directory "Chapter_13-16" as the working directory.</p>
+<div id="scatter-plot" class="section level2 hasAnchor" number="14.1">
+<h2><span class="header-section-number">14.1</span> Scatter plot<a href="14-Plots_scatterplot_and_box_plots.html#scatter-plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/Scatterplot_2.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>Scatter plots are a great way to compare two matching variables. To make a scatter plot we use the <code>plot()</code> <strong>function</strong> again. This means a lot of what we went through the last chapter will be helpful for this chapter</p>
+<div id="basic-examples" class="section level3 hasAnchor" number="14.1.1">
+<h3><span class="header-section-number">14.1.1</span> Basic examples<a href="14-Plots_scatterplot_and_box_plots.html#basic-examples" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First we'll create a simple scatter plot plotting the numbers 1:20 against the same range of numbers times by 2. For this we provide the option <code>type = "p"</code> to indicate we want the data plotted as points.</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">y =</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)<span class="sc">*</span><span class="dv">2</span>, <span class="at">type =</span> <span class="st">&quot;p&quot;</span>)</span></code></pre></div>
+<p>That was a nice linear plot. We'll make a curve this time.</p>
+<p>In the command we will not include the option <code>type = "p"</code> as this is the default for <code>plot()</code>.</p>
+<p>Additionally we will not provide the option names <code>x =</code> and <code>y =</code>. <strong>Functions</strong> have an order to their options so if you leave out the option names but provide options (in this case <strong>vectors</strong>) it will use the options in the order. In the case of <code>plot()</code> it will take the first option as <code>x =</code> and the second option as <code>y =</code>. It is common for plotting functions to take x first then y.</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, (<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)<span class="sc">*</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>))</span></code></pre></div>
+</div>
+<div id="animal-sizes" class="section level3 hasAnchor" number="14.1.2">
+<h3><span class="header-section-number">14.1.2</span> Animal sizes<a href="14-Plots_scatterplot_and_box_plots.html#animal-sizes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/blue_whale.png" width="15%" style="display: block; margin: auto;" />
+For our scatter plot from real data we will look at the sizes of the largest animals in the world. This data is from: <a href="https://en.Wikipedia.org/wiki/Largest_organisms" class="uri">https://en.Wikipedia.org/wiki/Largest_organisms</a></p>
+<p>The data we will be using will contain the following information:</p>
+<ul>
+<li>Animal names</li>
+<li>Average mass in tonnes</li>
+<li>Maximum mass in tonnes</li>
+<li>Average total length in metres</li>
+<li>Group, In this case are they Mammals or Reptiles</li>
+<li>Biom, are they aquatic, semiaquatic, or terrestrial</li>
+</ul>
+<p>First download the <a href="https://neof-workshops.github.io/R_j4c0xh/downloads/animal_sizes.csv">animal_sizes.csv</a> file into your "Chapter_13-16" directory.</p>
+<p>Next, <strong>read</strong> the data into R. We have included a new option: <code>stringsAsFactors = TRUE</code>. This is important for plotting and will be explained more later.</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb137-1" aria-hidden="true" tabindex="-1"></a>animal_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;animal_sizes.csv&quot;</span>, </span>
+<span id="cb137-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb137-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">row.names =</span> <span class="dv">1</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb137-3"><a href="14-Plots_scatterplot_and_box_plots.html#cb137-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span></span>
+<span id="cb137-4"><a href="14-Plots_scatterplot_and_box_plots.html#cb137-4" aria-hidden="true" tabindex="-1"></a>                      )</span></code></pre></div>
+<p>Check the column names with the <strong>function</strong> <code>colnames()</code>. With these column names we can create some quick plots.</p>
+<p>We'll compare the average and maximum weight</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> animal_df<span class="sc">$</span><span class="st">`</span><span class="at">Average mass (tonnes)</span><span class="st">`</span>,</span>
+<span id="cb138-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb138-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> animal_df<span class="sc">$</span><span class="st">`</span><span class="at">Maximum mass (tonnes)</span><span class="st">`</span>)</span></code></pre></div>
+<p>Average and maximum weight appear to correlate as expected.</p>
+<p>Sometimes a quick and easy plot is all you want. If you're not going to present a plot then it doesn't need to be pretty. As long as it is functional it is useful.</p>
+<p>Now let's compare the average weight and length</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> animal_df<span class="sc">$</span><span class="st">`</span><span class="at">Average mass (tonnes)</span><span class="st">`</span>,</span>
+<span id="cb139-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb139-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> animal_df<span class="sc">$</span><span class="st">`</span><span class="at">Average total length (m)</span><span class="st">`</span>)</span></code></pre></div>
+<p>With that we can see the following:</p>
+<ul>
+<li>At lower weights (&lt; 20 tonnes) a longer length does not necessarily mean a higher mass</li>
+<li>At higher weights (&gt;20 tonnes) there appears to be an overall trend of longer lengths equaling higher masses with the animal with the highest mass having the longest length</li>
+</ul>
+<p>However it is quite hard to see the overall trend in the lower mass animals as they are squashed in a small part of the plot. We can zoom into this part in two different ways</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co">#First method is to set the x and y limits manually </span></span>
+<span id="cb140-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="co">#This allows us to choose the specific part to zoom into</span></span>
+<span id="cb140-3"><a href="14-Plots_scatterplot_and_box_plots.html#cb140-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> animal_df<span class="sc">$</span><span class="st">`</span><span class="at">Average mass (tonnes)</span><span class="st">`</span>,</span>
+<span id="cb140-4"><a href="14-Plots_scatterplot_and_box_plots.html#cb140-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> animal_df<span class="sc">$</span><span class="st">`</span><span class="at">Average total length (m)</span><span class="st">`</span>,</span>
+<span id="cb140-5"><a href="14-Plots_scatterplot_and_box_plots.html#cb140-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>))</span>
+<span id="cb140-6"><a href="14-Plots_scatterplot_and_box_plots.html#cb140-6" aria-hidden="true" tabindex="-1"></a><span class="co">#The other method is to subset the data</span></span>
+<span id="cb140-7"><a href="14-Plots_scatterplot_and_box_plots.html#cb140-7" aria-hidden="true" tabindex="-1"></a><span class="co">#so we only plot the data we want</span></span>
+<span id="cb140-8"><a href="14-Plots_scatterplot_and_box_plots.html#cb140-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> animal_df[animal_df<span class="sc">$</span><span class="st">`</span><span class="at">Average mass (tonnes)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="dv">10</span>,</span>
+<span id="cb140-9"><a href="14-Plots_scatterplot_and_box_plots.html#cb140-9" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Average mass (tonnes)&quot;</span>],</span>
+<span id="cb140-10"><a href="14-Plots_scatterplot_and_box_plots.html#cb140-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> animal_df[animal_df<span class="sc">$</span><span class="st">`</span><span class="at">Average total length (m)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="dv">10</span>,</span>
+<span id="cb140-11"><a href="14-Plots_scatterplot_and_box_plots.html#cb140-11" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Average total length (m)&quot;</span>])</span>
+<span id="cb140-12"><a href="14-Plots_scatterplot_and_box_plots.html#cb140-12" aria-hidden="true" tabindex="-1"></a><span class="co">#I personally prefer the x and y limit approach</span></span></code></pre></div>
+<p>We can also include the Biom metadata as an aesthetic in the plot</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot</span></span>
+<span id="cb141-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb141-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> animal_df<span class="sc">$</span><span class="st">`</span><span class="at">Average mass (tonnes)</span><span class="st">`</span>,</span>
+<span id="cb141-3"><a href="14-Plots_scatterplot_and_box_plots.html#cb141-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> animal_df<span class="sc">$</span><span class="st">`</span><span class="at">Average total length (m)</span><span class="st">`</span>, </span>
+<span id="cb141-4"><a href="14-Plots_scatterplot_and_box_plots.html#cb141-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">as.numeric</span>(animal_df<span class="sc">$</span>Biom),</span>
+<span id="cb141-5"><a href="14-Plots_scatterplot_and_box_plots.html#cb141-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">1</span></span>
+<span id="cb141-6"><a href="14-Plots_scatterplot_and_box_plots.html#cb141-6" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb141-7"><a href="14-Plots_scatterplot_and_box_plots.html#cb141-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Legend</span></span>
+<span id="cb141-8"><a href="14-Plots_scatterplot_and_box_plots.html#cb141-8" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="st">&quot;bottomright&quot;</span>, <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(animal_df<span class="sc">$</span>Biom), </span>
+<span id="cb141-9"><a href="14-Plots_scatterplot_and_box_plots.html#cb141-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(animal_df<span class="sc">$</span>Biom), <span class="at">pch =</span> <span class="dv">1</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="factors" class="section level2 hasAnchor" number="14.2">
+<h2><span class="header-section-number">14.2</span> Factors<a href="14-Plots_scatterplot_and_box_plots.html#factors" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The last command used a lot of <strong>factors</strong>.</p>
+<p><strong>Factors</strong> are a new <strong>class</strong>! They are a combination of <strong>String</strong> and <strong>Numeric</strong>. They are useful for categorical data where the same values will appear multiple times.</p>
+<p>View the <strong>data frame</strong> and then check its structure with <code>str()</code>. You should notice that the columns Group and Biom are <strong>Factors</strong> with different amounts of <strong>levels</strong>.</p>
+<p>The Group column has 2 <strong>levels</strong>. Confirm this with the <strong>function</strong> <code>levels()</code> which returns the levels and <code>nlevels()</code> which returns the number of <strong>levels</strong>.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(animal_df<span class="sc">$</span>Group)</span>
+<span id="cb142-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb142-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nlevels</span>(animal_df<span class="sc">$</span>Group)</span></code></pre></div>
+<p>What are <strong>levels</strong>?</p>
+<p><strong>Levels</strong> are the unique values in a <strong>factor</strong>. <strong>Levels</strong> also store a matching number. This number determines the order of the levels. In the case of Group "Mammal" is assigned the number 1 and "Reptile" is assigned the number 2. This is because numbers are assigned to <strong>Levels</strong> in alphabetical order by default.</p>
+<p>The other part of a <strong>factor</strong> is the <strong>elements</strong>. The <strong>elements</strong> are the part of a <strong>vector</strong> we are familiar with. Let us look at the <strong>factor vector</strong></p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb143-1" aria-hidden="true" tabindex="-1"></a>animal_df<span class="sc">$</span>Group</span></code></pre></div>
+<p>It looks just like a <strong>character vector</strong> except there are no double quotes and the <strong>levels</strong> are at the bottom.</p>
+<p>However, the <strong>elements</strong> are actually numbers! Each number is assigned a <strong>string</strong> by the <strong>level</strong>. This means:</p>
+<ul>
+<li>The <strong>factor</strong> only needs to store a number for each <strong>element</strong> and then it stores each unique <strong>level</strong> only once. This will take up less memory than storing a <strong>string</strong> multiple times.</li>
+<li>A <strong>factor</strong> can be used as a <strong>numeric</strong> or a <strong>string</strong>. This is very useful for plotting.</li>
+</ul>
+<p>If you don't understand <strong>factors</strong> from that explanation that is fine. I find it is a hard concept to explain or understand.</p>
+<p>An analogy would be a map key. You could just write "town", "Mountain", "railroad", "Lake" over a map to say where everything is like below:
+<img src="figures/town_words.png" width="40%" style="display: block; margin: auto;" /></p>
+<p>Compare this to our map with symbols and a key:
+<img src="figures/town_symbols.png" width="40%" style="display: block; margin: auto;" /></p>
+<p>The key represents the <strong>levels</strong> with our unique <strong>strings</strong> corresponding to symbols (numbers). Instead of each string being stored on the map multiple times only the symbols (numbers) are.</p>
+<p>Time for a more practical example with code. We will first create a <strong>character vector</strong> then create a <strong>factor</strong> from it with the <strong>function</strong> <code>factor()</code>. We'll then see what we can do with a <strong>factor</strong>.</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create a character vector</span></span>
+<span id="cb144-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-2" aria-hidden="true" tabindex="-1"></a>char_vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;a&quot;</span>,<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;d&quot;</span>,<span class="st">&quot;c&quot;</span>)</span>
+<span id="cb144-3"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Attempt to convert it to a numeric</span></span>
+<span id="cb144-4"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(char_vec)</span>
+<span id="cb144-5"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-5" aria-hidden="true" tabindex="-1"></a><span class="co">#As expected this does not work and will give NAs</span></span>
+<span id="cb144-6"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb144-7"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Create a factor vector from our previous character vector</span></span>
+<span id="cb144-8"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-8" aria-hidden="true" tabindex="-1"></a>factor_vec <span class="ot">&lt;-</span> <span class="fu">factor</span>(char_vec)</span>
+<span id="cb144-9"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Look at the factor</span></span>
+<span id="cb144-10"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-10" aria-hidden="true" tabindex="-1"></a><span class="co">#You will notice that even though d is present in an earlier element</span></span>
+<span id="cb144-11"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-11" aria-hidden="true" tabindex="-1"></a><span class="co">#c is the 3rd level whilst d is the 4th level</span></span>
+<span id="cb144-12"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-12" aria-hidden="true" tabindex="-1"></a><span class="co">#This is because levels are ordered alphabetically</span></span>
+<span id="cb144-13"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-13" aria-hidden="true" tabindex="-1"></a>factor_vec</span>
+<span id="cb144-14"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Convert to string</span></span>
+<span id="cb144-15"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-15" aria-hidden="true" tabindex="-1"></a><span class="fu">as.character</span>(factor_vec)</span>
+<span id="cb144-16"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Convert to numeric</span></span>
+<span id="cb144-17"><a href="14-Plots_scatterplot_and_box_plots.html#cb144-17" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(factor_vec)</span></code></pre></div>
+<p>We will get back to plotting soon but first I want to show you how to specify the order of <strong>levels</strong>. This is important as a lot of the time alphabetically is not wanted. One example is with months.</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create a factor vector of months</span></span>
+<span id="cb145-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="co">#We&#39;ll only include the 1st 3 months for brevity</span></span>
+<span id="cb145-3"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-3" aria-hidden="true" tabindex="-1"></a>months_factor_vec <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;jan&quot;</span>,<span class="st">&quot;jan&quot;</span>,<span class="st">&quot;feb&quot;</span>,<span class="st">&quot;jan&quot;</span>,<span class="st">&quot;feb&quot;</span>,</span>
+<span id="cb145-4"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-4" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;feb&quot;</span>,<span class="st">&quot;mar&quot;</span>,<span class="st">&quot;jan&quot;</span>,<span class="st">&quot;feb&quot;</span>,<span class="st">&quot;mar&quot;</span>))</span>
+<span id="cb145-5"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Check the vector and you will notice feb is before jan in the levels</span></span>
+<span id="cb145-6"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-6" aria-hidden="true" tabindex="-1"></a>months_factor_vec</span>
+<span id="cb145-7"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-7" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(months_factor_vec)</span>
+<span id="cb145-8"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Before reordering our factor we will create a vector string</span></span>
+<span id="cb145-9"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-9" aria-hidden="true" tabindex="-1"></a><span class="co">#This will contain our levels in the order we want</span></span>
+<span id="cb145-10"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-10" aria-hidden="true" tabindex="-1"></a><span class="co">#They must contain the same spelling as the existing levels</span></span>
+<span id="cb145-11"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-11" aria-hidden="true" tabindex="-1"></a>months_order_vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;jan&quot;</span>,<span class="st">&quot;feb&quot;</span>,<span class="st">&quot;mar&quot;</span>)</span>
+<span id="cb145-12"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-12" aria-hidden="true" tabindex="-1"></a><span class="co">#We use the factor function on our factor</span></span>
+<span id="cb145-13"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-13" aria-hidden="true" tabindex="-1"></a><span class="co">#But we include the option levels providing the ordered character vector</span></span>
+<span id="cb145-14"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-14" aria-hidden="true" tabindex="-1"></a>months_factor_vec <span class="ot">&lt;-</span><span class="fu">factor</span>(months_factor_vec, </span>
+<span id="cb145-15"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-15" aria-hidden="true" tabindex="-1"></a>                           <span class="at">levels =</span> months_order_vec)</span>
+<span id="cb145-16"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Check the factor now</span></span>
+<span id="cb145-17"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-17" aria-hidden="true" tabindex="-1"></a>months_factor_vec</span>
+<span id="cb145-18"><a href="14-Plots_scatterplot_and_box_plots.html#cb145-18" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(months_factor_vec)</span></code></pre></div>
+<p>Now let us make a nice scatter plot of the animal data with points coloured by Biom and shaped (<code>pch =</code>) by Group.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot</span></span>
+<span id="cb146-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> animal_df<span class="sc">$</span><span class="st">`</span><span class="at">Average mass (tonnes)</span><span class="st">`</span>,</span>
+<span id="cb146-3"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> animal_df<span class="sc">$</span><span class="st">`</span><span class="at">Average total length (m)</span><span class="st">`</span>, </span>
+<span id="cb146-4"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">as.numeric</span>(animal_df<span class="sc">$</span>Biom),</span>
+<span id="cb146-5"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="fu">as.numeric</span>(animal_df<span class="sc">$</span>Group),</span>
+<span id="cb146-6"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Average mass in tonnes&quot;</span>,</span>
+<span id="cb146-7"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Average total length in metres&quot;</span>,</span>
+<span id="cb146-8"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;The mass and length of the largest animals&quot;</span></span>
+<span id="cb146-9"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-9" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb146-10"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Legend for biom colours</span></span>
+<span id="cb146-11"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-11" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="st">&quot;bottomright&quot;</span>, <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(animal_df<span class="sc">$</span>Biom), </span>
+<span id="cb146-12"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(animal_df<span class="sc">$</span>Biom), <span class="at">pch =</span> <span class="dv">1</span>)</span>
+<span id="cb146-13"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Legend for group shapes</span></span>
+<span id="cb146-14"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-14" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, </span>
+<span id="cb146-15"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(animal_df<span class="sc">$</span>Group), </span>
+<span id="cb146-16"><a href="14-Plots_scatterplot_and_box_plots.html#cb146-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(animal_df<span class="sc">$</span>Group))</span></code></pre></div>
+<p>Quite a complicated plot but now we can see:</p>
+<ul>
+<li>Mammals are larger than Reptiles</li>
+<li>Semiaquatic reptiles are larger than Aquatic and Terrestrial reptiles</li>
+</ul>
+<p>Why do you think the above 2 points are true? Check out what specific animals are in the <strong>data frame</strong> animal_df to confirm your thoughts or help to figure it out.</p>
+<p>Hopefully that has helped you figure out what a <strong>factor</strong> is. If not give it a break and let us do some more plots. Hopefully it will click a bit more over time.</p>
+<p>If not some more tutorials are:
+<a href="https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors/index.html" class="uri">https://swcarpentry.github.io/r-novice-inflammation/12-supp-factors/index.html</a>
+<a href="https://www.tutorialspoint.com/r/r_factors.htm" class="uri">https://www.tutorialspoint.com/r/r_factors.htm</a></p>
+<p>Working with factors resource: <a href="https://departmentfortransport.github.io/R-cookbook/factors.html" class="uri">https://departmentfortransport.github.io/R-cookbook/factors.html</a></p>
+</div>
+<div id="box-plot" class="section level2 hasAnchor" number="14.3">
+<h2><span class="header-section-number">14.3</span> Box plot<a href="14-Plots_scatterplot_and_box_plots.html#box-plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/boxplot.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>Next we are going to make a box plot with some Penguin data from:
+<a href="https://allisonhorst.github.io/palmerpenguins/" class="uri">https://allisonhorst.github.io/palmerpenguins/</a></p>
+<p>This data contains information on individual penguins that were gathered from Palmer Station LTER.</p>
+<p>First download the <a href="https://neof-workshops.github.io/R_j4c0xh/downloads/penguin.tsv">penguin.tsv</a> file into your "Chapter_13-16" directory.</p>
+<p>As you expect the next step is to <strong>read</strong> in the file. This time the file is a tsv (tab separated file) with no row names. We will ensure that columns containing strings are converted to <strong>factors</strong>.</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb147-1" aria-hidden="true" tabindex="-1"></a>penguin_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;penguin.tsv&quot;</span>, </span>
+<span id="cb147-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb147-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">check.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb147-3"><a href="14-Plots_scatterplot_and_box_plots.html#cb147-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb147-4"><a href="14-Plots_scatterplot_and_box_plots.html#cb147-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span></span>
+<span id="cb147-5"><a href="14-Plots_scatterplot_and_box_plots.html#cb147-5" aria-hidden="true" tabindex="-1"></a>                      )</span></code></pre></div>
+<p>Each row is a measurement of a penguin. The columns for this <strong>data frame</strong> are:</p>
+<ul>
+<li>species: Species of Penguin</li>
+<li>island: Island the Penguin was found on</li>
+<li>bill_length_mm: The bill length of the Penguin in millimetres</li>
+<li>bill_depth_mm: The bill depth of the Penguin in millimetres</li>
+<li>flipper_length_mm: The flipper length of the Penguin in millimetres</li>
+<li>body_mass_g: Weight of Penguin in grams</li>
+<li>sex: female or male</li>
+<li>year: Year the measurement was carried out in</li>
+</ul>
+<p>With all that information we'll make a nice boxplot to show the body mass against the species.</p>
+<p>The <strong>function</strong> <code>boxplot()</code> can be used with this. This <strong>function</strong> is different than the others where the first option is <code>yaxis_column_name~xaxis_column_name</code>. This is followed by the option <code>data =</code> where you provide the <strong>data frame</strong>.</p>
+<p>Below is the command for this:</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(body_mass_g<span class="sc">~</span>species, <span class="at">data =</span> penguin_df)</span></code></pre></div>
+<p>What if we want to split the 3 box plots into sex?</p>
+<p>We can do that like below:</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(body_mass_g<span class="sc">~</span>species<span class="sc">*</span>sex, <span class="at">data =</span> penguin_df,</span>
+<span id="cb149-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb149-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;yellow&quot;</span>,<span class="st">&quot;green&quot;</span>))</span></code></pre></div>
+<p>I will show you some more examples followed by a final nice plot.</p>
+<p>x axis = island, y axis = flipper length</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(flipper_length_mm<span class="sc">~</span>island, <span class="at">data =</span> penguin_df)</span></code></pre></div>
+<p>x axis = island, y axis = bill depth</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(bill_depth_mm<span class="sc">~</span>island, <span class="at">data =</span> penguin_df)</span></code></pre></div>
+<p>x axis = bill length, y axis = species and sex</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(bill_length_mm<span class="sc">~</span>species<span class="sc">*</span>sex, <span class="at">data =</span> penguin_df)</span></code></pre></div>
+<p>What happens if we try to plot a <strong>factor</strong> on the y axis?</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(island<span class="sc">~</span>species<span class="sc">*</span>sex, <span class="at">data =</span> penguin_df)</span></code></pre></div>
+<p>It does not work as an object with <strong>class</strong> <strong>factor</strong> can not be added to the x axis <strong>object</strong>.</p>
+<p>What about a numeric to the x axis?</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(flipper_length_mm<span class="sc">~</span>year, <span class="at">data =</span> penguin_df)</span></code></pre></div>
+<p>That works and looks good because it is a discrete set of numbers. In fact you can have a <strong>factor</strong> where the <strong>levels</strong> are numerics. If you do this make sure it is a discrete set of numbers.</p>
+<p>What if we use a continuous set of numbers?</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(body_mass_g<span class="sc">~</span>bill_length_mm , <span class="at">data =</span> penguin_df)</span></code></pre></div>
+<p>This does work! However, a scatter plot would most likely be a lot more suited to plotting this data.</p>
+<p>We will now make one final plot for this section. I will not explain what the code is doing. Instead read and run the code to figure it out.</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(body_mass_g<span class="sc">~</span>species<span class="sc">*</span>year , </span>
+<span id="cb156-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb156-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> penguin_df, </span>
+<span id="cb156-3"><a href="14-Plots_scatterplot_and_box_plots.html#cb156-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;white&quot;</span>,<span class="st">&quot;grey&quot;</span>,<span class="st">&quot;orange&quot;</span>),</span>
+<span id="cb156-4"><a href="14-Plots_scatterplot_and_box_plots.html#cb156-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Mass of different Penguin species for 2007 - 2009&quot;</span>,</span>
+<span id="cb156-5"><a href="14-Plots_scatterplot_and_box_plots.html#cb156-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Species and year&quot;</span>,</span>
+<span id="cb156-6"><a href="14-Plots_scatterplot_and_box_plots.html#cb156-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Body mass in grams&quot;</span>)</span></code></pre></div>
+</div>
+<div id="saving-a-plot-to-a-file" class="section level2 hasAnchor" number="14.4">
+<h2><span class="header-section-number">14.4</span> Saving a plot to a file<a href="14-Plots_scatterplot_and_box_plots.html#saving-a-plot-to-a-file" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/r_save.png" width="20%" style="display: block; margin: auto;" />
+To save a plot to a file you can use the <strong>functions</strong> <code>png()</code> and <code>dev.off()</code>.</p>
+<p>The <strong>function</strong> <code>png()</code> goes before all the plotting commands. It has various options but the ones we will use are:</p>
+<ul>
+<li><code>filename =</code>: Provide this with a string that will be the filename of the resulting file.</li>
+<li><code>units =</code>: The units the width and height will be in. the default is "px" for pixels but I like to go for "mm" for millimetres.</li>
+<li><code>width =</code>: The width of the plot in the file.</li>
+<li><code>height =</code>: The height of the plot in the file.</li>
+<li><code>res =</code>: Resolution of the plot. Usually a number between 50 and 300 with 300 being better quality. This number refers to dpi (dots per inch).</li>
+</ul>
+<p>After the <code>png()</code> and plotting <strong>functions</strong> you use the <strong>function</strong> <code>dev.off()</code>. This lets R know you are finished plotting and so the file from <code>png()</code> will be created.</p>
+<p>You can then look at the plot. If it is not how you would like you can edit the script and rerun from <code>png()</code> to <code>dev.off()</code>. Through trial and error you can make the plot look how you like.</p>
+<p>Let us save the last plot as a png file:</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;penguin_species_and_year_against_mass.png&quot;</span>,</span>
+<span id="cb157-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb157-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">width =</span> <span class="dv">50</span>, <span class="at">height =</span> <span class="dv">50</span>, <span class="at">res =</span> <span class="dv">150</span>)</span>
+<span id="cb157-3"><a href="14-Plots_scatterplot_and_box_plots.html#cb157-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(body_mass_g<span class="sc">~</span>species<span class="sc">*</span>year , </span>
+<span id="cb157-4"><a href="14-Plots_scatterplot_and_box_plots.html#cb157-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> penguin_df, </span>
+<span id="cb157-5"><a href="14-Plots_scatterplot_and_box_plots.html#cb157-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;white&quot;</span>,<span class="st">&quot;grey&quot;</span>,<span class="st">&quot;orange&quot;</span>),</span>
+<span id="cb157-6"><a href="14-Plots_scatterplot_and_box_plots.html#cb157-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Mass of different Penguin species for 2007 - 2009&quot;</span>,</span>
+<span id="cb157-7"><a href="14-Plots_scatterplot_and_box_plots.html#cb157-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Species and year&quot;</span>,</span>
+<span id="cb157-8"><a href="14-Plots_scatterplot_and_box_plots.html#cb157-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Body mass in grams&quot;</span>)</span>
+<span id="cb157-9"><a href="14-Plots_scatterplot_and_box_plots.html#cb157-9" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<p>Looking at the plot we made the width and height way too small. Therefore let us edit the width and height and then run it again.</p>
+<p><strong>Note</strong>: You will need to close and open the file after running the command to see the new plot.</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;penguin_species_and_year_against_mass.png&quot;</span>,</span>
+<span id="cb158-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb158-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">width =</span> <span class="dv">250</span>, <span class="at">height =</span> <span class="dv">250</span>, <span class="at">res =</span> <span class="dv">150</span>)</span>
+<span id="cb158-3"><a href="14-Plots_scatterplot_and_box_plots.html#cb158-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(body_mass_g<span class="sc">~</span>species<span class="sc">*</span>year , </span>
+<span id="cb158-4"><a href="14-Plots_scatterplot_and_box_plots.html#cb158-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> penguin_df, </span>
+<span id="cb158-5"><a href="14-Plots_scatterplot_and_box_plots.html#cb158-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;white&quot;</span>,<span class="st">&quot;grey&quot;</span>,<span class="st">&quot;orange&quot;</span>),</span>
+<span id="cb158-6"><a href="14-Plots_scatterplot_and_box_plots.html#cb158-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Mass of different Penguin species for 2007 - 2009&quot;</span>,</span>
+<span id="cb158-7"><a href="14-Plots_scatterplot_and_box_plots.html#cb158-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Species and year&quot;</span>,</span>
+<span id="cb158-8"><a href="14-Plots_scatterplot_and_box_plots.html#cb158-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Body mass in grams&quot;</span>)</span>
+<span id="cb158-9"><a href="14-Plots_scatterplot_and_box_plots.html#cb158-9" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<p>That overall is much better. But we cannot see all the labels on the x axis. Therefore let us make it wider.</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="14-Plots_scatterplot_and_box_plots.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;penguin_species_and_year_against_mass.png&quot;</span>,</span>
+<span id="cb159-2"><a href="14-Plots_scatterplot_and_box_plots.html#cb159-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">width =</span> <span class="dv">400</span>, <span class="at">height =</span> <span class="dv">250</span>, <span class="at">res =</span> <span class="dv">150</span>)</span>
+<span id="cb159-3"><a href="14-Plots_scatterplot_and_box_plots.html#cb159-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(body_mass_g<span class="sc">~</span>species<span class="sc">*</span>year , </span>
+<span id="cb159-4"><a href="14-Plots_scatterplot_and_box_plots.html#cb159-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> penguin_df, </span>
+<span id="cb159-5"><a href="14-Plots_scatterplot_and_box_plots.html#cb159-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;white&quot;</span>,<span class="st">&quot;grey&quot;</span>,<span class="st">&quot;orange&quot;</span>),</span>
+<span id="cb159-6"><a href="14-Plots_scatterplot_and_box_plots.html#cb159-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Mass of different Penguin species for 2007 - 2009&quot;</span>,</span>
+<span id="cb159-7"><a href="14-Plots_scatterplot_and_box_plots.html#cb159-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Species and year&quot;</span>,</span>
+<span id="cb159-8"><a href="14-Plots_scatterplot_and_box_plots.html#cb159-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Body mass in grams&quot;</span>)</span>
+<span id="cb159-9"><a href="14-Plots_scatterplot_and_box_plots.html#cb159-9" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<p>Super! You can save plots in other file formats and there are more options. Check them out with <code>?png</code>.</p>
+<p>I hope you are ready to make more plots with the Penguin data because it is time for some exercises.</p>
+
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="13-Plots_line_graphs_and_histograms.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="15-Plots_exercises.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

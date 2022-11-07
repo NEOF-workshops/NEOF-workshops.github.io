@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Good quality genomic dataset | Illumina Quality Control</title>
+  <meta name="description" content="NEOF book for the Illumina quality control workshop" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Good quality genomic dataset | Illumina Quality Control" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the Illumina quality control workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Good quality genomic dataset | Illumina Quality Control" />
+  
+  <meta name="twitter:description" content="NEOF book for the Illumina quality control workshop" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Matthew R. Gemmell" />
+
+
+<meta name="date" content="2022-11-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="03-Setup.html"/>
+<link rel="next" href="05-Poorer_quality_data.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li><a>Illumina QC</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="01-Illumina_Quality_Control.html"><a href="01-Illumina_Quality_Control.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="02-Cluster_Introduction.html"><a href="02-Cluster_Introduction.html"><i class="fa fa-check"></i><b>2</b> Cluster Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-Cluster_Introduction.html"><a href="02-Cluster_Introduction.html#logon-instructions"><i class="fa fa-check"></i><b>2.1</b> Logon instructions</a></li>
+<li class="chapter" data-level="2.2" data-path="02-Cluster_Introduction.html"><a href="02-Cluster_Introduction.html#the-terminal-window"><i class="fa fa-check"></i><b>2.2</b> The Terminal Window</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-Setup.html"><a href="03-Setup.html"><i class="fa fa-check"></i><b>3</b> Setup</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="03-Setup.html"><a href="03-Setup.html#data"><i class="fa fa-check"></i><b>3.1</b> Workshop data</a></li>
+<li class="chapter" data-level="3.2" data-path="03-Setup.html"><a href="03-Setup.html#conda"><i class="fa fa-check"></i><b>3.2</b> Conda</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="04-Good_quality_data.html"><a href="04-Good_quality_data.html"><i class="fa fa-check"></i><b>4</b> Good quality genomic dataset</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-Good_quality_data.html"><a href="04-Good_quality_data.html#run-fastqc"><i class="fa fa-check"></i><b>4.1</b> Run fastqc</a></li>
+<li class="chapter" data-level="4.2" data-path="04-Good_quality_data.html"><a href="04-Good_quality_data.html#background-and-foreground-processes"><i class="fa fa-check"></i><b>4.2</b> Background and Foreground processes</a></li>
+<li class="chapter" data-level="4.3" data-path="04-Good_quality_data.html"><a href="04-Good_quality_data.html#view-fastqc-output"><i class="fa fa-check"></i><b>4.3</b> View fastqc output</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="05-Poorer_quality_data.html"><a href="05-Poorer_quality_data.html"><i class="fa fa-check"></i><b>5</b> Poorer quality genomic dataset</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-Poorer_quality_data.html"><a href="05-Poorer_quality_data.html#quality-checking"><i class="fa fa-check"></i><b>5.1</b> Quality checking</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="05-Poorer_quality_data.html"><a href="05-Poorer_quality_data.html#quality-checking-mcqs"><i class="fa fa-check"></i><b>5.1.1</b> Quality checking MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="05-Poorer_quality_data.html"><a href="05-Poorer_quality_data.html#quality-control"><i class="fa fa-check"></i><b>5.2</b> Quality control</a></li>
+<li class="chapter" data-level="5.3" data-path="05-Poorer_quality_data.html"><a href="05-Poorer_quality_data.html#post-quality-control-check"><i class="fa fa-check"></i><b>5.3</b> Post Quality control check</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="05-Poorer_quality_data.html"><a href="05-Poorer_quality_data.html#quality-checking-mcqs-1"><i class="fa fa-check"></i><b>5.3.1</b> Quality checking MCQs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="06-QC_exercises.html"><a href="06-QC_exercises.html"><i class="fa fa-check"></i><b>6</b> QC exercises</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="06-QC_exercises.html"><a href="06-QC_exercises.html#shotgun"><i class="fa fa-check"></i><b>6.1</b> Whole shotgun metagenomics</a></li>
+<li class="chapter" data-level="6.2" data-path="06-QC_exercises.html"><a href="06-QC_exercises.html#metagenetics"><i class="fa fa-check"></i><b>6.2</b> 16S rRNA Metagenetics</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="07-MultiQC.html"><a href="07-MultiQC.html"><i class="fa fa-check"></i><b>7</b> MultiQC</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="07-MultiQC.html"><a href="07-MultiQC.html#the-data"><i class="fa fa-check"></i><b>7.1</b> The data</a></li>
+<li class="chapter" data-level="7.2" data-path="07-MultiQC.html"><a href="07-MultiQC.html#fastqc-of-the-raw-data"><i class="fa fa-check"></i><b>7.2</b> Fastqc of the raw data</a></li>
+<li class="chapter" data-level="7.3" data-path="07-MultiQC.html"><a href="07-MultiQC.html#fastqc-of-the-trimmed-data"><i class="fa fa-check"></i><b>7.3</b> Fastqc of the trimmed data</a></li>
+<li class="chapter" data-level="7.4" data-path="07-MultiQC.html"><a href="07-MultiQC.html#read-data"><i class="fa fa-check"></i><b>7.4</b> Read data</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html"><i class="fa fa-check"></i><b>A</b> Useful tools and considerations</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#quality-trimming-and-filtering-tools"><i class="fa fa-check"></i><b>A.1</b> Quality trimming and filtering tools</a>
+<ul>
+<li class="chapter" data-level="A.1.1" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#trim-galore"><i class="fa fa-check"></i><b>A.1.1</b> Trim Galore</a></li>
+</ul></li>
+<li class="chapter" data-level="A.2" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#multiqc-1"><i class="fa fa-check"></i><b>A.2</b> MultiQC</a></li>
+<li class="chapter" data-level="A.3" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#fasta-and-fastq-processing-toolkits"><i class="fa fa-check"></i><b>A.3</b> Fasta and fastq processing toolkits</a>
+<ul>
+<li class="chapter" data-level="A.3.1" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#fastp"><i class="fa fa-check"></i><b>A.3.1</b> Fastp</a></li>
+<li class="chapter" data-level="A.3.2" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#seqtk"><i class="fa fa-check"></i><b>A.3.2</b> Seqtk</a></li>
+<li class="chapter" data-level="A.3.3" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#fastx-toolkit"><i class="fa fa-check"></i><b>A.3.3</b> FASTX-Toolkit</a></li>
+<li class="chapter" data-level="A.3.4" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#bbtools"><i class="fa fa-check"></i><b>A.3.4</b> BBTools</a></li>
+</ul></li>
+<li class="chapter" data-level="A.4" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#conda-1"><i class="fa fa-check"></i><b>A.4</b> Conda</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Illumina Quality Control</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="goodtutorial" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Good quality genomic dataset<a href="04-Good_quality_data.html#goodtutorial" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/bacteria.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>The first dataset will comprise of good quality reads for the genome of <em>Psychrobacter arcticus</em>.</p>
+<p><em>P. arcticus</em> is a bacteria that was first isolated from Siberian permafrost.
+I am fond of <em>Psychrobacter</em> as my BSc project involved studying it.</p>
+<p>Prior to analysis we need to change directory to the example 1 directory.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="04-Good_quality_data.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> example_1</span></code></pre></div>
+<p>This directory contains the forward (R1) and reverse (R2) read fastq files.</p>
+<p>List the contents of the current directory to confirm this.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="04-Good_quality_data.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
+<div id="run-fastqc" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Run fastqc<a href="04-Good_quality_data.html#run-fastqc" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/enter_key.png" width="10%" style="display: block; margin: auto;" /></p>
+<p>We will carry out <code>fastqc</code> quality checking of the reads.</p>
+<p>First make a directory for the output.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="04-Good_quality_data.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> raw_fastqc_output</span></code></pre></div>
+<p>Now we can run <strong><code>fastqc</code></strong>.</p>
+<p><strong>Note</strong>:</p>
+<ul>
+<li>The below command can be run over one line excluding the <code>\</code>.</li>
+<li>Alternatively, you can type <code>\</code> during a command and then press the enter key. The next line on the command line will start with <code>&gt;</code>. This will allow you to continue typing the command on the line. This can be used to type one command over multiple lines.</li>
+<li>For more information on bash escape please see our <a href="http://www.cgr.liv.ac.uk/illum/NEOFworkshops_5bfa93ca0482d69d/Intro_to_Unix/05-Tips_and_tricks.html#bash-escape">Intro to unix materials</a></li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="04-Good_quality_data.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> raw_fastqc_output <span class="dt">\</span></span>
+<span id="cb8-2"><a href="04-Good_quality_data.html#cb8-2" aria-hidden="true" tabindex="-1"></a>p_arcticus_R1.fastq p_arcticus_R2.fastq</span></code></pre></div>
+</div>
+<div id="background-and-foreground-processes" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Background and Foreground processes<a href="04-Good_quality_data.html#background-and-foreground-processes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/background.png" width="10%" style="display: block; margin: auto;" /></p>
+<p>The next step is to view the <code>fastqc</code> report.
+But first we will talk about <strong>background</strong> and <strong>foreground</strong> processes.</p>
+<p>Normally when you run a command it will run the process in the <strong>foreground</strong>.
+This means your command line will be locked whilst the process is running.
+You will only be able to type a new command in the terminal once the <strong>foreground</strong> process is finished.</p>
+<p>This is normally wanted but not always, for example when you run a process like <code>firefox</code>.
+To run a process in the <strong>background</strong>, so you can type and run new commands, you can add the symbol <code>&amp;</code> to the end of a command.</p>
+<p>Please see the following link for more info on the <strong>foreground</strong> and <strong>background</strong>: <a href="https://www.lifewire.com/multitasking-background-foreground-process-2180219" class="uri">https://www.lifewire.com/multitasking-background-foreground-process-2180219</a></p>
+</div>
+<div id="view-fastqc-output" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> View fastqc output<a href="04-Good_quality_data.html#view-fastqc-output" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/firefox.png" width="10%" style="display: block; margin: auto;" /></p>
+<p>Using <code>firefox</code> have a look at the output html reports and answer the following questions.</p>
+<p>Open all the <code>fastqc</code> html files in the directory.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="04-Good_quality_data.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> raw_fastqc_output/<span class="pp">*</span>_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
+<div class="webex-solution">
+<button>
+Note on *
+</button>
+<p>The <code>*</code> is a wildcard character that represents anything.</p>
+<p><code>*_fastqc.html</code> represents all the files that end with <code>_fastqc.html</code>.</p>
+<p>For more information on wildcard characters please see ou <a href="http://www.cgr.liv.ac.uk/illum/NEOFworkshops_5bfa93ca0482d69d/Intro_to_Unix/12-Advanced_linux_practice.html#wildcard-characters">Intro to unix materials</a></p>
+</div>
+<ol style="list-style-type: decimal">
+<li>How many total reads/sequences are there in the R1 file?
+<div id="radio_UAXMLNLZEV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UAXMLNLZEV" value=""></input> <span><strong>42</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UAXMLNLZEV" value="answer"></input> <span><strong>175,697</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UAXMLNLZEV" value=""></input> <span><strong>150</strong></span></label>
+</div></li>
+<li>What is the length of the reads?
+<div id="radio_PBVZDEICHI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PBVZDEICHI" value=""></input> <span><strong>42</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PBVZDEICHI" value=""></input> <span><strong>175,697</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PBVZDEICHI" value="answer"></input> <span><strong>150</strong></span></label>
+</div></li>
+<li>What is the average GC (%) content of the reads?
+<div id="radio_NAJQVLQKPO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NAJQVLQKPO" value="answer"></input> <span><strong>42</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NAJQVLQKPO" value=""></input> <span><strong>175,697</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NAJQVLQKPO" value=""></input> <span><strong>150</strong></span></label>
+</div></li>
+<li>In R1 at what quality range is base position 1?
+<div id="radio_GHVSABAAGN" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GHVSABAAGN" value=""></input> <span><strong>0-40</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GHVSABAAGN" value="answer"></input> <span><strong>20-40</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GHVSABAAGN" value=""></input> <span><strong>28-40</strong></span></label>
+</div></li>
+<li>In R2 at what quality range are base positions 15-19?
+<div id="radio_WPSBTOBAUA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WPSBTOBAUA" value=""></input> <span><strong>0-40</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WPSBTOBAUA" value=""></input> <span><strong>20-40</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WPSBTOBAUA" value="answer"></input> <span><strong>28-40</strong></span></label>
+</div></li>
+<li>In R1 at what quality range are base positions 45-49?
+<div id="radio_FYBGVSIDUH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FYBGVSIDUH" value=""></input> <span><strong>0-40</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FYBGVSIDUH" value=""></input> <span><strong>20-40</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FYBGVSIDUH" value="answer"></input> <span><strong>28-40</strong></span></label>
+</div></li>
+<li>In R2 at what quality range is base position 150?
+<div id="radio_NUBVHYADKS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NUBVHYADKS" value=""></input> <span><strong>0-40</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NUBVHYADKS" value="answer"></input> <span><strong>20-40</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NUBVHYADKS" value=""></input> <span><strong>28-40</strong></span></label>
+</div></li>
+</ol>
+<p>In this case the reads have been simulated from a genome assembly.
+This is the reason it looks so nice.
+Real data from a sequencing machine will unfortunately not look as good and will require quality trimming and filtering.</p>
+<p>Generally even if data does look very nice we would carry out quality control to get rid of any poor data that is masked by the very good data.
+However, for the purposes of time we will skip this at the moment.</p>
+<p>For your own interest the genome assembly can be found in the following link: <a href="https://www.ncbi.nlm.nih.gov/nuccore/CP000082.1" class="uri">https://www.ncbi.nlm.nih.gov/nuccore/CP000082.1</a></p>
+
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="03-Setup.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="05-Poorer_quality_data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

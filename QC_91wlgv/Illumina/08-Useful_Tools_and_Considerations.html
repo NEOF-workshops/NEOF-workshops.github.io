@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>A Useful tools and considerations | Illumina Quality Control</title>
+  <meta name="description" content="NEOF book for the Illumina quality control workshop" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="A Useful tools and considerations | Illumina Quality Control" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the Illumina quality control workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="A Useful tools and considerations | Illumina Quality Control" />
+  
+  <meta name="twitter:description" content="NEOF book for the Illumina quality control workshop" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Matthew R. Gemmell" />
+
+
+<meta name="date" content="2022-11-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="07-MultiQC.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li><a>Illumina QC</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="01-Illumina_Quality_Control.html"><a href="01-Illumina_Quality_Control.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="02-Cluster_Introduction.html"><a href="02-Cluster_Introduction.html"><i class="fa fa-check"></i><b>2</b> Cluster Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-Cluster_Introduction.html"><a href="02-Cluster_Introduction.html#logon-instructions"><i class="fa fa-check"></i><b>2.1</b> Logon instructions</a></li>
+<li class="chapter" data-level="2.2" data-path="02-Cluster_Introduction.html"><a href="02-Cluster_Introduction.html#the-terminal-window"><i class="fa fa-check"></i><b>2.2</b> The Terminal Window</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-Setup.html"><a href="03-Setup.html"><i class="fa fa-check"></i><b>3</b> Setup</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="03-Setup.html"><a href="03-Setup.html#data"><i class="fa fa-check"></i><b>3.1</b> Workshop data</a></li>
+<li class="chapter" data-level="3.2" data-path="03-Setup.html"><a href="03-Setup.html#conda"><i class="fa fa-check"></i><b>3.2</b> Conda</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="04-Good_quality_data.html"><a href="04-Good_quality_data.html"><i class="fa fa-check"></i><b>4</b> Good quality genomic dataset</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-Good_quality_data.html"><a href="04-Good_quality_data.html#run-fastqc"><i class="fa fa-check"></i><b>4.1</b> Run fastqc</a></li>
+<li class="chapter" data-level="4.2" data-path="04-Good_quality_data.html"><a href="04-Good_quality_data.html#background-and-foreground-processes"><i class="fa fa-check"></i><b>4.2</b> Background and Foreground processes</a></li>
+<li class="chapter" data-level="4.3" data-path="04-Good_quality_data.html"><a href="04-Good_quality_data.html#view-fastqc-output"><i class="fa fa-check"></i><b>4.3</b> View fastqc output</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="05-Poorer_quality_data.html"><a href="05-Poorer_quality_data.html"><i class="fa fa-check"></i><b>5</b> Poorer quality genomic dataset</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-Poorer_quality_data.html"><a href="05-Poorer_quality_data.html#quality-checking"><i class="fa fa-check"></i><b>5.1</b> Quality checking</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="05-Poorer_quality_data.html"><a href="05-Poorer_quality_data.html#quality-checking-mcqs"><i class="fa fa-check"></i><b>5.1.1</b> Quality checking MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="05-Poorer_quality_data.html"><a href="05-Poorer_quality_data.html#quality-control"><i class="fa fa-check"></i><b>5.2</b> Quality control</a></li>
+<li class="chapter" data-level="5.3" data-path="05-Poorer_quality_data.html"><a href="05-Poorer_quality_data.html#post-quality-control-check"><i class="fa fa-check"></i><b>5.3</b> Post Quality control check</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="05-Poorer_quality_data.html"><a href="05-Poorer_quality_data.html#quality-checking-mcqs-1"><i class="fa fa-check"></i><b>5.3.1</b> Quality checking MCQs</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="06-QC_exercises.html"><a href="06-QC_exercises.html"><i class="fa fa-check"></i><b>6</b> QC exercises</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="06-QC_exercises.html"><a href="06-QC_exercises.html#shotgun"><i class="fa fa-check"></i><b>6.1</b> Whole shotgun metagenomics</a></li>
+<li class="chapter" data-level="6.2" data-path="06-QC_exercises.html"><a href="06-QC_exercises.html#metagenetics"><i class="fa fa-check"></i><b>6.2</b> 16S rRNA Metagenetics</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="07-MultiQC.html"><a href="07-MultiQC.html"><i class="fa fa-check"></i><b>7</b> MultiQC</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="07-MultiQC.html"><a href="07-MultiQC.html#the-data"><i class="fa fa-check"></i><b>7.1</b> The data</a></li>
+<li class="chapter" data-level="7.2" data-path="07-MultiQC.html"><a href="07-MultiQC.html#fastqc-of-the-raw-data"><i class="fa fa-check"></i><b>7.2</b> Fastqc of the raw data</a></li>
+<li class="chapter" data-level="7.3" data-path="07-MultiQC.html"><a href="07-MultiQC.html#fastqc-of-the-trimmed-data"><i class="fa fa-check"></i><b>7.3</b> Fastqc of the trimmed data</a></li>
+<li class="chapter" data-level="7.4" data-path="07-MultiQC.html"><a href="07-MultiQC.html#read-data"><i class="fa fa-check"></i><b>7.4</b> Read data</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html"><i class="fa fa-check"></i><b>A</b> Useful tools and considerations</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#quality-trimming-and-filtering-tools"><i class="fa fa-check"></i><b>A.1</b> Quality trimming and filtering tools</a>
+<ul>
+<li class="chapter" data-level="A.1.1" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#trim-galore"><i class="fa fa-check"></i><b>A.1.1</b> Trim Galore</a></li>
+</ul></li>
+<li class="chapter" data-level="A.2" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#multiqc-1"><i class="fa fa-check"></i><b>A.2</b> MultiQC</a></li>
+<li class="chapter" data-level="A.3" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#fasta-and-fastq-processing-toolkits"><i class="fa fa-check"></i><b>A.3</b> Fasta and fastq processing toolkits</a>
+<ul>
+<li class="chapter" data-level="A.3.1" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#fastp"><i class="fa fa-check"></i><b>A.3.1</b> Fastp</a></li>
+<li class="chapter" data-level="A.3.2" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#seqtk"><i class="fa fa-check"></i><b>A.3.2</b> Seqtk</a></li>
+<li class="chapter" data-level="A.3.3" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#fastx-toolkit"><i class="fa fa-check"></i><b>A.3.3</b> FASTX-Toolkit</a></li>
+<li class="chapter" data-level="A.3.4" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#bbtools"><i class="fa fa-check"></i><b>A.3.4</b> BBTools</a></li>
+</ul></li>
+<li class="chapter" data-level="A.4" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#conda-1"><i class="fa fa-check"></i><b>A.4</b> Conda</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Illumina Quality Control</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="useful-tools-and-considerations" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">A</span> Useful tools and considerations<a href="08-Useful_Tools_and_Considerations.html#useful-tools-and-considerations" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/toolbox.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>There are various other useful tools for sequencing QC of Illumina data. Below are some suggestions but there are many more.</p>
+<div id="quality-trimming-and-filtering-tools" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">A.1</span> Quality trimming and filtering tools<a href="08-Useful_Tools_and_Considerations.html#quality-trimming-and-filtering-tools" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/quality_trimming_and_filtering.png" width="20%" style="display: block; margin: auto;" /></p>
+<div id="trim-galore" class="section level3 hasAnchor" number="8.1.1">
+<h3><span class="header-section-number">A.1.1</span> Trim Galore<a href="08-Useful_Tools_and_Considerations.html#trim-galore" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>From the people who brought you FastQC, Trim Galore. This is a wrapper around cutadapt and FastQC. It has a lot of options and can output fastqc results of the quality controlled reads at the same time.</p>
+<p><strong>Github page:</strong>
+<a href="https://github.com/FelixKrueger/TrimGalore" class="uri">https://github.com/FelixKrueger/TrimGalore</a></p>
+<p><strong>Manual:</strong>
+<a href="https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md" class="uri">https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md</a></p>
+</div>
+</div>
+<div id="multiqc-1" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">A.2</span> MultiQC<a href="08-Useful_Tools_and_Considerations.html#multiqc-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/MultiQC_logo.png" width="40%" style="display: block; margin: auto;" />
+MultiQC is a brilliant tool that can be used to collate multiple fastQC reports into one interactive html file. This means if you have 100 sets of paired reads you can look at 2 htmls rather than 200 FastQC reports. I say 2 htmls because it is best to put the forward reads into 1 MultiQC report and the reverse reads into another.</p>
+<p><strong>Main page:</strong> <a href="https://multiqc.info/" class="uri">https://multiqc.info/</a></p>
+<p><strong>Documentation:</strong> <a href="https://multiqc.info/docs/" class="uri">https://multiqc.info/docs/</a></p>
+<p>MultiQC can be to collate the output from many other bioinformatic tools.</p>
+<p><strong>Supported tools:</strong> <a href="https://multiqc.info/#supported-tools" class="uri">https://multiqc.info/#supported-tools</a></p>
+</div>
+<div id="fasta-and-fastq-processing-toolkits" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">A.3</span> Fasta and fastq processing toolkits<a href="08-Useful_Tools_and_Considerations.html#fasta-and-fastq-processing-toolkits" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/process.png" width="20%" style="display: block; margin: auto;" />
+Sometimes a fasta/fastq file will need to be modified to be properly used with a file or to remove a specific feature. Thankfully if you need to carry out a specific action someone else has probably needed to before you. Below are some tools that can be used to modify fasta/fastq files.</p>
+<div id="fastp" class="section level3 hasAnchor" number="8.3.1">
+<h3><span class="header-section-number">A.3.1</span> Fastp<a href="08-Useful_Tools_and_Considerations.html#fastp" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This is a tool designed to be a "all-in-one" preprocessor for fastq files. This includes quality control. I find it very useful as the tool will only do what you tell it to do. This means you can tell it to only carry out length filtering and it will only do length filtering (unlike Trim Galore which will insist on quality trimming).</p>
+<p>You could therefore use the below command to trim all reads to a length of 120 and remove any read pairs where at least one read has a length shorter than 120. You'll then only have reads that are a length of 120. This is required for a few tools.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="08-Useful_Tools_and_Considerations.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastp</span> <span class="at">--in1</span> R1.fastq <span class="at">--in2</span> R2.fastq <span class="at">--out1</span> R1.120.fastq <span class="at">--out2</span> R2.120.fastq <span class="at">--max_len1</span> 120 <span class="at">--max_len2</span> 120 <span class="at">--length_required</span> 120</span></code></pre></div>
+<p><strong>Main page:</strong> <a href="https://github.com/OpenGene/fastp" class="uri">https://github.com/OpenGene/fastp</a></p>
+</div>
+<div id="seqtk" class="section level3 hasAnchor" number="8.3.2">
+<h3><span class="header-section-number">A.3.2</span> Seqtk<a href="08-Useful_Tools_and_Considerations.html#seqtk" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A tool to process fasta or fastq files. It can carry out many tasks but I primarily use it to:</p>
+<ul>
+<li>convert fastq files to fasta</li>
+</ul>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="08-Useful_Tools_and_Considerations.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seqtk</span> seq <span class="at">-a</span> in.fastq <span class="op">&gt;</span> out.fasta</span></code></pre></div>
+<ul>
+<li>subsample paired reads from fastq files</li>
+</ul>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="08-Useful_Tools_and_Considerations.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seqtk</span> sample <span class="at">-s100</span> read1.fastq 10000 <span class="op">&gt;</span> subsample1.fastq</span>
+<span id="cb26-2"><a href="08-Useful_Tools_and_Considerations.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">seqtk</span> sample <span class="at">-s100</span> read2.fastq 10000 <span class="op">&gt;</span> subsample2.fastq</span></code></pre></div>
+<p>For more information on how these commands work and for further commands please see the link below.</p>
+<p><strong>Github:</strong> <a href="https://github.com/lh3/seqtk" class="uri">https://github.com/lh3/seqtk</a></p>
+</div>
+<div id="fastx-toolkit" class="section level3 hasAnchor" number="8.3.3">
+<h3><span class="header-section-number">A.3.3</span> FASTX-Toolkit<a href="08-Useful_Tools_and_Considerations.html#fastx-toolkit" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A tool to process fasta or fastq files. It is quite useful but unfortunately does not take paired read information into context. This means if a read is removed from the reverse read it will not necessarily be removed from the forward file.</p>
+<p>My favourite tool from this is 'fasta_formatter'. It can be used to set the maximum number of bases that will be on one line in a fasta file. I primarily use this so that each seq in a fasta file is on one line.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="08-Useful_Tools_and_Considerations.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fasta_formatter</span> <span class="at">-i</span> in.fasta <span class="at">-o</span> out.fasta <span class="at">-w</span> 0</span></code></pre></div>
+<p><strong>Main page:</strong> <a href="http://hannonlab.cshl.edu/fastx_toolkit/" class="uri">http://hannonlab.cshl.edu/fastx_toolkit/</a></p>
+<p><strong>Commands:</strong> <a href="http://hannonlab.cshl.edu/fastx_toolkit/commandline.html" class="uri">http://hannonlab.cshl.edu/fastx_toolkit/commandline.html</a></p>
+</div>
+<div id="bbtools" class="section level3 hasAnchor" number="8.3.4">
+<h3><span class="header-section-number">A.3.4</span> BBTools<a href="08-Useful_Tools_and_Considerations.html#bbtools" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>BBTools is a collection of various tools. There are tools for deduplication, mapping, merging, and more. There is a lot so if you are interested it would be best to look at the links below.</p>
+<p><strong>Main page</strong>: <a href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/" class="uri">https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/</a></p>
+<p><strong>General usage guide:</strong> <a href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/usage-guide/" class="uri">https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/usage-guide/</a></p>
+<p><strong>Data Preprocessing:</strong> <a href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/data-preprocessing/" class="uri">https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/data-preprocessing/</a></p>
+</div>
+</div>
+<div id="conda-1" class="section level2 hasAnchor" number="8.4">
+<h2><span class="header-section-number">A.4</span> Conda<a href="08-Useful_Tools_and_Considerations.html#conda-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/conda.png" width="20%" style="display: block; margin: auto;" />
+As you can tell there are many bioinformatic tools. It would take a lot of work to install these all if it was easy. However some tools can be difficult to install. Thankfully conda exists.</p>
+<p>Conda is a very useful and highly used package and environmental management system. In other words you can use it to install many tools very easily. Additionally it is very easy to install conda.</p>
+<p><strong>Getting started with conda:</strong> <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html" class="uri">https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html</a></p>
+<p><strong>Main page:</strong> <a href="https://docs.conda.io/en/latest/" class="uri">https://docs.conda.io/en/latest/</a></p>
+<p><strong>Installation instructions:</strong> <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/install/" class="uri">https://docs.conda.io/projects/conda/en/latest/user-guide/install/</a></p>
+<p><strong>Cheatsheet:</strong> <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/cheatsheet.html" class="uri">https://docs.conda.io/projects/conda/en/latest/user-guide/cheatsheet.html</a></p>
+
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="07-MultiQC.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

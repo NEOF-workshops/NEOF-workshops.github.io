@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 13 Histograms and Line graphs | R primer for omics</title>
+  <meta name="description" content="NEOF book for the R primer for omics workshop" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 13 Histograms and Line graphs | R primer for omics" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the R primer for omics workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 13 Histograms and Line graphs | R primer for omics" />
+  
+  <meta name="twitter:description" content="NEOF book for the R primer for omics workshop" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Matthew R. Gemmell" />
+
+
+<meta name="date" content="2022-11-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="12-Tips_solutions.html"/>
+<link rel="next" href="14-Plots_scatterplot_and_box_plots.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/vembedr-0.1.5/css/vembedr.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li><a>R primer for omics</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>Start</b></span></li>
+<li class="chapter" data-level="1" data-path="01-Intro_to_R.html"><a href="01-Intro_to_R.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="part"><span><b>Foundations &amp; Objects</b></span></li>
+<li class="chapter" data-level="2" data-path="02-Foundations.html"><a href="02-Foundations.html"><i class="fa fa-check"></i><b>2</b> Foundations of R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-Foundations.html"><a href="02-Foundations.html#operators"><i class="fa fa-check"></i><b>2.1</b> Operators</a></li>
+<li class="chapter" data-level="2.2" data-path="02-Foundations.html"><a href="02-Foundations.html#variables"><i class="fa fa-check"></i><b>2.2</b> Variables</a></li>
+<li class="chapter" data-level="2.3" data-path="02-Foundations.html"><a href="02-Foundations.html#functions"><i class="fa fa-check"></i><b>2.3</b> Functions</a></li>
+<li class="chapter" data-level="2.4" data-path="02-Foundations.html"><a href="02-Foundations.html#directories"><i class="fa fa-check"></i><b>2.4</b> Directories</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="02-Foundations.html"><a href="02-Foundations.html#commands"><i class="fa fa-check"></i><b>2.4.1</b> Commands</a></li>
+<li class="chapter" data-level="2.4.2" data-path="02-Foundations.html"><a href="02-Foundations.html#rstudio-interface"><i class="fa fa-check"></i><b>2.4.2</b> RStudio Interface</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="02-Foundations.html"><a href="02-Foundations.html#scripteditor"><i class="fa fa-check"></i><b>2.5</b> Script editor</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="02-Foundations.html"><a href="02-Foundations.html#running-commands"><i class="fa fa-check"></i><b>2.5.1</b> Running commands</a></li>
+<li class="chapter" data-level="2.5.2" data-path="02-Foundations.html"><a href="02-Foundations.html#annotations"><i class="fa fa-check"></i><b>2.5.2</b> Annotations</a></li>
+<li class="chapter" data-level="2.5.3" data-path="02-Foundations.html"><a href="02-Foundations.html#saving-scripts"><i class="fa fa-check"></i><b>2.5.3</b> Saving scripts</a></li>
+<li class="chapter" data-level="2.5.4" data-path="02-Foundations.html"><a href="02-Foundations.html#open-a-saved-script"><i class="fa fa-check"></i><b>2.5.4</b> Open a saved script</a></li>
+<li class="chapter" data-level="2.5.5" data-path="02-Foundations.html"><a href="02-Foundations.html#new-script"><i class="fa fa-check"></i><b>2.5.5</b> New script</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="02-Foundations.html"><a href="02-Foundations.html#foundations-mcqs"><i class="fa fa-check"></i><b>2.6</b> Foundations MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-Foundations_exercises.html"><a href="03-Foundations_exercises.html"><i class="fa fa-check"></i><b>3</b> Foundations of R exercises</a></li>
+<li class="chapter" data-level="4" data-path="04-R_objects.html"><a href="04-R_objects.html"><i class="fa fa-check"></i><b>4</b> R objects</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-R_objects.html"><a href="04-R_objects.html#codesections"><i class="fa fa-check"></i><b>4.1</b> Code sections</a></li>
+<li class="chapter" data-level="4.2" data-path="04-R_objects.html"><a href="04-R_objects.html#classes"><i class="fa fa-check"></i><b>4.2</b> Classes</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="04-R_objects.html"><a href="04-R_objects.html#numeric"><i class="fa fa-check"></i><b>4.2.1</b> Numeric</a></li>
+<li class="chapter" data-level="4.2.2" data-path="04-R_objects.html"><a href="04-R_objects.html#logical"><i class="fa fa-check"></i><b>4.2.2</b> Logical</a></li>
+<li class="chapter" data-level="4.2.3" data-path="04-R_objects.html"><a href="04-R_objects.html#string"><i class="fa fa-check"></i><b>4.2.3</b> String</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="04-R_objects.html"><a href="04-R_objects.html#code-section-continued"><i class="fa fa-check"></i><b>4.3</b> Code section continued</a></li>
+<li class="chapter" data-level="4.4" data-path="04-R_objects.html"><a href="04-R_objects.html#data-structures"><i class="fa fa-check"></i><b>4.4</b> Data structures</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="04-R_objects.html"><a href="04-R_objects.html#scalar"><i class="fa fa-check"></i><b>4.4.1</b> Scalar</a></li>
+<li class="chapter" data-level="4.4.2" data-path="04-R_objects.html"><a href="04-R_objects.html#vectors-lists"><i class="fa fa-check"></i><b>4.4.2</b> Vectors &amp; Lists</a></li>
+<li class="chapter" data-level="4.4.3" data-path="04-R_objects.html"><a href="04-R_objects.html#data-frames-matrices"><i class="fa fa-check"></i><b>4.4.3</b> Data frames &amp; Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="04-R_objects.html"><a href="04-R_objects.html#objects-mcqs"><i class="fa fa-check"></i><b>4.5</b> Objects MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="05-R_objects_exercises.html"><a href="05-R_objects_exercises.html"><i class="fa fa-check"></i><b>5</b> R objects exercises</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-R_objects_exercises.html"><a href="05-R_objects_exercises.html#df"><i class="fa fa-check"></i><b>5.1</b> df</a></li>
+<li class="chapter" data-level="5.2" data-path="05-R_objects_exercises.html"><a href="05-R_objects_exercises.html#beach_df_2"><i class="fa fa-check"></i><b>5.2</b> beach_df_2</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html"><i class="fa fa-check"></i><b>6</b> R objects solutions</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#df-solution"><i class="fa fa-check"></i><b>6.1</b> df solution</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-1"><i class="fa fa-check"></i><b>6.1.1</b> Step 1</a></li>
+<li class="chapter" data-level="6.1.2" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-2a"><i class="fa fa-check"></i><b>6.1.2</b> Step 2a</a></li>
+<li class="chapter" data-level="6.1.3" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-2b"><i class="fa fa-check"></i><b>6.1.3</b> Step 2b</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#beach_df_2-solution"><i class="fa fa-check"></i><b>6.2</b> beach_df_2 solution</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-1-1"><i class="fa fa-check"></i><b>6.2.1</b> Step 1</a></li>
+<li class="chapter" data-level="6.2.2" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-2a-1"><i class="fa fa-check"></i><b>6.2.2</b> Step 2a</a></li>
+<li class="chapter" data-level="6.2.3" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-2b-1"><i class="fa fa-check"></i><b>6.2.3</b> Step 2b</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Files, Subsetting, &amp; Tips</b></span></li>
+<li class="chapter" data-level="7" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html"><i class="fa fa-check"></i><b>7</b> Files and subsetting data</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#reading-from-a-file"><i class="fa fa-check"></i><b>7.1</b> Reading from a file</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#directory-and-file-setup"><i class="fa fa-check"></i><b>7.1.1</b> Directory and file setup</a></li>
+<li class="chapter" data-level="7.1.2" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#viewing-the-file"><i class="fa fa-check"></i><b>7.1.2</b> Viewing the file</a></li>
+<li class="chapter" data-level="7.1.3" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#read.csv"><i class="fa fa-check"></i><b>7.1.3</b> read.csv()</a></li>
+<li class="chapter" data-level="7.1.4" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#tsv-files"><i class="fa fa-check"></i><b>7.1.4</b> TSV files</a></li>
+<li class="chapter" data-level="7.1.5" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#excel-files-and-r"><i class="fa fa-check"></i><b>7.1.5</b> Excel files and R</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#subsetting-data"><i class="fa fa-check"></i><b>7.2</b> Subsetting data</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#vectors"><i class="fa fa-check"></i><b>7.2.1</b> Vectors</a></li>
+<li class="chapter" data-level="7.2.2" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#data-frames"><i class="fa fa-check"></i><b>7.2.2</b> Data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#writing-to-a-file"><i class="fa fa-check"></i><b>7.3</b> Writing to a file</a></li>
+<li class="chapter" data-level="7.4" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#files-subsetting-mcqs"><i class="fa fa-check"></i><b>7.4</b> Files &amp; subsetting MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="08-Files_exercises.html"><a href="08-Files_exercises.html"><i class="fa fa-check"></i><b>8</b> Files exercises</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="08-Files_exercises.html"><a href="08-Files_exercises.html#bats"><i class="fa fa-check"></i><b>8.1</b> Bats</a></li>
+<li class="chapter" data-level="8.2" data-path="08-Files_exercises.html"><a href="08-Files_exercises.html#honey-bee-colonies"><i class="fa fa-check"></i><b>8.2</b> Honey bee colonies</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="09-Files_solutions.html"><a href="09-Files_solutions.html"><i class="fa fa-check"></i><b>9</b> Files solutions</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="09-Files_solutions.html"><a href="09-Files_solutions.html#bats-solution"><i class="fa fa-check"></i><b>9.1</b> Bats solution</a></li>
+<li class="chapter" data-level="9.2" data-path="09-Files_solutions.html"><a href="09-Files_solutions.html#honey-bee-colonies-1"><i class="fa fa-check"></i><b>9.2</b> Honey bee colonies</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html"><i class="fa fa-check"></i><b>10</b> Handy tips &amp; tricks</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#r-conventions"><i class="fa fa-check"></i><b>10.1</b> R conventions</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#variable-names"><i class="fa fa-check"></i><b>10.1.1</b> Variable names</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#rstudio"><i class="fa fa-check"></i><b>10.2</b> RStudio</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#global-options"><i class="fa fa-check"></i><b>10.2.1</b> Global options</a></li>
+<li class="chapter" data-level="10.2.2" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#sweep-buttons"><i class="fa fa-check"></i><b>10.2.2</b> Sweep buttons</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#multiplication-table"><i class="fa fa-check"></i><b>10.3</b> Multiplication table</a></li>
+<li class="chapter" data-level="10.4" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#tab-complete"><i class="fa fa-check"></i><b>10.4</b> Tab complete</a></li>
+<li class="chapter" data-level="10.5" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#tea"><i class="fa fa-check"></i><b>10.5</b> Tea</a></li>
+<li class="chapter" data-level="10.6" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#english-speakers-across-the-world"><i class="fa fa-check"></i><b>10.6</b> English speakers across the world</a></li>
+<li class="chapter" data-level="10.7" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#identical"><i class="fa fa-check"></i><b>10.7</b> Identical</a></li>
+<li class="chapter" data-level="10.8" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#shortcuts"><i class="fa fa-check"></i><b>10.8</b> Shortcuts</a></li>
+<li class="chapter" data-level="10.9" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#handy-tips-tricks-mcqs"><i class="fa fa-check"></i><b>10.9</b> Handy tips &amp; tricks MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html"><i class="fa fa-check"></i><b>11</b> Handy exercises</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html#tea-exercise"><i class="fa fa-check"></i><b>11.1</b> Tea exercise</a></li>
+<li class="chapter" data-level="11.2" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html#english-speakers-across-the-world-exercise"><i class="fa fa-check"></i><b>11.2</b> English speakers across the world exercise</a></li>
+<li class="chapter" data-level="11.3" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html#extra-exercise"><i class="fa fa-check"></i><b>11.3</b> Extra exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="12-Tips_solutions.html"><a href="12-Tips_solutions.html"><i class="fa fa-check"></i><b>12</b> Handy Solutions</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="12-Tips_solutions.html"><a href="12-Tips_solutions.html#tea-solution"><i class="fa fa-check"></i><b>12.1</b> Tea solution</a></li>
+<li class="chapter" data-level="12.2" data-path="12-Tips_solutions.html"><a href="12-Tips_solutions.html#english-speakers-across-the-world-solution"><i class="fa fa-check"></i><b>12.2</b> English speakers across the world solution</a></li>
+</ul></li>
+<li class="part"><span><b>Plots</b></span></li>
+<li class="chapter" data-level="13" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html"><i class="fa fa-check"></i><b>13</b> Histograms and Line graphs</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#histogram"><i class="fa fa-check"></i><b>13.1</b> Histogram</a></li>
+<li class="chapter" data-level="13.2" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#line-graphs"><i class="fa fa-check"></i><b>13.2</b> Line graphs</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#read-in-data"><i class="fa fa-check"></i><b>13.2.1</b> Read in data</a></li>
+<li class="chapter" data-level="13.2.2" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#plotting-a-line-graph"><i class="fa fa-check"></i><b>13.2.2</b> Plotting a line graph</a></li>
+<li class="chapter" data-level="13.2.3" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#adding-lines-to-a-plot"><i class="fa fa-check"></i><b>13.2.3</b> Adding lines to a plot</a></li>
+<li class="chapter" data-level="13.2.4" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#axis-limits"><i class="fa fa-check"></i><b>13.2.4</b> Axis limits</a></li>
+<li class="chapter" data-level="13.2.5" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#axis-labels"><i class="fa fa-check"></i><b>13.2.5</b> Axis labels</a></li>
+<li class="chapter" data-level="13.2.6" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#plot-titles"><i class="fa fa-check"></i><b>13.2.6</b> Plot titles</a></li>
+<li class="chapter" data-level="13.2.7" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#line-colours"><i class="fa fa-check"></i><b>13.2.7</b> Line colours</a></li>
+<li class="chapter" data-level="13.2.8" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#plot-legend"><i class="fa fa-check"></i><b>13.2.8</b> Plot legend</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html"><i class="fa fa-check"></i><b>14</b> Scatter plots and Box plots</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#scatter-plot"><i class="fa fa-check"></i><b>14.1</b> Scatter plot</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#basic-examples"><i class="fa fa-check"></i><b>14.1.1</b> Basic examples</a></li>
+<li class="chapter" data-level="14.1.2" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#animal-sizes"><i class="fa fa-check"></i><b>14.1.2</b> Animal sizes</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#factors"><i class="fa fa-check"></i><b>14.2</b> Factors</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#box-plot"><i class="fa fa-check"></i><b>14.3</b> Box plot</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#saving-a-plot-to-a-file"><i class="fa fa-check"></i><b>14.4</b> Saving a plot to a file</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html"><i class="fa fa-check"></i><b>15</b> Plots exercises</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html#line-graph"><i class="fa fa-check"></i><b>15.1</b> Line graph</a></li>
+<li class="chapter" data-level="15.2" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html#histogram-1"><i class="fa fa-check"></i><b>15.2</b> Histogram</a></li>
+<li class="chapter" data-level="15.3" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html#scatterplot"><i class="fa fa-check"></i><b>15.3</b> Scatterplot</a></li>
+<li class="chapter" data-level="15.4" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html#boxplot"><i class="fa fa-check"></i><b>15.4</b> Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html"><i class="fa fa-check"></i><b>16</b> Plots solutions</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html#line-graph-solution"><i class="fa fa-check"></i><b>16.1</b> Line graph solution</a></li>
+<li class="chapter" data-level="16.2" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html#histogram-solution"><i class="fa fa-check"></i><b>16.2</b> Histogram solution</a></li>
+<li class="chapter" data-level="16.3" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html#scatterplot-solution"><i class="fa fa-check"></i><b>16.3</b> Scatterplot solution</a></li>
+<li class="chapter" data-level="16.4" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html#boxplot-solutions"><i class="fa fa-check"></i><b>16.4</b> Boxplot solutions</a></li>
+</ul></li>
+<li class="part"><span><b>Stats &amp; Programming</b></span></li>
+<li class="chapter" data-level="17" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html"><i class="fa fa-check"></i><b>17</b> Basic stats</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#linear-regression"><i class="fa fa-check"></i><b>17.1</b> Linear regression</a>
+<ul>
+<li class="chapter" data-level="17.1.1" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#fish-market-dataset"><i class="fa fa-check"></i><b>17.1.1</b> Fish market dataset</a></li>
+<li class="chapter" data-level="17.1.2" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#scatterplot-1"><i class="fa fa-check"></i><b>17.1.2</b> Scatterplot</a></li>
+<li class="chapter" data-level="17.1.3" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#linear-model"><i class="fa fa-check"></i><b>17.1.3</b> Linear model</a></li>
+</ul></li>
+<li class="chapter" data-level="17.2" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#t-test"><i class="fa fa-check"></i><b>17.2</b> t-test</a>
+<ul>
+<li class="chapter" data-level="17.2.1" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#boxplot-1"><i class="fa fa-check"></i><b>17.2.1</b> Boxplot</a></li>
+<li class="chapter" data-level="17.2.2" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#t-test-comparison"><i class="fa fa-check"></i><b>17.2.2</b> t-test comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#some-more-useful-functions"><i class="fa fa-check"></i><b>17.3</b> Some more useful functions</a>
+<ul>
+<li class="chapter" data-level="17.3.1" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#summary"><i class="fa fa-check"></i><b>17.3.1</b> Summary</a></li>
+<li class="chapter" data-level="17.3.2" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#table"><i class="fa fa-check"></i><b>17.3.2</b> Table</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#further-resources"><i class="fa fa-check"></i><b>17.4</b> Further resources</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="18-Stats_exercises.html"><a href="18-Stats_exercises.html"><i class="fa fa-check"></i><b>18</b> Stats exercises</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="18-Stats_exercises.html"><a href="18-Stats_exercises.html#world-happiness-report"><i class="fa fa-check"></i><b>18.1</b> World happiness report</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="18-Stats_exercises.html"><a href="18-Stats_exercises.html#data"><i class="fa fa-check"></i><b>18.1.1</b> Data</a></li>
+<li class="chapter" data-level="18.1.2" data-path="18-Stats_exercises.html"><a href="18-Stats_exercises.html#tasks-questions"><i class="fa fa-check"></i><b>18.1.2</b> Tasks &amp; questions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="19-Stats_solutions.html"><a href="19-Stats_solutions.html"><i class="fa fa-check"></i><b>19</b> Stats solutions</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="19-Stats_solutions.html"><a href="19-Stats_solutions.html#world-happiness-report-solutions"><i class="fa fa-check"></i><b>19.1</b> World happiness report solutions</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html"><i class="fa fa-check"></i><b>20</b> Basic programming</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#recycle-rule"><i class="fa fa-check"></i><b>20.1</b> Recycle rule</a></li>
+<li class="chapter" data-level="20.2" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#loops"><i class="fa fa-check"></i><b>20.2</b> Loops</a>
+<ul>
+<li class="chapter" data-level="20.2.1" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#for-loops"><i class="fa fa-check"></i><b>20.2.1</b> For loops</a></li>
+<li class="chapter" data-level="20.2.2" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#while-loops"><i class="fa fa-check"></i><b>20.2.2</b> While loops</a></li>
+</ul></li>
+<li class="chapter" data-level="20.3" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#if-statements"><i class="fa fa-check"></i><b>20.3</b> If statements</a></li>
+<li class="chapter" data-level="20.4" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#functions-1"><i class="fa fa-check"></i><b>20.4</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html"><i class="fa fa-check"></i><b>21</b> Student grades example</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#the-student-grades-data"><i class="fa fa-check"></i><b>21.1</b> The student grades data</a></li>
+<li class="chapter" data-level="21.2" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#analysis-script"><i class="fa fa-check"></i><b>21.2</b> Analysis script</a></li>
+<li class="chapter" data-level="21.3" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#reading-in-and-preprocessing-the-data"><i class="fa fa-check"></i><b>21.3</b> Reading in and preprocessing the data</a></li>
+<li class="chapter" data-level="21.4" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#combining-the-data-frames"><i class="fa fa-check"></i><b>21.4</b> Combining the data frames</a></li>
+<li class="chapter" data-level="21.5" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#saving-the-data-frame"><i class="fa fa-check"></i><b>21.5</b> Saving the data frame</a></li>
+<li class="chapter" data-level="21.6" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#scaling-grading"><i class="fa fa-check"></i><b>21.6</b> Scaling &amp; Grading</a></li>
+<li class="chapter" data-level="21.7" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#some-quick-plots"><i class="fa fa-check"></i><b>21.7</b> Some quick plots</a></li>
+<li class="chapter" data-level="21.8" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#tips-for-creating-your-own-loops-and-functions"><i class="fa fa-check"></i><b>21.8</b> Tips for creating your own loops and functions</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="22-Further_resources.html"><a href="22-Further_resources.html"><i class="fa fa-check"></i><b>A</b> Workshop slides &amp; videos</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="22-Further_resources.html"><a href="22-Further_resources.html#intro-and-foundations"><i class="fa fa-check"></i><b>A.1</b> Intro and foundations</a></li>
+<li class="chapter" data-level="A.2" data-path="22-Further_resources.html"><a href="22-Further_resources.html#classes-and-data-structures"><i class="fa fa-check"></i><b>A.2</b> Classes and data structures</a></li>
+<li class="chapter" data-level="A.3" data-path="22-Further_resources.html"><a href="22-Further_resources.html#files-and-subsetting"><i class="fa fa-check"></i><b>A.3</b> Files and subsetting</a></li>
+<li class="chapter" data-level="A.4" data-path="22-Further_resources.html"><a href="22-Further_resources.html#handy-tips-and-tricks"><i class="fa fa-check"></i><b>A.4</b> Handy tips and tricks</a></li>
+<li class="chapter" data-level="A.5" data-path="22-Further_resources.html"><a href="22-Further_resources.html#plots-part-1"><i class="fa fa-check"></i><b>A.5</b> Plots part 1</a></li>
+<li class="chapter" data-level="A.6" data-path="22-Further_resources.html"><a href="22-Further_resources.html#plots-part-2"><i class="fa fa-check"></i><b>A.6</b> Plots part 2</a></li>
+<li class="chapter" data-level="A.7" data-path="22-Further_resources.html"><a href="22-Further_resources.html#basic-stats-1"><i class="fa fa-check"></i><b>A.7</b> Basic stats</a></li>
+<li class="chapter" data-level="A.8" data-path="22-Further_resources.html"><a href="22-Further_resources.html#basic-programming-1"><i class="fa fa-check"></i><b>A.8</b> Basic programming</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="22-Further_resources.html"><a href="22-Further_resources.html#workshopfiles"><i class="fa fa-check"></i><b>B</b> Workshop files</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-7-files"><i class="fa fa-check"></i><b>B.1</b> Chapter 7 files</a></li>
+<li class="chapter" data-level="B.2" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-8-files"><i class="fa fa-check"></i><b>B.2</b> Chapter 8 files</a></li>
+<li class="chapter" data-level="B.3" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-10-11-files"><i class="fa fa-check"></i><b>B.3</b> Chapter 10-11 files</a></li>
+<li class="chapter" data-level="B.4" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-13-16-files"><i class="fa fa-check"></i><b>B.4</b> Chapter 13-16 files</a></li>
+<li class="chapter" data-level="B.5" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-17-19"><i class="fa fa-check"></i><b>B.5</b> Chapter 17-19</a></li>
+<li class="chapter" data-level="B.6" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-20-21"><i class="fa fa-check"></i><b>B.6</b> Chapter 20-21</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="22-Further_resources.html"><a href="22-Further_resources.html#r-user-groups-and-forums"><i class="fa fa-check"></i><b>C</b> R user groups and forums</a></li>
+<li class="chapter" data-level="D" data-path="22-Further_resources.html"><a href="22-Further_resources.html#base-r-books-and-links"><i class="fa fa-check"></i><b>D</b> Base R books and links</a></li>
+<li class="chapter" data-level="E" data-path="22-Further_resources.html"><a href="22-Further_resources.html#r-cheat-sheets"><i class="fa fa-check"></i><b>E</b> R cheat sheets</a></li>
+<li class="chapter" data-level="F" data-path="22-Further_resources.html"><a href="22-Further_resources.html#advanced-r-topics"><i class="fa fa-check"></i><b>F</b> Advanced R topics</a></li>
+<li class="chapter" data-level="G" data-path="22-Further_resources.html"><a href="22-Further_resources.html#datasets"><i class="fa fa-check"></i><b>G</b> Datasets</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R primer for omics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="histograms-and-line-graphs" class="section level1 hasAnchor" number="13">
+<h1><span class="header-section-number">Chapter 13</span> Histograms and Line graphs<a href="13-Plots_line_graphs_and_histograms.html#histograms-and-line-graphs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/palette.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>In this chapter we will learn how to create two different types of plots; Histograms and Line graphs. I have chosen these two types of plots first as they are relatively straightforward to create.</p>
+<p>Create and use the directory "Chapter_13-16" as the working directory for this chapter. Additionally create a new script called "Histograms_n_line_graphs.R" for this chapter.</p>
+<div id="histogram" class="section level2 hasAnchor" number="13.1">
+<h2><span class="header-section-number">13.1</span> Histogram<a href="13-Plots_line_graphs_and_histograms.html#histogram" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/histogram.png" width="20%" style="display: block; margin: auto;" />
+A histogram consists of bars showing the frequency of variables present in numbered ranges (bins). This allows you to see an approximate distribution of numerical data.</p>
+<p>We are starting with histograms as the <strong>function</strong> <code>hist()</code>, which creates a histogram, only requires one <strong>vector</strong>.</p>
+<p>The following code creates a numerical <strong>vector</strong> and then produces a histogram. When you run the <code>hist()</code> command a plot should appear in your <strong>"Plots" pane</strong> of the <strong>MISC window</strong>.</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="13-Plots_line_graphs_and_histograms.html#cb122-1" aria-hidden="true" tabindex="-1"></a>numeric_vec <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">40</span></span>
+<span id="cb122-2"><a href="13-Plots_line_graphs_and_histograms.html#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(numeric_vec)</span></code></pre></div>
+<p>You will notice that the histogram is not very interesting. There are 8 bars all of equal size. This is because we plotted the numbers from 1-40 so numbers 1-5 are counted in the first bar/bin, 6-10 in the second bar/bin and so forth. To get a more interesting histogram we will create a more interesting <strong>vector</strong>.</p>
+<p>Histograms are good to see the numerical distribution of data. In this case we are going to look at the number of cities (with greater than 300,000 population) in EU countries (<a href="https://en.Wikipedia.org/wiki/List_of_cities_in_the_European_Union_by_population_within_city_limits" class="uri">https://en.Wikipedia.org/wiki/List_of_cities_in_the_European_Union_by_population_within_city_limits</a>).</p>
+<p>The first step is to create a <strong>vector</strong> with the numbers of cities in EU countries, however we won't know what countries these correspond to yet. Then we will create a histogram and set the colour of the bars with the option <code>col =</code>.</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="13-Plots_line_graphs_and_histograms.html#cb123-1" aria-hidden="true" tabindex="-1"></a>eu_cities <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>,</span>
+<span id="cb123-2"><a href="13-Plots_line_graphs_and_histograms.html#cb123-2" aria-hidden="true" tabindex="-1"></a>               <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">6</span>, <span class="dv">22</span>,</span>
+<span id="cb123-3"><a href="13-Plots_line_graphs_and_histograms.html#cb123-3" aria-hidden="true" tabindex="-1"></a>               <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">1</span>,</span>
+<span id="cb123-4"><a href="13-Plots_line_graphs_and_histograms.html#cb123-4" aria-hidden="true" tabindex="-1"></a>               <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">7</span>,</span>
+<span id="cb123-5"><a href="13-Plots_line_graphs_and_histograms.html#cb123-5" aria-hidden="true" tabindex="-1"></a>               <span class="dv">1</span>, <span class="dv">12</span>, <span class="dv">3</span>)</span>
+<span id="cb123-6"><a href="13-Plots_line_graphs_and_histograms.html#cb123-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(eu_cities, <span class="at">col =</span> <span class="st">&quot;orange&quot;</span>)</span></code></pre></div>
+<p>With that histogram we can see that most EU countries have 1-5 cities with a few having a much larger amount. As most of the time you will not be working with just <strong>vectors</strong> let us make a <strong>data frame</strong> containing the number of EU cities and the population of the EU countries.</p>
+<p>The population numbers will be in millions to the closest 1 decimal place and consist of the 2020 Eurostat figures from: <a href="https://en.Wikipedia.org/wiki/List_of_European_Union_member_states_by_population" class="uri">https://en.Wikipedia.org/wiki/List_of_European_Union_member_states_by_population</a></p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="13-Plots_line_graphs_and_histograms.html#cb124-1" aria-hidden="true" tabindex="-1"></a>eu_country_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Austria&quot;</span>, <span class="st">&quot;Belgium&quot;</span>, <span class="st">&quot;Bulgaria&quot;</span>, <span class="st">&quot;Croatia&quot;</span>, <span class="st">&quot;Czech Republic&quot;</span>, </span>
+<span id="cb124-2"><a href="13-Plots_line_graphs_and_histograms.html#cb124-2" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;Denmark&quot;</span>, <span class="st">&quot;Estonia&quot;</span>, <span class="st">&quot;Finland&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;Germany&quot;</span>, </span>
+<span id="cb124-3"><a href="13-Plots_line_graphs_and_histograms.html#cb124-3" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;Greece&quot;</span>, <span class="st">&quot;Hungary&quot;</span>, <span class="st">&quot;Ireland&quot;</span>, <span class="st">&quot;Italy&quot;</span>, <span class="st">&quot;Latvia&quot;</span>, </span>
+<span id="cb124-4"><a href="13-Plots_line_graphs_and_histograms.html#cb124-4" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;Lithuania&quot;</span>, <span class="st">&quot;Netherlands&quot;</span>, <span class="st">&quot;Poland&quot;</span>, <span class="st">&quot;Portugal&quot;</span>, <span class="st">&quot;Romania&quot;</span>, </span>
+<span id="cb124-5"><a href="13-Plots_line_graphs_and_histograms.html#cb124-5" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;Slovakia&quot;</span>, <span class="st">&quot;Spain&quot;</span>, <span class="st">&quot;Sweden&quot;</span>)</span>
+<span id="cb124-6"><a href="13-Plots_line_graphs_and_histograms.html#cb124-6" aria-hidden="true" tabindex="-1"></a>eu_pop <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">8.9</span>, <span class="fl">11.5</span>, <span class="fl">7.0</span>, <span class="fl">4.1</span>, <span class="fl">10.7</span>,</span>
+<span id="cb124-7"><a href="13-Plots_line_graphs_and_histograms.html#cb124-7" aria-hidden="true" tabindex="-1"></a>            <span class="fl">5.8</span>, <span class="fl">1.3</span>, <span class="fl">5.5</span>, <span class="fl">67.1</span>, <span class="fl">83.2</span>,</span>
+<span id="cb124-8"><a href="13-Plots_line_graphs_and_histograms.html#cb124-8" aria-hidden="true" tabindex="-1"></a>            <span class="fl">10.7</span>, <span class="fl">9.8</span>, <span class="fl">5.0</span>, <span class="fl">60.2</span>, <span class="fl">1.9</span>,</span>
+<span id="cb124-9"><a href="13-Plots_line_graphs_and_histograms.html#cb124-9" aria-hidden="true" tabindex="-1"></a>            <span class="fl">2.8</span>, <span class="fl">17.4</span>, <span class="fl">38.0</span>, <span class="fl">10.3</span>, <span class="fl">19.3</span>,</span>
+<span id="cb124-10"><a href="13-Plots_line_graphs_and_histograms.html#cb124-10" aria-hidden="true" tabindex="-1"></a>            <span class="fl">5.5</span>, <span class="fl">47.3</span>, <span class="fl">10.3</span>)</span>
+<span id="cb124-11"><a href="13-Plots_line_graphs_and_histograms.html#cb124-11" aria-hidden="true" tabindex="-1"></a>eu_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(eu_cities,eu_pop,</span>
+<span id="cb124-12"><a href="13-Plots_line_graphs_and_histograms.html#cb124-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">row.names =</span> eu_country_names)</span></code></pre></div>
+<p>We will quickly create a histogram for the population numbers. We'll make the bar colours purple and we'll make the x axis label "2020 Eurostat population number in millions" with the <code>xlab =</code> option.</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="13-Plots_line_graphs_and_histograms.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(eu_df<span class="sc">$</span>eu_pop, <span class="at">col =</span> <span class="st">&quot;purple&quot;</span>,</span>
+<span id="cb125-2"><a href="13-Plots_line_graphs_and_histograms.html#cb125-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;2020 Eurostat population number in millions&quot;</span>)</span></code></pre></div>
+<p>We have a similar pattern as with the number of cities (most have low numbers, some high numbers).</p>
+<p>We can quickly check if the countries with the high number of cities also have the high populations by creating a new column equal to population / number of cities. This will give us nice ratios. We can plot the distribution of these ratios in a histogram.</p>
+<p>For this histogram we will also add a title to the plot with the option <code>main =</code>. Additionally we will choose a different colour. Having different colours and main titles makes it easier for you to instantly know which plot you are looking at.</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="13-Plots_line_graphs_and_histograms.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create ratio column</span></span>
+<span id="cb126-2"><a href="13-Plots_line_graphs_and_histograms.html#cb126-2" aria-hidden="true" tabindex="-1"></a>eu_df<span class="sc">$</span>pop_cities_ratio <span class="ot">&lt;-</span> eu_df<span class="sc">$</span>eu_pop <span class="sc">/</span> eu_df<span class="sc">$</span>eu_cities</span>
+<span id="cb126-3"><a href="13-Plots_line_graphs_and_histograms.html#cb126-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Histogram of ratio distribution</span></span>
+<span id="cb126-4"><a href="13-Plots_line_graphs_and_histograms.html#cb126-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(eu_df<span class="sc">$</span>pop_cities_ratio, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb126-5"><a href="13-Plots_line_graphs_and_histograms.html#cb126-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Ratio of population (millions) to numer of cities&quot;</span>,</span>
+<span id="cb126-6"><a href="13-Plots_line_graphs_and_histograms.html#cb126-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;EU countries ratio of population to cities&quot;</span>)</span></code></pre></div>
+<p>Looking at the plot most countries seem to have a ratio of 2-6 million citizens to every city. However, it is still not a perfect match with some lower and some higher ratios. Of course a result is a result and we have hopefully found out something new.</p>
+<p>Before we go onto line graphs I'll show you how to look at your previous plots. In the <strong>Plots pane</strong> of the <strong>MISC window</strong> there are two arrows on the top left. You can use these to go backwards and forwards between the plots you have created since you opened RStudio. Give it a go!</p>
+<p><img src="figures/RStudio_plot_pane_arrows.png" width="40%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="line-graphs" class="section level2 hasAnchor" number="13.2">
+<h2><span class="header-section-number">13.2</span> Line graphs<a href="13-Plots_line_graphs_and_histograms.html#line-graphs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/line_graph.png" width="20%" style="display: block; margin: auto;" />
+Line graphs are perfect for showing change over time. Knowing this we'll go back to a data set we have touched before, the file "honey_bee.tsv" from Chapter 8. This file showed the number of Honey Bee colonies in various US states from 2015-2018.</p>
+<div id="read-in-data" class="section level3 hasAnchor" number="13.2.1">
+<h3><span class="header-section-number">13.2.1</span> Read in data<a href="13-Plots_line_graphs_and_histograms.html#read-in-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First step is to <strong>read</strong> in the data from the "Chapter_8_files" directory. Once the <strong>data frame</strong> is created we will remove all non 2017 &amp; 2018 information.</p>
+<p><strong>Note</strong>: The <code>../</code> below represents going up one directory. I.e. going up from your current working directory ("Chapter_13-16") to the main directory so it can be directed to "Chapter_8_files".</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="13-Plots_line_graphs_and_histograms.html#cb127-1" aria-hidden="true" tabindex="-1"></a>bee_colonies_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../Chapter_8_files/honey_bee.tsv&quot;</span>, </span>
+<span id="cb127-2"><a href="13-Plots_line_graphs_and_histograms.html#cb127-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">row.names =</span> <span class="dv">1</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb127-3"><a href="13-Plots_line_graphs_and_histograms.html#cb127-3" aria-hidden="true" tabindex="-1"></a>bee_colonies_2017_2018_df <span class="ot">&lt;-</span> bee_colonies_df[<span class="dv">9</span><span class="sc">:</span><span class="dv">16</span>,]</span></code></pre></div>
+<p>Before we continue have a look at the <strong>data frame</strong> and make sure you are comfortable with what it contains.</p>
+</div>
+<div id="plotting-a-line-graph" class="section level3 hasAnchor" number="13.2.2">
+<h3><span class="header-section-number">13.2.2</span> Plotting a line graph<a href="13-Plots_line_graphs_and_histograms.html#plotting-a-line-graph" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We are going to plot the entire information for the state of Minnesota. We will use the <strong>function</strong> <code>plot()</code> with the option <code>type = "l"</code>. This will produce a plot of type "line" (<code>"l"</code>).</p>
+<p>This requires we provide a numeric <strong>vector</strong> for the x axis (option <code>x =</code>) and the y axis (option <code>y =</code>). Currently our quarter and year information is in the row names as strings.</p>
+<p>Therefore before we plot the information we will create a new column called "time_point" with the numbers 1 to the number of rows. We will carry this out with the <strong>function</strong> <code>nrow()</code> which produces one number equal to the number of rows in the specified <strong>data frame</strong>.</p>
+<p>We won't use it here but the <strong>function</strong> <code>ncol()</code> is similar to <code>nrow()</code> but for the number of columns.</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="13-Plots_line_graphs_and_histograms.html#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Produce time_point column</span></span>
+<span id="cb128-2"><a href="13-Plots_line_graphs_and_histograms.html#cb128-2" aria-hidden="true" tabindex="-1"></a>bee_colonies_df<span class="sc">$</span>time_point <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(bee_colonies_df))</span>
+<span id="cb128-3"><a href="13-Plots_line_graphs_and_histograms.html#cb128-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Produce line plot of Minnesota over time point.</span></span>
+<span id="cb128-4"><a href="13-Plots_line_graphs_and_histograms.html#cb128-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Minnesota, bee_colonies_df<span class="sc">$</span>time_point, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+</div>
+<div id="adding-lines-to-a-plot" class="section level3 hasAnchor" number="13.2.3">
+<h3><span class="header-section-number">13.2.3</span> Adding lines to a plot<a href="13-Plots_line_graphs_and_histograms.html#adding-lines-to-a-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This is looking decent but you normally want more than one line in a line graph. Thankfully we can do this with the <strong>function</strong> <code>lines()</code>. We can add the other three states to the line graph like below:</p>
+<p><strong>Tip</strong>: Remember to use tab completion to auto fill <strong>function</strong>, <strong>variable</strong>, and column names as well as for <strong>function</strong> options.</p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="13-Plots_line_graphs_and_histograms.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Montana, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point)</span>
+<span id="cb129-2"><a href="13-Plots_line_graphs_and_histograms.html#cb129-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span><span class="st">`</span><span class="at">New Mexico</span><span class="st">`</span>, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point)</span>
+<span id="cb129-3"><a href="13-Plots_line_graphs_and_histograms.html#cb129-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Pennsylvania, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point)</span></code></pre></div>
+<p>We have created the line graph with all the states However all the data is not visible.</p>
+</div>
+<div id="axis-limits" class="section level3 hasAnchor" number="13.2.4">
+<h3><span class="header-section-number">13.2.4</span> Axis limits<a href="13-Plots_line_graphs_and_histograms.html#axis-limits" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To fix this we need to make sure all the data is within the graph. When the <code>plot()</code> <strong>function</strong> was run it created the y limits based on Minnesota which has a minimum and maximum value of 136000 and 27000. Unfortunately the other some other states barely fit in this range.</p>
+<p>To prevent this issue we can use the <code>plot()</code> option of <code>ylim =</code>. This option is provided with a <strong>vector</strong> of 2 numbers. The first number is where the y axis will start. The second number is where the y axis will end.</p>
+<p>To find out where the y axis will end we will use the <code>max()</code> <strong>function</strong>. This will give one number which is equal to the highest number found in a numeric <strong>object</strong>. This <strong>object</strong> can be a <strong>scalar</strong>, <strong>vector</strong>, or a <strong>data frame</strong>.</p>
+<p>We will use the <strong>function</strong> <code>min()</code> just like <code>max()</code> to find where the y axis should start.</p>
+<p>Let us therefore recreate the plot with an appropriate y axis range.</p>
+<p><strong>Note</strong>: Some times it is more appropriate to set values for the y limits (i.e. starting the y axis at 0).</p>
+<p><strong>Tip</strong>: Copying your past code in the script editor and editing it will make the following examples a lot quicker to carry out.</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="13-Plots_line_graphs_and_histograms.html#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimum and maximum for y axis</span></span>
+<span id="cb130-2"><a href="13-Plots_line_graphs_and_histograms.html#cb130-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Provide the function a subset of the bee_colonies_df</span></span>
+<span id="cb130-3"><a href="13-Plots_line_graphs_and_histograms.html#cb130-3" aria-hidden="true" tabindex="-1"></a><span class="co">#so it is not using the time_point column</span></span>
+<span id="cb130-4"><a href="13-Plots_line_graphs_and_histograms.html#cb130-4" aria-hidden="true" tabindex="-1"></a>min_y <span class="ot">&lt;-</span> <span class="fu">min</span>(bee_colonies_df[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb130-5"><a href="13-Plots_line_graphs_and_histograms.html#cb130-5" aria-hidden="true" tabindex="-1"></a>max_y <span class="ot">&lt;-</span> <span class="fu">max</span>(bee_colonies_df[,<span class="sc">-</span><span class="dv">5</span>])</span>
+<span id="cb130-6"><a href="13-Plots_line_graphs_and_histograms.html#cb130-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Produce line plot of Minnesota over time point.</span></span>
+<span id="cb130-7"><a href="13-Plots_line_graphs_and_histograms.html#cb130-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Set y limits (min,max)</span></span>
+<span id="cb130-8"><a href="13-Plots_line_graphs_and_histograms.html#cb130-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Minnesota, bee_colonies_df<span class="sc">$</span>time_point, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb130-9"><a href="13-Plots_line_graphs_and_histograms.html#cb130-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(min_y,max_y))</span>
+<span id="cb130-10"><a href="13-Plots_line_graphs_and_histograms.html#cb130-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Add lines</span></span>
+<span id="cb130-11"><a href="13-Plots_line_graphs_and_histograms.html#cb130-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Montana, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point)</span>
+<span id="cb130-12"><a href="13-Plots_line_graphs_and_histograms.html#cb130-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span><span class="st">`</span><span class="at">New Mexico</span><span class="st">`</span>, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point)</span>
+<span id="cb130-13"><a href="13-Plots_line_graphs_and_histograms.html#cb130-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Pennsylvania, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point)</span></code></pre></div>
+<p>Great! That is much better. We can now see that two lines fall after time_point 2 whilst one increases.</p>
+</div>
+<div id="axis-labels" class="section level3 hasAnchor" number="13.2.5">
+<h3><span class="header-section-number">13.2.5</span> Axis labels<a href="13-Plots_line_graphs_and_histograms.html#axis-labels" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Numbers on the x axis are not ideal in this case. We will therefore use the <code>axis()</code> function to set our own x axis labels. We will use the following options for this:</p>
+<ul>
+<li><code>1</code>: The first option to <code>axis()</code> indicates the location of the axis labels. <code>1</code> indicates they will be located on the x axis (below).</li>
+<li><code>at = bee_colonies_df$time_point</code>: This indicates where the points tic marks will be drawn.</li>
+<li><code>labels = row.names(bee_colonies_df)</code>: A character <strong>vector</strong> for the labels to be placed at the tick marks.</li>
+</ul>
+<p>For more info for <code>axis()</code> run the command <code>?axis</code> to see its help page.</p>
+<p>To use the <code>axis()</code> <strong>function</strong> correctly we need to make sure there are no preexisting labels and tick marks on the x axis or else the new labels will go on top of the old. To do this we provide the <code>plot()</code> <strong>function</strong> with the option <code>xaxt ='n'</code>, i.e. no x axis ticks.</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="13-Plots_line_graphs_and_histograms.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Produce line plot of Minnesota over time point.</span></span>
+<span id="cb131-2"><a href="13-Plots_line_graphs_and_histograms.html#cb131-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Ensure x axis ticks and labels are not displayed</span></span>
+<span id="cb131-3"><a href="13-Plots_line_graphs_and_histograms.html#cb131-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Minnesota, bee_colonies_df<span class="sc">$</span>time_point, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb131-4"><a href="13-Plots_line_graphs_and_histograms.html#cb131-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(min_y,max_y), <span class="at">xaxt =</span> <span class="st">&#39;n&#39;</span>)</span>
+<span id="cb131-5"><a href="13-Plots_line_graphs_and_histograms.html#cb131-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Add row names (year and quarter strings) as x axix labels</span></span>
+<span id="cb131-6"><a href="13-Plots_line_graphs_and_histograms.html#cb131-6" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> bee_colonies_df<span class="sc">$</span>time_point, <span class="at">labels =</span> <span class="fu">row.names</span>(bee_colonies_df))</span>
+<span id="cb131-7"><a href="13-Plots_line_graphs_and_histograms.html#cb131-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Add lines</span></span>
+<span id="cb131-8"><a href="13-Plots_line_graphs_and_histograms.html#cb131-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Montana, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point)</span>
+<span id="cb131-9"><a href="13-Plots_line_graphs_and_histograms.html#cb131-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span><span class="st">`</span><span class="at">New Mexico</span><span class="st">`</span>, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point)</span>
+<span id="cb131-10"><a href="13-Plots_line_graphs_and_histograms.html#cb131-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Pennsylvania, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point)</span></code></pre></div>
+<p>When the plot is generated there may be only some labels showing for the x axis. If you would like to show them all increase the size of the <strong>MISC window</strong>.</p>
+</div>
+<div id="plot-titles" class="section level3 hasAnchor" number="13.2.6">
+<h3><span class="header-section-number">13.2.6</span> Plot titles<a href="13-Plots_line_graphs_and_histograms.html#plot-titles" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Before we colour the lines different colours, let us add a main title and provide the x and y axis with better titles.</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="13-Plots_line_graphs_and_histograms.html#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Produce line plot of Minnesota over time point.</span></span>
+<span id="cb132-2"><a href="13-Plots_line_graphs_and_histograms.html#cb132-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Add main, x, and y titles</span></span>
+<span id="cb132-3"><a href="13-Plots_line_graphs_and_histograms.html#cb132-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Minnesota, bee_colonies_df<span class="sc">$</span>time_point, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb132-4"><a href="13-Plots_line_graphs_and_histograms.html#cb132-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(min_y,max_y), <span class="at">xaxt =</span> <span class="st">&#39;n&#39;</span>,</span>
+<span id="cb132-5"><a href="13-Plots_line_graphs_and_histograms.html#cb132-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Number of Honey Bee colonies in 4 US states over 2017 &amp; 2018&quot;</span>,</span>
+<span id="cb132-6"><a href="13-Plots_line_graphs_and_histograms.html#cb132-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Bee colonies&quot;</span>,</span>
+<span id="cb132-7"><a href="13-Plots_line_graphs_and_histograms.html#cb132-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Year and Quarter&quot;</span>)</span>
+<span id="cb132-8"><a href="13-Plots_line_graphs_and_histograms.html#cb132-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Add row names (year and quarter strings) as x axix labels</span></span>
+<span id="cb132-9"><a href="13-Plots_line_graphs_and_histograms.html#cb132-9" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> bee_colonies_df<span class="sc">$</span>time_point, <span class="at">labels =</span> <span class="fu">row.names</span>(bee_colonies_df))</span>
+<span id="cb132-10"><a href="13-Plots_line_graphs_and_histograms.html#cb132-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Add lines</span></span>
+<span id="cb132-11"><a href="13-Plots_line_graphs_and_histograms.html#cb132-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Montana, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point)</span>
+<span id="cb132-12"><a href="13-Plots_line_graphs_and_histograms.html#cb132-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span><span class="st">`</span><span class="at">New Mexico</span><span class="st">`</span>, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point)</span>
+<span id="cb132-13"><a href="13-Plots_line_graphs_and_histograms.html#cb132-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Pennsylvania, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point)</span></code></pre></div>
+</div>
+<div id="line-colours" class="section level3 hasAnchor" number="13.2.7">
+<h3><span class="header-section-number">13.2.7</span> Line colours<a href="13-Plots_line_graphs_and_histograms.html#line-colours" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Next we will colour the lines differently to differentiate the states. We carry this out with the <code>col =</code> options for <code>plot()</code> and <code>lines()</code>.</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="13-Plots_line_graphs_and_histograms.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Produce line plot of Minnesota over time point.</span></span>
+<span id="cb133-2"><a href="13-Plots_line_graphs_and_histograms.html#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Include the colour red for the bars</span></span>
+<span id="cb133-3"><a href="13-Plots_line_graphs_and_histograms.html#cb133-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Minnesota, bee_colonies_df<span class="sc">$</span>time_point, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb133-4"><a href="13-Plots_line_graphs_and_histograms.html#cb133-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(min_y,max_y), <span class="at">xaxt =</span> <span class="st">&#39;n&#39;</span>,</span>
+<span id="cb133-5"><a href="13-Plots_line_graphs_and_histograms.html#cb133-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Number of Honey Bee colonies in 4 US states over 2017 &amp; 2018&quot;</span>,</span>
+<span id="cb133-6"><a href="13-Plots_line_graphs_and_histograms.html#cb133-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Bee colonies&quot;</span>,</span>
+<span id="cb133-7"><a href="13-Plots_line_graphs_and_histograms.html#cb133-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Year and Quarter&quot;</span>,</span>
+<span id="cb133-8"><a href="13-Plots_line_graphs_and_histograms.html#cb133-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb133-9"><a href="13-Plots_line_graphs_and_histograms.html#cb133-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Add row names (year and quarter strings) as x axix labels</span></span>
+<span id="cb133-10"><a href="13-Plots_line_graphs_and_histograms.html#cb133-10" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> bee_colonies_df<span class="sc">$</span>time_point, <span class="at">labels =</span> <span class="fu">row.names</span>(bee_colonies_df))</span>
+<span id="cb133-11"><a href="13-Plots_line_graphs_and_histograms.html#cb133-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Add lines with different colours</span></span>
+<span id="cb133-12"><a href="13-Plots_line_graphs_and_histograms.html#cb133-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Montana, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb133-13"><a href="13-Plots_line_graphs_and_histograms.html#cb133-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span><span class="st">`</span><span class="at">New Mexico</span><span class="st">`</span>, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>)</span>
+<span id="cb133-14"><a href="13-Plots_line_graphs_and_histograms.html#cb133-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y =</span> bee_colonies_df<span class="sc">$</span>Pennsylvania, <span class="at">x =</span> bee_colonies_df<span class="sc">$</span>time_point, <span class="at">col =</span> <span class="st">&quot;purple&quot;</span>)</span></code></pre></div>
+</div>
+<div id="plot-legend" class="section level3 hasAnchor" number="13.2.8">
+<h3><span class="header-section-number">13.2.8</span> Plot legend<a href="13-Plots_line_graphs_and_histograms.html#plot-legend" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We are almost there! The one thing we are missing now is a legend so we can quickly see what colour represents each state.</p>
+<p>This can be carried out by using the <strong>function</strong> <code>legend()</code> after the plot is created. In this case the <strong>function</strong> is run with the following options:</p>
+<ul>
+<li><code>x = "topleft"</code>: The legend will be placed in the top left of the plot.</li>
+<li><code>legend = colnames(bee_colonies_df[,1:4])</code>: This dictates the labels that will be in the legend.</li>
+<li><code>col = c("red","blue","green","purple")</code>: This indicates the matching colours for the labels.</li>
+<li><code>lty = 1</code>: This indicates that the colours will be presented as lines of type 1.</li>
+</ul>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="13-Plots_line_graphs_and_histograms.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="st">&quot;topleft&quot;</span>,</span>
+<span id="cb134-2"><a href="13-Plots_line_graphs_and_histograms.html#cb134-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">colnames</span>(bee_colonies_df[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]),</span>
+<span id="cb134-3"><a href="13-Plots_line_graphs_and_histograms.html#cb134-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;green&quot;</span>,<span class="st">&quot;purple&quot;</span>),</span>
+<span id="cb134-4"><a href="13-Plots_line_graphs_and_histograms.html#cb134-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>That is a good amount to go through. The next chapter will go into scatter plots and box plots. If you have time read through the above again and possibly try to create a histogram or line plot with one of the data sets from previous chapters.</p>
+
+</div>
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="12-Tips_solutions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="14-Plots_scatterplot_and_box_plots.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
