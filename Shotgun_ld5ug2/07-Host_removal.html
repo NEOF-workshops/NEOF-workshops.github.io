@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Host removal | Shotgun Metagenomics</title>
+  <meta name="description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Host removal | Shotgun Metagenomics" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Host removal | Shotgun Metagenomics" />
+  
+  <meta name="twitter:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Sam Haldenby and Matthew R. Gemmell" />
+
+
+<meta name="date" content="2022-11-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="06-Trimming_data.html"/>
+<link rel="next" href="08-Taxonomic_profiling.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li><a>Shotgun Metagenomics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="01-Shotgun_metagenomics.html"><a href="01-Shotgun_metagenomics.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="02-Overview.html"><a href="02-Overview.html"><i class="fa fa-check"></i><b>2</b> Overview</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-Overview.html"><a href="02-Overview.html#what-is-metagenomics"><i class="fa fa-check"></i><b>2.1</b> What is metagenomics?</a></li>
+<li class="chapter" data-level="2.2" data-path="02-Overview.html"><a href="02-Overview.html#why-metagenomics"><i class="fa fa-check"></i><b>2.2</b> Why metagenomics?</a></li>
+<li class="chapter" data-level="2.3" data-path="02-Overview.html"><a href="02-Overview.html#metagenomics-vs-metagenetics"><i class="fa fa-check"></i><b>2.3</b> Metagenomics vs Metagenetics</a></li>
+<li class="chapter" data-level="2.4" data-path="02-Overview.html"><a href="02-Overview.html#tutorial-overview"><i class="fa fa-check"></i><b>2.4</b> Tutorial overview</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="02-Overview.html"><a href="02-Overview.html#basics"><i class="fa fa-check"></i><b>2.4.1</b> Basics</a></li>
+<li class="chapter" data-level="2.4.2" data-path="02-Overview.html"><a href="02-Overview.html#structure"><i class="fa fa-check"></i><b>2.4.2</b> Structure</a></li>
+<li class="chapter" data-level="2.4.3" data-path="02-Overview.html"><a href="02-Overview.html#content"><i class="fa fa-check"></i><b>2.4.3</b> Content</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html"><i class="fa fa-check"></i><b>3</b> Cluster Introduction</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#logon-instructions"><i class="fa fa-check"></i><b>3.1</b> Logon instructions</a></li>
+<li class="chapter" data-level="3.2" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#the-terminal-window"><i class="fa fa-check"></i><b>3.2</b> The Terminal Window</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="04-Start.html"><a href="04-Start.html"><i class="fa fa-check"></i><b>4</b> Before we start</a></li>
+<li class="part"><span><b>Data &amp; QC</b></span></li>
+<li class="chapter" data-level="5" data-path="05-Raw_data.html"><a href="05-Raw_data.html"><i class="fa fa-check"></i><b>5</b> Raw data</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-Raw_data.html"><a href="05-Raw_data.html#obtaining-the-data"><i class="fa fa-check"></i><b>5.1</b> Obtaining the data</a></li>
+<li class="chapter" data-level="5.2" data-path="05-Raw_data.html"><a href="05-Raw_data.html#checking-quality-control"><i class="fa fa-check"></i><b>5.2</b> Checking quality control</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="06-Trimming_data.html"><a href="06-Trimming_data.html"><i class="fa fa-check"></i><b>6</b> Quality control</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="06-Trimming_data.html"><a href="06-Trimming_data.html#removing-adapters-and-low-quality-bases"><i class="fa fa-check"></i><b>6.1</b> Removing adapters and low quality bases</a></li>
+<li class="chapter" data-level="6.2" data-path="06-Trimming_data.html"><a href="06-Trimming_data.html#rename-the-files"><i class="fa fa-check"></i><b>6.2</b> Rename the files</a></li>
+<li class="chapter" data-level="6.3" data-path="06-Trimming_data.html"><a href="06-Trimming_data.html#inspect-the-trimmed-data"><i class="fa fa-check"></i><b>6.3</b> Inspect the trimmed data</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="07-Host_removal.html"><a href="07-Host_removal.html"><i class="fa fa-check"></i><b>7</b> Host removal</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="07-Host_removal.html"><a href="07-Host_removal.html#index-reference"><i class="fa fa-check"></i><b>7.1</b> Index reference</a></li>
+<li class="chapter" data-level="7.2" data-path="07-Host_removal.html"><a href="07-Host_removal.html#alignment"><i class="fa fa-check"></i><b>7.2</b> Alignment</a></li>
+<li class="chapter" data-level="7.3" data-path="07-Host_removal.html"><a href="07-Host_removal.html#unmapped-read-extraction"><i class="fa fa-check"></i><b>7.3</b> Unmapped read extraction</a></li>
+<li class="chapter" data-level="7.4" data-path="07-Host_removal.html"><a href="07-Host_removal.html#re-pair"><i class="fa fa-check"></i><b>7.4</b> Re-pair</a></li>
+<li class="chapter" data-level="7.5" data-path="07-Host_removal.html"><a href="07-Host_removal.html#host-removal-summary"><i class="fa fa-check"></i><b>7.5</b> Host removal summary</a></li>
+</ul></li>
+<li class="part"><span><b>Taxonomy of reads</b></span></li>
+<li class="chapter" data-level="8" data-path="08-Taxonomic_profiling.html"><a href="08-Taxonomic_profiling.html"><i class="fa fa-check"></i><b>8</b> Taxonomic profiling</a></li>
+<li class="chapter" data-level="9" data-path="09-Kraken2.html"><a href="09-Kraken2.html"><i class="fa fa-check"></i><b>9</b> Kraken2</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="09-Kraken2.html"><a href="09-Kraken2.html#kraken2-run"><i class="fa fa-check"></i><b>9.1</b> Kraken2: run</a></li>
+<li class="chapter" data-level="9.2" data-path="09-Kraken2.html"><a href="09-Kraken2.html#kraken2-output"><i class="fa fa-check"></i><b>9.2</b> Kraken2: output</a></li>
+<li class="chapter" data-level="9.3" data-path="09-Kraken2.html"><a href="09-Kraken2.html#kraken-2-mcqs"><i class="fa fa-check"></i><b>9.3</b> Kraken 2: MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="10-Krona.html"><a href="10-Krona.html"><i class="fa fa-check"></i><b>10</b> Krona plot</a></li>
+<li class="chapter" data-level="11" data-path="11-Bracken.html"><a href="11-Bracken.html"><i class="fa fa-check"></i><b>11</b> Bracken</a>
+<ul>
+<li class="chapter" data-level="11.0.1" data-path="11-Bracken.html"><a href="11-Bracken.html#bracken-run"><i class="fa fa-check"></i><b>11.0.1</b> Bracken: run</a></li>
+<li class="chapter" data-level="11.1" data-path="11-Bracken.html"><a href="11-Bracken.html#bracken-output"><i class="fa fa-check"></i><b>11.1</b> Bracken: output</a></li>
+<li class="chapter" data-level="11.2" data-path="11-Bracken.html"><a href="11-Bracken.html#bracken-merging-output"><i class="fa fa-check"></i><b>11.2</b> Bracken: merging output</a></li>
+<li class="chapter" data-level="11.3" data-path="11-Bracken.html"><a href="11-Bracken.html#bracken-extracting-output"><i class="fa fa-check"></i><b>11.3</b> Bracken: extracting output</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="12-Lefse.html"><a href="12-Lefse.html"><i class="fa fa-check"></i><b>12</b> LEfSe biomarker detection</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="12-Lefse.html"><a href="12-Lefse.html#kraken2_lefse_metadata"><i class="fa fa-check"></i><b>12.1</b> LEfSe: add metadata</a></li>
+<li class="chapter" data-level="12.2" data-path="12-Lefse.html"><a href="12-Lefse.html#lefse-conda"><i class="fa fa-check"></i><b>12.2</b> LEfSe: conda</a></li>
+<li class="chapter" data-level="12.3" data-path="12-Lefse.html"><a href="12-Lefse.html#lefse-format"><i class="fa fa-check"></i><b>12.3</b> LEfSe: format</a></li>
+<li class="chapter" data-level="12.4" data-path="12-Lefse.html"><a href="12-Lefse.html#lefse-run"><i class="fa fa-check"></i><b>12.4</b> LEfSe: run</a></li>
+<li class="chapter" data-level="12.5" data-path="12-Lefse.html"><a href="12-Lefse.html#lefse-visualisation"><i class="fa fa-check"></i><b>12.5</b> LEfSe: visualisation</a></li>
+<li class="chapter" data-level="12.6" data-path="12-Lefse.html"><a href="12-Lefse.html#kraken2-and-bracken-databases"><i class="fa fa-check"></i><b>12.6</b> Kraken2 and Bracken databases</a></li>
+</ul></li>
+<li class="part"><span><b>Functional profiling of reads</b></span></li>
+<li class="chapter" data-level="13" data-path="13-Functional_profiling.html"><a href="13-Functional_profiling.html"><i class="fa fa-check"></i><b>13</b> HUMAnN Functional profiling</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="13-Functional_profiling.html"><a href="13-Functional_profiling.html#humann"><i class="fa fa-check"></i><b>13.1</b> HUMAnN</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="13-Functional_profiling.html"><a href="13-Functional_profiling.html#humann-conda-directories-and-files"><i class="fa fa-check"></i><b>13.1.1</b> HUMAnN: conda, directories, and files</a></li>
+<li class="chapter" data-level="13.1.2" data-path="13-Functional_profiling.html"><a href="13-Functional_profiling.html#humann-run"><i class="fa fa-check"></i><b>13.1.2</b> HUMAnN: run</a></li>
+<li class="chapter" data-level="13.1.3" data-path="13-Functional_profiling.html"><a href="13-Functional_profiling.html#humann-output"><i class="fa fa-check"></i><b>13.1.3</b> HUMAnN: output</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="13-Functional_profiling.html"><a href="13-Functional_profiling.html#humannmultisampleprocessing"><i class="fa fa-check"></i><b>13.2</b> Multi sample processing</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="13-Functional_profiling.html"><a href="13-Functional_profiling.html#humann-combining-data"><i class="fa fa-check"></i><b>13.2.1</b> HUMAnN: combining data</a></li>
+<li class="chapter" data-level="13.2.2" data-path="13-Functional_profiling.html"><a href="13-Functional_profiling.html#humann-split-stratified-table"><i class="fa fa-check"></i><b>13.2.2</b> HUMAnN: split stratified table</a></li>
+<li class="chapter" data-level="13.2.3" data-path="13-Functional_profiling.html"><a href="13-Functional_profiling.html#humannrenormalise"><i class="fa fa-check"></i><b>13.2.3</b> HUMAnN: renormalising data</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="13-Functional_profiling.html"><a href="13-Functional_profiling.html#heatmap"><i class="fa fa-check"></i><b>13.3</b> Heatmap</a></li>
+<li class="chapter" data-level="13.4" data-path="13-Functional_profiling.html"><a href="13-Functional_profiling.html#humann_lefse"><i class="fa fa-check"></i><b>13.4</b> LEfSe</a></li>
+<li class="chapter" data-level="13.5" data-path="13-Functional_profiling.html"><a href="13-Functional_profiling.html#optional-task"><i class="fa fa-check"></i><b>13.5</b> Optional task</a></li>
+</ul></li>
+<li class="part"><span><b>Assembly Approach</b></span></li>
+<li class="chapter" data-level="14" data-path="14-Metagenome_assembly.html"><a href="14-Metagenome_assembly.html"><i class="fa fa-check"></i><b>14</b> Metagenome assembly</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="14-Metagenome_assembly.html"><a href="14-Metagenome_assembly.html#metagenome-assembly-conda"><i class="fa fa-check"></i><b>14.1</b> Metagenome assembly: Conda</a></li>
+<li class="chapter" data-level="14.2" data-path="14-Metagenome_assembly.html"><a href="14-Metagenome_assembly.html#a-primer-on-short-read-assembly"><i class="fa fa-check"></i><b>14.2</b> A primer on short read assembly</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Metagenome_assembly.html"><a href="14-Metagenome_assembly.html#stitching-read-pairs"><i class="fa fa-check"></i><b>14.3</b> Stitching read pairs</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Metagenome_assembly.html"><a href="14-Metagenome_assembly.html#assembly"><i class="fa fa-check"></i><b>14.4</b> Assembly</a></li>
+<li class="chapter" data-level="14.5" data-path="14-Metagenome_assembly.html"><a href="14-Metagenome_assembly.html#quast"><i class="fa fa-check"></i><b>14.5</b> QUAST</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="15-Genome_binning.html"><a href="15-Genome_binning.html"><i class="fa fa-check"></i><b>15</b> Genome binning</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="15-Genome_binning.html"><a href="15-Genome_binning.html#metabat2"><i class="fa fa-check"></i><b>15.1</b> MetaBAT2</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="15-Genome_binning.html"><a href="15-Genome_binning.html#metabat2-conda-environment-directory"><i class="fa fa-check"></i><b>15.1.1</b> MetaBAT2: Conda environment &amp; directory</a></li>
+<li class="chapter" data-level="15.1.2" data-path="15-Genome_binning.html"><a href="15-Genome_binning.html#metabat2-depth-calculation"><i class="fa fa-check"></i><b>15.1.2</b> MetaBAT2: depth calculation</a></li>
+<li class="chapter" data-level="15.1.3" data-path="15-Genome_binning.html"><a href="15-Genome_binning.html#metabat2-run"><i class="fa fa-check"></i><b>15.1.3</b> MetaBAT2: run</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="15-Genome_binning.html"><a href="15-Genome_binning.html#checkm"><i class="fa fa-check"></i><b>15.2</b> CheckM</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="15-Genome_binning.html"><a href="15-Genome_binning.html#checkm-conda"><i class="fa fa-check"></i><b>15.2.1</b> CheckM: Conda</a></li>
+<li class="chapter" data-level="15.2.2" data-path="15-Genome_binning.html"><a href="15-Genome_binning.html#checkm-run"><i class="fa fa-check"></i><b>15.2.2</b> CheckM: run</a></li>
+<li class="chapter" data-level="15.2.3" data-path="15-Genome_binning.html"><a href="15-Genome_binning.html#checkm-output"><i class="fa fa-check"></i><b>15.2.3</b> CheckM: output</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="16-Assembly_functional_annotation.html"><a href="16-Assembly_functional_annotation.html"><i class="fa fa-check"></i><b>16</b> Assembly functional annotation</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="16-Assembly_functional_annotation.html"><a href="16-Assembly_functional_annotation.html#taxonomic-annotation"><i class="fa fa-check"></i><b>16.1</b> Taxonomic annotation</a></li>
+<li class="chapter" data-level="16.2" data-path="16-Assembly_functional_annotation.html"><a href="16-Assembly_functional_annotation.html#prokka"><i class="fa fa-check"></i><b>16.2</b> Prokka</a>
+<ul>
+<li class="chapter" data-level="16.2.1" data-path="16-Assembly_functional_annotation.html"><a href="16-Assembly_functional_annotation.html#prokka_conda"><i class="fa fa-check"></i><b>16.2.1</b> Prokka: conda and directories</a></li>
+<li class="chapter" data-level="16.2.2" data-path="16-Assembly_functional_annotation.html"><a href="16-Assembly_functional_annotation.html#prokka-run"><i class="fa fa-check"></i><b>16.2.2</b> Prokka: run</a></li>
+<li class="chapter" data-level="16.2.3" data-path="16-Assembly_functional_annotation.html"><a href="16-Assembly_functional_annotation.html#prokka-output"><i class="fa fa-check"></i><b>16.2.3</b> Prokka: output</a></li>
+</ul></li>
+<li class="chapter" data-level="16.3" data-path="16-Assembly_functional_annotation.html"><a href="16-Assembly_functional_annotation.html#minpath"><i class="fa fa-check"></i><b>16.3</b> MinPath</a>
+<ul>
+<li class="chapter" data-level="16.3.1" data-path="16-Assembly_functional_annotation.html"><a href="16-Assembly_functional_annotation.html#minpath-conda-and-directory"><i class="fa fa-check"></i><b>16.3.1</b> MinPath: conda and directory</a></li>
+<li class="chapter" data-level="16.3.2" data-path="16-Assembly_functional_annotation.html"><a href="16-Assembly_functional_annotation.html#minpath-ec-extraction"><i class="fa fa-check"></i><b>16.3.2</b> MinPath: EC extraction</a></li>
+<li class="chapter" data-level="16.3.3" data-path="16-Assembly_functional_annotation.html"><a href="16-Assembly_functional_annotation.html#minpath-run"><i class="fa fa-check"></i><b>16.3.3</b> MinPath: run</a></li>
+<li class="chapter" data-level="16.3.4" data-path="16-Assembly_functional_annotation.html"><a href="16-Assembly_functional_annotation.html#minpath-output"><i class="fa fa-check"></i><b>16.3.4</b> MinPath: output</a></li>
+</ul></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="17-Appendix.html"><a href="17-Appendix.html"><i class="fa fa-check"></i><b>A</b> Next steps</a></li>
+<li class="chapter" data-level="B" data-path="17-Appendix.html"><a href="17-Appendix.html#manuals"><i class="fa fa-check"></i><b>B</b> Manuals</a></li>
+<li class="chapter" data-level="C" data-path="17-Appendix.html"><a href="17-Appendix.html#obtaining-read-data"><i class="fa fa-check"></i><b>C</b> Obtaining Read Data</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Shotgun Metagenomics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="hostremoval" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Host removal<a href="07-Host_removal.html#hostremoval" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/bowtie2.png" width="30%" style="display: block; margin: auto;" /></p>
+<p>It is good practice to remove any host sequences from your data before further analysis. A good method for this is to align/map your reads to a reference of your host genome and remove the mapped sequences (i.e sequences we believe to belong to the host).</p>
+<p>If there is no host genome available before you start your sample collections and sequencing it may be a good idea to attempt to sequence and assemble the host genome. We would recommend long read technologies for single genome assembly projects.</p>
+<p>This chapter contains a small example on how to carry out host removal. It uses only a section of a human (host of our samples) reference genome assembly. In real life you should use the entire reference.</p>
+<p>The first step is to copy over the reference fasta file we will use.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="07-Host_removal.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /pub39/tea/nsc006/NEOF/Shotgun_metagenomics/GRCh38_slice.fasta .</span></code></pre></div>
+<div id="index-reference" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Index reference<a href="07-Host_removal.html#index-reference" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/index.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>We will will use the <code>Bowtie2</code> aligner for mapping/aligning. Prior to alignment/mapping we need to index our reference.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="07-Host_removal.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bowtie2-build</span> GRCh38_slice.fasta GRCh38_slice.fasta</span></code></pre></div>
+<p>If you use <code>ls</code> you will now see a bunch of files starting with <code>GRCh38_slice.fasta</code> and ending with various suffixes that contain <code>bt2</code>. These are the index files which allow us to use the reference with <code>Bowtie2</code>.</p>
+</div>
+<div id="alignment" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Alignment<a href="07-Host_removal.html#alignment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/alignment.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>With the indexed reference we will align the K1 reads to the reference. This creates a BAM file that contains alignment and read information (<code>K1_mapped.bam</code>).</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="07-Host_removal.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bowtie2</span> <span class="at">-x</span> GRCh38_slice.fasta <span class="at">-1</span> K1_R1.fq.gz <span class="at">-2</span> K1_R2.fq.gz <span class="dt">\</span></span>
+<span id="cb19-2"><a href="07-Host_removal.html#cb19-2" aria-hidden="true" tabindex="-1"></a>-p12 <span class="dv">2</span><span class="op">&gt;</span> K1_bowtie2_out.log <span class="kw">|</span> <span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-S</span> <span class="at">-h</span> <span class="op">&gt;</span> K1_mapped.bam</span></code></pre></div>
+<div id="parameters" class="section level4 unnumbered hasAnchor">
+<h4>Parameters<a href="07-Host_removal.html#parameters" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><img src="figures/parameter_black.png" width="10%" style="display: block; margin: auto;" /></p>
+<p>This command is split into two commands. The first is <code>bowtie2</code> that creates the alignment. The parameters for the command are:</p>
+<ul>
+<li><strong><code>-x</code></strong>: Indexed reference the reads will be aligned to.</li>
+<li><strong><code>-1</code></strong>: The forward reads.</li>
+<li><strong><code>-2</code></strong>: The reverse reads.</li>
+<li><strong><code>-p</code></strong>: Number of threads to be used. 12 in this case.</li>
+<li><strong><code>2&gt;</code></strong>: This will cause the standard error to be redirected to the chosen file. In this case <code>out.log</code>.
+<ul>
+<li>This useful for commands that may produce a lot of output to screen. If an error occurs you can view this file to see the error messages.</li>
+</ul></li>
+</ul>
+<p>The alignment is then piped (<code>|</code>) to the command <code>samtools view</code>. For more information on pipes please see our <a href="http://www.cgr.liv.ac.uk/illum/NEOFworkshops_5bfa93ca0482d69d/Intro_to_Unix/12-Advanced_linux_practice.html#pipes">Intro to Unix course book</a>.</p>
+<p>The parameters for <code>samtools view</code> are:</p>
+<ul>
+<li><strong><code>-b</code></strong>: Output the alignment as a BAM file.
+<ul>
+<li>BAM files are a binary form of SAM files so they are smaller in memory size.</li>
+<li>If you are interested in the SAM format please see its <a href="https://samtools.github.io/hts-specs/SAMv1.pdf">specification file</a>.</li>
+</ul></li>
+<li><strong><code>-S</code></strong>: Auto detect input format.</li>
+<li><strong><code>-h</code></strong>: Include header.</li>
+</ul>
+<p>The binary alignment is redirected to a new file called <code>K1_mapped.bam</code>. For more information on redirection please see our <a href="http://www.cgr.liv.ac.uk/illum/NEOFworkshops_5bfa93ca0482d69d/Intro_to_Unix/12-Advanced_linux_practice.html#redirection">Intro to Unix course book</a>.</p>
+</div>
+</div>
+<div id="unmapped-read-extraction" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Unmapped read extraction<a href="07-Host_removal.html#unmapped-read-extraction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/exctractor.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Next step is to extract the reads that did not map to the host reference from the <code>K1_mapped.bam</code> file with the <code>samtools fastq</code> command (unmapped reads).</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="07-Host_removal.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> fastq <span class="at">-f</span> 4 <span class="at">-1</span> K1_R1.u.fastq <span class="at">-2</span> K1_R2.u.fastq K1_mapped.bam</span></code></pre></div>
+<div id="parameters-1" class="section level4 unnumbered hasAnchor">
+<h4>Parameters<a href="07-Host_removal.html#parameters-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><img src="figures/parameter_green.png" width="10%" style="display: block; margin: auto;" /></p>
+<ul>
+<li><strong><code>-f</code></strong>: Output reads that only include the SAM flag.
+<ul>
+<li>In this case <code>4</code> stands for unmapped reads. Therefore, our resulting fastq files will only contain unmapped reads.</li>
+<li>The following link is very useful to create a SAM flag you may need: <a href="https://broadinstitute.github.io/picard/explain-flags.html" class="uri">https://broadinstitute.github.io/picard/explain-flags.html</a>.</li>
+</ul></li>
+<li><strong><code>-1</code></strong>: The output R1 fastq file of unmapped reads.</li>
+<li><strong><code>-2</code></strong>: The output R2 fastq file of unmapped reads.</li>
+</ul>
+<p>This step may make unmatched paired files (why we have <code>.u.</code> in the output file names). This occurs when a read from R2 is removed but the matching read in R1 is not removed, or vice versa. This will cause issues for further analysis.</p>
+</div>
+</div>
+<div id="re-pair" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Re-pair<a href="07-Host_removal.html#re-pair" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/repair.png" width="30%" style="display: block; margin: auto;" /></p>
+<p>The below <code>BBTools</code> command will re-pair the reads by removing reads with a missing pair. The command ensures the order of the reads are identical in the 2 paired files.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="07-Host_removal.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">repair.sh</span> in1=K1_R1.u.fastq in2=K1_R2.u.fastq <span class="dt">\</span></span>
+<span id="cb21-2"><a href="07-Host_removal.html#cb21-2" aria-hidden="true" tabindex="-1"></a>out1=K1_R1.final.fastq out2=K1_R2.final.fastq <span class="dt">\</span></span>
+<span id="cb21-3"><a href="07-Host_removal.html#cb21-3" aria-hidden="true" tabindex="-1"></a>outs=singletons.fastq</span></code></pre></div>
+<div id="parameters-2" class="section level4 unnumbered hasAnchor">
+<h4>Parameters<a href="07-Host_removal.html#parameters-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><img src="figures/parameter_blue.png" width="10%" style="display: block; margin: auto;" /></p>
+<ul>
+<li><strong><code>in1=</code></strong>: The input R1 fastq file of unmapped unpaired reads.</li>
+<li><strong><code>in2=</code></strong>: The input R2 fastq file of unmapped unpaired reads.</li>
+<li><strong><code>out1=</code></strong>: The output R1 fastq file of unmapped paired reads.</li>
+<li><strong><code>out2=</code></strong>: The output R2 fastq file of unmapped unpaired reads.</li>
+<li><strong><code>outs=</code></strong>: The output fastq file containing the left over singletons (a sequence missing a pair).
+<ul>
+<li>This file can normally be ignored.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="host-removal-summary" class="section level2 hasAnchor" number="7.5">
+<h2><span class="header-section-number">7.5</span> Host removal summary<a href="07-Host_removal.html#host-removal-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/sum_blue.png" width="10%" style="display: block; margin: auto;" /></p>
+<p>We have run through quality control including host removal for our K1 sample. As our data has pretty much no human data we will skip this step for the other samples and use the trimmed data for the downstream analysis.</p>
+<p>In a real analysis project you would use a whole genome reference for your host. However, that would have taken too long for this practical. The most current Human reference (when this was written) is GRCh38. We used a random 10kb section to align our reads to.</p>
+<p>For more resources on the Human reference please see: <a href="https://www.ncbi.nlm.nih.gov/genome/guide/human/" class="uri">https://www.ncbi.nlm.nih.gov/genome/guide/human/</a></p>
+<p>The assembly we used was: <a href="https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz" class="uri">https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz</a></p>
+
+</div>
+</div>
+
+
+
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="06-Trimming_data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="08-Taxonomic_profiling.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
