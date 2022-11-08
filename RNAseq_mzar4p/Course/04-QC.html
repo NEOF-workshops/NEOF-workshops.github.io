@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Quality Control | RNA-seq gene expression and pathway analysis</title>
+  <meta name="description" content="NEOF book for the RNA-seq gene expression and pathway analysis workshop" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Quality Control | RNA-seq gene expression and pathway analysis" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the RNA-seq gene expression and pathway analysis workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Quality Control | RNA-seq gene expression and pathway analysis" />
+  
+  <meta name="twitter:description" content="NEOF book for the RNA-seq gene expression and pathway analysis workshop" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
+
+
+<meta name="date" content="2022-11-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="03-Cluster_Introduction.html"/>
+<link rel="next" href="05-Aligning.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li><a>RNA-seq</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="01-Intro.html"><a href="01-Intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="part"><span><b>Getting started</b></span></li>
+<li class="chapter" data-level="2" data-path="02-Background.html"><a href="02-Background.html"><i class="fa fa-check"></i><b>2</b> Background</a></li>
+<li class="chapter" data-level="3" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html"><i class="fa fa-check"></i><b>3</b> Cluster Introduction</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#logon-instructions"><i class="fa fa-check"></i><b>3.1</b> Logon instructions</a></li>
+<li class="chapter" data-level="3.2" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#the-terminal-window"><i class="fa fa-check"></i><b>3.2</b> The Terminal Window</a></li>
+<li class="chapter" data-level="3.3" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#accessing-the-example-data"><i class="fa fa-check"></i><b>3.3</b> Accessing the example data</a></li>
+</ul></li>
+<li class="part"><span><b>Generating gene counts</b></span></li>
+<li class="chapter" data-level="4" data-path="04-QC.html"><a href="04-QC.html"><i class="fa fa-check"></i><b>4</b> Quality Control</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-QC.html"><a href="04-QC.html#workshop-data"><i class="fa fa-check"></i><b>4.1</b> Workshop data</a></li>
+<li class="chapter" data-level="4.2" data-path="04-QC.html"><a href="04-QC.html#quality-assessment"><i class="fa fa-check"></i><b>4.2</b> Quality assessment</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="04-QC.html"><a href="04-QC.html#quality-assessment-questions"><i class="fa fa-check"></i><b>4.2.1</b> Quality assessment: questions</a></li>
+<li class="chapter" data-level="4.2.2" data-path="04-QC.html"><a href="04-QC.html#quality-assessment-summary"><i class="fa fa-check"></i><b>4.2.2</b> Quality assessment: summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="04-QC.html"><a href="04-QC.html#quality-control"><i class="fa fa-check"></i><b>4.3</b> Quality control</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="04-QC.html"><a href="04-QC.html#post-quality-control-check"><i class="fa fa-check"></i><b>4.3.1</b> Post Quality control check</a></li>
+<li class="chapter" data-level="4.3.2" data-path="04-QC.html"><a href="04-QC.html#quality-control-questions"><i class="fa fa-check"></i><b>4.3.2</b> Quality control: questions</a></li>
+<li class="chapter" data-level="4.3.3" data-path="04-QC.html"><a href="04-QC.html#quality-assessment-summary-1"><i class="fa fa-check"></i><b>4.3.3</b> Quality assessment: summary</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="05-Aligning.html"><a href="05-Aligning.html"><i class="fa fa-check"></i><b>5</b> Aligning Illumina transcriptome data to a reference genome</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-Aligning.html"><a href="05-Aligning.html#reference-sequence-preparation"><i class="fa fa-check"></i><b>5.1</b> Reference sequence preparation</a></li>
+<li class="chapter" data-level="5.2" data-path="05-Aligning.html"><a href="05-Aligning.html#read-mapping"><i class="fa fa-check"></i><b>5.2</b> Read mapping</a></li>
+<li class="chapter" data-level="5.3" data-path="05-Aligning.html"><a href="05-Aligning.html#assess-mapping-quality"><i class="fa fa-check"></i><b>5.3</b> Assess mapping quality</a></li>
+<li class="chapter" data-level="5.4" data-path="05-Aligning.html"><a href="05-Aligning.html#visualising-the-mapping"><i class="fa fa-check"></i><b>5.4</b> Visualising the mapping</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="06-Counting_reads.html"><a href="06-Counting_reads.html"><i class="fa fa-check"></i><b>6</b> Counting Reads using HTSeq-Count</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="06-Counting_reads.html"><a href="06-Counting_reads.html#exercise"><i class="fa fa-check"></i><b>6.1</b> Exercise</a></li>
+</ul></li>
+<li class="part"><span><b>Gene expression analysis</b></span></li>
+<li class="chapter" data-level="7" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html"><i class="fa fa-check"></i><b>7</b> Differential Gene Expression using DeSeq2</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#r"><i class="fa fa-check"></i><b>7.1</b> R</a></li>
+<li class="chapter" data-level="7.2" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#introduction-to-dge-and-deseq2"><i class="fa fa-check"></i><b>7.2</b> Introduction to DGE and DESeq2</a></li>
+<li class="chapter" data-level="7.3" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#the-dataset"><i class="fa fa-check"></i><b>7.3</b> The dataset</a></li>
+<li class="chapter" data-level="7.4" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#differential-expression-analysis"><i class="fa fa-check"></i><b>7.4</b> Differential expression analysis</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#loading-in-the-data"><i class="fa fa-check"></i><b>7.4.1</b> Loading in the data</a></li>
+<li class="chapter" data-level="7.4.2" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#filtering-the-data"><i class="fa fa-check"></i><b>7.4.2</b> Filtering the data</a></li>
+<li class="chapter" data-level="7.4.3" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#running-the-analysis-and-obtaining-the-dge-results"><i class="fa fa-check"></i><b>7.4.3</b> Running the analysis and obtaining the DGE results</a></li>
+<li class="chapter" data-level="7.4.4" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#plot-the-expression-differences-for-the-most-significant-differentially-expressed-genes"><i class="fa fa-check"></i><b>7.4.4</b> Plot the expression differences for the most significant differentially expressed genes</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#visualising-the-results"><i class="fa fa-check"></i><b>7.5</b> Visualising the results</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#ma-plot"><i class="fa fa-check"></i><b>7.5.1</b> MA plot</a></li>
+<li class="chapter" data-level="7.5.2" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#volcano-plot"><i class="fa fa-check"></i><b>7.5.2</b> Volcano plot</a></li>
+<li class="chapter" data-level="7.5.3" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#heatmap"><i class="fa fa-check"></i><b>7.5.3</b> Heatmap</a></li>
+<li class="chapter" data-level="7.5.4" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#principle-component-analysis"><i class="fa fa-check"></i><b>7.5.4</b> Principle Component Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="07-Differential_Gene_Expression.html"><a href="07-Differential_Gene_Expression.html#export-the-results"><i class="fa fa-check"></i><b>7.6</b> Export the results</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="08-GO.html"><a href="08-GO.html"><i class="fa fa-check"></i><b>8</b> Gene Ontology enrichment analysis</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="08-GO.html"><a href="08-GO.html#final-recap"><i class="fa fa-check"></i><b>8.1</b> Final recap</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">RNA-seq gene expression and pathway analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="QC" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Quality Control<a href="04-QC.html#QC" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/mangify_glass.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>This tutorial will give hands on experience with quality control of transcriptomic Illumina data. We will first look at the quality of the data.</p>
+<div id="workshop-data" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Workshop data<a href="04-QC.html#workshop-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before we can carry on with the workshop we need to change into the directory containing the raw data for two <em>Drosophila</em> samples.</p>
+<p><img src="figures/Dros_2.png" width="20%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="04-QC.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/rnaseq/Practical_one</span></code></pre></div>
+<p>List the contents of the current directory to confirm the four fastq files are there (the files ending in <code>.fq.gz</code>).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="04-QC.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
+<p>Have a look at the structure of the input fastq file:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="04-QC.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> 17_slice_R1.fq.gz <span class="kw">|</span> <span class="fu">head</span> </span></code></pre></div>
+<p>These fastq files are compressed (with the .gz file extension). <code>zcat</code> is a command for viewing the contents of compressed files, the pipe <code>|</code> symbol then passes this to <code>head</code> to display only the first few lines of the file.</p>
+<p>Fastq files contain a header line, the nucleotide sequence, and its corresponding quality scores. You can see more information on the fastq file format in our <a href="http://www.cgr.liv.ac.uk/illum/NEOFworkshops_5bfa93ca0482d69d/Intro_to_Unix/10-Fastq.html">intro to unix materials</a>.</p>
+</div>
+<div id="quality-assessment" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Quality assessment<a href="04-QC.html#quality-assessment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We’ll run the raw sequence data through FastQC to summarise the data quality.</p>
+<p>First make a directory for the output.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="04-QC.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> raw_fastqc_output</span></code></pre></div>
+<p><img src="figures/magnify_glass_27AUG2020.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>Now we can run <strong>fastqc</strong>.</p>
+<p><strong>Note</strong>:</p>
+<ul>
+<li>The below command can be run over one line excluding the <code>\</code></li>
+<li>Alternatively, you can type <code>\</code> during a command and then press the enter key. The next line on the command line will start with <code>&gt;</code>. This will allow you to continue typing the command on the line. This can be used to type one command over multiple lines.</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="04-QC.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> raw_fastqc_output <span class="dt">\</span></span>
+<span id="cb8-2"><a href="04-QC.html#cb8-2" aria-hidden="true" tabindex="-1"></a>17_slice_R1.fq.gz 17_slice_R2.fq.gz</span></code></pre></div>
+<p>Normally when you run a command it will run the process in the foreground. This means your command line will be locked whilst the process is running. You will only be able to type a new command in the terminal once the foreground process is finished.</p>
+<p>This is usually wanted but not always, for example when you run a process like firefox. To run a process in the background, so you can type and run new commands, you can add the symbol <code>&amp;</code> to the end of a command. We will use this for running firefox.</p>
+<p>Please see the following <a href="https://linuxconfig.org/understanding-foreground-and-background-linux-processes">link</a> for more info on the foreground and background.</p>
+<p>Using firefox have a look at the output html reports and answer the following questions.</p>
+<p>To look at the R1 &amp; R2 fastqc output (2 tabs will be opened):</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="04-QC.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> raw_fastqc_output/17_slice_R1_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
+<p>You may see a warning message on your terminal, but you can press enter to continue to type in the terminal.</p>
+<p>To look at R2 fastqc output</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="04-QC.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> raw_fastqc_output/17_slice_R2_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
+<div id="quality-assessment-questions" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Quality assessment: questions<a href="04-QC.html#quality-assessment-questions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/question_bubble.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Answer the following questions based on the reports.</p>
+<ol style="list-style-type: decimal">
+<li>How many total reads are there in the R1 file?
+<div id="radio_CDDSCNWVXY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CDDSCNWVXY" value=""></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_CDDSCNWVXY" value=""></input> <span>101</span></label><label><input type="radio" autocomplete="off" name="radio_CDDSCNWVXY" value="answer"></input> <span>539,580</span></label>
+</div></li>
+<li>What is the length of the reads?
+<div id="radio_OXNDBLKNFP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OXNDBLKNFP" value=""></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_OXNDBLKNFP" value="answer"></input> <span>101</span></label><label><input type="radio" autocomplete="off" name="radio_OXNDBLKNFP" value=""></input> <span>539,580</span></label>
+</div></li>
+<li>What is the GC content (%) of the R2 reads?
+<div id="radio_WUEWJLZXBM" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WUEWJLZXBM" value="answer"></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_WUEWJLZXBM" value=""></input> <span>101</span></label><label><input type="radio" autocomplete="off" name="radio_WUEWJLZXBM" value=""></input> <span>539,580</span></label>
+</div></li>
+<li>In the read 2 (R2) file, at what base position range does the quality of the reads go below 28 (I.e. the position where a part of the boxplot, including outliers, goes into the orange)?
+<div id="radio_AMQTXHFCKF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_AMQTXHFCKF" value=""></input> <span>18-19</span></label><label><input type="radio" autocomplete="off" name="radio_AMQTXHFCKF" value="answer"></input> <span>84-85</span></label><label><input type="radio" autocomplete="off" name="radio_AMQTXHFCKF" value=""></input> <span>96-97</span></label>
+</div></li>
+</ol>
+</div>
+<div id="quality-assessment-summary" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Quality assessment: summary<a href="04-QC.html#quality-assessment-summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/sum.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>In this case the reads seem to be good quality but we do see the quality decline towards the ends of the reads. This is common for Illumina datasets and will require trimming and filtering.</p>
+<p>Other common quality issues seen in most datasets:</p>
+<ul>
+<li>The R2 reads have poorer quality than the R1 reads</li>
+<li>The read sizes have a range compared to all being one size, however most of the reads are towards the long end of the range.</li>
+</ul>
+<p>Generally even if data does look very nice we would carry out quality control to get rid of any poor data that is masked by the very good data and to remove any adapter sequences.</p>
+</div>
+</div>
+<div id="quality-control" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Quality control<a href="04-QC.html#quality-control" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/quality_trimming_and_filtering.png" width="30%" style="display: block; margin: auto;" /></p>
+<p>Quality control generally comes in two forms:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Trimming</strong>: This is directly cutting off bits of sequence. This is typical in the form of trimming off low quality bases from the end of reads and trimming off adapters at the start of reads.</li>
+<li><strong>Filtering</strong>: This occurs when entire reads are removed. A typical occurrence of this is when a read is too small as we do not want reads below a certain length.</li>
+</ol>
+<p>To carry this out we are going to use <a href="http://www.usadellab.org/cms/index.php?page=trimmomatic">Trimmomatic</a>.</p>
+<p>First we'll make a directory for the trimmed dataset.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="04-QC.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> trimmed</span></code></pre></div>
+<p>To run Trimmomatic with the reads we will use the below command.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="04-QC.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">trimmomatic</span> <span class="dt">\</span></span>
+<span id="cb12-2"><a href="04-QC.html#cb12-2" aria-hidden="true" tabindex="-1"></a>  PE <span class="at">-phred33</span> <span class="dt">\</span></span>
+<span id="cb12-3"><a href="04-QC.html#cb12-3" aria-hidden="true" tabindex="-1"></a>  17_slice_R1.fq.gz 17_slice_R2.fq.gz <span class="dt">\</span></span>
+<span id="cb12-4"><a href="04-QC.html#cb12-4" aria-hidden="true" tabindex="-1"></a>  trimmed/17_slice_R1_out_paired.fastq trimmed/17_slice_R1_out_unpaired.fastq <span class="dt">\</span></span>
+<span id="cb12-5"><a href="04-QC.html#cb12-5" aria-hidden="true" tabindex="-1"></a>  trimmed/17_slice_R2_out_paired.fastq trimmed/17_slice_R2_out_unpaired.fastq <span class="dt">\</span></span>
+<span id="cb12-6"><a href="04-QC.html#cb12-6" aria-hidden="true" tabindex="-1"></a>  ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 <span class="dt">\</span></span>
+<span id="cb12-7"><a href="04-QC.html#cb12-7" aria-hidden="true" tabindex="-1"></a>  LEADING:3 TRAILING:3 SLIDINGWINDOW:4:30 MINLEN:50</span></code></pre></div>
+<p>The parameter meanings are:</p>
+<ul>
+<li><code>PE</code>: Input data consists of paired-end reads.</li>
+<li><code>-phred33</code>: Type of quality Phred encoding. In this case it is phred33 as our fastq files use the sanger encoding like most Illumina data.</li>
+<li>Next the raw input forward (1) and then reverse (2) read files for quality control are specified.</li>
+<li>On the next line the output files for read 1 are specified, first for paired reads and second for unpaired reads. This comes about when one read from a pair is filtered out but the other one is not. We can normally ignore the unpaired file after the trimming. However, trimmomatic must have this value to run.</li>
+<li>Next the output files for read 2 are specified, first paired then unpaired.</li>
+<li><code>ILLUMINACLIP</code>: These settings are used to find and remove Illumina adapters. First a fasta file of known adapter sequences is given, followed by the number of mismatches (4) allowed between the adapter and read sequence and then thresholds (30) for how accurate the alignment is between the adapter and read sequence.</li>
+<li><code>LEADING</code>: The minimum quality value required to keep a base at the start of the read.</li>
+<li><code>TRAILING</code>: The minimum quality value required to keep a base at the end of the read.</li>
+<li><code>SLIDINGWINDOW</code>: This specifies to scan the read quality over a 4bp window, cutting when the average quality drops below 30.</li>
+<li><code>MINLEN</code>: This specifies the minimum length of a read to keep, any shorter than 50bp are discarded.</li>
+</ul>
+Once the command is run it will give you some useful output to the screen.
+Based on it, approximately what percentage of paired reads were kept?
+<div id="radio_HGEFASOWYH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HGEFASOWYH" value=""></input> <span>~25%</span></label><label><input type="radio" autocomplete="off" name="radio_HGEFASOWYH" value=""></input> <span>~50%</span></label><label><input type="radio" autocomplete="off" name="radio_HGEFASOWYH" value="answer"></input> <span>~75%</span></label>
+</div>
+<div id="post-quality-control-check" class="section level3 hasAnchor" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Post Quality control check<a href="04-QC.html#post-quality-control-check" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/magnify_glass_good.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>To see how successful the quality control has been we need to run fastqc on the trimmomatic output.</p>
+<p>First create a new directory for the fastqc output.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="04-QC.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> trimmed_fastqc_output</span></code></pre></div>
+<p>Now run fastqc on the two paired read files.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="04-QC.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> trimmed_fastqc_output <span class="dt">\</span></span>
+<span id="cb14-2"><a href="04-QC.html#cb14-2" aria-hidden="true" tabindex="-1"></a>trimmed/17_slice_R1_out_paired.fastq trimmed/17_slice_R2_out_paired.fastq</span></code></pre></div>
+<p>We can open the fastqc output with the following commands</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="04-QC.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> <span class="dt">\</span></span>
+<span id="cb15-2"><a href="04-QC.html#cb15-2" aria-hidden="true" tabindex="-1"></a>trimmed_fastqc_output/17_slice_R1_out_paired_fastqc.html <span class="kw">&amp;</span></span>
+<span id="cb15-3"><a href="04-QC.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> <span class="dt">\</span></span>
+<span id="cb15-4"><a href="04-QC.html#cb15-4" aria-hidden="true" tabindex="-1"></a>trimmed_fastqc_output/17_slice_R2_out_paired_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
+</div>
+<div id="quality-control-questions" class="section level3 hasAnchor" number="4.3.2">
+<h3><span class="header-section-number">4.3.2</span> Quality control: questions<a href="04-QC.html#quality-control-questions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/question_bubble_blue.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>To see how well the reads have improved let’s answer the below questions and compare to them to the answers of the raw read fastqc questions.</p>
+<ol style="list-style-type: decimal">
+<li>How many total reads are there in the R1 file?
+<div id="radio_OSZIBNAAVZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OSZIBNAAVZ" value=""></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_OSZIBNAAVZ" value=""></input> <span>50-101</span></label><label><input type="radio" autocomplete="off" name="radio_OSZIBNAAVZ" value="answer"></input> <span>409,267</span></label>
+</div></li>
+<li>What is the length of the reads?
+<div id="radio_FQIQQTTAYT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FQIQQTTAYT" value=""></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_FQIQQTTAYT" value="answer"></input> <span>50-101</span></label><label><input type="radio" autocomplete="off" name="radio_FQIQQTTAYT" value=""></input> <span>539,580</span></label>
+</div></li>
+<li>What is the GC content (%) of the R2 reads?
+<div id="radio_FFPBAIMXEI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FFPBAIMXEI" value="answer"></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_FFPBAIMXEI" value=""></input> <span>50-101</span></label><label><input type="radio" autocomplete="off" name="radio_FFPBAIMXEI" value=""></input> <span>539,580</span></label>
+</div></li>
+<li>In the read 2 (R2) file, at what base position range does the quality of the reads go below 28 (I.e. the position where a part of the boxplot, including outliers, goes into the orange)?
+<div id="radio_WXXAFQXNDO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WXXAFQXNDO" value=""></input> <span>18-19</span></label><label><input type="radio" autocomplete="off" name="radio_WXXAFQXNDO" value=""></input> <span>84-85</span></label><label><input type="radio" autocomplete="off" name="radio_WXXAFQXNDO" value="answer"></input> <span>They don't</span></label>
+</div></li>
+</ol>
+</div>
+<div id="quality-assessment-summary-1" class="section level3 hasAnchor" number="4.3.3">
+<h3><span class="header-section-number">4.3.3</span> Quality assessment: summary<a href="04-QC.html#quality-assessment-summary-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/sum_blue.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Some things to note:</p>
+<ul>
+<li>The amount of reads has significantly decreased due to quality control. This is expected, however this will need to be taken into account. If you do not have enough reads for the downstream analysis you will need to be less stringent on the trimming or filtering.</li>
+<li>Often in your own datasets the R2 quality will still be slightly worse than R1 quality towards the end of the reads after trimming. Again this is normal. You could be more stringent but as previously mentioned you may be removing too many reads.</li>
+</ul>
+<p>We have successfully carried out quality control of our reads. With our good quality data we can go onto alignment.</p>
+
+</div>
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="03-Cluster_Introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="05-Aligning.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

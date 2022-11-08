@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Making a count table from HTSeq output files | RNA-seq gene expression and pathway analysis - supplemental material</title>
+  <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop - supplemental material" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Making a count table from HTSeq output files | RNA-seq gene expression and pathway analysis - supplemental material" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop - supplemental material" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Making a count table from HTSeq output files | RNA-seq gene expression and pathway analysis - supplemental material" />
+  
+  <meta name="twitter:description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop - supplemental material" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
+
+
+<meta name="date" content="2022-11-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="02-R_intro.html"/>
+<link rel="next" href="04-Further_DESeq2.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li><a>RNA-seq</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="01-Supplemental.html"><a href="01-Supplemental.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="02-R_intro.html"><a href="02-R_intro.html"><i class="fa fa-check"></i><b>2</b> Basic Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-R_intro.html"><a href="02-R_intro.html#starting-and-quitting-an-r-session-in-linux"><i class="fa fa-check"></i><b>2.1</b> Starting and quitting an R session in Linux</a></li>
+<li class="chapter" data-level="2.2" data-path="02-R_intro.html"><a href="02-R_intro.html#the-console-window"><i class="fa fa-check"></i><b>2.2</b> The console window</a></li>
+<li class="chapter" data-level="2.3" data-path="02-R_intro.html"><a href="02-R_intro.html#your-working-directory"><i class="fa fa-check"></i><b>2.3</b> Your working directory</a></li>
+<li class="chapter" data-level="2.4" data-path="02-R_intro.html"><a href="02-R_intro.html#packages"><i class="fa fa-check"></i><b>2.4</b> Packages</a></li>
+<li class="chapter" data-level="2.5" data-path="02-R_intro.html"><a href="02-R_intro.html#functions"><i class="fa fa-check"></i><b>2.5</b> Functions</a></li>
+<li class="chapter" data-level="2.6" data-path="02-R_intro.html"><a href="02-R_intro.html#assigning-values-to-variables"><i class="fa fa-check"></i><b>2.6</b> Assigning values to variables</a></li>
+<li class="chapter" data-level="2.7" data-path="02-R_intro.html"><a href="02-R_intro.html#a-few-useful-commands-and-tips"><i class="fa fa-check"></i><b>2.7</b> A few useful commands and tips</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-Count_table.html"><a href="03-Count_table.html"><i class="fa fa-check"></i><b>3</b> Making a count table from HTSeq output files</a></li>
+<li class="chapter" data-level="4" data-path="04-Further_DESeq2.html"><a href="04-Further_DESeq2.html"><i class="fa fa-check"></i><b>4</b> Further analysis with DESeq2</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-Further_DESeq2.html"><a href="04-Further_DESeq2.html#control-for-sex-of-fly"><i class="fa fa-check"></i><b>4.1</b> Control for sex of fly</a></li>
+<li class="chapter" data-level="4.2" data-path="04-Further_DESeq2.html"><a href="04-Further_DESeq2.html#fit-with-multiple-groups"><i class="fa fa-check"></i><b>4.2</b> Fit with multiple groups</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">RNA-seq gene expression and pathway analysis - supplemental material</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="countmatrix" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Making a count table from HTSeq output files<a href="03-Count_table.html#countmatrix" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/count.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>Many of the software packages used for the analysis of RNA-Seq datasets will accept a table of count data. We can make such a table from our individual htseq-count outputs with a few lines of simple code in R. If you do not have an R session already open launch one by typing <code>R</code> into the termninal window.</p>
+<p>We will first set the working directory to the location where the htseq files are located.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="03-Count_table.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;~/rnaseq/Practical_one/htseq&quot;</span>)</span></code></pre></div>
+<p>Next we will create a list of htseq file names from the files located in this directory by using the <code>list.files</code> function to list files with the extension <code>.htseq</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="03-Count_table.html#cb13-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern=</span><span class="st">&quot;*genecount.htseq&quot;</span>)</span></code></pre></div>
+<p>To create the count table we will first create a blank object in R we will call <code>counts</code>. This will be used to store the data from the htseq data we will read in. After this we can use a loop which will read in the first htseq file from the list we made. It will then add the second column of this file (which contains the count data) to the <code>counts</code> object and then rename the row names using the gene names found in the htseq file in first column. The loop will then restart, this time using the second file in the list and add the data from this file, and so on.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="03-Count_table.html#cb14-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">c</span>() <span class="co"># create blank object called counts</span></span>
+<span id="cb14-2"><a href="03-Count_table.html#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="03-Count_table.html#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(files)){ <span class="co"># loop through the &#39;files&#39; list</span></span>
+<span id="cb14-4"><a href="03-Count_table.html#cb14-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file=</span>files[i], <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span>F) <span class="co"># read in the htseq file</span></span>
+<span id="cb14-5"><a href="03-Count_table.html#cb14-5" aria-hidden="true" tabindex="-1"></a>  counts <span class="ot">&lt;-</span> <span class="fu">cbind</span>(counts, x[,<span class="dv">2</span>]) <span class="co"># add second column of htseq file to &#39;counts&#39;</span></span>
+<span id="cb14-6"><a href="03-Count_table.html#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(counts) <span class="ot">&lt;-</span> x[,<span class="dv">1</span>] </span>
+<span id="cb14-7"><a href="03-Count_table.html#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># name the row names as gene names taken from the first htseq column</span></span>
+<span id="cb14-8"><a href="03-Count_table.html#cb14-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>To look at the start of the data frame we have created type</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="03-Count_table.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(counts)</span></code></pre></div>
+<p>As you can see we now have a data frame where the row names are labelled with the Gene IDs and each column has the count data from a sample. However, we are missing the sample names for each column. We will add them using the following command, which will set the column names based on the input file names but removing the end of the file name (so we only keep the sample name).</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="03-Count_table.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(counts) <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">&quot;_genecount.htseq&quot;</span>,<span class="st">&quot;&quot;</span>,files)</span>
+<span id="cb16-2"><a href="03-Count_table.html#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="03-Count_table.html#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(counts)</span></code></pre></div>
+<p>Everything is now looking as we expect. However, <code>HTSeq-Count</code> adds extra information to the end of the output files which we do not want to include in our final table.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="03-Count_table.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(counts)</span></code></pre></div>
+<p>We will remove the last 5 rows from our data frame.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="03-Count_table.html#cb18-1" aria-hidden="true" tabindex="-1"></a>counts<span class="ot">&lt;-</span><span class="fu">head</span>(counts, <span class="sc">-</span><span class="dv">5</span>)</span>
+<span id="cb18-2"><a href="03-Count_table.html#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="03-Count_table.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(counts)</span></code></pre></div>
+<p>We can now write this to a csv file by typing</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="03-Count_table.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(counts, <span class="st">&quot;htseq_table_of_gene_counts.csv&quot;</span>)</span></code></pre></div>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="02-R_intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="04-Further_DESeq2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
