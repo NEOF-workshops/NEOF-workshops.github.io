@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 14 Metagenome assembly | Shotgun Metagenomics</title>
+  <title>Chapter 15 Stitching read pairs | Shotgun Metagenomics</title>
   <meta name="description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 14 Metagenome assembly | Shotgun Metagenomics" />
+  <meta property="og:title" content="Chapter 15 Stitching read pairs | Shotgun Metagenomics" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 14 Metagenome assembly | Shotgun Metagenomics" />
+  <meta name="twitter:title" content="Chapter 15 Stitching read pairs | Shotgun Metagenomics" />
   
   <meta name="twitter:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-<link rel="prev" href="13-Functional_profiling.html"/>
-<link rel="next" href="15-Stitching_reads.html"/>
+<link rel="prev" href="14-Metagenome_assembly.html"/>
+<link rel="next" href="16_Megahit.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -311,41 +311,63 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="metagenomeassembly" class="section level1 hasAnchor" number="14">
-<h1><span class="header-section-number">Chapter 14</span> Metagenome assembly<a href="14-Metagenome_assembly.html#metagenomeassembly" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/jigsaw.png" width="30%" style="display: block; margin: auto;" /></p>
-<p>So far we have directly analysed the read data itself which is perfectly fine for taxonomic profiling and for certain methods of functional profiling. However, Illumina reads are generally short and therefore can not provide us with much data on larger constructs that are in the metagenomic samples, e.g. genes. While it is possible to predict from which gene a sequence read might originate, the short nature of the query can sometimes lead to ambiguous results.</p>
-<p>Additionally, depending on the application it can become computationally intensive to analyse large numbers of reads. Here, we are only using samples with 1 million reads. Some metagenome samples consist of 50-100 million+ read pairs. If such a sample belonged to a set of 100 samples, that would be up to 10 billion read pairs, or 2 trillion bases of sequence data, with many of these being redundant.</p>
-<p>For this reason, it is sometimes advantageous to assemble the reads into contigs, using a meta-genome assembler. This has the dual effect of:</p>
+<div id="stitching-read-pairs" class="section level1 hasAnchor" number="15">
+<h1><span class="header-section-number">Chapter 15</span> Stitching read pairs<a href="15-Stitching_reads.html#stitching-read-pairs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/stitch.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Longer k-mers generally perform better for assemblies. However, our maximum read length is 100 bp so we are limited to a maximum k-mer length of 99 bp. Thankfully we can get even longer k-mers if we stitch our read pairs together.</p>
+<p><strong>Note</strong>: This method will not work if your reads have no overlap. If you are not sure if your reads have overlap ask the team who sequenced them.</p>
+<p>A read pair consists of two sequences read from each end of a fragment of DNA (or RNA). If the two sequences meet and overlap in the middle of the fragment, there will be a region of homology. We can use this to merge the two reads together (See next image).</p>
+<p>First, we obtain our forward and reverse reads, derived from different ends of the same fragment. Second, we look for sufficient overlap between the 3' ends of our sequences. Third, if there is sufficient overlap, we combine, or stitch, the two reads together to form one long sequence.</p>
+<p><img src="figures/merging_paired_reads.png" width="40%" style="display: block; margin: auto;" /></p>
+<p>Once we have longer stitched reads, we can increase the k-mer length for our assembly.</p>
+<p>There are a number of pieces of software that can be used to stitch reads (e.g. <code>Pear</code>, <code>Pandaseq</code>) but today we will use one called <code>FLASH</code>:</p>
+<div id="flash-run" class="section level2 hasAnchor" number="15.1">
+<h2><span class="header-section-number">15.1</span> FLASH: run<a href="15-Stitching_reads.html#flash-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/play_red.png" width="10%" style="display: block; margin: auto;" /></p>
+<p>Make a new output directory for the stitched reads and run <code>FLASH</code>:</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb60-1"><a href="15-Stitching_reads.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Change directory to home</span></span>
+<span id="cb60-2"><a href="15-Stitching_reads.html#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb60-3"><a href="15-Stitching_reads.html#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Make and move into new directory</span></span>
+<span id="cb60-4"><a href="15-Stitching_reads.html#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 5-Stitched</span>
+<span id="cb60-5"><a href="15-Stitching_reads.html#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> 5-Stitched</span>
+<span id="cb60-6"><a href="15-Stitching_reads.html#cb60-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Run flash</span></span>
+<span id="cb60-7"><a href="15-Stitching_reads.html#cb60-7" aria-hidden="true" tabindex="-1"></a><span class="ex">flash</span>  <span class="at">-o</span> K1 <span class="at">-z</span> <span class="at">-t</span> 12 <span class="at">-d</span> . <span class="dt">\</span></span>
+<span id="cb60-8"><a href="15-Stitching_reads.html#cb60-8" aria-hidden="true" tabindex="-1"></a>../2-Trimmed/K1_R1.fq.gz ../2-Trimmed/K1_R2.fq.gz</span></code></pre></div>
+<div id="parameters-7" class="section level4 unnumbered hasAnchor">
+<h4>Parameters<a href="15-Stitching_reads.html#parameters-7" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><img src="figures/parameter_red.png" width="10%" style="display: block; margin: auto;" /></p>
 <ul>
-<li>Reducing the overall size of the data for analysis. If a metagenome was sequenced at 50x depth, then by assembling it you could theoretically reduce the amount of sequence to analyse by 50-fold.</li>
-<li>Increase the size of the fragments you will analyse. This is the main advantage of an assembly, as the ~100 bp reads can be pieced together to form 100,000 kb+ contigs. These contigs will contain complete genes, operons and regulatory elements: Reconstructed genome sections.</li>
+<li><code>-o</code>: Sets the prefix of the output files.</li>
+<li><code>-z</code>: The input is zipped.</li>
+<li><code>-t</code>: Number of threads to use.</li>
+<li><code>-d</code>: The directory the output files will be placed.</li>
+<li>The last 2 flag-less parameters are the forward and reverse read files for stitching.</li>
 </ul>
-<p>Here, we will carry out a couple of assemblies on our dataset.</p>
-<div id="metagenome-assembly-conda" class="section level2 hasAnchor" number="14.1">
-<h2><span class="header-section-number">14.1</span> Metagenome assembly: Conda<a href="14-Metagenome_assembly.html#metagenome-assembly-conda" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/conda.png" width="10%" style="display: block; margin: auto;" /></p>
-<p>We will use the <code>shotgun_meta</code> conda environment so use a terminal where this is activated or open a new one and run <code>. useshotgun</code>.</p>
 </div>
-<div id="a-primer-on-short-read-assembly" class="section level2 hasAnchor" number="14.2">
-<h2><span class="header-section-number">14.2</span> A primer on short read assembly<a href="14-Metagenome_assembly.html#a-primer-on-short-read-assembly" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/dna_laptop.png" width="15%" style="display: block; margin: auto;" /></p>
-<p>Illumina reads are too short and numerous to use traditional overlap-layout-consensus assemblers as such an approach would be far too computationally intensive. Instead, we use De Bruijn graph based assemblers. Briefly, these operate as follows:</p>
+</div>
+<div id="flash-output" class="section level2 hasAnchor" number="15.2">
+<h2><span class="header-section-number">15.2</span> FLASH: Output<a href="15-Stitching_reads.html#flash-output" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/output_file_red.png" width="10%" style="display: block; margin: auto;" /></p>
+<p>Once <code>FLASH</code> has finished running, it will display on screen how well the stitching process went, in this case a low amount of reads were combined. Have a look what files have been generated.</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href="15-Stitching_reads.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
+<p>We have three new fastq.gz files. One containing the stitched reads (<code>K1.extendedFrags.fastq.gz</code>) and two containing the reads from pairs that could not be combined (<code>K1.notCombined_1.fastq.gz</code> and <code>K1.notCombined_2.fastq.gz)</code>.</p>
+<p>We can also see what the new read lengths are:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb62-1"><a href="15-Stitching_reads.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> K1.histogram</span></code></pre></div>
+<p>Scroll down with the down key and you will see that we are looking at a histogram showing the proportion of stitched reads at different lengths.</p>
+</div>
+<div id="flash-mcqs" class="section level2 hasAnchor" number="15.3">
+<h2><span class="header-section-number">15.3</span> FLASH: MCQs<a href="15-Stitching_reads.html#flash-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/question_bubble_red.png" width="10%" style="display: block; margin: auto;" /></p>
 <ol style="list-style-type: decimal">
-<li>All reads are broken down into k-length overlapping fragments (k-mers). e.g. if we choose a k-mer size of 5 bp, the following two sequences (blue) would be broken down into the k-mers below them (red):</li>
+<li>What length has the highest proportion of stitched reads?
+<div id="radio_APEQQXUCMM" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_APEQQXUCMM" value=""></input> <span><strong>101</strong></span></label><label><input type="radio" autocomplete="off" name="radio_APEQQXUCMM" value=""></input> <span><strong>177</strong></span></label><label><input type="radio" autocomplete="off" name="radio_APEQQXUCMM" value="answer"></input> <span><strong>188</strong></span></label>
+</div></li>
+<li>What length has the lowest proportion of stitched reads?
+<div id="radio_FFRXTAMNER" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FFRXTAMNER" value="answer"></input> <span><strong>101</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FFRXTAMNER" value=""></input> <span><strong>177</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FFRXTAMNER" value=""></input> <span><strong>188</strong></span></label>
+</div></li>
 </ol>
-<p><img src="figures/reads_aligned.png" width="40%" style="display: block; margin: auto;" /></p>
-<ol start="2" style="list-style-type: decimal">
-<li>All k-mers are linked to other k-mers which match with a k-1 length overlap (i.e. that overlap by all but one base):</li>
-</ol>
-<p><img src="figures/graph_simple.png" width="80%" style="display: block; margin: auto;" /></p>
-<ol start="3" style="list-style-type: decimal">
-<li>Paths are routed through the graph and longer contigs are generated:</li>
-</ol>
-<p><img src="figures/graph_complex.png" width="80%" style="display: block; margin: auto;" /></p>
-<p>The example here is a vast oversimplification of the complexity of a De Bruijn graph (i.e. there are no branches!). Routing through the graph is never as simple as this as some k-mers will lead to multiple k-mers, which can result in the break point of a contig. This is especially true for complex metagenomic data.</p>
-<p>Generally speaking, the shorter the k-mer, the more branches there will be, the trickier the graph is to resolve, so the resulting contigs are smaller. Assemblers usually perform better with longer k-mer lengths but even then there might not be enough depth of sequencing to generate all k-mers that form overlaps, therefore leading to break points. Finding the right k-mer size usually involves testing several.</p>
-<p>Fortunately, the assembler we will use, <code>MEGAHIT</code>, allows us to build an assembly using multiple k-mer lengths iteratively. The other great advantage about <code>MEGAHIT</code> is that it is quick and efficient. We will use <code>MEGAHIT</code> on our data soon, but first there is an additional processing step for our sequences...</p>
 
 </div>
 </div>
@@ -525,8 +547,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-<a href="13-Functional_profiling.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="15-Stitching_reads.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="14-Metagenome_assembly.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="16_Megahit.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
