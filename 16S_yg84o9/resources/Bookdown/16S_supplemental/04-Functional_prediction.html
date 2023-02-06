@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Functional prediction | Bacterial 16S metabarcoding supplemental</title>
+  <meta name="description" content="NEOF book for the Introduction to command line bioinformatics workshop" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Functional prediction | Bacterial 16S metabarcoding supplemental" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the Introduction to command line bioinformatics workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Functional prediction | Bacterial 16S metabarcoding supplemental" />
+  
+  <meta name="twitter:description" content="NEOF book for the Introduction to command line bioinformatics workshop" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Matthew Gemmell" />
+
+
+<meta name="date" content="2022-08-31" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="03-Handy_QIIME2_commands.html"/>
+<link rel="next" href="05-16S_R_packages.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li><a>16S supplemental</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="01-16S_supplemental.html"><a href="01-16S_supplemental.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="02-Exporting_artifacts.html"><a href="02-Exporting_artifacts.html"><i class="fa fa-check"></i><b>2</b> Exporting Artifacts</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-Exporting_artifacts.html"><a href="02-Exporting_artifacts.html#biom-files"><i class="fa fa-check"></i><b>2.1</b> BIOM files</a></li>
+<li class="chapter" data-level="2.2" data-path="02-Exporting_artifacts.html"><a href="02-Exporting_artifacts.html#setup"><i class="fa fa-check"></i><b>2.2</b> Setup</a></li>
+<li class="chapter" data-level="2.3" data-path="02-Exporting_artifacts.html"><a href="02-Exporting_artifacts.html#abundance-table-export"><i class="fa fa-check"></i><b>2.3</b> Abundance table export</a></li>
+<li class="chapter" data-level="2.4" data-path="02-Exporting_artifacts.html"><a href="02-Exporting_artifacts.html#taxonomy-info-export"><i class="fa fa-check"></i><b>2.4</b> Taxonomy info export</a></li>
+<li class="chapter" data-level="2.5" data-path="02-Exporting_artifacts.html"><a href="02-Exporting_artifacts.html#representative-sequences-export"><i class="fa fa-check"></i><b>2.5</b> Representative sequences export</a></li>
+<li class="chapter" data-level="2.6" data-path="02-Exporting_artifacts.html"><a href="02-Exporting_artifacts.html#phylogenetic-tree-export"><i class="fa fa-check"></i><b>2.6</b> Phylogenetic tree export</a></li>
+<li class="chapter" data-level="2.7" data-path="02-Exporting_artifacts.html"><a href="02-Exporting_artifacts.html#asv-table-with-taxonomy-export"><i class="fa fa-check"></i><b>2.7</b> ASV table with taxonomy export</a></li>
+<li class="chapter" data-level="2.8" data-path="02-Exporting_artifacts.html"><a href="02-Exporting_artifacts.html#rarified-table-export"><i class="fa fa-check"></i><b>2.8</b> Rarified table export</a></li>
+<li class="chapter" data-level="2.9" data-path="02-Exporting_artifacts.html"><a href="02-Exporting_artifacts.html#relative-abundance-table-export"><i class="fa fa-check"></i><b>2.9</b> Relative abundance table export</a></li>
+<li class="chapter" data-level="2.10" data-path="02-Exporting_artifacts.html"><a href="02-Exporting_artifacts.html#taxonomy-abundance-table-export"><i class="fa fa-check"></i><b>2.10</b> Taxonomy abundance table export</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-Handy_QIIME2_commands.html"><a href="03-Handy_QIIME2_commands.html"><i class="fa fa-check"></i><b>3</b> Handy QIIME2 commands</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="03-Handy_QIIME2_commands.html"><a href="03-Handy_QIIME2_commands.html#create-a-manifest-file"><i class="fa fa-check"></i><b>3.1</b> Create a manifest file</a></li>
+<li class="chapter" data-level="3.2" data-path="03-Handy_QIIME2_commands.html"><a href="03-Handy_QIIME2_commands.html#filter-asvs-from-a-table"><i class="fa fa-check"></i><b>3.2</b> Filter ASVs from a table</a></li>
+<li class="chapter" data-level="3.3" data-path="03-Handy_QIIME2_commands.html"><a href="03-Handy_QIIME2_commands.html#split-tables"><i class="fa fa-check"></i><b>3.3</b> Split tables</a></li>
+<li class="chapter" data-level="3.4" data-path="03-Handy_QIIME2_commands.html"><a href="03-Handy_QIIME2_commands.html#merge-tables"><i class="fa fa-check"></i><b>3.4</b> Merge tables</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="04-Functional_prediction.html"><a href="04-Functional_prediction.html"><i class="fa fa-check"></i><b>4</b> Functional prediction</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-Functional_prediction.html"><a href="04-Functional_prediction.html#picrust2-pipeline"><i class="fa fa-check"></i><b>4.1</b> PICRUSt2 pipeline</a></li>
+<li class="chapter" data-level="4.2" data-path="04-Functional_prediction.html"><a href="04-Functional_prediction.html#commands"><i class="fa fa-check"></i><b>4.2</b> Commands</a></li>
+<li class="chapter" data-level="4.3" data-path="04-Functional_prediction.html"><a href="04-Functional_prediction.html#visualisation"><i class="fa fa-check"></i><b>4.3</b> Visualisation</a></li>
+<li class="chapter" data-level="4.4" data-path="04-Functional_prediction.html"><a href="04-Functional_prediction.html#picrust2-links"><i class="fa fa-check"></i><b>4.4</b> PICRUSt2 Links</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="05-16S_R_packages.html"><a href="05-16S_R_packages.html"><i class="fa fa-check"></i><b>5</b> 16S R packages</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-16S_R_packages.html"><a href="05-16S_R_packages.html#qiime2r"><i class="fa fa-check"></i><b>5.1</b> qiime2R</a></li>
+<li class="chapter" data-level="5.2" data-path="05-16S_R_packages.html"><a href="05-16S_R_packages.html#phyloseq"><i class="fa fa-check"></i><b>5.2</b> phyloseq</a></li>
+<li class="chapter" data-level="5.3" data-path="05-16S_R_packages.html"><a href="05-16S_R_packages.html#microbiome"><i class="fa fa-check"></i><b>5.3</b> microbiome</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bacterial 16S metabarcoding supplemental</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="picrust2" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Functional prediction<a href="04-Functional_prediction.html#picrust2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/picrust.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>Functional prediction is a method to infer the functional pathways within a community. PICRUSt2 uses 16s sequences to infer abundances of the following types of pathways:</p>
+<ul>
+<li>EC: Enzyme Classification, <a href="https://www.qmul.ac.uk/sbcs/iubmb/enzyme/" class="uri">https://www.qmul.ac.uk/sbcs/iubmb/enzyme/</a>.</li>
+<li>KO: KEGG Orthology, <a href="https://www.genome.jp/kegg/ko.html" class="uri">https://www.genome.jp/kegg/ko.html</a>.</li>
+<li>MetaCyc: Metabolic pathway, <a href="https://metacyc.org/" class="uri">https://metacyc.org/</a>.</li>
+</ul>
+<div id="picrust2-pipeline" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> PICRUSt2 pipeline<a href="04-Functional_prediction.html#picrust2-pipeline" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The PICRUSt2 pipeline consists of 5 major steps. The entire pipeline can be visualised below.</p>
+<p><img src="figures/picrust2_pipeline.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>The steps are:</p>
+<ol style="list-style-type: decimal">
+<li>The representative sequences for each ASV are aligned to reference sequences. These reference sequences are within the PICRUSt2 database.</li>
+<li>The aligned ASV sequences are placed into the PICRUSt reference tree. This allows PICRUSt2 to know the phylogenetic distances between its reference sequences and the ASV sequences.</li>
+<li>The gene family copy numbers of the ASVs are inferred. This is carried out by comparing an ASV to its phylogenetic neighbours. The gene family copy numbers of the reference genomes (represented by reference sequences) is known. PICRUSt2 therefore predicts that ASVs will have similar gene family copy numbers to closely related sequences/genomes.</li>
+<li>Gene family abundances are calculated for each sample. This is calculated using the predicted gene content per ASV and the ASV abundances.</li>
+<li>Pathway abundances are calculated using the predicted gene family abundances and a map of gene families to pathways.</li>
+</ol>
+</div>
+<div id="commands" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Commands<a href="04-Functional_prediction.html#commands" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/command.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>We will use the abundance table we created in the main QIIME2 tutorial for PICRUSt2. It is recommended to not rarefy the table prior to the PICRUSt2 analysis.</p>
+<p>Copy over the directory with the relevant files (including the table artifact) and then move into it.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="04-Functional_prediction.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> /pub39/tea/matthew/NEOF/16s_workshop/picrust2 ~/Metagenetics</span>
+<span id="cb27-2"><a href="04-Functional_prediction.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Metagenetics/picrust2</span></code></pre></div>
+<p>Although we do not want the table rarefied it is recommended to filter the table to remove very rare ASVs and to remove low depth samples.</p>
+<p>First we will filter low frequency features/ASVs. You can look at the visualisation of <code>table-dada2.qzv</code> to see an overview of “Frequency per feature”. There seems to be no clear consensus of how many rare features should be filtered.</p>
+<p>In this case we are going to filter out features/ASVs with a frequency less than 10 across all samples. With 18 samples and a mean frequency of &gt;900 this should be safe.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="04-Functional_prediction.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Filter features command</span></span>
+<span id="cb28-2"><a href="04-Functional_prediction.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> feature-table filter-features <span class="dt">\</span></span>
+<span id="cb28-3"><a href="04-Functional_prediction.html#cb28-3" aria-hidden="true" tabindex="-1"></a>--i-table table-dada2.qza <span class="dt">\</span></span>
+<span id="cb28-4"><a href="04-Functional_prediction.html#cb28-4" aria-hidden="true" tabindex="-1"></a>--p-min-frequency 10 <span class="dt">\</span></span>
+<span id="cb28-5"><a href="04-Functional_prediction.html#cb28-5" aria-hidden="true" tabindex="-1"></a>--o-filtered-table table-dada2.feat_min_freq_10.qza</span>
+<span id="cb28-6"><a href="04-Functional_prediction.html#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualise filtered table</span></span>
+<span id="cb28-7"><a href="04-Functional_prediction.html#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> feature-table summarize <span class="dt">\</span></span>
+<span id="cb28-8"><a href="04-Functional_prediction.html#cb28-8" aria-hidden="true" tabindex="-1"></a>--i-table table-dada2.feat_min_freq_10.qza <span class="dt">\</span></span>
+<span id="cb28-9"><a href="04-Functional_prediction.html#cb28-9" aria-hidden="true" tabindex="-1"></a>--o-visualization table-dada2.feat_min_freq_10.qzv</span></code></pre></div>
+<p>Check the visualisation to see how many rare ASVs have been removed.</p>
+<p>The next step would then be to remove samples with too low a depth. Generally I would say 20,000 would be a good cutoff but it does depend on your data and what the rarefaction curves show.</p>
+<p>For demonstration purposes we will choose a depth cutoff of 50,000. We can therefore use the below command to remove samples with a depth lower than 50,000.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="04-Functional_prediction.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Filter command</span></span>
+<span id="cb29-2"><a href="04-Functional_prediction.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> feature-table filter-samples <span class="dt">\</span></span>
+<span id="cb29-3"><a href="04-Functional_prediction.html#cb29-3" aria-hidden="true" tabindex="-1"></a>--i-table table-dada2.feat_min_freq_10.qza <span class="dt">\</span></span>
+<span id="cb29-4"><a href="04-Functional_prediction.html#cb29-4" aria-hidden="true" tabindex="-1"></a>--p-min-frequency 50000 <span class="dt">\</span></span>
+<span id="cb29-5"><a href="04-Functional_prediction.html#cb29-5" aria-hidden="true" tabindex="-1"></a>--o-filtered-table table-dada2.feat_min_freq_10.sample_min_freq_50k.qza</span>
+<span id="cb29-6"><a href="04-Functional_prediction.html#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise filtered table</span></span>
+<span id="cb29-7"><a href="04-Functional_prediction.html#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> feature-table summarize <span class="dt">\</span></span>
+<span id="cb29-8"><a href="04-Functional_prediction.html#cb29-8" aria-hidden="true" tabindex="-1"></a>--i-table table-dada2.feat_min_freq_10.sample_min_freq_50k.qza <span class="dt">\</span></span>
+<span id="cb29-9"><a href="04-Functional_prediction.html#cb29-9" aria-hidden="true" tabindex="-1"></a>--o-visualization table-dada2.feat_min_freq_10.sample_min_freq_50k.qzv</span></code></pre></div>
+<p>Now that we have carried out the filtering we can run the PICRUSt2 pipeline. The command to run the full PICRUSt2 pipeline is:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="04-Functional_prediction.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> picrust2 full-pipeline <span class="dt">\</span></span>
+<span id="cb30-2"><a href="04-Functional_prediction.html#cb30-2" aria-hidden="true" tabindex="-1"></a>--i-table table-dada2.feat_min_freq_10.sample_min_freq_50k.qza <span class="dt">\</span></span>
+<span id="cb30-3"><a href="04-Functional_prediction.html#cb30-3" aria-hidden="true" tabindex="-1"></a>--i-seq rep-seqs-dada2.qza <span class="dt">\</span></span>
+<span id="cb30-4"><a href="04-Functional_prediction.html#cb30-4" aria-hidden="true" tabindex="-1"></a>--output-dir q2-picrust2_output <span class="dt">\</span></span>
+<span id="cb30-5"><a href="04-Functional_prediction.html#cb30-5" aria-hidden="true" tabindex="-1"></a>--p-placement-tool sepp <span class="dt">\</span></span>
+<span id="cb30-6"><a href="04-Functional_prediction.html#cb30-6" aria-hidden="true" tabindex="-1"></a>--p-threads 1 <span class="dt">\</span></span>
+<span id="cb30-7"><a href="04-Functional_prediction.html#cb30-7" aria-hidden="true" tabindex="-1"></a>--p-hsp-method pic <span class="dt">\</span></span>
+<span id="cb30-8"><a href="04-Functional_prediction.html#cb30-8" aria-hidden="true" tabindex="-1"></a>--p-max-nsti 2 <span class="dt">\</span></span>
+<span id="cb30-9"><a href="04-Functional_prediction.html#cb30-9" aria-hidden="true" tabindex="-1"></a>--verbose</span></code></pre></div>
+<p>The command will take ~30 minutes. If you would like to skip running the command or you encounter an issue you can copy the output.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="04-Functional_prediction.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> /pub39/tea/matthew/NEOF/16s_workshop/q2-picrust2_output ~/Metagenetics/picrust2</span></code></pre></div>
+<p><strong>Notes</strong></p>
+<ul>
+<li>The developers recommend using <code>--p-placement-method epa-ng</code> and <code>--p-hsp-method mp</code> in real analysis. You may also need to include <code>--p-edge-exponent 0</code> . The options above were chosen due to speed.</li>
+<li>For information on the parameters please see: <a href="https://github.com/picrust/picrust2/wiki/q2-picrust2-Tutorial" class="uri">https://github.com/picrust/picrust2/wiki/q2-picrust2-Tutorial</a></li>
+</ul>
+<p><strong>Issues</strong></p>
+<p>I have encountered an issue when trying to rerun the PICRUSt2 command with files and directories I have used before. This issue causes the command to fail. This would occur if you rerun with different parameters or a newly filtered file. The way to get around it, seemingly, is to create a new directory somewhere else and copy over the required files to the new directory. Then run the command in the new directory.</p>
+</div>
+<div id="visualisation" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Visualisation<a href="04-Functional_prediction.html#visualisation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/eye_vis.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Next we will carry out some quick visualisations.</p>
+<p>First move into the newly created directory with the output.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="04-Functional_prediction.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Metagenetics/picrust2/q2-picrust2_output</span></code></pre></div>
+<p>List the files in the directory and you will see 3 files:</p>
+<ul>
+<li><code>ec_metagenome.qza</code>: Abundance table for Enzyme Classifications.</li>
+<li><code>ko_metagenome.qza</code>: Abundance table for KEGG Orthology.</li>
+<li><code>pathway_abundance.qza</code>: Abundance table for MetaCyc pathways.</li>
+</ul>
+<p>We’ll look at the KOs, the first step being to summarize the table.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="04-Functional_prediction.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> feature-table summarize <span class="dt">\</span></span>
+<span id="cb33-2"><a href="04-Functional_prediction.html#cb33-2" aria-hidden="true" tabindex="-1"></a>--i-table ko_metagenome.qza <span class="dt">\</span></span>
+<span id="cb33-3"><a href="04-Functional_prediction.html#cb33-3" aria-hidden="true" tabindex="-1"></a>--o-visualization ko_metagenome.qzv</span></code></pre></div>
+<p>Look at the visualisation and you should notice very high frequencies. This is expected as each KO will most likely be found in multiple ASVs. The frequency of a KO is based on the frequency of every ASV it has been matched to. Additionally there are more features (KOs) in this table than in the ASV table.</p>
+<p>Let us see how the numbers change with the pathways abundance table.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="04-Functional_prediction.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> feature-table summarize <span class="dt">\</span></span>
+<span id="cb34-2"><a href="04-Functional_prediction.html#cb34-2" aria-hidden="true" tabindex="-1"></a>--i-table pathway_abundance.qza <span class="dt">\</span></span>
+<span id="cb34-3"><a href="04-Functional_prediction.html#cb34-3" aria-hidden="true" tabindex="-1"></a>--o-visualization pathway_abundance.qzv</span></code></pre></div>
+<p>In this case there are fewer features (pathways) because it is a broader classification (pathways rather than gene orthologs).</p>
+<p>With these tables you can carry out downstream analysis such as alpha and beta diversity, biomarker detection etc. If you do this in the future you can most likely use the lowest sample frequency number as it will most likely be over 100k.</p>
+</div>
+<div id="picrust2-links" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> PICRUSt2 Links<a href="04-Functional_prediction.html#picrust2-links" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/link.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>That was a quick run introduction to PICRUSt2. There are good tutorials online you can use to get a stronger understanding of it.</p>
+<p>Key limitations of analysing PICRUSt2 output: <a href="https://github.com/picrust/picrust2/wiki/Key-Limitations" class="uri">https://github.com/picrust/picrust2/wiki/Key-Limitations</a></p>
+<p>Q2 PICRUSt2 tutorial: <a href="https://github.com/picrust/picrust2/wiki/q2-picrust2-Tutorial" class="uri">https://github.com/picrust/picrust2/wiki/q2-picrust2-Tutorial</a></p>
+<p>Q2 PICRUSt2 installation: <a href="https://library.qiime2.org/plugins/q2-picrust2/13/" class="uri">https://library.qiime2.org/plugins/q2-picrust2/13/</a></p>
+<p>PICRUSt2 tutorial: <a href="https://github.com/picrust/picrust2/wiki/PICRUSt2-Tutorial-(v2.4.1" class="uri">https://github.com/picrust/picrust2/wiki/PICRUSt2-Tutorial-(v2.4.1</a>)</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="03-Handy_QIIME2_commands.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="05-16S_R_packages.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
