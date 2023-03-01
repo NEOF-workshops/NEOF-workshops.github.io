@@ -1,0 +1,114 @@
+#R bookdown uses Rmarkdown
+#R bookdown website: https://bookdown.org/
+#R bookdown book: https://bookdown.org/yihui/bookdown/
+#Cheatsheets to find r markdown cheatsheet: https://rstudio.com/resources/cheatsheets/
+#Minimal bookdown template: https://github.com/rstudio/bookdown-demo
+
+#I generally write and do everythign in RStudio
+#F7 to spell check in rstudio
+
+#Create bookdown html
+#Set working directory to directory with all the r markdowns
+#Change name to the file name that starts with 01
+bookdown::render_book("01-XX.Rmd", "bookdown::gitbook")
+
+#Add web exerices to bookdown (only nees doing once)
+#Run below in your bookdown dir
+library("webexercises")
+add_to_bookdown(bookdown_dir = ".",
+                include_dir = "www",
+                script_dir = "scripts",
+                output_format = "gitbook")
+#Delete the resulting index.rmd file
+#Add in the below to your 01-XX.RMD file just beow the block with the title, author etc
+```{r cite-packages, include = FALSE}
+# automatically create a bib database for R packages
+# add any packages you want to cite here
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'webexercises'
+), 'packages.bib')
+```
+
+#Imbed YT URLS
+#Handy guide
+#https://www.h3xed.com/web-development/how-to-make-a-responsive-100-width-youtube-iframe-embed
+#Add the following to your style.css
+.container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+}
+.video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+#Then add this code to where you want the URL to be embedded
+#Change the link to the embed link of your video
+<div class="container">
+<iframe src="https://www.youtube.com/embed/U_RkeDVU2cg" 
+frameborder="0" allowfullscreen class="video"></iframe>
+</div>
+
+
+#Create one page html book
+#Add the following to _output.yml
+bookdown::html_book:
+  split_by: none
+  css: style.css
+  toc: false
+#Run the following command in the book dir to render
+bookdown::render_book("01-XX.Rmd", "bookdown::html_book", output_dir = "one_file_book")
+
+#MCQ example
+#MCQ example
+```{r, echo = FALSE}
+opts_p <- c("A1", "A2", answer="A3")
+```
+1. Question? `r longmcq(opts_p)`
+
+#template
+```{r, echo = FALSE}
+opts_p <- c("", "", "")
+```
+ `r longmcq(opts_p)`
+
+
+#Expandable help box example
+`r hide("Title")`
+Contents
+`r unhide()`
+
+
+
+#HTMLS found in "_book" directory
+#Need to run render_book command to update any changes
+
+#Easiest way I find is to have 1 page per chapter
+#File names need to start with a number to show order 01-, 02-, 03- etc
+
+#YAML files you may need to change
+# _bookdown.yml : Good to change the "book_filename:"
+# _output.yml : Good to change the "before:" text to what you want
+	Additionally I have turned off a lot of things so readers do not have a lot of buttons I don't want them to have
+	I have "split_by:" set to "rmd" so there is a html page for each rmd file
+	This seems to be the best option for our purposes
+	Can't seem to make just one html file without everything go into one long page
+#More info: 
+https://bookdown.org/yihui/bookdown/output-formats.html
+https://bookdown.org/yihui/bookdown/yaml-options.html
+https://bookdown.org/yihui/rmarkdown/bookdown-output.html
+
+#Best thing seems to be to be to split by rmarkdowns
+#This will name htmls so the htmls and rmds have the same suffix
+#go to _output.yml and ensure the following is in
+bookdown::gitbook:
+  split_by: rmd
+#To make 1 html
+#go to _output.yml and ensure the following is in
+bookdown::gitbook:
+  split_by: none
+
