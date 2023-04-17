@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 Scaffolding using HiC | Eukaryote genome assembly</title>
+  <title>Chapter 11 Conclusion | Eukaryote genome assembly</title>
   <meta name="description" content="NEOF book for the Eukaryote genome assembly workshop" />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 Scaffolding using HiC | Eukaryote genome assembly" />
+  <meta property="og:title" content="Chapter 11 Conclusion | Eukaryote genome assembly" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Eukaryote genome assembly workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 Scaffolding using HiC | Eukaryote genome assembly" />
+  <meta name="twitter:title" content="Chapter 11 Conclusion | Eukaryote genome assembly" />
   
   <meta name="twitter:description" content="NEOF book for the Eukaryote genome assembly workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-<link rel="prev" href="08-Mitochondrial_assembly.html"/>
-<link rel="next" href="10-Optional_exercises.html"/>
+<link rel="prev" href="10-Optional_exercises.html"/>
+<link rel="next" href="12-Appendix.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -230,79 +230,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="scaffolding" class="section level1 hasAnchor" number="9">
-<h1><span class="header-section-number">Chapter 9</span> Scaffolding using HiC<a href="09-Scaffolding.html#scaffolding" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/scaffold.png" width="18%" style="display: block; margin: auto;" /></p>
-<div id="introduction-3" class="section level2 hasAnchor" number="9.1">
-<h2><span class="header-section-number">9.1</span> Introduction<a href="09-Scaffolding.html#introduction-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In the section on genome assessment, we separated the high-probability bacteria contigs from the eukarya contigs, and then ran purge_dups on the eukarya contigs. We were left with a very high contiguity nematode genome assembly.</p>
-<p>In this exercise we will use our best assembly from the previous step and paired Illumina Hi-C reads to scaffold the already very good assembly into chromosome sized scaffolds.</p>
-</div>
-<div id="set-up-1" class="section level2 hasAnchor" number="9.2">
-<h2><span class="header-section-number">9.2</span> Set up<a href="09-Scaffolding.html#set-up-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Open a new terminal and load the Hi-C environment:</p>
-<pre><code>. usehic</code></pre>
-<p>Create a new directory, change into it, and link to the files we need:</p>
-<pre><code>mkdir -p ~/eukaryote_assembly/5-scaffolding
-cd ~/eukaryote_assembly/5-scaffolding</code></pre>
-<p>Link to the purged eukaryote-only contigs:</p>
-<pre><code>ln -s ~/eukaryote_assembly/3-assessment/eukarya_ERR7979900_hifiasm.bp.p_ctg.fa_purged.fa</code></pre>
-<p>Link to the paired Hi-C reads. The original files were downloaded from <a href="https://www.ebi.ac.uk/ena/browser/view/ERR5967937" class="uri">https://www.ebi.ac.uk/ena/browser/view/ERR5967937</a> but were very large and would have taken too long for this exercise, so we sampled the first 10 million reads:</p>
-<pre><code>ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/test10m1.fq.gz
-ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/test10m2.fq.gz</code></pre>
-</div>
-<div id="map-the-hi-c-reads-to-the-genome-assembly" class="section level2 hasAnchor" number="9.3">
-<h2><span class="header-section-number">9.3</span> Map the Hi-C reads to the genome assembly<a href="09-Scaffolding.html#map-the-hi-c-reads-to-the-genome-assembly" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>As in the previous steps, we're going to use BASH variables so that in future you can just copy the commands:</p>
-<pre><code>REF=eukarya_ERR7979900_hifiasm.bp.p_ctg.fa_purged.fa
-FASTQ1=test10m1.fq.gz
-FASTQ2=test10m2.fq.gz
-PREFIX=purged10m
-CPU=16
-MEM=100G</code></pre>
-<p>Index the reference and map the reads. The <code>bwa index</code> command will take a minute or so to run. Make sure to wait for it to finish before entering the second and third commands:</p>
-<pre><code>bwa index $REF
-
-samtools faidx $REF
-
-bwa mem -t $CPU $REF $FASTQ1 $FASTQ2 | \
-samtools view -b - &gt; $PREFIX.bam</code></pre>
-<p>This will take a few minutes to run. When it's finished run the actual scaffolding step using <a href="https://github.com/c-zhou/yahss">YAHS</a> (Yet Another Hi-C Scaffolder)</p>
-<pre><code>yahs $REF $PREFIX.bam -o $PREFIX</code></pre>
-</div>
-<div id="visualise-the-scaffolding-data-in-juicer" class="section level2 hasAnchor" number="9.4">
-<h2><span class="header-section-number">9.4</span> Visualise the scaffolding data in Juicer<a href="09-Scaffolding.html#visualise-the-scaffolding-data-in-juicer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Juicer and Juicebox are tools that allow you to visualise scaffolds and manipulate them.</p>
-<p>These yahs scripts create a file ready for juicer:</p>
-<pre><code>juicer pre ${PREFIX}.bin ${PREFIX}_scaffolds_final.agp $REF.fai | \
-sort -k2,2d -k6,6d --parallel=$CPU -S$MEM | \
-awk &#39;NF&#39; &gt; \
-${PREFIX}_alignments_sorted.txt
-
-awk &#39;/^&gt;/{if (l!=&quot;&quot;) print l; printf &quot;%s\t&quot;, $1; l=0; next}{l+=length($0)}END{print l}&#39; \
-${PREFIX}_scaffolds_final.fa | \
-sed &quot;s/&gt;//&quot; &gt; \
-${PREFIX}_scaffolds_final.fa_chromosome_sizes.txt</code></pre>
-<p>Now run juicer_tools to create a file that can be seen in Juicebox:</p>
-<pre><code>java -jar -Xmx$MEM /pub14/tea/nsc206/jars/juicebox/juicer_tools_2.15.08.jar \
-pre --threads $CPU \
-${PREFIX}_alignments_sorted.txt \
-${PREFIX}.hic \
-${PREFIX}_scaffolds_final.fa_chromosome_sizes.txt</code></pre>
-<p>This step takes ~10 minutes to run.
-When it's finished launch juicebox:</p>
-<pre><code>java -jar /pub14/tea/nsc206/jars/juicebox/juicebox_2.15.08.jar</code></pre>
-<p>Go to the top menu File -&gt; Open, click on 'Local', navigate to the your <code>~/eukaryote_assembly/5-scaffolding</code> directory and load purged10m.hic</p>
-<p>You should see something that looks like this:
-<img src="figures/juicer.jpg" alt="Screenshot of juicer with the scaffolded assembly loaded, showing 6 chromosomes and several unplaced contigs" />
-This figure clearly shows that there are 6 major scaffolds (and a few tiny ones at the end), and we know that <em>Oscheius onirici</em> has 6 chromosomes.</p>
-</div>
-<div id="summary-3" class="section level2 hasAnchor" number="9.5">
-<h2><span class="header-section-number">9.5</span> Summary<a href="09-Scaffolding.html#summary-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Not all examples will work as well as this. But with high quality PacBio Hifi data, and high quality Illumina Hi-C data - and tools like Hifiasm and YAHS, we can often get a reference quality chromosomal level assembly.</p>
+<div id="conclusion" class="section level1 hasAnchor" number="11">
+<h1><span class="header-section-number">Chapter 11</span> Conclusion<a href="11-Conclusion.html#conclusion" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/final_report.png" width="20%" style="display: block; margin: auto;" /></p>
 
 </div>
-</div>
+
+
+
 <script>
 
 /* update total correct if #webex-total_correct exists */
@@ -479,8 +414,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-<a href="08-Mitochondrial_assembly.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="10-Optional_exercises.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="10-Optional_exercises.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="12-Appendix.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
