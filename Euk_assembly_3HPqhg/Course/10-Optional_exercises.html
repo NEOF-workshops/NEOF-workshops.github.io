@@ -200,6 +200,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="10-Optional_exercises.html"><a href="10-Optional_exercises.html"><i class="fa fa-check"></i><b>10</b> Optional Exercises</a>
 <ul>
 <li class="chapter" data-level="10.1" data-path="10-Optional_exercises.html"><a href="10-Optional_exercises.html#introduction-4"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.2" data-path="10-Optional_exercises.html"><a href="10-Optional_exercises.html#preassembly-1"><i class="fa fa-check"></i><b>10.2</b> Preassembly</a></li>
+<li class="chapter" data-level="10.3" data-path="10-Optional_exercises.html"><a href="10-Optional_exercises.html#assembly-1"><i class="fa fa-check"></i><b>10.3</b> Assembly</a></li>
+<li class="chapter" data-level="10.4" data-path="10-Optional_exercises.html"><a href="10-Optional_exercises.html#assessment"><i class="fa fa-check"></i><b>10.4</b> Assessment</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-Conclusion.html"><a href="11-Conclusion.html"><i class="fa fa-check"></i><b>11</b> Conclusion</a>
 <ul>
@@ -242,24 +245,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/exercise.png" width="18%" style="display: block; margin: auto;" /></p>
 <div id="introduction-4" class="section level2 hasAnchor" number="10.1">
 <h2><span class="header-section-number">10.1</span> Introduction<a href="10-Optional_exercises.html#introduction-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Here is another PacBio Hifi + Illumina Hi-c dataset for you to practice on. This is a fungus, a type of budding yeast called <em>Metschnikowia zobellii</em></p>
+<p>Here is another PacBio Hifi + Illumina Hi-C dataset for you to practice on. This is a fungus, a type of budding yeast called <em>Metschnikowia zobellii</em></p>
 <p>Follow all the steps from pre-assembly through to scaffolding and see if the same steps work here or if you need to do anything different.</p>
-<p>&lt;HELEN: Please download these and make them available in the teaching VNC&gt;
-The pacbio hifi reads are at <a href="ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR958/001/ERR9588941/ERR9588941.fastq.gz" class="uri">ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR958/001/ERR9588941/ERR9588941.fastq.gz</a>
-The hi-c reads are at (will only be available today)
-<a href="ftp://ftp.ed.ac.uk/incoming/ERR9503460.1m.1.fq.gz" class="uri">ftp://ftp.ed.ac.uk/incoming/ERR9503460.1m.1.fq.gz</a>
-<a href="ftp://ftp.ed.ac.uk/incoming/ERR9503460.1m.2.fq.gz" class="uri">ftp://ftp.ed.ac.uk/incoming/ERR9503460.1m.2.fq.gz</a>
-&gt;</p>
+<p>Hint: If you work in the same terminal windows where you have the appropriate conda environments loaded then you can easily use the bash variables that we set as shortcuts in the earlier chapters.</p>
 <p>Hint: We recommend subsampling the Pacbio Hifi read set to 10 percent of the raw data, and we have already subsampled the Illumina data to 1M read pairs so that this exercise will run in a reasonable amount of time in this course. In reality you would run the whole dataset.</p>
-<p>preassembly</p>
+</div>
+<div id="preassembly-1" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Preassembly<a href="10-Optional_exercises.html#preassembly-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Make sure you are in the <code>. useassembly</code> terminal window.</p>
 <pre><code>READACC=ERR9588941</code></pre>
 <pre><code>mkdir -p ~/$READACC/1-preassembly
 cd ~/$READACC/1-preassembly
 
 # change these to actual location:
-ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9588941.fastq.gz .
-ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9503460.1m.1.fq.gz .
-ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9503460.1m.2.fq.gz .
+ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9588941.fastq.gz
+ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9503460.1m.1.fq.gz
+ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9503460.1m.2.fq.gz
 
 seqkit stats $READACC.fastq.gz
 
@@ -267,7 +268,9 @@ kmc -cs2000 -k21 ${READACC}.fastq.gz ${READACC}k21 .
 kmc_tools transform ${READACC}k21 histogram ${READACC}k21.histo
 
 # upload the .histo file in http://qb.cshl.edu/genomescope/genomescope2.0/</code></pre>
-<p>assembly</p>
+</div>
+<div id="assembly-1" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> Assembly<a href="10-Optional_exercises.html#assembly-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <pre><code>mkdir -p ~/$READACC/2-assembly
 cd ~/$READACC/2-assembly
 
@@ -276,17 +279,25 @@ seqtk sample ../1-preassembly/${READACC}.fastq.gz 0.10 | gzip -c &gt; ${READACC}
 hifiasm -l 0 -t 16 -o ${READACC}_hifiasm10pl0 ${READACC}.10p.fastq.gz
 # should take ~2 min
 # you can also try -l 3 and see the difference, remember to change the -o as well
+# take care with the file names. Here we have added the suffix `hifiasm` for the assembler, `10p` to indicate that we have used 10% of the data and `l0` to indicate we have set the `l` (lower case letter l) paramter to `0`.
 
-awk &#39;/^S/{print &quot;&gt;&quot;$2;print $3}&#39; ${READACC}_hifiasml0pl0.bp.p_ctg.gfa &gt; ${READACC}_hifiasml0pl0.bp.p_ctg.fa</code></pre>
-<p>assessment</p>
+awk &#39;/^S/{print &quot;&gt;&quot;$2;print $3}&#39; ${READACC}_hifiasm10pl0.bp.p_ctg.gfa &gt; ${READACC}_hifiasm10pl0.bp.p_ctg.fa</code></pre>
+</div>
+<div id="assessment" class="section level2 hasAnchor" number="10.4">
+<h2><span class="header-section-number">10.4</span> Assessment<a href="10-Optional_exercises.html#assessment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <pre><code>mkdir -p ~/$READACC/3-assessment
 cd ~/$READACC/3-assessment
 
-ln -s ../2-assembly/${READACC}_hifiasml0pl0.bp.p_ctg.fa
+ln -s ../2-assembly/${READACC}_hifiasm10pl0.bp.p_ctg.fa
 
-seqkit stats -a *.fa
+seqkit stats -a *.fa</code></pre>
+<p>Move into your <code>. usetiara</code> terminal window.</p>
+<pre><code>cd ~/$READACC/3-assessment
+
+READACC=ERR9588941
 
 ASSEMBLY=${READACC}_hifiasml0pl0.bp.p_ctg.fa
+
 tiara -i $ASSEMBLY -o $ASSEMBLY.tiara -t 16 --pr --tf all
 
 seqkit stats -a *$ASSEMBLY
