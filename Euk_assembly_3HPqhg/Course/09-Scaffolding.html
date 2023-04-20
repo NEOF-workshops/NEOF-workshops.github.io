@@ -276,9 +276,7 @@ sort -k2,2d -k6,6d --parallel=$CPU -S$MEM | \
 awk &#39;NF&#39; &gt; \
 ${PREFIX}_alignments_sorted.txt
 
-awk &#39;/^&gt;/{if (l!=&quot;&quot;) print l; printf &quot;%s\t&quot;, $1; l=0; next}{l+=length($0)}END{print l}&#39; \
-${PREFIX}_scaffolds_final.fa | \
-sed &quot;s/&gt;//&quot; &gt; \
+samtools faidx ${PREFIX}_scaffolds_final.fa | cut -f1,2 &gt; \
 ${PREFIX}_scaffolds_final.fa_chromosome_sizes.txt</code></pre>
 <p>Now run juicer_tools to create a file that can be seen in Juicebox:</p>
 <pre><code>java -jar -Xmx$MEM /pub14/tea/nsc206/jars/juicebox/juicer_tools_2.15.08.jar \
