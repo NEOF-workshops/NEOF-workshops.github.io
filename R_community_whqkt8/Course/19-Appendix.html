@@ -340,6 +340,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="B.1" data-path="19-Appendix.html"><a href="19-Appendix.html#ggplot2_appendix"><i class="fa fa-check"></i><b>B.1</b> ggplot2</a></li>
 <li class="chapter" data-level="B.2" data-path="19-Appendix.html"><a href="19-Appendix.html#phyloseq_appendix"><i class="fa fa-check"></i><b>B.2</b> Phyloseq</a></li>
+<li class="chapter" data-level="B.3" data-path="19-Appendix.html"><a href="19-Appendix.html#importing-into-phyloseq"><i class="fa fa-check"></i><b>B.3</b> Importing into phyloseq</a></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="19-Appendix.html"><a href="19-Appendix.html#diversity-metrics"><i class="fa fa-check"></i><b>C</b> Diversity metrics</a>
 <ul>
@@ -391,39 +392,40 @@ It is a great tool for installing bioinformatic packages including R packages.</
 <p>Mamba installation: <a href="https://github.com/conda-forge/miniforge#mambaforge" class="uri">https://github.com/conda-forge/miniforge#mambaforge</a></p>
 <p>Mamba guide: <a href="https://mamba.readthedocs.io/en/latest/user_guide/mamba.html" class="uri">https://mamba.readthedocs.io/en/latest/user_guide/mamba.html</a></p>
 <p>To create the mamba environment <code>r_community</code> run the below commands in your bash. You will need to have installed <code>mamba</code> first.</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb120-1"><a href="19-Appendix.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="co">#R community</span></span>
-<span id="cb120-2"><a href="19-Appendix.html#cb120-2" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create r_community</span>
-<span id="cb120-3"><a href="19-Appendix.html#cb120-3" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate r_community</span>
-<span id="cb120-4"><a href="19-Appendix.html#cb120-4" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> bioconda bioconductor-microbiome</span>
-<span id="cb120-5"><a href="19-Appendix.html#cb120-5" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> r r-tidyverse</span>
-<span id="cb120-6"><a href="19-Appendix.html#cb120-6" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-devtools</span>
-<span id="cb120-7"><a href="19-Appendix.html#cb120-7" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-ggforce</span>
-<span id="cb120-8"><a href="19-Appendix.html#cb120-8" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> bioconda bioconductor-ancombc</span>
-<span id="cb120-9"><a href="19-Appendix.html#cb120-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Update r-htmltools as loading devtools doesn’t work in R (from 0.5.2 -&gt; 0.5.4)</span></span>
-<span id="cb120-10"><a href="19-Appendix.html#cb120-10" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-htmltools=0.5.4</span>
-<span id="cb120-11"><a href="19-Appendix.html#cb120-11" aria-hidden="true" tabindex="-1"></a><span class="co">#If using jupyter-notebook, need to install r kernel for it</span></span>
-<span id="cb120-12"><a href="19-Appendix.html#cb120-12" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-irkernel</span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb117-1"><a href="19-Appendix.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="co">#R community</span></span>
+<span id="cb117-2"><a href="19-Appendix.html#cb117-2" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create r_community</span>
+<span id="cb117-3"><a href="19-Appendix.html#cb117-3" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate r_community</span>
+<span id="cb117-4"><a href="19-Appendix.html#cb117-4" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> bioconda bioconductor-microbiome</span>
+<span id="cb117-5"><a href="19-Appendix.html#cb117-5" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> r r-tidyverse</span>
+<span id="cb117-6"><a href="19-Appendix.html#cb117-6" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-devtools</span>
+<span id="cb117-7"><a href="19-Appendix.html#cb117-7" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-ggforce</span>
+<span id="cb117-8"><a href="19-Appendix.html#cb117-8" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> bioconda bioconductor-ancombc</span>
+<span id="cb117-9"><a href="19-Appendix.html#cb117-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Update r-htmltools as loading devtools doesn’t work in R (from 0.5.2 -&gt; 0.5.4)</span></span>
+<span id="cb117-10"><a href="19-Appendix.html#cb117-10" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-htmltools=0.5.4</span>
+<span id="cb117-11"><a href="19-Appendix.html#cb117-11" aria-hidden="true" tabindex="-1"></a><span class="co">#If using jupyter-notebook, need to install r kernel for it</span></span>
+<span id="cb117-12"><a href="19-Appendix.html#cb117-12" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-irkernel</span></code></pre></div>
 <p>Activate the environment in bash.</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb121-1"><a href="19-Appendix.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate r_community</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb118-1"><a href="19-Appendix.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate r_community</span></code></pre></div>
 <p>Activate your <code>mamba's</code> <code>R</code> and install <code>Qiime2R</code>.</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb122-1"><a href="19-Appendix.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="19-Appendix.html#cb123-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jbisanz/qiime2R&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb119-1"><a href="19-Appendix.html#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="19-Appendix.html#cb120-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;jbisanz/qiime2R&quot;</span>)</span></code></pre></div>
 </div>
 <div id="jupyter_appendix" class="section level2 hasAnchor" number="19.2">
 <h2><span class="header-section-number">A.2</span> Jupyter-notebook<a href="19-Appendix.html#jupyter_appendix" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/jupyter_logo.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>If you are running this on your own computer you can use <code>RStudio</code>.
 However, you can also use <a href="https://jupyter.org/"><code>Jupyter-notebook</code></a> if you are using an HPC or prefer it.</p>
 <p>If using bash you will need to create an environment with <code>Jupyter-notebook</code>.
 Ensure you are in the <code>(base)</code> mamba environment.</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb124-1"><a href="19-Appendix.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> jupyter</span>
-<span id="cb124-2"><a href="19-Appendix.html#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate jupyter</span>
-<span id="cb124-3"><a href="19-Appendix.html#cb124-3" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> anaconda jupyter</span>
-<span id="cb124-4"><a href="19-Appendix.html#cb124-4" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb121-1"><a href="19-Appendix.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> jupyter</span>
+<span id="cb121-2"><a href="19-Appendix.html#cb121-2" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate jupyter</span>
+<span id="cb121-3"><a href="19-Appendix.html#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> anaconda jupyter</span>
+<span id="cb121-4"><a href="19-Appendix.html#cb121-4" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code></pre></div>
 <p>To run <code>Jupyter-notebook</code> with your <code>r_community</code> environment you can run the following.</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb125-1"><a href="19-Appendix.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Activate you R_community env</span></span>
-<span id="cb125-2"><a href="19-Appendix.html#cb125-2" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate r_community</span>
-<span id="cb125-3"><a href="19-Appendix.html#cb125-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Run jupyter-notebook (may be a slightly different path)</span></span>
-<span id="cb125-4"><a href="19-Appendix.html#cb125-4" aria-hidden="true" tabindex="-1"></a><span class="ex">~/mamba/envs/jupyter/bin/jupyter-notebook</span></span></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb122-1"><a href="19-Appendix.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Activate you R_community env</span></span>
+<span id="cb122-2"><a href="19-Appendix.html#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate r_community</span>
+<span id="cb122-3"><a href="19-Appendix.html#cb122-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Run jupyter-notebook (may be a slightly different path)</span></span>
+<span id="cb122-4"><a href="19-Appendix.html#cb122-4" aria-hidden="true" tabindex="-1"></a><span class="ex">~/mamba/envs/jupyter/bin/jupyter-notebook</span></span></code></pre></div>
 </div>
 </div>
 <div id="r-packages-1" class="section level1 hasAnchor" number="20">
@@ -444,7 +446,20 @@ Ensure you are in the <code>(base)</code> mamba environment.</p>
 <ul>
 <li><a href="https://joey711.github.io/phyloseq/">Phyloseq</a>: The original <code>phyloseq</code>. The R object is still great but the included tutorials and some functions are a bit outdated.</li>
 <li><a href="https://microbiome.github.io/tutorials/">microbiome</a>: A supplemental package to <code>phyloseq</code>. It contains some much needed functions. The tutorials are much clearer than the <code>phyloseq</code> tutorials but still not always the clearest.</li>
+</ul>
+</div>
+<div id="importing-into-phyloseq" class="section level2 hasAnchor" number="20.3">
+<h2><span class="header-section-number">B.3</span> Importing into phyloseq<a href="19-Appendix.html#importing-into-phyloseq" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/import.png" width="10%" style="display: block; margin: auto;" /></p>
+<ul>
 <li><a href="https://github.com/jbisanz/qiime2R">QIIME2R</a>: A very useful package to import QIIME2 artifacts into a <code>phyloseq</code> object.</li>
+<li><a href="https://joey711.github.io/phyloseq/import-data.html">Phyloseqize R data</a>: A tutorial on how to import data frames into a <code>phyloseq</code> object.</li>
+<li><strong>Shotgun metagenomics data</strong>
+<ul>
+<li>You can import Kraken2 data by converting the <a href="https://github.com/smdabdoub/kraken-biom">report file to a biom file</a> then importing the biom file into a <code>phyloseq</code> object with the <a href="https://github.com/jbisanz/qiime2R"><code>QIIME2R</code> function <code>read_q2biom()</code></a>.</li>
+<li>You can also import the <a href="https://github.com/jenniferlu717/Bracken#output-kraken-style-bracken-report">Kraken-Style Bracken report</a> in the above manner.</li>
+<li>The <a href="https://biom-format.org/">biom format</a> stands for the Biological Observation Matrix (BIOM) format. It is used and created by a variety of tools.</li>
+</ul></li>
 </ul>
 </div>
 </div>
