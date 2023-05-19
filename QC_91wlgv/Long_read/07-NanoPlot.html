@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 NanoPlot | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
-  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 NanoPlot | Long read Quality Control" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2022-11-07" />
+<meta name="date" content="2023-05-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="www/webex.css" type="text/css" />
@@ -196,7 +200,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.3.1" data-path="10-PB_background.html"><a href="10-PB_background.html#sequeltools"><i class="fa fa-check"></i><b>10.3.1</b> SequelTools</a></li>
 <li class="chapter" data-level="10.3.2" data-path="10-PB_background.html"><a href="10-PB_background.html#smrttools"><i class="fa fa-check"></i><b>10.3.2</b> smrttools</a></li>
-<li class="chapter" data-level="10.3.3" data-path="10-PB_background.html"><a href="10-PB_background.html#rabbitqc"><i class="fa fa-check"></i><b>10.3.3</b> RabbitQC</a></li>
+<li class="chapter" data-level="10.3.3" data-path="10-PB_background.html"><a href="10-PB_background.html#rabbitqcplus"><i class="fa fa-check"></i><b>10.3.3</b> RabbitQCPlus</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-PB_CLR_setup.html"><a href="11-PB_CLR_setup.html"><i class="fa fa-check"></i><b>11</b> CLR setup</a></li>
@@ -221,8 +225,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="14.2.1" data-path="14-CCS.html"><a href="14-CCS.html#ccs-mcqs"><i class="fa fa-check"></i><b>14.2.1</b> CCS MCQs</a></li>
 </ul></li>
-<li class="chapter" data-level="14.3" data-path="14-CCS.html"><a href="14-CCS.html#rabbitqc-1"><i class="fa fa-check"></i><b>14.3</b> RabbitQC</a></li>
+<li class="chapter" data-level="14.3" data-path="14-CCS.html"><a href="14-CCS.html#rabbitqcplus-1"><i class="fa fa-check"></i><b>14.3</b> RabbitQCPlus</a></li>
 <li class="chapter" data-level="14.4" data-path="14-CCS.html"><a href="14-CCS.html#final-summary"><i class="fa fa-check"></i><b>14.4</b> Final summary</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="15-Appendix.html"><a href="15-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="15-Appendix.html"><a href="15-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>A.1</b> Mamba installation</a></li>
+<li class="chapter" data-level="A.2" data-path="15-Appendix.html"><a href="15-Appendix.html#ont-qc-environment"><i class="fa fa-check"></i><b>A.2</b> ONT QC environment</a></li>
+<li class="chapter" data-level="A.3" data-path="15-Appendix.html"><a href="15-Appendix.html#pb-qc-environment"><i class="fa fa-check"></i><b>A.3</b> PB QC environment</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -261,25 +272,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>--fastq</code>: Specifies the input path which is a fastq file.</li>
 <li><code>-o</code>: Directory where the output will be created.</li>
 <li><code>-p</code>: Prefix of output files. It is useful to have "_" at the end of the prefix.</li>
-<li><code>--plots</code>: Specifies what type of bivariate plot is to be created (more on this later). I find <code>hex</code> to be the best.</li>
 </ul>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="07-NanoPlot.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">NanoPlot</span> <span class="at">-t</span> 4 <span class="dt">\</span></span>
 <span id="cb11-2"><a href="07-NanoPlot.html#cb11-2" aria-hidden="true" tabindex="-1"></a>--fastq porechop/Acinetobacter.porechop.fastq <span class="dt">\</span></span>
-<span id="cb11-3"><a href="07-NanoPlot.html#cb11-3" aria-hidden="true" tabindex="-1"></a>-o nanoplot/porechop <span class="at">-p</span> Acinetobacter_ <span class="dt">\</span></span>
-<span id="cb11-4"><a href="07-NanoPlot.html#cb11-4" aria-hidden="true" tabindex="-1"></a>--plots hex </span></code></pre></div>
-<p>You may get the below warning. This is fine and can be ignored.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="07-NanoPlot.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/pub39/tea/nsc006/anaconda3/lib/python3.7/_collections_abc.py:702:</span> MatplotlibDeprecationWarning: The global colormaps dictionary is no longer considered public API.</span>
-<span id="cb12-2"><a href="07-NanoPlot.html#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="ex">len</span><span class="er">(</span><span class="ex">self._mapping</span><span class="kw">)</span></span>
-<span id="cb12-3"><a href="07-NanoPlot.html#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">/pub39/tea/nsc006/anaconda3/lib/python3.7/_collections_abc.py:720:</span> MatplotlibDeprecationWarning: The global colormaps dictionary is no longer considered public API.</span>
-<span id="cb12-4"><a href="07-NanoPlot.html#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">yield</span> from self._mapping</span></code></pre></div>
+<span id="cb11-3"><a href="07-NanoPlot.html#cb11-3" aria-hidden="true" tabindex="-1"></a>-o nanoplot/porechop <span class="at">-p</span> Acinetobacter_ </span></code></pre></div>
 </div>
 <div id="nanoplot-output" class="section level2 hasAnchor" number="7.2">
 <h2><span class="header-section-number">7.2</span> NanoPlot: output<a href="07-NanoPlot.html#nanoplot-output" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/output_file_green.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>List the files in the output directory.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="07-NanoPlot.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> nanoplot/porechop/</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="07-NanoPlot.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> nanoplot/porechop/</span></code></pre></div>
 <p>There are quite a few files. These should all start with "Acinetobacter_" thanks to the <code>-p</code> option. To quickly check all the results we can open the report html file with firefox.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="07-NanoPlot.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> nanoplot/porechop/Acinetobacter_NanoPlot-report.html</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="07-NanoPlot.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> nanoplot/porechop/Acinetobacter_NanoPlot-report.html</span></code></pre></div>
 <p>The first section contains <a href="05-NanoStat.html#nanostat_output"><code>NanoStat</code> output</a>. Quickly look over this and see how it compares to the <code>NanoStat</code> output of the pre-porechopped reads.</p>
 <div class="webex-solution">
 <button>
@@ -303,7 +307,7 @@ NanoStat of pre-porechopped reads
 </tr>
 <tr class="even">
 <td align="left">Mean read quality</td>
-<td align="left">10.2</td>
+<td align="left">9.5</td>
 </tr>
 <tr class="odd">
 <td align="left">Median read length</td>
@@ -404,16 +408,18 @@ NanoStat of pre-porechopped reads
 </tbody>
 </table>
 </div>
-<p>After the <strong>Summary Statistics</strong> section there is a <strong>Plots</strong> section. This contains the plots:</p>
+<p>After the <strong>Summary Statistics</strong> section there is a <strong>Plots</strong> section.
+These are all plots created by <a href="https://plotly.com/">plotly</a> meaning they are interactive.
+With these plots you can:</p>
 <ul>
-<li><strong>Histogram of read lengths</strong>
+<li>Make boxes to zoom into a specific area.</li>
+<li>Click and drag left or right only to zoom into a specific part of the x axis.</li>
+<li>Click and drag up or down only to zoom into a specific part of the y axis.</li>
+<li>Click the home icon (<svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M261.56,101.28a8,8,0,0,0-11.06,0L66.4,277.15a8,8,0,0,0-2.47,5.79L63.9,448a32,32,0,0,0,32,32H192a16,16,0,0,0,16-16V328a8,8,0,0,1,8-8h80a8,8,0,0,1,8,8l0,136a16,16,0,0,0,16,16h96.06a32,32,0,0,0,32-32l0-165.06a8,8,0,0,0-2.47-5.79Z"></path> <path d="M490.91,244.15l-74.8-71.56,0-108.59a16,16,0,0,0-16-16h-48a16,16,0,0,0-16,16l0,32L278.19,40.62C272.77,35.14,264.71,32,256,32h0c-8.68,0-16.72,3.14-22.14,8.63L21.16,244.13c-6.22,6-7,15.87-1.34,22.37A16,16,0,0,0,43,267.56L250.5,69.28a8,8,0,0,1,11.06,0L469.08,267.56a16,16,0,0,0,22.59-.44C497.81,260.76,497.3,250.26,490.91,244.15Z"></path></svg>) on the top right to reset the axes.</li>
+<li>Hover over a points/bars to see the specific values of it.</li>
+</ul>
+<p>The plots are:</p>
 <ul>
-<li>Histogram of "Number of <em>reads</em>" (y) against "Read length" (x).</li>
-</ul></li>
-<li><strong>Histogram of read lengths after log transformations</strong>
-<ul>
-<li>Histogram of "Number of <em>reads</em>" (y) against log transformed "Read length" (x).</li>
-</ul></li>
 <li><strong>Weighted Histogram of read lengths</strong>
 <ul>
 <li>Histogram of "Number of <em>bases</em>" (y) against "Read length" (x).</li>
@@ -422,20 +428,13 @@ NanoStat of pre-porechopped reads
 <ul>
 <li>Histogram of "Number of <em>bases</em>" (y) against log transformed "Read length" (x).</li>
 </ul></li>
-<li><strong>Dynamic histogram of Read length</strong>
+<li><strong>Non weighted histogram of read lengths</strong>
 <ul>
-<li>An interactive Histogram of "Number of reads" (y) against "Read length" (x) produced by <a href="https://plotly.com/">plotly</a>.</li>
-<li>You can zoom into areas by clicking and dragging.
-<ul>
-<li>Make boxes to zoom into a specific area.</li>
-<li>Click and drag left or right only to zoom into a specific part of the x axis.</li>
-<li>Click and drag up or down only to zoom into a specific part of the y axis.</li>
-<li>Click the home icon (<svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg">
-<title>
-</title>
-<path d="M261.56,101.28a8,8,0,0,0-11.06,0L66.4,277.15a8,8,0,0,0-2.47,5.79L63.9,448a32,32,0,0,0,32,32H192a16,16,0,0,0,16-16V328a8,8,0,0,1,8-8h80a8,8,0,0,1,8,8l0,136a16,16,0,0,0,16,16h96.06a32,32,0,0,0,32-32l0-165.06a8,8,0,0,0-2.47-5.79Z"></path> <path d="M490.91,244.15l-74.8-71.56,0-108.59a16,16,0,0,0-16-16h-48a16,16,0,0,0-16,16l0,32L278.19,40.62C272.77,35.14,264.71,32,256,32h0c-8.68,0-16.72,3.14-22.14,8.63L21.16,244.13c-6.22,6-7,15.87-1.34,22.37A16,16,0,0,0,43,267.56L250.5,69.28a8,8,0,0,1,11.06,0L469.08,267.56a16,16,0,0,0,22.59-.44C497.81,260.76,497.3,250.26,490.91,244.15Z"></path></svg>) on the top right to reset the axes.</li>
-<li>Hover over a bar to see the specific values of it.</li>
+<li>Histogram of "Number of <em>reads</em>" (y) against "Read length" (x).</li>
 </ul></li>
+<li><strong>Non weighted histogram of read lengths after log transformations</strong>
+<ul>
+<li>Histogram of "Number of <em>reads</em>" (y) against log transformed "Read length" (x).</li>
 </ul></li>
 <li><strong>Yield by length</strong>
 <ul>
@@ -443,10 +442,16 @@ NanoStat of pre-porechopped reads
 <li>The cumulative yield is measured in Gigabases (billion bases).</li>
 <li>This plot is useful to know how many bases you would retain if you filtered reads based on read length.</li>
 </ul></li>
-<li><strong>Read lengths vs Average read quality plot using hexagonal bins</strong>
+<li><strong>Read lengths vs Average read quality plot using dots</strong>
 <ul>
-<li>This is the most informative plot. It is the bivariate plot we indicated we wanted as hexagonal with the option <code>--plots hex</code>.</li>
-<li>Each hex is a bin with a darker colour representing more reads.</li>
+<li>Each dot represents a single read.</li>
+<li>At the top of the plot is a histogram of Number of reads against read lengths.</li>
+<li>At the right of the plot is a sideways histogram of number of reads against average read quality.</li>
+</ul></li>
+<li><strong>Read lengths vs Average read quality kde plot</strong>
+<ul>
+<li>Each dot represents a single read with a topology map showing the density of plots. THe darker the area the more dense.</li>
+<li>This is the most informative plot.</li>
 <li>At the top of the plot is a histogram of Number of reads against read lengths.</li>
 <li>At the right of the plot is a sideways histogram of number of reads against average read quality.</li>
 </ul></li>
@@ -458,32 +463,24 @@ NanoStat of pre-porechopped reads
 Please attempt the below MCQs with the information in the report html.</p>
 <ol style="list-style-type: decimal">
 <li>What is the mean read quality for all the data?
-<div id="radio_ZEMTQETZMF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZEMTQETZMF" value="answer"></input> <span><strong>10.2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZEMTQETZMF" value=""></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZEMTQETZMF" value=""></input> <span><strong>8.8Mb</strong></span></label>
+<div id="radio_JFPYKYWAOZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JFPYKYWAOZ" value="answer"></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JFPYKYWAOZ" value=""></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JFPYKYWAOZ" value=""></input> <span><strong>8.8Mb</strong></span></label>
 </div></li>
 <li>What is the mean read length of the data?
-<div id="radio_JIYSSDCNJN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_JIYSSDCNJN" value=""></input> <span><strong>10.2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JIYSSDCNJN" value="answer"></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JIYSSDCNJN" value=""></input> <span><strong>8.8Mb</strong></span></label>
+<div id="radio_WRICPMTJVF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WRICPMTJVF" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WRICPMTJVF" value="answer"></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WRICPMTJVF" value=""></input> <span><strong>8.8Mb</strong></span></label>
 </div></li>
 <li>How many Megabases are within reads with a quality cutoff of &gt;Q10?
-<div id="radio_XFVLCOBGBK" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XFVLCOBGBK" value=""></input> <span><strong>10.2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XFVLCOBGBK" value=""></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XFVLCOBGBK" value="answer"></input> <span><strong>8.8Mb</strong></span></label>
+<div id="radio_TPTLVPYJAZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TPTLVPYJAZ" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TPTLVPYJAZ" value=""></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TPTLVPYJAZ" value="answer"></input> <span><strong>8.8Mb</strong></span></label>
 </div></li>
 <li>Approximately how many bases would you retain if you filtered out/removed reads with a length &lt;10,000bp (Yield by length)?
-<div id="radio_RBJLWZHPMY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RBJLWZHPMY" value=""></input> <span><strong>10</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RBJLWZHPMY" value=""></input> <span><strong>146</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RBJLWZHPMY" value="answer"></input> <span><strong>4Mb</strong></span></label>
-</div></li>
-<li>How many reads have a length between 6,000-6,500 (Dynamic histogram of read lengths)
-<div id="radio_DEURESIJXT" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DEURESIJXT" value=""></input> <span><strong>10</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DEURESIJXT" value="answer"></input> <span><strong>146</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DEURESIJXT" value=""></input> <span><strong>4Mb</strong></span></label>
-</div></li>
-<li>How many read have a length between 15K-15.499K (Dynamic histogram of read lengths)?
-<div id="radio_EPUOQGTUJN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_EPUOQGTUJN" value="answer"></input> <span><strong>10</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EPUOQGTUJN" value=""></input> <span><strong>146</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EPUOQGTUJN" value=""></input> <span><strong>4Mb</strong></span></label>
+<div id="radio_SZAIYJJUMA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SZAIYJJUMA" value=""></input> <span><strong>10</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SZAIYJJUMA" value=""></input> <span><strong>146</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SZAIYJJUMA" value="answer"></input> <span><strong>4Mb (0.004Gb)</strong></span></label>
 </div></li>
 <li>Look at the "Read lengths vs Average read quality plot". In what average quality range are the majority of reads?
-<div id="radio_MQTWAFAUQR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MQTWAFAUQR" value=""></input> <span><strong>6-8</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MQTWAFAUQR" value=""></input> <span><strong>8-10</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MQTWAFAUQR" value="answer"></input> <span><strong>10-12</strong></span></label>
+<div id="radio_LTQNHZANDJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LTQNHZANDJ" value=""></input> <span><strong>6-8</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LTQNHZANDJ" value=""></input> <span><strong>8-10</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LTQNHZANDJ" value="answer"></input> <span><strong>10-12</strong></span></label>
 </div></li>
 </ol>
 </div>
