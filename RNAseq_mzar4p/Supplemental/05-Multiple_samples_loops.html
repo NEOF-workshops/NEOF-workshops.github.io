@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Using loops to process multiple samples | RNA-seq gene expression and pathway analysis - supplemental material</title>
+  <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop - supplemental material" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Using loops to process multiple samples | RNA-seq gene expression and pathway analysis - supplemental material" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop - supplemental material" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Using loops to process multiple samples | RNA-seq gene expression and pathway analysis - supplemental material" />
+  
+  <meta name="twitter:description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop - supplemental material" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
+
+
+<meta name="date" content="2023-05-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="04-Further_DESeq2.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li><a>RNA-seq</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="01-Supplemental.html"><a href="01-Supplemental.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="02-R_intro.html"><a href="02-R_intro.html"><i class="fa fa-check"></i><b>2</b> Basic Introduction to R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-R_intro.html"><a href="02-R_intro.html#open-a-new-jupyter-notebook"><i class="fa fa-check"></i><b>2.1</b> Open a new Jupyter notebook</a></li>
+<li class="chapter" data-level="2.2" data-path="02-R_intro.html"><a href="02-R_intro.html#your-working-directory"><i class="fa fa-check"></i><b>2.2</b> Your working directory</a></li>
+<li class="chapter" data-level="2.3" data-path="02-R_intro.html"><a href="02-R_intro.html#packages"><i class="fa fa-check"></i><b>2.3</b> Packages</a></li>
+<li class="chapter" data-level="2.4" data-path="02-R_intro.html"><a href="02-R_intro.html#functions"><i class="fa fa-check"></i><b>2.4</b> Functions</a></li>
+<li class="chapter" data-level="2.5" data-path="02-R_intro.html"><a href="02-R_intro.html#assigning-values-to-variables"><i class="fa fa-check"></i><b>2.5</b> Assigning values to variables</a></li>
+<li class="chapter" data-level="2.6" data-path="02-R_intro.html"><a href="02-R_intro.html#a-few-useful-commands-and-tips"><i class="fa fa-check"></i><b>2.6</b> A few useful commands and tips</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-Count_table.html"><a href="03-Count_table.html"><i class="fa fa-check"></i><b>3</b> Making a count table from HTSeq output files</a></li>
+<li class="chapter" data-level="4" data-path="04-Further_DESeq2.html"><a href="04-Further_DESeq2.html"><i class="fa fa-check"></i><b>4</b> Further analysis with DESeq2</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-Further_DESeq2.html"><a href="04-Further_DESeq2.html#control-for-sex-of-fly"><i class="fa fa-check"></i><b>4.1</b> Control for sex of fly</a></li>
+<li class="chapter" data-level="4.2" data-path="04-Further_DESeq2.html"><a href="04-Further_DESeq2.html#fit-with-multiple-groups"><i class="fa fa-check"></i><b>4.2</b> Fit with multiple groups</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="05-Multiple_samples_loops.html"><a href="05-Multiple_samples_loops.html"><i class="fa fa-check"></i><b>5</b> Using loops to process multiple samples</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">RNA-seq gene expression and pathway analysis - supplemental material</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="multisamples" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Using loops to process multiple samples<a href="05-Multiple_samples_loops.html#multisamples" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/loop.png" width="40%" style="display: block; margin: auto;" /></p>
+<p>In our main workflow we learnt how to run through our RNA-seq analysis pipeline with a single sample up until the differential gene expression step where we provided you with an example data set containing multiple samples. You may be wondering how you would run these initial steps when you have many samples.</p>
+<p>Ideally you don’t want to have to run the same command multiple times - this is a recipe for typos and errors creeping into your code as well as bing tedious and time consuming.</p>
+<p>One approach to get around this is to run a loop which will cycle thorough each of your samples running the task you specify.</p>
+<p>Put simply the syntax for a for loop is as follows:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="05-Multiple_samples_loops.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">&lt;</span>variable <span class="ex">name</span><span class="op">&gt;</span> in <span class="op">&lt;</span>a list of items<span class="op">&gt;</span><span class="kw">;</span></span>
+<span id="cb27-2"><a href="05-Multiple_samples_loops.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span> <span class="op">&lt;</span>run <span class="ex">a</span> command<span class="op">&gt;</span> $<span class="op">&lt;</span>variable name<span class="op">&gt;</span></span>
+<span id="cb27-3"><a href="05-Multiple_samples_loops.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>The <code>&lt;variable name&gt;</code> is the name of the variable you will then use in the <code>do</code> part of your loop. It contains the item in your list you are on at that point in your loop. I.e. below we call this variable <code>f</code> but you could use any name as long as you use it consistently in your <code>do</code> section.</p>
+<p>The <code>&lt;a list of items&gt;</code> is anything that returns a list of items, e.g. a list of files in our case.</p>
+<p>Here is an example of a loop below, which can be adjusted accordingly for your samples and the software you are running but first we will specify a simplified loop so you can see clearly what the first part of the code is doing. Make sure you are in the directory <code>rnaseq/Practical_one</code>.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="05-Multiple_samples_loops.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> <span class="pp">*</span>_R1.fq.gz<span class="kw">;</span> <span class="co">#the following will loop through all files ending _R1.fq.gz</span></span>
+<span id="cb28-2"><a href="05-Multiple_samples_loops.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span> <span class="va">BASE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>_R1.fq.gz<span class="va">}</span> <span class="co">#assign the file name &#39;$f&#39; to a variable called &#39;BASE&#39; but remove the extension &#39;_R1.fq.gz&#39;</span></span>
+<span id="cb28-3"><a href="05-Multiple_samples_loops.html#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$f</span> <span class="co">#print $f to screen</span></span>
+<span id="cb28-4"><a href="05-Multiple_samples_loops.html#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">${FBASE}</span> <span class="co">#print ${FBASE} to screen</span></span>
+<span id="cb28-5"><a href="05-Multiple_samples_loops.html#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>By using <code>echo</code> to print the following variables to the console we can see that <code>echo $f</code> prints the full filename for the first file and then <code>echo ${FBASE}</code> prints just the start of the filename (minus the _R1.fq.gz extension as we specified in our code), the loop then repeats the commands on the next file in the list and will keep going until it has run through all files ending with <code>_R1.fq.gz</code> in the given directory. <code>done</code> specifies the end of the commands in the loop. All commands between <code>do</code> and <code>done</code> in your loop will be executed. In this case we only have two files but this would work with any number of files. This is a useful bit of code as it means we can keep the filename but change the ending/extension of the file in our loops.</p>
+<p>Now we can write a loop to run trimmomatic starting with the code we used above as a base.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="05-Multiple_samples_loops.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> <span class="pp">*</span>_R1.fq.gz<span class="kw">;</span> <span class="co">#the following will loop through all files ending _R1.fq.gz</span></span>
+<span id="cb29-2"><a href="05-Multiple_samples_loops.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span> <span class="va">BASE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>_R1.fq.gz<span class="va">}</span> <span class="co">#assign the file name &#39;$f&#39; to a variable called &#39;BASE&#39; but remove the extension &#39;_R1.fq.gz&#39;</span></span>
+<span id="cb29-3"><a href="05-Multiple_samples_loops.html#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">trimmomatic</span> PE <span class="at">-threads</span> 4 <span class="at">-phred33</span> <span class="dt">\ </span></span>
+<span id="cb29-4"><a href="05-Multiple_samples_loops.html#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#call trimmomatic and specify parameters</span></span>
+<span id="cb29-5"><a href="05-Multiple_samples_loops.html#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">${BASE}</span><span class="ex">_R1.fq.gz</span> <span class="dt">\ </span></span>
+<span id="cb29-6"><a href="05-Multiple_samples_loops.html#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#specify input R1 extension</span></span>
+<span id="cb29-7"><a href="05-Multiple_samples_loops.html#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">${BASE}</span><span class="ex">_R2.fq.gz</span> <span class="dt">\ </span></span>
+<span id="cb29-8"><a href="05-Multiple_samples_loops.html#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#specify input R2 extension</span></span>
+<span id="cb29-9"><a href="05-Multiple_samples_loops.html#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">trimmed/</span><span class="va">${BASE}</span><span class="ex">_R1_out_paired.fastq</span> <span class="dt">\ </span></span>
+<span id="cb29-10"><a href="05-Multiple_samples_loops.html#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#specify directory and filename for output of paired R1 read</span></span>
+<span id="cb29-11"><a href="05-Multiple_samples_loops.html#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="ex">trimmed/</span><span class="va">${BASE}</span><span class="ex">_R1_out_unpaired.fastq</span> <span class="dt">\ </span></span>
+<span id="cb29-12"><a href="05-Multiple_samples_loops.html#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#specify directory and filename for output of unpaired R1 read</span></span>
+<span id="cb29-13"><a href="05-Multiple_samples_loops.html#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="ex">trimmed/</span><span class="va">${BASE}</span><span class="ex">_R2_out_paired.fastq</span> <span class="dt">\ </span></span>
+<span id="cb29-14"><a href="05-Multiple_samples_loops.html#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#specify directory and filename for output of paired R2 read</span></span>
+<span id="cb29-15"><a href="05-Multiple_samples_loops.html#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="ex">trimmed/</span><span class="va">${BASE}</span><span class="ex">_R2_out_unpaired.fastq</span> <span class="dt">\ </span></span>
+<span id="cb29-16"><a href="05-Multiple_samples_loops.html#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">#specify directory and filename for output of unpaired R2 read</span></span>
+<span id="cb29-17"><a href="05-Multiple_samples_loops.html#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="ex">ILLUMINACLIP:TruSeq3-PE-2.fa:2:30:12</span> SLIDINGWINDOW:4:30 MINLEN:80  <span class="co">#further paramenters for trimmomatic</span></span>
+<span id="cb29-18"><a href="05-Multiple_samples_loops.html#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span> <span class="co">#end of commands</span></span></code></pre></div>
+<p>You can then edit this code to run other software in a loop. For a nice basic intro to Linux loops please click <a href="https://www.redhat.com/sysadmin/bash-scripting-loops">here</a>.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="04-Further_DESeq2.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
