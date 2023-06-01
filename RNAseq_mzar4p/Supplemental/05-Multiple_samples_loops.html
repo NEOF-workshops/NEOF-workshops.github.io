@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Using loops to process multiple samples | RNA-seq gene expression and pathway analysis - supplemental material</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop - supplemental material" />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Using loops to process multiple samples | RNA-seq gene expression and pathway analysis - supplemental material" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2023-05-30" />
+<meta name="date" content="2023-06-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -153,7 +157,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="04-Further_DESeq2.html"><a href="04-Further_DESeq2.html#control-for-sex-of-fly"><i class="fa fa-check"></i><b>4.1</b> Control for sex of fly</a></li>
 <li class="chapter" data-level="4.2" data-path="04-Further_DESeq2.html"><a href="04-Further_DESeq2.html#fit-with-multiple-groups"><i class="fa fa-check"></i><b>4.2</b> Fit with multiple groups</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="05-Multiple_samples_loops.html"><a href="05-Multiple_samples_loops.html"><i class="fa fa-check"></i><b>5</b> Using loops to process multiple samples</a></li>
+<li class="chapter" data-level="5" data-path="05-Multiple_samples_loops.html"><a href="05-Multiple_samples_loops.html"><i class="fa fa-check"></i><b>5</b> Using loops to process multiple samples</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-Multiple_samples_loops.html"><a href="05-Multiple_samples_loops.html#simple-loop-example"><i class="fa fa-check"></i><b>5.1</b> Simple loop example</a></li>
+<li class="chapter" data-level="5.2" data-path="05-Multiple_samples_loops.html"><a href="05-Multiple_samples_loops.html#trimmomatic-loop-example"><i class="fa fa-check"></i><b>5.2</b> Trimmomatic loop example</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -176,23 +184,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="multisamples" class="section level1 hasAnchor" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Using loops to process multiple samples<a href="05-Multiple_samples_loops.html#multisamples" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/loop.png" width="40%" style="display: block; margin: auto;" /></p>
-<p>In our main workflow we learnt how to run through our RNA-seq analysis pipeline with a single sample up until the differential gene expression step where we provided you with an example data set containing multiple samples. You may be wondering how you would run these initial steps when you have many samples.</p>
-<p>Ideally you don’t want to have to run the same command multiple times - this is a recipe for typos and errors creeping into your code as well as bing tedious and time consuming.</p>
-<p>One approach to get around this is to run a loop which will cycle thorough each of your samples running the task you specify.</p>
-<p>Put simply the syntax for a for loop is as follows:</p>
+<p><img src="figures/loop.png" width="25%" style="display: block; margin: auto;" /></p>
+<p>In our main workflow we learnt how to run through our RNA-seq analysis pipeline with a single sample up until the differential gene expression step, where we provided you with an example data set containing multiple samples. You may be wondering how you would run these initial steps when you have many samples.</p>
+<p>Ideally you don’t want to have to run the same command multiple times - this is a recipe for typos and errors creeping into your code as well as being tedious and time consuming.</p>
+<p>One approach to get around this is to run a loop which will cycle through each of your samples running the task you specify.</p>
+<p>Put simply the syntax for a <code>for loop</code> is as follows:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="05-Multiple_samples_loops.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">&lt;</span>variable <span class="ex">name</span><span class="op">&gt;</span> in <span class="op">&lt;</span>a list of items<span class="op">&gt;</span><span class="kw">;</span></span>
 <span id="cb27-2"><a href="05-Multiple_samples_loops.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span> <span class="op">&lt;</span>run <span class="ex">a</span> command<span class="op">&gt;</span> $<span class="op">&lt;</span>variable name<span class="op">&gt;</span></span>
 <span id="cb27-3"><a href="05-Multiple_samples_loops.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
-<p>The <code>&lt;variable name&gt;</code> is the name of the variable you will then use in the <code>do</code> part of your loop. It contains the item in your list you are on at that point in your loop. I.e. below we call this variable <code>f</code> but you could use any name as long as you use it consistently in your <code>do</code> section.</p>
+<p>The <code>&lt;variable name&gt;</code> is the name of the variable you will use in the <code>do</code> part of your loop.
+It contains the item in your list the loop is currently using at that point.
+I.e. in the simple loop example (below) we call this variable <code>f</code> but you could use any name as long as you use it consistently in your <code>do</code> section.</p>
 <p>The <code>&lt;a list of items&gt;</code> is anything that returns a list of items, e.g. a list of files in our case.</p>
-<p>Here is an example of a loop below, which can be adjusted accordingly for your samples and the software you are running but first we will specify a simplified loop so you can see clearly what the first part of the code is doing. Make sure you are in the directory <code>rnaseq/Practical_one</code>.</p>
+<div id="simple-loop-example" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Simple loop example<a href="05-Multiple_samples_loops.html#simple-loop-example" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/data_files.png" width="10%" style="display: block; margin: auto;" /></p>
+<p>Below is an example of a loop, which can be adjusted for your samples and the software you are running.
+This simplified loop will clearly demonstrate what the first part of the code is doing.</p>
+<p>Make sure you are in the directory <code>rnaseq/Practical_one</code>.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="05-Multiple_samples_loops.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> <span class="pp">*</span>_R1.fq.gz<span class="kw">;</span> <span class="co">#the following will loop through all files ending _R1.fq.gz</span></span>
-<span id="cb28-2"><a href="05-Multiple_samples_loops.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span> <span class="va">BASE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>_R1.fq.gz<span class="va">}</span> <span class="co">#assign the file name &#39;$f&#39; to a variable called &#39;BASE&#39; but remove the extension &#39;_R1.fq.gz&#39;</span></span>
+<span id="cb28-2"><a href="05-Multiple_samples_loops.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span> <span class="va">FBASE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>_R1.fq.gz<span class="va">}</span> <span class="co">#assign the file name &#39;$f&#39; to a variable called &#39;BASE&#39; but remove the extension &#39;_R1.fq.gz&#39;</span></span>
 <span id="cb28-3"><a href="05-Multiple_samples_loops.html#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$f</span> <span class="co">#print $f to screen</span></span>
 <span id="cb28-4"><a href="05-Multiple_samples_loops.html#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">${FBASE}</span> <span class="co">#print ${FBASE} to screen</span></span>
 <span id="cb28-5"><a href="05-Multiple_samples_loops.html#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
-<p>By using <code>echo</code> to print the following variables to the console we can see that <code>echo $f</code> prints the full filename for the first file and then <code>echo ${FBASE}</code> prints just the start of the filename (minus the _R1.fq.gz extension as we specified in our code), the loop then repeats the commands on the next file in the list and will keep going until it has run through all files ending with <code>_R1.fq.gz</code> in the given directory. <code>done</code> specifies the end of the commands in the loop. All commands between <code>do</code> and <code>done</code> in your loop will be executed. In this case we only have two files but this would work with any number of files. This is a useful bit of code as it means we can keep the filename but change the ending/extension of the file in our loops.</p>
+<p>By using <code>echo</code> to print the following variables to the console we can see:</p>
+<ul>
+<li><code>echo $f</code>: prints the full filename.</li>
+<li><code>echo ${FBASE}</code>: prints just the start of the filename (minus the _R1.fq.gz extension as we specified in our code)</li>
+</ul>
+<p>The loop then repeats the commands on the next file in the list and will keep going until it has run through all files ending with <code>_R1.fq.gz</code> in the given directory.</p>
+<p><code>done</code> specifies the end of the commands in the loop.</p>
+<p>All commands between <code>do</code> and <code>done</code> in your loop will be executed. In this case we only have two files but this would work with any number of files. This is a useful bit of code as it means we can keep the filename but change the ending/extension of the file in our loops.</p>
+</div>
+<div id="trimmomatic-loop-example" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Trimmomatic loop example<a href="05-Multiple_samples_loops.html#trimmomatic-loop-example" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/quality_trimming_and_filtering.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Now we can write a loop to run trimmomatic starting with the code we used above as a base.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="05-Multiple_samples_loops.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> <span class="pp">*</span>_R1.fq.gz<span class="kw">;</span> <span class="co">#the following will loop through all files ending _R1.fq.gz</span></span>
 <span id="cb29-2"><a href="05-Multiple_samples_loops.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span> <span class="va">BASE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>_R1.fq.gz<span class="va">}</span> <span class="co">#assign the file name &#39;$f&#39; to a variable called &#39;BASE&#39; but remove the extension &#39;_R1.fq.gz&#39;</span></span>
@@ -214,6 +240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb29-18"><a href="05-Multiple_samples_loops.html#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span> <span class="co">#end of commands</span></span></code></pre></div>
 <p>You can then edit this code to run other software in a loop. For a nice basic intro to Linux loops please click <a href="https://www.redhat.com/sysadmin/bash-scripting-loops">here</a>.</p>
 
+</div>
 </div>
             </section>
 
