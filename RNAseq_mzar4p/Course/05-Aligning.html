@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Aligning Illumina transcriptome data to a reference genome | RNA-seq gene expression and pathway analysis</title>
   <meta name="description" content="NEOF book for the RNA-seq gene expression and pathway analysis workshop" />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Aligning Illumina transcriptome data to a reference genome | RNA-seq gene expression and pathway analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2023-06-06" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="www/webex.css" type="text/css" />
@@ -239,26 +243,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">5.1</span> Reference sequence preparation<a href="05-Aligning.html#reference-sequence-preparation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/index.png" width="40%" style="display: block; margin: auto;" /></p>
 <p><code>HISAT2</code> uses indexing of the reference genome to speed up the mapping. The index needs to be prepared before we map our reads. To index the genome run</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="05-Aligning.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">hisat2-build</span> <span class="at">-f</span> slice.fa slice</span>
-<span id="cb16-2"><a href="05-Aligning.html#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># view the index files</span></span>
-<span id="cb16-3"><a href="05-Aligning.html#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="05-Aligning.html#cb16-1" tabindex="-1"></a><span class="ex">hisat2-build</span> <span class="at">-f</span> slice.fa slice</span>
+<span id="cb16-2"><a href="05-Aligning.html#cb16-2" tabindex="-1"></a><span class="co"># view the index files</span></span>
+<span id="cb16-3"><a href="05-Aligning.html#cb16-3" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
 <p>This produces index files with the extension '.ht2' that will be automatically detected and used in the mapping step below.</p>
 </div>
 <div id="read-mapping" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Read mapping<a href="05-Aligning.html#read-mapping" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/map.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>Now we are ready to map our reads. First make a directory for our output.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="05-Aligning.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> aligned</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="05-Aligning.html#cb17-1" tabindex="-1"></a><span class="fu">mkdir</span> aligned</span></code></pre></div>
 <p>To map our paired-end, trimmed reads type the following:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="05-Aligning.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">hisat2</span> <span class="dt">\</span></span>
-<span id="cb18-2"><a href="05-Aligning.html#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-x</span> slice <span class="dt">\</span></span>
-<span id="cb18-3"><a href="05-Aligning.html#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-1</span> trimmed/17_slice_R1_out_paired.fastq <span class="dt">\</span></span>
-<span id="cb18-4"><a href="05-Aligning.html#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">-2</span> trimmed/17_slice_R2_out_paired.fastq <span class="dt">\</span></span>
-<span id="cb18-5"><a href="05-Aligning.html#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">-p</span> 8 <span class="dt">\</span></span>
-<span id="cb18-6"><a href="05-Aligning.html#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">-q</span> <span class="dt">\</span></span>
-<span id="cb18-7"><a href="05-Aligning.html#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--met-file</span> aligned/17_slice.stats <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb18-8"><a href="05-Aligning.html#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">samtools</span> sort <span class="at">-O</span> BAM <span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb18-9"><a href="05-Aligning.html#cb18-9" aria-hidden="true" tabindex="-1"></a>  aligned/17_slice.sorted.bam</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="05-Aligning.html#cb18-1" tabindex="-1"></a><span class="ex">hisat2</span> <span class="dt">\</span></span>
+<span id="cb18-2"><a href="05-Aligning.html#cb18-2" tabindex="-1"></a>  <span class="at">-x</span> slice <span class="dt">\</span></span>
+<span id="cb18-3"><a href="05-Aligning.html#cb18-3" tabindex="-1"></a>  <span class="at">-1</span> trimmed/17_slice_R1_out_paired.fastq <span class="dt">\</span></span>
+<span id="cb18-4"><a href="05-Aligning.html#cb18-4" tabindex="-1"></a>  <span class="at">-2</span> trimmed/17_slice_R2_out_paired.fastq <span class="dt">\</span></span>
+<span id="cb18-5"><a href="05-Aligning.html#cb18-5" tabindex="-1"></a>  <span class="at">-p</span> 8 <span class="dt">\</span></span>
+<span id="cb18-6"><a href="05-Aligning.html#cb18-6" tabindex="-1"></a>  <span class="at">-q</span> <span class="dt">\</span></span>
+<span id="cb18-7"><a href="05-Aligning.html#cb18-7" tabindex="-1"></a>  <span class="at">--met-file</span> aligned/17_slice.stats <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb18-8"><a href="05-Aligning.html#cb18-8" tabindex="-1"></a>  <span class="ex">samtools</span> sort <span class="at">-O</span> BAM <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb18-9"><a href="05-Aligning.html#cb18-9" tabindex="-1"></a>  aligned/17_slice.sorted.bam</span></code></pre></div>
 <p>The options used are:</p>
 <p><code>-x</code> The index filename prefix</p>
 <p><code>-1</code> Path to forward paired-end reads to use for aligning</p>
@@ -269,10 +273,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>There are many different mapping parameters you can specify, see <a href="http://daehwankimlab.github.io/hisat2/manual/">here</a>. While it is often sufficient to run HISAT2 with default settings, we recommend reading the manual and considering your own dataset carefully when running any analysis.</p>
 <p>HISAT2 outputs a SAM file <a href="https://samtools.github.io/hts-specs/SAMv1.pdf">(Sequence Alignment Map format)</a>. However, here we pipe the output to <a href="http://www.htslib.org/"><code>samtools</code></a>, a program for writing, viewing and manipulating alignment files, to sort and generate a BAM format, a binary, compressed version of SAM format. This sorts the SAM file by position (this is the default) and outputs it as a BAM file to save space.</p>
 <p>We can view this file using <code>samtools view</code>, and <code>head</code> to display only the first few lines:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="05-Aligning.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-h</span> aligned/17_slice.sorted.bam <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="05-Aligning.html#cb19-1" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-h</span> aligned/17_slice.sorted.bam <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
 <p>The header section consists of lines starting with '@'. In this case we have a header line showing the SAM/BAM format version (<span class="citation">@HD</span> VN:), information on the reference sequence (<span class="citation">@SQ</span>) contig names (SN:) and lengths (LN:) and program information on how the SAM/BAM file was generated (<span class="citation">@PG</span>).</p>
 <p>To look at the information in the alignment section we can leave out the <code>-h</code> option:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="05-Aligning.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view aligned/17_slice.sorted.bam <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="05-Aligning.html#cb20-1" tabindex="-1"></a><span class="ex">samtools</span> view aligned/17_slice.sorted.bam <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
 <p>Here is an example of one line, representing information from one sequence read.</p>
 <p><img src="figures/sam1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>Each column contains information on where and how well the read aligns to the reference. After column 11 there can be several optional tags, often specific to the aligner used and can be useful for downstream analysis.</p>
@@ -283,18 +287,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">5.3</span> Assess mapping quality<a href="05-Aligning.html#assess-mapping-quality" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/mangify_glass.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>We can use the Samtools command <code>flagstat</code> to find information on how the reads mapped:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="05-Aligning.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> flagstat aligned/17_slice.sorted.bam</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="05-Aligning.html#cb21-1" tabindex="-1"></a><span class="ex">samtools</span> flagstat aligned/17_slice.sorted.bam</span></code></pre></div>
 How many reads have mapped?
-<div id="radio_QRGZVSLMSV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_QRGZVSLMSV" value=""></input> <span>5,734</span></label><label><input type="radio" autocomplete="off" name="radio_QRGZVSLMSV" value=""></input> <span>824,268</span></label><label><input type="radio" autocomplete="off" name="radio_QRGZVSLMSV" value="answer"></input> <span>762,382</span></label><label><input type="radio" autocomplete="off" name="radio_QRGZVSLMSV" value=""></input> <span>700,842</span></label>
+<div id="radio_SOQUUSCLZJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SOQUUSCLZJ" value=""></input> <span>5,734</span></label><label><input type="radio" autocomplete="off" name="radio_SOQUUSCLZJ" value=""></input> <span>824,268</span></label><label><input type="radio" autocomplete="off" name="radio_SOQUUSCLZJ" value="answer"></input> <span>762,382</span></label><label><input type="radio" autocomplete="off" name="radio_SOQUUSCLZJ" value=""></input> <span>700,842</span></label>
 </div>
 <p>This information is a summary of the 'FLAG' values - the second field in the sam/bam file. These values can be used if you want to extract or exclude a specific set of reads for downstream analysis.
 Here we will run a command that will keep only high quality, unique alignments and discard unmapped reads and unmapped mates.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="05-Aligning.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> aligned_clean</span>
-<span id="cb22-2"><a href="05-Aligning.html#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="05-Aligning.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-q</span> 40 <span class="at">-f</span> 2 <span class="dt">\</span></span>
-<span id="cb22-4"><a href="05-Aligning.html#cb22-4" aria-hidden="true" tabindex="-1"></a>-F 12 aligned/17_slice.sorted.bam <span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb22-5"><a href="05-Aligning.html#cb22-5" aria-hidden="true" tabindex="-1"></a>aligned_clean/17_slice.sorted.clean.bam</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="05-Aligning.html#cb22-1" tabindex="-1"></a><span class="fu">mkdir</span> aligned_clean</span>
+<span id="cb22-2"><a href="05-Aligning.html#cb22-2" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="05-Aligning.html#cb22-3" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-q</span> 40 <span class="at">-f</span> 2 <span class="dt">\</span></span>
+<span id="cb22-4"><a href="05-Aligning.html#cb22-4" tabindex="-1"></a>-F 12 aligned/17_slice.sorted.bam <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb22-5"><a href="05-Aligning.html#cb22-5" tabindex="-1"></a>aligned_clean/17_slice.sorted.clean.bam</span></code></pre></div>
 <p>The options used are:</p>
 <p><code>-b</code> output in bam format</p>
 <p><code>-q</code> have a mapping quality greater or equal to the number specified</p>
@@ -304,12 +308,12 @@ Here we will run a command that will keep only high quality, unique alignments a
 <p>Run flagstat on the bam file from which we have excluded unmapped reads.</p>
 <ol style="list-style-type: decimal">
 <li>How many reads are in the cleaned file in total?
-<div id="radio_UKKDVANOAG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_UKKDVANOAG" value="answer"></input> <span>690,248</span></label><label><input type="radio" autocomplete="off" name="radio_UKKDVANOAG" value=""></input> <span>824,268</span></label><label><input type="radio" autocomplete="off" name="radio_UKKDVANOAG" value=""></input> <span>700,842</span></label><label><input type="radio" autocomplete="off" name="radio_UKKDVANOAG" value=""></input> <span>345,124</span></label>
+<div id="radio_NMTWELZDBS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NMTWELZDBS" value="answer"></input> <span>690,248</span></label><label><input type="radio" autocomplete="off" name="radio_NMTWELZDBS" value=""></input> <span>824,268</span></label><label><input type="radio" autocomplete="off" name="radio_NMTWELZDBS" value=""></input> <span>700,842</span></label><label><input type="radio" autocomplete="off" name="radio_NMTWELZDBS" value=""></input> <span>345,124</span></label>
 </div></li>
 <li>What proportion of the reads in this file are now mapped?
-<div id="radio_GKVTTMKJRR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_GKVTTMKJRR" value=""></input> <span>0%</span></label><label><input type="radio" autocomplete="off" name="radio_GKVTTMKJRR" value=""></input> <span>84%</span></label><label><input type="radio" autocomplete="off" name="radio_GKVTTMKJRR" value=""></input> <span>98%</span></label><label><input type="radio" autocomplete="off" name="radio_GKVTTMKJRR" value="answer"></input> <span>100%</span></label>
+<div id="radio_RNGAWFHGIV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_RNGAWFHGIV" value=""></input> <span>0%</span></label><label><input type="radio" autocomplete="off" name="radio_RNGAWFHGIV" value=""></input> <span>84%</span></label><label><input type="radio" autocomplete="off" name="radio_RNGAWFHGIV" value=""></input> <span>98%</span></label><label><input type="radio" autocomplete="off" name="radio_RNGAWFHGIV" value="answer"></input> <span>100%</span></label>
 </div></li>
 </ol>
 </div>
@@ -318,10 +322,10 @@ Here we will run a command that will keep only high quality, unique alignments a
 <p><img src="figures/eye_purple.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>To get a better feel for the mapping we have just done, we will visualise our mappings in IGV, the <a href="https://www.broadinstitute.org/igv/">Integrative Genomics Viewer</a>.</p>
 <p>First, we need to index the BAM file in order for the viewer to rapidly go to any bit of the genome:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="05-Aligning.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> index aligned_clean/17_slice.sorted.clean.bam</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="05-Aligning.html#cb23-1" tabindex="-1"></a><span class="ex">samtools</span> index aligned_clean/17_slice.sorted.clean.bam</span></code></pre></div>
 <p>To launch IGV first <strong>open a new terminal window</strong>: right click on the main screen, choose <code>Terminal</code> and load the conda environment <code>. usernaseq</code></p>
 <p>Then type:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="05-Aligning.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">igv</span> <span class="kw">&amp;</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="05-Aligning.html#cb24-1" tabindex="-1"></a><span class="ex">igv</span> <span class="kw">&amp;</span></span></code></pre></div>
 <p>The &amp; (ampersand) opens IGV “in the background’, so you can still enter commands in the terminal window if you want.</p>
 <p>Once IGV has opened (this can take a few minutes) import the genome, mapped reads and gene annotations:</p>
 <p>To import the genome:</p>

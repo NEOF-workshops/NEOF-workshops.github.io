@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Differential Gene Expression using DeSeq2 | RNA-seq gene expression and pathway analysis</title>
   <meta name="description" content="NEOF book for the RNA-seq gene expression and pathway analysis workshop" />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Differential Gene Expression using DeSeq2 | RNA-seq gene expression and pathway analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2023-06-06" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="www/webex.css" type="text/css" />
@@ -248,11 +252,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Before carrying out any analysis we will go through a quick tutorial of <code>jupyter-notebook</code>.</p>
 <p>But first we will change directories so we have the data we need available for the next two chapters.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="07-Differential_Gene_Expression.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../Practical_two</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="07-Differential_Gene_Expression.html#cb30-1" tabindex="-1"></a><span class="bu">cd</span> ../Practical_two</span></code></pre></div>
 <div id="open-jupyter-notebook" class="section level3 hasAnchor" number="7.1.1">
 <h3><span class="header-section-number">7.1.1</span> Open Jupyter-notebook<a href="07-Differential_Gene_Expression.html#open-jupyter-notebook" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The first step is to open <code>jupyter-notebook</code>. Run the below command in your <code>(rnaseq)</code> environment.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="07-Differential_Gene_Expression.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter-notebook</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="07-Differential_Gene_Expression.html#cb31-1" tabindex="-1"></a><span class="ex">jupyter-notebook</span></span></code></pre></div>
 <p>This will open <code>jupyter-notebook</code> in firefox. We won't need to access the linux terminal anymore. Leave the terminal running <code>jupyter-notebook</code> and full screen your <code>firefox</code> so you should see something like below.</p>
 <p><img src="figures/jupyter_notebook_example_1.png" width="100%" style="display: block; margin: auto;" /></p>
 </div>
@@ -270,8 +274,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">7.1.3</span> Cells and code<a href="07-Differential_Gene_Expression.html#cells-and-code" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><code>Jupyter-notebook</code> uses <strong>cells</strong> (the gray boxes) to separate code. This is very useful to compartmentalise our code.</p>
 <p>There will already be one <strong>cell</strong>. Within the <strong>cell</strong>, type in the below commands.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="07-Differential_Gene_Expression.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
-<span id="cb32-2"><a href="07-Differential_Gene_Expression.html#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2-3</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="07-Differential_Gene_Expression.html#cb32-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb32-2"><a href="07-Differential_Gene_Expression.html#cb32-2" tabindex="-1"></a><span class="dv">2-3</span></span></code></pre></div>
 <p>When pressing enter in <strong>cells</strong> it will create a new line. To run all commands in a <strong>cell</strong> press <code>CTRL + enter</code>.</p>
 <p>Run your current <strong>cell</strong> and you should see something like below.</p>
 <p><img src="figures/jupyter_notebook_example_3.png" width="100%" style="display: block; margin: auto;" /></p>
@@ -285,11 +289,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p><strong>Tip:</strong> Hover over the toolbar icons to display a text based description of its function.</p>
 <p>With that knowledge add a second <strong>cell</strong> below the first <strong>cell</strong>. Add the following code to your second <strong>cell</strong> but do not run it.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="07-Differential_Gene_Expression.html#cb33-1" aria-hidden="true" tabindex="-1"></a>num_1 <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb33-2"><a href="07-Differential_Gene_Expression.html#cb33-2" aria-hidden="true" tabindex="-1"></a>num_2 <span class="ot">&lt;-</span> <span class="dv">10</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="07-Differential_Gene_Expression.html#cb33-1" tabindex="-1"></a>num_1 <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb33-2"><a href="07-Differential_Gene_Expression.html#cb33-2" tabindex="-1"></a>num_2 <span class="ot">&lt;-</span> <span class="dv">10</span></span></code></pre></div>
 <p><strong>Tip:</strong> Notice there are green lines around your selected cell.</p>
 <p>Insert a third <strong>cell</strong> and add the following code to it. Do not run the code.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="07-Differential_Gene_Expression.html#cb34-1" aria-hidden="true" tabindex="-1"></a>num_1 <span class="sc">*</span> num_2</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="07-Differential_Gene_Expression.html#cb34-1" tabindex="-1"></a>num_1 <span class="sc">*</span> num_2</span></code></pre></div>
 </div>
 <div id="running-code" class="section level3 hasAnchor" number="7.1.5">
 <h3><span class="header-section-number">7.1.5</span> Running code<a href="07-Differential_Gene_Expression.html#running-code" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -341,7 +345,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Ensure you have a space between the <code>#</code> and header text ("Tutorial").</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="07-Differential_Gene_Expression.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tutorial</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="07-Differential_Gene_Expression.html#cb35-1" tabindex="-1"></a><span class="co"># Tutorial</span></span></code></pre></div>
 <p>Great, we can now add nice headers in our notebooks. <strong>Save</strong> the notebook once more before carrying on to the next section.</p>
 <div class="webex-solution">
 <button>
@@ -441,28 +445,28 @@ present within conditions without sufficient replicates. Even using 3 replicates
 <p>Create a new notebook called <strong>"Chp07-Differential_gene_expression"</strong>.
 - Add a markdown cell with the first level header: # Differential gene expression
 - Add the below to a code cell and run the cell to load the <code>DESeq2</code> library.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="07-Differential_Gene_Expression.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;DESeq2&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="07-Differential_Gene_Expression.html#cb36-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;DESeq2&quot;</span>)</span></code></pre></div>
 <div id="loading-in-the-data" class="section level3 hasAnchor" number="7.5.1">
 <h3><span class="header-section-number">7.5.1</span> Loading in the data<a href="07-Differential_Gene_Expression.html#loading-in-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="figures/loading_bar.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>Create a new code cell. First we will read in a table which contains the count data per gene for all the individuals we will be examining.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="07-Differential_Gene_Expression.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The row names are your gene ids</span></span>
-<span id="cb37-2"><a href="07-Differential_Gene_Expression.html#cb37-2" aria-hidden="true" tabindex="-1"></a>counts<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;genecount.set1.tsv&quot;</span>, <span class="at">header=</span>T, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb37-3"><a href="07-Differential_Gene_Expression.html#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the start of the dataframe to look at its structure. </span></span>
-<span id="cb37-4"><a href="07-Differential_Gene_Expression.html#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(counts)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="07-Differential_Gene_Expression.html#cb37-1" tabindex="-1"></a><span class="co"># The row names are your gene ids</span></span>
+<span id="cb37-2"><a href="07-Differential_Gene_Expression.html#cb37-2" tabindex="-1"></a>counts<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;genecount.set1.tsv&quot;</span>, <span class="at">header=</span>T, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb37-3"><a href="07-Differential_Gene_Expression.html#cb37-3" tabindex="-1"></a><span class="co"># Print the start of the dataframe to look at its structure. </span></span>
+<span id="cb37-4"><a href="07-Differential_Gene_Expression.html#cb37-4" tabindex="-1"></a><span class="fu">head</span>(counts)</span></code></pre></div>
 <p>In a new cell we will read in the metadata for the samples. This table includes information about the regime, sex, status, tissue and line for each sample (for more information see above).</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="07-Differential_Gene_Expression.html#cb38-1" aria-hidden="true" tabindex="-1"></a>coldata<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;design.set1.tsv&quot;</span>, <span class="at">header=</span>T, <span class="at">row.names =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="07-Differential_Gene_Expression.html#cb38-1" tabindex="-1"></a>coldata<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;design.set1.tsv&quot;</span>, <span class="at">header=</span>T, <span class="at">row.names =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p>From now on you will get less instructions on your notebook structure. Please create your own coding and markdown cells where you think appropriate.</p>
 <p>We are going to run a simple analysis to examine which genes are differentially expressed between males and females (i.e. sex-biased genes). Sex-biased gene expression is common in animals and sex-biased genes are thought to drive many behavioural, physiological and morphological differences between the sexes.</p>
 <p>In our model we need to make sure that sex is treated as a factor. To do this we can run the following command.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="07-Differential_Gene_Expression.html#cb39-1" aria-hidden="true" tabindex="-1"></a>coldata<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(coldata<span class="sc">$</span>sex)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="07-Differential_Gene_Expression.html#cb39-1" tabindex="-1"></a>coldata<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(coldata<span class="sc">$</span>sex)</span></code></pre></div>
 <p>It is essential that the order of the sample names in your metadata and count tables are in the same order. We can check this by comparing whether all the row names in our metadata match the column names in our count data.</p>
 <p>Run the following function. If <code>TRUE</code> is printed to the screen then all the sample names match and we can proceed.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="07-Differential_Gene_Expression.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(<span class="fu">rownames</span>(coldata) <span class="sc">==</span> <span class="fu">colnames</span>(counts))</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="07-Differential_Gene_Expression.html#cb40-1" tabindex="-1"></a><span class="fu">all</span>(<span class="fu">rownames</span>(coldata) <span class="sc">==</span> <span class="fu">colnames</span>(counts))</span></code></pre></div>
 <p>Now we set up our DESeqDataset, which will store our read counts and metadata. We must also specify an associated design formula, which expresses the variables which will be used in modeling. In this instance we are interested in how sex affects gene expression patterns so we specify this as a term of interest after a tilde (~) in our formula design.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="07-Differential_Gene_Expression.html#cb41-1" aria-hidden="true" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeqDataSetFromMatrix</span>(<span class="at">countData =</span> counts,</span>
-<span id="cb41-2"><a href="07-Differential_Gene_Expression.html#cb41-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">colData =</span> coldata,</span>
-<span id="cb41-3"><a href="07-Differential_Gene_Expression.html#cb41-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">design=</span> <span class="sc">~</span> sex)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="07-Differential_Gene_Expression.html#cb41-1" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeqDataSetFromMatrix</span>(<span class="at">countData =</span> counts,</span>
+<span id="cb41-2"><a href="07-Differential_Gene_Expression.html#cb41-2" tabindex="-1"></a>                              <span class="at">colData =</span> coldata,</span>
+<span id="cb41-3"><a href="07-Differential_Gene_Expression.html#cb41-3" tabindex="-1"></a>                              <span class="at">design=</span> <span class="sc">~</span> sex)</span></code></pre></div>
 </div>
 <div id="filtering-the-data" class="section level3 hasAnchor" number="7.5.2">
 <h3><span class="header-section-number">7.5.2</span> Filtering the data<a href="07-Differential_Gene_Expression.html#filtering-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -473,21 +477,21 @@ present within conditions without sufficient replicates. Even using 3 replicates
 <li>this will speed up the analysis.</li>
 </ol>
 <p>In this case we will remove low count genes with less than 10 reads in total across samples. (A stricter filtering is applied to increase power via an independent filtering on the mean of normalised counts when we run the results function further down).</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="07-Differential_Gene_Expression.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check the number of genes contained in the dataframe</span></span>
-<span id="cb42-2"><a href="07-Differential_Gene_Expression.html#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(dds)</span>
-<span id="cb42-3"><a href="07-Differential_Gene_Expression.html#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># we start with 16,707 genes</span></span>
-<span id="cb42-4"><a href="07-Differential_Gene_Expression.html#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-5"><a href="07-Differential_Gene_Expression.html#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="co"># remove genes with less than or equal to 10 reads across all samples</span></span>
-<span id="cb42-6"><a href="07-Differential_Gene_Expression.html#cb42-6" aria-hidden="true" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">counts</span>(dds)) <span class="sc">&gt;=</span> <span class="dv">10</span></span>
-<span id="cb42-7"><a href="07-Differential_Gene_Expression.html#cb42-7" aria-hidden="true" tabindex="-1"></a>dds<span class="ot">&lt;-</span> dds[keep,]</span>
-<span id="cb42-8"><a href="07-Differential_Gene_Expression.html#cb42-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-9"><a href="07-Differential_Gene_Expression.html#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="co"># re-count the number of genes we have retained after filtering</span></span>
-<span id="cb42-10"><a href="07-Differential_Gene_Expression.html#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(dds)</span>
-<span id="cb42-11"><a href="07-Differential_Gene_Expression.html#cb42-11" aria-hidden="true" tabindex="-1"></a><span class="co"># we have 15,675 genes after filtering</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="07-Differential_Gene_Expression.html#cb42-1" tabindex="-1"></a><span class="co"># check the number of genes contained in the dataframe</span></span>
+<span id="cb42-2"><a href="07-Differential_Gene_Expression.html#cb42-2" tabindex="-1"></a><span class="fu">nrow</span>(dds)</span>
+<span id="cb42-3"><a href="07-Differential_Gene_Expression.html#cb42-3" tabindex="-1"></a><span class="co"># we start with 16,707 genes</span></span>
+<span id="cb42-4"><a href="07-Differential_Gene_Expression.html#cb42-4" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="07-Differential_Gene_Expression.html#cb42-5" tabindex="-1"></a><span class="co"># remove genes with less than or equal to 10 reads across all samples</span></span>
+<span id="cb42-6"><a href="07-Differential_Gene_Expression.html#cb42-6" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">counts</span>(dds)) <span class="sc">&gt;=</span> <span class="dv">10</span></span>
+<span id="cb42-7"><a href="07-Differential_Gene_Expression.html#cb42-7" tabindex="-1"></a>dds<span class="ot">&lt;-</span> dds[keep,]</span>
+<span id="cb42-8"><a href="07-Differential_Gene_Expression.html#cb42-8" tabindex="-1"></a></span>
+<span id="cb42-9"><a href="07-Differential_Gene_Expression.html#cb42-9" tabindex="-1"></a><span class="co"># re-count the number of genes we have retained after filtering</span></span>
+<span id="cb42-10"><a href="07-Differential_Gene_Expression.html#cb42-10" tabindex="-1"></a><span class="fu">nrow</span>(dds)</span>
+<span id="cb42-11"><a href="07-Differential_Gene_Expression.html#cb42-11" tabindex="-1"></a><span class="co"># we have 15,675 genes after filtering</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>How many genes do we have after filtering?
-<div id="radio_BFAJFKIKTF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_BFAJFKIKTF" value=""></input> <span>67,569</span></label><label><input type="radio" autocomplete="off" name="radio_BFAJFKIKTF" value=""></input> <span>12,675</span></label><label><input type="radio" autocomplete="off" name="radio_BFAJFKIKTF" value="answer"></input> <span>15,675</span></label>
+<div id="radio_RAFYFEYVRX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_RAFYFEYVRX" value=""></input> <span>67,569</span></label><label><input type="radio" autocomplete="off" name="radio_RAFYFEYVRX" value=""></input> <span>12,675</span></label><label><input type="radio" autocomplete="off" name="radio_RAFYFEYVRX" value="answer"></input> <span>15,675</span></label>
 </div></li>
 </ol>
 <p>Note: The reference level of for factors used within the model are by default based on alphabetical order. It might not matter which factor is set as the reference in your analysis but if for example you had a control/wild type group it would make sense to set this as the reference to compare against. One way you can tell R how to set your reference is using the relevel function. For example if we had a term called condition and we wanted to make sure our wild type (wt) samples were set as the reference compared to the mutant (mt) we could do this using the following command:
@@ -502,14 +506,14 @@ present within conditions without sufficient replicates. Even using 3 replicates
 <li>estimate dispertions</li>
 <li>fit a negative binomial general linear model and wald statistics</li>
 </ol>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="07-Differential_Gene_Expression.html#cb43-1" aria-hidden="true" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeq</span>(dds)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="07-Differential_Gene_Expression.html#cb43-1" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeq</span>(dds)</span></code></pre></div>
 <p>For more details of each step you can check the help section of the DESeq2 help using:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="07-Differential_Gene_Expression.html#cb44-1" aria-hidden="true" tabindex="-1"></a>?DESeq</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="07-Differential_Gene_Expression.html#cb44-1" tabindex="-1"></a>?DESeq</span></code></pre></div>
 <p>You can also read more about the estimation steps <a href="http://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#theory">here</a> or in the DESeq2 <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8">publication</a>.</p>
 <p>We will now extract the results table for our DGE analysis using the <code>results</code> function.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="07-Differential_Gene_Expression.html#cb45-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">results</span>(dds)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="07-Differential_Gene_Expression.html#cb45-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">results</span>(dds)</span></code></pre></div>
 <p>We can look at the start of our results object by running.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="07-Differential_Gene_Expression.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(res)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="07-Differential_Gene_Expression.html#cb46-1" tabindex="-1"></a><span class="fu">head</span>(res)</span></code></pre></div>
 <p>You can see we have several columns in our results:</p>
 <ul>
 <li>baseMean: the average of the normalized count values, dividing by size factors, taken over all samples</li>
@@ -520,31 +524,31 @@ present within conditions without sufficient replicates. Even using 3 replicates
 <li>padj: Benjamini-Hochberg adjusted p-value (This is a p-value adjusted to account for multiple testing. We need to apply a correction as we have run thousands of tests which means that the chance of getting a false significant result is much higher. For more info see this <a href="http://www.nature.com/nbt/journal/v27/n12/full/nbt1209-1135.html">link</a>.</li>
 </ul>
 <p>We can summarise the results by running the following command.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="07-Differential_Gene_Expression.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="07-Differential_Gene_Expression.html#cb47-1" tabindex="-1"></a><span class="fu">summary</span>(res)</span></code></pre></div>
 <p>This shows us that we have 646 genes with a positive log fold change (higher expression in males and lower expression in females)</p>
 How many genes have a negative log fold change (higher expression in females and lower expression in males)?
-<div id="radio_RPFOMKPFNM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RPFOMKPFNM" value=""></input> <span>646</span></label><label><input type="radio" autocomplete="off" name="radio_RPFOMKPFNM" value="answer"></input> <span>690</span></label><label><input type="radio" autocomplete="off" name="radio_RPFOMKPFNM" value=""></input> <span>3,661</span></label>
+<div id="radio_DXXKSSAKLV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DXXKSSAKLV" value=""></input> <span>646</span></label><label><input type="radio" autocomplete="off" name="radio_DXXKSSAKLV" value="answer"></input> <span>690</span></label><label><input type="radio" autocomplete="off" name="radio_DXXKSSAKLV" value=""></input> <span>3,661</span></label>
 </div>
 <p>We can order our results by the adjusted p-value to look at the most significant DEG.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="07-Differential_Gene_Expression.html#cb48-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> res[<span class="fu">order</span>(res<span class="sc">$</span>padj),]</span>
-<span id="cb48-2"><a href="07-Differential_Gene_Expression.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(res)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="07-Differential_Gene_Expression.html#cb48-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> res[<span class="fu">order</span>(res<span class="sc">$</span>padj),]</span>
+<span id="cb48-2"><a href="07-Differential_Gene_Expression.html#cb48-2" tabindex="-1"></a><span class="fu">head</span>(res)</span></code></pre></div>
 Which gene has the largest log fold change difference of the top 6 genes shown?
-<div id="radio_ZAUTXWBUOF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZAUTXWBUOF" value=""></input> <span>FBgn0079420</span></label><label><input type="radio" autocomplete="off" name="radio_ZAUTXWBUOF" value=""></input> <span>FBgn0245773</span></label><label><input type="radio" autocomplete="off" name="radio_ZAUTXWBUOF" value="answer"></input> <span>FBgn0075575</span></label>
+<div id="radio_JWRKLHFICW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JWRKLHFICW" value=""></input> <span>FBgn0079420</span></label><label><input type="radio" autocomplete="off" name="radio_JWRKLHFICW" value=""></input> <span>FBgn0245773</span></label><label><input type="radio" autocomplete="off" name="radio_JWRKLHFICW" value="answer"></input> <span>FBgn0075575</span></label>
 </div>
 </div>
 <div id="plot-the-expression-differences-for-the-most-significant-differentially-expressed-genes" class="section level3 hasAnchor" number="7.5.4">
 <h3><span class="header-section-number">7.5.4</span> Plot the expression differences for the most significant differentially expressed genes<a href="07-Differential_Gene_Expression.html#plot-the-expression-differences-for-the-most-significant-differentially-expressed-genes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We can visually plot these genes by typing</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="07-Differential_Gene_Expression.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
-<span id="cb49-2"><a href="07-Differential_Gene_Expression.html#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-3"><a href="07-Differential_Gene_Expression.html#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0245773&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
-<span id="cb49-4"><a href="07-Differential_Gene_Expression.html#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0075575&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
-<span id="cb49-5"><a href="07-Differential_Gene_Expression.html#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0071323&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
-<span id="cb49-6"><a href="07-Differential_Gene_Expression.html#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0072657&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
-<span id="cb49-7"><a href="07-Differential_Gene_Expression.html#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0249407&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
-<span id="cb49-8"><a href="07-Differential_Gene_Expression.html#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0079420&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="07-Differential_Gene_Expression.html#cb49-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb49-2"><a href="07-Differential_Gene_Expression.html#cb49-2" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="07-Differential_Gene_Expression.html#cb49-3" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0245773&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
+<span id="cb49-4"><a href="07-Differential_Gene_Expression.html#cb49-4" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0075575&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
+<span id="cb49-5"><a href="07-Differential_Gene_Expression.html#cb49-5" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0071323&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
+<span id="cb49-6"><a href="07-Differential_Gene_Expression.html#cb49-6" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0072657&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
+<span id="cb49-7"><a href="07-Differential_Gene_Expression.html#cb49-7" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0249407&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
+<span id="cb49-8"><a href="07-Differential_Gene_Expression.html#cb49-8" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0079420&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span></code></pre></div>
 <p><img src="figures/6_genes.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>You can see that of the 6 genes with the lowest adjusted p-values, 5 have negative log fold changes and have higher normalised counts in females compared to males, and 1 has a positive log fold change with higher normalised counts in males than females.</p>
 </div>
@@ -556,30 +560,30 @@ Which gene has the largest log fold change difference of the top 6 genes shown?
 <div id="ma-plot" class="section level3 hasAnchor" number="7.6.1">
 <h3><span class="header-section-number">7.6.1</span> MA plot<a href="07-Differential_Gene_Expression.html#ma-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We will first plot an MA plot. This gives us an overview of the experiment and how DESeq2 calls significant DEG. Each gene is represented by a dot. Genes with significant adjusted p-values (default &lt; 0.01) are coloured in blue. This shows that DESeq2 will only call significant DGE in genes with a large average normalised count as only these genes contain sufficient information to be able to do so.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="07-Differential_Gene_Expression.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb50-2"><a href="07-Differential_Gene_Expression.html#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-3"><a href="07-Differential_Gene_Expression.html#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMA</span>(res, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="07-Differential_Gene_Expression.html#cb50-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb50-2"><a href="07-Differential_Gene_Expression.html#cb50-2" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="07-Differential_Gene_Expression.html#cb50-3" tabindex="-1"></a><span class="fu">plotMA</span>(res, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>))</span></code></pre></div>
 <p><img src="figures/MA.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="volcano-plot" class="section level3 hasAnchor" number="7.6.2">
 <h3><span class="header-section-number">7.6.2</span> Volcano plot<a href="07-Differential_Gene_Expression.html#volcano-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>One nice way to visualise your results is to plot a volcano plot.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="07-Differential_Gene_Expression.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the basic volcano plot</span></span>
-<span id="cb51-2"><a href="07-Differential_Gene_Expression.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(res, <span class="fu">plot</span>(log2FoldChange, </span>
-<span id="cb51-3"><a href="07-Differential_Gene_Expression.html#cb51-3" aria-hidden="true" tabindex="-1"></a>               <span class="sc">-</span><span class="fu">log10</span>(pvalue), </span>
-<span id="cb51-4"><a href="07-Differential_Gene_Expression.html#cb51-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">pch=</span><span class="dv">20</span>, <span class="at">main=</span><span class="st">&quot;Volcano plot&quot;</span>, </span>
-<span id="cb51-5"><a href="07-Differential_Gene_Expression.html#cb51-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>),  <span class="at">col=</span><span class="st">&quot;grey&quot;</span>))</span>
-<span id="cb51-6"><a href="07-Differential_Gene_Expression.html#cb51-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-7"><a href="07-Differential_Gene_Expression.html#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Colour points light blue if padj&lt;0.01</span></span>
-<span id="cb51-8"><a href="07-Differential_Gene_Expression.html#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">subset</span>(res, padj<span class="sc">&lt;</span><span class="fl">0.01</span> ), </span>
-<span id="cb51-9"><a href="07-Differential_Gene_Expression.html#cb51-9" aria-hidden="true" tabindex="-1"></a>     <span class="fu">points</span>(log2FoldChange, </span>
-<span id="cb51-10"><a href="07-Differential_Gene_Expression.html#cb51-10" aria-hidden="true" tabindex="-1"></a>            <span class="sc">-</span><span class="fu">log10</span>(pvalue), </span>
-<span id="cb51-11"><a href="07-Differential_Gene_Expression.html#cb51-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">pch=</span><span class="dv">20</span>, <span class="at">col=</span><span class="st">&quot;#a6cee3&quot;</span>))</span>
-<span id="cb51-12"><a href="07-Differential_Gene_Expression.html#cb51-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Colour points dark blue if log2FC&gt;1 and padj&lt;0.01)</span></span>
-<span id="cb51-13"><a href="07-Differential_Gene_Expression.html#cb51-13" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">subset</span>(res, padj<span class="sc">&lt;</span><span class="fl">0.01</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(log2FoldChange)<span class="sc">&gt;</span><span class="dv">1</span>), </span>
-<span id="cb51-14"><a href="07-Differential_Gene_Expression.html#cb51-14" aria-hidden="true" tabindex="-1"></a>     <span class="fu">points</span>(log2FoldChange, </span>
-<span id="cb51-15"><a href="07-Differential_Gene_Expression.html#cb51-15" aria-hidden="true" tabindex="-1"></a>            <span class="sc">-</span><span class="fu">log10</span>(pvalue), </span>
-<span id="cb51-16"><a href="07-Differential_Gene_Expression.html#cb51-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">pch=</span><span class="dv">20</span>, <span class="at">col=</span><span class="st">&quot;#1f78b4&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="07-Differential_Gene_Expression.html#cb51-1" tabindex="-1"></a><span class="co"># Make the basic volcano plot</span></span>
+<span id="cb51-2"><a href="07-Differential_Gene_Expression.html#cb51-2" tabindex="-1"></a><span class="fu">with</span>(res, <span class="fu">plot</span>(log2FoldChange, </span>
+<span id="cb51-3"><a href="07-Differential_Gene_Expression.html#cb51-3" tabindex="-1"></a>               <span class="sc">-</span><span class="fu">log10</span>(pvalue), </span>
+<span id="cb51-4"><a href="07-Differential_Gene_Expression.html#cb51-4" tabindex="-1"></a>               <span class="at">pch=</span><span class="dv">20</span>, <span class="at">main=</span><span class="st">&quot;Volcano plot&quot;</span>, </span>
+<span id="cb51-5"><a href="07-Differential_Gene_Expression.html#cb51-5" tabindex="-1"></a>               <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>),  <span class="at">col=</span><span class="st">&quot;grey&quot;</span>))</span>
+<span id="cb51-6"><a href="07-Differential_Gene_Expression.html#cb51-6" tabindex="-1"></a></span>
+<span id="cb51-7"><a href="07-Differential_Gene_Expression.html#cb51-7" tabindex="-1"></a><span class="co"># Colour points light blue if padj&lt;0.01</span></span>
+<span id="cb51-8"><a href="07-Differential_Gene_Expression.html#cb51-8" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">subset</span>(res, padj<span class="sc">&lt;</span><span class="fl">0.01</span> ), </span>
+<span id="cb51-9"><a href="07-Differential_Gene_Expression.html#cb51-9" tabindex="-1"></a>     <span class="fu">points</span>(log2FoldChange, </span>
+<span id="cb51-10"><a href="07-Differential_Gene_Expression.html#cb51-10" tabindex="-1"></a>            <span class="sc">-</span><span class="fu">log10</span>(pvalue), </span>
+<span id="cb51-11"><a href="07-Differential_Gene_Expression.html#cb51-11" tabindex="-1"></a>            <span class="at">pch=</span><span class="dv">20</span>, <span class="at">col=</span><span class="st">&quot;#a6cee3&quot;</span>))</span>
+<span id="cb51-12"><a href="07-Differential_Gene_Expression.html#cb51-12" tabindex="-1"></a><span class="co"># Colour points dark blue if log2FC&gt;1 and padj&lt;0.01)</span></span>
+<span id="cb51-13"><a href="07-Differential_Gene_Expression.html#cb51-13" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">subset</span>(res, padj<span class="sc">&lt;</span><span class="fl">0.01</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(log2FoldChange)<span class="sc">&gt;</span><span class="dv">1</span>), </span>
+<span id="cb51-14"><a href="07-Differential_Gene_Expression.html#cb51-14" tabindex="-1"></a>     <span class="fu">points</span>(log2FoldChange, </span>
+<span id="cb51-15"><a href="07-Differential_Gene_Expression.html#cb51-15" tabindex="-1"></a>            <span class="sc">-</span><span class="fu">log10</span>(pvalue), </span>
+<span id="cb51-16"><a href="07-Differential_Gene_Expression.html#cb51-16" tabindex="-1"></a>            <span class="at">pch=</span><span class="dv">20</span>, <span class="at">col=</span><span class="st">&quot;#1f78b4&quot;</span>))</span></code></pre></div>
 <p><img src="figures/volcano.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>This allows us to visualise the number of differentially expressed genes which are significant (light blue). We can also visualise how many genes have an expression level which is at least twice as high in males than in females (log2FoldChange&gt;1) and those which are twice as high in females than in males (log2FoldChange&lt;1).</p>
 <p>In our case, we have a fairly even number of genes both up and down regulated in males compared to females.</p>
@@ -590,41 +594,41 @@ Which gene has the largest log fold change difference of the top 6 genes shown?
 <p>PCA and Correlation Heatmap plots visualise the outcomes of the assessment of the variation within and between sample groups.</p>
 <p>Before we plot these we will transform the data. For the differential expression analysis we use raw counts but for visualisation and clustering purposes it is common to work with transformed data. There are two main ways suggested for transforming data for visualisation and clustering in DESeq2: VST (variance stabilising transformations) and the rlog (regularised logarithm). For more information see <a href="http://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#data-transformations-and-visualization">here</a>. Here we will use the rlog transformation before plotting the Heatmap and PCA plots.</p>
 <p>First use the rlog transformation to normalise the data.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="07-Differential_Gene_Expression.html#cb52-1" aria-hidden="true" tabindex="-1"></a>rld <span class="ot">&lt;-</span> <span class="fu">rlog</span>(dds, <span class="at">blind=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="07-Differential_Gene_Expression.html#cb52-1" tabindex="-1"></a>rld <span class="ot">&lt;-</span> <span class="fu">rlog</span>(dds, <span class="at">blind=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p>The argument blind, refers to whether the transformation should be blind to the sample information specified by the design formula. This is not appopriate to use as we are expecting many of the genes to have counts which are explained by the experimental design we specified (i.e. sex), so we have set this argument to false.</p>
 <p>We will use the package <code>pheatmap</code> to plot a heatmap for our samples and see how they cluster.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="07-Differential_Gene_Expression.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load pheatmap &amp; ggplot2</span></span>
-<span id="cb53-2"><a href="07-Differential_Gene_Expression.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span>
-<span id="cb53-3"><a href="07-Differential_Gene_Expression.html#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb53-4"><a href="07-Differential_Gene_Expression.html#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-5"><a href="07-Differential_Gene_Expression.html#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="co"># extract assay of numeric values from the rld object needed by pheatmap</span></span>
-<span id="cb53-6"><a href="07-Differential_Gene_Expression.html#cb53-6" aria-hidden="true" tabindex="-1"></a>rld_mat <span class="ot">&lt;-</span> <span class="fu">assay</span>(rld)</span>
-<span id="cb53-7"><a href="07-Differential_Gene_Expression.html#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the pairwise correlation values for samples and make a matrix of correlations</span></span>
-<span id="cb53-8"><a href="07-Differential_Gene_Expression.html#cb53-8" aria-hidden="true" tabindex="-1"></a>rld_cor <span class="ot">&lt;-</span> <span class="fu">cor</span>(rld_mat)</span>
-<span id="cb53-9"><a href="07-Differential_Gene_Expression.html#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="co"># rename the coldata by the sex column in the metadata</span></span>
-<span id="cb53-10"><a href="07-Differential_Gene_Expression.html#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(rld_cor)<span class="ot">&lt;-</span>coldata<span class="sc">$</span>sex</span>
-<span id="cb53-11"><a href="07-Differential_Gene_Expression.html#cb53-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rld_cor)</span></code></pre></div>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="07-Differential_Gene_Expression.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot heatmap</span></span>
-<span id="cb54-2"><a href="07-Differential_Gene_Expression.html#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(rld_cor)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="07-Differential_Gene_Expression.html#cb53-1" tabindex="-1"></a><span class="co"># load pheatmap &amp; ggplot2</span></span>
+<span id="cb53-2"><a href="07-Differential_Gene_Expression.html#cb53-2" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span>
+<span id="cb53-3"><a href="07-Differential_Gene_Expression.html#cb53-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb53-4"><a href="07-Differential_Gene_Expression.html#cb53-4" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="07-Differential_Gene_Expression.html#cb53-5" tabindex="-1"></a><span class="co"># extract assay of numeric values from the rld object needed by pheatmap</span></span>
+<span id="cb53-6"><a href="07-Differential_Gene_Expression.html#cb53-6" tabindex="-1"></a>rld_mat <span class="ot">&lt;-</span> <span class="fu">assay</span>(rld)</span>
+<span id="cb53-7"><a href="07-Differential_Gene_Expression.html#cb53-7" tabindex="-1"></a><span class="co"># compute the pairwise correlation values for samples and make a matrix of correlations</span></span>
+<span id="cb53-8"><a href="07-Differential_Gene_Expression.html#cb53-8" tabindex="-1"></a>rld_cor <span class="ot">&lt;-</span> <span class="fu">cor</span>(rld_mat)</span>
+<span id="cb53-9"><a href="07-Differential_Gene_Expression.html#cb53-9" tabindex="-1"></a><span class="co"># rename the coldata by the sex column in the metadata</span></span>
+<span id="cb53-10"><a href="07-Differential_Gene_Expression.html#cb53-10" tabindex="-1"></a><span class="fu">rownames</span>(rld_cor)<span class="ot">&lt;-</span>coldata<span class="sc">$</span>sex</span>
+<span id="cb53-11"><a href="07-Differential_Gene_Expression.html#cb53-11" tabindex="-1"></a><span class="fu">head</span>(rld_cor)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="07-Differential_Gene_Expression.html#cb54-1" tabindex="-1"></a><span class="co"># plot heatmap</span></span>
+<span id="cb54-2"><a href="07-Differential_Gene_Expression.html#cb54-2" tabindex="-1"></a><span class="fu">pheatmap</span>(rld_cor)</span></code></pre></div>
 <p><img src="figures/heatmap.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>We can see that in general samples seem to cluster on the heatmap by sex.</p>
 </div>
 <div id="principle-component-analysis" class="section level3 hasAnchor" number="7.6.4">
 <h3><span class="header-section-number">7.6.4</span> Principle Component Analysis<a href="07-Differential_Gene_Expression.html#principle-component-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We will now plot the PCA and colour the points based on sex. We specify that females will be coloured green and males orange.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="07-Differential_Gene_Expression.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotPCA</span>(rld, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)<span class="sc">+</span></span>
-<span id="cb55-2"><a href="07-Differential_Gene_Expression.html#cb55-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb55-3"><a href="07-Differential_Gene_Expression.html#cb55-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">theme</span>(<span class="at">legend.title=</span><span class="fu">element_blank</span>())<span class="sc">+</span></span>
-<span id="cb55-4"><a href="07-Differential_Gene_Expression.html#cb55-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#33a02c&quot;</span>, <span class="st">&quot;#ff7f00&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="07-Differential_Gene_Expression.html#cb55-1" tabindex="-1"></a><span class="fu">plotPCA</span>(rld, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)<span class="sc">+</span></span>
+<span id="cb55-2"><a href="07-Differential_Gene_Expression.html#cb55-2" tabindex="-1"></a>            <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb55-3"><a href="07-Differential_Gene_Expression.html#cb55-3" tabindex="-1"></a>            <span class="fu">theme</span>(<span class="at">legend.title=</span><span class="fu">element_blank</span>())<span class="sc">+</span></span>
+<span id="cb55-4"><a href="07-Differential_Gene_Expression.html#cb55-4" tabindex="-1"></a>            <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#33a02c&quot;</span>, <span class="st">&quot;#ff7f00&quot;</span>))</span></code></pre></div>
 <p><img src="figures/PCA_sex.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>The PCA shows us that 32% of the variance can be explained by PC1 and looking at how the points are clustered we can suggest that sex is driving the division based on the x axis.</p>
 <p>24% assigned to PC2. We can recolour the plot based on the group variable from our metadata to see if this sheds some more light on what could be driving the differences between samples on the y axis.</p>
 <p>Plot again and colour based on group.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="07-Differential_Gene_Expression.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotPCA</span>(rld, <span class="at">intgroup=</span><span class="st">&quot;group&quot;</span>)<span class="sc">+</span></span>
-<span id="cb56-2"><a href="07-Differential_Gene_Expression.html#cb56-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb56-3"><a href="07-Differential_Gene_Expression.html#cb56-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">theme</span>(<span class="at">legend.title=</span><span class="fu">element_blank</span>())<span class="sc">+</span></span>
-<span id="cb56-4"><a href="07-Differential_Gene_Expression.html#cb56-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#a6cee3&quot;</span>, <span class="st">&quot;#1f78b4&quot;</span>, <span class="st">&quot;#fb9a99&quot;</span>, </span>
-<span id="cb56-5"><a href="07-Differential_Gene_Expression.html#cb56-5" aria-hidden="true" tabindex="-1"></a>                                              <span class="st">&quot;#e31a1c&quot;</span>, <span class="st">&quot;#b2df8a&quot;</span>, <span class="st">&quot;#33a02c&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="07-Differential_Gene_Expression.html#cb56-1" tabindex="-1"></a><span class="fu">plotPCA</span>(rld, <span class="at">intgroup=</span><span class="st">&quot;group&quot;</span>)<span class="sc">+</span></span>
+<span id="cb56-2"><a href="07-Differential_Gene_Expression.html#cb56-2" tabindex="-1"></a>                <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb56-3"><a href="07-Differential_Gene_Expression.html#cb56-3" tabindex="-1"></a>                <span class="fu">theme</span>(<span class="at">legend.title=</span><span class="fu">element_blank</span>())<span class="sc">+</span></span>
+<span id="cb56-4"><a href="07-Differential_Gene_Expression.html#cb56-4" tabindex="-1"></a>                <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#a6cee3&quot;</span>, <span class="st">&quot;#1f78b4&quot;</span>, <span class="st">&quot;#fb9a99&quot;</span>, </span>
+<span id="cb56-5"><a href="07-Differential_Gene_Expression.html#cb56-5" tabindex="-1"></a>                                              <span class="st">&quot;#e31a1c&quot;</span>, <span class="st">&quot;#b2df8a&quot;</span>, <span class="st">&quot;#33a02c&quot;</span>))</span></code></pre></div>
 <p><img src="figures/PCA_group.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>All samples in this dataset are from control samples and head tissue. We specify different colours based on the regime (<strong>B</strong>ase, <strong>M</strong>ultiple mates, <strong>E</strong>volved). Darker points are samples from males and lighter colours are from females.</p>
 <p>We can see that the diversity on the y axis appears to be driven by the regime, so it would be interesting to repeat our analysis adding regime to the formula. That regime seems to have a some affect on gene expression patterns makes sense as mating system variation has been shown to influence sex-biased gene expression in some animal species.</p>
@@ -635,9 +639,9 @@ Which gene has the largest log fold change difference of the top 6 genes shown?
 <h2><span class="header-section-number">7.7</span> Export the results<a href="07-Differential_Gene_Expression.html#export-the-results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/export.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Export the results as an R data file.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="07-Differential_Gene_Expression.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(res, <span class="at">file=</span> <span class="st">&quot;DESeq2_DGE_results_sex.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="07-Differential_Gene_Expression.html#cb57-1" tabindex="-1"></a><span class="fu">save</span>(res, <span class="at">file=</span> <span class="st">&quot;DESeq2_DGE_results_sex.RData&quot;</span>)</span></code></pre></div>
 <p>To save the results to a <code>csv</code> file you can type the following.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="07-Differential_Gene_Expression.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(res, <span class="st">&quot;DESeq2_DGE_results_sex.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="07-Differential_Gene_Expression.html#cb58-1" tabindex="-1"></a><span class="fu">write.csv</span>(res, <span class="st">&quot;DESeq2_DGE_results_sex.csv&quot;</span>)</span></code></pre></div>
 <p>You can now close and halt your notebook.</p>
 
 </div>

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Counting Reads using HTSeq-Count | RNA-seq gene expression and pathway analysis</title>
   <meta name="description" content="NEOF book for the RNA-seq gene expression and pathway analysis workshop" />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Counting Reads using HTSeq-Count | RNA-seq gene expression and pathway analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2023-06-06" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="www/webex.css" type="text/css" />
@@ -238,18 +242,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The next step is counting the number of reads per gene and exon. For this we will use <a href="https://htseq.readthedocs.io/en/release_0.11.1/count.html">htseq-count</a>.</p>
 <p><code>htseq-count</code> needs a BAM file and an annotation (gff/gtf) file.</p>
 <p>First make a directory to contain our htseq output files.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="06-Counting_reads.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> htseq</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="06-Counting_reads.html#cb25-1" tabindex="-1"></a><span class="fu">mkdir</span> htseq</span></code></pre></div>
 <p>We are now ready to run <code>htseq-count</code>. First we will run it to count the number of reads per gene.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="06-Counting_reads.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">htseq-count</span> <span class="dt">\</span></span>
-<span id="cb26-2"><a href="06-Counting_reads.html#cb26-2" aria-hidden="true" tabindex="-1"></a>-m union <span class="dt">\</span></span>
-<span id="cb26-3"><a href="06-Counting_reads.html#cb26-3" aria-hidden="true" tabindex="-1"></a>-s yes <span class="dt">\</span></span>
-<span id="cb26-4"><a href="06-Counting_reads.html#cb26-4" aria-hidden="true" tabindex="-1"></a>-t gene <span class="dt">\</span></span>
-<span id="cb26-5"><a href="06-Counting_reads.html#cb26-5" aria-hidden="true" tabindex="-1"></a>-i ID <span class="dt">\</span></span>
-<span id="cb26-6"><a href="06-Counting_reads.html#cb26-6" aria-hidden="true" tabindex="-1"></a>-r pos <span class="dt">\</span></span>
-<span id="cb26-7"><a href="06-Counting_reads.html#cb26-7" aria-hidden="true" tabindex="-1"></a>-f bam <span class="dt">\</span></span>
-<span id="cb26-8"><a href="06-Counting_reads.html#cb26-8" aria-hidden="true" tabindex="-1"></a>aligned_clean/17_slice.sorted.clean.bam <span class="dt">\</span></span>
-<span id="cb26-9"><a href="06-Counting_reads.html#cb26-9" aria-hidden="true" tabindex="-1"></a>slice.FlyBase.gff <span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb26-10"><a href="06-Counting_reads.html#cb26-10" aria-hidden="true" tabindex="-1"></a>htseq/17_genecount.htseq</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="06-Counting_reads.html#cb26-1" tabindex="-1"></a><span class="ex">htseq-count</span> <span class="dt">\</span></span>
+<span id="cb26-2"><a href="06-Counting_reads.html#cb26-2" tabindex="-1"></a>-m union <span class="dt">\</span></span>
+<span id="cb26-3"><a href="06-Counting_reads.html#cb26-3" tabindex="-1"></a>-s yes <span class="dt">\</span></span>
+<span id="cb26-4"><a href="06-Counting_reads.html#cb26-4" tabindex="-1"></a>-t gene <span class="dt">\</span></span>
+<span id="cb26-5"><a href="06-Counting_reads.html#cb26-5" tabindex="-1"></a>-i ID <span class="dt">\</span></span>
+<span id="cb26-6"><a href="06-Counting_reads.html#cb26-6" tabindex="-1"></a>-r pos <span class="dt">\</span></span>
+<span id="cb26-7"><a href="06-Counting_reads.html#cb26-7" tabindex="-1"></a>-f bam <span class="dt">\</span></span>
+<span id="cb26-8"><a href="06-Counting_reads.html#cb26-8" tabindex="-1"></a>aligned_clean/17_slice.sorted.clean.bam <span class="dt">\</span></span>
+<span id="cb26-9"><a href="06-Counting_reads.html#cb26-9" tabindex="-1"></a>slice.FlyBase.gff <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb26-10"><a href="06-Counting_reads.html#cb26-10" tabindex="-1"></a>htseq/17_genecount.htseq</span></code></pre></div>
 <p><code>-m</code> mode to handle reads overlapping more than one feature (‘union’ means that reads falling across an intron are counted)</p>
 <p><code>-s</code> means our data is stranded, i.e. the sequenced read-pair occur in a particular orientation (for more information see <a href="https://chipster.csc.fi/manual/library-type-summary.html">here</a>)</p>
 <p><code>-t</code> feature type (3rd column in GFF file) to be used (e.g. gene or exon)</p>
@@ -261,22 +265,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In this case direct the output to a file we name "17_genecount.htseq" which is a text file.</p>
 <p><br /></p>
 <p>Lets have a look at the output file that we have generated.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="06-Counting_reads.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> htseq/17_genecount.htseq</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="06-Counting_reads.html#cb27-1" tabindex="-1"></a><span class="fu">less</span> htseq/17_genecount.htseq</span></code></pre></div>
 <p>There are two columns, one for the name of the feature, the other for the number of reads mapping to each feature.</p>
 <p>We will now run <code>htseq-count</code> again. This time to count the number of reads per exon.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="06-Counting_reads.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">htseq-count</span> <span class="dt">\</span></span>
-<span id="cb28-2"><a href="06-Counting_reads.html#cb28-2" aria-hidden="true" tabindex="-1"></a>-m union <span class="dt">\</span></span>
-<span id="cb28-3"><a href="06-Counting_reads.html#cb28-3" aria-hidden="true" tabindex="-1"></a>-s yes <span class="dt">\</span></span>
-<span id="cb28-4"><a href="06-Counting_reads.html#cb28-4" aria-hidden="true" tabindex="-1"></a>-t exon <span class="dt">\</span></span>
-<span id="cb28-5"><a href="06-Counting_reads.html#cb28-5" aria-hidden="true" tabindex="-1"></a>-i ID <span class="dt">\</span></span>
-<span id="cb28-6"><a href="06-Counting_reads.html#cb28-6" aria-hidden="true" tabindex="-1"></a>-r pos <span class="dt">\</span></span>
-<span id="cb28-7"><a href="06-Counting_reads.html#cb28-7" aria-hidden="true" tabindex="-1"></a>-f bam <span class="dt">\</span></span>
-<span id="cb28-8"><a href="06-Counting_reads.html#cb28-8" aria-hidden="true" tabindex="-1"></a>aligned_clean/17_slice.sorted.clean.bam <span class="dt">\</span></span>
-<span id="cb28-9"><a href="06-Counting_reads.html#cb28-9" aria-hidden="true" tabindex="-1"></a>slice.FlyBase.gff <span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb28-10"><a href="06-Counting_reads.html#cb28-10" aria-hidden="true" tabindex="-1"></a>htseq/17_exoncount.htseq</span>
-<span id="cb28-11"><a href="06-Counting_reads.html#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-12"><a href="06-Counting_reads.html#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># To look at the output file</span></span>
-<span id="cb28-13"><a href="06-Counting_reads.html#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> htseq/17_exoncount.htseq</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="06-Counting_reads.html#cb28-1" tabindex="-1"></a><span class="ex">htseq-count</span> <span class="dt">\</span></span>
+<span id="cb28-2"><a href="06-Counting_reads.html#cb28-2" tabindex="-1"></a>-m union <span class="dt">\</span></span>
+<span id="cb28-3"><a href="06-Counting_reads.html#cb28-3" tabindex="-1"></a>-s yes <span class="dt">\</span></span>
+<span id="cb28-4"><a href="06-Counting_reads.html#cb28-4" tabindex="-1"></a>-t exon <span class="dt">\</span></span>
+<span id="cb28-5"><a href="06-Counting_reads.html#cb28-5" tabindex="-1"></a>-i ID <span class="dt">\</span></span>
+<span id="cb28-6"><a href="06-Counting_reads.html#cb28-6" tabindex="-1"></a>-r pos <span class="dt">\</span></span>
+<span id="cb28-7"><a href="06-Counting_reads.html#cb28-7" tabindex="-1"></a>-f bam <span class="dt">\</span></span>
+<span id="cb28-8"><a href="06-Counting_reads.html#cb28-8" tabindex="-1"></a>aligned_clean/17_slice.sorted.clean.bam <span class="dt">\</span></span>
+<span id="cb28-9"><a href="06-Counting_reads.html#cb28-9" tabindex="-1"></a>slice.FlyBase.gff <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb28-10"><a href="06-Counting_reads.html#cb28-10" tabindex="-1"></a>htseq/17_exoncount.htseq</span>
+<span id="cb28-11"><a href="06-Counting_reads.html#cb28-11" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="06-Counting_reads.html#cb28-12" tabindex="-1"></a><span class="co"># To look at the output file</span></span>
+<span id="cb28-13"><a href="06-Counting_reads.html#cb28-13" tabindex="-1"></a><span class="fu">less</span> htseq/17_exoncount.htseq</span></code></pre></div>
 <p>You now have your read counts per gene and per exon for one of your samples!</p>
 <div id="exercise" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Exercise<a href="06-Counting_reads.html#exercise" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -287,28 +291,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Questions</strong></p>
 <ol style="list-style-type: decimal">
 <li>How many reads are in the R1 raw fastq file for 19_slice?
-<div id="radio_ILRXSWECCN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ILRXSWECCN" value="answer"></input> <span>611,202</span></label><label><input type="radio" autocomplete="off" name="radio_ILRXSWECCN" value=""></input> <span>469,246</span></label><label><input type="radio" autocomplete="off" name="radio_ILRXSWECCN" value=""></input> <span>101</span></label>
+<div id="radio_YQYIKCWSDT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YQYIKCWSDT" value="answer"></input> <span>611,202</span></label><label><input type="radio" autocomplete="off" name="radio_YQYIKCWSDT" value=""></input> <span>469,246</span></label><label><input type="radio" autocomplete="off" name="radio_YQYIKCWSDT" value=""></input> <span>101</span></label>
 </div></li>
 <li>How many reads are in the R1 trimmed fastq file for 19_slice?
-<div id="radio_TCOXKDQYCN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TCOXKDQYCN" value=""></input> <span>611,202</span></label><label><input type="radio" autocomplete="off" name="radio_TCOXKDQYCN" value="answer"></input> <span>469,246</span></label><label><input type="radio" autocomplete="off" name="radio_TCOXKDQYCN" value=""></input> <span>101</span></label>
+<div id="radio_PUQUSRFKEW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PUQUSRFKEW" value=""></input> <span>611,202</span></label><label><input type="radio" autocomplete="off" name="radio_PUQUSRFKEW" value="answer"></input> <span>469,246</span></label><label><input type="radio" autocomplete="off" name="radio_PUQUSRFKEW" value=""></input> <span>101</span></label>
 </div></li>
 <li>How many total reads are in the pre-filtered mapped bam file for 19_slice?
-<div id="radio_TAIODFAIFG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TAIODFAIFG" value=""></input> <span>611,202</span></label><label><input type="radio" autocomplete="off" name="radio_TAIODFAIFG" value=""></input> <span>793,674</span></label><label><input type="radio" autocomplete="off" name="radio_TAIODFAIFG" value="answer"></input> <span>944,629</span></label>
+<div id="radio_CJHEABTKXB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CJHEABTKXB" value=""></input> <span>611,202</span></label><label><input type="radio" autocomplete="off" name="radio_CJHEABTKXB" value=""></input> <span>793,674</span></label><label><input type="radio" autocomplete="off" name="radio_CJHEABTKXB" value="answer"></input> <span>944,629</span></label>
 </div></li>
 <li>How many total reads are in the filtered mapped bam file for 19_slice?
-<div id="radio_TTTMQSQYVB" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TTTMQSQYVB" value=""></input> <span>611,202</span></label><label><input type="radio" autocomplete="off" name="radio_TTTMQSQYVB" value="answer"></input> <span>793,674</span></label><label><input type="radio" autocomplete="off" name="radio_TTTMQSQYVB" value=""></input> <span>944,629</span></label>
+<div id="radio_FYCJRSOYCN" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FYCJRSOYCN" value=""></input> <span>611,202</span></label><label><input type="radio" autocomplete="off" name="radio_FYCJRSOYCN" value="answer"></input> <span>793,674</span></label><label><input type="radio" autocomplete="off" name="radio_FYCJRSOYCN" value=""></input> <span>944,629</span></label>
 </div></li>
 <li>How many properly paired reads are in the pre-filtered mapped bam file for 19_slice?
-<div id="radio_MTMFVZEUIW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MTMFVZEUIW" value=""></input> <span>611,202</span></label><label><input type="radio" autocomplete="off" name="radio_MTMFVZEUIW" value=""></input> <span>793,674</span></label><label><input type="radio" autocomplete="off" name="radio_MTMFVZEUIW" value="answer"></input> <span>797,522</span></label>
+<div id="radio_CFLWFEVYNP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CFLWFEVYNP" value=""></input> <span>611,202</span></label><label><input type="radio" autocomplete="off" name="radio_CFLWFEVYNP" value=""></input> <span>793,674</span></label><label><input type="radio" autocomplete="off" name="radio_CFLWFEVYNP" value="answer"></input> <span>797,522</span></label>
 </div></li>
 <li>How many properly paired reads are in the filtered mapped bam file for 19_slice?
-<div id="radio_WFNHHNPSDZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WFNHHNPSDZ" value=""></input> <span>611,202</span></label><label><input type="radio" autocomplete="off" name="radio_WFNHHNPSDZ" value="answer"></input> <span>793,674</span></label><label><input type="radio" autocomplete="off" name="radio_WFNHHNPSDZ" value=""></input> <span>797,522</span></label>
+<div id="radio_STZIYFZMQV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_STZIYFZMQV" value=""></input> <span>611,202</span></label><label><input type="radio" autocomplete="off" name="radio_STZIYFZMQV" value="answer"></input> <span>793,674</span></label><label><input type="radio" autocomplete="off" name="radio_STZIYFZMQV" value=""></input> <span>797,522</span></label>
 </div></li>
 </ol>
 <div class="webex-solution">
@@ -316,76 +320,76 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 Commands
 </button>
 <p>Commands to rerun for 19_slice. We thankfully don't need to make and directories again as we have already created them.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="06-Counting_reads.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#QC</span></span>
-<span id="cb29-2"><a href="06-Counting_reads.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co">#FastQC of raw reads</span></span>
-<span id="cb29-3"><a href="06-Counting_reads.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> raw_fastqc_output <span class="dt">\</span></span>
-<span id="cb29-4"><a href="06-Counting_reads.html#cb29-4" aria-hidden="true" tabindex="-1"></a>19_slice_R1.fq.gz 19_slice_R2.fq.gz</span>
-<span id="cb29-5"><a href="06-Counting_reads.html#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Check fastqc reports</span></span>
-<span id="cb29-6"><a href="06-Counting_reads.html#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> <span class="dt">\</span></span>
-<span id="cb29-7"><a href="06-Counting_reads.html#cb29-7" aria-hidden="true" tabindex="-1"></a>raw_fastqc_output/19_slice_R1_fastqc.html <span class="dt">\</span></span>
-<span id="cb29-8"><a href="06-Counting_reads.html#cb29-8" aria-hidden="true" tabindex="-1"></a>raw_fastqc_output/19_slice_R2_fastqc.html <span class="kw">&amp;</span></span>
-<span id="cb29-9"><a href="06-Counting_reads.html#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Quality control</span></span>
-<span id="cb29-10"><a href="06-Counting_reads.html#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="ex">trimmomatic</span> <span class="dt">\</span></span>
-<span id="cb29-11"><a href="06-Counting_reads.html#cb29-11" aria-hidden="true" tabindex="-1"></a>PE <span class="at">-phred33</span> <span class="dt">\</span></span>
-<span id="cb29-12"><a href="06-Counting_reads.html#cb29-12" aria-hidden="true" tabindex="-1"></a>19_slice_R1.fq.gz 19_slice_R2.fq.gz <span class="dt">\</span></span>
-<span id="cb29-13"><a href="06-Counting_reads.html#cb29-13" aria-hidden="true" tabindex="-1"></a>trimmed/19_slice_R1_out_paired.fastq trimmed/19_slice_R1_out_unpaired.fastq <span class="dt">\</span></span>
-<span id="cb29-14"><a href="06-Counting_reads.html#cb29-14" aria-hidden="true" tabindex="-1"></a>trimmed/19_slice_R2_out_paired.fastq trimmed/19_slice_R2_out_unpaired.fastq <span class="dt">\</span></span>
-<span id="cb29-15"><a href="06-Counting_reads.html#cb29-15" aria-hidden="true" tabindex="-1"></a>ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 <span class="dt">\</span></span>
-<span id="cb29-16"><a href="06-Counting_reads.html#cb29-16" aria-hidden="true" tabindex="-1"></a>LEADING:3 TRAILING:3 SLIDINGWINDOW:4:30 MINLEN:50</span>
-<span id="cb29-17"><a href="06-Counting_reads.html#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="co">#FastQC of trimmed reads</span></span>
-<span id="cb29-18"><a href="06-Counting_reads.html#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> trimmed_fastqc_output <span class="dt">\</span></span>
-<span id="cb29-19"><a href="06-Counting_reads.html#cb29-19" aria-hidden="true" tabindex="-1"></a>trimmed/19_slice_R1_out_paired.fastq trimmed/19_slice_R2_out_paired.fastq</span>
-<span id="cb29-20"><a href="06-Counting_reads.html#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="co">#Firefox of fastqc reports</span></span>
-<span id="cb29-21"><a href="06-Counting_reads.html#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> <span class="dt">\</span></span>
-<span id="cb29-22"><a href="06-Counting_reads.html#cb29-22" aria-hidden="true" tabindex="-1"></a>trimmed_fastqc_output/19_slice_R1_out_paired_fastqc.html <span class="dt">\</span></span>
-<span id="cb29-23"><a href="06-Counting_reads.html#cb29-23" aria-hidden="true" tabindex="-1"></a>trimmed_fastqc_output/19_slice_R2_out_paired_fastqc.html <span class="kw">&amp;</span></span>
-<span id="cb29-24"><a href="06-Counting_reads.html#cb29-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-25"><a href="06-Counting_reads.html#cb29-25" aria-hidden="true" tabindex="-1"></a><span class="co">#Read alignment</span></span>
-<span id="cb29-26"><a href="06-Counting_reads.html#cb29-26" aria-hidden="true" tabindex="-1"></a><span class="co">#We don&#39;t need to rebuild the reference as it is already built</span></span>
-<span id="cb29-27"><a href="06-Counting_reads.html#cb29-27" aria-hidden="true" tabindex="-1"></a><span class="co">#hisat2 alignment</span></span>
-<span id="cb29-28"><a href="06-Counting_reads.html#cb29-28" aria-hidden="true" tabindex="-1"></a><span class="ex">hisat2</span> <span class="dt">\</span></span>
-<span id="cb29-29"><a href="06-Counting_reads.html#cb29-29" aria-hidden="true" tabindex="-1"></a>-x slice <span class="dt">\</span></span>
-<span id="cb29-30"><a href="06-Counting_reads.html#cb29-30" aria-hidden="true" tabindex="-1"></a>-1 trimmed/19_slice_R1_out_paired.fastq <span class="dt">\</span></span>
-<span id="cb29-31"><a href="06-Counting_reads.html#cb29-31" aria-hidden="true" tabindex="-1"></a>-2 trimmed/19_slice_R2_out_paired.fastq <span class="dt">\</span></span>
-<span id="cb29-32"><a href="06-Counting_reads.html#cb29-32" aria-hidden="true" tabindex="-1"></a>-p 8 <span class="dt">\</span></span>
-<span id="cb29-33"><a href="06-Counting_reads.html#cb29-33" aria-hidden="true" tabindex="-1"></a>-q <span class="dt">\</span></span>
-<span id="cb29-34"><a href="06-Counting_reads.html#cb29-34" aria-hidden="true" tabindex="-1"></a>--met-file aligned/19_slice.stats <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb29-35"><a href="06-Counting_reads.html#cb29-35" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort <span class="at">-O</span> BAM <span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb29-36"><a href="06-Counting_reads.html#cb29-36" aria-hidden="true" tabindex="-1"></a>aligned/19_slice.sorted.bam</span>
-<span id="cb29-37"><a href="06-Counting_reads.html#cb29-37" aria-hidden="true" tabindex="-1"></a><span class="co">#View info on mapped reads</span></span>
-<span id="cb29-38"><a href="06-Counting_reads.html#cb29-38" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> flagstat aligned/19_slice.sorted.bam</span>
-<span id="cb29-39"><a href="06-Counting_reads.html#cb29-39" aria-hidden="true" tabindex="-1"></a><span class="co">#Discard unwanted reads</span></span>
-<span id="cb29-40"><a href="06-Counting_reads.html#cb29-40" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-q</span> 40 <span class="at">-f</span> 2 <span class="dt">\</span></span>
-<span id="cb29-41"><a href="06-Counting_reads.html#cb29-41" aria-hidden="true" tabindex="-1"></a>-F 12 aligned/19_slice.sorted.bam <span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb29-42"><a href="06-Counting_reads.html#cb29-42" aria-hidden="true" tabindex="-1"></a>aligned_clean/19_slice.sorted.clean.bam</span>
-<span id="cb29-43"><a href="06-Counting_reads.html#cb29-43" aria-hidden="true" tabindex="-1"></a><span class="co">#Index bam file</span></span>
-<span id="cb29-44"><a href="06-Counting_reads.html#cb29-44" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> index aligned_clean/19_slice.sorted.clean.bam</span>
-<span id="cb29-45"><a href="06-Counting_reads.html#cb29-45" aria-hidden="true" tabindex="-1"></a><span class="co">#View 17_slice and 19_slice with igv</span></span>
-<span id="cb29-46"><a href="06-Counting_reads.html#cb29-46" aria-hidden="true" tabindex="-1"></a><span class="ex">igv</span> <span class="kw">&amp;</span></span>
-<span id="cb29-47"><a href="06-Counting_reads.html#cb29-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-48"><a href="06-Counting_reads.html#cb29-48" aria-hidden="true" tabindex="-1"></a><span class="co">#htseq-count</span></span>
-<span id="cb29-49"><a href="06-Counting_reads.html#cb29-49" aria-hidden="true" tabindex="-1"></a><span class="co">#gene count</span></span>
-<span id="cb29-50"><a href="06-Counting_reads.html#cb29-50" aria-hidden="true" tabindex="-1"></a><span class="ex">htseq-count</span> <span class="dt">\</span></span>
-<span id="cb29-51"><a href="06-Counting_reads.html#cb29-51" aria-hidden="true" tabindex="-1"></a>-m union <span class="dt">\</span></span>
-<span id="cb29-52"><a href="06-Counting_reads.html#cb29-52" aria-hidden="true" tabindex="-1"></a>-s yes <span class="dt">\</span></span>
-<span id="cb29-53"><a href="06-Counting_reads.html#cb29-53" aria-hidden="true" tabindex="-1"></a>-t gene <span class="dt">\</span></span>
-<span id="cb29-54"><a href="06-Counting_reads.html#cb29-54" aria-hidden="true" tabindex="-1"></a>-i ID <span class="dt">\</span></span>
-<span id="cb29-55"><a href="06-Counting_reads.html#cb29-55" aria-hidden="true" tabindex="-1"></a>-r pos <span class="dt">\</span></span>
-<span id="cb29-56"><a href="06-Counting_reads.html#cb29-56" aria-hidden="true" tabindex="-1"></a>-f bam <span class="dt">\</span></span>
-<span id="cb29-57"><a href="06-Counting_reads.html#cb29-57" aria-hidden="true" tabindex="-1"></a>aligned_clean/19_slice.sorted.clean.bam <span class="dt">\</span></span>
-<span id="cb29-58"><a href="06-Counting_reads.html#cb29-58" aria-hidden="true" tabindex="-1"></a>slice.FlyBase.gff <span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb29-59"><a href="06-Counting_reads.html#cb29-59" aria-hidden="true" tabindex="-1"></a>htseq/19_genecount.htseq</span>
-<span id="cb29-60"><a href="06-Counting_reads.html#cb29-60" aria-hidden="true" tabindex="-1"></a><span class="co">#exon count</span></span>
-<span id="cb29-61"><a href="06-Counting_reads.html#cb29-61" aria-hidden="true" tabindex="-1"></a><span class="ex">htseq-count</span> <span class="dt">\</span></span>
-<span id="cb29-62"><a href="06-Counting_reads.html#cb29-62" aria-hidden="true" tabindex="-1"></a>-m union <span class="dt">\</span></span>
-<span id="cb29-63"><a href="06-Counting_reads.html#cb29-63" aria-hidden="true" tabindex="-1"></a>-s yes <span class="dt">\</span></span>
-<span id="cb29-64"><a href="06-Counting_reads.html#cb29-64" aria-hidden="true" tabindex="-1"></a>-t exon <span class="dt">\</span></span>
-<span id="cb29-65"><a href="06-Counting_reads.html#cb29-65" aria-hidden="true" tabindex="-1"></a>-i ID <span class="dt">\</span></span>
-<span id="cb29-66"><a href="06-Counting_reads.html#cb29-66" aria-hidden="true" tabindex="-1"></a>-r pos <span class="dt">\</span></span>
-<span id="cb29-67"><a href="06-Counting_reads.html#cb29-67" aria-hidden="true" tabindex="-1"></a>-f bam <span class="dt">\</span></span>
-<span id="cb29-68"><a href="06-Counting_reads.html#cb29-68" aria-hidden="true" tabindex="-1"></a>aligned_clean/19_slice.sorted.clean.bam <span class="dt">\</span></span>
-<span id="cb29-69"><a href="06-Counting_reads.html#cb29-69" aria-hidden="true" tabindex="-1"></a>slice.FlyBase.gff <span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb29-70"><a href="06-Counting_reads.html#cb29-70" aria-hidden="true" tabindex="-1"></a>htseq/19_exoncount.htseq</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="06-Counting_reads.html#cb29-1" tabindex="-1"></a><span class="co">#QC</span></span>
+<span id="cb29-2"><a href="06-Counting_reads.html#cb29-2" tabindex="-1"></a><span class="co">#FastQC of raw reads</span></span>
+<span id="cb29-3"><a href="06-Counting_reads.html#cb29-3" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> raw_fastqc_output <span class="dt">\</span></span>
+<span id="cb29-4"><a href="06-Counting_reads.html#cb29-4" tabindex="-1"></a>19_slice_R1.fq.gz 19_slice_R2.fq.gz</span>
+<span id="cb29-5"><a href="06-Counting_reads.html#cb29-5" tabindex="-1"></a><span class="co">#Check fastqc reports</span></span>
+<span id="cb29-6"><a href="06-Counting_reads.html#cb29-6" tabindex="-1"></a><span class="ex">firefox</span> <span class="dt">\</span></span>
+<span id="cb29-7"><a href="06-Counting_reads.html#cb29-7" tabindex="-1"></a>raw_fastqc_output/19_slice_R1_fastqc.html <span class="dt">\</span></span>
+<span id="cb29-8"><a href="06-Counting_reads.html#cb29-8" tabindex="-1"></a>raw_fastqc_output/19_slice_R2_fastqc.html <span class="kw">&amp;</span></span>
+<span id="cb29-9"><a href="06-Counting_reads.html#cb29-9" tabindex="-1"></a><span class="co">#Quality control</span></span>
+<span id="cb29-10"><a href="06-Counting_reads.html#cb29-10" tabindex="-1"></a><span class="ex">trimmomatic</span> <span class="dt">\</span></span>
+<span id="cb29-11"><a href="06-Counting_reads.html#cb29-11" tabindex="-1"></a>PE <span class="at">-phred33</span> <span class="dt">\</span></span>
+<span id="cb29-12"><a href="06-Counting_reads.html#cb29-12" tabindex="-1"></a>19_slice_R1.fq.gz 19_slice_R2.fq.gz <span class="dt">\</span></span>
+<span id="cb29-13"><a href="06-Counting_reads.html#cb29-13" tabindex="-1"></a>trimmed/19_slice_R1_out_paired.fastq trimmed/19_slice_R1_out_unpaired.fastq <span class="dt">\</span></span>
+<span id="cb29-14"><a href="06-Counting_reads.html#cb29-14" tabindex="-1"></a>trimmed/19_slice_R2_out_paired.fastq trimmed/19_slice_R2_out_unpaired.fastq <span class="dt">\</span></span>
+<span id="cb29-15"><a href="06-Counting_reads.html#cb29-15" tabindex="-1"></a>ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 <span class="dt">\</span></span>
+<span id="cb29-16"><a href="06-Counting_reads.html#cb29-16" tabindex="-1"></a>LEADING:3 TRAILING:3 SLIDINGWINDOW:4:30 MINLEN:50</span>
+<span id="cb29-17"><a href="06-Counting_reads.html#cb29-17" tabindex="-1"></a><span class="co">#FastQC of trimmed reads</span></span>
+<span id="cb29-18"><a href="06-Counting_reads.html#cb29-18" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> trimmed_fastqc_output <span class="dt">\</span></span>
+<span id="cb29-19"><a href="06-Counting_reads.html#cb29-19" tabindex="-1"></a>trimmed/19_slice_R1_out_paired.fastq trimmed/19_slice_R2_out_paired.fastq</span>
+<span id="cb29-20"><a href="06-Counting_reads.html#cb29-20" tabindex="-1"></a><span class="co">#Firefox of fastqc reports</span></span>
+<span id="cb29-21"><a href="06-Counting_reads.html#cb29-21" tabindex="-1"></a><span class="ex">firefox</span> <span class="dt">\</span></span>
+<span id="cb29-22"><a href="06-Counting_reads.html#cb29-22" tabindex="-1"></a>trimmed_fastqc_output/19_slice_R1_out_paired_fastqc.html <span class="dt">\</span></span>
+<span id="cb29-23"><a href="06-Counting_reads.html#cb29-23" tabindex="-1"></a>trimmed_fastqc_output/19_slice_R2_out_paired_fastqc.html <span class="kw">&amp;</span></span>
+<span id="cb29-24"><a href="06-Counting_reads.html#cb29-24" tabindex="-1"></a></span>
+<span id="cb29-25"><a href="06-Counting_reads.html#cb29-25" tabindex="-1"></a><span class="co">#Read alignment</span></span>
+<span id="cb29-26"><a href="06-Counting_reads.html#cb29-26" tabindex="-1"></a><span class="co">#We don&#39;t need to rebuild the reference as it is already built</span></span>
+<span id="cb29-27"><a href="06-Counting_reads.html#cb29-27" tabindex="-1"></a><span class="co">#hisat2 alignment</span></span>
+<span id="cb29-28"><a href="06-Counting_reads.html#cb29-28" tabindex="-1"></a><span class="ex">hisat2</span> <span class="dt">\</span></span>
+<span id="cb29-29"><a href="06-Counting_reads.html#cb29-29" tabindex="-1"></a>-x slice <span class="dt">\</span></span>
+<span id="cb29-30"><a href="06-Counting_reads.html#cb29-30" tabindex="-1"></a>-1 trimmed/19_slice_R1_out_paired.fastq <span class="dt">\</span></span>
+<span id="cb29-31"><a href="06-Counting_reads.html#cb29-31" tabindex="-1"></a>-2 trimmed/19_slice_R2_out_paired.fastq <span class="dt">\</span></span>
+<span id="cb29-32"><a href="06-Counting_reads.html#cb29-32" tabindex="-1"></a>-p 8 <span class="dt">\</span></span>
+<span id="cb29-33"><a href="06-Counting_reads.html#cb29-33" tabindex="-1"></a>-q <span class="dt">\</span></span>
+<span id="cb29-34"><a href="06-Counting_reads.html#cb29-34" tabindex="-1"></a>--met-file aligned/19_slice.stats <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb29-35"><a href="06-Counting_reads.html#cb29-35" tabindex="-1"></a><span class="ex">samtools</span> sort <span class="at">-O</span> BAM <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb29-36"><a href="06-Counting_reads.html#cb29-36" tabindex="-1"></a>aligned/19_slice.sorted.bam</span>
+<span id="cb29-37"><a href="06-Counting_reads.html#cb29-37" tabindex="-1"></a><span class="co">#View info on mapped reads</span></span>
+<span id="cb29-38"><a href="06-Counting_reads.html#cb29-38" tabindex="-1"></a><span class="ex">samtools</span> flagstat aligned/19_slice.sorted.bam</span>
+<span id="cb29-39"><a href="06-Counting_reads.html#cb29-39" tabindex="-1"></a><span class="co">#Discard unwanted reads</span></span>
+<span id="cb29-40"><a href="06-Counting_reads.html#cb29-40" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-q</span> 40 <span class="at">-f</span> 2 <span class="dt">\</span></span>
+<span id="cb29-41"><a href="06-Counting_reads.html#cb29-41" tabindex="-1"></a>-F 12 aligned/19_slice.sorted.bam <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb29-42"><a href="06-Counting_reads.html#cb29-42" tabindex="-1"></a>aligned_clean/19_slice.sorted.clean.bam</span>
+<span id="cb29-43"><a href="06-Counting_reads.html#cb29-43" tabindex="-1"></a><span class="co">#Index bam file</span></span>
+<span id="cb29-44"><a href="06-Counting_reads.html#cb29-44" tabindex="-1"></a><span class="ex">samtools</span> index aligned_clean/19_slice.sorted.clean.bam</span>
+<span id="cb29-45"><a href="06-Counting_reads.html#cb29-45" tabindex="-1"></a><span class="co">#View 17_slice and 19_slice with igv</span></span>
+<span id="cb29-46"><a href="06-Counting_reads.html#cb29-46" tabindex="-1"></a><span class="ex">igv</span> <span class="kw">&amp;</span></span>
+<span id="cb29-47"><a href="06-Counting_reads.html#cb29-47" tabindex="-1"></a></span>
+<span id="cb29-48"><a href="06-Counting_reads.html#cb29-48" tabindex="-1"></a><span class="co">#htseq-count</span></span>
+<span id="cb29-49"><a href="06-Counting_reads.html#cb29-49" tabindex="-1"></a><span class="co">#gene count</span></span>
+<span id="cb29-50"><a href="06-Counting_reads.html#cb29-50" tabindex="-1"></a><span class="ex">htseq-count</span> <span class="dt">\</span></span>
+<span id="cb29-51"><a href="06-Counting_reads.html#cb29-51" tabindex="-1"></a>-m union <span class="dt">\</span></span>
+<span id="cb29-52"><a href="06-Counting_reads.html#cb29-52" tabindex="-1"></a>-s yes <span class="dt">\</span></span>
+<span id="cb29-53"><a href="06-Counting_reads.html#cb29-53" tabindex="-1"></a>-t gene <span class="dt">\</span></span>
+<span id="cb29-54"><a href="06-Counting_reads.html#cb29-54" tabindex="-1"></a>-i ID <span class="dt">\</span></span>
+<span id="cb29-55"><a href="06-Counting_reads.html#cb29-55" tabindex="-1"></a>-r pos <span class="dt">\</span></span>
+<span id="cb29-56"><a href="06-Counting_reads.html#cb29-56" tabindex="-1"></a>-f bam <span class="dt">\</span></span>
+<span id="cb29-57"><a href="06-Counting_reads.html#cb29-57" tabindex="-1"></a>aligned_clean/19_slice.sorted.clean.bam <span class="dt">\</span></span>
+<span id="cb29-58"><a href="06-Counting_reads.html#cb29-58" tabindex="-1"></a>slice.FlyBase.gff <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb29-59"><a href="06-Counting_reads.html#cb29-59" tabindex="-1"></a>htseq/19_genecount.htseq</span>
+<span id="cb29-60"><a href="06-Counting_reads.html#cb29-60" tabindex="-1"></a><span class="co">#exon count</span></span>
+<span id="cb29-61"><a href="06-Counting_reads.html#cb29-61" tabindex="-1"></a><span class="ex">htseq-count</span> <span class="dt">\</span></span>
+<span id="cb29-62"><a href="06-Counting_reads.html#cb29-62" tabindex="-1"></a>-m union <span class="dt">\</span></span>
+<span id="cb29-63"><a href="06-Counting_reads.html#cb29-63" tabindex="-1"></a>-s yes <span class="dt">\</span></span>
+<span id="cb29-64"><a href="06-Counting_reads.html#cb29-64" tabindex="-1"></a>-t exon <span class="dt">\</span></span>
+<span id="cb29-65"><a href="06-Counting_reads.html#cb29-65" tabindex="-1"></a>-i ID <span class="dt">\</span></span>
+<span id="cb29-66"><a href="06-Counting_reads.html#cb29-66" tabindex="-1"></a>-r pos <span class="dt">\</span></span>
+<span id="cb29-67"><a href="06-Counting_reads.html#cb29-67" tabindex="-1"></a>-f bam <span class="dt">\</span></span>
+<span id="cb29-68"><a href="06-Counting_reads.html#cb29-68" tabindex="-1"></a>aligned_clean/19_slice.sorted.clean.bam <span class="dt">\</span></span>
+<span id="cb29-69"><a href="06-Counting_reads.html#cb29-69" tabindex="-1"></a>slice.FlyBase.gff <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb29-70"><a href="06-Counting_reads.html#cb29-70" tabindex="-1"></a>htseq/19_exoncount.htseq</span></code></pre></div>
 </div>
 
 </div>

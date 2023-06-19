@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Using loops to process multiple samples | RNA-seq gene expression and pathway analysis - supplemental material</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop - supplemental material" />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Using loops to process multiple samples | RNA-seq gene expression and pathway analysis - supplemental material" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2023-06-08" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -185,9 +189,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Ideally you don’t want to have to run the same command multiple times - this is a recipe for typos and errors creeping into your code as well as being tedious and time consuming.</p>
 <p>One approach to get around this is to run a loop which will cycle through each of your samples running the task you specify.</p>
 <p>Put simply the syntax for a <code>for loop</code> is as follows:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="05-Multiple_samples_loops.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">&lt;</span>variable <span class="ex">name</span><span class="op">&gt;</span> in <span class="op">&lt;</span>a list of items<span class="op">&gt;</span><span class="kw">;</span></span>
-<span id="cb27-2"><a href="05-Multiple_samples_loops.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span> <span class="op">&lt;</span>run <span class="ex">a</span> command<span class="op">&gt;</span> $<span class="op">&lt;</span>variable name<span class="op">&gt;</span><span class="kw">;</span></span>
-<span id="cb27-3"><a href="05-Multiple_samples_loops.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="05-Multiple_samples_loops.html#cb27-1" tabindex="-1"></a><span class="cf">for</span> <span class="op">&lt;</span>variable <span class="ex">name</span><span class="op">&gt;</span> in <span class="op">&lt;</span>a list of items<span class="op">&gt;</span><span class="kw">;</span></span>
+<span id="cb27-2"><a href="05-Multiple_samples_loops.html#cb27-2" tabindex="-1"></a><span class="cf">do</span> <span class="op">&lt;</span>run <span class="ex">a</span> command<span class="op">&gt;</span> $<span class="op">&lt;</span>variable name<span class="op">&gt;</span><span class="kw">;</span></span>
+<span id="cb27-3"><a href="05-Multiple_samples_loops.html#cb27-3" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p>The <code>&lt;variable name&gt;</code> is the name of the variable you will use in the <code>do</code> part of your loop.
 It contains the item in your list the loop is currently using at that point.
 I.e. in the simple loop example (below) we call this variable <code>f</code> but you could use any name as long as you use it consistently in your <code>do</code> section.</p>
@@ -198,11 +202,11 @@ I.e. in the simple loop example (below) we call this variable <code>f</code> but
 <p>Below is an example of a loop, which can be adjusted for your samples and the software you are running.
 This simplified loop will clearly demonstrate what the first part of the code is doing.</p>
 <p>Make sure you are in the directory <code>rnaseq/Practical_one</code> and in a terminal window (not in Jupyter).</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="05-Multiple_samples_loops.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> <span class="pp">*</span>_R1.fq.gz<span class="kw">;</span> <span class="co">#the following will loop through all files ending _R1.fq.gz</span></span>
-<span id="cb28-2"><a href="05-Multiple_samples_loops.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span> <span class="va">BASE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>_R1.fq.gz<span class="va">}</span> <span class="co">#assign the file name &#39;$f&#39; to a variable called &#39;BASE&#39; but remove the extension &#39;_R1.fq.gz&#39;</span></span>
-<span id="cb28-3"><a href="05-Multiple_samples_loops.html#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$f</span> <span class="co">#print $f to screen</span></span>
-<span id="cb28-4"><a href="05-Multiple_samples_loops.html#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">${BASE}</span><span class="kw">;</span> <span class="co">#print ${BASE} to screen</span></span>
-<span id="cb28-5"><a href="05-Multiple_samples_loops.html#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="05-Multiple_samples_loops.html#cb28-1" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> <span class="pp">*</span>_R1.fq.gz<span class="kw">;</span> <span class="co">#the following will loop through all files ending _R1.fq.gz</span></span>
+<span id="cb28-2"><a href="05-Multiple_samples_loops.html#cb28-2" tabindex="-1"></a><span class="cf">do</span> <span class="va">BASE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>_R1.fq.gz<span class="va">}</span> <span class="co">#assign the file name &#39;$f&#39; to a variable called &#39;BASE&#39; but remove the extension &#39;_R1.fq.gz&#39;</span></span>
+<span id="cb28-3"><a href="05-Multiple_samples_loops.html#cb28-3" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$f</span> <span class="co">#print $f to screen</span></span>
+<span id="cb28-4"><a href="05-Multiple_samples_loops.html#cb28-4" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">${BASE}</span><span class="kw">;</span> <span class="co">#print ${BASE} to screen</span></span>
+<span id="cb28-5"><a href="05-Multiple_samples_loops.html#cb28-5" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p>By using <code>echo</code> to print the following variables to the console we can see:</p>
 <ul>
 <li><code>echo $f</code>: prints the full filename.</li>
@@ -216,24 +220,24 @@ This simplified loop will clearly demonstrate what the first part of the code is
 <h2><span class="header-section-number">5.2</span> Trimmomatic loop example<a href="05-Multiple_samples_loops.html#trimmomatic-loop-example" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/quality_trimming_and_filtering.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Now we can write a loop to run trimmomatic starting with the code we used above as a base.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="05-Multiple_samples_loops.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> <span class="pp">*</span>_R1.fq.gz<span class="kw">;</span> <span class="co">#the following will loop through all files ending _R1.fq.gz</span></span>
-<span id="cb29-2"><a href="05-Multiple_samples_loops.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span> <span class="va">BASE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>_R1.fq.gz<span class="va">}</span> <span class="co">#assign the file name &#39;$f&#39; to a variable called &#39;BASE&#39; but remove the extension &#39;_R1.fq.gz&#39;</span></span>
-<span id="cb29-3"><a href="05-Multiple_samples_loops.html#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">trimmomatic</span> PE <span class="at">-threads</span> 4 <span class="at">-phred33</span> <span class="dt">\ </span></span>
-<span id="cb29-4"><a href="05-Multiple_samples_loops.html#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#call trimmomatic and specify parameters</span></span>
-<span id="cb29-5"><a href="05-Multiple_samples_loops.html#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">${BASE}</span><span class="ex">_R1.fq.gz</span> <span class="dt">\ </span></span>
-<span id="cb29-6"><a href="05-Multiple_samples_loops.html#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#specify input R1 extension</span></span>
-<span id="cb29-7"><a href="05-Multiple_samples_loops.html#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">${BASE}</span><span class="ex">_R2.fq.gz</span> <span class="dt">\ </span></span>
-<span id="cb29-8"><a href="05-Multiple_samples_loops.html#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#specify input R2 extension</span></span>
-<span id="cb29-9"><a href="05-Multiple_samples_loops.html#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">trimmed/</span><span class="va">${BASE}</span><span class="ex">_R1_out_paired.fastq</span> <span class="dt">\ </span></span>
-<span id="cb29-10"><a href="05-Multiple_samples_loops.html#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#specify directory and filename for output of paired R1 read</span></span>
-<span id="cb29-11"><a href="05-Multiple_samples_loops.html#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="ex">trimmed/</span><span class="va">${BASE}</span><span class="ex">_R1_out_unpaired.fastq</span> <span class="dt">\ </span></span>
-<span id="cb29-12"><a href="05-Multiple_samples_loops.html#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">#specify directory and filename for output of unpaired R1 read</span></span>
-<span id="cb29-13"><a href="05-Multiple_samples_loops.html#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="ex">trimmed/</span><span class="va">${BASE}</span><span class="ex">_R2_out_paired.fastq</span> <span class="dt">\ </span></span>
-<span id="cb29-14"><a href="05-Multiple_samples_loops.html#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#specify directory and filename for output of paired R2 read</span></span>
-<span id="cb29-15"><a href="05-Multiple_samples_loops.html#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="ex">trimmed/</span><span class="va">${BASE}</span><span class="ex">_R2_out_unpaired.fastq</span> <span class="dt">\ </span></span>
-<span id="cb29-16"><a href="05-Multiple_samples_loops.html#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">#specify directory and filename for output of unpaired R2 read</span></span>
-<span id="cb29-17"><a href="05-Multiple_samples_loops.html#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="ex">ILLUMINACLIP:TruSeq3-PE-2.fa:2:30:12</span> SLIDINGWINDOW:4:30 MINLEN:80<span class="kw">;</span>  <span class="co">#further paramenters for trimmomatic</span></span>
-<span id="cb29-18"><a href="05-Multiple_samples_loops.html#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span> <span class="co">#end of commands</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="05-Multiple_samples_loops.html#cb29-1" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> <span class="pp">*</span>_R1.fq.gz<span class="kw">;</span> <span class="co">#the following will loop through all files ending _R1.fq.gz</span></span>
+<span id="cb29-2"><a href="05-Multiple_samples_loops.html#cb29-2" tabindex="-1"></a><span class="cf">do</span> <span class="va">BASE</span><span class="op">=</span><span class="va">${f</span><span class="op">%</span>_R1.fq.gz<span class="va">}</span> <span class="co">#assign the file name &#39;$f&#39; to a variable called &#39;BASE&#39; but remove the extension &#39;_R1.fq.gz&#39;</span></span>
+<span id="cb29-3"><a href="05-Multiple_samples_loops.html#cb29-3" tabindex="-1"></a>    <span class="ex">trimmomatic</span> PE <span class="at">-threads</span> 4 <span class="at">-phred33</span> <span class="dt">\ </span></span>
+<span id="cb29-4"><a href="05-Multiple_samples_loops.html#cb29-4" tabindex="-1"></a>    <span class="co">#call trimmomatic and specify parameters</span></span>
+<span id="cb29-5"><a href="05-Multiple_samples_loops.html#cb29-5" tabindex="-1"></a>    <span class="va">${BASE}</span><span class="ex">_R1.fq.gz</span> <span class="dt">\ </span></span>
+<span id="cb29-6"><a href="05-Multiple_samples_loops.html#cb29-6" tabindex="-1"></a>    <span class="co">#specify input R1 extension</span></span>
+<span id="cb29-7"><a href="05-Multiple_samples_loops.html#cb29-7" tabindex="-1"></a>    <span class="va">${BASE}</span><span class="ex">_R2.fq.gz</span> <span class="dt">\ </span></span>
+<span id="cb29-8"><a href="05-Multiple_samples_loops.html#cb29-8" tabindex="-1"></a>    <span class="co">#specify input R2 extension</span></span>
+<span id="cb29-9"><a href="05-Multiple_samples_loops.html#cb29-9" tabindex="-1"></a>    <span class="ex">trimmed/</span><span class="va">${BASE}</span><span class="ex">_R1_out_paired.fastq</span> <span class="dt">\ </span></span>
+<span id="cb29-10"><a href="05-Multiple_samples_loops.html#cb29-10" tabindex="-1"></a>    <span class="co">#specify directory and filename for output of paired R1 read</span></span>
+<span id="cb29-11"><a href="05-Multiple_samples_loops.html#cb29-11" tabindex="-1"></a>    <span class="ex">trimmed/</span><span class="va">${BASE}</span><span class="ex">_R1_out_unpaired.fastq</span> <span class="dt">\ </span></span>
+<span id="cb29-12"><a href="05-Multiple_samples_loops.html#cb29-12" tabindex="-1"></a>    <span class="co">#specify directory and filename for output of unpaired R1 read</span></span>
+<span id="cb29-13"><a href="05-Multiple_samples_loops.html#cb29-13" tabindex="-1"></a>    <span class="ex">trimmed/</span><span class="va">${BASE}</span><span class="ex">_R2_out_paired.fastq</span> <span class="dt">\ </span></span>
+<span id="cb29-14"><a href="05-Multiple_samples_loops.html#cb29-14" tabindex="-1"></a>    <span class="co">#specify directory and filename for output of paired R2 read</span></span>
+<span id="cb29-15"><a href="05-Multiple_samples_loops.html#cb29-15" tabindex="-1"></a>    <span class="ex">trimmed/</span><span class="va">${BASE}</span><span class="ex">_R2_out_unpaired.fastq</span> <span class="dt">\ </span></span>
+<span id="cb29-16"><a href="05-Multiple_samples_loops.html#cb29-16" tabindex="-1"></a>    <span class="co">#specify directory and filename for output of unpaired R2 read</span></span>
+<span id="cb29-17"><a href="05-Multiple_samples_loops.html#cb29-17" tabindex="-1"></a>    <span class="ex">ILLUMINACLIP:TruSeq3-PE-2.fa:2:30:12</span> SLIDINGWINDOW:4:30 MINLEN:80<span class="kw">;</span>  <span class="co">#further paramenters for trimmomatic</span></span>
+<span id="cb29-18"><a href="05-Multiple_samples_loops.html#cb29-18" tabindex="-1"></a><span class="cf">done</span> <span class="co">#end of commands</span></span></code></pre></div>
 <p>You can then edit this code to run other software in a loop. For a nice basic intro to Linux loops please click <a href="https://www.redhat.com/sysadmin/bash-scripting-loops">here</a>.</p>
 
 </div>

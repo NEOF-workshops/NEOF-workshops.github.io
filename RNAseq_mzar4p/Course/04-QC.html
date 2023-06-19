@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Quality Control | RNA-seq gene expression and pathway analysis</title>
   <meta name="description" content="NEOF book for the RNA-seq gene expression and pathway analysis workshop" />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Quality Control | RNA-seq gene expression and pathway analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2023-06-06" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="www/webex.css" type="text/css" />
@@ -240,11 +244,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">4.1</span> Workshop data<a href="04-QC.html#workshop-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Before we can carry on with the workshop we need to change into the directory containing the raw data for two <em>Drosophila</em> samples.</p>
 <p><img src="figures/Dros_2.png" width="20%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="04-QC.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/rnaseq/Practical_one</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="04-QC.html#cb4-1" tabindex="-1"></a><span class="bu">cd</span> ~/rnaseq/Practical_one</span></code></pre></div>
 <p>List the contents of the current directory to confirm the four fastq files are there (the files ending in <code>.fq.gz</code>).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="04-QC.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="04-QC.html#cb5-1" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
 <p>Have a look at the structure of the input fastq file:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="04-QC.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> 17_slice_R1.fq.gz <span class="kw">|</span> <span class="fu">head</span> </span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="04-QC.html#cb6-1" tabindex="-1"></a><span class="fu">zcat</span> 17_slice_R1.fq.gz <span class="kw">|</span> <span class="fu">head</span> </span></code></pre></div>
 <p>These fastq files are compressed (with the .gz file extension). <code>zcat</code> is a command for viewing the contents of compressed files, the pipe <code>|</code> symbol then passes this to <code>head</code> to display only the first few lines of the file.</p>
 <p>Fastq files contain a header line, the nucleotide sequence, and its corresponding quality scores. You can see more information on the fastq file format in our <a href="http://www.cgr.liv.ac.uk/illum/NEOFworkshops_5bfa93ca0482d69d/Intro_to_Unix/10-Fastq.html">intro to unix materials</a>.</p>
 </div>
@@ -252,7 +256,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">4.2</span> Quality assessment<a href="04-QC.html#quality-assessment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We’ll run the raw sequence data through FastQC to summarise the data quality.</p>
 <p>First make a directory for the output.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="04-QC.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> raw_fastqc_output</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="04-QC.html#cb7-1" tabindex="-1"></a><span class="fu">mkdir</span> raw_fastqc_output</span></code></pre></div>
 <p><img src="figures/magnify_glass_27AUG2020.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>Now we can run <strong>fastqc</strong>.</p>
 <p><strong>Note</strong>:</p>
@@ -260,37 +264,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>The below command can be run over one line excluding the <code>\</code></li>
 <li>Alternatively, you can type <code>\</code> during a command and then press the enter key. The next line on the command line will start with <code>&gt;</code>. This will allow you to continue typing the command on the line. This can be used to type one command over multiple lines.</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="04-QC.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> raw_fastqc_output <span class="dt">\</span></span>
-<span id="cb8-2"><a href="04-QC.html#cb8-2" aria-hidden="true" tabindex="-1"></a>17_slice_R1.fq.gz 17_slice_R2.fq.gz</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="04-QC.html#cb8-1" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> raw_fastqc_output <span class="dt">\</span></span>
+<span id="cb8-2"><a href="04-QC.html#cb8-2" tabindex="-1"></a>17_slice_R1.fq.gz 17_slice_R2.fq.gz</span></code></pre></div>
 <p>Normally when you run a command it will run the process in the foreground. This means your command line will be locked whilst the process is running. You will only be able to type a new command in the terminal once the foreground process is finished.</p>
 <p>This is usually wanted but not always, for example when you run a process like firefox. To run a process in the background, so you can type and run new commands, you can add the symbol <code>&amp;</code> to the end of a command. We will use this for running firefox.</p>
 <p>Please see the following <a href="https://linuxconfig.org/understanding-foreground-and-background-linux-processes">link</a> for more info on the foreground and background.</p>
 <p>Using firefox have a look at the output html reports and answer the following questions.</p>
 <p>To look at the R1 &amp; R2 fastqc output (2 tabs will be opened):</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="04-QC.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> raw_fastqc_output/17_slice_R1_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="04-QC.html#cb9-1" tabindex="-1"></a><span class="ex">firefox</span> raw_fastqc_output/17_slice_R1_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
 <p>You may see a warning message on your terminal, but you can press enter to continue to type in the terminal.</p>
 <p>To look at R2 fastqc output</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="04-QC.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> raw_fastqc_output/17_slice_R2_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="04-QC.html#cb10-1" tabindex="-1"></a><span class="ex">firefox</span> raw_fastqc_output/17_slice_R2_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
 <div id="quality-assessment-questions" class="section level3 hasAnchor" number="4.2.1">
 <h3><span class="header-section-number">4.2.1</span> Quality assessment: questions<a href="04-QC.html#quality-assessment-questions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="figures/question_bubble.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Answer the following questions based on the reports.</p>
 <ol style="list-style-type: decimal">
 <li>How many total reads are there in the R1 file?
-<div id="radio_NRIIRQLYGY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_NRIIRQLYGY" value=""></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_NRIIRQLYGY" value=""></input> <span>101</span></label><label><input type="radio" autocomplete="off" name="radio_NRIIRQLYGY" value="answer"></input> <span>539,580</span></label>
+<div id="radio_RSUSVKDPED" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_RSUSVKDPED" value=""></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_RSUSVKDPED" value=""></input> <span>101</span></label><label><input type="radio" autocomplete="off" name="radio_RSUSVKDPED" value="answer"></input> <span>539,580</span></label>
 </div></li>
 <li>What is the length of the reads?
-<div id="radio_DYFBTJPAGU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DYFBTJPAGU" value=""></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_DYFBTJPAGU" value="answer"></input> <span>101</span></label><label><input type="radio" autocomplete="off" name="radio_DYFBTJPAGU" value=""></input> <span>539,580</span></label>
+<div id="radio_PENBEKYRLT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PENBEKYRLT" value=""></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_PENBEKYRLT" value="answer"></input> <span>101</span></label><label><input type="radio" autocomplete="off" name="radio_PENBEKYRLT" value=""></input> <span>539,580</span></label>
 </div></li>
 <li>What is the GC content (%) of the R2 reads?
-<div id="radio_TYCSHCWHZM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TYCSHCWHZM" value="answer"></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_TYCSHCWHZM" value=""></input> <span>101</span></label><label><input type="radio" autocomplete="off" name="radio_TYCSHCWHZM" value=""></input> <span>539,580</span></label>
+<div id="radio_TLWZBNMBPD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TLWZBNMBPD" value="answer"></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_TLWZBNMBPD" value=""></input> <span>101</span></label><label><input type="radio" autocomplete="off" name="radio_TLWZBNMBPD" value=""></input> <span>539,580</span></label>
 </div></li>
 <li>In the read 2 (R2) file, at what base position range does the quality of the reads go below 28 (I.e. the position where a part of the boxplot, including outliers, goes into the orange)?
-<div id="radio_VVSPULWAAS" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_VVSPULWAAS" value=""></input> <span>18-19</span></label><label><input type="radio" autocomplete="off" name="radio_VVSPULWAAS" value="answer"></input> <span>84-85</span></label><label><input type="radio" autocomplete="off" name="radio_VVSPULWAAS" value=""></input> <span>96-97</span></label>
+<div id="radio_LFFFUUNYVJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LFFFUUNYVJ" value=""></input> <span>18-19</span></label><label><input type="radio" autocomplete="off" name="radio_LFFFUUNYVJ" value="answer"></input> <span>84-85</span></label><label><input type="radio" autocomplete="off" name="radio_LFFFUUNYVJ" value=""></input> <span>96-97</span></label>
 </div></li>
 </ol>
 </div>
@@ -316,15 +320,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>To carry this out we are going to use <a href="http://www.usadellab.org/cms/index.php?page=trimmomatic">Trimmomatic</a>.</p>
 <p>First we'll make a directory for the trimmed dataset.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="04-QC.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> trimmed</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="04-QC.html#cb11-1" tabindex="-1"></a><span class="fu">mkdir</span> trimmed</span></code></pre></div>
 <p>To run Trimmomatic with the reads we will use the below command.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="04-QC.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">trimmomatic</span> <span class="dt">\</span></span>
-<span id="cb12-2"><a href="04-QC.html#cb12-2" aria-hidden="true" tabindex="-1"></a>  PE <span class="at">-phred33</span> <span class="dt">\</span></span>
-<span id="cb12-3"><a href="04-QC.html#cb12-3" aria-hidden="true" tabindex="-1"></a>  17_slice_R1.fq.gz 17_slice_R2.fq.gz <span class="dt">\</span></span>
-<span id="cb12-4"><a href="04-QC.html#cb12-4" aria-hidden="true" tabindex="-1"></a>  trimmed/17_slice_R1_out_paired.fastq trimmed/17_slice_R1_out_unpaired.fastq <span class="dt">\</span></span>
-<span id="cb12-5"><a href="04-QC.html#cb12-5" aria-hidden="true" tabindex="-1"></a>  trimmed/17_slice_R2_out_paired.fastq trimmed/17_slice_R2_out_unpaired.fastq <span class="dt">\</span></span>
-<span id="cb12-6"><a href="04-QC.html#cb12-6" aria-hidden="true" tabindex="-1"></a>  ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 <span class="dt">\</span></span>
-<span id="cb12-7"><a href="04-QC.html#cb12-7" aria-hidden="true" tabindex="-1"></a>  LEADING:3 TRAILING:3 SLIDINGWINDOW:4:30 MINLEN:50</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="04-QC.html#cb12-1" tabindex="-1"></a><span class="ex">trimmomatic</span> <span class="dt">\</span></span>
+<span id="cb12-2"><a href="04-QC.html#cb12-2" tabindex="-1"></a>  PE <span class="at">-phred33</span> <span class="dt">\</span></span>
+<span id="cb12-3"><a href="04-QC.html#cb12-3" tabindex="-1"></a>  17_slice_R1.fq.gz 17_slice_R2.fq.gz <span class="dt">\</span></span>
+<span id="cb12-4"><a href="04-QC.html#cb12-4" tabindex="-1"></a>  trimmed/17_slice_R1_out_paired.fastq trimmed/17_slice_R1_out_unpaired.fastq <span class="dt">\</span></span>
+<span id="cb12-5"><a href="04-QC.html#cb12-5" tabindex="-1"></a>  trimmed/17_slice_R2_out_paired.fastq trimmed/17_slice_R2_out_unpaired.fastq <span class="dt">\</span></span>
+<span id="cb12-6"><a href="04-QC.html#cb12-6" tabindex="-1"></a>  ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 <span class="dt">\</span></span>
+<span id="cb12-7"><a href="04-QC.html#cb12-7" tabindex="-1"></a>  LEADING:3 TRAILING:3 SLIDINGWINDOW:4:30 MINLEN:50</span></code></pre></div>
 <p>The parameter meanings are:</p>
 <ul>
 <li><code>PE</code>: Input data consists of paired-end reads.</li>
@@ -340,23 +344,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 Once the command is run it will give you some useful output to the screen.
 Based on it, approximately what percentage of paired reads were kept?
-<div id="radio_SFMFFCKZEX" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SFMFFCKZEX" value=""></input> <span>~25%</span></label><label><input type="radio" autocomplete="off" name="radio_SFMFFCKZEX" value=""></input> <span>~50%</span></label><label><input type="radio" autocomplete="off" name="radio_SFMFFCKZEX" value="answer"></input> <span>~75%</span></label>
+<div id="radio_FVSRGHRSNG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FVSRGHRSNG" value=""></input> <span>~25%</span></label><label><input type="radio" autocomplete="off" name="radio_FVSRGHRSNG" value=""></input> <span>~50%</span></label><label><input type="radio" autocomplete="off" name="radio_FVSRGHRSNG" value="answer"></input> <span>~75%</span></label>
 </div>
 <div id="post-quality-control-check" class="section level3 hasAnchor" number="4.3.1">
 <h3><span class="header-section-number">4.3.1</span> Post Quality control check<a href="04-QC.html#post-quality-control-check" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="figures/magnify_glass_good.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>To see how successful the quality control has been we need to run fastqc on the trimmomatic output.</p>
 <p>First create a new directory for the fastqc output.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="04-QC.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> trimmed_fastqc_output</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="04-QC.html#cb13-1" tabindex="-1"></a><span class="fu">mkdir</span> trimmed_fastqc_output</span></code></pre></div>
 <p>Now run fastqc on the two paired read files.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="04-QC.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> trimmed_fastqc_output <span class="dt">\</span></span>
-<span id="cb14-2"><a href="04-QC.html#cb14-2" aria-hidden="true" tabindex="-1"></a>trimmed/17_slice_R1_out_paired.fastq trimmed/17_slice_R2_out_paired.fastq</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="04-QC.html#cb14-1" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> trimmed_fastqc_output <span class="dt">\</span></span>
+<span id="cb14-2"><a href="04-QC.html#cb14-2" tabindex="-1"></a>trimmed/17_slice_R1_out_paired.fastq trimmed/17_slice_R2_out_paired.fastq</span></code></pre></div>
 <p>We can open the fastqc output with the following commands</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="04-QC.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> <span class="dt">\</span></span>
-<span id="cb15-2"><a href="04-QC.html#cb15-2" aria-hidden="true" tabindex="-1"></a>trimmed_fastqc_output/17_slice_R1_out_paired_fastqc.html <span class="kw">&amp;</span></span>
-<span id="cb15-3"><a href="04-QC.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> <span class="dt">\</span></span>
-<span id="cb15-4"><a href="04-QC.html#cb15-4" aria-hidden="true" tabindex="-1"></a>trimmed_fastqc_output/17_slice_R2_out_paired_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="04-QC.html#cb15-1" tabindex="-1"></a><span class="ex">firefox</span> <span class="dt">\</span></span>
+<span id="cb15-2"><a href="04-QC.html#cb15-2" tabindex="-1"></a>trimmed_fastqc_output/17_slice_R1_out_paired_fastqc.html <span class="kw">&amp;</span></span>
+<span id="cb15-3"><a href="04-QC.html#cb15-3" tabindex="-1"></a><span class="ex">firefox</span> <span class="dt">\</span></span>
+<span id="cb15-4"><a href="04-QC.html#cb15-4" tabindex="-1"></a>trimmed_fastqc_output/17_slice_R2_out_paired_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
 </div>
 <div id="quality-control-questions" class="section level3 hasAnchor" number="4.3.2">
 <h3><span class="header-section-number">4.3.2</span> Quality control: questions<a href="04-QC.html#quality-control-questions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -364,20 +368,20 @@ Based on it, approximately what percentage of paired reads were kept?
 <p>To see how well the reads have improved let’s answer the below questions and compare to them to the answers of the raw read fastqc questions.</p>
 <ol style="list-style-type: decimal">
 <li>How many total reads are there in the R1 file?
-<div id="radio_LNDSCYXZWU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_LNDSCYXZWU" value=""></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_LNDSCYXZWU" value=""></input> <span>50-101</span></label><label><input type="radio" autocomplete="off" name="radio_LNDSCYXZWU" value="answer"></input> <span>409,267</span></label>
+<div id="radio_DPLCZDSMUA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DPLCZDSMUA" value=""></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_DPLCZDSMUA" value=""></input> <span>50-101</span></label><label><input type="radio" autocomplete="off" name="radio_DPLCZDSMUA" value="answer"></input> <span>409,267</span></label>
 </div></li>
 <li>What is the length of the reads?
-<div id="radio_OKYFKEIAUW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_OKYFKEIAUW" value=""></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_OKYFKEIAUW" value="answer"></input> <span>50-101</span></label><label><input type="radio" autocomplete="off" name="radio_OKYFKEIAUW" value=""></input> <span>539,580</span></label>
+<div id="radio_WOPAYEITCF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WOPAYEITCF" value=""></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_WOPAYEITCF" value="answer"></input> <span>50-101</span></label><label><input type="radio" autocomplete="off" name="radio_WOPAYEITCF" value=""></input> <span>539,580</span></label>
 </div></li>
 <li>What is the GC content (%) of the R2 reads?
-<div id="radio_FEMJHBGTUN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FEMJHBGTUN" value="answer"></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_FEMJHBGTUN" value=""></input> <span>50-101</span></label><label><input type="radio" autocomplete="off" name="radio_FEMJHBGTUN" value=""></input> <span>539,580</span></label>
+<div id="radio_SJFQLUJVBY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SJFQLUJVBY" value="answer"></input> <span>44</span></label><label><input type="radio" autocomplete="off" name="radio_SJFQLUJVBY" value=""></input> <span>50-101</span></label><label><input type="radio" autocomplete="off" name="radio_SJFQLUJVBY" value=""></input> <span>539,580</span></label>
 </div></li>
 <li>In the read 2 (R2) file, at what base position range does the quality of the reads go below 28 (I.e. the position where a part of the boxplot, including outliers, goes into the orange)?
-<div id="radio_ZWMMXCQAER" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZWMMXCQAER" value=""></input> <span>18-19</span></label><label><input type="radio" autocomplete="off" name="radio_ZWMMXCQAER" value=""></input> <span>84-85</span></label><label><input type="radio" autocomplete="off" name="radio_ZWMMXCQAER" value="answer"></input> <span>They don't</span></label>
+<div id="radio_CELHTRWGBA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CELHTRWGBA" value=""></input> <span>18-19</span></label><label><input type="radio" autocomplete="off" name="radio_CELHTRWGBA" value=""></input> <span>84-85</span></label><label><input type="radio" autocomplete="off" name="radio_CELHTRWGBA" value="answer"></input> <span>They don't</span></label>
 </div></li>
 </ol>
 </div>
