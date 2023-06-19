@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Other types of data | Python for Bioinformatics - Supplementary Materials</title>
   <meta name="description" content="NEOF book for the Python for Bioinformatics workshop - Supplementary materials" />
-  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Other types of data | Python for Bioinformatics - Supplementary Materials" />
   <meta property="og:type" content="book" />
@@ -118,6 +118,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="www/webex.css" type="text/css" />
@@ -226,29 +230,29 @@ For example, the gender of each patient.</p>
 <li>Use the <a href="https://pandas.pydata.org/">pandas</a> method <code>read_csv</code> to read in the input file</li>
 </ul>
 <p>Contents of "Script04.py":</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="12_other_data.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#load pandas</span></span>
-<span id="cb1-2"><a href="12_other_data.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas</span>
-<span id="cb1-3"><a href="12_other_data.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Set working dirtectory</span></span>
-<span id="cb1-4"><a href="12_other_data.html#cb1-4" aria-hidden="true" tabindex="-1"></a>wd <span class="op">=</span> <span class="st">&quot;/pub14/tea/nsc201&quot;</span></span>
-<span id="cb1-5"><a href="12_other_data.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Read in csv file</span></span>
-<span id="cb1-6"><a href="12_other_data.html#cb1-6" aria-hidden="true" tabindex="-1"></a>patients <span class="op">=</span> pandas.read_csv(wd <span class="op">+</span> <span class="st">&quot;/Python_course_data/patients_gut_data.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="12_other_data.html#cb1-1" tabindex="-1"></a><span class="co">#load pandas</span></span>
+<span id="cb1-2"><a href="12_other_data.html#cb1-2" tabindex="-1"></a><span class="im">import</span> pandas</span>
+<span id="cb1-3"><a href="12_other_data.html#cb1-3" tabindex="-1"></a><span class="co">#Set working dirtectory</span></span>
+<span id="cb1-4"><a href="12_other_data.html#cb1-4" tabindex="-1"></a>wd <span class="op">=</span> <span class="st">&quot;/pub14/tea/nsc201&quot;</span></span>
+<span id="cb1-5"><a href="12_other_data.html#cb1-5" tabindex="-1"></a><span class="co">#Read in csv file</span></span>
+<span id="cb1-6"><a href="12_other_data.html#cb1-6" tabindex="-1"></a>patients <span class="op">=</span> pandas.read_csv(wd <span class="op">+</span> <span class="st">&quot;/Python_course_data/patients_gut_data.csv&quot;</span>)</span></code></pre></div>
 <p>Now we have read our data into the object 'patients', we can take a look at how <a href="https://pandas.pydata.org/">pandas</a> has stored the data by looking at the ".dtypes" (data types).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="12_other_data.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(patients.dtypes)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="12_other_data.html#cb2-1" tabindex="-1"></a><span class="bu">print</span>(patients.dtypes)</span></code></pre></div>
 <p>Pandas has automatically used the column headers as the variable names, and assigned
 each variable a type based on the data; either 'float64' (a floating point number)
 or 'object' (a catch all term for string types).</p>
 <p>We can access a single column of data by it's variable name assigned by <a href="https://pandas.pydata.org/">pandas</a>
 For example, to access the 'diversity' column:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="12_other_data.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#print(patients.dtypes)</span></span>
-<span id="cb3-2"><a href="12_other_data.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(patients.diversity)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="12_other_data.html#cb3-1" tabindex="-1"></a><span class="co">#print(patients.dtypes)</span></span>
+<span id="cb3-2"><a href="12_other_data.html#cb3-2" tabindex="-1"></a><span class="bu">print</span>(patients.diversity)</span></code></pre></div>
 <p>To access individual records, we need to first tell <a href="https://pandas.pydata.org/">pandas</a> which column contains the index, or sample names.</p>
 <p>In the case of the patients_gut_data.csv data file, the identifiers are in the first column, which Python counts as column zero.</p>
 <p>Modify the command above to the following to add the index information, and print the data associated with sample #21.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="12_other_data.html#cb4-1" aria-hidden="true" tabindex="-1"></a>patients <span class="op">=</span> pandas.read_csv(wd <span class="op">+</span> <span class="st">&quot;/Python_course_data/patients_gut_data.csv&quot;</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb4-2"><a href="12_other_data.html#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="12_other_data.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#print(patients.dtypes)</span></span>
-<span id="cb4-4"><a href="12_other_data.html#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#print(patients.diversity)</span></span>
-<span id="cb4-5"><a href="12_other_data.html#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(patients.loc[<span class="st">&quot;Sample-21&quot;</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="12_other_data.html#cb4-1" tabindex="-1"></a>patients <span class="op">=</span> pandas.read_csv(wd <span class="op">+</span> <span class="st">&quot;/Python_course_data/patients_gut_data.csv&quot;</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb4-2"><a href="12_other_data.html#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="12_other_data.html#cb4-3" tabindex="-1"></a><span class="co">#print(patients.dtypes)</span></span>
+<span id="cb4-4"><a href="12_other_data.html#cb4-4" tabindex="-1"></a><span class="co">#print(patients.diversity)</span></span>
+<span id="cb4-5"><a href="12_other_data.html#cb4-5" tabindex="-1"></a><span class="bu">print</span>(patients.loc[<span class="st">&quot;Sample-21&quot;</span>])</span></code></pre></div>
 </div>
 <div id="make-more-complex-selections" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Make more complex selections<a href="12_other_data.html#make-more-complex-selections" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -264,14 +268,14 @@ For example, to access the 'diversity' column:</p>
 (this is because we are choosing columns by index - which is done by passing an argument in square brackets,
 <em>AND</em> we're passing a <em>list</em> of the columns to select which is <em>also</em> defined by being within square brackets).</p>
 <p>Modify the commands above to the following:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="12_other_data.html#cb5-1" aria-hidden="true" tabindex="-1"></a>patients <span class="op">=</span> pandas.read_csv(wd <span class="op">+</span> <span class="st">&quot;/Python_course_data/patients_gut_data.csv&quot;</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb5-2"><a href="12_other_data.html#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="12_other_data.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#print(patients.loc[&quot;Sample-21&quot;])</span></span>
-<span id="cb5-4"><a href="12_other_data.html#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="12_other_data.html#cb5-5" aria-hidden="true" tabindex="-1"></a>age_div_bmi <span class="op">=</span> patients[[<span class="st">&quot;age&quot;</span>, <span class="st">&quot;diversity&quot;</span>, <span class="st">&quot;bmi_group&quot;</span>]]</span>
-<span id="cb5-6"><a href="12_other_data.html#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="12_other_data.html#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(age_div_bmi)</span>
-<span id="cb5-8"><a href="12_other_data.html#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(age_div_bmi))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="12_other_data.html#cb5-1" tabindex="-1"></a>patients <span class="op">=</span> pandas.read_csv(wd <span class="op">+</span> <span class="st">&quot;/Python_course_data/patients_gut_data.csv&quot;</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-2"><a href="12_other_data.html#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="12_other_data.html#cb5-3" tabindex="-1"></a><span class="co">#print(patients.loc[&quot;Sample-21&quot;])</span></span>
+<span id="cb5-4"><a href="12_other_data.html#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="12_other_data.html#cb5-5" tabindex="-1"></a>age_div_bmi <span class="op">=</span> patients[[<span class="st">&quot;age&quot;</span>, <span class="st">&quot;diversity&quot;</span>, <span class="st">&quot;bmi_group&quot;</span>]]</span>
+<span id="cb5-6"><a href="12_other_data.html#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="12_other_data.html#cb5-7" tabindex="-1"></a><span class="bu">print</span>(age_div_bmi)</span>
+<span id="cb5-8"><a href="12_other_data.html#cb5-8" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(age_div_bmi))</span></code></pre></div>
 <p>We can see our new dataframe contains just the columns we selected, and also by checking it with the type() function,
 this new dataframe is also in the <a href="https://pandas.pydata.org/">pandas</a> format.</p>
 </div>
@@ -285,19 +289,19 @@ this new dataframe is also in the <a href="https://pandas.pydata.org/">pandas</a
 The two statements are linked together by the <em>AND</em> operator; the ampersand character: &amp;</p>
 <p>You can always refer back to chapters 4 and 5 for a refresher on how selection statements and operators work.</p>
 <p>Modify the above commands to:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="12_other_data.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#print(age_div_bmi)</span></span>
-<span id="cb6-2"><a href="12_other_data.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#print(type(age_div_bmi))</span></span>
-<span id="cb6-3"><a href="12_other_data.html#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="12_other_data.html#cb6-4" aria-hidden="true" tabindex="-1"></a>overweight_over25 <span class="op">=</span> patients[(patients[<span class="st">&quot;age&quot;</span>] <span class="op">&gt;=</span> <span class="dv">25</span>) <span class="op">&amp;</span> (patients[<span class="st">&quot;bmi_group&quot;</span>] <span class="op">==</span> <span class="st">&quot;overweight&quot;</span>)]</span>
-<span id="cb6-5"><a href="12_other_data.html#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="12_other_data.html#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(overweight_over25)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="12_other_data.html#cb6-1" tabindex="-1"></a><span class="co">#print(age_div_bmi)</span></span>
+<span id="cb6-2"><a href="12_other_data.html#cb6-2" tabindex="-1"></a><span class="co">#print(type(age_div_bmi))</span></span>
+<span id="cb6-3"><a href="12_other_data.html#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="12_other_data.html#cb6-4" tabindex="-1"></a>overweight_over25 <span class="op">=</span> patients[(patients[<span class="st">&quot;age&quot;</span>] <span class="op">&gt;=</span> <span class="dv">25</span>) <span class="op">&amp;</span> (patients[<span class="st">&quot;bmi_group&quot;</span>] <span class="op">==</span> <span class="st">&quot;overweight&quot;</span>)]</span>
+<span id="cb6-5"><a href="12_other_data.html#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="12_other_data.html#cb6-6" tabindex="-1"></a><span class="bu">print</span>(overweight_over25)</span></code></pre></div>
 <p>We can also do something similar but using the <em>OR</em> operator instead; the pipe character: |</p>
 <p>Modify the end of the above commands to:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="12_other_data.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#print(overweight_over25)</span></span>
-<span id="cb7-2"><a href="12_other_data.html#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="12_other_data.html#cb7-3" aria-hidden="true" tabindex="-1"></a>obese_or_severeobese <span class="op">=</span> patients[(patients[<span class="st">&quot;bmi_group&quot;</span>] <span class="op">==</span> <span class="st">&quot;obese&quot;</span>) <span class="op">|</span> (patients[<span class="st">&quot;bmi_group&quot;</span>] <span class="op">==</span> <span class="st">&quot;severeobese&quot;</span>)]</span>
-<span id="cb7-4"><a href="12_other_data.html#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="12_other_data.html#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(obese_or_severeobese)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="12_other_data.html#cb7-1" tabindex="-1"></a><span class="co">#print(overweight_over25)</span></span>
+<span id="cb7-2"><a href="12_other_data.html#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="12_other_data.html#cb7-3" tabindex="-1"></a>obese_or_severeobese <span class="op">=</span> patients[(patients[<span class="st">&quot;bmi_group&quot;</span>] <span class="op">==</span> <span class="st">&quot;obese&quot;</span>) <span class="op">|</span> (patients[<span class="st">&quot;bmi_group&quot;</span>] <span class="op">==</span> <span class="st">&quot;severeobese&quot;</span>)]</span>
+<span id="cb7-4"><a href="12_other_data.html#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="12_other_data.html#cb7-5" tabindex="-1"></a><span class="bu">print</span>(obese_or_severeobese)</span></code></pre></div>
 </div>
 <div id="applying-functions-and-methods-to-pandas-objects" class="section level2 hasAnchor" number="2.6">
 <h2><span class="header-section-number">2.6</span> Applying functions and methods to pandas objects<a href="12_other_data.html#applying-functions-and-methods-to-pandas-objects" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -308,22 +312,22 @@ The two statements are linked together by the <em>AND</em> operator; the ampersa
 <p><a href="https://pandas.pydata.org/">Pandas</a> provides useful methods for working with data tables, as we have seen. All of the previous approaches
 that we used in previous chapters still apply to data which has been processed using pandas.</p>
 <p>For example, we can use pandas to select the age column, and convert the number of years to months:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="12_other_data.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#print(obese_or_severeobese)</span></span>
-<span id="cb8-2"><a href="12_other_data.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(patients.age<span class="op">*</span><span class="dv">12</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="12_other_data.html#cb8-1" tabindex="-1"></a><span class="co">#print(obese_or_severeobese)</span></span>
+<span id="cb8-2"><a href="12_other_data.html#cb8-2" tabindex="-1"></a><span class="bu">print</span>(patients.age<span class="op">*</span><span class="dv">12</span>)</span></code></pre></div>
 <p>We can also pass pandas data to functions, as before.</p>
 <p>Or, we could define a new function and use that with pandas data.</p>
 <p>Comment out the print statement above, add the following definition for an average function,
 and pass the diversity column to the new function to find the average microbiome diversity in the dataset.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="12_other_data.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#print(patients.age*12)</span></span>
-<span id="cb9-2"><a href="12_other_data.html#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="12_other_data.html#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># define new function to find the average of a list</span></span>
-<span id="cb9-4"><a href="12_other_data.html#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> average(input_list):</span>
-<span id="cb9-5"><a href="12_other_data.html#cb9-5" aria-hidden="true" tabindex="-1"></a>  total <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb9-6"><a href="12_other_data.html#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> row <span class="kw">in</span> input_list:</span>
-<span id="cb9-7"><a href="12_other_data.html#cb9-7" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> total <span class="op">+</span> row</span>
-<span id="cb9-8"><a href="12_other_data.html#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span>(total <span class="op">/</span> <span class="bu">len</span>(input_list))</span>
-<span id="cb9-9"><a href="12_other_data.html#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="12_other_data.html#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(average(patients.diversity))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="12_other_data.html#cb9-1" tabindex="-1"></a><span class="co">#print(patients.age*12)</span></span>
+<span id="cb9-2"><a href="12_other_data.html#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="12_other_data.html#cb9-3" tabindex="-1"></a><span class="co"># define new function to find the average of a list</span></span>
+<span id="cb9-4"><a href="12_other_data.html#cb9-4" tabindex="-1"></a><span class="kw">def</span> average(input_list):</span>
+<span id="cb9-5"><a href="12_other_data.html#cb9-5" tabindex="-1"></a>  total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb9-6"><a href="12_other_data.html#cb9-6" tabindex="-1"></a>  <span class="cf">for</span> row <span class="kw">in</span> input_list:</span>
+<span id="cb9-7"><a href="12_other_data.html#cb9-7" tabindex="-1"></a>    total <span class="op">=</span> total <span class="op">+</span> row</span>
+<span id="cb9-8"><a href="12_other_data.html#cb9-8" tabindex="-1"></a>  <span class="cf">return</span>(total <span class="op">/</span> <span class="bu">len</span>(input_list))</span>
+<span id="cb9-9"><a href="12_other_data.html#cb9-9" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="12_other_data.html#cb9-10" tabindex="-1"></a><span class="bu">print</span>(average(patients.diversity))</span></code></pre></div>
 
 </div>
 </div>

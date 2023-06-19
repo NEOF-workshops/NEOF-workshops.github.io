@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Python for Bioinformatics</title>
+  <title>11 Using Conditions to Modify DNA Data | Python for Bioinformatics</title>
   <meta name="description" content="NEOF book for the Python for Bioinformatics workshop" />
   <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Python for Bioinformatics" />
+  <meta property="og:title" content="11 Using Conditions to Modify DNA Data | Python for Bioinformatics" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/images/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Python for Bioinformatics workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Python for Bioinformatics" />
+  <meta name="twitter:title" content="11 Using Conditions to Modify DNA Data | Python for Bioinformatics" />
   
   <meta name="twitter:description" content="NEOF book for the Python for Bioinformatics workshop" />
   <meta name="twitter:image" content="/images/NEOF.png" />
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="images/NEOF_favicon.png" type="image/x-icon" />
-
-
+<link rel="prev" href="10_DNA_sequence_data.html"/>
+<link rel="next" href="12_reading_and_writing.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -261,11 +261,107 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="using-conditions-to-modify-dna-data" class="section level1 hasAnchor" number="11">
+<h1><span class="header-section-number">11</span> Using Conditions to Modify DNA Data<a href="11_DNA_conditions.html#using-conditions-to-modify-dna-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<center>
+<img src="images/checks.jpeg" height="200" /><img src="images/DNA_icon2.png" height="200" />
+</center>
+<p>Suppose we want to filter the raw sequence reads by some parameter.
+For example we could remove reads of a certain length or remove sections of a sequence such as PCR primer sequences.
+We can use our knowledge of loops and conditions to perform these tasks.</p>
+<div id="remove-short-reads" class="section level2 hasAnchor" number="11.1">
+<h2><span class="header-section-number">11.1</span> Remove short reads<a href="11_DNA_conditions.html#remove-short-reads" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="images/comp_filter.png" style="width:20.0%" />
+</center>
+<p>Using what we know, we can write a script to remove reads below a certain read-length threshold from a FastQ file.</p>
+<p>Starting a new section at the bottom of the script, re-specify where <code>SeqIO.parse</code> should read the file.
+We need to do this because the <code>SeqIO.parse</code> object gets 'consumed' in the loop we built during the last section.
+To loop again, and do something else, we need to re-establish the <code>SeqIO.parse</code> connection.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb54-1"><a href="11_DNA_conditions.html#cb54-1" tabindex="-1"></a>R_undulata_data <span class="op">=</span> SeqIO.parse(wd <span class="op">+</span> <span class="st">&quot;/Python_course_data/R_undulata_WGS.fastq&quot;</span>, <span class="st">&quot;fastq&quot;</span>)</span></code></pre></div>
+<p>Suppose we want to find and ultimately remove short reads from the data.
+As our loop moves through the file, we can count the number of nucleotides in each read using the Python <strong>function</strong> <code>len()</code>.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb55-1"><a href="11_DNA_conditions.html#cb55-1" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> R_undulata_data:</span>
+<span id="cb55-2"><a href="11_DNA_conditions.html#cb55-2" tabindex="-1"></a>  <span class="bu">print</span>(<span class="bu">len</span>(record.seq))</span></code></pre></div>
+<p>Save and run the script to print the lengths of all the sequences.</p>
+<p>We can see there is some variation in the length of reads in the file and can use an <b>if</b> statement to select only those reads with a read length of &gt; 100 nucleotides.</p>
+<p>Modify the loop above to the following:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb56-1"><a href="11_DNA_conditions.html#cb56-1" tabindex="-1"></a><span class="co"># initialise an empty list to hold the records that we want to keep</span></span>
+<span id="cb56-2"><a href="11_DNA_conditions.html#cb56-2" tabindex="-1"></a>wanted_sequences <span class="op">=</span> []</span>
+<span id="cb56-3"><a href="11_DNA_conditions.html#cb56-3" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="11_DNA_conditions.html#cb56-4" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> R_undulata_data:</span>
+<span id="cb56-5"><a href="11_DNA_conditions.html#cb56-5" tabindex="-1"></a>  <span class="co">#print(len(record.seq))</span></span>
+<span id="cb56-6"><a href="11_DNA_conditions.html#cb56-6" tabindex="-1"></a>  <span class="cf">if</span> <span class="bu">len</span>(record.seq) <span class="op">&gt;</span> <span class="dv">100</span>:</span>
+<span id="cb56-7"><a href="11_DNA_conditions.html#cb56-7" tabindex="-1"></a>    <span class="co"># add the record to the list of records we want to keep</span></span>
+<span id="cb56-8"><a href="11_DNA_conditions.html#cb56-8" tabindex="-1"></a>    wanted_sequences.append(record)</span>
+<span id="cb56-9"><a href="11_DNA_conditions.html#cb56-9" tabindex="-1"></a></span>
+<span id="cb56-10"><a href="11_DNA_conditions.html#cb56-10" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Found &quot;</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">len</span>(wanted_sequences)) <span class="op">+</span> <span class="st">&quot; reads &gt;100bp in length.&quot;</span>)</span></code></pre></div>
+<p>Save and run the script. You will now have 2 lines of text as output, one saying the number of raw reads, and one saying the number of reads with a length &gt;100bp.</p>
+<p>We used the <code>len()</code> <strong>function</strong> to see how many records are contained in the <code>wanted_sequences</code>.</p>
+</div>
+<div id="remove-pcr-primers" class="section level2 hasAnchor" number="11.2">
+<h2><span class="header-section-number">11.2</span> Remove PCR primers<a href="11_DNA_conditions.html#remove-pcr-primers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="images/cut.png" style="width:20.0%" /><img src="images/DNA_icon.png" />
+</center>
+<p>Often you may want to check your sequence file for PCR primers, and remove them when they are found.
+Using a <strong>for</strong> <strong>loop</strong> to move through the sequence file, we can check each DNA sequence read for the presence of a pre-defined primer sequence.
+If it is present, we'll remove it.</p>
+<p>We are going to check for the presence of the 13 nucleotide PCR primer "ACACTGCTGATCG" at the start of the reads using the <code>startswith()</code> <strong>method</strong>.
+This <strong>method</strong> checks whether a <strong>string</strong> starts with a particular sub-string and returns <strong>True</strong> or <strong>False</strong>.
+It is very useful for checking for primer sequences in our data.</p>
+<p>The input for this primer removal step will be the 'wanted_sequences' <strong>variable</strong> from above (those of &gt;100bp in length).</p>
+<p>Continue from the bottom of your "script2.py".</p>
+<p><strong>Note</strong>: Below is the primer in triplet bases for ease of reading. Ensure you type it as one string with no spaces.</p>
+<p><strong>ACA CTG CTG ATC G</strong></p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb57-1"><a href="11_DNA_conditions.html#cb57-1" tabindex="-1"></a><span class="co"># loop through the sequence records</span></span>
+<span id="cb57-2"><a href="11_DNA_conditions.html#cb57-2" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> wanted_sequences:</span>
+<span id="cb57-3"><a href="11_DNA_conditions.html#cb57-3" tabindex="-1"></a>  </span>
+<span id="cb57-4"><a href="11_DNA_conditions.html#cb57-4" tabindex="-1"></a>  <span class="co"># check whether the sequence starts with the primer sequence</span></span>
+<span id="cb57-5"><a href="11_DNA_conditions.html#cb57-5" tabindex="-1"></a>  <span class="cf">if</span> record.seq.startswith(<span class="st">&quot;ACACTGCTGATCG&quot;</span>):</span>
+<span id="cb57-6"><a href="11_DNA_conditions.html#cb57-6" tabindex="-1"></a>    <span class="bu">print</span>(record)</span></code></pre></div>
+<p>Save and run your script.</p>
+<p>The code above prints a lot to the terminal. In each record, look at the lines starting "Seq" and note that every sequence does indeed start with the primer we specified above.
+This indicates that there are lots of sequences with the primer sequence present.
+Now that we have identified their presence, let's trim them off the start of the reads.</p>
+<p>Modify the block of code above to the following:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb58-1"><a href="11_DNA_conditions.html#cb58-1" tabindex="-1"></a><span class="co"># define a list to hold the trimmed sequences</span></span>
+<span id="cb58-2"><a href="11_DNA_conditions.html#cb58-2" tabindex="-1"></a>trimmed_sequences <span class="op">=</span> []</span>
+<span id="cb58-3"><a href="11_DNA_conditions.html#cb58-3" tabindex="-1"></a><span class="co">#Start counter to count number of reads with primer</span></span>
+<span id="cb58-4"><a href="11_DNA_conditions.html#cb58-4" tabindex="-1"></a>counter <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb58-5"><a href="11_DNA_conditions.html#cb58-5" tabindex="-1"></a></span>
+<span id="cb58-6"><a href="11_DNA_conditions.html#cb58-6" tabindex="-1"></a><span class="co"># loop through the sequence records</span></span>
+<span id="cb58-7"><a href="11_DNA_conditions.html#cb58-7" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> wanted_sequences:</span>
+<span id="cb58-8"><a href="11_DNA_conditions.html#cb58-8" tabindex="-1"></a>  </span>
+<span id="cb58-9"><a href="11_DNA_conditions.html#cb58-9" tabindex="-1"></a>  <span class="co"># check whether the sequence starts with the primer sequence</span></span>
+<span id="cb58-10"><a href="11_DNA_conditions.html#cb58-10" tabindex="-1"></a>  <span class="cf">if</span> record.seq.startswith(<span class="st">&quot;ACACTGCTGATCG&quot;</span>):</span>
+<span id="cb58-11"><a href="11_DNA_conditions.html#cb58-11" tabindex="-1"></a>    <span class="co">#print(record.seq)</span></span>
+<span id="cb58-12"><a href="11_DNA_conditions.html#cb58-12" tabindex="-1"></a>    </span>
+<span id="cb58-13"><a href="11_DNA_conditions.html#cb58-13" tabindex="-1"></a>    <span class="co"># if it does, subset the read from position 14 onwards </span></span>
+<span id="cb58-14"><a href="11_DNA_conditions.html#cb58-14" tabindex="-1"></a>    <span class="co"># and store in trimmed_sequences</span></span>
+<span id="cb58-15"><a href="11_DNA_conditions.html#cb58-15" tabindex="-1"></a>    trimmed_sequences.append(record[<span class="dv">13</span>:])</span>
+<span id="cb58-16"><a href="11_DNA_conditions.html#cb58-16" tabindex="-1"></a>    counter <span class="op">=</span> counter <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb58-17"><a href="11_DNA_conditions.html#cb58-17" tabindex="-1"></a>  </span>
+<span id="cb58-18"><a href="11_DNA_conditions.html#cb58-18" tabindex="-1"></a>  <span class="cf">else</span>:</span>
+<span id="cb58-19"><a href="11_DNA_conditions.html#cb58-19" tabindex="-1"></a>    <span class="co"># if it doesn&#39;t have the primer, </span></span>
+<span id="cb58-20"><a href="11_DNA_conditions.html#cb58-20" tabindex="-1"></a>    <span class="co"># retain the whole read and store in trimmed_sequences</span></span>
+<span id="cb58-21"><a href="11_DNA_conditions.html#cb58-21" tabindex="-1"></a>    trimmed_sequences.append(record)</span>
+<span id="cb58-22"><a href="11_DNA_conditions.html#cb58-22" tabindex="-1"></a>    </span>
+<span id="cb58-23"><a href="11_DNA_conditions.html#cb58-23" tabindex="-1"></a>number_sequences_trimmed <span class="op">=</span> counter</span>
+<span id="cb58-24"><a href="11_DNA_conditions.html#cb58-24" tabindex="-1"></a></span>
+<span id="cb58-25"><a href="11_DNA_conditions.html#cb58-25" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Found and trimmed &quot;</span> <span class="op">+</span> <span class="bu">str</span>(number_sequences_trimmed) <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb58-26"><a href="11_DNA_conditions.html#cb58-26" tabindex="-1"></a><span class="st">&quot; reads with PCR primer present at start.&quot;</span>)</span></code></pre></div>
+<p>Save and run the code one more time to see your three lines of information printed to screen.</p>
+</div>
+<div id="recap-4" class="section level2 hasAnchor" number="11.3">
+<h2><span class="header-section-number">11.3</span> Recap<a href="11_DNA_conditions.html#recap-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="images/recap.webp" height="300" />
+</center>
+<p>Using our knowledge of reading FASTQ files, looping through the data, and using conditions to check certain characteristics of the data we have been able to filter out short-reads and also remove primer contamination. We are starting to build a pipeline!</p>
+<p>We will learn to write data out and store it in a new file in the next chapter.</p>
+
+</div>
 </div>
 <script>
 
@@ -443,8 +539,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-
-
+<a href="10_DNA_sequence_data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="12_reading_and_writing.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

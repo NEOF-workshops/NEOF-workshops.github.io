@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Python for Bioinformatics</title>
+  <title>10 Reading sequence data | Python for Bioinformatics</title>
   <meta name="description" content="NEOF book for the Python for Bioinformatics workshop" />
   <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Python for Bioinformatics" />
+  <meta property="og:title" content="10 Reading sequence data | Python for Bioinformatics" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/images/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Python for Bioinformatics workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Python for Bioinformatics" />
+  <meta name="twitter:title" content="10 Reading sequence data | Python for Bioinformatics" />
   
   <meta name="twitter:description" content="NEOF book for the Python for Bioinformatics workshop" />
   <meta name="twitter:image" content="/images/NEOF.png" />
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="images/NEOF_favicon.png" type="image/x-icon" />
-
-
+<link rel="prev" href="09_loops.html"/>
+<link rel="next" href="11_DNA_conditions.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -261,11 +261,127 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="reading-sequence-data" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">10</span> Reading sequence data<a href="10_DNA_sequence_data.html#reading-sequence-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<center>
+<img src="images/DNA_icon.png" height="300" /><img src="images/biopython_logo.png" height="300" />
+</center>
+<p>Biopython is a suite of libraries and tools designed for analysis of biological datasets in Python, largely centered around the processing of DNA sequence data.</p>
+<p>You can find much more information about Biopython on the <a href="https://biopython.org/">website</a>.</p>
+<p>During this section on Biopython we are going to be using the SeqIO module. The knowledge and approaches from the previous chapters
+will now be used to process some genomic DNA sequence data.</p>
+<div id="seqio" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> SeqIO<a href="10_DNA_sequence_data.html#seqio" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="images/DNA_computer.png" style="width:20.0%" />
+</center>
+<p>The SeqIO tools are the main Sequence Input/Output interface for Biopython. It provides a relatively simple, uniform interface for working with various types of DNA sequence files. The module reads raw sequence files (such as .FASTQ files you will likely receive from your sequencing facility) and converts them to a Python readable format; a <a href="https://biopython.org/wiki/SeqRecord">SeqRecord</a> class.</p>
+</div>
+<div id="reading-a-fastq-dna-data-file-into-python" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Reading a FASTQ DNA data file into Python<a href="10_DNA_sequence_data.html#reading-a-fastq-dna-data-file-into-python" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>One of the most common types of DNA sequence data files you will be working with is the <a href="https://en.wikipedia.org/wiki/FASTQ_format">FASTQ</a> file.
+The FASTQ file contains multiple DNA sequences, each one might be a single short read from an Illumina sequencer and the file can contain thousands or millions of sequences depending on which sequencer was used to produce it.</p>
+<p>The FASTQ has a very specific format and holds three important pieces of information.</p>
+</div>
+<div id="the-fastq-format" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> The FASTQ format<a href="10_DNA_sequence_data.html#the-fastq-format" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="images/fastq_icon.png" style="width:20.0%" />
+</center>
+<p>The file has a repetitive structure of four distinct components:</p>
+<ul>
+<li>A unique sequence identifier (ID)</li>
+<li>The DNA nucleotide sequence</li>
+<li>A small spacer</li>
+<li>The quality score associated with each nucleotide</li>
+</ul>
+<p>The ID line always starts with the @ symbol and this is followed by a string of numbers and letters giving details such as the sequencer that produced the data, the run number, and an index adapter used on the sample.</p>
+<p>The DNA nucleotide sequence is shown as a string of ATGC characters.</p>
+<p>There is a spacer consisting of the "+" character which separates the sequence from the quality scores.</p>
+<p>The quality score associated with each nucleotide above is ASCII encoded with each symbol representing a quality score from 0 to 40 (higher being better). This line is not meant to be easily human-readable.</p>
+<p>An example of a single unit of this four line repeat can be seen below:</p>
+<pre><code>@MISEQ:42:000000000-A8DD3:1:1101:15046:1468
+TTCACATCCTGACCATTCAGTTGAGCAAAATAGTTCTTCAGT
++
+CCFFFFFGHHHHJIJJJJIJJJIIJJJJIIIJJGFIIIJEDD</code></pre>
+</div>
+<div id="read-a-fastq-file-into-python" class="section level2 hasAnchor" number="10.4">
+<h2><span class="header-section-number">10.4</span> Read a FASTQ file into Python<a href="10_DNA_sequence_data.html#read-a-fastq-file-into-python" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Scenario:</strong> You have just received some FASTQ formatted data back from your sequencing facility. The data was generated using a shotgun, whole-genome sequencing approach to sequence the genome of the undulate ray (<em>Raja undulata</em>).</p>
+<center>
+<img src="images/undulate_ray.jpeg" style="width:20.0%" />
+</center>
+<p>We are going to read the data into Python, ready to do some data processing and analyses.</p>
+</div>
+<div id="setting-up-a-script-to-use-biopython" class="section level2 hasAnchor" number="10.5">
+<h2><span class="header-section-number">10.5</span> Setting up a script to use BioPython<a href="10_DNA_sequence_data.html#setting-up-a-script-to-use-biopython" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Open a new file in Gedit by clicking the "Create a new document" button (<img src="images/gedit_create_new_doc.png?display=inline-block" style="width:4.0%" />) at the top-left.</p>
+<p>We need to load a couple of Python libraries:</p>
+<p><code>Biopython</code> (a suite of bioinformatics focused Python tools)</p>
+<p>...and...</p>
+<p><code>re</code> (allows us to perform searches using wildcards and special characters).</p>
+<p>Add the following to the top of the script.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a href="10_DNA_sequence_data.html#cb48-1" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> SeqIO</span>
+<span id="cb48-2"><a href="10_DNA_sequence_data.html#cb48-2" tabindex="-1"></a><span class="im">import</span> re</span></code></pre></div>
+<p>You should hopefully still have the current working directory on your clipboard.
+Set a variable called 'wd', (working directory) to the filepath on your clipboard by adding a version of the following:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb49-1"><a href="10_DNA_sequence_data.html#cb49-1" tabindex="-1"></a>wd <span class="op">=</span> <span class="st">&quot;/pub14/tea/nsc201&quot;</span></span></code></pre></div>
+</div>
+<div id="read-a-fie-of-sequence-data" class="section level2 hasAnchor" number="10.6">
+<h2><span class="header-section-number">10.6</span> Read a fie of sequence data<a href="10_DNA_sequence_data.html#read-a-fie-of-sequence-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="images/bioinformatics_icon2.png" style="width:20.0%" />
+</center>
+<p>We are going to use <code>SeqIO</code> (which stands for sequence in/out) and the <code>parse</code> <strong>function</strong> which splits the FASTQ file into its separate components.</p>
+<p>We store the information on which file to parse in the variable called <code>R_undulata_R1_data</code>.
+<code>SeqIO.parse</code> requires two arguments:</p>
+<ul>
+<li>The filepath to the file which is to be read.</li>
+<li>The format of that file.</li>
+</ul>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="10_DNA_sequence_data.html#cb50-1" tabindex="-1"></a>R_undulata_data <span class="op">=</span> SeqIO.parse(wd <span class="op">+</span> <span class="st">&quot;/Python_course_data/R_undulata_WGS.fastq&quot;</span>, <span class="st">&quot;fastq&quot;</span>)</span></code></pre></div>
+<p>We can then look through the file using a <b>for</b> loop. Each of the four-unit repeats of the FASTQ file is read as a separate 'record' and we can access them in the script.</p>
+<p>To access the ID line of each record, we use '.id' and to access the sequence we use '.seq'.
+Each of these elements can be printed in the terminal using an appropriate print statement.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="10_DNA_sequence_data.html#cb51-1" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> R_undulata_data:</span>
+<span id="cb51-2"><a href="10_DNA_sequence_data.html#cb51-2" tabindex="-1"></a>  <span class="bu">print</span>(record.<span class="bu">id</span>)</span>
+<span id="cb51-3"><a href="10_DNA_sequence_data.html#cb51-3" tabindex="-1"></a>  <span class="bu">print</span>(record.seq)</span></code></pre></div>
+<p>Save the new script as <strong>'script02.py'</strong> and run it from the terminal window to print the ID and sequences.</p>
+</div>
+<div id="modifying-reads" class="section level2 hasAnchor" number="10.7">
+<h2><span class="header-section-number">10.7</span> Modifying reads<a href="10_DNA_sequence_data.html#modifying-reads" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can perform operations on each of these elements. For example, Biopython has a built in <code>translate()</code> <strong>method</strong> to convert nucleotide sequence into protein sequence (although bear in mind that we are not considering reading frames and we likely have lots of non-coding data).</p>
+<p>Modify the <strong>for</strong> <strong>loop</strong> above to the following:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb52-1"><a href="10_DNA_sequence_data.html#cb52-1" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> R_undulata_data:</span>
+<span id="cb52-2"><a href="10_DNA_sequence_data.html#cb52-2" tabindex="-1"></a>  <span class="bu">print</span>(record.<span class="bu">id</span>)</span>
+<span id="cb52-3"><a href="10_DNA_sequence_data.html#cb52-3" tabindex="-1"></a>  <span class="co">#print(record.seq)</span></span>
+<span id="cb52-4"><a href="10_DNA_sequence_data.html#cb52-4" tabindex="-1"></a>  <span class="bu">print</span>(record.seq.translate())</span></code></pre></div>
+<p>Save the script and run it on the terminal.</p>
+</div>
+<div id="count-reads" class="section level2 hasAnchor" number="10.8">
+<h2><span class="header-section-number">10.8</span> Count reads<a href="10_DNA_sequence_data.html#count-reads" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="images/count.png" style="width:15.0%" />
+</center>
+<p>We can implement a counter to tally the total number of reads in the file. Modify the <strong>for</strong> <strong>loop</strong> above to the following (you do not need to add the comments however):</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb53-1"><a href="10_DNA_sequence_data.html#cb53-1" tabindex="-1"></a><span class="co">## start a counter to track how many reads</span></span>
+<span id="cb53-2"><a href="10_DNA_sequence_data.html#cb53-2" tabindex="-1"></a>counter <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb53-3"><a href="10_DNA_sequence_data.html#cb53-3" tabindex="-1"></a></span>
+<span id="cb53-4"><a href="10_DNA_sequence_data.html#cb53-4" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> R_undulata_data:</span>
+<span id="cb53-5"><a href="10_DNA_sequence_data.html#cb53-5" tabindex="-1"></a>  <span class="co">#print(record.id) </span></span>
+<span id="cb53-6"><a href="10_DNA_sequence_data.html#cb53-6" tabindex="-1"></a>  <span class="co">#print(record.seq)</span></span>
+<span id="cb53-7"><a href="10_DNA_sequence_data.html#cb53-7" tabindex="-1"></a>  <span class="co">#print(record.seq.translate())</span></span>
+<span id="cb53-8"><a href="10_DNA_sequence_data.html#cb53-8" tabindex="-1"></a>  <span class="co"># increase the counter by 1 each time it sees a new read</span></span>
+<span id="cb53-9"><a href="10_DNA_sequence_data.html#cb53-9" tabindex="-1"></a>  counter <span class="op">=</span> counter <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb53-10"><a href="10_DNA_sequence_data.html#cb53-10" tabindex="-1"></a></span>
+<span id="cb53-11"><a href="10_DNA_sequence_data.html#cb53-11" tabindex="-1"></a><span class="co"># save the number of raw sequences for use later</span></span>
+<span id="cb53-12"><a href="10_DNA_sequence_data.html#cb53-12" tabindex="-1"></a>number_raw_reads <span class="op">=</span> counter</span>
+<span id="cb53-13"><a href="10_DNA_sequence_data.html#cb53-13" tabindex="-1"></a></span>
+<span id="cb53-14"><a href="10_DNA_sequence_data.html#cb53-14" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Raw sequence file has &quot;</span> <span class="op">+</span> <span class="bu">str</span>(number_raw_reads) <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb53-15"><a href="10_DNA_sequence_data.html#cb53-15" tabindex="-1"></a><span class="st">&quot; sequence records.&quot;</span>)</span></code></pre></div>
+<p>Note that we need to convert the <code>number_raw_reads</code> to a <strong>string</strong> type for the print statement to work using the <code>str()</code> <strong>function</strong>. Python will not print variables of different types in the same statement.</p>
+
+</div>
 </div>
 <script>
 
@@ -443,8 +559,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-
-
+<a href="09_loops.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="11_DNA_conditions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
