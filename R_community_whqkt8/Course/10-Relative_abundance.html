@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 10 Taxa relative abundance | R community analysis</title>
   <meta name="description" content="NEOF book for the R community analysis workflow" />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 10 Taxa relative abundance | R community analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-05-11" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="www/webex.css" type="text/css" />
@@ -401,12 +405,12 @@ But, as stated in the last chapter all our samples had sufficient depth, so we w
 <li>Add a markdown cell with the first level header: <code># Taxonomy bar charts</code>.</li>
 <li>Add the below to a code cell to load in the <code>phyloseq</code> object and libraries.</li>
 </ul>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="10-Relative_abundance.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Libraries</span></span>
-<span id="cb42-2"><a href="10-Relative_abundance.html#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
-<span id="cb42-3"><a href="10-Relative_abundance.html#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span>
-<span id="cb42-4"><a href="10-Relative_abundance.html#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;IRdisplay&quot;</span>)</span>
-<span id="cb42-5"><a href="10-Relative_abundance.html#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Load phyloseq object</span></span>
-<span id="cb42-6"><a href="10-Relative_abundance.html#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;phyloseq.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="10-Relative_abundance.html#cb42-1" tabindex="-1"></a><span class="co">#Libraries</span></span>
+<span id="cb42-2"><a href="10-Relative_abundance.html#cb42-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
+<span id="cb42-3"><a href="10-Relative_abundance.html#cb42-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span>
+<span id="cb42-4"><a href="10-Relative_abundance.html#cb42-4" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;IRdisplay&quot;</span>)</span>
+<span id="cb42-5"><a href="10-Relative_abundance.html#cb42-5" tabindex="-1"></a><span class="co">#Load phyloseq object</span></span>
+<span id="cb42-6"><a href="10-Relative_abundance.html#cb42-6" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;phyloseq.RData&quot;</span>)</span></code></pre></div>
 <p>From now on you will get less instructions on your notebook structure.
 Please create your own coding and markdown cells where you think appropriate.</p>
 </div>
@@ -416,12 +420,12 @@ Please create your own coding and markdown cells where you think appropriate.</p
 <p>Now that we have the data loaded we can create a new <code>phyloseq</code> object by transforming the abundance values to relative abundances.</p>
 <p>This is carried out with the <code>microbiome</code> function <code>transform()</code>. With it we transform the ASV abundance table within to a "compositional" table (relative abundance).</p>
 <p>Run the below command in an appropriate place in your notebook:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="10-Relative_abundance.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Transform abundance table to a relative abundance (compositional) table</span></span>
-<span id="cb43-2"><a href="10-Relative_abundance.html#cb43-2" aria-hidden="true" tabindex="-1"></a>pseq_relabund <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">transform</span>(pseq, <span class="st">&quot;compositional&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="10-Relative_abundance.html#cb43-1" tabindex="-1"></a><span class="co">#Transform abundance table to a relative abundance (compositional) table</span></span>
+<span id="cb43-2"><a href="10-Relative_abundance.html#cb43-2" tabindex="-1"></a>pseq_relabund <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">transform</span>(pseq, <span class="st">&quot;compositional&quot;</span>)</span></code></pre></div>
 <p>As always it is good to check the contents of the new ASV table.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="10-Relative_abundance.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Summarise and check sample counts which should each amount to 1</span></span>
-<span id="cb44-2"><a href="10-Relative_abundance.html#cb44-2" aria-hidden="true" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(pseq_relabund)</span>
-<span id="cb44-3"><a href="10-Relative_abundance.html#cb44-3" aria-hidden="true" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq_relabund)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="10-Relative_abundance.html#cb44-1" tabindex="-1"></a><span class="co">#Summarise and check sample counts which should each amount to 1</span></span>
+<span id="cb44-2"><a href="10-Relative_abundance.html#cb44-2" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(pseq_relabund)</span>
+<span id="cb44-3"><a href="10-Relative_abundance.html#cb44-3" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq_relabund)</span></code></pre></div>
 <p>You will notice the read count for each sample is <strong>1</strong>. This abundance table contains fractional relative abundances for each ASV. This fraction is relative to the total abundance within each sample. Therefore, all the fractional relative abundance values of ASVs in one sample total 1.</p>
 <p>We will use this to produce all our different taxa tables.</p>
 </div>
@@ -431,19 +435,19 @@ Please create your own coding and markdown cells where you think appropriate.</p
 <p>To produce a taxa table we can use the <code>microbiome</code> function <code>aggregate_taxa()</code>.</p>
 <p>Run the below command to produce a phylum based <code>phyloseq</code> object.</p>
 <p><strong>Reminder</strong>: You may want a markdown cell to create a 2nd level header for this phylum section.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="10-Relative_abundance.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Check head of tax_table</span></span>
-<span id="cb45-2"><a href="10-Relative_abundance.html#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co">#This will tell us the taxa level names on the column names</span></span>
-<span id="cb45-3"><a href="10-Relative_abundance.html#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(phyloseq<span class="sc">::</span><span class="fu">tax_table</span>(pseq_relabund))</span>
-<span id="cb45-4"><a href="10-Relative_abundance.html#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Phylum phyloseq</span></span>
-<span id="cb45-5"><a href="10-Relative_abundance.html#cb45-5" aria-hidden="true" tabindex="-1"></a>phylum_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_taxa</span>(pseq_relabund, <span class="st">&quot;Phylum&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="10-Relative_abundance.html#cb45-1" tabindex="-1"></a><span class="co">#Check head of tax_table</span></span>
+<span id="cb45-2"><a href="10-Relative_abundance.html#cb45-2" tabindex="-1"></a><span class="co">#This will tell us the taxa level names on the column names</span></span>
+<span id="cb45-3"><a href="10-Relative_abundance.html#cb45-3" tabindex="-1"></a><span class="fu">head</span>(phyloseq<span class="sc">::</span><span class="fu">tax_table</span>(pseq_relabund))</span>
+<span id="cb45-4"><a href="10-Relative_abundance.html#cb45-4" tabindex="-1"></a><span class="co">#Phylum phyloseq</span></span>
+<span id="cb45-5"><a href="10-Relative_abundance.html#cb45-5" tabindex="-1"></a>phylum_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_taxa</span>(pseq_relabund, <span class="st">&quot;Phylum&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Let's check our phyla <code>phyloseq</code>.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="10-Relative_abundance.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Head of phylum relative abundance table</span></span>
-<span id="cb46-2"><a href="10-Relative_abundance.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(phylum_pseq))</span>
-<span id="cb46-3"><a href="10-Relative_abundance.html#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Number of phyla</span></span>
-<span id="cb46-4"><a href="10-Relative_abundance.html#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;Number of phyla: &quot;</span>, <span class="fu">nrow</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(phylum_pseq)))</span>
-<span id="cb46-5"><a href="10-Relative_abundance.html#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Summarise</span></span>
-<span id="cb46-6"><a href="10-Relative_abundance.html#cb46-6" aria-hidden="true" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(phylum_pseq)</span>
-<span id="cb46-7"><a href="10-Relative_abundance.html#cb46-7" aria-hidden="true" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">readcount</span>(phylum_pseq)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="10-Relative_abundance.html#cb46-1" tabindex="-1"></a><span class="co">#Head of phylum relative abundance table</span></span>
+<span id="cb46-2"><a href="10-Relative_abundance.html#cb46-2" tabindex="-1"></a><span class="fu">head</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(phylum_pseq))</span>
+<span id="cb46-3"><a href="10-Relative_abundance.html#cb46-3" tabindex="-1"></a><span class="co">#Number of phyla</span></span>
+<span id="cb46-4"><a href="10-Relative_abundance.html#cb46-4" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;Number of phyla: &quot;</span>, <span class="fu">nrow</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(phylum_pseq)))</span>
+<span id="cb46-5"><a href="10-Relative_abundance.html#cb46-5" tabindex="-1"></a><span class="co">#Summarise</span></span>
+<span id="cb46-6"><a href="10-Relative_abundance.html#cb46-6" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(phylum_pseq)</span>
+<span id="cb46-7"><a href="10-Relative_abundance.html#cb46-7" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">readcount</span>(phylum_pseq)</span></code></pre></div>
 </div>
 <div id="taxa-relative-abundance-summary" class="section level2 hasAnchor" number="10.4">
 <h2><span class="header-section-number">10.4</span> Taxa Relative abundance: summary<a href="10-Relative_abundance.html#taxa-relative-abundance-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>

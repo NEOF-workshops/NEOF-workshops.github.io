@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 R Packages | R community analysis</title>
   <meta name="description" content="NEOF book for the R community analysis workflow" />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 R Packages | R community analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-05-11" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="www/webex.css" type="text/css" />
@@ -390,9 +394,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/r_package.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>R packages/libraries contain additional functions, data and code for analysing, manipulating and plotting different types of data. Many common packages will be installed as default when you install R. Other more specialised packages, such as the <code>ggplot2</code> package, must be installed by the user.</p>
 <p>Packages found on The Comprehensive R Archive Network (CRAN), R’s central software repository, can be installed using the following command.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="03-R_packages.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;package_name&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="03-R_packages.html#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;package_name&quot;</span>)</span></code></pre></div>
 <p>Every time you reload R you will need to load the packages you require if they are not installed in R by default. To do this type:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="03-R_packages.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;package_name&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="03-R_packages.html#cb2-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;package_name&quot;</span>)</span></code></pre></div>
 <p>I generally have a list of <code>library()</code> functions at the top of my R scripts (<code>.R</code> files) for all the packages I use in the script.</p>
 <p>Throughout this course you will get a lot of practice installing and loading various packages.</p>
 <div class="webex-solution">
@@ -405,7 +409,7 @@ R package or R Library?
 </div>
 <p>As we will be using a lot of packages we shall use double colons (<code>::</code>) to specify which package each function belongs to, unless the function is from base R. For example if we use the function <code>summarize_phyloseq()</code> from the package <code>microbiome</code> we would type the function like below:</p>
 <p><strong>Note</strong>: Do not run the below command.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="03-R_packages.html#cb3-1" aria-hidden="true" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="03-R_packages.html#cb3-1" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>()</span></code></pre></div>
 <p>This convention has 2 benefits:</p>
 <ul>
 <li>We can easily tell which R package each function comes from.
@@ -423,17 +427,17 @@ R package or R Library?
 <p>During this course we will be using the grammar of graphics coding approach. This approach is implemented by the R package <code>ggplot2</code> to create visualisations such as bar charts, box plots, ordination plots etc. In turn <code>ggplot2</code> is used by a host of other packages, some of which we will be using. Although <code>ggplot2</code> is R code, its structure is very different and it takes effort to learn. Thankfully, <code>ggplot2</code> is very powerful and flexible, and it produces very professional and clean plots.</p>
 <p>We will use the <code>iris</code> dataset (inbuilt into R) to show an example of <code>ggplot2</code> code and its visualisation output. You don't need to run the below code.</p>
 <p><strong>Note</strong>: If you would like to see the contents of the <code>iris</code> dataset you can run the command <code>View(iris)</code> in your R instance later.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="03-R_packages.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load library</span></span>
-<span id="cb4-2"><a href="03-R_packages.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb4-3"><a href="03-R_packages.html#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="03-R_packages.html#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Create new ggplot2 object using iris dataset</span></span>
-<span id="cb4-5"><a href="03-R_packages.html#cb4-5" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">y=</span>Sepal.Width, <span class="at">colour=</span>Species)) <span class="sc">+</span></span>
-<span id="cb4-6"><a href="03-R_packages.html#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Make the object a scatter plot </span></span>
-<span id="cb4-7"><a href="03-R_packages.html#cb4-7" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb4-8"><a href="03-R_packages.html#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Add plot tile</span></span>
-<span id="cb4-9"><a href="03-R_packages.html#cb4-9" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">&quot;Iris Sepal length vs width&quot;</span>) <span class="sc">+</span></span>
-<span id="cb4-10"><a href="03-R_packages.html#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Set x and y axis label names</span></span>
-<span id="cb4-11"><a href="03-R_packages.html#cb4-11" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Sepal length&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Sepal width&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="03-R_packages.html#cb4-1" tabindex="-1"></a><span class="co">#Load library</span></span>
+<span id="cb4-2"><a href="03-R_packages.html#cb4-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-3"><a href="03-R_packages.html#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="03-R_packages.html#cb4-4" tabindex="-1"></a><span class="co">#Create new ggplot2 object using iris dataset</span></span>
+<span id="cb4-5"><a href="03-R_packages.html#cb4-5" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(iris, <span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">y=</span>Sepal.Width, <span class="at">colour=</span>Species)) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="03-R_packages.html#cb4-6" tabindex="-1"></a>  <span class="co">#Make the object a scatter plot </span></span>
+<span id="cb4-7"><a href="03-R_packages.html#cb4-7" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb4-8"><a href="03-R_packages.html#cb4-8" tabindex="-1"></a>  <span class="co">#Add plot tile</span></span>
+<span id="cb4-9"><a href="03-R_packages.html#cb4-9" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">&quot;Iris Sepal length vs width&quot;</span>) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="03-R_packages.html#cb4-10" tabindex="-1"></a>  <span class="co">#Set x and y axis label names</span></span>
+<span id="cb4-11"><a href="03-R_packages.html#cb4-11" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Sepal length&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Sepal width&quot;</span>)</span></code></pre></div>
 <p><img src="R-community-analysis_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>We will not learn <code>ggplot2</code> specifically during this course. However, the structure of creating an object will be used. In the above case the initial object was built with <code>ggplot</code>. Subsequently additions and edits were carried out with <code>+</code> and various other functions.</p>
 <p>An important concept of the grammar of graphics is aesthetics. Aesthetics are the parts of a graphic/plot. In the above command we set the aesthetics with the function <code>aes()</code> within the <code>ggplot()</code> function. The X aesthetic (i.e. what values are assigned to the x axis) was set as the Sepal length values from the column <code>Sepal.Length</code> of the dataframe <code>iris</code>. In turn the Y axis values are set to the Sepal width and the colouring of the points are set to the Species.</p>
