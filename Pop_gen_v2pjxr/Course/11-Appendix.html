@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 8 Calculating population summary statistics using PopGenome | Population Genomics</title>
+  <title>A Mamba installs | Population Genomics</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
   <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 8 Calculating population summary statistics using PopGenome | Population Genomics" />
+  <meta property="og:title" content="A Mamba installs | Population Genomics" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 8 Calculating population summary statistics using PopGenome | Population Genomics" />
+  <meta name="twitter:title" content="A Mamba installs | Population Genomics" />
   
   <meta name="twitter:description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-<link rel="prev" href="07-NGSAdmix.html"/>
-<link rel="next" href="09-Detecting_selection.html"/>
+<link rel="prev" href="10-GWAS.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -232,100 +232,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="popstats" class="section level1 hasAnchor" number="8">
-<h1><span class="header-section-number">Chapter 8</span> Calculating population summary statistics using PopGenome<a href="08-Summary_stats.html#popstats" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Generating summary statistics of your dataset can be useful to help you get a feel for your data and complement the visual structure plots and PCAs created in the previous chapter.</p>
-<p>We will now generate a summary of nucleotide diversity and <em>F<sub>ST</sub></em> using one scaffold (to save time) from the vcf file we have generated using the package <code>PopGenome</code> in R.</p>
-<p><img src="figures/popgenome.png" width="20%" style="display: block; margin: auto;" /></p>
-<p><code>PopGenome</code> is a powerful and flexible R package that can be used to calculate a diverse range of population genetics statistics. We will use only a couple of very basic features and analyses here but we strongly recommend reading the <a href="https://academic.oup.com/mbe/article/31/7/1929/2925788">paper</a> and <a href="https://cran.r-project.org/web/packages/PopGenome/vignettes/An_introduction_to_the_PopGenome_package.pdf">manual</a> for greater understanding of its capabilities. Advantages of PopGenome include its abilty to:</p>
-<ul>
-<li>Read data in a variety of input formats</li>
-<li>Implement a comprehensive range of population genetics/genomics analyses and statistics</li>
-<li>Read associated annotation files and allow to systematically select regions of interest</li>
-<li>Analyse individual loci, multiple loci, and sliding windows</li>
-<li>Open source and be easily extendable by the scientific community to incorporate new types of analyses</li>
-<li>Integrated with powerful numerical and graphical capabilities</li>
-<li>Platform independent</li>
-</ul>
-<p>We will now generate a couple of commonly used population genomic statistics, <em>F<sub>ST</sub></em> and nucleutide diversity (<em>π</em>).</p>
-<p><strong><em>F<sub>ST</sub></em></strong></p>
-<p>F statistics are one of the of the most common methods for quantifying genetic differentiation between subpopulations. <em>F<sub>ST</sub></em> (fixation index) estimates genetic differentiation between subpopulations. It reflects the degree of inbreeding within a subpopulation relative to the total population, as the probability that two alleles drawn at random from a subpopulation are identical by descent. <em>F<sub>ST</sub></em> is bound between 0 and 1. If <em>F<sub>ST</sub></em> = 0, there is no genetic distance between populations. If <em>F<sub>ST</sub></em> = 1, the two populations are very strongly separated.</p>
-<p><strong>Equation</strong>:
-<span class="math display">\[
-F _{ST} =
-\frac{(H_T - H_S)} {H_S}
-\]</span></p>
-<ul>
-<li><em>H<sub>T</sub></em> expected heterozygosity of the total population</li>
-<li><em>H<sub>S</sub></em> expected heterozygosity if the subpopulation were in Hardy–Weinberg Equilibrium</li>
-</ul>
-<p><strong><em>π</em></strong></p>
-<p>Nucleotide diversity (<em>π</em>) quantifies the mean divergence between sequences and reflects the extent to which sequences differ from each other. <em>π</em> is the average pairwise difference between all possible pairs of individuals in your sample.</p>
-<p><strong>Equation</strong>:
-<span class="math display">\[
-\pi =
-\sum f_i f_jp_{ij}
-\]</span></p>
-<ul>
-<li><em>f<sub>i</sub></em> and <em>f<sub>i</sub></em> frequencies of the _i_th and _j_th haplotypes in the population</li>
-<li><em>p<sub>ij</sub></em> sequence divergence between haplotypes</li>
-</ul>
-<div id="getting-started" class="section level2 hasAnchor" number="8.1">
-<h2><span class="header-section-number">8.1</span> Getting started<a href="08-Summary_stats.html#getting-started" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/genome_pop.png" width="20%" style="display: block; margin: auto;" /></p>
-<p>Now launch R by typing <code>R</code>into the terminal.</p>
-<p>Then load the PopGenome package:</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="08-Summary_stats.html#cb69-1" tabindex="-1"></a><span class="fu">library</span>(PopGenome)</span></code></pre></div>
-<p>We will now load in our SNP data, PopGenome can handle vcf files.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="08-Summary_stats.html#cb70-1" tabindex="-1"></a><span class="co"># Load the data</span></span>
-<span id="cb70-2"><a href="08-Summary_stats.html#cb70-2" tabindex="-1"></a>GENOME.class <span class="ot">&lt;-</span> <span class="fu">readData</span>(<span class="st">&quot;/pub14/tea/nsc206/NEOF/popgenomics/data/popgenome/&quot;</span>, </span>
-<span id="cb70-3"><a href="08-Summary_stats.html#cb70-3" tabindex="-1"></a>                         <span class="at">format=</span><span class="st">&quot;VCF&quot;</span>)</span></code></pre></div>
-<p>This makes a complex object which we can use to extract useful data.</p>
-<p>First we can get a summary of the vcf we have imported.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="08-Summary_stats.html#cb71-1" tabindex="-1"></a><span class="co"># This is complex object, with several slots</span></span>
-<span id="cb71-2"><a href="08-Summary_stats.html#cb71-2" tabindex="-1"></a><span class="fu">get.sum.data</span>(GENOME.class)</span></code></pre></div>
-<ul>
-<li>n.sites - this is the position of the last SNP in the vcf file - in this case 17,452,779</li>
-<li>n.biallelic.sites - Number of biallelic sites (SNPs) - there are 7,511 biallelic SNPs in this scaffold file - note SNPs are only counted if they have a ‘PASS’ description in the filter column (you can get the full number of SNPs in the vcf by typing <code>GENOME.class@n.sites2</code>)</li>
-<li>n.gaps - Number of gaps observed in the data - 0</li>
-<li>n.unknowns - Number of unknown positions - 778 this corresponds to the number of SNPs without the ‘PASS’ description in the filter column</li>
-<li>n.valid.sites - Number of sites without gaps (number reported as NA for vcf files)</li>
-<li>n.polyallelic.sites - Number of sites with more than two variants - 0</li>
-<li>trans.transv.ratio - Transition (changes from A ↔︎ G and C ↔︎ T) - transversion (changes
-from A ↔︎ C, A ↔︎T, G ↔︎ C or G ↔︎ T) ratio</li>
-</ul>
-<p>The object <code>GENOME.class</code> contains all the information of the different data that you can import and assign to the vcf and the statistics that can be run. To get a summary type:</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="08-Summary_stats.html#cb72-1" tabindex="-1"></a><span class="fu">show.slots</span>(GENOME.class)</span></code></pre></div>
-<p>These slots can be accessed by using the “@” sign. For example the number of sites:</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="08-Summary_stats.html#cb73-1" tabindex="-1"></a>GENOME.class<span class="sc">@</span>n.sites</span></code></pre></div>
-<p>For more information on the slots available using PopGenome please refer to the <a href="https://cran.r-project.org/web/packages/PopGenome/vignettes/An_introduction_to_the_PopGenome_package.pdf">manual</a></p>
-<p>We can now assign population information to the object. This is needed to calculate <em>F<sub>ST</sub></em> and <em>π</em>. For now we will specify just two of the populations.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="08-Summary_stats.html#cb74-1" tabindex="-1"></a><span class="co"># Make a list of individuals for each population</span></span>
-<span id="cb74-2"><a href="08-Summary_stats.html#cb74-2" tabindex="-1"></a><span class="co"># Note: the sample names in the vcf contain the path and the .bam file extension</span></span>
-<span id="cb74-3"><a href="08-Summary_stats.html#cb74-3" tabindex="-1"></a><span class="co"># Here we are just making a list of sample names as they appear in the vcf -</span></span>
-<span id="cb74-4"><a href="08-Summary_stats.html#cb74-4" tabindex="-1"></a><span class="co"># we are not importing any additional files</span></span>
-<span id="cb74-5"><a href="08-Summary_stats.html#cb74-5" tabindex="-1"></a></span>
-<span id="cb74-6"><a href="08-Summary_stats.html#cb74-6" tabindex="-1"></a>pop1<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;./aligned/SRR8861576_paired.bam&quot;</span>,<span class="st">&quot;./aligned/SRR8861581_paired.bam&quot;</span>,</span>
-<span id="cb74-7"><a href="08-Summary_stats.html#cb74-7" tabindex="-1"></a>        <span class="st">&quot;./aligned/SRR8861586_paired.bam&quot;</span>,<span class="st">&quot;/aligned/SRR8861592_paired.bam&quot;</span>)</span>
-<span id="cb74-8"><a href="08-Summary_stats.html#cb74-8" tabindex="-1"></a>pop2<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;./aligned/SRR8861578_paired.bam&quot;</span>,<span class="st">&quot;./aligned/SRR8861583_paired.bam&quot;</span>,</span>
-<span id="cb74-9"><a href="08-Summary_stats.html#cb74-9" tabindex="-1"></a>        <span class="st">&quot;./aligned/SRR8861589_paired.bam&quot;</span>,<span class="st">&quot;./aligned/SRR8861591_paired.bam&quot;</span>)</span>
-<span id="cb74-10"><a href="08-Summary_stats.html#cb74-10" tabindex="-1"></a></span>
-<span id="cb74-11"><a href="08-Summary_stats.html#cb74-11" tabindex="-1"></a><span class="co"># Set populations</span></span>
-<span id="cb74-12"><a href="08-Summary_stats.html#cb74-12" tabindex="-1"></a>GENOME.class  <span class="ot">&lt;-</span> <span class="fu">set.populations</span>(GENOME.class, <span class="fu">list</span>(pop1,pop2))</span>
-<span id="cb74-13"><a href="08-Summary_stats.html#cb74-13" tabindex="-1"></a></span>
-<span id="cb74-14"><a href="08-Summary_stats.html#cb74-14" tabindex="-1"></a><span class="co"># check if setting the populations worked</span></span>
-<span id="cb74-15"><a href="08-Summary_stats.html#cb74-15" tabindex="-1"></a>GENOME.class<span class="sc">@</span>populations <span class="co"># You can see that the sample names have been assigned to </span></span>
-<span id="cb74-16"><a href="08-Summary_stats.html#cb74-16" tabindex="-1"></a>                            <span class="co">#two different within  @populations</span></span></code></pre></div>
-<p>Since the calculation of certain population genetic parameters can be computationally intensive, they have to be executed separately beforehand. For this modules have to be run. To calculate <em>F<sub>ST</sub></em> and <em>π</em> we can use the F_st.stats module.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="08-Summary_stats.html#cb75-1" tabindex="-1"></a><span class="co"># Perform the calculations and add the results to the appropriate slots</span></span>
-<span id="cb75-2"><a href="08-Summary_stats.html#cb75-2" tabindex="-1"></a>GENOME.class <span class="ot">&lt;-</span> <span class="fu">F_ST.stats</span>(GENOME.class) </span>
-<span id="cb75-3"><a href="08-Summary_stats.html#cb75-3" tabindex="-1"></a></span>
-<span id="cb75-4"><a href="08-Summary_stats.html#cb75-4" tabindex="-1"></a><span class="co"># Print FST</span></span>
-<span id="cb75-5"><a href="08-Summary_stats.html#cb75-5" tabindex="-1"></a>GENOME.class<span class="sc">@</span>nucleotide.F_ST <span class="co"># Fst is very low between these two populations</span></span>
-<span id="cb75-6"><a href="08-Summary_stats.html#cb75-6" tabindex="-1"></a><span class="co"># Print nucleotide diversity along the scaffold and average nucleotide diversity per site</span></span>
-<span id="cb75-7"><a href="08-Summary_stats.html#cb75-7" tabindex="-1"></a>GENOME.class<span class="sc">@</span>Pi</span>
-<span id="cb75-8"><a href="08-Summary_stats.html#cb75-8" tabindex="-1"></a>GENOME.class<span class="sc">@</span>Pi<span class="sc">/</span>GENOME.class<span class="sc">@</span>n.sites2</span></code></pre></div>
-<p>This can give you a quick feel for your dataset but in reality diversity will vary throughout the genome. It is often more appropriate and interesting to examine how different regions of the genome have diverged between populations. We will explore one method for estimating differentiation between a pair of populations in the next chapter.</p>
+<div id="mamba-installs" class="section level1 hasAnchor" number="11">
+<h1><span class="header-section-number">A</span> Mamba installs<a href="11-Appendix.html#mamba-installs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/mamba_logo.png" width="20%" style="display: block; margin: auto;" /></p>
+<div id="mamba_install" class="section level2 hasAnchor" number="11.1">
+<h2><span class="header-section-number">A.1</span> Mamba installation and environment<a href="11-Appendix.html#mamba_install" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Mamba is a reimplementation of conda.
+It is a great tool for installing bioinformatic packages including R packages.</p>
+<p>Mamba github: <a href="https://github.com/mamba-org/mamba" class="uri">https://github.com/mamba-org/mamba</a></p>
+<p>Mamba installation: <a href="https://github.com/conda-forge/miniforge#mambaforge" class="uri">https://github.com/conda-forge/miniforge#mambaforge</a></p>
+<p>Mamba guide: <a href="https://mamba.readthedocs.io/en/latest/user_guide/mamba.html" class="uri">https://mamba.readthedocs.io/en/latest/user_guide/mamba.html</a></p>
+<p>To create the mamba environment <code>popgenomics</code> run the below commands in your bash. You will need to have installed <code>mamba</code> first.</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb144-1"><a href="11-Appendix.html#cb144-1" tabindex="-1"></a><span class="co">#R community</span></span>
+<span id="cb144-2"><a href="11-Appendix.html#cb144-2" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> popgenomics</span>
+<span id="cb144-3"><a href="11-Appendix.html#cb144-3" tabindex="-1"></a><span class="ex">mamba</span> activate popgenomics</span>
+<span id="cb144-4"><a href="11-Appendix.html#cb144-4" tabindex="-1"></a><span class="co">#Install packages from bioconda channel</span></span>
+<span id="cb144-5"><a href="11-Appendix.html#cb144-5" tabindex="-1"></a><span class="co">#NGSadmix is part of angsd</span></span>
+<span id="cb144-6"><a href="11-Appendix.html#cb144-6" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> bioconda plink fastqc trimmomatic bwa samtools bcftools angsd r-popgenome gemma</span></code></pre></div>
+</div>
+<div id="jupyter_appendix" class="section level2 hasAnchor" number="11.2">
+<h2><span class="header-section-number">A.2</span> Jupyter-notebook<a href="11-Appendix.html#jupyter_appendix" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/jupyter_logo.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>If you are running this on your own computer you can use <code>RStudio</code> for <code>R</code>.
+However, you can also use <a href="https://jupyter.org/"><code>Jupyter-notebook</code></a> if you are using an HPC or prefer it.</p>
+<p>If using bash you will need to create an environment with <code>Jupyter-notebook</code>.
+Ensure you are in the <code>(base)</code> mamba environment.</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb145-1"><a href="11-Appendix.html#cb145-1" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> jupyter</span>
+<span id="cb145-2"><a href="11-Appendix.html#cb145-2" tabindex="-1"></a><span class="ex">mamba</span> activate jupyter</span>
+<span id="cb145-3"><a href="11-Appendix.html#cb145-3" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> anaconda jupyter</span>
+<span id="cb145-4"><a href="11-Appendix.html#cb145-4" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code></pre></div>
+<p>To run <code>Jupyter-notebook</code> with your <code>r_community</code> environment you can run the following.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb146-1"><a href="11-Appendix.html#cb146-1" tabindex="-1"></a><span class="co">#Activate you R_community env</span></span>
+<span id="cb146-2"><a href="11-Appendix.html#cb146-2" tabindex="-1"></a><span class="ex">mamba</span> activate r_community</span>
+<span id="cb146-3"><a href="11-Appendix.html#cb146-3" tabindex="-1"></a><span class="co">#Run jupyter-notebook (may be a slightly different path)</span></span>
+<span id="cb146-4"><a href="11-Appendix.html#cb146-4" tabindex="-1"></a><span class="ex">~/mamba/envs/jupyter/bin/jupyter-notebook</span></span></code></pre></div>
 
 </div>
 </div>
@@ -334,8 +274,8 @@ from A ↔︎ C, A ↔︎T, G ↔︎ C or G ↔︎ T) ratio</li>
           </div>
         </div>
       </div>
-<a href="07-NGSAdmix.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="09-Detecting_selection.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="10-GWAS.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

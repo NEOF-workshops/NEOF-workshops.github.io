@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 SNP and genotype calling using SAMtools and BCFtools | Population Genomics</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 SNP and genotype calling using SAMtools and BCFtools | Population Genomics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Helen Hipperson, Katy Maher, Victor Soria-Carrasco, Graeme Fox" />
 
 
-<meta name="date" content="2023-01-17" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -202,6 +206,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.3" data-path="10-GWAS.html"><a href="10-GWAS.html#running-gemma-to-fit-a-bayesian-sparse-linear-mixed-model-bslmm"><i class="fa fa-check"></i><b>10.3</b> Running GEMMA to fit a Bayesian sparse linear mixed model (BSLMM)</a></li>
 <li class="chapter" data-level="10.4" data-path="10-GWAS.html"><a href="10-GWAS.html#analysing-gemma-bslmm-output"><i class="fa fa-check"></i><b>10.4</b> Analysing GEMMA BSLMM output</a></li>
 </ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="11-Appendix.html"><a href="11-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="11-Appendix.html"><a href="11-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>A.1</b> Mamba installation and environment</a></li>
+<li class="chapter" data-level="A.2" data-path="11-Appendix.html"><a href="11-Appendix.html#jupyter_appendix"><i class="fa fa-check"></i><b>A.2</b> Jupyter-notebook</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -227,18 +237,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/snp.png" width="30%" style="display: block; margin: auto;" /></p>
 <p>BCFtools is a very popular program to call SNPs and genotypes (and also to manipulate and filter vcf/bcf files as we will see afterwards). SNP calling is a relatively intensive process, so to speed things up we will be restricting variant calling to one scaffold from the killer whale genome (NW_004438415.1). We will call SNPs for three samples (SRR8861574, SRR8861575, SRR8861576) - the alignments have been provided for you in ‘.bam’ format - this is a binary, compressed version of a sam file.</p>
 <p>First navigate to the ‘aligned’ directory:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="06-SNPs.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/popgenomics/data/aligned/</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="06-SNPs.html#cb22-1" tabindex="-1"></a><span class="bu">cd</span> ~/popgenomics/data/aligned/</span></code></pre></div>
 <p>Check that you have bam files for the three samples, and their corresponding index files using <code>ls</code>.</p>
 <div id="file-preparation" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> File preparation<a href="06-SNPs.html#file-preparation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/index%20-%20Copy.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Before we start SNP calling we will copy over the genome assembly file and index it using <code>samtools</code>:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="06-SNPs.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /pub39/tea/nsc006/NEOF/popgenomics/genome/GCF_000331955.2_Oorc_1.1_genomic.fna .</span>
-<span id="cb23-2"><a href="06-SNPs.html#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="06-SNPs.html#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> faidx GCF_000331955.2_Oorc_1.1_genomic.fna</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="06-SNPs.html#cb23-1" tabindex="-1"></a><span class="fu">cp</span> /pub14/tea/nsc206/NEOF/popgenomics/genome/GCF_000331955.2_Oorc_1.1_genomic.fna .</span>
+<span id="cb23-2"><a href="06-SNPs.html#cb23-2" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="06-SNPs.html#cb23-3" tabindex="-1"></a><span class="ex">samtools</span> faidx GCF_000331955.2_Oorc_1.1_genomic.fna</span></code></pre></div>
 <p>This will produce a <code>.fai</code> index file.</p>
 <p>Also before we start we need to make a list of the BAM files:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="06-SNPs.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.bam <span class="op">&gt;</span> bamFiles.txt</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="06-SNPs.html#cb24-1" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>.bam <span class="op">&gt;</span> bamFiles.txt</span></code></pre></div>
 <p>We will use this list file to call SNPs from all three samples, rather than having to specify each sample name in the command.</p>
 </div>
 <div id="variant-calling" class="section level2 hasAnchor" number="6.2">
@@ -246,14 +256,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/calling.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>We will use BCFtools <code>mpileup</code> to produce genotype likelihoods for the three samples/BAM files, and pipe this output to BCFtools <code>call</code> to generate a file of genetic variants.</p>
 <p>Here is the BCFtools command:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="06-SNPs.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> mpileup <span class="at">-Ou</span> <span class="dt">\</span></span>
-<span id="cb25-2"><a href="06-SNPs.html#cb25-2" aria-hidden="true" tabindex="-1"></a>--max-depth 10000 <span class="at">-q</span> 20 <span class="at">-Q</span> 20 <span class="dt">\</span></span>
-<span id="cb25-3"><a href="06-SNPs.html#cb25-3" aria-hidden="true" tabindex="-1"></a>-P ILLUMINA <span class="at">-a</span> FORMAT/DP,FORMAT/AD <span class="dt">\</span></span>
-<span id="cb25-4"><a href="06-SNPs.html#cb25-4" aria-hidden="true" tabindex="-1"></a>-f GCF_000331955.2_Oorc_1.1_genomic.fna <span class="dt">\</span></span>
-<span id="cb25-5"><a href="06-SNPs.html#cb25-5" aria-hidden="true" tabindex="-1"></a>-r NW_004438415.1 <span class="dt">\</span></span>
-<span id="cb25-6"><a href="06-SNPs.html#cb25-6" aria-hidden="true" tabindex="-1"></a>-b bamFiles.txt <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb25-7"><a href="06-SNPs.html#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> call <span class="at">-mv</span> <span class="at">-P</span> 1e-6 <span class="at">-f</span> GQ <span class="dt">\</span></span>
-<span id="cb25-8"><a href="06-SNPs.html#cb25-8" aria-hidden="true" tabindex="-1"></a>-O b <span class="at">-o</span> orca_3samp_1scaf.bcf</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="06-SNPs.html#cb25-1" tabindex="-1"></a><span class="ex">bcftools</span> mpileup <span class="at">-Ou</span> <span class="dt">\</span></span>
+<span id="cb25-2"><a href="06-SNPs.html#cb25-2" tabindex="-1"></a>--max-depth 10000 <span class="at">-q</span> 20 <span class="at">-Q</span> 20 <span class="dt">\</span></span>
+<span id="cb25-3"><a href="06-SNPs.html#cb25-3" tabindex="-1"></a>-P ILLUMINA <span class="at">-a</span> FORMAT/DP,FORMAT/AD <span class="dt">\</span></span>
+<span id="cb25-4"><a href="06-SNPs.html#cb25-4" tabindex="-1"></a>-f GCF_000331955.2_Oorc_1.1_genomic.fna <span class="dt">\</span></span>
+<span id="cb25-5"><a href="06-SNPs.html#cb25-5" tabindex="-1"></a>-r NW_004438415.1 <span class="dt">\</span></span>
+<span id="cb25-6"><a href="06-SNPs.html#cb25-6" tabindex="-1"></a>-b bamFiles.txt <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb25-7"><a href="06-SNPs.html#cb25-7" tabindex="-1"></a><span class="ex">bcftools</span> call <span class="at">-mv</span> <span class="at">-P</span> 1e-6 <span class="at">-f</span> GQ <span class="dt">\</span></span>
+<span id="cb25-8"><a href="06-SNPs.html#cb25-8" tabindex="-1"></a>-O b <span class="at">-o</span> orca_3samp_1scaf.bcf</span></code></pre></div>
 <p>The options we are using are:</p>
 <p><code>mpileup</code></p>
 <ul>
@@ -283,11 +293,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>GL or PL: Genotype likelihoods as floating-point log10-scaled or phred scaled format. A diploid biallelic has three values: homozygote for reference, heterozygote, and homozygote for alternate. Triallelic sites have 6 values: homozygote for reference, heterozygote of reference and alternate allele 1, homozygote for alternate allele 1, heterozygote of reference and alternate allele 2, heterozygote of alternate alleles 1 and 2, and homozygote for alternate allele 2.</p>
 <p>A graphical explanation of the different parts and fields can be found here: <a href="http://vcftools.sourceforge.net/VCF-poster.pdf" class="uri">http://vcftools.sourceforge.net/VCF-poster.pdf</a></p>
 <p>Let’s have a look at our BCF file:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="06-SNPs.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="06-SNPs.html#cb26-1" tabindex="-1"></a><span class="ex">bcftools</span> view orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <p>The file starts with a few lines specifying the VCF and bcftools versions, the command used with bcftools mpileup, followed by a long list of the &gt;1,000 scaffolds that comprise the genome assembly (starting with ##contig), the descriptions of the fields for ALT, INFO, and FORMAT, and any additional commands that were executed to produce this file (bcftools call in this case).</p>
 <p>To focus only on the header or the SNPs, the flags -h and -H can be used:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="06-SNPs.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-h</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span>
-<span id="cb27-2"><a href="06-SNPs.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="06-SNPs.html#cb27-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-h</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span>
+<span id="cb27-2"><a href="06-SNPs.html#cb27-2" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <p>Questions:</p>
 <ol style="list-style-type: decimal">
 <li><p>Are all of these variants SNPs or are there also INDELs in the file?</p></li>
@@ -295,124 +305,124 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>Information in the BCF file can be used to filter to retain, for example, only biallelic SNPs, or to filter out variants with a low quality score or read depth.</p>
 <p>A list of the samples contained in the file can be obtained using <code>bcftools query</code>, and can be counted with <code>wc</code>:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="06-SNPs.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-l</span> orca_3samp_1scaf.bcf</span>
-<span id="cb28-2"><a href="06-SNPs.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-l</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="06-SNPs.html#cb28-1" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-l</span> orca_3samp_1scaf.bcf</span>
+<span id="cb28-2"><a href="06-SNPs.html#cb28-2" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-l</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
 <p>Lastly, let’s index the bcf file in order to be able to process it below:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="06-SNPs.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> index orca_3samp_1scaf.bcf</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="06-SNPs.html#cb29-1" tabindex="-1"></a><span class="ex">bcftools</span> index orca_3samp_1scaf.bcf</span></code></pre></div>
 </div>
 <div id="variant-filtering" class="section level2 hasAnchor" number="6.3">
 <h2><span class="header-section-number">6.3</span> Variant filtering<a href="06-SNPs.html#variant-filtering" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/filter.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>The number of variants can be counted using bcftools <code>view -H</code> and <code>wc</code>, but it includes all kinds of variants. To check particular ones, we need to use the flags <code>-v/-V</code> (or <code>--types/--exclude-types</code>) to include or exclude certain variant:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="06-SNPs.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># all variants</span></span>
-<span id="cb30-2"><a href="06-SNPs.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
-<span id="cb30-3"><a href="06-SNPs.html#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># only SNPs</span></span>
-<span id="cb30-4"><a href="06-SNPs.html#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> <span class="at">-v</span> snps orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
-<span id="cb30-5"><a href="06-SNPs.html#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># only indels</span></span>
-<span id="cb30-6"><a href="06-SNPs.html#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> <span class="at">-v</span> indels orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="06-SNPs.html#cb30-1" tabindex="-1"></a><span class="co"># all variants</span></span>
+<span id="cb30-2"><a href="06-SNPs.html#cb30-2" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb30-3"><a href="06-SNPs.html#cb30-3" tabindex="-1"></a><span class="co"># only SNPs</span></span>
+<span id="cb30-4"><a href="06-SNPs.html#cb30-4" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> <span class="at">-v</span> snps orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb30-5"><a href="06-SNPs.html#cb30-5" tabindex="-1"></a><span class="co"># only indels</span></span>
+<span id="cb30-6"><a href="06-SNPs.html#cb30-6" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> <span class="at">-v</span> indels orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
 <p>Biallelic SNPs (with just 1 alternate alleles) can be extracted with the -m and -M flags:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="06-SNPs.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> <span class="at">-v</span> snps <span class="at">-m</span> 2 <span class="at">-M</span> 2 orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="06-SNPs.html#cb31-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> <span class="at">-v</span> snps <span class="at">-m</span> 2 <span class="at">-M</span> 2 orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <p><code>-m 2</code> is the bcftools command that means “-m, –min-alleles INT: print sites with at least INT alleles listed in REF and ALT columns”. So here we are asking for all lines where there at least 2 REF and ALT alleles in total.</p>
 <p><code>-M 2</code> is the bcftools command that means “-M, –max-alleles INT: print sites with at most INT alleles listed in REF and ALT columns”. So here we are asking for all lines where there at most 2 REF and ALT alleles in total.</p>
 <div id="extracting-information" class="section level3 hasAnchor" number="6.3.1">
 <h3><span class="header-section-number">6.3.1</span> Extracting information<a href="06-SNPs.html#extracting-information" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="figures/exctractor.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Partial information can be extracted using the bcftools query. In the example above we saw how to get the list of samples using the -l option, but it can also be used to extract any fields using the -f option. For example, you can simple extract the list of positions with:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="06-SNPs.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%POS\n&#39;</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="06-SNPs.html#cb32-1" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%POS\n&#39;</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <p>Or combine multiple fields in the output, for example, scaffold/chromosome, position, reference and alternate alleles:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="06-SNPs.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT\n&#39;</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="06-SNPs.html#cb33-1" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT\n&#39;</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <p>You can also extract genotypes (notice the position of the tab to avoid adding an extra tab at the end of the lines):</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="06-SNPs.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT[\t%GT]\n&#39;</span> <span class="dt">\</span></span>
-<span id="cb34-2"><a href="06-SNPs.html#cb34-2" aria-hidden="true" tabindex="-1"></a>orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="06-SNPs.html#cb34-1" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT[\t%GT]\n&#39;</span> <span class="dt">\</span></span>
+<span id="cb34-2"><a href="06-SNPs.html#cb34-2" tabindex="-1"></a>orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <p>Or genotype likelihoods:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="06-SNPs.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT[\t%PL]\n&#39;</span> <span class="dt">\</span></span>
-<span id="cb35-2"><a href="06-SNPs.html#cb35-2" aria-hidden="true" tabindex="-1"></a>orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="06-SNPs.html#cb35-1" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT[\t%PL]\n&#39;</span> <span class="dt">\</span></span>
+<span id="cb35-2"><a href="06-SNPs.html#cb35-2" tabindex="-1"></a>orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <p>You can even combine this with awk, Perl or other tools to do simple calculations. For example, you can calculate allele frequencies from the AC and AN counts:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="06-SNPs.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT\t%AC\t%AN\n&#39;</span> <span class="dt">\</span></span>
-<span id="cb36-2"><a href="06-SNPs.html#cb36-2" aria-hidden="true" tabindex="-1"></a>orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span>
-<span id="cb36-3"><a href="06-SNPs.html#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-4"><a href="06-SNPs.html#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT\t%AC\t%AN\n&#39;</span> <span class="dt">\</span></span>
-<span id="cb36-5"><a href="06-SNPs.html#cb36-5" aria-hidden="true" tabindex="-1"></a>orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $1,$2,$3,$4,$5,$6,$5/$6}&#39;</span> <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="06-SNPs.html#cb36-1" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT\t%AC\t%AN\n&#39;</span> <span class="dt">\</span></span>
+<span id="cb36-2"><a href="06-SNPs.html#cb36-2" tabindex="-1"></a>orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span>
+<span id="cb36-3"><a href="06-SNPs.html#cb36-3" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="06-SNPs.html#cb36-4" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT\t%AC\t%AN\n&#39;</span> <span class="dt">\</span></span>
+<span id="cb36-5"><a href="06-SNPs.html#cb36-5" tabindex="-1"></a>orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $1,$2,$3,$4,$5,$6,$5/$6}&#39;</span> <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <p>Or the mean genotype quality:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="06-SNPs.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For all genotypes (uncalled ones = 0)</span></span>
-<span id="cb37-2"><a href="06-SNPs.html#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT[\t%GQ]\n&#39;</span> <span class="dt">\</span></span>
-<span id="cb37-3"><a href="06-SNPs.html#cb37-3" aria-hidden="true" tabindex="-1"></a>orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb37-4"><a href="06-SNPs.html#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{SUM=0; N=0; for(i=5; i&lt;=NF; i++){N+=1; SUM+=$i}; \</span></span>
-<span id="cb37-5"><a href="06-SNPs.html#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="st">AVG=SUM/N; print $1,$2,$3,$4,AVG}&#39;</span> <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb37-6"><a href="06-SNPs.html#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span></span>
-<span id="cb37-7"><a href="06-SNPs.html#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-8"><a href="06-SNPs.html#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Only for called genotypes:</span></span>
-<span id="cb37-9"><a href="06-SNPs.html#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT[\t%GQ]\n&#39;</span> <span class="dt">\</span></span>
-<span id="cb37-10"><a href="06-SNPs.html#cb37-10" aria-hidden="true" tabindex="-1"></a>orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb37-11"><a href="06-SNPs.html#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{SUM=0; N=0; for(i=5; i&lt;=NF; i++){SUM+=$i; if ($i&gt;0) N+=1}; \</span></span>
-<span id="cb37-12"><a href="06-SNPs.html#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="st">AVG=SUM/N; print $1,$2,$3,$4,AVG}&#39;</span> <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="06-SNPs.html#cb37-1" tabindex="-1"></a><span class="co"># For all genotypes (uncalled ones = 0)</span></span>
+<span id="cb37-2"><a href="06-SNPs.html#cb37-2" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT[\t%GQ]\n&#39;</span> <span class="dt">\</span></span>
+<span id="cb37-3"><a href="06-SNPs.html#cb37-3" tabindex="-1"></a>orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb37-4"><a href="06-SNPs.html#cb37-4" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{SUM=0; N=0; for(i=5; i&lt;=NF; i++){N+=1; SUM+=$i}; \</span></span>
+<span id="cb37-5"><a href="06-SNPs.html#cb37-5" tabindex="-1"></a><span class="st">AVG=SUM/N; print $1,$2,$3,$4,AVG}&#39;</span> <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb37-6"><a href="06-SNPs.html#cb37-6" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span></span>
+<span id="cb37-7"><a href="06-SNPs.html#cb37-7" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="06-SNPs.html#cb37-8" tabindex="-1"></a><span class="co"># Only for called genotypes:</span></span>
+<span id="cb37-9"><a href="06-SNPs.html#cb37-9" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%CHROM\t%POS\t%REF\t%ALT[\t%GQ]\n&#39;</span> <span class="dt">\</span></span>
+<span id="cb37-10"><a href="06-SNPs.html#cb37-10" tabindex="-1"></a>orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb37-11"><a href="06-SNPs.html#cb37-11" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{SUM=0; N=0; for(i=5; i&lt;=NF; i++){SUM+=$i; if ($i&gt;0) N+=1}; \</span></span>
+<span id="cb37-12"><a href="06-SNPs.html#cb37-12" tabindex="-1"></a><span class="st">AVG=SUM/N; print $1,$2,$3,$4,AVG}&#39;</span> <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 </div>
 <div id="subsetting-files" class="section level3 hasAnchor" number="6.3.2">
 <h3><span class="header-section-number">6.3.2</span> Subsetting files<a href="06-SNPs.html#subsetting-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="figures/subsample.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>We can subset SNPs within particular regions, for example, we can extract all the SNPs within a region on a particular chromosome/scaffold:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="06-SNPs.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf.bcf NW_004438415.1:50000-100000 <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
-<span id="cb38-2"><a href="06-SNPs.html#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="06-SNPs.html#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf.bcf NW_004438415.1:50000-100000 <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="06-SNPs.html#cb38-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf.bcf NW_004438415.1:50000-100000 <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb38-2"><a href="06-SNPs.html#cb38-2" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="06-SNPs.html#cb38-3" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf.bcf NW_004438415.1:50000-100000 <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <p>Subsetting a number of samples is also possible, for example to get only the first 2 samples:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="06-SNPs.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="va">SAMPLES</span><span class="op">=</span><span class="va">$(</span><span class="ex">bcftools</span> query <span class="at">-l</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 2 <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;\n/&#39;</span> <span class="st">&#39;,&#39;</span><span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/,$//&#39;</span><span class="va">)</span></span>
-<span id="cb39-2"><a href="06-SNPs.html#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="06-SNPs.html#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-s</span> <span class="va">$SAMPLES</span> orca_3samp_1scaf.bcf <span class="at">-O</span> b <span class="at">-o</span> orca_3samp_1scaf_first2.bcf</span>
-<span id="cb39-4"><a href="06-SNPs.html#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-5"><a href="06-SNPs.html#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> index orca_3samp_1scaf_first2.bcf</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="06-SNPs.html#cb39-1" tabindex="-1"></a><span class="va">SAMPLES</span><span class="op">=</span><span class="va">$(</span><span class="ex">bcftools</span> query <span class="at">-l</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 2 <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;\n/&#39;</span> <span class="st">&#39;,&#39;</span><span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/,$//&#39;</span><span class="va">)</span></span>
+<span id="cb39-2"><a href="06-SNPs.html#cb39-2" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="06-SNPs.html#cb39-3" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-s</span> <span class="va">$SAMPLES</span> orca_3samp_1scaf.bcf <span class="at">-O</span> b <span class="at">-o</span> orca_3samp_1scaf_first2.bcf</span>
+<span id="cb39-4"><a href="06-SNPs.html#cb39-4" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="06-SNPs.html#cb39-5" tabindex="-1"></a><span class="ex">bcftools</span> index orca_3samp_1scaf_first2.bcf</span></code></pre></div>
 </div>
 <div id="filtering" class="section level3 hasAnchor" number="6.3.3">
 <h3><span class="header-section-number">6.3.3</span> Filtering<a href="06-SNPs.html#filtering" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Usually we want to apply some filters depending on the sort of downstream analyses that we intend to do. Filtering usually consists of establishing some sort of threshold for the SNP quality in the QUAL field or some of the variables encoded in the INFO field (e.g. depth, mapping quality, etc.), but more sophisticated filtering is possible based on genotype-specific (i.e. per-sample) variables (e.g. discarding genotypes below a certain quality or with too few reads). Although in principle it is possible to do soft-filtering of SNPs and simply tag them as PASSED or FAILED in the VCF/BCF file, in practice it is more useful to do hard-filtering and simply remove all those SNPs (and genotypes) that did not meet our thresholds. We are going to focus on the SNPs only, so let’s extract only the SNPs from all the variants:</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="06-SNPs.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-v</span> snps orca_3samp_1scaf.bcf <span class="at">-O</span> b <span class="op">&gt;</span> orca_3samp_1scaf_snps.bcf</span>
-<span id="cb40-2"><a href="06-SNPs.html#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="06-SNPs.html#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> index orca_3samp_1scaf_snps.bcf</span>
-<span id="cb40-4"><a href="06-SNPs.html#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-5"><a href="06-SNPs.html#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="06-SNPs.html#cb40-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-v</span> snps orca_3samp_1scaf.bcf <span class="at">-O</span> b <span class="op">&gt;</span> orca_3samp_1scaf_snps.bcf</span>
+<span id="cb40-2"><a href="06-SNPs.html#cb40-2" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="06-SNPs.html#cb40-3" tabindex="-1"></a><span class="ex">bcftools</span> index orca_3samp_1scaf_snps.bcf</span>
+<span id="cb40-4"><a href="06-SNPs.html#cb40-4" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="06-SNPs.html#cb40-5" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
 <p>bcftools allows applying filters on many of its commands, but usually they are used with <code>bcftools view</code> or with <code>bcftools filter</code>. Filtering can be done using information encoded in the QUAL or INFO fields, also allowing expression with multiple conditions and basic arithmetics <a href="https://samtools.github.io/bcftools/bcftools.html#expressions">more details here</a>.
 Here are some examples:</p>
 <p><strong>SNP quality</strong></p>
 <p>An obvious filter is to exclude (-e) SNPs below a quality threshold:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="06-SNPs.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;QUAL&lt;20&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.QS20.bcf</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="06-SNPs.html#cb41-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;QUAL&lt;20&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.QS20.bcf</span></code></pre></div>
 <p>Filters can also be specified as includes (-i), the equivalent of the one above is:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="06-SNPs.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-i</span> <span class="st">&#39;QUAL&gt;=20&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.QS20i.bcf</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="06-SNPs.html#cb42-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-i</span> <span class="st">&#39;QUAL&gt;=20&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.QS20i.bcf</span></code></pre></div>
 <p>You can see they have the same number of SNPs:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="06-SNPs.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.QS20.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
-<span id="cb43-2"><a href="06-SNPs.html#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-3"><a href="06-SNPs.html#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.QS20i.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="06-SNPs.html#cb43-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.QS20.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb43-2"><a href="06-SNPs.html#cb43-2" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="06-SNPs.html#cb43-3" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.QS20i.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
 <p><strong>SNP depth</strong></p>
 <p>An example to exclude SNPs with depth &lt;10:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href="06-SNPs.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;INFO/DP&lt;10&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.DP10.bcf</span>
-<span id="cb44-2"><a href="06-SNPs.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You can see this is quite a stringent filter for this subset of data:</span></span>
-<span id="cb44-3"><a href="06-SNPs.html#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.DP10.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href="06-SNPs.html#cb44-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;INFO/DP&lt;10&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.DP10.bcf</span>
+<span id="cb44-2"><a href="06-SNPs.html#cb44-2" tabindex="-1"></a><span class="co"># You can see this is quite a stringent filter for this subset of data:</span></span>
+<span id="cb44-3"><a href="06-SNPs.html#cb44-3" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.DP10.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
 <p>An important note here is to be aware that if the file is further processed so that only part of the individuals are used, the fields in INFO may not be updated and it would be then unreliable to filter out using any information from that field.</p>
 <p><strong>Mapping quality</strong></p>
 <p>Another typical filter is to remove SNPs with low mapping quality (RMS MQ: root mean square of the mapping quality of reads across all samples). For examples, all SNPs with RMS MQ &lt; 30 can be discarded with the following command:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href="06-SNPs.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;MQ&lt;30&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.MQ30.bcf</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href="06-SNPs.html#cb45-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;MQ&lt;30&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.MQ30.bcf</span></code></pre></div>
 <p>How many SNPs has this removed?</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href="06-SNPs.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
-<span id="cb46-2"><a href="06-SNPs.html#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-3"><a href="06-SNPs.html#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.MQ30.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href="06-SNPs.html#cb46-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb46-2"><a href="06-SNPs.html#cb46-2" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="06-SNPs.html#cb46-3" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.MQ30.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
 <p>All but one of the SNPs had MQ&gt;30, and most have MQ=60:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="06-SNPs.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%MQ\n&#39;</span> orca_3samp_1scaf_snps.bcf <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span></span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="06-SNPs.html#cb47-1" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%MQ\n&#39;</span> orca_3samp_1scaf_snps.bcf <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span></span></code></pre></div>
 <p><strong>Allele frequency</strong></p>
 <p>For population genetic analyses it is frequently advised to remove variants below a certain allele frequency, as these ones are difficult to tell apart from sequencing errors. For example, to exclude all SNPs with a minor allele frequency (MAF) below 5% we would run:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb48-1"><a href="06-SNPs.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;MAF&lt;0.05&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.MAF005.bcf</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb48-1"><a href="06-SNPs.html#cb48-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;MAF&lt;0.05&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.MAF005.bcf</span></code></pre></div>
 <p><strong>Sample coverage</strong></p>
 <p>Another typical situation is to want to exclude all SNPs for which only a small fracion of all the individuals have sequence data. That requires using the total number of alleles in the called genotypes (AN). In the case of a diploid species, this can be used to filter SNPs by number of individuals genotyped. For example, we can remove all SNPs genotyped for less than 3 individuals:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb49-1"><a href="06-SNPs.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;AN/2&lt;3&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.SAMP3.bcf</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb49-1"><a href="06-SNPs.html#cb49-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;AN/2&lt;3&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.SAMP3.bcf</span></code></pre></div>
 <p><strong>Genotype-based filtering</strong></p>
 <p>Filtering using the genotype fields can allow for some more precise filtering. For example, in cases of high depth heterogeneity among samples, it may be better to filter out by median genotype depth than by total depth across all samples. An example removing all SNPs where the mean genotype depth is below 3:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb50-1"><a href="06-SNPs.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;AVG(FMT/DP)&lt;3&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.MEANGTDP3.bcf</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb50-1"><a href="06-SNPs.html#cb50-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;AVG(FMT/DP)&lt;3&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.MEANGTDP3.bcf</span></code></pre></div>
 <p>Sometimes it is reasonable to ignore genotype calls based on few reads. The following command remove all genotype calls (i.e. genotypes are substituted by ./.) informed by less than 5 reads:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="06-SNPs.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> filter <span class="at">-S</span> . <span class="at">-e</span> <span class="st">&#39;FMT/DP&lt;5&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.NOGTDP5.bcf</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="06-SNPs.html#cb51-1" tabindex="-1"></a><span class="ex">bcftools</span> filter <span class="at">-S</span> . <span class="at">-e</span> <span class="st">&#39;FMT/DP&lt;5&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.NOGTDP5.bcf</span></code></pre></div>
 <p><strong>Combining multiple filters</strong></p>
 <p>Multiple filters can be combined in a single command using or piping several ones. For example, we can combine a few of the filters we have used above:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb52-1"><a href="06-SNPs.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> filter <span class="at">-S</span> . <span class="at">-e</span> <span class="st">&#39;FMT/DP&lt;3&#39;</span> orca_3samp_1scaf_snps.bcf <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb52-2"><a href="06-SNPs.html#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;AVG(FMT/DP)&lt;3 || QUAL&lt;20 || AN/2&lt;2&#39;</span> <span class="at">-O</span> b <span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb52-3"><a href="06-SNPs.html#cb52-3" aria-hidden="true" tabindex="-1"></a>orca_3samp_1scaf_snps.NOGTDP3.MEANGTDP3.Q20.SAMP2.bcf</span>
-<span id="cb52-4"><a href="06-SNPs.html#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This results in quite a dramatic reduction in the number of SNPs:</span></span>
-<span id="cb52-5"><a href="06-SNPs.html#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.NOGTDP3.MEANGTDP3.Q20.SAMP2.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb52-1"><a href="06-SNPs.html#cb52-1" tabindex="-1"></a><span class="ex">bcftools</span> filter <span class="at">-S</span> . <span class="at">-e</span> <span class="st">&#39;FMT/DP&lt;3&#39;</span> orca_3samp_1scaf_snps.bcf <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb52-2"><a href="06-SNPs.html#cb52-2" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;AVG(FMT/DP)&lt;3 || QUAL&lt;20 || AN/2&lt;2&#39;</span> <span class="at">-O</span> b <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb52-3"><a href="06-SNPs.html#cb52-3" tabindex="-1"></a>orca_3samp_1scaf_snps.NOGTDP3.MEANGTDP3.Q20.SAMP2.bcf</span>
+<span id="cb52-4"><a href="06-SNPs.html#cb52-4" tabindex="-1"></a><span class="co"># This results in quite a dramatic reduction in the number of SNPs:</span></span>
+<span id="cb52-5"><a href="06-SNPs.html#cb52-5" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.NOGTDP3.MEANGTDP3.Q20.SAMP2.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
 <p>Final note: It is important to be careful with the order of the filters, as different combinations can result in different end results, especially if we subsample the individuals at some point. Also, some positions may end up being invariant or only variant with respect to the reference (i.e. private), or not having any individuals genotyped. We have also worked on a small bcf file with these examples - just one scaffold for three individuals. With larger amounts of data you will likely want to change some of the threshold values from those used here.</p>
 
 </div>
