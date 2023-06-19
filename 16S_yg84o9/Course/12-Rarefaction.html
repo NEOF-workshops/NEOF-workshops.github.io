@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 12 Sequencing depth evaluation | Bacterial 16S metabarcoding</title>
   <meta name="description" content="NEOF book for the Bacterial 16S metabarcoding workshop" />
-  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 12 Sequencing depth evaluation | Bacterial 16S metabarcoding" />
   <meta property="og:type" content="book" />
-  <meta property="og:image" content="/figures/" />
+  <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Bacterial 16S metabarcoding workshop" />
   
 
@@ -18,18 +18,18 @@
   <meta name="twitter:title" content="Chapter 12 Sequencing depth evaluation | Bacterial 16S metabarcoding" />
   
   <meta name="twitter:description" content="NEOF book for the Bacterial 16S metabarcoding workshop" />
-  <meta name="twitter:image" content="/figures/" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
 
 <meta name="author" content="Luca Lenzi and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2022-08-22" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
-  <link rel="shortcut icon" href="figures/CGR_favicon.png" type="image/x-icon" />
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
 <link rel="prev" href="11-Phylogentic_tree.html"/>
 <link rel="next" href="13-Diversity_analysis.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="www/webex.css" type="text/css" />
@@ -348,20 +352,20 @@ Figure 12.1: Example rarefaction curve: We can see that Series 1 plateaus at ~7,
 <p><strong>Note</strong>: See the <a href="19-Appendix.html#alphamet">appendix</a> at the end of this bookdown for details on each metric.</p>
 <p>You may want to exclude <code>--i-phylogeny rooted-tree.qza</code> and <code>--p-metrics faith_pd</code> for markers such as ITS where you will not create a phylogenetic tree.</p>
 <p><strong>Important</strong>: This command will take a long time. If this is the last command you run for today that is fine, go ahead and run it. Optionally, you can <a href="12-Rarefaction.html#cprarefaction">copy the output</a> instead of running it.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="12-Rarefaction.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> diversity alpha-rarefaction <span class="dt">\</span></span>
-<span id="cb26-2"><a href="12-Rarefaction.html#cb26-2" aria-hidden="true" tabindex="-1"></a>--i-table table-dada2.qza <span class="dt">\</span></span>
-<span id="cb26-3"><a href="12-Rarefaction.html#cb26-3" aria-hidden="true" tabindex="-1"></a>--i-phylogeny rooted-tree.qza <span class="dt">\</span></span>
-<span id="cb26-4"><a href="12-Rarefaction.html#cb26-4" aria-hidden="true" tabindex="-1"></a>--p-min-depth 5000 <span class="dt">\</span></span>
-<span id="cb26-5"><a href="12-Rarefaction.html#cb26-5" aria-hidden="true" tabindex="-1"></a>--p-max-depth 130000 <span class="dt">\</span></span>
-<span id="cb26-6"><a href="12-Rarefaction.html#cb26-6" aria-hidden="true" tabindex="-1"></a>--p-steps 500 <span class="dt">\</span></span>
-<span id="cb26-7"><a href="12-Rarefaction.html#cb26-7" aria-hidden="true" tabindex="-1"></a>--p-iterations 10 <span class="dt">\</span></span>
-<span id="cb26-8"><a href="12-Rarefaction.html#cb26-8" aria-hidden="true" tabindex="-1"></a>--m-metadata-file metadata.file.txt <span class="dt">\</span></span>
-<span id="cb26-9"><a href="12-Rarefaction.html#cb26-9" aria-hidden="true" tabindex="-1"></a>--p-metrics simpson_e <span class="dt">\</span></span>
-<span id="cb26-10"><a href="12-Rarefaction.html#cb26-10" aria-hidden="true" tabindex="-1"></a>--p-metrics simpson <span class="dt">\</span></span>
-<span id="cb26-11"><a href="12-Rarefaction.html#cb26-11" aria-hidden="true" tabindex="-1"></a>--p-metrics shannon <span class="dt">\</span></span>
-<span id="cb26-12"><a href="12-Rarefaction.html#cb26-12" aria-hidden="true" tabindex="-1"></a>--p-metrics observed_features <span class="dt">\</span></span>
-<span id="cb26-13"><a href="12-Rarefaction.html#cb26-13" aria-hidden="true" tabindex="-1"></a>--p-metrics faith_pd <span class="dt">\</span></span>
-<span id="cb26-14"><a href="12-Rarefaction.html#cb26-14" aria-hidden="true" tabindex="-1"></a>--o-visualization rarefaction-curve.qzv</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="12-Rarefaction.html#cb26-1" tabindex="-1"></a><span class="ex">qiime</span> diversity alpha-rarefaction <span class="dt">\</span></span>
+<span id="cb26-2"><a href="12-Rarefaction.html#cb26-2" tabindex="-1"></a>--i-table table-dada2.qza <span class="dt">\</span></span>
+<span id="cb26-3"><a href="12-Rarefaction.html#cb26-3" tabindex="-1"></a>--i-phylogeny rooted-tree.qza <span class="dt">\</span></span>
+<span id="cb26-4"><a href="12-Rarefaction.html#cb26-4" tabindex="-1"></a>--p-min-depth 5000 <span class="dt">\</span></span>
+<span id="cb26-5"><a href="12-Rarefaction.html#cb26-5" tabindex="-1"></a>--p-max-depth 130000 <span class="dt">\</span></span>
+<span id="cb26-6"><a href="12-Rarefaction.html#cb26-6" tabindex="-1"></a>--p-steps 500 <span class="dt">\</span></span>
+<span id="cb26-7"><a href="12-Rarefaction.html#cb26-7" tabindex="-1"></a>--p-iterations 10 <span class="dt">\</span></span>
+<span id="cb26-8"><a href="12-Rarefaction.html#cb26-8" tabindex="-1"></a>--m-metadata-file metadata.file.txt <span class="dt">\</span></span>
+<span id="cb26-9"><a href="12-Rarefaction.html#cb26-9" tabindex="-1"></a>--p-metrics simpson_e <span class="dt">\</span></span>
+<span id="cb26-10"><a href="12-Rarefaction.html#cb26-10" tabindex="-1"></a>--p-metrics simpson <span class="dt">\</span></span>
+<span id="cb26-11"><a href="12-Rarefaction.html#cb26-11" tabindex="-1"></a>--p-metrics shannon <span class="dt">\</span></span>
+<span id="cb26-12"><a href="12-Rarefaction.html#cb26-12" tabindex="-1"></a>--p-metrics observed_features <span class="dt">\</span></span>
+<span id="cb26-13"><a href="12-Rarefaction.html#cb26-13" tabindex="-1"></a>--p-metrics faith_pd <span class="dt">\</span></span>
+<span id="cb26-14"><a href="12-Rarefaction.html#cb26-14" tabindex="-1"></a>--o-visualization rarefaction-curve.qzv</span></code></pre></div>
 <div id="parameters-15" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="12-Rarefaction.html#parameters-15" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p><img src="figures/parameter_blue.png" width="10%" style="display: block; margin: auto;" /></p>
@@ -397,7 +401,7 @@ Figure 12.1: Example rarefaction curve: We can see that Series 1 plateaus at ~7,
 <h3><span class="header-section-number">12.1.1</span> Copy rarefaction output<a href="12-Rarefaction.html#cprarefaction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="figures/copy.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Instead of running the command you can copy the output to your directory.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="12-Rarefaction.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /pub39/tea/nsc006/NEOF/16s_workshop/chapter_12/rarefaction-curve.qzv .</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="12-Rarefaction.html#cb27-1" tabindex="-1"></a><span class="fu">cp</span> /pub39/tea/nsc006/NEOF/16s_workshop/chapter_12/rarefaction-curve.qzv .</span></code></pre></div>
 </div>
 </div>
 <div id="rarefaction-visualise" class="section level2 hasAnchor" number="12.2">
@@ -448,24 +452,24 @@ Figure 12.1: Example rarefaction curve: We can see that Series 1 plateaus at ~7,
 <p>Attempt the below MCQs.</p>
 <ol style="list-style-type: decimal">
 <li>At approximately what sequencing depth do the rarefaction of most of the samples (&gt;90%) plateaued?
-<div id="radio_ETAWEMBSSZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ETAWEMBSSZ" value=""></input> <span><strong>10,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ETAWEMBSSZ" value=""></input> <span><strong>25,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ETAWEMBSSZ" value="answer"></input> <span><strong>50,000</strong></span></label>
+<div id="radio_SAAGAMYXMA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SAAGAMYXMA" value=""></input> <span><strong>10,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SAAGAMYXMA" value=""></input> <span><strong>25,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SAAGAMYXMA" value="answer"></input> <span><strong>50,000</strong></span></label>
 </div></li>
 <li>Comparing the two <strong>Locations</strong>, which has higher evenness scores (simpson_e)?
-<div id="radio_AEZWILTHMK" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_AEZWILTHMK" value="answer"></input> <span><strong>Corridor</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AEZWILTHMK" value=""></input> <span><strong>Toilet</strong></span></label>
+<div id="radio_LJGCEUMYCT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LJGCEUMYCT" value="answer"></input> <span><strong>Corridor</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LJGCEUMYCT" value=""></input> <span><strong>Toilet</strong></span></label>
 </div></li>
 <li>Comparing the two <strong>Locations</strong>, which has a higher Faith's PD scores?
-<div id="radio_HFFTLJKMNL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HFFTLJKMNL" value="answer"></input> <span><strong>Corridor</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HFFTLJKMNL" value=""></input> <span><strong>Toilet</strong></span></label>
+<div id="radio_FKTHHNUYOD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FKTHHNUYOD" value="answer"></input> <span><strong>Corridor</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FKTHHNUYOD" value=""></input> <span><strong>Toilet</strong></span></label>
 </div></li>
 <li>When comparing the two <strong>Places</strong>, at approximately what sequencing depth are there only 6 MainBuilding samples remaining?
-<div id="radio_FMAABOMWAO" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FMAABOMWAO" value=""></input> <span><strong>70,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FMAABOMWAO" value="answer"></input> <span><strong>90,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FMAABOMWAO" value=""></input> <span><strong>115,000 </strong></span></label>
+<div id="radio_DNBUFYRXMV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DNBUFYRXMV" value=""></input> <span><strong>70,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DNBUFYRXMV" value="answer"></input> <span><strong>90,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DNBUFYRXMV" value=""></input> <span><strong>115,000 </strong></span></label>
 </div></li>
 <li>When comparing the two <strong>Places</strong>, at approximately what sequencing depth are there only 5 Entrance samples remaining?
-<div id="radio_TQSDROVFTU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TQSDROVFTU" value=""></input> <span><strong>70,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TQSDROVFTU" value=""></input> <span><strong>90,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TQSDROVFTU" value="answer"></input> <span><strong>115,000</strong></span></label>
+<div id="radio_TCSZUGNZPC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TCSZUGNZPC" value=""></input> <span><strong>70,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TCSZUGNZPC" value=""></input> <span><strong>90,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TCSZUGNZPC" value="answer"></input> <span><strong>115,000</strong></span></label>
 </div></li>
 </ol>
 </div>

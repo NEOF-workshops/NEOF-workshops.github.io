@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 De-novo amplicon sequence variants identification | Bacterial 16S metabarcoding</title>
   <meta name="description" content="NEOF book for the Bacterial 16S metabarcoding workshop" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 De-novo amplicon sequence variants identification | Bacterial 16S metabarcoding" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Luca Lenzi and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-02-08" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="www/webex.css" type="text/css" />
@@ -330,14 +334,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">9.1</span> DADA2: run<a href="09-ASV_identification.html#dada2-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/play_purple.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>To perform the variant sequence identification step with DADA2, the command is (<strong>don't run this command, <a href="09-ASV_identification.html#cpdada2">see below command</a></strong>):</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="09-ASV_identification.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> dada2 denoise-paired <span class="dt">\</span></span>
-<span id="cb11-2"><a href="09-ASV_identification.html#cb11-2" aria-hidden="true" tabindex="-1"></a>--i-demultiplexed-seqs paired-end-demux.trim.qza <span class="dt">\</span></span>
-<span id="cb11-3"><a href="09-ASV_identification.html#cb11-3" aria-hidden="true" tabindex="-1"></a>--p-trunc-len-f 220 <span class="dt">\</span></span>
-<span id="cb11-4"><a href="09-ASV_identification.html#cb11-4" aria-hidden="true" tabindex="-1"></a>--p-trunc-len-r 220 <span class="dt">\</span></span>
-<span id="cb11-5"><a href="09-ASV_identification.html#cb11-5" aria-hidden="true" tabindex="-1"></a>--o-representative-sequences rep-seqs-dada2.qza <span class="dt">\</span></span>
-<span id="cb11-6"><a href="09-ASV_identification.html#cb11-6" aria-hidden="true" tabindex="-1"></a>--o-table table-dada2.qza <span class="dt">\</span></span>
-<span id="cb11-7"><a href="09-ASV_identification.html#cb11-7" aria-hidden="true" tabindex="-1"></a>--o-denoising-stats dada2-stats.qza <span class="dt">\</span></span>
-<span id="cb11-8"><a href="09-ASV_identification.html#cb11-8" aria-hidden="true" tabindex="-1"></a>--verbose</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="09-ASV_identification.html#cb11-1" tabindex="-1"></a><span class="ex">qiime</span> dada2 denoise-paired <span class="dt">\</span></span>
+<span id="cb11-2"><a href="09-ASV_identification.html#cb11-2" tabindex="-1"></a>--i-demultiplexed-seqs paired-end-demux.trim.qza <span class="dt">\</span></span>
+<span id="cb11-3"><a href="09-ASV_identification.html#cb11-3" tabindex="-1"></a>--p-trunc-len-f 220 <span class="dt">\</span></span>
+<span id="cb11-4"><a href="09-ASV_identification.html#cb11-4" tabindex="-1"></a>--p-trunc-len-r 220 <span class="dt">\</span></span>
+<span id="cb11-5"><a href="09-ASV_identification.html#cb11-5" tabindex="-1"></a>--o-representative-sequences rep-seqs-dada2.qza <span class="dt">\</span></span>
+<span id="cb11-6"><a href="09-ASV_identification.html#cb11-6" tabindex="-1"></a>--o-table table-dada2.qza <span class="dt">\</span></span>
+<span id="cb11-7"><a href="09-ASV_identification.html#cb11-7" tabindex="-1"></a>--o-denoising-stats dada2-stats.qza <span class="dt">\</span></span>
+<span id="cb11-8"><a href="09-ASV_identification.html#cb11-8" tabindex="-1"></a>--verbose</span></code></pre></div>
 <div id="parameters-3" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="09-ASV_identification.html#parameters-3" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p><img src="figures/parameter_purple.png" width="10%" style="display: block; margin: auto;" /></p>
@@ -363,8 +367,8 @@ Additionally, our amplicon length is ~291bp. The combined length of our forward 
 <h3><span class="header-section-number">9.1.2</span> Copy DADA2 output<a href="09-ASV_identification.html#cpdada2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="figures/copy.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>The command will take a long time, so stop the command (ctrl+c), if you started it, and copy the final output files, which have been previously made, to your current directory:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="09-ASV_identification.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Copy the files from the specified directory to your working directory</span></span>
-<span id="cb12-2"><a href="09-ASV_identification.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /pub39/tea/nsc006/NEOF/16s_workshop/chapter_9/<span class="pp">*</span> ~/Metagenetics</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="09-ASV_identification.html#cb12-1" tabindex="-1"></a><span class="co">#Copy the files from the specified directory to your working directory</span></span>
+<span id="cb12-2"><a href="09-ASV_identification.html#cb12-2" tabindex="-1"></a><span class="fu">cp</span> /pub39/tea/nsc006/NEOF/16s_workshop/chapter_9/<span class="pp">*</span> ~/Metagenetics</span></code></pre></div>
 <p>Through the above command you will now have the following three files:</p>
 <ul>
 <li><code>rep-seqs-dada2.qza</code>: Artifact containing the identified sequence variants.</li>
@@ -383,10 +387,10 @@ Additionally, our amplicon length is ~291bp. The combined length of our forward 
 <h2><span class="header-section-number">9.2</span> table-dada2.qzv<a href="09-ASV_identification.html#tabledada2qzv" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/table.png" width="15%" style="display: block; margin: auto;" />
 To visualise information on the ASV table we will run:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="09-ASV_identification.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> feature-table summarize <span class="dt">\</span></span>
-<span id="cb13-2"><a href="09-ASV_identification.html#cb13-2" aria-hidden="true" tabindex="-1"></a>--i-table table-dada2.qza <span class="dt">\</span></span>
-<span id="cb13-3"><a href="09-ASV_identification.html#cb13-3" aria-hidden="true" tabindex="-1"></a>--o-visualization table-dada2.qzv <span class="dt">\</span></span>
-<span id="cb13-4"><a href="09-ASV_identification.html#cb13-4" aria-hidden="true" tabindex="-1"></a>--m-sample-metadata-file metadata.file.txt</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="09-ASV_identification.html#cb13-1" tabindex="-1"></a><span class="ex">qiime</span> feature-table summarize <span class="dt">\</span></span>
+<span id="cb13-2"><a href="09-ASV_identification.html#cb13-2" tabindex="-1"></a>--i-table table-dada2.qza <span class="dt">\</span></span>
+<span id="cb13-3"><a href="09-ASV_identification.html#cb13-3" tabindex="-1"></a>--o-visualization table-dada2.qzv <span class="dt">\</span></span>
+<span id="cb13-4"><a href="09-ASV_identification.html#cb13-4" tabindex="-1"></a>--m-sample-metadata-file metadata.file.txt</span></code></pre></div>
 <div id="parameters-4" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="09-ASV_identification.html#parameters-4" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p><img src="figures/parameter_purple.png" width="10%" style="display: block; margin: auto;" /></p>
@@ -452,36 +456,36 @@ To visualise information on the ASV table we will run:</p>
 <p>Attempt the below MCQs.</p>
 <ol style="list-style-type: decimal">
 <li>How many ASVs (features) were detected in the dataset?
-<div id="radio_BUKSGXLGMW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_BUKSGXLGMW" value="answer"></input> <span><strong>2,139</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BUKSGXLGMW" value=""></input> <span><strong>118,703.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BUKSGXLGMW" value=""></input> <span><strong>258,440</strong></span></label>
+<div id="radio_VWXFFUKJFI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VWXFFUKJFI" value="answer"></input> <span><strong>2,139</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VWXFFUKJFI" value=""></input> <span><strong>118,703.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VWXFFUKJFI" value=""></input> <span><strong>258,440</strong></span></label>
 </div></li>
 <li>What is the median number of sequences per sample?
-<div id="radio_YXUEIDQHKW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YXUEIDQHKW" value=""></input> <span><strong>2,139</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YXUEIDQHKW" value="answer"></input> <span><strong>118,703.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YXUEIDQHKW" value=""></input> <span><strong>258,440</strong></span></label>
+<div id="radio_ISQOAUCTIJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ISQOAUCTIJ" value=""></input> <span><strong>2,139</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ISQOAUCTIJ" value="answer"></input> <span><strong>118,703.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ISQOAUCTIJ" value=""></input> <span><strong>258,440</strong></span></label>
 </div></li>
 <li>What is the maximum number of sequences per ASV?
-<div id="radio_OIWBPLZEKY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_OIWBPLZEKY" value=""></input> <span><strong>2,139</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OIWBPLZEKY" value=""></input> <span><strong>118,703.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OIWBPLZEKY" value="answer"></input> <span><strong>258,440</strong></span></label>
+<div id="radio_IAUZPGHNIR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_IAUZPGHNIR" value=""></input> <span><strong>2,139</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IAUZPGHNIR" value=""></input> <span><strong>118,703.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IAUZPGHNIR" value="answer"></input> <span><strong>258,440</strong></span></label>
 </div></li>
 <li>How many samples have &gt;=100,000 sequences?
-<div id="radio_YQBRMIYFFV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YQBRMIYFFV" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YQBRMIYFFV" value=""></input> <span><strong>5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YQBRMIYFFV" value="answer"></input> <span><strong>13</strong></span></label>
+<div id="radio_UMFXVGAYNK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UMFXVGAYNK" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UMFXVGAYNK" value=""></input> <span><strong>5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UMFXVGAYNK" value="answer"></input> <span><strong>13</strong></span></label>
 </div></li>
 <li>How many Toilet (Metadata Category: Location) samples have &gt;=80,00 sequences?
-<div id="radio_XHYUBXXLSR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XHYUBXXLSR" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XHYUBXXLSR" value="answer"></input> <span><strong>5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XHYUBXXLSR" value=""></input> <span><strong>13</strong></span></label>
+<div id="radio_RNWVBUMJPY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_RNWVBUMJPY" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RNWVBUMJPY" value="answer"></input> <span><strong>5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RNWVBUMJPY" value=""></input> <span><strong>13</strong></span></label>
 </div></li>
 <li>How many MainBuilding (Metadata Category: Place) samples have &gt;=120,000 sequences?
-<div id="radio_YHORDHBQLJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YHORDHBQLJ" value="answer"></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YHORDHBQLJ" value=""></input> <span><strong>5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YHORDHBQLJ" value=""></input> <span><strong>13</strong></span></label>
+<div id="radio_ONPRYBJPME" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ONPRYBJPME" value="answer"></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ONPRYBJPME" value=""></input> <span><strong>5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ONPRYBJPME" value=""></input> <span><strong>13</strong></span></label>
 </div></li>
 <li>How many sequences represent the second most abundant ASV?
-<div id="radio_UDQTLDPLZW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_UDQTLDPLZW" value=""></input> <span><strong>15</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UDQTLDPLZW" value="answer"></input> <span><strong>225,752</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UDQTLDPLZW" value=""></input> <span><strong>258,440</strong></span></label>
+<div id="radio_TKBLCMPUZG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TKBLCMPUZG" value=""></input> <span><strong>15</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TKBLCMPUZG" value="answer"></input> <span><strong>225,752</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TKBLCMPUZG" value=""></input> <span><strong>258,440</strong></span></label>
 </div></li>
 <li>How many samples is the 10th most abundant AVS observed in?
-<div id="radio_PKMHNARHQV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PKMHNARHQV" value="answer"></input> <span><strong>15</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PKMHNARHQV" value=""></input> <span><strong>225,752</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PKMHNARHQV" value=""></input> <span><strong>258,440</strong></span></label>
+<div id="radio_SOQOENCGZN" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SOQOENCGZN" value="answer"></input> <span><strong>15</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SOQOENCGZN" value=""></input> <span><strong>225,752</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SOQOENCGZN" value=""></input> <span><strong>258,440</strong></span></label>
 </div></li>
 </ol>
 </div>
@@ -490,9 +494,9 @@ To visualise information on the ASV table we will run:</p>
 <h2><span class="header-section-number">9.3</span> dada2-stats.qzv<a href="09-ASV_identification.html#dada2-stats.qzv" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/filter.png" width="15%" style="display: block; margin: auto;" />
 Next we'll look at the denoising stats. Run the following command.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="09-ASV_identification.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> metadata tabulate <span class="dt">\</span></span>
-<span id="cb14-2"><a href="09-ASV_identification.html#cb14-2" aria-hidden="true" tabindex="-1"></a>--m-input-file dada2-stats.qza <span class="dt">\</span></span>
-<span id="cb14-3"><a href="09-ASV_identification.html#cb14-3" aria-hidden="true" tabindex="-1"></a>--o-visualization dada2-stats.qzv</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="09-ASV_identification.html#cb14-1" tabindex="-1"></a><span class="ex">qiime</span> metadata tabulate <span class="dt">\</span></span>
+<span id="cb14-2"><a href="09-ASV_identification.html#cb14-2" tabindex="-1"></a>--m-input-file dada2-stats.qza <span class="dt">\</span></span>
+<span id="cb14-3"><a href="09-ASV_identification.html#cb14-3" tabindex="-1"></a>--o-visualization dada2-stats.qzv</span></code></pre></div>
 <div id="parameters-5" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="09-ASV_identification.html#parameters-5" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p><img src="figures/parameter_blue.png" width="10%" style="display: block; margin: auto;" /></p>
@@ -526,12 +530,12 @@ Next we'll look at the denoising stats. Run the following command.</p>
 <p>Attempt the below MCQs?</p>
 <ol style="list-style-type: decimal">
 <li>In which DADA2 step were most of the sequences lost?
-<div id="radio_ZDGTYSQMTW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZDGTYSQMTW" value="answer"></input> <span><strong>Filtering</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZDGTYSQMTW" value=""></input> <span><strong>Denoising and merging</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZDGTYSQMTW" value=""></input> <span><strong>Chimera removal</strong></span></label>
+<div id="radio_JBQISMELHV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JBQISMELHV" value="answer"></input> <span><strong>Filtering</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JBQISMELHV" value=""></input> <span><strong>Denoising and merging</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JBQISMELHV" value=""></input> <span><strong>Chimera removal</strong></span></label>
 </div></li>
 <li>Which sample retained the smallest percentage of its input at the end (i.e. after filtering, denoising, merging, and chimera removal)?
-<div id="radio_RGSISSBNPE" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RGSISSBNPE" value=""></input> <span><strong>1K1MB</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RGSISSBNPE" value=""></input> <span><strong>1K1E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RGSISSBNPE" value="answer"></input> <span><strong>1K2M</strong></span></label>
+<div id="radio_ITSXSWKHXG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ITSXSWKHXG" value=""></input> <span><strong>1K1MB</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ITSXSWKHXG" value=""></input> <span><strong>1K1E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ITSXSWKHXG" value="answer"></input> <span><strong>1K2M</strong></span></label>
 </div></li>
 </ol>
 </div>
