@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 Identification of ASVs | Metabarcoding for diet analysis and environmental DNA</title>
+  <title>A Mamba installs | Metabarcoding for diet analysis and environmental DNA</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
   <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 Identification of ASVs | Metabarcoding for diet analysis and environmental DNA" />
+  <meta property="og:title" content="A Mamba installs | Metabarcoding for diet analysis and environmental DNA" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 Identification of ASVs | Metabarcoding for diet analysis and environmental DNA" />
+  <meta name="twitter:title" content="A Mamba installs | Metabarcoding for diet analysis and environmental DNA" />
   
   <meta name="twitter:description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-<link rel="prev" href="08-clean.html"/>
-<link rel="next" href="10-Assign_taxonomy.html"/>
+<link rel="prev" href="13-Others_marker_steps.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -261,99 +261,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="idasvs" class="section level1 hasAnchor" number="9">
-<h1><span class="header-section-number">Chapter 9</span> Identification of ASVs<a href="09-ASV_identification.html#idasvs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/clusters.png" width="20%" style="display: block; margin: auto;" /></p>
-<div id="generate-an-error-model" class="section level2 hasAnchor" number="9.1">
-<h2><span class="header-section-number">9.1</span> Generate an error model<a href="09-ASV_identification.html#generate-an-error-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/error_model.png" width="15%" style="display: block; margin: auto;" /></p>
-<p>First we need to model the error rates of our dataset using both the forward and reverse reads. Each dataset will have a specific error-signature with errors introduced by PCR amplification and sequencing.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="09-ASV_identification.html#cb33-1" tabindex="-1"></a>errF <span class="ot">&lt;-</span> <span class="fu">learnErrors</span>(filtFs, <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb33-2"><a href="09-ASV_identification.html#cb33-2" tabindex="-1"></a>errR <span class="ot">&lt;-</span> <span class="fu">learnErrors</span>(filtRs, <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>We can use the <code>plotErrors</code> function to check the estimated error rates.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="09-ASV_identification.html#cb34-1" tabindex="-1"></a><span class="fu">plotErrors</span>(errF, <span class="at">nominalQ =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>You will see the
-<code>Warning messages: 1: Transformation introduced infinite values in continuous y-axis  2: Transformation introduced infinite values in continuous y-axis</code></p>
-<p>Do not worry about these warning messages. This is a message from the plotting function to let you know that there were some zero values in the data plotted (which turn into infinities on the log-scale). This is expected, it results from the fact that not every combination of error type (e.g. A-&gt;C) and quality score (e.g. 33) is observed in your data which is normal.</p>
-<p>Interpreting the plots.</p>
-<p><img src="figures/errors.png" width="80%" style="display: block; margin: auto;" /></p>
-<ul>
-<li><p>The error rates for each possible transition (e.g. A→C, A→G) are shown</p></li>
-<li><p>Red line - expected based on the quality score. (These are plotted when <code>nominalQ = TRUE</code> is included in the plot command)</p></li>
-<li><p>Black line - estimate</p></li>
-<li><p>Black dots - observed</p></li>
-</ul>
-<p>What we are expecting to see here is that the observed match up with estimates. Here we can see that the black dots track well with the black line. We can also see that the error rates drop with increasing quality score as we would expect. Sanity checks complete, we can proceed with the analysis.</p>
-<ul>
-<li>If you are worried about what your error plots look like when you fit your own dataset, one possible way to to improve the fit is to try increasing the number of bases the function is using (the default is 100 million)</li>
-</ul>
+<div id="mamba-installs" class="section level1 hasAnchor" number="14">
+<h1><span class="header-section-number">A</span> Mamba installs<a href="14-Appendix.html#mamba-installs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/mamba_logo.png" width="20%" style="display: block; margin: auto;" /></p>
+<div id="mamba_install" class="section level2 hasAnchor" number="14.1">
+<h2><span class="header-section-number">A.1</span> Mamba installation and environment<a href="14-Appendix.html#mamba_install" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Mamba is a reimplementation of conda.
+It is a great tool for installing bioinformatic packages including R packages.</p>
+<p>Mamba github: <a href="https://github.com/mamba-org/mamba" class="uri">https://github.com/mamba-org/mamba</a></p>
+<p>Mamba installation: <a href="https://github.com/conda-forge/miniforge#mambaforge" class="uri">https://github.com/conda-forge/miniforge#mambaforge</a></p>
+<p>Mamba guide: <a href="https://mamba.readthedocs.io/en/latest/user_guide/mamba.html" class="uri">https://mamba.readthedocs.io/en/latest/user_guide/mamba.html</a></p>
+<p>To create the mamba environment <code>meta_barcode</code> run the below commands in your bash. You will need to have installed <code>mamba</code> first.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb88-1"><a href="14-Appendix.html#cb88-1" tabindex="-1"></a><span class="co">#meta_barcode</span></span>
+<span id="cb88-2"><a href="14-Appendix.html#cb88-2" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> meta_barcode</span>
+<span id="cb88-3"><a href="14-Appendix.html#cb88-3" tabindex="-1"></a><span class="ex">mamba</span> activate meta_barcode</span>
+<span id="cb88-4"><a href="14-Appendix.html#cb88-4" tabindex="-1"></a><span class="co">#Install packages from bioconda channel</span></span>
+<span id="cb88-5"><a href="14-Appendix.html#cb88-5" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> bioconda bioconductor-dada2 bioconductor-biostrings bioconductor-shortread cutadapt bioconductor-phyloseq bioconductor-deseq2 blast megan</span>
+<span id="cb88-6"><a href="14-Appendix.html#cb88-6" tabindex="-1"></a><span class="co">#Install packages from conda-forge channel</span></span>
+<span id="cb88-7"><a href="14-Appendix.html#cb88-7" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> conda-forge r-vegan r-ggplot2 r-irkernel</span></code></pre></div>
 </div>
-<div id="dereplication" class="section level2 hasAnchor" number="9.2">
-<h2><span class="header-section-number">9.2</span> Dereplication<a href="09-ASV_identification.html#dereplication" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/dereplicate.png" width="15%" style="display: block; margin: auto;" /></p>
-<p>The next step is to dereplicate identical reads. This is a common step in many workflows used for processing amplicons. This saves time and processing power as identical reads are collapsed together. For example instead of processing 100 identical sequences, only one is processed but the original number (i.e. 100) is associated with it.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="09-ASV_identification.html#cb35-1" tabindex="-1"></a>exists <span class="ot">&lt;-</span> <span class="fu">file.exists</span>(filtFs) </span>
-<span id="cb35-2"><a href="09-ASV_identification.html#cb35-2" tabindex="-1"></a><span class="co"># check that all the samples are still present after filtering</span></span>
-<span id="cb35-3"><a href="09-ASV_identification.html#cb35-3" tabindex="-1"></a>derepFs <span class="ot">&lt;-</span> <span class="fu">derepFastq</span>(filtFs[exists], <span class="at">verbose=</span><span class="cn">TRUE</span>)</span>
-<span id="cb35-4"><a href="09-ASV_identification.html#cb35-4" tabindex="-1"></a>derepRs <span class="ot">&lt;-</span> <span class="fu">derepFastq</span>(filtRs[exists], <span class="at">verbose=</span><span class="cn">TRUE</span>)</span>
-<span id="cb35-5"><a href="09-ASV_identification.html#cb35-5" tabindex="-1"></a><span class="co"># Name the derep-class objects by the sample names</span></span>
-<span id="cb35-6"><a href="09-ASV_identification.html#cb35-6" tabindex="-1"></a><span class="fu">names</span>(derepFs) <span class="ot">&lt;-</span> sample.names[exists]</span>
-<span id="cb35-7"><a href="09-ASV_identification.html#cb35-7" tabindex="-1"></a><span class="fu">names</span>(derepRs) <span class="ot">&lt;-</span> sample.names[exists]</span></code></pre></div>
-</div>
-<div id="inferrence-of-asvs" class="section level2 hasAnchor" number="9.3">
-<h2><span class="header-section-number">9.3</span> Inferrence of ASVs<a href="09-ASV_identification.html#inferrence-of-asvs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/inference.png" width="15%" style="display: block; margin: auto;" /></p>
-<p>Now we are ready to infer the ASVs in our dataset. To do this DADA2 uses the error models created above to infer the true sample composition (follow <a href="https://www.nature.com/articles/nmeth.3869#methods">this link</a> for more details).</p>
-<p>Here we will run the inference algorithm on single samples to save time but it is also possible to run samples together in pseudo-pools to increase the ability to identify ASVs of low abundance. Low abundance ASVs in a sample may be filtered out when run separately but if they are found in higher numbers in another sample then the chance of that ASV being real increases. Pseudo-pooling increases the chances of these “real” low abundance ASVs being retained within samples. Whether or not to use the pseudo-pooling option will depend on your dataset and experimental design (see <a href="https://benjjneb.github.io/dada2/pseudo.html#Pseudo-pooling" class="uri">https://benjjneb.github.io/dada2/pseudo.html#Pseudo-pooling</a> for more information).</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="09-ASV_identification.html#cb36-1" tabindex="-1"></a>dadaFs <span class="ot">&lt;-</span> <span class="fu">dada</span>(derepFs, <span class="at">err =</span> errF, <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb36-2"><a href="09-ASV_identification.html#cb36-2" tabindex="-1"></a>dadaRs <span class="ot">&lt;-</span> <span class="fu">dada</span>(derepRs, <span class="at">err =</span> errR, <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>It is important to note that you want to run the error and inference steps on datasets generated from a single Illumina run. Data generated from different runs can have different error structures.</p>
-</div>
-<div id="merging-paired-end-reads" class="section level2 hasAnchor" number="9.4">
-<h2><span class="header-section-number">9.4</span> Merging paired end reads<a href="09-ASV_identification.html#merging-paired-end-reads" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/merge.png" width="15%" style="display: block; margin: auto;" /></p>
-<p>Up until now we have carried out all filtering, error correction and inference on the forward and reverse reads separately. It is now time to merge the two files. By default the minimum overlap allowed between the two samples is 12 bp.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="09-ASV_identification.html#cb37-1" tabindex="-1"></a>mergers <span class="ot">&lt;-</span> <span class="fu">mergePairs</span>(dadaFs, derepFs, dadaRs, derepRs, <span class="at">verbose=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-</div>
-<div id="making-our-asv-matrix" class="section level2 hasAnchor" number="9.5">
-<h2><span class="header-section-number">9.5</span> Making our ASV matrix<a href="09-ASV_identification.html#making-our-asv-matrix" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/matrix.png" width="15%" style="display: block; margin: auto;" /></p>
-<p>Now it is time to make the counts table. Each column represents a single ASV and each row is an individual sample.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="09-ASV_identification.html#cb38-1" tabindex="-1"></a>seqtab <span class="ot">&lt;-</span> <span class="fu">makeSequenceTable</span>(mergers)</span>
-<span id="cb38-2"><a href="09-ASV_identification.html#cb38-2" tabindex="-1"></a><span class="fu">dim</span>(seqtab) </span></code></pre></div>
-<p>Q. How many ASVs are in our matrix?</p>
-</div>
-<div id="chimera-detection-and-removal" class="section level2 hasAnchor" number="9.6">
-<h2><span class="header-section-number">9.6</span> Chimera detection and removal<a href="09-ASV_identification.html#chimera-detection-and-removal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/chimera.png" width="15%" style="display: block; margin: auto;" /></p>
-<p>The last step in generating our ASV matrix is to detect and remove any chimeric sequences.</p>
-<p>Chimeric sequences are formed when two or more biological sequences are joined together. This is fairly common in amplicon sequencing. DADA2 uses a method whereby it combines the left and right segments of abundant reads and compares these with lower abundant sequences. Any low abundant sequences that match are removed.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="09-ASV_identification.html#cb39-1" tabindex="-1"></a>seqtab.nochim <span class="ot">&lt;-</span> <span class="fu">removeBimeraDenovo</span>(seqtab, <span class="at">method=</span><span class="st">&quot;consensus&quot;</span>, </span>
-<span id="cb39-2"><a href="09-ASV_identification.html#cb39-2" tabindex="-1"></a>                                    <span class="at">multithread=</span><span class="cn">TRUE</span>, <span class="at">verbose=</span><span class="cn">TRUE</span>)</span>
-<span id="cb39-3"><a href="09-ASV_identification.html#cb39-3" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="09-ASV_identification.html#cb39-4" tabindex="-1"></a><span class="fu">dim</span>(seqtab.nochim)</span></code></pre></div>
-<p>Q. How many ASVs remain after filtering out chimeras?</p>
-<p>Although this is a large proportion of sequence variants it should be a smaller proportion of the total sequences.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="09-ASV_identification.html#cb40-1" tabindex="-1"></a><span class="fu">sum</span>(seqtab.nochim)<span class="sc">/</span><span class="fu">sum</span>(seqtab)</span></code></pre></div>
-<p>In these data ~ 17% of the merged sequence reads were identified as chimeric.</p>
-<p>Check the range of ASV lengths:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="09-ASV_identification.html#cb41-1" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">nchar</span>(<span class="fu">getSequences</span>(seqtab.nochim)))</span></code></pre></div>
-<p>Sequences that are much longer or shorter than the expected amplicon length could be the result of non-specific priming, and can be removed from your sequence table (e.g. <code>seqtab.len &lt;- seqtab[,nchar(colnames(seqtab)) %in% 150:180]</code>). This is analogous to “cutting a band” in-silico to get amplicons of the targeted length, e.g. the above command would keep the amplicons between 150 bp and 180 bp and remove all other lengths of sequences. This is dependent on the amplicon and you should only remove these if you do not expect any length variation, or after further investigation of what these short or long sequences are. For this example we will proceed without any amplicon length filtering.</p>
-</div>
-<div id="sequence-tracking-sanity-check" class="section level2 hasAnchor" number="9.7">
-<h2><span class="header-section-number">9.7</span> Sequence tracking sanity check<a href="09-ASV_identification.html#sequence-tracking-sanity-check" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/magnify_glass_good.png" width="15%" style="display: block; margin: auto;" /></p>
-<p>The last thing to do in this section is to track the number of sequences through the pipeline to check whether everything has run as expected and whether there are any steps where we loose a disproportionate number of sequences. If we end up with too few reads to run further analysis we can use this table to identify any step which might require further investigation and optimisation.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="09-ASV_identification.html#cb42-1" tabindex="-1"></a>getN <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">getUniques</span>(x))</span>
-<span id="cb42-2"><a href="09-ASV_identification.html#cb42-2" tabindex="-1"></a>track <span class="ot">&lt;-</span> <span class="fu">cbind</span>(out, <span class="fu">sapply</span>(dadaFs, getN), </span>
-<span id="cb42-3"><a href="09-ASV_identification.html#cb42-3" tabindex="-1"></a>               <span class="fu">sapply</span>(dadaRs, getN), </span>
-<span id="cb42-4"><a href="09-ASV_identification.html#cb42-4" tabindex="-1"></a>               <span class="fu">sapply</span>(mergers, getN), </span>
-<span id="cb42-5"><a href="09-ASV_identification.html#cb42-5" tabindex="-1"></a>               <span class="fu">rowSums</span>(seqtab.nochim))</span>
-<span id="cb42-6"><a href="09-ASV_identification.html#cb42-6" tabindex="-1"></a><span class="fu">colnames</span>(track) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;input&quot;</span>, <span class="st">&quot;filtered&quot;</span>, </span>
-<span id="cb42-7"><a href="09-ASV_identification.html#cb42-7" tabindex="-1"></a>                     <span class="st">&quot;denoisedF&quot;</span>, <span class="st">&quot;denoisedR&quot;</span>, </span>
-<span id="cb42-8"><a href="09-ASV_identification.html#cb42-8" tabindex="-1"></a>                     <span class="st">&quot;merged&quot;</span>, <span class="st">&quot;nonchim&quot;</span>)</span>
-<span id="cb42-9"><a href="09-ASV_identification.html#cb42-9" tabindex="-1"></a><span class="fu">rownames</span>(track) <span class="ot">&lt;-</span> sample.names</span>
-<span id="cb42-10"><a href="09-ASV_identification.html#cb42-10" tabindex="-1"></a>track</span></code></pre></div>
+<div id="jupyter_appendix" class="section level2 hasAnchor" number="14.2">
+<h2><span class="header-section-number">A.2</span> Jupyter-notebook<a href="14-Appendix.html#jupyter_appendix" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/jupyter_logo.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>If you are running this on your own computer you can use <code>RStudio</code>.
+However, you can also use <a href="https://jupyter.org/"><code>Jupyter-notebook</code></a> if you are using an HPC or prefer it.</p>
+<p>If using bash you will need to create an environment with <code>Jupyter-notebook</code>.
+Ensure you are in the <code>(base)</code> mamba environment.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb89-1"><a href="14-Appendix.html#cb89-1" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> jupyter</span>
+<span id="cb89-2"><a href="14-Appendix.html#cb89-2" tabindex="-1"></a><span class="ex">mamba</span> activate jupyter</span>
+<span id="cb89-3"><a href="14-Appendix.html#cb89-3" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> anaconda jupyter</span>
+<span id="cb89-4"><a href="14-Appendix.html#cb89-4" tabindex="-1"></a><span class="ex">mamba</span> deactivate</span></code></pre></div>
+<p>To run <code>Jupyter-notebook</code> with your <code>meta_barcode</code> environment you can run the following.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb90-1"><a href="14-Appendix.html#cb90-1" tabindex="-1"></a><span class="co">#Activate you meta_barcode env</span></span>
+<span id="cb90-2"><a href="14-Appendix.html#cb90-2" tabindex="-1"></a><span class="ex">mamba</span> activate meta_barcode</span>
+<span id="cb90-3"><a href="14-Appendix.html#cb90-3" tabindex="-1"></a><span class="co">#Run jupyter-notebook (may be a slightly different path)</span></span>
+<span id="cb90-4"><a href="14-Appendix.html#cb90-4" tabindex="-1"></a><span class="ex">~/mamba/envs/jupyter/bin/jupyter-notebook</span></span></code></pre></div>
 
 </div>
 </div>
@@ -362,8 +304,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="08-clean.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="10-Assign_taxonomy.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="13-Others_marker_steps.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

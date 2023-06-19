@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Normalising your data | Metabarcoding for diet analysis and environmental DNA - supplemental material</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop - supplemental material" />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Normalising your data | Metabarcoding for diet analysis and environmental DNA - supplemental material" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher and Helen Hipperson" />
 
 
-<meta name="date" content="2022-09-02" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -193,7 +197,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/pie_chart.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>The <code>transform_sample_counts</code> function transforms the sample counts from a taxa abundance matrix using a user-provided function. The counts of each sample will be transformed individually.</p>
 <p>In this case we will transform the raw samples into relative abundances by dividing individual ASV counts by the total ASV counts in a sample.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="02-Normalisation.html#cb2-1" aria-hidden="true" tabindex="-1"></a>phylo.prop <span class="ot">&lt;-</span> <span class="fu">transform_sample_counts</span>(phylo, <span class="cf">function</span>(otu) otu<span class="sc">/</span><span class="fu">sum</span>(otu))</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="02-Normalisation.html#cb2-1" tabindex="-1"></a>phylo.prop <span class="ot">&lt;-</span> <span class="fu">transform_sample_counts</span>(phylo, <span class="cf">function</span>(otu) otu<span class="sc">/</span><span class="fu">sum</span>(otu))</span></code></pre></div>
 </div>
 <div id="rarefaction" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Rarefaction<a href="02-Normalisation.html#rarefaction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -204,9 +208,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>The argument <code>rngseed = 1</code> sets a random number seed used for random number generation, which is then used when subsampling a random number of reads from each sample. By setting the random seed you can make this proccess reproducible.</p></li>
 <li><p>We have set the argument <code>replace</code> as <code>replace = F</code>. From the <code>phylo.rarefied</code> R help page “Two implications to consider are that (1) sampling with replacement is faster and more memory efficient as currently implemented; and (2), sampling with replacement means that there is a chance that the number of reads for a given OTU in a given sample could be larger than the original count value, as opposed to sampling without replacement where the original count value is the maximum possible.”</p></li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="02-Normalisation.html#cb3-1" aria-hidden="true" tabindex="-1"></a>phylo.rarefied <span class="ot">&lt;-</span> <span class="fu">rarefy_even_depth</span>(phylo, <span class="at">rngseed =</span> <span class="dv">1</span>, </span>
-<span id="cb3-2"><a href="02-Normalisation.html#cb3-2" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">sample.size=</span><span class="fu">min</span>(<span class="fu">sample_sums</span>(phylo)), </span>
-<span id="cb3-3"><a href="02-Normalisation.html#cb3-3" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">replace =</span> F)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="02-Normalisation.html#cb3-1" tabindex="-1"></a>phylo.rarefied <span class="ot">&lt;-</span> <span class="fu">rarefy_even_depth</span>(phylo, <span class="at">rngseed =</span> <span class="dv">1</span>, </span>
+<span id="cb3-2"><a href="02-Normalisation.html#cb3-2" tabindex="-1"></a>                                    <span class="at">sample.size=</span><span class="fu">min</span>(<span class="fu">sample_sums</span>(phylo)), </span>
+<span id="cb3-3"><a href="02-Normalisation.html#cb3-3" tabindex="-1"></a>                                    <span class="at">replace =</span> F)</span></code></pre></div>
 </div>
 <div id="variance-stabilising-transformation-using-deseq2" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Variance stabilising transformation using DESeq2<a href="02-Normalisation.html#variance-stabilising-transformation-using-deseq2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -214,27 +218,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Variance stabilising transformation borrows methods from transcriptomic research using the DESeq2 package.</p>
 <p>The workflow below is based on the workflow for variance stabilised data suggested <a href="https://github.com/joey711/phyloseq/issues/283">here</a>.</p>
 <p>First we load the DESeq2 library.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="02-Normalisation.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DESeq2)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="02-Normalisation.html#cb4-1" tabindex="-1"></a><span class="fu">library</span>(DESeq2)</span></code></pre></div>
 <p>Now transform the phyloseq object into a format appropriate for DESeq2.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="02-Normalisation.html#cb5-1" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">phyloseq_to_deseq2</span>(phylo, <span class="sc">~</span>SITE) </span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="02-Normalisation.html#cb5-1" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">phyloseq_to_deseq2</span>(phylo, <span class="sc">~</span>SITE) </span></code></pre></div>
 <p>The function <code>estimateSizeFactors</code> is used to estimate the size factors for a DESeqDataSet - for more information on the normalisation methods used by DESeq2 please read the <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8">DESeq2 paper</a> and <a href="http://www.bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html">manual</a>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="02-Normalisation.html#cb6-1" aria-hidden="true" tabindex="-1"></a>ds<span class="ot">&lt;-</span><span class="fu">estimateSizeFactors</span>(ds)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="02-Normalisation.html#cb6-1" tabindex="-1"></a>ds<span class="ot">&lt;-</span><span class="fu">estimateSizeFactors</span>(ds)</span></code></pre></div>
 <p>For our dataset we get the error message “Error in estimateSizeFactorsForMatrix(counts(object), locfunc = locfunc, : every gene contains at least one zero, cannot compute log geometric means”</p>
 <p>This indicates we have many zeros in our count data (which is common in amplicon studies).</p>
 <p>There are several ways to deal with this problem. One way is to calculate size factors separately using a zero-tolerant variant of geometric mean. For more details of this method see <a href="https://www.bioconductor.org/packages/release/bioc/vignettes/phyloseq/inst/doc/phyloseq-mixture-models.html">here</a>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="02-Normalisation.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate geometric means prior to estimation of size factors</span></span>
-<span id="cb7-2"><a href="02-Normalisation.html#cb7-2" aria-hidden="true" tabindex="-1"></a>gm_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>){</span>
-<span id="cb7-3"><a href="02-Normalisation.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exp</span>(<span class="fu">sum</span>(<span class="fu">log</span>(x[x <span class="sc">&gt;</span> <span class="dv">0</span>]), <span class="at">na.rm=</span>na.rm) <span class="sc">/</span> <span class="fu">length</span>(x))</span>
-<span id="cb7-4"><a href="02-Normalisation.html#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-5"><a href="02-Normalisation.html#cb7-5" aria-hidden="true" tabindex="-1"></a>geoMeans <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="fu">counts</span>(ds), <span class="dv">1</span>, gm_mean)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="02-Normalisation.html#cb7-1" tabindex="-1"></a><span class="co"># calculate geometric means prior to estimation of size factors</span></span>
+<span id="cb7-2"><a href="02-Normalisation.html#cb7-2" tabindex="-1"></a>gm_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>){</span>
+<span id="cb7-3"><a href="02-Normalisation.html#cb7-3" tabindex="-1"></a>  <span class="fu">exp</span>(<span class="fu">sum</span>(<span class="fu">log</span>(x[x <span class="sc">&gt;</span> <span class="dv">0</span>]), <span class="at">na.rm=</span>na.rm) <span class="sc">/</span> <span class="fu">length</span>(x))</span>
+<span id="cb7-4"><a href="02-Normalisation.html#cb7-4" tabindex="-1"></a>}</span>
+<span id="cb7-5"><a href="02-Normalisation.html#cb7-5" tabindex="-1"></a>geoMeans <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="fu">counts</span>(ds), <span class="dv">1</span>, gm_mean)</span></code></pre></div>
 <p>We can now proceed and calculate size factors and dispersions of our dataset, before calculating the variance stabilizing transformation and transforming the count data with <code>getVarianceStabilizedData</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="02-Normalisation.html#cb8-1" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">estimateSizeFactors</span>(ds, <span class="at">geoMeans =</span> geoMeans)</span>
-<span id="cb8-2"><a href="02-Normalisation.html#cb8-2" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">estimateDispersions</span>(ds)</span>
-<span id="cb8-3"><a href="02-Normalisation.html#cb8-3" aria-hidden="true" tabindex="-1"></a>ds_vst<span class="ot">&lt;-</span><span class="fu">getVarianceStabilizedData</span>(ds)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="02-Normalisation.html#cb8-1" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">estimateSizeFactors</span>(ds, <span class="at">geoMeans =</span> geoMeans)</span>
+<span id="cb8-2"><a href="02-Normalisation.html#cb8-2" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">estimateDispersions</span>(ds)</span>
+<span id="cb8-3"><a href="02-Normalisation.html#cb8-3" tabindex="-1"></a>ds_vst<span class="ot">&lt;-</span><span class="fu">getVarianceStabilizedData</span>(ds)</span></code></pre></div>
 <p>We then convert the transformed dataset back into a phyloseq object for further analysis.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="02-Normalisation.html#cb9-1" aria-hidden="true" tabindex="-1"></a>ds_count_phylo <span class="ot">&lt;-</span> <span class="fu">otu_table</span>(ds_vst, <span class="at">taxa_are_rows=</span>T)</span>
-<span id="cb9-2"><a href="02-Normalisation.html#cb9-2" aria-hidden="true" tabindex="-1"></a>sample_info_tab_phy <span class="ot">&lt;-</span> <span class="fu">sample_data</span>(meta.rmlow)</span>
-<span id="cb9-3"><a href="02-Normalisation.html#cb9-3" aria-hidden="true" tabindex="-1"></a>ds_phylo <span class="ot">&lt;-</span> <span class="fu">phyloseq</span>(ds_count_phylo, sample_info_tab_phy)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="02-Normalisation.html#cb9-1" tabindex="-1"></a>ds_count_phylo <span class="ot">&lt;-</span> <span class="fu">otu_table</span>(ds_vst, <span class="at">taxa_are_rows=</span>T)</span>
+<span id="cb9-2"><a href="02-Normalisation.html#cb9-2" tabindex="-1"></a>sample_info_tab_phy <span class="ot">&lt;-</span> <span class="fu">sample_data</span>(meta.rmlow)</span>
+<span id="cb9-3"><a href="02-Normalisation.html#cb9-3" tabindex="-1"></a>ds_phylo <span class="ot">&lt;-</span> <span class="fu">phyloseq</span>(ds_count_phylo, sample_info_tab_phy)</span></code></pre></div>
 <p>This is just one way to deal with the problem of zero counts in our dataset. For more discussion on using DESeq2 for metabarcoding data and dealing with zero count data please check out the following links:</p>
 <ul>
 <li><a href="https://bioconductor.org/packages/devel/bioc/vignettes/phyloseq/inst/doc/phyloseq-FAQ.html">phyloseq FAQ</a></li>

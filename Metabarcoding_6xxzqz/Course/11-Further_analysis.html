@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 11 Further analysis | Metabarcoding for diet analysis and environmental DNA</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 11 Further analysis | Metabarcoding for diet analysis and environmental DNA" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher and Helen Hipperson" />
 
 
-<meta name="date" content="2023-03-02" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -231,6 +235,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.9" data-path="13-Others_marker_steps.html"><a href="13-Others_marker_steps.html#alpha-diversity-1"><i class="fa fa-check"></i><b>13.9</b> Alpha diversity</a></li>
 <li class="chapter" data-level="13.10" data-path="13-Others_marker_steps.html"><a href="13-Others_marker_steps.html#beta-diversity-1"><i class="fa fa-check"></i><b>13.10</b> Beta diversity</a></li>
 </ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="14-Appendix.html"><a href="14-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>A.1</b> Mamba installation and environment</a></li>
+<li class="chapter" data-level="A.2" data-path="14-Appendix.html"><a href="14-Appendix.html#jupyter_appendix"><i class="fa fa-check"></i><b>A.2</b> Jupyter-notebook</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -256,38 +266,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/analysis.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>In this section we will briefly discuss a few basic types of multivariate data analysis and data visualisation which are often used in metabarcoding studies. It is important to remember that there are several different ways to plot and analyse your data and we have presented only a few examples here. It might be that for your own data set and questions it would be better to approach your analysis in a different way.</p>
 <p>First we will load in a table which contains the meta data.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="11-Further_analysis.html#cb44-1" aria-hidden="true" tabindex="-1"></a>meta<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;/pub39/tea/nsc006/NEOF/metabarcoding_workshop/sample_info.csv&quot;</span>, </span>
-<span id="cb44-2"><a href="11-Further_analysis.html#cb44-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">row.names =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="11-Further_analysis.html#cb44-1" tabindex="-1"></a>meta<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;/pub39/tea/nsc006/NEOF/metabarcoding_workshop/sample_info.csv&quot;</span>, </span>
+<span id="cb44-2"><a href="11-Further_analysis.html#cb44-2" tabindex="-1"></a>               <span class="at">row.names =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p>Before we start we will clean up the dataset. Our negative controls seem to be mostly clean of contaminants (with only 0 and 4 reads assigned to them). We will remove these for further analysis. Here we remove rows 25 and 31 which contain the filter (S62) and extraction (S72) control samples from our ASV table and metadata table.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="11-Further_analysis.html#cb45-1" aria-hidden="true" tabindex="-1"></a>seqtab.rmcontrol<span class="ot">&lt;-</span>seqtab.nochim[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">31</span>),]</span>
-<span id="cb45-2"><a href="11-Further_analysis.html#cb45-2" aria-hidden="true" tabindex="-1"></a>meta.rmcontrol<span class="ot">&lt;-</span>meta[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">31</span>),]</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="11-Further_analysis.html#cb45-1" tabindex="-1"></a>seqtab.rmcontrol<span class="ot">&lt;-</span>seqtab.nochim[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">31</span>),]</span>
+<span id="cb45-2"><a href="11-Further_analysis.html#cb45-2" tabindex="-1"></a>meta.rmcontrol<span class="ot">&lt;-</span>meta[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">25</span>,<span class="dv">31</span>),]</span></code></pre></div>
 <p>If you are concerned about contaminants in your own analysis then it could be useful to explore the R package <a href="https://benjjneb.github.io/decontam/vignettes/decontam_intro.html">decontam</a> which is designed to identify and filter contaminants.</p>
 <p>We will also remove samples which appear to have failed/have very low sequence numbers in our dataset.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="11-Further_analysis.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Check number of sequences per sample</span></span>
-<span id="cb46-2"><a href="11-Further_analysis.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rowSums</span>(seqtab.rmcontrol)</span>
-<span id="cb46-3"><a href="11-Further_analysis.html#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co"># S40, S41, S50 all have low sequence counts. So we will remove these rows.</span></span>
-<span id="cb46-4"><a href="11-Further_analysis.html#cb46-4" aria-hidden="true" tabindex="-1"></a>seqtab.rmlow<span class="ot">&lt;-</span>seqtab.rmcontrol[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">23</span>),]</span>
-<span id="cb46-5"><a href="11-Further_analysis.html#cb46-5" aria-hidden="true" tabindex="-1"></a>meta.rmlow<span class="ot">&lt;-</span>meta.rmcontrol[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">23</span>),]</span>
-<span id="cb46-6"><a href="11-Further_analysis.html#cb46-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-7"><a href="11-Further_analysis.html#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the minimum sequence number in one sample.</span></span>
-<span id="cb46-8"><a href="11-Further_analysis.html#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(<span class="fu">rowSums</span>(seqtab.rmlow))</span>
-<span id="cb46-9"><a href="11-Further_analysis.html#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="co"># The lowest number of sequences in one sample is now 26667.</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="11-Further_analysis.html#cb46-1" tabindex="-1"></a><span class="co">#Check number of sequences per sample</span></span>
+<span id="cb46-2"><a href="11-Further_analysis.html#cb46-2" tabindex="-1"></a><span class="fu">rowSums</span>(seqtab.rmcontrol)</span>
+<span id="cb46-3"><a href="11-Further_analysis.html#cb46-3" tabindex="-1"></a><span class="co"># S40, S41, S50 all have low sequence counts. So we will remove these rows.</span></span>
+<span id="cb46-4"><a href="11-Further_analysis.html#cb46-4" tabindex="-1"></a>seqtab.rmlow<span class="ot">&lt;-</span>seqtab.rmcontrol[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">23</span>),]</span>
+<span id="cb46-5"><a href="11-Further_analysis.html#cb46-5" tabindex="-1"></a>meta.rmlow<span class="ot">&lt;-</span>meta.rmcontrol[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">23</span>),]</span>
+<span id="cb46-6"><a href="11-Further_analysis.html#cb46-6" tabindex="-1"></a></span>
+<span id="cb46-7"><a href="11-Further_analysis.html#cb46-7" tabindex="-1"></a><span class="co"># Print the minimum sequence number in one sample.</span></span>
+<span id="cb46-8"><a href="11-Further_analysis.html#cb46-8" tabindex="-1"></a><span class="fu">min</span>(<span class="fu">rowSums</span>(seqtab.rmlow))</span>
+<span id="cb46-9"><a href="11-Further_analysis.html#cb46-9" tabindex="-1"></a><span class="co"># The lowest number of sequences in one sample is now 26667.</span></span></code></pre></div>
 <div id="r-packages-for-further-analysis" class="section level2 hasAnchor" number="11.1">
 <h2><span class="header-section-number">11.1</span> R packages for further analysis<a href="11-Further_analysis.html#r-packages-for-further-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/r_package.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>We will use three more handy R packages in order to further explore our data, <a href="https://joey711.github.io/phyloseq/">phyloseq</a> and <a href="https://cran.r-project.org/web/packages/vegan/vegan.pdf">vegan</a> to explore the diverity in our data, plus the visualisation package ggplot2 for graphics. Load these libraries before proceeding with the steps below.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="11-Further_analysis.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(phyloseq)</span>
-<span id="cb47-2"><a href="11-Further_analysis.html#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
-<span id="cb47-3"><a href="11-Further_analysis.html#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="11-Further_analysis.html#cb47-1" tabindex="-1"></a><span class="fu">library</span>(phyloseq)</span>
+<span id="cb47-2"><a href="11-Further_analysis.html#cb47-2" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
+<span id="cb47-3"><a href="11-Further_analysis.html#cb47-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
 </div>
 <div id="rarefaction-curves" class="section level2 hasAnchor" number="11.2">
 <h2><span class="header-section-number">11.2</span> Rarefaction curves<a href="11-Further_analysis.html#rarefaction-curves" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/rarefaction.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>The more deeply we sequence a sample the more species we discover, until this accumulation levels off as we have found all or as many ASVs/species as we are going to find. This becomes a problem as samples are often sequenced at different depths so will have reached different points in the curve. This is a common difficulty as pooling and sequencing equal amounts of each sample can be tricky.</p>
 <p>One way to visualise this is to plot a rarefaction curve for each sample.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="11-Further_analysis.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rarecurve</span>(seqtab.rmlow, <span class="at">step=</span><span class="dv">100</span>, <span class="at">col=</span>meta.rmlow<span class="sc">$</span>COLOUR, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">ylab=</span><span class="st">&quot;ASVs&quot;</span>, <span class="at">label=</span>F)</span>
-<span id="cb48-2"><a href="11-Further_analysis.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="co"># add a vertical line to represent the fewest sequences in any sample</span></span>
-<span id="cb48-3"><a href="11-Further_analysis.html#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span>(<span class="fu">min</span>(<span class="fu">rowSums</span>(seqtab.rmlow))))</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="11-Further_analysis.html#cb48-1" tabindex="-1"></a><span class="fu">rarecurve</span>(seqtab.rmlow, <span class="at">step=</span><span class="dv">100</span>, <span class="at">col=</span>meta.rmlow<span class="sc">$</span>COLOUR, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">ylab=</span><span class="st">&quot;ASVs&quot;</span>, <span class="at">label=</span>F)</span>
+<span id="cb48-2"><a href="11-Further_analysis.html#cb48-2" tabindex="-1"></a><span class="co"># add a vertical line to represent the fewest sequences in any sample</span></span>
+<span id="cb48-3"><a href="11-Further_analysis.html#cb48-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span>(<span class="fu">min</span>(<span class="fu">rowSums</span>(seqtab.rmlow))))</span></code></pre></div>
 <p><img src="figures/rarefaction_ed.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>You can see that each sample levels off at a different sequencing depth and each sample has been sequenced at different depths. This also gives us an indication of how many ASVs are in each sample, with the aquarium samples here (dark blue lines) amongst the least diverse, as we’d expect.</p>
 <p>Rarefaction is one of the common approaches people use to correct for differences in library sequencing depth between samples and was originally proposed for traditional ecological studies (Sanders 1968). It involves randomly removing reads until you reach a number often equal to or less than the number of reads in the smallest sample. Random subsampling can result in a loss of data and generate artificial variation. Due to these concerns other methods of transformation have been suggested.</p>
@@ -305,16 +315,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Measures of alpha diversity are used to describe diversity within a sample.</p>
 <p>We will use the R package <a href="https://joey711.github.io/phyloseq/">phyloseq</a> to plot alpha diversity. For this example we will proceed with unnormalised data. It is generally recommended not to normalise count data before calculating alpha diversity measures in the <a href="https://www.bioconductor.org/packages/devel/bioc/vignettes/phyloseq/inst/doc/phyloseq-FAQ.html#should-i-normalize-my-data-before-alpha-diversity-analysis">phyloseq FAQ</a>.</p>
 <p>First make a phyloseq object. To do this we first read in our ASV, taxonomy and metadata tables before making the plyloseq object <code>phylo</code>.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="11-Further_analysis.html#cb49-1" aria-hidden="true" tabindex="-1"></a>seqtab.rmlow2<span class="ot">&lt;-</span><span class="fu">t</span>(<span class="fu">as.data.frame</span>(seqtab.rmlow))</span>
-<span id="cb49-2"><a href="11-Further_analysis.html#cb49-2" aria-hidden="true" tabindex="-1"></a>phylo_asv <span class="ot">&lt;-</span> <span class="fu">otu_table</span>(seqtab.rmlow2, <span class="at">taxa_are_rows=</span><span class="cn">TRUE</span>)</span>
-<span id="cb49-3"><a href="11-Further_analysis.html#cb49-3" aria-hidden="true" tabindex="-1"></a>phylo_tax <span class="ot">&lt;-</span> <span class="fu">tax_table</span>(taxa)</span>
-<span id="cb49-4"><a href="11-Further_analysis.html#cb49-4" aria-hidden="true" tabindex="-1"></a>phylo_samples <span class="ot">&lt;-</span> <span class="fu">sample_data</span>(meta.rmlow)</span>
-<span id="cb49-5"><a href="11-Further_analysis.html#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-6"><a href="11-Further_analysis.html#cb49-6" aria-hidden="true" tabindex="-1"></a>phylo <span class="ot">&lt;-</span> <span class="fu">phyloseq</span>(phylo_asv, phylo_tax, phylo_samples)</span>
-<span id="cb49-7"><a href="11-Further_analysis.html#cb49-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-8"><a href="11-Further_analysis.html#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_names</span>(phylo)</span>
-<span id="cb49-9"><a href="11-Further_analysis.html#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rank_names</span>(phylo)</span>
-<span id="cb49-10"><a href="11-Further_analysis.html#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="fu">sample_variables</span>(phylo) </span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="11-Further_analysis.html#cb49-1" tabindex="-1"></a>seqtab.rmlow2<span class="ot">&lt;-</span><span class="fu">t</span>(<span class="fu">as.data.frame</span>(seqtab.rmlow))</span>
+<span id="cb49-2"><a href="11-Further_analysis.html#cb49-2" tabindex="-1"></a>phylo_asv <span class="ot">&lt;-</span> <span class="fu">otu_table</span>(seqtab.rmlow2, <span class="at">taxa_are_rows=</span><span class="cn">TRUE</span>)</span>
+<span id="cb49-3"><a href="11-Further_analysis.html#cb49-3" tabindex="-1"></a>phylo_tax <span class="ot">&lt;-</span> <span class="fu">tax_table</span>(taxa)</span>
+<span id="cb49-4"><a href="11-Further_analysis.html#cb49-4" tabindex="-1"></a>phylo_samples <span class="ot">&lt;-</span> <span class="fu">sample_data</span>(meta.rmlow)</span>
+<span id="cb49-5"><a href="11-Further_analysis.html#cb49-5" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="11-Further_analysis.html#cb49-6" tabindex="-1"></a>phylo <span class="ot">&lt;-</span> <span class="fu">phyloseq</span>(phylo_asv, phylo_tax, phylo_samples)</span>
+<span id="cb49-7"><a href="11-Further_analysis.html#cb49-7" tabindex="-1"></a></span>
+<span id="cb49-8"><a href="11-Further_analysis.html#cb49-8" tabindex="-1"></a><span class="fu">sample_names</span>(phylo)</span>
+<span id="cb49-9"><a href="11-Further_analysis.html#cb49-9" tabindex="-1"></a><span class="fu">rank_names</span>(phylo)</span>
+<span id="cb49-10"><a href="11-Further_analysis.html#cb49-10" tabindex="-1"></a><span class="fu">sample_variables</span>(phylo) </span></code></pre></div>
 <p>The two alpha diversity metrics we will plot are:</p>
 <p><strong>1. Shannon’s diversity index</strong></p>
 <p>A measure of diversity where a higher number means higher diversity. Shannon’s index accounts for the abundance and evenness of the features present. If richness and evenness increase the diversity score increases. Values can range from one (in case of a single dominant species) to the total number of all species (in case of all species having equal abundance).</p>
@@ -341,11 +351,11 @@ D = 1 -
 <li>S = Number of species</li>
 </ul>
 <p>Plot the two methods of calculating alpha diversity.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="11-Further_analysis.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_richness</span>(phylo, </span>
-<span id="cb50-2"><a href="11-Further_analysis.html#cb50-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">measures=</span><span class="fu">c</span>(<span class="st">&quot;Shannon&quot;</span>, <span class="st">&quot;Simpson&quot;</span>), </span>
-<span id="cb50-3"><a href="11-Further_analysis.html#cb50-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">&quot;SITE&quot;</span>)</span>
-<span id="cb50-4"><a href="11-Further_analysis.html#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_richness</span>(phylo, <span class="at">x=</span><span class="st">&quot;SITE&quot;</span>, <span class="at">measures=</span><span class="fu">c</span>(<span class="st">&quot;Shannon&quot;</span>, <span class="st">&quot;Simpson&quot;</span>), </span>
-<span id="cb50-5"><a href="11-Further_analysis.html#cb50-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">&quot;SITE&quot;</span>) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="11-Further_analysis.html#cb50-1" tabindex="-1"></a><span class="fu">plot_richness</span>(phylo, </span>
+<span id="cb50-2"><a href="11-Further_analysis.html#cb50-2" tabindex="-1"></a>              <span class="at">measures=</span><span class="fu">c</span>(<span class="st">&quot;Shannon&quot;</span>, <span class="st">&quot;Simpson&quot;</span>), </span>
+<span id="cb50-3"><a href="11-Further_analysis.html#cb50-3" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">&quot;SITE&quot;</span>)</span>
+<span id="cb50-4"><a href="11-Further_analysis.html#cb50-4" tabindex="-1"></a><span class="fu">plot_richness</span>(phylo, <span class="at">x=</span><span class="st">&quot;SITE&quot;</span>, <span class="at">measures=</span><span class="fu">c</span>(<span class="st">&quot;Shannon&quot;</span>, <span class="st">&quot;Simpson&quot;</span>), </span>
+<span id="cb50-5"><a href="11-Further_analysis.html#cb50-5" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">&quot;SITE&quot;</span>) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <p><img src="figures/alpha1.png" width="80%" style="display: block; margin: auto;" /></p>
 <p><img src="figures/alpha2.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>The first figure plots the diversity measure per sample and colours the output by site.
@@ -356,26 +366,26 @@ The second figure combines the replicates to plot as a boxplot.</p>
 <p><img src="figures/beta_div.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>Beta diversity compares the difference in diversity between two sites, or to put it another way it calculates the number of species that are not the same in the two sites.</p>
 <p>We will normalise the data before running the beta diversity calculation. We will transform the data into proportions to be used for Bray-Curtis distances.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="11-Further_analysis.html#cb51-1" aria-hidden="true" tabindex="-1"></a>ps.prop <span class="ot">&lt;-</span> <span class="fu">transform_sample_counts</span>(phylo, <span class="cf">function</span>(otu) otu<span class="sc">/</span><span class="fu">sum</span>(otu))</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="11-Further_analysis.html#cb51-1" tabindex="-1"></a>ps.prop <span class="ot">&lt;-</span> <span class="fu">transform_sample_counts</span>(phylo, <span class="cf">function</span>(otu) otu<span class="sc">/</span><span class="fu">sum</span>(otu))</span></code></pre></div>
 <p>We then generate and plot the NMDS (Non-metric MultiDimenstional Scaling) using Bray-Curtis distances.</p>
 <p><strong>Equation</strong>:
 <span class="math display">\[
 d_jk =
 \sum\frac{|x_{ij}-x_{ik}|} {(x_{ij}+x_{ik})}
 \]</span></p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="11-Further_analysis.html#cb52-1" aria-hidden="true" tabindex="-1"></a>ord.nmds.bray <span class="ot">&lt;-</span> <span class="fu">ordinate</span>(ps.prop, <span class="at">method=</span><span class="st">&quot;NMDS&quot;</span>, <span class="at">distance=</span><span class="st">&quot;bray&quot;</span>)</span>
-<span id="cb52-2"><a href="11-Further_analysis.html#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ordination</span>(ps.prop, ord.nmds.bray, <span class="at">color=</span><span class="st">&quot;SITE&quot;</span>, <span class="at">title=</span><span class="st">&quot;Bray NMDS&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="11-Further_analysis.html#cb52-1" tabindex="-1"></a>ord.nmds.bray <span class="ot">&lt;-</span> <span class="fu">ordinate</span>(ps.prop, <span class="at">method=</span><span class="st">&quot;NMDS&quot;</span>, <span class="at">distance=</span><span class="st">&quot;bray&quot;</span>)</span>
+<span id="cb52-2"><a href="11-Further_analysis.html#cb52-2" tabindex="-1"></a><span class="fu">plot_ordination</span>(ps.prop, ord.nmds.bray, <span class="at">color=</span><span class="st">&quot;SITE&quot;</span>, <span class="at">title=</span><span class="st">&quot;Bray NMDS&quot;</span>)</span></code></pre></div>
 <p><img src="figures/beta.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>In general the samples do seem to cluster roughly by site in the NMDS plot.</p>
 <p>We will then calculate the Bray–Curtis distances using the <code>distance</code> function and perform a PERMANOVA (permutational multivariate analysis of variance) using the <code>adonis</code> function from Vegan to check whether the separation of samples by site is significantly different.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="11-Further_analysis.html#cb53-1" aria-hidden="true" tabindex="-1"></a>bray.dist<span class="ot">&lt;-</span><span class="fu">distance</span>(ps.prop, <span class="at">method=</span><span class="st">&quot;bray&quot;</span>)</span>
-<span id="cb53-2"><a href="11-Further_analysis.html#cb53-2" aria-hidden="true" tabindex="-1"></a>sampledf <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">sample_data</span>(phylo))</span>
-<span id="cb53-3"><a href="11-Further_analysis.html#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">adonis</span>(bray.dist <span class="sc">~</span> SITE, <span class="at">data =</span> sampledf)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="11-Further_analysis.html#cb53-1" tabindex="-1"></a>bray.dist<span class="ot">&lt;-</span><span class="fu">distance</span>(ps.prop, <span class="at">method=</span><span class="st">&quot;bray&quot;</span>)</span>
+<span id="cb53-2"><a href="11-Further_analysis.html#cb53-2" tabindex="-1"></a>sampledf <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">sample_data</span>(phylo))</span>
+<span id="cb53-3"><a href="11-Further_analysis.html#cb53-3" tabindex="-1"></a><span class="fu">adonis</span>(bray.dist <span class="sc">~</span> SITE, <span class="at">data =</span> sampledf)</span></code></pre></div>
 <p>The PERMANOVA results suggest that there is a statistical difference in communities between sites.</p>
 <p>Lastly, let’s plot the proportion of ASV sequences within each sample that belong to different taxonomic families.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="11-Further_analysis.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_bar</span>(ps.prop, <span class="at">fill =</span> “Family”)<span class="sc">+</span></span>
-<span id="cb54-2"><a href="11-Further_analysis.html#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">color=</span>Family, <span class="at">fill=</span>Family), <span class="at">stat=</span>“identity”, <span class="at">position=</span>“stack”)<span class="sc">+</span></span>
-<span id="cb54-3"><a href="11-Further_analysis.html#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>SITE, <span class="at">scales =</span> “free”, <span class="at">space =</span> “free”)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="11-Further_analysis.html#cb54-1" tabindex="-1"></a><span class="fu">plot_bar</span>(ps.prop, <span class="at">fill =</span> “Family”)<span class="sc">+</span></span>
+<span id="cb54-2"><a href="11-Further_analysis.html#cb54-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">color=</span>Family, <span class="at">fill=</span>Family), <span class="at">stat=</span>“identity”, <span class="at">position=</span>“stack”)<span class="sc">+</span></span>
+<span id="cb54-3"><a href="11-Further_analysis.html#cb54-3" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>SITE, <span class="at">scales =</span> “free”, <span class="at">space =</span> “free”)</span></code></pre></div>
 <p><img src="figures/Family_abundance_MiFish.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>We can see that the five aquarium samples contain mostly Cichlidae sequences, apart from a very small number of unassigned (NA) and misassigned (there were only cichlid fish in the aquarium) sequences. Site 11 has more than 50% unassigned sequences in all three replicate samples. All of the samples containing &gt; 10% Procatopodidae sequences are grouped together in the NMDS plot (especially sites 19 &amp; 20, but also two samples from site 2, and the one sample from site 18), suggesting this may be in part driving the observed patterns of community similarity.</p>
 

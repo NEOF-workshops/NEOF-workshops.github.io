@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Exporting data | Metabarcoding for diet analysis and environmental DNA - supplemental material</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop - supplemental material" />
-  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Exporting data | Metabarcoding for diet analysis and environmental DNA - supplemental material" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher and Helen Hipperson" />
 
 
-<meta name="date" content="2022-09-02" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -187,46 +191,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/dada2.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>It is useful to be able to export our ASV sequences and a matrix table of counts from DADA2/R as we might want to visualise or analyse these using other software.</p>
 <p>Our ASV sequences and counts per sample are stored in the object <code>seqtab.nochim</code>. The ASVs are not named, so first let’s name them (ASV_1, ASV_2, etc.).</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="03-Exporting_data.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The column names of seqtab.nochim are actually the ASV sequences, </span></span>
-<span id="cb10-2"><a href="03-Exporting_data.html#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># so extract these and assign them to `mifish_seqs`</span></span>
-<span id="cb10-3"><a href="03-Exporting_data.html#cb10-3" aria-hidden="true" tabindex="-1"></a>mifish_seqs <span class="ot">&lt;-</span> <span class="fu">colnames</span>(seqtab.nochim)</span>
-<span id="cb10-4"><a href="03-Exporting_data.html#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="03-Exporting_data.html#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a new variable for ASV names, `mifish_headers`, </span></span>
-<span id="cb10-6"><a href="03-Exporting_data.html#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#with length equal to the number of ASVs</span></span>
-<span id="cb10-7"><a href="03-Exporting_data.html#cb10-7" aria-hidden="true" tabindex="-1"></a>mifish_headers <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="fu">dim</span>(seqtab.nochim)[<span class="dv">2</span>], <span class="at">mode=</span><span class="st">&quot;character&quot;</span>)</span>
-<span id="cb10-8"><a href="03-Exporting_data.html#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="03-Exporting_data.html#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill the vector with names formatted for a fasta header (&gt;ASV_1, &gt;ASV_2, etc.)</span></span>
-<span id="cb10-10"><a href="03-Exporting_data.html#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(seqtab.nochim)[<span class="dv">2</span>]) {</span>
-<span id="cb10-11"><a href="03-Exporting_data.html#cb10-11" aria-hidden="true" tabindex="-1"></a>  mifish_headers[i] <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;&gt;ASV&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;_&quot;</span>)</span>
-<span id="cb10-12"><a href="03-Exporting_data.html#cb10-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="03-Exporting_data.html#cb10-1" tabindex="-1"></a><span class="co"># The column names of seqtab.nochim are actually the ASV sequences, </span></span>
+<span id="cb10-2"><a href="03-Exporting_data.html#cb10-2" tabindex="-1"></a>    <span class="co"># so extract these and assign them to `mifish_seqs`</span></span>
+<span id="cb10-3"><a href="03-Exporting_data.html#cb10-3" tabindex="-1"></a>mifish_seqs <span class="ot">&lt;-</span> <span class="fu">colnames</span>(seqtab.nochim)</span>
+<span id="cb10-4"><a href="03-Exporting_data.html#cb10-4" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="03-Exporting_data.html#cb10-5" tabindex="-1"></a><span class="co"># Make a new variable for ASV names, `mifish_headers`, </span></span>
+<span id="cb10-6"><a href="03-Exporting_data.html#cb10-6" tabindex="-1"></a>    <span class="co">#with length equal to the number of ASVs</span></span>
+<span id="cb10-7"><a href="03-Exporting_data.html#cb10-7" tabindex="-1"></a>mifish_headers <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="fu">dim</span>(seqtab.nochim)[<span class="dv">2</span>], <span class="at">mode=</span><span class="st">&quot;character&quot;</span>)</span>
+<span id="cb10-8"><a href="03-Exporting_data.html#cb10-8" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="03-Exporting_data.html#cb10-9" tabindex="-1"></a><span class="co"># Fill the vector with names formatted for a fasta header (&gt;ASV_1, &gt;ASV_2, etc.)</span></span>
+<span id="cb10-10"><a href="03-Exporting_data.html#cb10-10" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(seqtab.nochim)[<span class="dv">2</span>]) {</span>
+<span id="cb10-11"><a href="03-Exporting_data.html#cb10-11" tabindex="-1"></a>  mifish_headers[i] <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;&gt;ASV&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;_&quot;</span>)</span>
+<span id="cb10-12"><a href="03-Exporting_data.html#cb10-12" tabindex="-1"></a>}</span></code></pre></div>
 <div id="fasta-file" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Fasta file<a href="03-Exporting_data.html#fasta-file" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/noun-dna-2070013.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Now we have our sequences and names as variables we can join them and make a fasta file.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="03-Exporting_data.html#cb11-1" aria-hidden="true" tabindex="-1"></a>mifish_fasta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rbind</span>(mifish_headers, mifish_seqs))</span>
-<span id="cb11-2"><a href="03-Exporting_data.html#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write</span>(mifish_fasta, <span class="st">&quot;MiFish_ASVs.fa&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="03-Exporting_data.html#cb11-1" tabindex="-1"></a>mifish_fasta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rbind</span>(mifish_headers, mifish_seqs))</span>
+<span id="cb11-2"><a href="03-Exporting_data.html#cb11-2" tabindex="-1"></a><span class="fu">write</span>(mifish_fasta, <span class="st">&quot;MiFish_ASVs.fa&quot;</span>)</span></code></pre></div>
 <p>You should now have this fasta file in your working directory on the server.</p>
 </div>
 <div id="sequence-count-matrix" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Sequence count matrix<a href="03-Exporting_data.html#sequence-count-matrix" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/matrix.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Next make a table of sequence counts for each sample and ASV.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="03-Exporting_data.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First transpose the `seqtab.nochim` and assign this to the variable `mifish_tab`</span></span>
-<span id="cb12-2"><a href="03-Exporting_data.html#cb12-2" aria-hidden="true" tabindex="-1"></a>mifish_tab <span class="ot">&lt;-</span> <span class="fu">t</span>(seqtab.nochim)</span>
-<span id="cb12-3"><a href="03-Exporting_data.html#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="03-Exporting_data.html#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Name each row with the ASV name, omitting the &#39;&gt;&#39; used in the fasta file</span></span>
-<span id="cb12-5"><a href="03-Exporting_data.html#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(mifish_tab) <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">&quot;&gt;&quot;</span>, <span class="st">&quot;&quot;</span>, mifish_headers)</span>
-<span id="cb12-6"><a href="03-Exporting_data.html#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(mifish_tab, <span class="st">&quot;MiFish_ASV_counts.tsv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote=</span>F, <span class="at">col.names=</span><span class="cn">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="03-Exporting_data.html#cb12-1" tabindex="-1"></a><span class="co"># First transpose the `seqtab.nochim` and assign this to the variable `mifish_tab`</span></span>
+<span id="cb12-2"><a href="03-Exporting_data.html#cb12-2" tabindex="-1"></a>mifish_tab <span class="ot">&lt;-</span> <span class="fu">t</span>(seqtab.nochim)</span>
+<span id="cb12-3"><a href="03-Exporting_data.html#cb12-3" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="03-Exporting_data.html#cb12-4" tabindex="-1"></a><span class="co"># Name each row with the ASV name, omitting the &#39;&gt;&#39; used in the fasta file</span></span>
+<span id="cb12-5"><a href="03-Exporting_data.html#cb12-5" tabindex="-1"></a><span class="fu">row.names</span>(mifish_tab) <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">&quot;&gt;&quot;</span>, <span class="st">&quot;&quot;</span>, mifish_headers)</span>
+<span id="cb12-6"><a href="03-Exporting_data.html#cb12-6" tabindex="-1"></a><span class="fu">write.table</span>(mifish_tab, <span class="st">&quot;MiFish_ASV_counts.tsv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote=</span>F, <span class="at">col.names=</span><span class="cn">NA</span>)</span></code></pre></div>
 <p>You should now have an ASV by sample matrix with sequence counts in a tab-separated value (tsv) file in your working directory.</p>
 </div>
 <div id="table-of-taxon-names" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Table of taxon names<a href="03-Exporting_data.html#table-of-taxon-names" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/noun_ranking_165760.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Lastly, if we’ve used dada2 to assign taxonomy we can make a table of taxon names for each ASV.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="03-Exporting_data.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace the row names in `taxa` with the ASV names, </span></span>
-<span id="cb13-2"><a href="03-Exporting_data.html#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># omitting the &#39;&gt;&#39; used for the fasta file.</span></span>
-<span id="cb13-3"><a href="03-Exporting_data.html#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(taxa) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="at">pattern=</span><span class="st">&quot;&gt;&quot;</span>, <span class="at">replacement=</span><span class="st">&quot;&quot;</span>, <span class="at">x=</span>mifish_headers)</span>
-<span id="cb13-4"><a href="03-Exporting_data.html#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(taxa, <span class="st">&quot;MiFish_ASV_taxonomy.tsv&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote=</span>F, <span class="at">col.names=</span><span class="cn">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="03-Exporting_data.html#cb13-1" tabindex="-1"></a><span class="co"># Replace the row names in `taxa` with the ASV names, </span></span>
+<span id="cb13-2"><a href="03-Exporting_data.html#cb13-2" tabindex="-1"></a>    <span class="co"># omitting the &#39;&gt;&#39; used for the fasta file.</span></span>
+<span id="cb13-3"><a href="03-Exporting_data.html#cb13-3" tabindex="-1"></a><span class="fu">rownames</span>(taxa) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="at">pattern=</span><span class="st">&quot;&gt;&quot;</span>, <span class="at">replacement=</span><span class="st">&quot;&quot;</span>, <span class="at">x=</span>mifish_headers)</span>
+<span id="cb13-4"><a href="03-Exporting_data.html#cb13-4" tabindex="-1"></a><span class="fu">write.table</span>(taxa, <span class="st">&quot;MiFish_ASV_taxonomy.tsv&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote=</span>F, <span class="at">col.names=</span><span class="cn">NA</span>)</span></code></pre></div>
 <p>You should now have a tsv file of taxonomic assignments for each ASV in your working directory.</p>
 
 </div>

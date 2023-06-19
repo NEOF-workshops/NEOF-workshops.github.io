@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Loading data into R and DADA2 | Metabarcoding for diet analysis and environmental DNA</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Loading data into R and DADA2 | Metabarcoding for diet analysis and environmental DNA" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher and Helen Hipperson" />
 
 
-<meta name="date" content="2023-03-02" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -231,6 +235,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.9" data-path="13-Others_marker_steps.html"><a href="13-Others_marker_steps.html#alpha-diversity-1"><i class="fa fa-check"></i><b>13.9</b> Alpha diversity</a></li>
 <li class="chapter" data-level="13.10" data-path="13-Others_marker_steps.html"><a href="13-Others_marker_steps.html#beta-diversity-1"><i class="fa fa-check"></i><b>13.10</b> Beta diversity</a></li>
 </ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="14-Appendix.html"><a href="14-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>A.1</b> Mamba installation and environment</a></li>
+<li class="chapter" data-level="A.2" data-path="14-Appendix.html"><a href="14-Appendix.html#jupyter_appendix"><i class="fa fa-check"></i><b>A.2</b> Jupyter-notebook</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -256,20 +266,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/loading_bar.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>Before we can start we first need to make a directory which will be used to contain all the files you generate throughout this workshop.</p>
 <p>To do this type the following commands.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="05-Loading_data.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Change directory to home</span></span>
-<span id="cb9-2"><a href="05-Loading_data.html#cb9-2" aria-hidden="true" tabindex="-1"></a>cd <span class="sc">~</span></span>
-<span id="cb9-3"><a href="05-Loading_data.html#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Make a directory in home called &quot;Metabarcoding&quot;</span></span>
-<span id="cb9-4"><a href="05-Loading_data.html#cb9-4" aria-hidden="true" tabindex="-1"></a>mkdir Metabarcoding</span>
-<span id="cb9-5"><a href="05-Loading_data.html#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Change directory to &quot;Metabarcoding&quot;</span></span>
-<span id="cb9-6"><a href="05-Loading_data.html#cb9-6" aria-hidden="true" tabindex="-1"></a>cd Metabarcoding</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="05-Loading_data.html#cb9-1" tabindex="-1"></a><span class="co">#Change directory to home</span></span>
+<span id="cb9-2"><a href="05-Loading_data.html#cb9-2" tabindex="-1"></a>cd <span class="sc">~</span></span>
+<span id="cb9-3"><a href="05-Loading_data.html#cb9-3" tabindex="-1"></a><span class="co">#Make a directory in home called &quot;Metabarcoding&quot;</span></span>
+<span id="cb9-4"><a href="05-Loading_data.html#cb9-4" tabindex="-1"></a>mkdir Metabarcoding</span>
+<span id="cb9-5"><a href="05-Loading_data.html#cb9-5" tabindex="-1"></a><span class="co">#Change directory to &quot;Metabarcoding&quot;</span></span>
+<span id="cb9-6"><a href="05-Loading_data.html#cb9-6" tabindex="-1"></a>cd Metabarcoding</span></code></pre></div>
 <p>You will need to activate the metabarcoding conda environment before continuing. Carry this out with the following command.</p>
 <p>Note: Ensure you include the dot and space (. ) at the start before usemetabarcoding</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="05-Loading_data.html#cb10-1" aria-hidden="true" tabindex="-1"></a>. usemetabarcoding</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="05-Loading_data.html#cb10-1" tabindex="-1"></a>. usemetabarcoding</span></code></pre></div>
 <div id="loading-r" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Loading R<a href="05-Loading_data.html#loading-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/R%20-%20Copy.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Now we can load R.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="05-Loading_data.html#cb11-1" aria-hidden="true" tabindex="-1"></a>R</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="05-Loading_data.html#cb11-1" tabindex="-1"></a>R</span></code></pre></div>
 <p>You should get a screen that looks like this.</p>
 <p><img src="figures/R_image.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>This is the R console window. From now on the commands will be run using the R programming language.</p>
@@ -278,9 +288,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">5.2</span> Loading DADA2<a href="05-Loading_data.html#loading-dada2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/DADA2_Logo_Text_1_18_640px.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>To start with we will need to load a few packages (see section 3.2.3 for a description of what a package is if you are not familiar with R) which we will need for running the first part of our analysis.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="05-Loading_data.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dada2)</span>
-<span id="cb12-2"><a href="05-Loading_data.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Biostrings)</span>
-<span id="cb12-3"><a href="05-Loading_data.html#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ShortRead)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="05-Loading_data.html#cb12-1" tabindex="-1"></a><span class="fu">library</span>(dada2)</span>
+<span id="cb12-2"><a href="05-Loading_data.html#cb12-2" tabindex="-1"></a><span class="fu">library</span>(Biostrings)</span>
+<span id="cb12-3"><a href="05-Loading_data.html#cb12-3" tabindex="-1"></a><span class="fu">library</span>(ShortRead)</span></code></pre></div>
 </div>
 <div id="loading-our-data" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Loading our data<a href="05-Loading_data.html#loading-our-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -288,18 +298,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="saving-the-paths-for-our-input-and-output-directories" class="section level3 hasAnchor" number="5.3.1">
 <h3><span class="header-section-number">5.3.1</span> Saving the paths for our input and output directories<a href="05-Loading_data.html#saving-the-paths-for-our-input-and-output-directories" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We are now nearly ready to input our data but first we need to set the main paths we will be using which contain the input files (the raw sequencing data files) and where we want to save the output files we generate (the ‘Metabarcoding’ directory we made above).</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="05-Loading_data.html#cb13-1" aria-hidden="true" tabindex="-1"></a>input.path <span class="ot">&lt;-</span> <span class="st">&quot;/pub39/tea/nsc006/NEOF/metabarcoding_workshop&quot;</span></span>
-<span id="cb13-2"><a href="05-Loading_data.html#cb13-2" aria-hidden="true" tabindex="-1"></a>output.path <span class="ot">&lt;-</span> <span class="st">&quot;~/Metabarcoding&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="05-Loading_data.html#cb13-1" tabindex="-1"></a>input.path <span class="ot">&lt;-</span> <span class="st">&quot;/pub14/tea/nsc206/NEOF/metabarcoding_workshop&quot;</span></span>
+<span id="cb13-2"><a href="05-Loading_data.html#cb13-2" tabindex="-1"></a>output.path <span class="ot">&lt;-</span> <span class="st">&quot;~/Metabarcoding&quot;</span></span></code></pre></div>
 <p>We can now check what files are contained in our input directory</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="05-Loading_data.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(input.path)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="05-Loading_data.html#cb14-1" tabindex="-1"></a><span class="fu">list.files</span>(input.path)</span></code></pre></div>
 <p>You should see a list of paired fastq sequencing files listed. Forward and reverse fastq filenames have format: <code>SAMPLENAME_L001_R1_001.fastq</code> and <code>SAMPLENAME_L001_R2_001.fastq</code>.
 This shows that we have set our input path correctly. There is also a directory called ‘taxonomy’ and a csv file of sample information, both of which we will use later.</p>
 </div>
 <div id="inputting-the-forward-and-reverse-reads" class="section level3 hasAnchor" number="5.3.2">
 <h3><span class="header-section-number">5.3.2</span> Inputting the forward and reverse reads<a href="05-Loading_data.html#inputting-the-forward-and-reverse-reads" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We will assign the input path and specify all files which end in <code>_L001_R1_001.fastq</code> as our forward reads (stored as the variable <code>fnFs</code>) and <code>_L001_R2_001.fastq</code> as our reverse reads (stored as the variable <code>fnRs</code>).</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="05-Loading_data.html#cb15-1" aria-hidden="true" tabindex="-1"></a>fnFs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(input.path, <span class="at">pattern =</span> <span class="st">&quot;_L001_R1_001.fastq&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb15-2"><a href="05-Loading_data.html#cb15-2" aria-hidden="true" tabindex="-1"></a>fnRs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(input.path, <span class="at">pattern =</span> <span class="st">&quot;_L001_R2_001.fastq&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="05-Loading_data.html#cb15-1" tabindex="-1"></a>fnFs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(input.path, <span class="at">pattern =</span> <span class="st">&quot;_L001_R1_001.fastq&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb15-2"><a href="05-Loading_data.html#cb15-2" tabindex="-1"></a>fnRs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(input.path, <span class="at">pattern =</span> <span class="st">&quot;_L001_R2_001.fastq&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 
 </div>
 </div>

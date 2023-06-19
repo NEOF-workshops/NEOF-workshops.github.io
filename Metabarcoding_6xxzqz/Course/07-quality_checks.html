@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Checking the quality of your data | Metabarcoding for diet analysis and environmental DNA</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Checking the quality of your data | Metabarcoding for diet analysis and environmental DNA" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher and Helen Hipperson" />
 
 
-<meta name="date" content="2023-03-02" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -231,6 +235,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.9" data-path="13-Others_marker_steps.html"><a href="13-Others_marker_steps.html#alpha-diversity-1"><i class="fa fa-check"></i><b>13.9</b> Alpha diversity</a></li>
 <li class="chapter" data-level="13.10" data-path="13-Others_marker_steps.html"><a href="13-Others_marker_steps.html#beta-diversity-1"><i class="fa fa-check"></i><b>13.10</b> Beta diversity</a></li>
 </ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="14-Appendix.html"><a href="14-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>A.1</b> Mamba installation and environment</a></li>
+<li class="chapter" data-level="A.2" data-path="14-Appendix.html"><a href="14-Appendix.html#jupyter_appendix"><i class="fa fa-check"></i><b>A.2</b> Jupyter-notebook</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -256,28 +266,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/mangify_glass.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Those of you who attended our Introduction to sequencing data and quality control course would have used FastQC to check the quality of the data. DADA2 has its own quality control option, which plots a similar read length by quality figure.</p>
 <p>To run first import the cutadapt files and extract the sample names and then run the <code>plotQualityProfile</code> function</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="07-quality_checks.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the paths and file names the forward and reverse primer cleaned files </span></span>
-<span id="cb28-2"><a href="07-quality_checks.html#cb28-2" aria-hidden="true" tabindex="-1"></a>cutFs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(path.cut, <span class="at">pattern =</span> <span class="st">&quot;_L001_R1_001.fastq&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb28-3"><a href="07-quality_checks.html#cb28-3" aria-hidden="true" tabindex="-1"></a>cutRs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(path.cut, <span class="at">pattern =</span> <span class="st">&quot;_L001_R2_001.fastq&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb28-4"><a href="07-quality_checks.html#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-5"><a href="07-quality_checks.html#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract sample names</span></span>
-<span id="cb28-6"><a href="07-quality_checks.html#cb28-6" aria-hidden="true" tabindex="-1"></a>get.sample.name <span class="ot">&lt;-</span> <span class="cf">function</span>(fname) <span class="fu">strsplit</span>(<span class="fu">basename</span>(fname), <span class="st">&quot;_&quot;</span>)[[<span class="dv">1</span>]][<span class="dv">2</span>]</span>
-<span id="cb28-7"><a href="07-quality_checks.html#cb28-7" aria-hidden="true" tabindex="-1"></a>sample.names <span class="ot">&lt;-</span> <span class="fu">unname</span>(<span class="fu">sapply</span>(cutFs, get.sample.name))</span>
-<span id="cb28-8"><a href="07-quality_checks.html#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sample.names)</span>
-<span id="cb28-9"><a href="07-quality_checks.html#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-10"><a href="07-quality_checks.html#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co"># check the quality for the first file</span></span>
-<span id="cb28-11"><a href="07-quality_checks.html#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plotQualityProfile</span>(cutFs[<span class="dv">1</span><span class="sc">:</span><span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="07-quality_checks.html#cb28-1" tabindex="-1"></a><span class="co"># Specify the paths and file names the forward and reverse primer cleaned files </span></span>
+<span id="cb28-2"><a href="07-quality_checks.html#cb28-2" tabindex="-1"></a>cutFs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(path.cut, <span class="at">pattern =</span> <span class="st">&quot;_L001_R1_001.fastq&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb28-3"><a href="07-quality_checks.html#cb28-3" tabindex="-1"></a>cutRs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(path.cut, <span class="at">pattern =</span> <span class="st">&quot;_L001_R2_001.fastq&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb28-4"><a href="07-quality_checks.html#cb28-4" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="07-quality_checks.html#cb28-5" tabindex="-1"></a><span class="co"># Extract sample names</span></span>
+<span id="cb28-6"><a href="07-quality_checks.html#cb28-6" tabindex="-1"></a>get.sample.name <span class="ot">&lt;-</span> <span class="cf">function</span>(fname) <span class="fu">strsplit</span>(<span class="fu">basename</span>(fname), <span class="st">&quot;_&quot;</span>)[[<span class="dv">1</span>]][<span class="dv">2</span>]</span>
+<span id="cb28-7"><a href="07-quality_checks.html#cb28-7" tabindex="-1"></a>sample.names <span class="ot">&lt;-</span> <span class="fu">unname</span>(<span class="fu">sapply</span>(cutFs, get.sample.name))</span>
+<span id="cb28-8"><a href="07-quality_checks.html#cb28-8" tabindex="-1"></a><span class="fu">head</span>(sample.names)</span>
+<span id="cb28-9"><a href="07-quality_checks.html#cb28-9" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="07-quality_checks.html#cb28-10" tabindex="-1"></a><span class="co"># check the quality for the first file</span></span>
+<span id="cb28-11"><a href="07-quality_checks.html#cb28-11" tabindex="-1"></a><span class="fu">plotQualityProfile</span>(cutFs[<span class="dv">1</span><span class="sc">:</span><span class="dv">1</span>])</span></code></pre></div>
 <p><img src="figures/quality_F.png" width="70%" style="display: block; margin: auto;" />
 To interpret this plot, the gray-scale heatmap shows the the frequency of each quality score along the forward read lengths. The green line is the median quality score and the orange lines are the quartiles. The red line at the bottom of the plot represents the proportion of reads of that particular length.</p>
 <p>The quality is very good for our forward reads. You can also see that the majority of the forward reads are ~130bp long after having the primers removed with cutadapt.</p>
 <p>Now check the quality of the reverse file in the same way</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="07-quality_checks.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotQualityProfile</span>(cutRs[<span class="dv">1</span><span class="sc">:</span><span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="07-quality_checks.html#cb29-1" tabindex="-1"></a><span class="fu">plotQualityProfile</span>(cutRs[<span class="dv">1</span><span class="sc">:</span><span class="dv">1</span>])</span></code></pre></div>
 <p><img src="figures/quality_R.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>The reverse reads also look like they are good quality.</p>
 <p>To check the quality of the second and third fastq files we would type.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="07-quality_checks.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotQualityProfile</span>(cutFs[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>])</span>
-<span id="cb30-2"><a href="07-quality_checks.html#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="07-quality_checks.html#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotQualityProfile</span>(cutRs[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="07-quality_checks.html#cb30-1" tabindex="-1"></a><span class="fu">plotQualityProfile</span>(cutFs[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb30-2"><a href="07-quality_checks.html#cb30-2" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="07-quality_checks.html#cb30-3" tabindex="-1"></a><span class="fu">plotQualityProfile</span>(cutRs[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>])</span></code></pre></div>
 
 </div>
             </section>

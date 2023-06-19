@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Cleaning your data | Metabarcoding for diet analysis and environmental DNA</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Cleaning your data | Metabarcoding for diet analysis and environmental DNA" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher and Helen Hipperson" />
 
 
-<meta name="date" content="2023-03-02" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -231,6 +235,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.9" data-path="13-Others_marker_steps.html"><a href="13-Others_marker_steps.html#alpha-diversity-1"><i class="fa fa-check"></i><b>13.9</b> Alpha diversity</a></li>
 <li class="chapter" data-level="13.10" data-path="13-Others_marker_steps.html"><a href="13-Others_marker_steps.html#beta-diversity-1"><i class="fa fa-check"></i><b>13.10</b> Beta diversity</a></li>
 </ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="14-Appendix.html"><a href="14-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>A.1</b> Mamba installation and environment</a></li>
+<li class="chapter" data-level="A.2" data-path="14-Appendix.html"><a href="14-Appendix.html#jupyter_appendix"><i class="fa fa-check"></i><b>A.2</b> Jupyter-notebook</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -256,8 +266,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/quality_trimming_and_filtering.png" width="25%" style="display: block; margin: auto;" /></p>
 <p>We will now filter our data to remove any poor quality reads.</p>
 <p>First set the path to a directory to store the filtered output files called <code>filtered</code>.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="08-clean.html#cb31-1" aria-hidden="true" tabindex="-1"></a>filtFs <span class="ot">&lt;-</span> <span class="fu">file.path</span>(path.cut, <span class="st">&quot;../filtered&quot;</span>, <span class="fu">basename</span>(cutFs))</span>
-<span id="cb31-2"><a href="08-clean.html#cb31-2" aria-hidden="true" tabindex="-1"></a>filtRs <span class="ot">&lt;-</span> <span class="fu">file.path</span>(path.cut, <span class="st">&quot;../filtered&quot;</span>, <span class="fu">basename</span>(cutRs))</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="08-clean.html#cb31-1" tabindex="-1"></a>filtFs <span class="ot">&lt;-</span> <span class="fu">file.path</span>(path.cut, <span class="st">&quot;../filtered&quot;</span>, <span class="fu">basename</span>(cutFs))</span>
+<span id="cb31-2"><a href="08-clean.html#cb31-2" tabindex="-1"></a>filtRs <span class="ot">&lt;-</span> <span class="fu">file.path</span>(path.cut, <span class="st">&quot;../filtered&quot;</span>, <span class="fu">basename</span>(cutRs))</span></code></pre></div>
 <p>Now run <code>filterAndTrim</code>. This time we use the standard filtering parameters:</p>
 <ul>
 <li><code>maxN=0</code> After truncation, sequences with more than 0 Ns will be discarded. (DADA2 requires sequences contain no Ns)</li>
@@ -267,10 +277,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>minLen = 60</code> Remove reads with length less than 60 (note these should have already been removed by cutadapt)</li>
 <li><code>multithread = TRUE</code> input files are filtered in parallel</li>
 </ul>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="08-clean.html#cb32-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">filterAndTrim</span>(cutFs, filtFs, cutRs, filtRs, <span class="at">maxN =</span> <span class="dv">0</span>, <span class="at">maxEE =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), </span>
-<span id="cb32-2"><a href="08-clean.html#cb32-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">truncQ =</span> <span class="dv">2</span>, <span class="at">minLen =</span> <span class="dv">60</span>, <span class="at">rm.phix =</span> <span class="cn">TRUE</span>, <span class="at">compress =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb32-3"><a href="08-clean.html#cb32-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb32-4"><a href="08-clean.html#cb32-4" aria-hidden="true" tabindex="-1"></a>out</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="08-clean.html#cb32-1" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">filterAndTrim</span>(cutFs, filtFs, cutRs, filtRs, <span class="at">maxN =</span> <span class="dv">0</span>, <span class="at">maxEE =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), </span>
+<span id="cb32-2"><a href="08-clean.html#cb32-2" tabindex="-1"></a>                     <span class="at">truncQ =</span> <span class="dv">2</span>, <span class="at">minLen =</span> <span class="dv">60</span>, <span class="at">rm.phix =</span> <span class="cn">TRUE</span>, <span class="at">compress =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb32-3"><a href="08-clean.html#cb32-3" tabindex="-1"></a>                     <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-4"><a href="08-clean.html#cb32-4" tabindex="-1"></a>out</span></code></pre></div>
 <p>Some samples have very low read numbers after this filtering step. These could be poor quality samples but we also have negatives controls in this dataset so we would expect these to contain zero or very few reads.</p>
 
 </div>
