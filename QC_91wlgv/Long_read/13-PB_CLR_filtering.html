@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2023-05-19" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -264,11 +264,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/enter_key_purple.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>To filter the data by minimum CLR length we will use <code>SequelTools</code> with the <code>-t F</code> option. This sets the task mode to filtering.</p>
 <p>Prior to the command, we need to make a <code>.fofn</code> file (file of file names) for the scraps.bam files, as these are needed when using the filtering tool.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="13-PB_CLR_filtering.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="at">-name</span> <span class="st">&quot;*scraps.bam&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="op">&gt;</span> CLR_scraps.txt</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="13-PB_CLR_filtering.html#cb23-1" tabindex="-1"></a><span class="fu">find</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="at">-name</span> <span class="st">&quot;*scraps.bam&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="op">&gt;</span> CLR_scraps.txt</span></code></pre></div>
 <p>I recommend you view the output file (<code>CLR_scrap.txt</code>) with <code>less</code> to ensure it contains the file names (1 <code>scraps.bam</code> file for each sample in this case).</p>
 <p>Then we can run the filtering command. We will retain CLRs with a length of at least 10,000 bp.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="13-PB_CLR_filtering.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SequelTools.sh</span> <span class="at">-t</span> F <span class="at">-u</span> CLR_subreads.txt <span class="at">-c</span> CLR_scraps.txt <span class="dt">\</span></span>
-<span id="cb24-2"><a href="13-PB_CLR_filtering.html#cb24-2" aria-hidden="true" tabindex="-1"></a>-C <span class="at">-Z</span> 10000 <span class="at">-f</span> b <span class="at">-o</span> filtered</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="13-PB_CLR_filtering.html#cb24-1" tabindex="-1"></a><span class="ex">SequelTools.sh</span> <span class="at">-t</span> F <span class="at">-u</span> CLR_subreads.txt <span class="at">-c</span> CLR_scraps.txt <span class="dt">\</span></span>
+<span id="cb24-2"><a href="13-PB_CLR_filtering.html#cb24-2" tabindex="-1"></a>-C <span class="at">-Z</span> 10000 <span class="at">-f</span> b <span class="at">-o</span> filtered</span></code></pre></div>
 <p><strong>Parameters</strong>:</p>
 <ul>
 <li><code>-t</code>: Task to carry out. <code>F</code> for filtering.</li>
@@ -289,21 +289,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">13.2</span> Quality check filtered data<a href="13-PB_CLR_filtering.html#quality-check-filtered-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/qc_inspection.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>When this has finished running the 'filtered' folder will contain filtered BAM files for all three samples. Move into this folder using <code>cd</code>:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="13-PB_CLR_filtering.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> filtered</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="13-PB_CLR_filtering.html#cb25-1" tabindex="-1"></a><span class="bu">cd</span> filtered</span></code></pre></div>
 <p>From here let's run the quality control tool on the filtered files and compare the plots to those from the raw files. First we need a new fofn for the filtered subread files:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="13-PB_CLR_filtering.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="at">-name</span> <span class="st">&quot;*subreads.bam&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="op">&gt;</span> filt_subreads.txt</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="13-PB_CLR_filtering.html#cb26-1" tabindex="-1"></a><span class="fu">find</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="at">-name</span> <span class="st">&quot;*subreads.bam&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="op">&gt;</span> filt_subreads.txt</span></code></pre></div>
 <p>Then run the quality control tool again:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="13-PB_CLR_filtering.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SequelTools.sh</span> <span class="at">-t</span> Q <span class="at">-p</span> a <span class="at">-u</span> filt_subreads.txt <span class="at">-o</span> filt_QC</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="13-PB_CLR_filtering.html#cb27-1" tabindex="-1"></a><span class="ex">SequelTools.sh</span> <span class="at">-t</span> Q <span class="at">-p</span> a <span class="at">-u</span> filt_subreads.txt <span class="at">-o</span> filt_QC</span></code></pre></div>
 <p>When this has finished running the 'filt_QC' folder will contain a text file of summary values and a series of plots saved as pdf files. We can view these as before, for example:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="13-PB_CLR_filtering.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> filt_QC/subreadSizesBoxplots.pdf</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="13-PB_CLR_filtering.html#cb28-1" tabindex="-1"></a><span class="ex">firefox</span> filt_QC/subreadSizesBoxplots.pdf</span></code></pre></div>
 <p>Compare this to the boxplots from the unfiltered data:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="13-PB_CLR_filtering.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> ~/QC_workshop/PB_QC/data/CLR/CLR_QC/subreadSizesBoxplots.pdf</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="13-PB_CLR_filtering.html#cb29-1" tabindex="-1"></a><span class="ex">firefox</span> ~/QC_workshop/PB_QC/data/CLR/CLR_QC/subreadSizesBoxplots.pdf</span></code></pre></div>
 <p>The difference looks quite subtle on the plots as the size range of reads is large, but the subread N50 value (indicated by the blue diamond) has increased by ~2,000 bp in the filtered data for Sample2 and Sample3.</p>
 <p>There are also still subreads present in the data that are &lt; 10,000 bp. This is because we have filtered out CLRs that are &lt; 10,000 bp, but a CLR &gt; 10,000bp can still be made up of subreads smaller than this.</p>
 <p>This is definitely the case for Sample1 and Sample2, where the DNA fragment length of the library was shorter than the CLR lengths, hence there are subreads &lt; 10,000 bp within longer CLRs.</p>
 <p>Sample3 shows a more obvious difference before and after filtering:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="13-PB_CLR_filtering.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> ~/QC_workshop/PB_QC/data/CLR/CLR_QC/Sample3.readLenHists.pdf <span class="dt">\</span></span>
-<span id="cb30-2"><a href="13-PB_CLR_filtering.html#cb30-2" aria-hidden="true" tabindex="-1"></a>filt_QC/Sample3_flt.readLenHists.pdf</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="13-PB_CLR_filtering.html#cb30-1" tabindex="-1"></a><span class="ex">firefox</span> ~/QC_workshop/PB_QC/data/CLR/CLR_QC/Sample3.readLenHists.pdf <span class="dt">\</span></span>
+<span id="cb30-2"><a href="13-PB_CLR_filtering.html#cb30-2" tabindex="-1"></a>filt_QC/Sample3_flt.readLenHists.pdf</span></code></pre></div>
 <p>For this sample the DNA fragment length of the library was much greater than 10,000 bp, and so the majority of CLRs consist of just one pass of this long insert. The large number of short subreads remaining in the filtered file (blue bars) represent subreads only partially sequenced on the 'return journey' of the circular library DNA molecule. These are not present when we look only at the longest subread present in each CLR (green bars).</p>
 </div>
 <div id="bam-to-fastq" class="section level2 hasAnchor" number="13.3">
@@ -312,9 +312,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><code>SequelTools</code> doesn't have an option for filtering subreads by length. To do this we can convert the filtered BAM file to a fastq or fasta file and use another downstream tool. The fastq file will not contain any useful information on sequence quality (every base is assigned a quality character of '!' which is equal to zero), but this file format is useful if only fastq format is accepted as input for a downstream tool.</p>
 <p>To do this use the commands <code>pbindex</code> and <code>bam2fastq</code> from the <code>smrttools</code> package.</p>
 <p>Prior to converting from bam to fastq we need to index the bam file. This will generate a .pbi index file.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="13-PB_CLR_filtering.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pbindex</span> Sample1_flt.subreads.bam</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="13-PB_CLR_filtering.html#cb31-1" tabindex="-1"></a><span class="ex">pbindex</span> Sample1_flt.subreads.bam</span></code></pre></div>
 <p>The <code>bam2fastq</code> command requires an output file prefix name, specified by <code>-o</code>, and the name of the BAM file we want to convert:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="13-PB_CLR_filtering.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bam2fastq</span> <span class="at">-o</span> Sample1_filtered Sample1_flt.subreads.bam</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="13-PB_CLR_filtering.html#cb32-1" tabindex="-1"></a><span class="ex">bam2fastq</span> <span class="at">-o</span> Sample1_filtered Sample1_flt.subreads.bam</span></code></pre></div>
 <p><strong>Note</strong>: You may see a long warning message ending with "No such file or directory". However, if you run <code>ls</code> you should see that the output file has been generated.</p>
 <p>You will now have a compressed fastq file for the CLR-filtered subreads from Sample1. You can also carry this out for Sample2 &amp; Sample3 but it is not required.</p>
 </div>

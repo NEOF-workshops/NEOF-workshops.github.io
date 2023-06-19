@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2023-05-19" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -266,16 +266,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>QC the CCS reads with <code>RabbitQC</code>.</li>
 </ol>
 <p>Before carrying out any specific commands we will first move into the relevant directory.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="14-CCS.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/QC_workshop/PB_QC/data/CCS</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="14-CCS.html#cb33-1" tabindex="-1"></a><span class="bu">cd</span> ~/QC_workshop/PB_QC/data/CCS</span></code></pre></div>
 <div id="qc-the-subreads" class="section level2 hasAnchor" number="14.1">
 <h2><span class="header-section-number">14.1</span> QC the subreads<a href="14-CCS.html#qc-the-subreads" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/qc_inspection.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>OUr current directory contains one file of subreads from the amplicons sequencing run, named 'Sample4.subreads.bam'. Even though we just have one file we want to QC, SequelTools still requires a fofn to run:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="14-CCS.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="at">-name</span> <span class="st">&quot;*subreads.bam&quot;</span>  <span class="op">&gt;</span> subreads.txt</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="14-CCS.html#cb34-1" tabindex="-1"></a><span class="fu">find</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="at">-name</span> <span class="st">&quot;*subreads.bam&quot;</span>  <span class="op">&gt;</span> subreads.txt</span></code></pre></div>
 <p>With our file of file names (.fofn) created we can run <code>SequelTools</code> for quality checking.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="14-CCS.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SequelTools.sh</span> <span class="at">-t</span> Q <span class="at">-p</span> a <span class="at">-u</span> subreads.txt <span class="at">-o</span> S4QC</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="14-CCS.html#cb35-1" tabindex="-1"></a><span class="ex">SequelTools.sh</span> <span class="at">-t</span> Q <span class="at">-p</span> a <span class="at">-u</span> subreads.txt <span class="at">-o</span> S4QC</span></code></pre></div>
 <p>When these commands have run you will have a 'S4QC' folder containing the 'summaryTable.txt' file and the series of plots saved as pdf files. Let's have a look at the subread length histogram.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="14-CCS.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> S4QC/Sample4.readLenHists.pdf</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="14-CCS.html#cb36-1" tabindex="-1"></a><span class="ex">firefox</span> S4QC/Sample4.readLenHists.pdf</span></code></pre></div>
 <p>Many of the longest subreads (green bars) are ~ 4kb (the length of our amplicon), but there are also lots of shorter reads.</p>
 </div>
 <div id="ccs-generation" class="section level2 hasAnchor" number="14.2">
@@ -283,7 +283,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/production.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>To generate CCS reads we will use the <code>ccs</code> tool from the <code>smrttools</code> package. This will also act as a form of filtering.</p>
 <p>The full command to generate CCS reads is:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="14-CCS.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ccs</span> <span class="at">--minLength</span> 3500 <span class="at">--minPasses</span> 7 <span class="at">-j</span> 1 Sample4.subreads.bam S4_ccs.bam</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="14-CCS.html#cb37-1" tabindex="-1"></a><span class="ex">ccs</span> <span class="at">--minLength</span> 3500 <span class="at">--minPasses</span> 7 <span class="at">-j</span> 1 Sample4.subreads.bam S4_ccs.bam</span></code></pre></div>
 <p><strong>Parameters</strong>:</p>
 <ul>
 <li><code>--minLength</code> to specify the minimum subread length to use to generate a ccs read</li>
@@ -301,19 +301,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Important!</strong>
 Even though this is a heavily downsized dataset this command still takes ~20 minutes to run. To prevent you having to wait we have included the results file already in your directory. If you have typed in the above command to run you can kill it by pressing Ctrl - C.</p>
 <p>To see the results summary:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="14-CCS.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ccs_results</span>
-<span id="cb38-2"><a href="14-CCS.html#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> ccs_report.txt</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="14-CCS.html#cb38-1" tabindex="-1"></a><span class="bu">cd</span> ccs_results</span>
+<span id="cb38-2"><a href="14-CCS.html#cb38-2" tabindex="-1"></a><span class="fu">less</span> ccs_report.txt</span></code></pre></div>
 <div id="ccs-mcqs" class="section level3 hasAnchor" number="14.2.1">
 <h3><span class="header-section-number">14.2.1</span> CCS MCQs<a href="14-CCS.html#ccs-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="figures/question_bubble_black.png" width="15%" style="display: block; margin: auto;" /></p>
 <ol style="list-style-type: decimal">
 <li>What percentage of the subreads generated a CCS?
-<div id="radio_ZUDNZCEQIC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZUDNZCEQIC" value=""></input> <span><strong>0%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZUDNZCEQIC" value="answer"></input> <span><strong>29.16%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZUDNZCEQIC" value=""></input> <span><strong>70.62%</strong></span></label>
+<div id="radio_BETUGUUDDG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BETUGUUDDG" value=""></input> <span><strong>0%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BETUGUUDDG" value="answer"></input> <span><strong>29.16%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BETUGUUDDG" value=""></input> <span><strong>70.62%</strong></span></label>
 </div></li>
 <li>What was the main reason for failure of CCS generation?
-<div id="radio_PIWCUPUQFU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PIWCUPUQFU" value="answer"></input> <span><strong>No usable subreads</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PIWCUPUQFU" value=""></input> <span><strong>Insert size too long or small</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PIWCUPUQFU" value=""></input> <span><strong>CCS did not converge</strong></span></label>
+<div id="radio_ZZZPWTAXSN" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZZZPWTAXSN" value="answer"></input> <span><strong>No usable subreads</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZZZPWTAXSN" value=""></input> <span><strong>Insert size too long or small</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZZZPWTAXSN" value=""></input> <span><strong>CCS did not converge</strong></span></label>
 </div></li>
 </ol>
 </div>
@@ -324,10 +324,10 @@ Even though this is a heavily downsized dataset this command still takes ~20 min
 <p>Lastly, let's perform a quality check on the 'ccs.bam' file to assess the lengths of the ccs reads. <code>SequelTools</code> only works with the raw subread BAM files, so we will use an alternative program - <code>RabbitQC.</code> However, this program needs a fastq file as input so we will first generate that using the <code>bam2fastq</code> tool from smrttools.</p>
 <p>Thankfully an index file <code>.pbi</code> was already created when we generated the ccs bam file. We therefore don't need to create this.</p>
 <p>The <code>bam2fastq</code> command requires an output file prefix name, specified by <code>-o</code>, and the name of the BAM file we want to convert. We'll also include the option <code>-u</code> to give an uncompressed fastq output.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="14-CCS.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bam2fastq</span> <span class="at">-u</span> <span class="at">-o</span> S4_ccs S4_ccs.bam</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="14-CCS.html#cb39-1" tabindex="-1"></a><span class="ex">bam2fastq</span> <span class="at">-u</span> <span class="at">-o</span> S4_ccs S4_ccs.bam</span></code></pre></div>
 <p><strong>Note</strong>: You may see a long warning message ending with "No such file or directory". However, if you run <code>ls</code> you should see that the output file has been generated.</p>
 <p>With the CCS fastq file we're ready to run <code>RabbitQC</code>.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="14-CCS.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ex">RabbitQCPlus</span> <span class="at">-i</span> S4_ccs.fastq <span class="at">-w</span> 1 <span class="at">--TGS</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="14-CCS.html#cb40-1" tabindex="-1"></a><span class="ex">RabbitQCPlus</span> <span class="at">-i</span> S4_ccs.fastq <span class="at">-w</span> 1 <span class="at">--TGS</span></span></code></pre></div>
 <p><strong>Parameters</strong>:</p>
 <ul>
 <li><code>-i</code> to specify the input fastq file name</li>
@@ -335,7 +335,7 @@ Even though this is a heavily downsized dataset this command still takes ~20 min
 <li><code>--TGS</code> to specifiy the data is Third Generation Sequencing data (ONT or PB)</li>
 </ul>
 <p>View the output using <code>firefox</code>.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="14-CCS.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> S4_ccs_RabbitQCPlus.html</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="14-CCS.html#cb41-1" tabindex="-1"></a><span class="ex">firefox</span> S4_ccs_RabbitQCPlus.html</span></code></pre></div>
 <p>The "Reads Length Distribution" shows all but three ccs reads to be &gt; 4,000bp. The majority are ~ 4.4kb. In fact the amplicon is a little longer than 4kb plus the reads contain an index sequence added during PCR to allow multiplexing of multiple samples, but this tight distribution of sizes is a good indication that the amplification and sequencing has worked well.</p>
 <p>The other plots show the % nucleotide frequencies (AGCT) and mean quality scores for the beginning and end of the reads. The mean quality plots unfortunately do not show anything because it is such a short region. The main advantage of <code>RabbitQC</code> is that it is a very fast way to assess the processed read lengths.</p>
 </div>

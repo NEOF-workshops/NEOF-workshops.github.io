@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>A Useful tools and considerations | Illumina Quality Control</title>
   <meta name="description" content="NEOF book for the Illumina quality control workshop" />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="A Useful tools and considerations | Illumina Quality Control" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-05-18" />
+<meta name="date" content="2023-06-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 <link rel="stylesheet" href="www/webex.css" type="text/css" />
@@ -253,7 +257,7 @@ Sometimes a fasta/fastq file will need to be modified to be properly used with a
 <h3><span class="header-section-number">A.3.1</span> Fastp<a href="08-Useful_Tools_and_Considerations.html#fastp" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This is a tool designed to be a "all-in-one" preprocessor for fastq files. This includes quality control. I find it very useful as the tool will only do what you tell it to do. This means you can tell it to only carry out length filtering and it will only do length filtering (unlike Trim Galore which will insist on quality trimming).</p>
 <p>You could therefore use the below command to trim all reads to a length of 120 and remove any read pairs where at least one read has a length shorter than 120. You'll then only have reads that are a length of 120. This is required for a few tools.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="08-Useful_Tools_and_Considerations.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastp</span> <span class="at">--in1</span> R1.fastq <span class="at">--in2</span> R2.fastq <span class="at">--out1</span> R1.120.fastq <span class="at">--out2</span> R2.120.fastq <span class="at">--max_len1</span> 120 <span class="at">--max_len2</span> 120 <span class="at">--length_required</span> 120</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="08-Useful_Tools_and_Considerations.html#cb25-1" tabindex="-1"></a><span class="ex">fastp</span> <span class="at">--in1</span> R1.fastq <span class="at">--in2</span> R2.fastq <span class="at">--out1</span> R1.120.fastq <span class="at">--out2</span> R2.120.fastq <span class="at">--max_len1</span> 120 <span class="at">--max_len2</span> 120 <span class="at">--length_required</span> 120</span></code></pre></div>
 <p><strong>Main page:</strong> <a href="https://github.com/OpenGene/fastp" class="uri">https://github.com/OpenGene/fastp</a></p>
 </div>
 <div id="seqtk" class="section level3 hasAnchor" number="8.3.2">
@@ -262,12 +266,12 @@ Sometimes a fasta/fastq file will need to be modified to be properly used with a
 <ul>
 <li>convert fastq files to fasta</li>
 </ul>
-<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="08-Useful_Tools_and_Considerations.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seqtk</span> seq <span class="at">-a</span> in.fastq <span class="op">&gt;</span> out.fasta</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="08-Useful_Tools_and_Considerations.html#cb26-1" tabindex="-1"></a><span class="ex">seqtk</span> seq <span class="at">-a</span> in.fastq <span class="op">&gt;</span> out.fasta</span></code></pre></div>
 <ul>
 <li>subsample paired reads from fastq files</li>
 </ul>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="08-Useful_Tools_and_Considerations.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">seqtk</span> sample <span class="at">-s100</span> read1.fastq 10000 <span class="op">&gt;</span> subsample1.fastq</span>
-<span id="cb27-2"><a href="08-Useful_Tools_and_Considerations.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">seqtk</span> sample <span class="at">-s100</span> read2.fastq 10000 <span class="op">&gt;</span> subsample2.fastq</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="08-Useful_Tools_and_Considerations.html#cb27-1" tabindex="-1"></a><span class="ex">seqtk</span> sample <span class="at">-s100</span> read1.fastq 10000 <span class="op">&gt;</span> subsample1.fastq</span>
+<span id="cb27-2"><a href="08-Useful_Tools_and_Considerations.html#cb27-2" tabindex="-1"></a><span class="ex">seqtk</span> sample <span class="at">-s100</span> read2.fastq 10000 <span class="op">&gt;</span> subsample2.fastq</span></code></pre></div>
 <p>For more information on how these commands work and for further commands please see the link below.</p>
 <p><strong>Github:</strong> <a href="https://github.com/lh3/seqtk" class="uri">https://github.com/lh3/seqtk</a></p>
 </div>
@@ -275,7 +279,7 @@ Sometimes a fasta/fastq file will need to be modified to be properly used with a
 <h3><span class="header-section-number">A.3.3</span> FASTX-Toolkit<a href="08-Useful_Tools_and_Considerations.html#fastx-toolkit" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A tool to process fasta or fastq files. It is quite useful but unfortunately does not take paired read information into context. This means if a read is removed from the reverse read it will not necessarily be removed from the forward file.</p>
 <p>My favourite tool from this is 'fasta_formatter'. It can be used to set the maximum number of bases that will be on one line in a fasta file. I primarily use this so that each seq in a fasta file is on one line.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="08-Useful_Tools_and_Considerations.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fasta_formatter</span> <span class="at">-i</span> in.fasta <span class="at">-o</span> out.fasta <span class="at">-w</span> 0</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="08-Useful_Tools_and_Considerations.html#cb28-1" tabindex="-1"></a><span class="ex">fasta_formatter</span> <span class="at">-i</span> in.fasta <span class="at">-o</span> out.fasta <span class="at">-w</span> 0</span></code></pre></div>
 <p><strong>Main page:</strong> <a href="http://hannonlab.cshl.edu/fastx_toolkit/" class="uri">http://hannonlab.cshl.edu/fastx_toolkit/</a></p>
 <p><strong>Commands:</strong> <a href="http://hannonlab.cshl.edu/fastx_toolkit/commandline.html" class="uri">http://hannonlab.cshl.edu/fastx_toolkit/commandline.html</a></p>
 </div>
@@ -302,12 +306,12 @@ It is a great tool for installing bioinformatic packages including R packages.</
 <div id="illumina-qc-environment" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">B.2</span> Illumina QC environment<a href="08-Useful_Tools_and_Considerations.html#illumina-qc-environment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To create the mamba environment <code>illumina_qc</code> run the below commands in your bash. You will need to have installed <code>mamba</code> first.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="08-Useful_Tools_and_Considerations.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Illumina QC</span></span>
-<span id="cb29-2"><a href="08-Useful_Tools_and_Considerations.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> illumina_qc</span>
-<span id="cb29-3"><a href="08-Useful_Tools_and_Considerations.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> activate illumina_qc</span>
-<span id="cb29-4"><a href="08-Useful_Tools_and_Considerations.html#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> bioconda fastqc</span>
-<span id="cb29-5"><a href="08-Useful_Tools_and_Considerations.html#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> bioconda trimmomatic</span>
-<span id="cb29-6"><a href="08-Useful_Tools_and_Considerations.html#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> bioconda multiqc</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="08-Useful_Tools_and_Considerations.html#cb29-1" tabindex="-1"></a><span class="co">#Illumina QC</span></span>
+<span id="cb29-2"><a href="08-Useful_Tools_and_Considerations.html#cb29-2" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> illumina_qc</span>
+<span id="cb29-3"><a href="08-Useful_Tools_and_Considerations.html#cb29-3" tabindex="-1"></a><span class="ex">mamba</span> activate illumina_qc</span>
+<span id="cb29-4"><a href="08-Useful_Tools_and_Considerations.html#cb29-4" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> bioconda fastqc</span>
+<span id="cb29-5"><a href="08-Useful_Tools_and_Considerations.html#cb29-5" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> bioconda trimmomatic</span>
+<span id="cb29-6"><a href="08-Useful_Tools_and_Considerations.html#cb29-6" tabindex="-1"></a><span class="ex">mamba</span> install <span class="at">-c</span> bioconda multiqc</span></code></pre></div>
 
 </div>
 </div>
