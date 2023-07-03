@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 11 Taxa plots | R community analysis</title>
+  <meta name="description" content="NEOF book for the R community analysis workflow" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 11 Taxa plots | R community analysis" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the R community analysis workflow" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 11 Taxa plots | R community analysis" />
+  
+  <meta name="twitter:description" content="NEOF book for the R community analysis workflow" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Matthew R. Gemmell" />
+
+
+<meta name="date" content="2023-06-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="10-Relative_abundance.html"/>
+<link rel="next" href="12-Family_and_Genus_taxa.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li><a>R community analysis</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>Intro</b></span></li>
+<li class="chapter" data-level="1" data-path="01-R_community_main_workflow.html"><a href="01-R_community_main_workflow.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="02-Dataset_and_workflow.html"><a href="02-Dataset_and_workflow.html"><i class="fa fa-check"></i><b>2</b> Dataset &amp; workflow</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-Dataset_and_workflow.html"><a href="02-Dataset_and_workflow.html#dataset"><i class="fa fa-check"></i><b>2.1</b> Dataset</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="02-Dataset_and_workflow.html"><a href="02-Dataset_and_workflow.html#sites"><i class="fa fa-check"></i><b>2.1.1</b> Sites</a></li>
+<li class="chapter" data-level="2.1.2" data-path="02-Dataset_and_workflow.html"><a href="02-Dataset_and_workflow.html#culture-media"><i class="fa fa-check"></i><b>2.1.2</b> Culture media</a></li>
+<li class="chapter" data-level="2.1.3" data-path="02-Dataset_and_workflow.html"><a href="02-Dataset_and_workflow.html#sum_and_qs"><i class="fa fa-check"></i><b>2.1.3</b> Summary &amp; questions</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="02-Dataset_and_workflow.html"><a href="02-Dataset_and_workflow.html#workflow"><i class="fa fa-check"></i><b>2.2</b> Workflow</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-R_packages.html"><a href="03-R_packages.html"><i class="fa fa-check"></i><b>3</b> R Packages</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="03-R_packages.html"><a href="03-R_packages.html#r-packageslibraries"><i class="fa fa-check"></i><b>3.1</b> R packages/libraries</a></li>
+<li class="chapter" data-level="3.2" data-path="03-R_packages.html"><a href="03-R_packages.html#the-grammar-of-graphics"><i class="fa fa-check"></i><b>3.2</b> The grammar of graphics</a></li>
+<li class="chapter" data-level="3.3" data-path="03-R_packages.html"><a href="03-R_packages.html#phyloseq"><i class="fa fa-check"></i><b>3.3</b> phyloseq</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="04-Setup.html"><a href="04-Setup.html"><i class="fa fa-check"></i><b>4</b> Set-up</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-Setup.html"><a href="04-Setup.html#cluster"><i class="fa fa-check"></i><b>4.1</b> Logon instructions</a></li>
+<li class="chapter" data-level="4.2" data-path="04-Setup.html"><a href="04-Setup.html#mamba"><i class="fa fa-check"></i><b>4.2</b> Mamba</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="05-Jupyter.html"><a href="05-Jupyter.html"><i class="fa fa-check"></i><b>5</b> Jupyter</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-Jupyter.html"><a href="05-Jupyter.html#open-jupyter-notebook"><i class="fa fa-check"></i><b>5.1</b> Open Jupyter-notebook</a></li>
+<li class="chapter" data-level="5.2" data-path="05-Jupyter.html"><a href="05-Jupyter.html#create-r-notebook"><i class="fa fa-check"></i><b>5.2</b> Create R notebook</a></li>
+<li class="chapter" data-level="5.3" data-path="05-Jupyter.html"><a href="05-Jupyter.html#cells-and-code"><i class="fa fa-check"></i><b>5.3</b> Cells and code</a></li>
+<li class="chapter" data-level="5.4" data-path="05-Jupyter.html"><a href="05-Jupyter.html#create-new-cells"><i class="fa fa-check"></i><b>5.4</b> Create new cells</a></li>
+<li class="chapter" data-level="5.5" data-path="05-Jupyter.html"><a href="05-Jupyter.html#running-code"><i class="fa fa-check"></i><b>5.5</b> Running code</a></li>
+<li class="chapter" data-level="5.6" data-path="05-Jupyter.html"><a href="05-Jupyter.html#saving-the-file"><i class="fa fa-check"></i><b>5.6</b> Saving the file</a></li>
+<li class="chapter" data-level="5.7" data-path="05-Jupyter.html"><a href="05-Jupyter.html#title-cells-with-markdown"><i class="fa fa-check"></i><b>5.7</b> Title cells with markdown</a></li>
+<li class="chapter" data-level="5.8" data-path="05-Jupyter.html"><a href="05-Jupyter.html#close-the-notebook"><i class="fa fa-check"></i><b>5.8</b> Close the notebook</a></li>
+<li class="chapter" data-level="5.9" data-path="05-Jupyter.html"><a href="05-Jupyter.html#video-tutorial"><i class="fa fa-check"></i><b>5.9</b> Video tutorial</a></li>
+</ul></li>
+<li class="part"><span><b>Data preparation</b></span></li>
+<li class="chapter" data-level="6" data-path="06-Preprocess_part.html"><a href="06-Preprocess_part.html"><i class="fa fa-check"></i><b>6</b> Data prep intro</a></li>
+<li class="chapter" data-level="7" data-path="07-Import.html"><a href="07-Import.html"><i class="fa fa-check"></i><b>7</b> Import</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="07-Import.html"><a href="07-Import.html#import-notebook"><i class="fa fa-check"></i><b>7.1</b> Import: notebook</a></li>
+<li class="chapter" data-level="7.2" data-path="07-Import.html"><a href="07-Import.html#qiime2r"><i class="fa fa-check"></i><b>7.2</b> qiime2R</a></li>
+<li class="chapter" data-level="7.3" data-path="07-Import.html"><a href="07-Import.html#import-summarise-phyloseq"><i class="fa fa-check"></i><b>7.3</b> Import: Summarise phyloseq</a></li>
+<li class="chapter" data-level="7.4" data-path="07-Import.html"><a href="07-Import.html#save-the-phyloseq-object"><i class="fa fa-check"></i><b>7.4</b> Save the phyloseq object</a></li>
+<li class="chapter" data-level="7.5" data-path="07-Import.html"><a href="07-Import.html#import-recap"><i class="fa fa-check"></i><b>7.5</b> Import: recap</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="08-Summarise_phyloseq.html"><a href="08-Summarise_phyloseq.html"><i class="fa fa-check"></i><b>8</b> Summarise phyloseq</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="08-Summarise_phyloseq.html"><a href="08-Summarise_phyloseq.html#summarise-setup"><i class="fa fa-check"></i><b>8.1</b> Summarise: setup</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="08-Summarise_phyloseq.html"><a href="08-Summarise_phyloseq.html#summarise-header"><i class="fa fa-check"></i><b>8.1.1</b> Summarise header</a></li>
+<li class="chapter" data-level="8.1.2" data-path="08-Summarise_phyloseq.html"><a href="08-Summarise_phyloseq.html#summarise-phyloseq"><i class="fa fa-check"></i><b>8.1.2</b> Summarise phyloseq</a></li>
+<li class="chapter" data-level="8.1.3" data-path="08-Summarise_phyloseq.html"><a href="08-Summarise_phyloseq.html#reads-per-sample"><i class="fa fa-check"></i><b>8.1.3</b> Reads per sample</a></li>
+<li class="chapter" data-level="8.1.4" data-path="08-Summarise_phyloseq.html"><a href="08-Summarise_phyloseq.html#display-png"><i class="fa fa-check"></i><b>8.1.4</b> Display png</a></li>
+<li class="chapter" data-level="8.1.5" data-path="08-Summarise_phyloseq.html"><a href="08-Summarise_phyloseq.html#asvs-per-sample"><i class="fa fa-check"></i><b>8.1.5</b> ASVs per sample</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="08-Summarise_phyloseq.html"><a href="08-Summarise_phyloseq.html#summarise-recap"><i class="fa fa-check"></i><b>8.2</b> Summarise: recap</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html"><i class="fa fa-check"></i><b>9</b> Minimum read depth</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html#considerations"><i class="fa fa-check"></i><b>9.1</b> Considerations</a></li>
+<li class="chapter" data-level="9.2" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html#minimum-read-depth-section-title"><i class="fa fa-check"></i><b>9.2</b> Minimum read depth section title</a></li>
+<li class="chapter" data-level="9.3" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html#read-depth-vector-and-histogram"><i class="fa fa-check"></i><b>9.3</b> Read depth vector and histogram</a></li>
+<li class="chapter" data-level="9.4" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html#depth-boxplots"><i class="fa fa-check"></i><b>9.4</b> Sample depth boxplot</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html#creating-a-data-frame-for-boxplots"><i class="fa fa-check"></i><b>9.4.1</b> Creating a data frame for boxplots</a></li>
+<li class="chapter" data-level="9.4.2" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html#ggplot2-boxplot"><i class="fa fa-check"></i><b>9.4.2</b> ggplot2 boxplot</a></li>
+<li class="chapter" data-level="9.4.3" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html#save-ggplot-as-png"><i class="fa fa-check"></i><b>9.4.3</b> Save ggplot as png</a></li>
+<li class="chapter" data-level="9.4.4" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html#media-by-depth-boxplot"><i class="fa fa-check"></i><b>9.4.4</b> Media by depth boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html#chap9rarefaction"><i class="fa fa-check"></i><b>9.5</b> Rarefaction curve</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html#asv-abundance-data-frame"><i class="fa fa-check"></i><b>9.5.1</b> ASV abundance data frame</a></li>
+<li class="chapter" data-level="9.5.2" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html#vegans-rarecurve"><i class="fa fa-check"></i><b>9.5.2</b> vegan's rarecurve</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html#filtering-by-minimum-read-depth"><i class="fa fa-check"></i><b>9.6</b> Filtering by minimum read depth</a></li>
+<li class="chapter" data-level="9.7" data-path="09-Minimum_read_depth.html"><a href="09-Minimum_read_depth.html#minmum-read-depth-summary"><i class="fa fa-check"></i><b>9.7</b> Minmum read depth: Summary</a></li>
+</ul></li>
+<li class="part"><span><b>Taxonomy</b></span></li>
+<li class="chapter" data-level="10" data-path="10-Relative_abundance.html"><a href="10-Relative_abundance.html"><i class="fa fa-check"></i><b>10</b> Taxa relative abundance</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="10-Relative_abundance.html"><a href="10-Relative_abundance.html#taxa-relative-abundance-setup"><i class="fa fa-check"></i><b>10.1</b> Taxa relative abundance: setup</a></li>
+<li class="chapter" data-level="10.2" data-path="10-Relative_abundance.html"><a href="10-Relative_abundance.html#relative-abundance-transformation"><i class="fa fa-check"></i><b>10.2</b> Relative abundance transformation</a></li>
+<li class="chapter" data-level="10.3" data-path="10-Relative_abundance.html"><a href="10-Relative_abundance.html#aggregate-taxa"><i class="fa fa-check"></i><b>10.3</b> Aggregate taxa</a></li>
+<li class="chapter" data-level="10.4" data-path="10-Relative_abundance.html"><a href="10-Relative_abundance.html#taxa-relative-abundance-summary"><i class="fa fa-check"></i><b>10.4</b> Taxa Relative abundance: summary</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="11-Taxa_plots.html"><a href="11-Taxa_plots.html"><i class="fa fa-check"></i><b>11</b> Taxa plots</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="11-Taxa_plots.html"><a href="11-Taxa_plots.html#simple-bar-chart"><i class="fa fa-check"></i><b>11.1</b> Simple bar chart</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="11-Taxa_plots.html"><a href="11-Taxa_plots.html#editing-the-plot"><i class="fa fa-check"></i><b>11.1.1</b> Editing the plot</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="11-Taxa_plots.html"><a href="11-Taxa_plots.html#taxa-heatmap"><i class="fa fa-check"></i><b>11.2</b> Taxa heatmap</a></li>
+<li class="chapter" data-level="11.3" data-path="11-Taxa_plots.html"><a href="11-Taxa_plots.html#aggregateraretaxa"><i class="fa fa-check"></i><b>11.3</b> Aggregate rare taxa</a></li>
+<li class="chapter" data-level="11.4" data-path="11-Taxa_plots.html"><a href="11-Taxa_plots.html#plot-by-media"><i class="fa fa-check"></i><b>11.4</b> Plot by media</a></li>
+<li class="chapter" data-level="11.5" data-path="11-Taxa_plots.html"><a href="11-Taxa_plots.html#plot-by-site-and-media"><i class="fa fa-check"></i><b>11.5</b> Plot by site and media</a></li>
+<li class="chapter" data-level="11.6" data-path="11-Taxa_plots.html"><a href="11-Taxa_plots.html#taxa-plots-summary"><i class="fa fa-check"></i><b>11.6</b> Taxa plots: summary</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="12-Family_and_Genus_taxa.html"><a href="12-Family_and_Genus_taxa.html"><i class="fa fa-check"></i><b>12</b> Family &amp; Genus plots</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="12-Family_and_Genus_taxa.html"><a href="12-Family_and_Genus_taxa.html#family-taxa-plots"><i class="fa fa-check"></i><b>12.1</b> Family taxa plots</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="12-Family_and_Genus_taxa.html"><a href="12-Family_and_Genus_taxa.html#aggregate-families"><i class="fa fa-check"></i><b>12.1.1</b> Aggregate families</a></li>
+<li class="chapter" data-level="12.1.2" data-path="12-Family_and_Genus_taxa.html"><a href="12-Family_and_Genus_taxa.html#family-heatmap"><i class="fa fa-check"></i><b>12.1.2</b> Family heatmap</a></li>
+<li class="chapter" data-level="12.1.3" data-path="12-Family_and_Genus_taxa.html"><a href="12-Family_and_Genus_taxa.html#family-rare-aggregation"><i class="fa fa-check"></i><b>12.1.3</b> Family rare aggregation</a></li>
+<li class="chapter" data-level="12.1.4" data-path="12-Family_and_Genus_taxa.html"><a href="12-Family_and_Genus_taxa.html#family-bar-chart"><i class="fa fa-check"></i><b>12.1.4</b> Family bar chart</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="12-Family_and_Genus_taxa.html"><a href="12-Family_and_Genus_taxa.html#genus-taxa-plots"><i class="fa fa-check"></i><b>12.2</b> Genus taxa plots</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="12-Family_and_Genus_taxa.html"><a href="12-Family_and_Genus_taxa.html#genus-taxa-plots-solutions"><i class="fa fa-check"></i><b>12.2.1</b> Genus taxa plots solutions</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Diversity analysis</b></span></li>
+<li class="chapter" data-level="13" data-path="13-Diversity_analysis.html"><a href="13-Diversity_analysis.html"><i class="fa fa-check"></i><b>13</b> Diversity analysis intro</a></li>
+<li class="chapter" data-level="14" data-path="14-Rarefaction.html"><a href="14-Rarefaction.html"><i class="fa fa-check"></i><b>14</b> Rarefaction</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="14-Rarefaction.html"><a href="14-Rarefaction.html#rarefaction-setup"><i class="fa fa-check"></i><b>14.1</b> Rarefaction: setup</a></li>
+<li class="chapter" data-level="14.2" data-path="14-Rarefaction.html"><a href="14-Rarefaction.html#rarefaction-curve"><i class="fa fa-check"></i><b>14.2</b> Rarefaction curve</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="14-Rarefaction.html"><a href="14-Rarefaction.html#bird-analogy"><i class="fa fa-check"></i><b>14.2.1</b> Bird analogy</a></li>
+<li class="chapter" data-level="14.2.2" data-path="14-Rarefaction.html"><a href="14-Rarefaction.html#rarefaction-curve-simple-plot"><i class="fa fa-check"></i><b>14.2.2</b> Rarefaction curve: simple plot</a></li>
+<li class="chapter" data-level="14.2.3" data-path="14-Rarefaction.html"><a href="14-Rarefaction.html#rarefaction-curve-better-plot"><i class="fa fa-check"></i><b>14.2.3</b> Rarefaction curve: better plot</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="14-Rarefaction.html"><a href="14-Rarefaction.html#rarefaction-slope"><i class="fa fa-check"></i><b>14.3</b> Rarefaction slope</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Rarefaction.html"><a href="14-Rarefaction.html#rarefy-data"><i class="fa fa-check"></i><b>14.4</b> Rarefy data</a></li>
+<li class="chapter" data-level="14.5" data-path="14-Rarefaction.html"><a href="14-Rarefaction.html#rarefaction-summary"><i class="fa fa-check"></i><b>14.5</b> Rarefaction: summary</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="15-Alpha.html"><a href="15-Alpha.html"><i class="fa fa-check"></i><b>15</b> Alpha diversity</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="15-Alpha.html"><a href="15-Alpha.html#alpha-setup"><i class="fa fa-check"></i><b>15.1</b> Alpha: setup</a></li>
+<li class="chapter" data-level="15.2" data-path="15-Alpha.html"><a href="15-Alpha.html#alpha-simple-plot"><i class="fa fa-check"></i><b>15.2</b> Alpha: simple plot</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="15-Alpha.html"><a href="15-Alpha.html#metric-choice"><i class="fa fa-check"></i><b>15.2.1</b> Metric choice</a></li>
+<li class="chapter" data-level="15.2.2" data-path="15-Alpha.html"><a href="15-Alpha.html#sample-grouping-box-plot"><i class="fa fa-check"></i><b>15.2.2</b> Sample grouping &amp; box plot</a></li>
+<li class="chapter" data-level="15.2.3" data-path="15-Alpha.html"><a href="15-Alpha.html#png-height-and-width-choice"><i class="fa fa-check"></i><b>15.2.3</b> PNG height and width choice</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="15-Alpha.html"><a href="15-Alpha.html#alpha-stats"><i class="fa fa-check"></i><b>15.3</b> Alpha: stats</a>
+<ul>
+<li class="chapter" data-level="15.3.1" data-path="15-Alpha.html"><a href="15-Alpha.html#alpha-stats-task"><i class="fa fa-check"></i><b>15.3.1</b> Alpha stats task</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="15-Alpha.html"><a href="15-Alpha.html#alpha-diversity-violin-plot"><i class="fa fa-check"></i><b>15.4</b> Alpha diversity: violin plot</a></li>
+<li class="chapter" data-level="15.5" data-path="15-Alpha.html"><a href="15-Alpha.html#alpha-site-plots-and-statistics"><i class="fa fa-check"></i><b>15.5</b> Alpha: Site plots and statistics</a></li>
+<li class="chapter" data-level="15.6" data-path="15-Alpha.html"><a href="15-Alpha.html#alpha-summary"><i class="fa fa-check"></i><b>15.6</b> Alpha: summary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="16-Beta.html"><a href="16-Beta.html"><i class="fa fa-check"></i><b>16</b> Beta</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="16-Beta.html"><a href="16-Beta.html#beta-setup"><i class="fa fa-check"></i><b>16.1</b> Beta: setup</a></li>
+<li class="chapter" data-level="16.2" data-path="16-Beta.html"><a href="16-Beta.html#beta-ordination"><i class="fa fa-check"></i><b>16.2</b> Beta: ordination</a></li>
+<li class="chapter" data-level="16.3" data-path="16-Beta.html"><a href="16-Beta.html#beta-plot-ordination"><i class="fa fa-check"></i><b>16.3</b> Beta: plot ordination</a></li>
+<li class="chapter" data-level="16.4" data-path="16-Beta.html"><a href="16-Beta.html#beta-statistics"><i class="fa fa-check"></i><b>16.4</b> Beta: statistics</a>
+<ul>
+<li class="chapter" data-level="16.4.1" data-path="16-Beta.html"><a href="16-Beta.html#permanova"><i class="fa fa-check"></i><b>16.4.1</b> PERMANOVA</a></li>
+<li class="chapter" data-level="16.4.2" data-path="16-Beta.html"><a href="16-Beta.html#pairwise-permanova"><i class="fa fa-check"></i><b>16.4.2</b> Pairwise PERMANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="16-Beta.html"><a href="16-Beta.html#beta-facet-zoom"><i class="fa fa-check"></i><b>16.5</b> Beta: Facet zoom</a></li>
+<li class="chapter" data-level="16.6" data-path="16-Beta.html"><a href="16-Beta.html#beta-subset-samples"><i class="fa fa-check"></i><b>16.6</b> Beta: subset samples</a></li>
+<li class="chapter" data-level="16.7" data-path="16-Beta.html"><a href="16-Beta.html#permanova-tasks"><i class="fa fa-check"></i><b>16.7</b> PERMANOVA tasks</a></li>
+<li class="chapter" data-level="16.8" data-path="16-Beta.html"><a href="16-Beta.html#beta-summary"><i class="fa fa-check"></i><b>16.8</b> Beta: Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="17-Differential_abundance_analysis.html"><a href="17-Differential_abundance_analysis.html"><i class="fa fa-check"></i><b>17</b> Differential abundance (DA) analysis</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="17-Differential_abundance_analysis.html"><a href="17-Differential_abundance_analysis.html#da-setup"><i class="fa fa-check"></i><b>17.1</b> DA: setup</a></li>
+<li class="chapter" data-level="17.2" data-path="17-Differential_abundance_analysis.html"><a href="17-Differential_abundance_analysis.html#da-preprocess"><i class="fa fa-check"></i><b>17.2</b> DA: Preprocess</a></li>
+<li class="chapter" data-level="17.3" data-path="17-Differential_abundance_analysis.html"><a href="17-Differential_abundance_analysis.html#da-ancom-bc-analysis"><i class="fa fa-check"></i><b>17.3</b> DA: ANCOM-BC analysis</a>
+<ul>
+<li class="chapter" data-level="17.3.1" data-path="17-Differential_abundance_analysis.html"><a href="17-Differential_abundance_analysis.html#ancombc2-options"><i class="fa fa-check"></i><b>17.3.1</b> ANCOMBC2 options</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="17-Differential_abundance_analysis.html"><a href="17-Differential_abundance_analysis.html#da-ancom-bc-results"><i class="fa fa-check"></i><b>17.4</b> DA: ANCOM-BC results</a></li>
+<li class="chapter" data-level="17.5" data-path="17-Differential_abundance_analysis.html"><a href="17-Differential_abundance_analysis.html#da-create-signifcant-lfc-long-data-frame"><i class="fa fa-check"></i><b>17.5</b> DA: Create signifcant LFC long data frame</a></li>
+<li class="chapter" data-level="17.6" data-path="17-Differential_abundance_analysis.html"><a href="17-Differential_abundance_analysis.html#da-biomarker-lfc-heatmap"><i class="fa fa-check"></i><b>17.6</b> DA: Biomarker LFC heatmap</a></li>
+<li class="chapter" data-level="17.7" data-path="17-Differential_abundance_analysis.html"><a href="17-Differential_abundance_analysis.html#da-matching-bar-plot"><i class="fa fa-check"></i><b>17.7</b> DA: matching bar plot</a></li>
+<li class="chapter" data-level="17.8" data-path="17-Differential_abundance_analysis.html"><a href="17-Differential_abundance_analysis.html#da-summary"><i class="fa fa-check"></i><b>17.8</b> DA: summary</a></li>
+</ul></li>
+<li class="part"><span><b>Outro</b></span></li>
+<li class="chapter" data-level="18" data-path="18-Summary.html"><a href="18-Summary.html"><i class="fa fa-check"></i><b>18</b> Summary</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="18-Summary.html"><a href="18-Summary.html#dataset-1"><i class="fa fa-check"></i><b>18.1</b> Dataset</a></li>
+<li class="chapter" data-level="18.2" data-path="18-Summary.html"><a href="18-Summary.html#data-preparation"><i class="fa fa-check"></i><b>18.2</b> Data preparation</a></li>
+<li class="chapter" data-level="18.3" data-path="18-Summary.html"><a href="18-Summary.html#taxonomy"><i class="fa fa-check"></i><b>18.3</b> Taxonomy</a></li>
+<li class="chapter" data-level="18.4" data-path="18-Summary.html"><a href="18-Summary.html#diversity-analysis"><i class="fa fa-check"></i><b>18.4</b> Diversity analysis</a>
+<ul>
+<li class="chapter" data-level="18.4.1" data-path="18-Summary.html"><a href="18-Summary.html#alpha-beta"><i class="fa fa-check"></i><b>18.4.1</b> Alpha &amp; beta</a></li>
+<li class="chapter" data-level="18.4.2" data-path="18-Summary.html"><a href="18-Summary.html#differential-abundance-anlaysis"><i class="fa fa-check"></i><b>18.4.2</b> Differential abundance anlaysis</a></li>
+</ul></li>
+<li class="chapter" data-level="18.5" data-path="18-Summary.html"><a href="18-Summary.html#findings"><i class="fa fa-check"></i><b>18.5</b> Findings</a>
+<ul>
+<li class="chapter" data-level="18.5.1" data-path="18-Summary.html"><a href="18-Summary.html#anthropisation-gradient"><i class="fa fa-check"></i><b>18.5.1</b> Anthropisation gradient</a></li>
+<li class="chapter" data-level="18.5.2" data-path="18-Summary.html"><a href="18-Summary.html#replicate-differences"><i class="fa fa-check"></i><b>18.5.2</b> Replicate differences</a></li>
+<li class="chapter" data-level="18.5.3" data-path="18-Summary.html"><a href="18-Summary.html#site-or-media"><i class="fa fa-check"></i><b>18.5.3</b> Site or media</a></li>
+<li class="chapter" data-level="18.5.4" data-path="18-Summary.html"><a href="18-Summary.html#media-versus-env-samples"><i class="fa fa-check"></i><b>18.5.4</b> Media versus ENV samples</a></li>
+</ul></li>
+<li class="chapter" data-level="18.6" data-path="18-Summary.html"><a href="18-Summary.html#conclusion"><i class="fa fa-check"></i><b>18.6</b> Conclusion</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="19-Appendix.html"><a href="19-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="19-Appendix.html"><a href="19-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>A.1</b> Mamba installation and environment</a></li>
+<li class="chapter" data-level="A.2" data-path="19-Appendix.html"><a href="19-Appendix.html#jupyter_appendix"><i class="fa fa-check"></i><b>A.2</b> Jupyter-notebook</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="19-Appendix.html"><a href="19-Appendix.html#r-packages-1"><i class="fa fa-check"></i><b>B</b> R packages</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="19-Appendix.html"><a href="19-Appendix.html#ggplot2_appendix"><i class="fa fa-check"></i><b>B.1</b> ggplot2</a></li>
+<li class="chapter" data-level="B.2" data-path="19-Appendix.html"><a href="19-Appendix.html#phyloseq_appendix"><i class="fa fa-check"></i><b>B.2</b> Phyloseq</a></li>
+<li class="chapter" data-level="B.3" data-path="19-Appendix.html"><a href="19-Appendix.html#importing-into-phyloseq"><i class="fa fa-check"></i><b>B.3</b> Importing into phyloseq</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="19-Appendix.html"><a href="19-Appendix.html#diversity-metrics"><i class="fa fa-check"></i><b>C</b> Diversity metrics</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="19-Appendix.html"><a href="19-Appendix.html#alpha_appendix"><i class="fa fa-check"></i><b>C.1</b> Alpha diversity</a>
+<ul>
+<li class="chapter" data-level="C.1.1" data-path="19-Appendix.html"><a href="19-Appendix.html#obvs"><i class="fa fa-check"></i><b>C.1.1</b> Observed features</a></li>
+<li class="chapter" data-level="C.1.2" data-path="19-Appendix.html"><a href="19-Appendix.html#chao"><i class="fa fa-check"></i><b>C.1.2</b> Chao</a></li>
+<li class="chapter" data-level="C.1.3" data-path="19-Appendix.html"><a href="19-Appendix.html#evenness"><i class="fa fa-check"></i><b>C.1.3</b> Evenness</a></li>
+<li class="chapter" data-level="C.1.4" data-path="19-Appendix.html"><a href="19-Appendix.html#faith"><i class="fa fa-check"></i><b>C.1.4</b> Faith's PD (phylogenetic diversity)</a></li>
+<li class="chapter" data-level="C.1.5" data-path="19-Appendix.html"><a href="19-Appendix.html#simpson"><i class="fa fa-check"></i><b>C.1.5</b> Simpson</a></li>
+<li class="chapter" data-level="C.1.6" data-path="19-Appendix.html"><a href="19-Appendix.html#simpsone"><i class="fa fa-check"></i><b>C.1.6</b> Simpson evenness measure (simpson_e)</a></li>
+<li class="chapter" data-level="C.1.7" data-path="19-Appendix.html"><a href="19-Appendix.html#shannon"><i class="fa fa-check"></i><b>C.1.7</b> Shannon</a></li>
+</ul></li>
+<li class="chapter" data-level="C.2" data-path="19-Appendix.html"><a href="19-Appendix.html#beta_appendix"><i class="fa fa-check"></i><b>C.2</b> Beta diversity</a>
+<ul>
+<li class="chapter" data-level="C.2.1" data-path="19-Appendix.html"><a href="19-Appendix.html#unifrac_explanation"><i class="fa fa-check"></i><b>C.2.1</b> Weighted and unweighted UniFrac distances</a></li>
+<li class="chapter" data-level="C.2.2" data-path="19-Appendix.html"><a href="19-Appendix.html#bray_explanation"><i class="fa fa-check"></i><b>C.2.2</b> Bray-Curtis</a></li>
+</ul></li>
+<li class="chapter" data-level="C.3" data-path="19-Appendix.html"><a href="19-Appendix.html#diversity-resources"><i class="fa fa-check"></i><b>C.3</b> Diversity Resources</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R community analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chaptaxaplots" class="section level1 hasAnchor" number="11">
+<h1><span class="header-section-number">Chapter 11</span> Taxa plots<a href="11-Taxa_plots.html#chaptaxaplots" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/owl_eyes.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>Now that we have our Genus relative abundance <code>phyloseq</code> we can create a bar chart.</p>
+<div id="simple-bar-chart" class="section level2 hasAnchor" number="11.1">
+<h2><span class="header-section-number">11.1</span> Simple bar chart<a href="11-Taxa_plots.html#simple-bar-chart" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/bar_chart.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>To create, save, and view a simple genus bar chart we can use the following code.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="11-Taxa_plots.html#cb47-1" tabindex="-1"></a><span class="co">#Simple bar chart</span></span>
+<span id="cb47-2"><a href="11-Taxa_plots.html#cb47-2" tabindex="-1"></a>phylum_bar <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">plot_composition</span>(phylum_pseq)</span>
+<span id="cb47-3"><a href="11-Taxa_plots.html#cb47-3" tabindex="-1"></a><span class="co">#Save ggplot object as png file</span></span>
+<span id="cb47-4"><a href="11-Taxa_plots.html#cb47-4" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./phylum_relabund_simple.png&quot;</span>, <span class="at">plot =</span> phylum_bar,</span>
+<span id="cb47-5"><a href="11-Taxa_plots.html#cb47-5" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">300</span>)</span>
+<span id="cb47-6"><a href="11-Taxa_plots.html#cb47-6" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
+<span id="cb47-7"><a href="11-Taxa_plots.html#cb47-7" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./phylum_relabund_simple.png&quot;</span>)</span></code></pre></div>
+<p>This is a good start but we can improve it.</p>
+<div id="editing-the-plot" class="section level3 hasAnchor" number="11.1.1">
+<h3><span class="header-section-number">11.1.1</span> Editing the plot<a href="11-Taxa_plots.html#editing-the-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/plus_sign.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Components can be added to <code>ggplot2</code> objects to edit the plot.
+They are added with the <code>+</code> symbol.</p>
+<p>Go to the cell where you created your plot and add components so it looks like the below:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="11-Taxa_plots.html#cb48-1" tabindex="-1"></a><span class="co">#Simple bar chart</span></span>
+<span id="cb48-2"><a href="11-Taxa_plots.html#cb48-2" tabindex="-1"></a>phylum_bar <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">plot_composition</span>(phylum_pseq) <span class="sc">+</span></span>
+<span id="cb48-3"><a href="11-Taxa_plots.html#cb48-3" tabindex="-1"></a>  <span class="co">#Change/add the x and y labels</span></span>
+<span id="cb48-4"><a href="11-Taxa_plots.html#cb48-4" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Sample&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Relative abundance&quot;</span>) <span class="sc">+</span></span>
+<span id="cb48-5"><a href="11-Taxa_plots.html#cb48-5" tabindex="-1"></a>  <span class="co">#Add a title to the plot</span></span>
+<span id="cb48-6"><a href="11-Taxa_plots.html#cb48-6" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Phylum relative abundance bar chart&quot;</span>)</span></code></pre></div>
+<p>Now save and display the plot.</p>
+</div>
+</div>
+<div id="taxa-heatmap" class="section level2 hasAnchor" number="11.2">
+<h2><span class="header-section-number">11.2</span> Taxa heatmap<a href="11-Taxa_plots.html#taxa-heatmap" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/heatmap.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Our bar chart looks quite nice but for displaying all taxa present it may be better to use a heatmap.
+Use the below code to produce and visualise a heatmap.</p>
+<p><strong>Tip</strong>: I encourage you to copy and paste your previous bar chart code to edit.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="11-Taxa_plots.html#cb49-1" tabindex="-1"></a><span class="co">#Produce heatmap ggplot</span></span>
+<span id="cb49-2"><a href="11-Taxa_plots.html#cb49-2" tabindex="-1"></a>phylum_heatmap <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">plot_composition</span>(phylum_pseq, <span class="at">plot.type =</span> <span class="st">&quot;heatmap&quot;</span>) <span class="sc">+</span></span>
+<span id="cb49-3"><a href="11-Taxa_plots.html#cb49-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Phylum&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Sample&quot;</span>) <span class="sc">+</span></span>
+<span id="cb49-4"><a href="11-Taxa_plots.html#cb49-4" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Phylum relative abundance heatmap&quot;</span>)</span>
+<span id="cb49-5"><a href="11-Taxa_plots.html#cb49-5" tabindex="-1"></a><span class="co">#Save ggplot object as png file</span></span>
+<span id="cb49-6"><a href="11-Taxa_plots.html#cb49-6" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./phylum_relabund_heatmap.png&quot;</span>, <span class="at">plot =</span> phylum_heatmap,</span>
+<span id="cb49-7"><a href="11-Taxa_plots.html#cb49-7" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">300</span>)</span>
+<span id="cb49-8"><a href="11-Taxa_plots.html#cb49-8" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
+<span id="cb49-9"><a href="11-Taxa_plots.html#cb49-9" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./phylum_relabund_heatmap.png&quot;</span>)</span></code></pre></div>
+<p>With the heatmap it is much easier to tell what the relative abundances of different phyla are.</p>
+<ul>
+<li>What is the most abundant phyla across the samples?
+<div id="radio_UJBOWZXAPF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UJBOWZXAPF" value=""></input> <span><strong>Chloroflexi</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UJBOWZXAPF" value=""></input> <span><strong>Firmicutes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UJBOWZXAPF" value="answer"></input> <span><strong>Proteobacteria</strong></span></label>
+</div></li>
+</ul>
+</div>
+<div id="aggregateraretaxa" class="section level2 hasAnchor" number="11.3">
+<h2><span class="header-section-number">11.3</span> Aggregate rare taxa<a href="11-Taxa_plots.html#aggregateraretaxa" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/origami_rhino.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>From our bar chart and our heatmap we can see that there are a few high abundance phyla (Actinobacteria, Bacteroidetes, Firmicutes, &amp; Proteobacteria) and many low abundance phyla.</p>
+<p>To make a better visualisation we will aggregate the rare phyla.
+This will give us less phyla to plot so we don't need to use so many colours.</p>
+<p>To carry this out we will use the <code>microbiome</code> function <code>aggregate_rare()</code>.
+The function has three main options:</p>
+<ul>
+<li><strong><code>level =</code></strong>: Taxa level to aggregate table.</li>
+<li><strong><code>detection =</code></strong>: Detection threshold (see below).</li>
+<li><strong><code>prevalence =</code></strong>: Prevalence threshold (see below).</li>
+</ul>
+<p>The function will aggregate taxa to our specified level.
+Whilst doing this it will aggregate the rare taxa of that level to one group called "Other".
+Rare taxa are specified via the <strong>detection</strong> and <strong>prevalence</strong> thresholds.
+Any taxa with an abundance &gt;= to the <strong>detection</strong> threshold in a number of samples &gt;= to the <strong>prevalence</strong> threshold will be kept.
+The taxa which don't reach these thresholds will be classified as rare and aggregated into "Other".</p>
+<p>In the below example we are aggregating the rare taxa with our ASV relative abundance <code>phyloseq</code> object.
+Any phyla with a relative abundance &gt;= to 0.01 (<strong>detection</strong>) in at least 5% (5/100) of the samples will not be classified as rare.</p>
+<p>More info on <a href="https://microbiome.github.io/OMA/quality-control.html#prevalence">Prevalence &amp; detection</a>.</p>
+<p><strong>Note</strong>: The <strong>detection</strong> and <strong>prevalence</strong> thresholds can be given as numbers (1, 2, 1000 etc.), or percentage values (5/100, 50/100, etc.).</p>
+<p>Aggregate the relative abundance table to phyla with the rare thresholds:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="11-Taxa_plots.html#cb50-1" tabindex="-1"></a><span class="co">#Aggregate rare phyla</span></span>
+<span id="cb50-2"><a href="11-Taxa_plots.html#cb50-2" tabindex="-1"></a>phylum_rareaggregate_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_rare</span>(</span>
+<span id="cb50-3"><a href="11-Taxa_plots.html#cb50-3" tabindex="-1"></a>  pseq_relabund, <span class="at">level =</span> <span class="st">&quot;Phylum&quot;</span>,</span>
+<span id="cb50-4"><a href="11-Taxa_plots.html#cb50-4" tabindex="-1"></a>  <span class="at">detection =</span> <span class="fl">0.01</span>, <span class="at">prevalence =</span> <span class="dv">5</span><span class="sc">/</span><span class="dv">100</span></span>
+<span id="cb50-5"><a href="11-Taxa_plots.html#cb50-5" tabindex="-1"></a>)</span></code></pre></div>
+<p>We will plot this as a new taxonomy bar chart with some additions:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="11-Taxa_plots.html#cb51-1" tabindex="-1"></a><span class="co">#Plot</span></span>
+<span id="cb51-2"><a href="11-Taxa_plots.html#cb51-2" tabindex="-1"></a><span class="co">#Add otu.sort to sort phyla by abundance (highest to lowest)</span></span>
+<span id="cb51-3"><a href="11-Taxa_plots.html#cb51-3" tabindex="-1"></a>phylum_bar <span class="ot">&lt;-</span> </span>
+<span id="cb51-4"><a href="11-Taxa_plots.html#cb51-4" tabindex="-1"></a>  microbiome<span class="sc">::</span><span class="fu">plot_composition</span>(phylum_rareaggregate_pseq, </span>
+<span id="cb51-5"><a href="11-Taxa_plots.html#cb51-5" tabindex="-1"></a>                               <span class="at">otu.sort =</span><span class="st">&quot;abundance&quot;</span>) <span class="sc">+</span></span>
+<span id="cb51-6"><a href="11-Taxa_plots.html#cb51-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Sample&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Relative abundance&quot;</span>) <span class="sc">+</span></span>
+<span id="cb51-7"><a href="11-Taxa_plots.html#cb51-7" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Phylum relative abundance bar chart&quot;</span>) <span class="sc">+</span></span>
+<span id="cb51-8"><a href="11-Taxa_plots.html#cb51-8" tabindex="-1"></a>  <span class="co">#Change colours of Phylum to that of the &quot;Paired&quot; palette from colour brewer</span></span>
+<span id="cb51-9"><a href="11-Taxa_plots.html#cb51-9" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="st">&quot;Phylum&quot;</span>, <span class="at">palette =</span> <span class="st">&quot;Paired&quot;</span>)</span>
+<span id="cb51-10"><a href="11-Taxa_plots.html#cb51-10" tabindex="-1"></a><span class="co">#Save ggplot object as png</span></span>
+<span id="cb51-11"><a href="11-Taxa_plots.html#cb51-11" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./phylum_relabund_rareaggregate.png&quot;</span>, <span class="at">plot =</span> phylum_bar,</span>
+<span id="cb51-12"><a href="11-Taxa_plots.html#cb51-12" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">300</span>)</span>
+<span id="cb51-13"><a href="11-Taxa_plots.html#cb51-13" tabindex="-1"></a><span class="co">#Display plot</span></span>
+<span id="cb51-14"><a href="11-Taxa_plots.html#cb51-14" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./phylum_relabund_rareaggregate.png&quot;</span>)</span></code></pre></div>
+<div class="webex-solution">
+<button>
+Colour brewer palettes
+</button>
+<p><img src="figures/colour_brewer_palettes.png" width="80%" style="display: block; margin: auto;" />
+<a href="https://r-graph-gallery.com/38-rcolorbrewers-palettes.html">Source</a></p>
+</div>
+<p>That is a very nice and clean bar chart.
+We can quite easily see that there are 7 main phyla (excluding other).
+Additionally, it seems that the biggest difference between samples is due to the media used.</p>
+</div>
+<div id="plot-by-media" class="section level2 hasAnchor" number="11.4">
+<h2><span class="header-section-number">11.4</span> Plot by media<a href="11-Taxa_plots.html#plot-by-media" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/petri.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>One of the many great advantages of <code>ggplot2</code> is that you can create plots tailored to your metadata.
+As an example we will create another taxonomy bar chart but have one bar for each media site.</p>
+<p>We'll use a very similar code as the above bar chart but add the <code>microbiome::plot_composition</code> option <code>average_by =</code>.
+With this we will average the rare aggregated relative abundance values by the four different media.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="11-Taxa_plots.html#cb52-1" tabindex="-1"></a><span class="co">#Plot by media</span></span>
+<span id="cb52-2"><a href="11-Taxa_plots.html#cb52-2" tabindex="-1"></a>phylum_media_bar <span class="ot">&lt;-</span> </span>
+<span id="cb52-3"><a href="11-Taxa_plots.html#cb52-3" tabindex="-1"></a>  microbiome<span class="sc">::</span><span class="fu">plot_composition</span>(phylum_rareaggregate_pseq, </span>
+<span id="cb52-4"><a href="11-Taxa_plots.html#cb52-4" tabindex="-1"></a>                               <span class="at">otu.sort =</span><span class="st">&quot;abundance&quot;</span>,</span>
+<span id="cb52-5"><a href="11-Taxa_plots.html#cb52-5" tabindex="-1"></a>                               <span class="at">average_by =</span> <span class="st">&quot;media&quot;</span>) <span class="sc">+</span></span>
+<span id="cb52-6"><a href="11-Taxa_plots.html#cb52-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Sample&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Relative abundance&quot;</span>) <span class="sc">+</span></span>
+<span id="cb52-7"><a href="11-Taxa_plots.html#cb52-7" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Phylum relative abundance bar chart by media&quot;</span>) <span class="sc">+</span></span>
+<span id="cb52-8"><a href="11-Taxa_plots.html#cb52-8" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="st">&quot;Phylum&quot;</span>, <span class="at">palette =</span> <span class="st">&quot;Paired&quot;</span>)</span>
+<span id="cb52-9"><a href="11-Taxa_plots.html#cb52-9" tabindex="-1"></a><span class="co">#Save ggplot object as png</span></span>
+<span id="cb52-10"><a href="11-Taxa_plots.html#cb52-10" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./phylum_relabund_media_rareaggregate.png&quot;</span>, <span class="at">plot =</span> phylum_media_bar,</span>
+<span id="cb52-11"><a href="11-Taxa_plots.html#cb52-11" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">300</span>)</span>
+<span id="cb52-12"><a href="11-Taxa_plots.html#cb52-12" tabindex="-1"></a><span class="co">#Display plot</span></span>
+<span id="cb52-13"><a href="11-Taxa_plots.html#cb52-13" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./phylum_relabund_media_rareaggregate.png&quot;</span>)</span></code></pre></div>
+<p>Now we get a good picture of which medias have the highest and lowest phlya diversity.
+The Environmental samples (ENV) definitely have the highest diversity with clear presence of all phyla.</p>
+Which media has the highest relative abundance of <em>Protoebacteria</em> and the lowest phyla diversity (excluding ENV)?
+<div id="radio_DXDRWCMNLQ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DXDRWCMNLQ" value="answer"></input> <span><strong>CVP</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DXDRWCMNLQ" value=""></input> <span><strong>KBC</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DXDRWCMNLQ" value=""></input> <span><strong>TSA</strong></span></label>
+</div>
+Which media has the lowest relative abundance of <em>Protoebacteria</em> and the highest phyla diversity (excluding ENV)?
+<div id="radio_YQVSCKKMEO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YQVSCKKMEO" value=""></input> <span><strong>CVP</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YQVSCKKMEO" value=""></input> <span><strong>KBC</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YQVSCKKMEO" value="answer"></input> <span><strong>TSA</strong></span></label>
+</div>
+<p>Later in this book we will investigate diversity more thoroughly with alpha and beta diversity visualisation and statistics.</p>
+</div>
+<div id="plot-by-site-and-media" class="section level2 hasAnchor" number="11.5">
+<h2><span class="header-section-number">11.5</span> Plot by site and media<a href="11-Taxa_plots.html#plot-by-site-and-media" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/site_and_media.png" width="35%" style="display: block; margin: auto;" /></p>
+<p><strong>Task</strong>: In the <code>sample_data</code> there is a column called <code>site.media</code>.
+Use this column to create a phyla bar chart averaged by site and media.
+Please make a good effort at the task before looking at the solution in the below box.</p>
+<div class="webex-solution">
+<button>
+Site and media bar chart solution
+</button>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="11-Taxa_plots.html#cb53-1" tabindex="-1"></a><span class="co">#Plot by site and media</span></span>
+<span id="cb53-2"><a href="11-Taxa_plots.html#cb53-2" tabindex="-1"></a>phylum_site_media_bar <span class="ot">&lt;-</span> </span>
+<span id="cb53-3"><a href="11-Taxa_plots.html#cb53-3" tabindex="-1"></a>  microbiome<span class="sc">::</span><span class="fu">plot_composition</span>(phylum_rareaggregate_pseq, </span>
+<span id="cb53-4"><a href="11-Taxa_plots.html#cb53-4" tabindex="-1"></a>                               <span class="at">otu.sort =</span><span class="st">&quot;abundance&quot;</span>,</span>
+<span id="cb53-5"><a href="11-Taxa_plots.html#cb53-5" tabindex="-1"></a>                               <span class="at">average_by =</span> <span class="st">&quot;site.media&quot;</span>) <span class="sc">+</span></span>
+<span id="cb53-6"><a href="11-Taxa_plots.html#cb53-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Sample&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Relative abundance&quot;</span>) <span class="sc">+</span></span>
+<span id="cb53-7"><a href="11-Taxa_plots.html#cb53-7" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Phylum relative abundance bar chart by site &amp; media&quot;</span>) <span class="sc">+</span></span>
+<span id="cb53-8"><a href="11-Taxa_plots.html#cb53-8" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="st">&quot;Phylum&quot;</span>, <span class="at">palette =</span> <span class="st">&quot;Paired&quot;</span>)</span>
+<span id="cb53-9"><a href="11-Taxa_plots.html#cb53-9" tabindex="-1"></a><span class="co">#Save ggplot object as png</span></span>
+<span id="cb53-10"><a href="11-Taxa_plots.html#cb53-10" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./phylum_relabund_site_media_rareaggregate.png&quot;</span>, <span class="at">plot =</span> phylum_site_media_bar,</span>
+<span id="cb53-11"><a href="11-Taxa_plots.html#cb53-11" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">300</span>)</span>
+<span id="cb53-12"><a href="11-Taxa_plots.html#cb53-12" tabindex="-1"></a><span class="co">#Display plot</span></span>
+<span id="cb53-13"><a href="11-Taxa_plots.html#cb53-13" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./phylum_relabund_site_media_rareaggregate.png&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="taxa-plots-summary" class="section level2 hasAnchor" number="11.6">
+<h2><span class="header-section-number">11.6</span> Taxa plots: summary<a href="11-Taxa_plots.html#taxa-plots-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/sum_purple.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>In this chapter we have:</p>
+<ul>
+<li>Created taxa bar charts with <code>microbiome</code> and <code>ggplot2</code>.</li>
+<li>Saved <code>ggplot2</code> plots as <code>pngs</code> with <code>ggsave()</code>.</li>
+<li>Displayed <code>pngs</code> with <code>IRdisplay::display_png()</code>.</li>
+<li>Produced taxa heatmaps.</li>
+<li>Aggregated rare taxa based on detection and prevalence.</li>
+<li>Grouped bars in bar charts by metadata groups.</li>
+</ul>
+<p>We will reinforce this by producing Family and Genus based plots in the next chapter.</p>
+
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="10-Relative_abundance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="12-Family_and_Genus_taxa.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
