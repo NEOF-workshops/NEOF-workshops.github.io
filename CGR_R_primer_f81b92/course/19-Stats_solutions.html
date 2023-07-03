@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-05-22" />
+<meta name="date" content="2023-07-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -404,15 +404,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">19.1</span> World happiness report solutions<a href="19-Stats_solutions.html#world-happiness-report-solutions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/world_happiness_solutions.png" width="20%" style="display: block; margin: auto;" />
 1. Read in the file</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="19-Stats_solutions.html#cb190-1" aria-hidden="true" tabindex="-1"></a>happy_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Chapter_17-18/world_happiness_report_2016.csv&quot;</span>, </span>
-<span id="cb190-2"><a href="19-Stats_solutions.html#cb190-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">check.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb190-3"><a href="19-Stats_solutions.html#cb190-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb190-4"><a href="19-Stats_solutions.html#cb190-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
-<span id="cb190-5"><a href="19-Stats_solutions.html#cb190-5" aria-hidden="true" tabindex="-1"></a>                      )</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="19-Stats_solutions.html#cb191-1" tabindex="-1"></a>happy_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Chapter_17-18/world_happiness_report_2016.csv&quot;</span>, </span>
+<span id="cb191-2"><a href="19-Stats_solutions.html#cb191-2" tabindex="-1"></a>                      <span class="at">check.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb191-3"><a href="19-Stats_solutions.html#cb191-3" tabindex="-1"></a>                      <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb191-4"><a href="19-Stats_solutions.html#cb191-4" tabindex="-1"></a>                      <span class="at">sep =</span> <span class="st">&quot;,&quot;</span></span>
+<span id="cb191-5"><a href="19-Stats_solutions.html#cb191-5" tabindex="-1"></a>                      )</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Answer the following questions using the output from one <strong>function</strong>:</li>
 </ol>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="19-Stats_solutions.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(happy_df)</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="19-Stats_solutions.html#cb192-1" tabindex="-1"></a><span class="fu">summary</span>(happy_df)</span></code></pre></div>
 <pre><code>##         Country                                Region   Happiness Rank   Happiness Score Lower Confidence Interval
 ##  Afghanistan:  1   Sub-Saharan Africa             :38   Min.   :  1.00   Min.   :2.905   Min.   :2.732            
 ##  Albania    :  1   Central and Eastern Europe     :29   1st Qu.: 40.00   1st Qu.:4.404   1st Qu.:4.327            
@@ -453,56 +453,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul>
 <p>3.Produce the plot</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="19-Stats_solutions.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Fit linear model of Economy (x) against Family (y)</span></span>
-<span id="cb193-2"><a href="19-Stats_solutions.html#cb193-2" aria-hidden="true" tabindex="-1"></a>fit_economy_family <span class="ot">&lt;-</span> </span>
-<span id="cb193-3"><a href="19-Stats_solutions.html#cb193-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(Family<span class="sc">~</span><span class="st">`</span><span class="at">Economy (GDP per Capita)</span><span class="st">`</span>, <span class="at">data =</span> happy_df)</span>
-<span id="cb193-4"><a href="19-Stats_solutions.html#cb193-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Create string for linear equation</span></span>
-<span id="cb193-5"><a href="19-Stats_solutions.html#cb193-5" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">round</span>(fit_economy_family<span class="sc">$</span>coefficients[<span class="dv">1</span>], <span class="at">digits =</span> <span class="dv">4</span>)</span>
-<span id="cb193-6"><a href="19-Stats_solutions.html#cb193-6" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">round</span>(fit_economy_family<span class="sc">$</span>coefficients[<span class="dv">2</span>], <span class="at">digits =</span> <span class="dv">4</span>)</span>
-<span id="cb193-7"><a href="19-Stats_solutions.html#cb193-7" aria-hidden="true" tabindex="-1"></a>lm_equation <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;y = &quot;</span>, m , <span class="st">&quot;x + &quot;</span>, c)</span>
-<span id="cb193-8"><a href="19-Stats_solutions.html#cb193-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Produce plot</span></span>
-<span id="cb193-9"><a href="19-Stats_solutions.html#cb193-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> happy_df<span class="sc">$</span><span class="st">`</span><span class="at">Economy (GDP per Capita)</span><span class="st">`</span>,</span>
-<span id="cb193-10"><a href="19-Stats_solutions.html#cb193-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> happy_df<span class="sc">$</span>Family,</span>
-<span id="cb193-11"><a href="19-Stats_solutions.html#cb193-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Comparison of the effect of </span><span class="sc">\n</span><span class="st"> Economy and Family on happiness&quot;</span>,</span>
-<span id="cb193-12"><a href="19-Stats_solutions.html#cb193-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Economy (GDP per Capita)&quot;</span>,</span>
-<span id="cb193-13"><a href="19-Stats_solutions.html#cb193-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Family&quot;</span>,</span>
-<span id="cb193-14"><a href="19-Stats_solutions.html#cb193-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="fu">as.numeric</span>(happy_df<span class="sc">$</span>Region),</span>
-<span id="cb193-15"><a href="19-Stats_solutions.html#cb193-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>),</span>
-<span id="cb193-16"><a href="19-Stats_solutions.html#cb193-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="dv">1</span>)</span>
-<span id="cb193-17"><a href="19-Stats_solutions.html#cb193-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Add abline</span></span>
-<span id="cb193-18"><a href="19-Stats_solutions.html#cb193-18" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(fit_economy_family, <span class="at">col =</span> <span class="st">&quot;mediumslateblue&quot;</span>)</span>
-<span id="cb193-19"><a href="19-Stats_solutions.html#cb193-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Add equation to top right</span></span>
-<span id="cb193-20"><a href="19-Stats_solutions.html#cb193-20" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fl">0.4</span>, <span class="at">y =</span> <span class="fl">1.1</span>, <span class="at">labels =</span> lm_equation)</span>
-<span id="cb193-21"><a href="19-Stats_solutions.html#cb193-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Add the legend</span></span>
-<span id="cb193-22"><a href="19-Stats_solutions.html#cb193-22" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="st">&quot;bottomright&quot;</span>,</span>
-<span id="cb193-23"><a href="19-Stats_solutions.html#cb193-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(happy_df<span class="sc">$</span>Region),</span>
-<span id="cb193-24"><a href="19-Stats_solutions.html#cb193-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(happy_df<span class="sc">$</span>Region))</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="19-Stats_solutions.html#cb194-1" tabindex="-1"></a><span class="co">#Fit linear model of Economy (x) against Family (y)</span></span>
+<span id="cb194-2"><a href="19-Stats_solutions.html#cb194-2" tabindex="-1"></a>fit_economy_family <span class="ot">&lt;-</span> </span>
+<span id="cb194-3"><a href="19-Stats_solutions.html#cb194-3" tabindex="-1"></a>  <span class="fu">lm</span>(Family<span class="sc">~</span><span class="st">`</span><span class="at">Economy (GDP per Capita)</span><span class="st">`</span>, <span class="at">data =</span> happy_df)</span>
+<span id="cb194-4"><a href="19-Stats_solutions.html#cb194-4" tabindex="-1"></a><span class="co">#Create string for linear equation</span></span>
+<span id="cb194-5"><a href="19-Stats_solutions.html#cb194-5" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">round</span>(fit_economy_family<span class="sc">$</span>coefficients[<span class="dv">1</span>], <span class="at">digits =</span> <span class="dv">4</span>)</span>
+<span id="cb194-6"><a href="19-Stats_solutions.html#cb194-6" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">round</span>(fit_economy_family<span class="sc">$</span>coefficients[<span class="dv">2</span>], <span class="at">digits =</span> <span class="dv">4</span>)</span>
+<span id="cb194-7"><a href="19-Stats_solutions.html#cb194-7" tabindex="-1"></a>lm_equation <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;y = &quot;</span>, m , <span class="st">&quot;x + &quot;</span>, c)</span>
+<span id="cb194-8"><a href="19-Stats_solutions.html#cb194-8" tabindex="-1"></a><span class="co">#Produce plot</span></span>
+<span id="cb194-9"><a href="19-Stats_solutions.html#cb194-9" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> happy_df<span class="sc">$</span><span class="st">`</span><span class="at">Economy (GDP per Capita)</span><span class="st">`</span>,</span>
+<span id="cb194-10"><a href="19-Stats_solutions.html#cb194-10" tabindex="-1"></a>     <span class="at">y =</span> happy_df<span class="sc">$</span>Family,</span>
+<span id="cb194-11"><a href="19-Stats_solutions.html#cb194-11" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Comparison of the effect of </span><span class="sc">\n</span><span class="st"> Economy and Family on happiness&quot;</span>,</span>
+<span id="cb194-12"><a href="19-Stats_solutions.html#cb194-12" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Economy (GDP per Capita)&quot;</span>,</span>
+<span id="cb194-13"><a href="19-Stats_solutions.html#cb194-13" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Family&quot;</span>,</span>
+<span id="cb194-14"><a href="19-Stats_solutions.html#cb194-14" tabindex="-1"></a>     <span class="at">pch =</span> <span class="fu">as.numeric</span>(happy_df<span class="sc">$</span>Region),</span>
+<span id="cb194-15"><a href="19-Stats_solutions.html#cb194-15" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>),</span>
+<span id="cb194-16"><a href="19-Stats_solutions.html#cb194-16" tabindex="-1"></a>     <span class="at">col =</span> <span class="dv">1</span>)</span>
+<span id="cb194-17"><a href="19-Stats_solutions.html#cb194-17" tabindex="-1"></a><span class="co">#Add abline</span></span>
+<span id="cb194-18"><a href="19-Stats_solutions.html#cb194-18" tabindex="-1"></a><span class="fu">abline</span>(fit_economy_family, <span class="at">col =</span> <span class="st">&quot;mediumslateblue&quot;</span>)</span>
+<span id="cb194-19"><a href="19-Stats_solutions.html#cb194-19" tabindex="-1"></a><span class="co">#Add equation to top right</span></span>
+<span id="cb194-20"><a href="19-Stats_solutions.html#cb194-20" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fl">0.4</span>, <span class="at">y =</span> <span class="fl">1.1</span>, <span class="at">labels =</span> lm_equation)</span>
+<span id="cb194-21"><a href="19-Stats_solutions.html#cb194-21" tabindex="-1"></a><span class="co">#Add the legend</span></span>
+<span id="cb194-22"><a href="19-Stats_solutions.html#cb194-22" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="st">&quot;bottomright&quot;</span>,</span>
+<span id="cb194-23"><a href="19-Stats_solutions.html#cb194-23" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(happy_df<span class="sc">$</span>Region),</span>
+<span id="cb194-24"><a href="19-Stats_solutions.html#cb194-24" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(happy_df<span class="sc">$</span>Region))</span></code></pre></div>
 <p><img src="CGR-R-primer-for-omics_files/figure-html/unnamed-chunk-355-1.png" width="768" /></p>
 <ol start="4" style="list-style-type: decimal">
 <li>Save plot as png file</li>
 </ol>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="19-Stats_solutions.html#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PNG command</span></span>
-<span id="cb194-2"><a href="19-Stats_solutions.html#cb194-2" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;Chapter_17-18/Economy_vs_family.png&quot;</span>, </span>
-<span id="cb194-3"><a href="19-Stats_solutions.html#cb194-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;in&quot;</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">res =</span> <span class="dv">200</span>)</span>
-<span id="cb194-4"><a href="19-Stats_solutions.html#cb194-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Produce plot</span></span>
-<span id="cb194-5"><a href="19-Stats_solutions.html#cb194-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> happy_df<span class="sc">$</span><span class="st">`</span><span class="at">Economy (GDP per Capita)</span><span class="st">`</span>,</span>
-<span id="cb194-6"><a href="19-Stats_solutions.html#cb194-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> happy_df<span class="sc">$</span>Family,</span>
-<span id="cb194-7"><a href="19-Stats_solutions.html#cb194-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Comparison of the effect of </span><span class="sc">\n</span><span class="st"> Economy and Family on happiness&quot;</span>,</span>
-<span id="cb194-8"><a href="19-Stats_solutions.html#cb194-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Economy (GDP per Capita)&quot;</span>,</span>
-<span id="cb194-9"><a href="19-Stats_solutions.html#cb194-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Family&quot;</span>,</span>
-<span id="cb194-10"><a href="19-Stats_solutions.html#cb194-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="fu">as.numeric</span>(happy_df<span class="sc">$</span>Region),</span>
-<span id="cb194-11"><a href="19-Stats_solutions.html#cb194-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>),</span>
-<span id="cb194-12"><a href="19-Stats_solutions.html#cb194-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="dv">1</span>)</span>
-<span id="cb194-13"><a href="19-Stats_solutions.html#cb194-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Add abline</span></span>
-<span id="cb194-14"><a href="19-Stats_solutions.html#cb194-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(fit_economy_family, <span class="at">col =</span> <span class="st">&quot;mediumslateblue&quot;</span>)</span>
-<span id="cb194-15"><a href="19-Stats_solutions.html#cb194-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Add equation to top right</span></span>
-<span id="cb194-16"><a href="19-Stats_solutions.html#cb194-16" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fl">0.4</span>, <span class="at">y =</span> <span class="fl">1.1</span>, <span class="at">labels =</span> lm_equation)</span>
-<span id="cb194-17"><a href="19-Stats_solutions.html#cb194-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Add the legend</span></span>
-<span id="cb194-18"><a href="19-Stats_solutions.html#cb194-18" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="st">&quot;bottomright&quot;</span>,</span>
-<span id="cb194-19"><a href="19-Stats_solutions.html#cb194-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(happy_df<span class="sc">$</span>Region),</span>
-<span id="cb194-20"><a href="19-Stats_solutions.html#cb194-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(happy_df<span class="sc">$</span>Region))</span>
-<span id="cb194-21"><a href="19-Stats_solutions.html#cb194-21" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off</span></span>
-<span id="cb194-22"><a href="19-Stats_solutions.html#cb194-22" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="19-Stats_solutions.html#cb195-1" tabindex="-1"></a><span class="co">#PNG command</span></span>
+<span id="cb195-2"><a href="19-Stats_solutions.html#cb195-2" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;Chapter_17-18/Economy_vs_family.png&quot;</span>, </span>
+<span id="cb195-3"><a href="19-Stats_solutions.html#cb195-3" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;in&quot;</span>, <span class="at">height =</span> <span class="dv">8</span>, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">res =</span> <span class="dv">200</span>)</span>
+<span id="cb195-4"><a href="19-Stats_solutions.html#cb195-4" tabindex="-1"></a><span class="co">#Produce plot</span></span>
+<span id="cb195-5"><a href="19-Stats_solutions.html#cb195-5" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> happy_df<span class="sc">$</span><span class="st">`</span><span class="at">Economy (GDP per Capita)</span><span class="st">`</span>,</span>
+<span id="cb195-6"><a href="19-Stats_solutions.html#cb195-6" tabindex="-1"></a>     <span class="at">y =</span> happy_df<span class="sc">$</span>Family,</span>
+<span id="cb195-7"><a href="19-Stats_solutions.html#cb195-7" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Comparison of the effect of </span><span class="sc">\n</span><span class="st"> Economy and Family on happiness&quot;</span>,</span>
+<span id="cb195-8"><a href="19-Stats_solutions.html#cb195-8" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Economy (GDP per Capita)&quot;</span>,</span>
+<span id="cb195-9"><a href="19-Stats_solutions.html#cb195-9" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Family&quot;</span>,</span>
+<span id="cb195-10"><a href="19-Stats_solutions.html#cb195-10" tabindex="-1"></a>     <span class="at">pch =</span> <span class="fu">as.numeric</span>(happy_df<span class="sc">$</span>Region),</span>
+<span id="cb195-11"><a href="19-Stats_solutions.html#cb195-11" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">1.5</span>),</span>
+<span id="cb195-12"><a href="19-Stats_solutions.html#cb195-12" tabindex="-1"></a>     <span class="at">col =</span> <span class="dv">1</span>)</span>
+<span id="cb195-13"><a href="19-Stats_solutions.html#cb195-13" tabindex="-1"></a><span class="co">#Add abline</span></span>
+<span id="cb195-14"><a href="19-Stats_solutions.html#cb195-14" tabindex="-1"></a><span class="fu">abline</span>(fit_economy_family, <span class="at">col =</span> <span class="st">&quot;mediumslateblue&quot;</span>)</span>
+<span id="cb195-15"><a href="19-Stats_solutions.html#cb195-15" tabindex="-1"></a><span class="co">#Add equation to top right</span></span>
+<span id="cb195-16"><a href="19-Stats_solutions.html#cb195-16" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fl">0.4</span>, <span class="at">y =</span> <span class="fl">1.1</span>, <span class="at">labels =</span> lm_equation)</span>
+<span id="cb195-17"><a href="19-Stats_solutions.html#cb195-17" tabindex="-1"></a><span class="co">#Add the legend</span></span>
+<span id="cb195-18"><a href="19-Stats_solutions.html#cb195-18" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="st">&quot;bottomright&quot;</span>,</span>
+<span id="cb195-19"><a href="19-Stats_solutions.html#cb195-19" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(happy_df<span class="sc">$</span>Region),</span>
+<span id="cb195-20"><a href="19-Stats_solutions.html#cb195-20" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">levels</span>(happy_df<span class="sc">$</span>Region))</span>
+<span id="cb195-21"><a href="19-Stats_solutions.html#cb195-21" tabindex="-1"></a><span class="co">#dev.off</span></span>
+<span id="cb195-22"><a href="19-Stats_solutions.html#cb195-22" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
 <ol start="5" style="list-style-type: decimal">
 <li>Answers for the following questions:</li>
 </ol>
@@ -527,52 +527,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol start="6" style="list-style-type: decimal">
 <li>Produce boxplot</li>
 </ol>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="19-Stats_solutions.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Change level names</span></span>
-<span id="cb195-2"><a href="19-Stats_solutions.html#cb195-2" aria-hidden="true" tabindex="-1"></a>short_region_names <span class="ot">&lt;-</span> </span>
-<span id="cb195-3"><a href="19-Stats_solutions.html#cb195-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;OZ_n_NZ&quot;</span>, <span class="st">&quot;C_n_E_Europe&quot;</span>, <span class="st">&quot;E_Asia&quot;</span>, <span class="st">&quot;Latin_A_n_Carib&quot;</span>,</span>
-<span id="cb195-4"><a href="19-Stats_solutions.html#cb195-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;ME_n_N_Africa&quot;</span>, <span class="st">&quot;N_America&quot;</span>, <span class="st">&quot;SE_Asia&quot;</span>, <span class="st">&quot;S_Asia&quot;</span>,</span>
-<span id="cb195-5"><a href="19-Stats_solutions.html#cb195-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Sub_Saharan&quot;</span>, <span class="st">&quot;W_Europe&quot;</span>)</span>
-<span id="cb195-6"><a href="19-Stats_solutions.html#cb195-6" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(happy_df<span class="sc">$</span>Region) <span class="ot">&lt;-</span> short_region_names</span>
-<span id="cb195-7"><a href="19-Stats_solutions.html#cb195-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Create boxplot</span></span>
-<span id="cb195-8"><a href="19-Stats_solutions.html#cb195-8" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="st">`</span><span class="at">Happiness Score</span><span class="st">`</span><span class="sc">~</span>Region, <span class="at">data =</span> happy_df, </span>
-<span id="cb195-9"><a href="19-Stats_solutions.html#cb195-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>),</span>
-<span id="cb195-10"><a href="19-Stats_solutions.html#cb195-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(happy_df<span class="sc">$</span>Region),</span>
-<span id="cb195-11"><a href="19-Stats_solutions.html#cb195-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Happiness scores across regions&quot;</span></span>
-<span id="cb195-12"><a href="19-Stats_solutions.html#cb195-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="19-Stats_solutions.html#cb196-1" tabindex="-1"></a><span class="co">#Change level names</span></span>
+<span id="cb196-2"><a href="19-Stats_solutions.html#cb196-2" tabindex="-1"></a>short_region_names <span class="ot">&lt;-</span> </span>
+<span id="cb196-3"><a href="19-Stats_solutions.html#cb196-3" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&quot;OZ_n_NZ&quot;</span>, <span class="st">&quot;C_n_E_Europe&quot;</span>, <span class="st">&quot;E_Asia&quot;</span>, <span class="st">&quot;Latin_A_n_Carib&quot;</span>,</span>
+<span id="cb196-4"><a href="19-Stats_solutions.html#cb196-4" tabindex="-1"></a>    <span class="st">&quot;ME_n_N_Africa&quot;</span>, <span class="st">&quot;N_America&quot;</span>, <span class="st">&quot;SE_Asia&quot;</span>, <span class="st">&quot;S_Asia&quot;</span>,</span>
+<span id="cb196-5"><a href="19-Stats_solutions.html#cb196-5" tabindex="-1"></a>    <span class="st">&quot;Sub_Saharan&quot;</span>, <span class="st">&quot;W_Europe&quot;</span>)</span>
+<span id="cb196-6"><a href="19-Stats_solutions.html#cb196-6" tabindex="-1"></a><span class="fu">levels</span>(happy_df<span class="sc">$</span>Region) <span class="ot">&lt;-</span> short_region_names</span>
+<span id="cb196-7"><a href="19-Stats_solutions.html#cb196-7" tabindex="-1"></a><span class="co">#Create boxplot</span></span>
+<span id="cb196-8"><a href="19-Stats_solutions.html#cb196-8" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="st">`</span><span class="at">Happiness Score</span><span class="st">`</span><span class="sc">~</span>Region, <span class="at">data =</span> happy_df, </span>
+<span id="cb196-9"><a href="19-Stats_solutions.html#cb196-9" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>),</span>
+<span id="cb196-10"><a href="19-Stats_solutions.html#cb196-10" tabindex="-1"></a>        <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(happy_df<span class="sc">$</span>Region),</span>
+<span id="cb196-11"><a href="19-Stats_solutions.html#cb196-11" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Happiness scores across regions&quot;</span></span>
+<span id="cb196-12"><a href="19-Stats_solutions.html#cb196-12" tabindex="-1"></a>)</span></code></pre></div>
 <p><img src="CGR-R-primer-for-omics_files/figure-html/unnamed-chunk-357-1.png" width="1536" /></p>
 <ol start="7" style="list-style-type: decimal">
 <li>Save as jpeg</li>
 </ol>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="19-Stats_solutions.html#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="co">#jpeg</span></span>
-<span id="cb196-2"><a href="19-Stats_solutions.html#cb196-2" aria-hidden="true" tabindex="-1"></a><span class="fu">jpeg</span>(<span class="at">filename =</span> <span class="st">&quot;Chapter_17-18/Region_happiness_boxplots.jpg&quot;</span>, <span class="at">units =</span> <span class="st">&quot;px&quot;</span>,</span>
-<span id="cb196-3"><a href="19-Stats_solutions.html#cb196-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">width =</span> <span class="dv">1600</span>, <span class="at">height =</span> <span class="dv">750</span> )</span>
-<span id="cb196-4"><a href="19-Stats_solutions.html#cb196-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Create boxplot</span></span>
-<span id="cb196-5"><a href="19-Stats_solutions.html#cb196-5" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="st">`</span><span class="at">Happiness Score</span><span class="st">`</span><span class="sc">~</span>Region, <span class="at">data =</span> happy_df, </span>
-<span id="cb196-6"><a href="19-Stats_solutions.html#cb196-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>),</span>
-<span id="cb196-7"><a href="19-Stats_solutions.html#cb196-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(happy_df<span class="sc">$</span>Region),</span>
-<span id="cb196-8"><a href="19-Stats_solutions.html#cb196-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Happiness scores across regions&quot;</span></span>
-<span id="cb196-9"><a href="19-Stats_solutions.html#cb196-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb196-10"><a href="19-Stats_solutions.html#cb196-10" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off</span></span>
-<span id="cb196-11"><a href="19-Stats_solutions.html#cb196-11" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="19-Stats_solutions.html#cb197-1" tabindex="-1"></a><span class="co">#jpeg</span></span>
+<span id="cb197-2"><a href="19-Stats_solutions.html#cb197-2" tabindex="-1"></a><span class="fu">jpeg</span>(<span class="at">filename =</span> <span class="st">&quot;Chapter_17-18/Region_happiness_boxplots.jpg&quot;</span>, <span class="at">units =</span> <span class="st">&quot;px&quot;</span>,</span>
+<span id="cb197-3"><a href="19-Stats_solutions.html#cb197-3" tabindex="-1"></a>     <span class="at">width =</span> <span class="dv">1600</span>, <span class="at">height =</span> <span class="dv">750</span> )</span>
+<span id="cb197-4"><a href="19-Stats_solutions.html#cb197-4" tabindex="-1"></a><span class="co">#Create boxplot</span></span>
+<span id="cb197-5"><a href="19-Stats_solutions.html#cb197-5" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="st">`</span><span class="at">Happiness Score</span><span class="st">`</span><span class="sc">~</span>Region, <span class="at">data =</span> happy_df, </span>
+<span id="cb197-6"><a href="19-Stats_solutions.html#cb197-6" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">10</span>),</span>
+<span id="cb197-7"><a href="19-Stats_solutions.html#cb197-7" tabindex="-1"></a>        <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlevels</span>(happy_df<span class="sc">$</span>Region),</span>
+<span id="cb197-8"><a href="19-Stats_solutions.html#cb197-8" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Happiness scores across regions&quot;</span></span>
+<span id="cb197-9"><a href="19-Stats_solutions.html#cb197-9" tabindex="-1"></a>)</span>
+<span id="cb197-10"><a href="19-Stats_solutions.html#cb197-10" tabindex="-1"></a><span class="co">#dev.off</span></span>
+<span id="cb197-11"><a href="19-Stats_solutions.html#cb197-11" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
 <ol start="8" style="list-style-type: decimal">
 <li>T-tests</li>
 </ol>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="19-Stats_solutions.html#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Subset the data frames to get vectors of our regions of interest</span></span>
-<span id="cb197-2"><a href="19-Stats_solutions.html#cb197-2" aria-hidden="true" tabindex="-1"></a>WE_happiness <span class="ot">&lt;-</span> happy_df[happy_df<span class="sc">$</span>Region <span class="sc">==</span> <span class="st">&quot;W_Europe&quot;</span>,<span class="st">&quot;Happiness Score&quot;</span>]</span>
-<span id="cb197-3"><a href="19-Stats_solutions.html#cb197-3" aria-hidden="true" tabindex="-1"></a>NA_happiness <span class="ot">&lt;-</span> happy_df[happy_df<span class="sc">$</span>Region <span class="sc">==</span> <span class="st">&quot;N_America&quot;</span>,<span class="st">&quot;Happiness Score&quot;</span>] </span>
-<span id="cb197-4"><a href="19-Stats_solutions.html#cb197-4" aria-hidden="true" tabindex="-1"></a>SA_happiness <span class="ot">&lt;-</span> happy_df[happy_df<span class="sc">$</span>Region <span class="sc">==</span> <span class="st">&quot;S_Asia&quot;</span>,<span class="st">&quot;Happiness Score&quot;</span>] </span>
-<span id="cb197-5"><a href="19-Stats_solutions.html#cb197-5" aria-hidden="true" tabindex="-1"></a>SEA_happiness <span class="ot">&lt;-</span> happy_df[happy_df<span class="sc">$</span>Region <span class="sc">==</span> <span class="st">&quot;SE_Asia&quot;</span>,<span class="st">&quot;Happiness Score&quot;</span>]</span>
-<span id="cb197-6"><a href="19-Stats_solutions.html#cb197-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Carry out t-tests</span></span>
-<span id="cb197-7"><a href="19-Stats_solutions.html#cb197-7" aria-hidden="true" tabindex="-1"></a>WE_NA_ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(WE_happiness, NA_happiness)</span>
-<span id="cb197-8"><a href="19-Stats_solutions.html#cb197-8" aria-hidden="true" tabindex="-1"></a>WE_SA_ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(WE_happiness, SA_happiness)</span>
-<span id="cb197-9"><a href="19-Stats_solutions.html#cb197-9" aria-hidden="true" tabindex="-1"></a>SA_SEA_ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(SA_happiness, SEA_happiness)</span>
-<span id="cb197-10"><a href="19-Stats_solutions.html#cb197-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Extract p values into a new vector with element names</span></span>
-<span id="cb197-11"><a href="19-Stats_solutions.html#cb197-11" aria-hidden="true" tabindex="-1"></a>region_happiness_pvalues <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">WE_NA =</span> WE_NA_ttest<span class="sc">$</span>p.value,</span>
-<span id="cb197-12"><a href="19-Stats_solutions.html#cb197-12" aria-hidden="true" tabindex="-1"></a>                              <span class="at">WE_SA =</span> WE_SA_ttest<span class="sc">$</span>p.value,</span>
-<span id="cb197-13"><a href="19-Stats_solutions.html#cb197-13" aria-hidden="true" tabindex="-1"></a>                              <span class="at">SA_SEA =</span> SA_SEA_ttest<span class="sc">$</span>p.value)</span>
-<span id="cb197-14"><a href="19-Stats_solutions.html#cb197-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Logical to determine if the p-value is less than 0.05</span></span>
-<span id="cb197-15"><a href="19-Stats_solutions.html#cb197-15" aria-hidden="true" tabindex="-1"></a><span class="co">#I.e. the means are significantly different</span></span>
-<span id="cb197-16"><a href="19-Stats_solutions.html#cb197-16" aria-hidden="true" tabindex="-1"></a>region_happiness_pvalues <span class="sc">&lt;</span> <span class="fl">0.05</span></span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="19-Stats_solutions.html#cb198-1" tabindex="-1"></a><span class="co">#Subset the data frames to get vectors of our regions of interest</span></span>
+<span id="cb198-2"><a href="19-Stats_solutions.html#cb198-2" tabindex="-1"></a>WE_happiness <span class="ot">&lt;-</span> happy_df[happy_df<span class="sc">$</span>Region <span class="sc">==</span> <span class="st">&quot;W_Europe&quot;</span>,<span class="st">&quot;Happiness Score&quot;</span>]</span>
+<span id="cb198-3"><a href="19-Stats_solutions.html#cb198-3" tabindex="-1"></a>NA_happiness <span class="ot">&lt;-</span> happy_df[happy_df<span class="sc">$</span>Region <span class="sc">==</span> <span class="st">&quot;N_America&quot;</span>,<span class="st">&quot;Happiness Score&quot;</span>] </span>
+<span id="cb198-4"><a href="19-Stats_solutions.html#cb198-4" tabindex="-1"></a>SA_happiness <span class="ot">&lt;-</span> happy_df[happy_df<span class="sc">$</span>Region <span class="sc">==</span> <span class="st">&quot;S_Asia&quot;</span>,<span class="st">&quot;Happiness Score&quot;</span>] </span>
+<span id="cb198-5"><a href="19-Stats_solutions.html#cb198-5" tabindex="-1"></a>SEA_happiness <span class="ot">&lt;-</span> happy_df[happy_df<span class="sc">$</span>Region <span class="sc">==</span> <span class="st">&quot;SE_Asia&quot;</span>,<span class="st">&quot;Happiness Score&quot;</span>]</span>
+<span id="cb198-6"><a href="19-Stats_solutions.html#cb198-6" tabindex="-1"></a><span class="co">#Carry out t-tests</span></span>
+<span id="cb198-7"><a href="19-Stats_solutions.html#cb198-7" tabindex="-1"></a>WE_NA_ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(WE_happiness, NA_happiness)</span>
+<span id="cb198-8"><a href="19-Stats_solutions.html#cb198-8" tabindex="-1"></a>WE_SA_ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(WE_happiness, SA_happiness)</span>
+<span id="cb198-9"><a href="19-Stats_solutions.html#cb198-9" tabindex="-1"></a>SA_SEA_ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(SA_happiness, SEA_happiness)</span>
+<span id="cb198-10"><a href="19-Stats_solutions.html#cb198-10" tabindex="-1"></a><span class="co">#Extract p values into a new vector with element names</span></span>
+<span id="cb198-11"><a href="19-Stats_solutions.html#cb198-11" tabindex="-1"></a>region_happiness_pvalues <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">WE_NA =</span> WE_NA_ttest<span class="sc">$</span>p.value,</span>
+<span id="cb198-12"><a href="19-Stats_solutions.html#cb198-12" tabindex="-1"></a>                              <span class="at">WE_SA =</span> WE_SA_ttest<span class="sc">$</span>p.value,</span>
+<span id="cb198-13"><a href="19-Stats_solutions.html#cb198-13" tabindex="-1"></a>                              <span class="at">SA_SEA =</span> SA_SEA_ttest<span class="sc">$</span>p.value)</span>
+<span id="cb198-14"><a href="19-Stats_solutions.html#cb198-14" tabindex="-1"></a><span class="co">#Logical to determine if the p-value is less than 0.05</span></span>
+<span id="cb198-15"><a href="19-Stats_solutions.html#cb198-15" tabindex="-1"></a><span class="co">#I.e. the means are significantly different</span></span>
+<span id="cb198-16"><a href="19-Stats_solutions.html#cb198-16" tabindex="-1"></a>region_happiness_pvalues <span class="sc">&lt;</span> <span class="fl">0.05</span></span></code></pre></div>
 <pre><code>##  WE_NA  WE_SA SA_SEA 
 ##  FALSE   TRUE  FALSE</code></pre>
 
