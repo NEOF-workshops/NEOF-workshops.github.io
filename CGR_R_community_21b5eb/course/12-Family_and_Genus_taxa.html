@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-07-03" />
+<meta name="date" content="2023-07-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -409,7 +409,7 @@ Run this at the bottom of your "3-taxonomy_barchart.ipynb" notebook.</p>
 Let us also then check the family <code>phyloseq</code> object.</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="12-Family_and_Genus_taxa.html#cb54-1" tabindex="-1"></a><span class="co">#Family phyloseq</span></span>
 <span id="cb54-2"><a href="12-Family_and_Genus_taxa.html#cb54-2" tabindex="-1"></a>family_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_taxa</span>(pseq_relabund, <span class="st">&quot;Family&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb54-3"><a href="12-Family_and_Genus_taxa.html#cb54-3" tabindex="-1"></a><span class="co">#Head of phylum relative abundance table</span></span>
+<span id="cb54-3"><a href="12-Family_and_Genus_taxa.html#cb54-3" tabindex="-1"></a><span class="co">#Head of family relative abundance table</span></span>
 <span id="cb54-4"><a href="12-Family_and_Genus_taxa.html#cb54-4" tabindex="-1"></a><span class="fu">head</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(family_pseq))</span>
 <span id="cb54-5"><a href="12-Family_and_Genus_taxa.html#cb54-5" tabindex="-1"></a><span class="co">#Number of families</span></span>
 <span id="cb54-6"><a href="12-Family_and_Genus_taxa.html#cb54-6" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;Number of families: &quot;</span>, <span class="fu">nrow</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(family_pseq)))</span>
@@ -513,7 +513,7 @@ This will hopefully remove at least 3/4 of the families.</p>
 <p>Super!
 A Detection threshold of 0.02 and a prevalence threshold of 20/100 gives us 12 families.
 We'll now create a new <code>phyloseq</code> object using this info in a new cell.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="12-Family_and_Genus_taxa.html#cb59-1" tabindex="-1"></a><span class="co">#Aggregate families phyla</span></span>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="12-Family_and_Genus_taxa.html#cb59-1" tabindex="-1"></a><span class="co">#Aggregate families</span></span>
 <span id="cb59-2"><a href="12-Family_and_Genus_taxa.html#cb59-2" tabindex="-1"></a>family_rareaggregate_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_rare</span>(</span>
 <span id="cb59-3"><a href="12-Family_and_Genus_taxa.html#cb59-3" tabindex="-1"></a>  pseq_relabund, <span class="at">level =</span> <span class="st">&quot;Family&quot;</span>,</span>
 <span id="cb59-4"><a href="12-Family_and_Genus_taxa.html#cb59-4" tabindex="-1"></a>  <span class="at">detection =</span> <span class="fl">0.02</span>, <span class="at">prevalence =</span> <span class="dv">20</span><span class="sc">/</span><span class="dv">100</span></span>
@@ -573,7 +573,7 @@ Aggregate genus and summarise
 <span id="cb61-3"><a href="12-Family_and_Genus_taxa.html#cb61-3" tabindex="-1"></a><span class="co">#Head of genus relative abundance table</span></span>
 <span id="cb61-4"><a href="12-Family_and_Genus_taxa.html#cb61-4" tabindex="-1"></a><span class="fu">head</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(genus_pseq))</span>
 <span id="cb61-5"><a href="12-Family_and_Genus_taxa.html#cb61-5" tabindex="-1"></a><span class="co">#Number of genera</span></span>
-<span id="cb61-6"><a href="12-Family_and_Genus_taxa.html#cb61-6" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;Number of families: &quot;</span>, <span class="fu">nrow</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(genus_pseq)))</span>
+<span id="cb61-6"><a href="12-Family_and_Genus_taxa.html#cb61-6" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;Number of genera: &quot;</span>, <span class="fu">nrow</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(genus_pseq)))</span>
 <span id="cb61-7"><a href="12-Family_and_Genus_taxa.html#cb61-7" tabindex="-1"></a><span class="co">#Summarise</span></span>
 <span id="cb61-8"><a href="12-Family_and_Genus_taxa.html#cb61-8" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(genus_pseq)</span>
 <span id="cb61-9"><a href="12-Family_and_Genus_taxa.html#cb61-9" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">readcount</span>(genus_pseq)</span></code></pre></div>
@@ -649,7 +649,7 @@ Aggregate rare genus
 <span id="cb64-47"><a href="12-Family_and_Genus_taxa.html#cb64-47" tabindex="-1"></a></span>
 <span id="cb64-48"><a href="12-Family_and_Genus_taxa.html#cb64-48" tabindex="-1"></a><span class="co">#Remove unwanted test_pseq</span></span>
 <span id="cb64-49"><a href="12-Family_and_Genus_taxa.html#cb64-49" tabindex="-1"></a><span class="fu">rm</span>(test_pseq)</span></code></pre></div>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="12-Family_and_Genus_taxa.html#cb65-1" tabindex="-1"></a><span class="co">#Aggregate genus phyla</span></span>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="12-Family_and_Genus_taxa.html#cb65-1" tabindex="-1"></a><span class="co">#Aggregate genus</span></span>
 <span id="cb65-2"><a href="12-Family_and_Genus_taxa.html#cb65-2" tabindex="-1"></a>genus_rareaggregate_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_rare</span>(</span>
 <span id="cb65-3"><a href="12-Family_and_Genus_taxa.html#cb65-3" tabindex="-1"></a>  pseq_relabund, <span class="at">level =</span> <span class="st">&quot;Genus&quot;</span>,</span>
 <span id="cb65-4"><a href="12-Family_and_Genus_taxa.html#cb65-4" tabindex="-1"></a>  <span class="at">detection =</span> <span class="fl">0.006</span>, <span class="at">prevalence =</span> <span class="dv">20</span><span class="sc">/</span><span class="dv">100</span></span>
@@ -674,7 +674,7 @@ Bar chart
 <span id="cb66-13"><a href="12-Family_and_Genus_taxa.html#cb66-13" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
 <span id="cb66-14"><a href="12-Family_and_Genus_taxa.html#cb66-14" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./genus_relabund_rareaggregate.png&quot;</span>)</span></code></pre></div>
 </div>
-<p>Once you are happy you can <strong>Close and Halt</strong> the notebook.</p>
+<p>Once you are happy you can Save then <strong>Close and Halt</strong> the notebook.</p>
 
 </div>
 </div>

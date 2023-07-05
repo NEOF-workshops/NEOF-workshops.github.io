@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-07-03" />
+<meta name="date" content="2023-07-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -397,9 +397,9 @@ This helps determine what are the disease causing organisms.
 However, it may also detect organisms that are able to survive in the environment rather than those that cause the difference in environment.</p>
 <p>This will be shown in our data.
 Organisms in higher abundance in the media samples compared to the environmental samples are most likely caused by selection pressures the media introduces.
-To keep our data manageable in a workshop we will look at the phyla abundances.
-If a phyla is detected to have higher abundance in a media compared to the environmental sample, we can say the phyla is a biomarker of the media compared to the environmental sample.
-Additionally, we will be able to detect phyla that have been depleted in the media samples versus the environmental sample.</p>
+To keep our data manageable in a workshop we will look at the class abundances.
+If a class is detected to have higher abundance in media compared to the environmental group, we can say the class is a biomarker of the media compared to the environmental sample.
+Additionally, we will be able to detect class that have been depleted in the media samples versus the environmental sample.</p>
 <div id="da-setup" class="section level2 hasAnchor" number="17.1">
 <h2><span class="header-section-number">17.1</span> DA: setup<a href="17-Differential_abundance_analysis.html#da-setup" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/packages_1.png" width="15%" style="display: block; margin: auto;" /></p>
@@ -467,9 +467,9 @@ We'll use the function <code>ANCOMBC::ancombc2()</code> for our ANCOM-BC analysi
 <p>The options we use in the function are:</p>
 <ul>
 <li><code>data =</code>: The data to be analysed. This can be provided in various types of objects including the <code>phyloseq</code> object.</li>
-<li><code>fix_formula =</code>: The groupings within your data. It is importnat to add all groupings that may have an influence on the microbial abundances.</li>
+<li><code>fix_formula =</code>: The groupings within your data. It is important to add all groupings that may have an influence on the microbial abundances.</li>
 <li><code>p_adj_method =</code>: The p adjustment value to use.</li>
-<li><code>tax_level =</code>: Te taxonomic level of interest.</li>
+<li><code>tax_level =</code>: The taxonomic level of interest.</li>
 </ul>
 <p>There are many more options that have been left as the default.
 Please see the package <a href="https://bioc.ism.ac.jp/packages/devel/bioc/manuals/ANCOMBC/man/ANCOMBC.pdf">PDF</a> for more options and explanations.</p>
@@ -486,25 +486,25 @@ Therefore, lets extract the results we want to look at and then remove the large
 <span id="cb107-4"><a href="17-Differential_abundance_analysis.html#cb107-4" tabindex="-1"></a><span class="fu">rm</span>(ancom_class_out)</span>
 <span id="cb107-5"><a href="17-Differential_abundance_analysis.html#cb107-5" tabindex="-1"></a><span class="co">#Check top rows of results</span></span>
 <span id="cb107-6"><a href="17-Differential_abundance_analysis.html#cb107-6" tabindex="-1"></a><span class="fu">head</span>(res_ancom_class)</span></code></pre></div>
-<p>These reuslts only contain taxon where a significant result was found in at least one comparison.
+<p>These results only contain taxon where a significant result was found in at least one comparison.
 This is based on the adjusted p-values (&lt;0.05).
 There are a lot of columns (37) in our result data frame.
-Apart from taxon they are split by the comparison group.
+Apart from the "taxon" column they are split by the comparison groups.
 These contain the following information:</p>
 <ul>
-<li>taxon: The taxa groups found to be a biomarker in at least one comparison.</li>
-<li>lfc_*: This contains the log (natural log) fold changes with respect to the reference group.
+<li><strong>taxon</strong>: The taxa groups found to be a biomarker in at least one comparison.</li>
+<li>__lfc_*__: This contains the log (natural log) fold changes with respect to the reference group.
 <ul>
 <li>For example The values for lfc_mediaCVP would equal LFC(CVP - ENV).</li>
 <li>A positive value means the abundances are higher in the comparison group (CVP) and lower in the ref (ENV).</li>
 <li>A negative value means the abundances are lower in the comparison group (CVP) and higher in the ref (ENV).</li>
 <li>The intercept value is the grand mean and is likely not of interest.</li>
 </ul></li>
-<li>se_*: The standard error for the LFC values.</li>
-<li>W_*: The W statistic. The higher this value the more significant the feature is differentially abundant between groups.</li>
-<li>p_*: The P-value.</li>
-<li>q_*: The Q-value. This is the adjusted P-value.</li>
-<li>diff*: This indicates whether there is a significant difference in the abundances of the comparison and reference group. In other words, is the Q-value &lt; 0.05.</li>
+<li>__se_*__: The standard error for the LFC values.</li>
+<li>__W_*__: The W statistic. The higher this value the more significant the feature is differentially abundant between groups.</li>
+<li>__p_*__: The P-value.</li>
+<li>__q_*__: The Q-value. This is the adjusted P-value.</li>
+<li>__diff*__: This indicates whether there is a significant difference in the abundances of the comparison and reference group. In other words, is the Q-value &lt; 0.05.</li>
 </ul>
 <p>It is quite a large table so let's save it as a tsv (tab separated value) file.</p>
 <div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="17-Differential_abundance_analysis.html#cb108-1" tabindex="-1"></a><span class="co">#Save as file</span></span>
@@ -519,7 +519,7 @@ We can then save this object as an HTML with <code>htmlwidgets::saveWidget()</co
 <span id="cb109-4"><a href="17-Differential_abundance_analysis.html#cb109-4" tabindex="-1"></a>htmlwidgets<span class="sc">::</span><span class="fu">saveWidget</span>(m, <span class="st">&quot;ANCOM_class_results.html&quot;</span>, <span class="at">selfcontained =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Go to the jupyter-notebook file explorer tab and click on the html file to open it in a new tab.
 This gives a relatively nice way to view all the results.</p>
-<p>One very clear pattern is that there are no biomarkers found for MD and LD.
+<p>One very clear pattern is that there are no biomarkers found for the site comparisons (MD and LD).
 I believe this is because we don't have enough replicates for the sites within the media samples and the differences between the medias are so large.
 However, there is a good amount of biomarkers for the three different medias compared to ENV.</p>
 </div>
@@ -543,8 +543,8 @@ We will therefore remove these rows.</p>
 This is used as it would be very difficult to do these steps in base R and they are the code provided in the <a href="https://bioconductor.org/packages/release/bioc/vignettes/ANCOMBC/inst/doc/ANCOMBC2.html"><code>ANCOMBC2</code> tutorial</a>.
 If you would like to learn more about these packages please see the <a href="https://r4ds.had.co.nz/">R for Data Science book</a>.</p>
 <div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="17-Differential_abundance_analysis.html#cb111-1" tabindex="-1"></a><span class="co">#Remove any taxon where there are no TRUE values</span></span>
-<span id="cb111-2"><a href="17-Differential_abundance_analysis.html#cb111-2" tabindex="-1"></a><span class="co">#I.e. no significant difference found for the media samples</span></span>
-<span id="cb111-3"><a href="17-Differential_abundance_analysis.html#cb111-3" tabindex="-1"></a><span class="co">#Number of biomarkers</span></span>
+<span id="cb111-2"><a href="17-Differential_abundance_analysis.html#cb111-2" tabindex="-1"></a><span class="co">#I.e. no significant differences found for the media samples</span></span>
+<span id="cb111-3"><a href="17-Differential_abundance_analysis.html#cb111-3" tabindex="-1"></a><span class="co">#Number of biomarkers prior to removal</span></span>
 <span id="cb111-4"><a href="17-Differential_abundance_analysis.html#cb111-4" tabindex="-1"></a><span class="fu">nrow</span>(res_ancom_class_media)</span>
 <span id="cb111-5"><a href="17-Differential_abundance_analysis.html#cb111-5" tabindex="-1"></a><span class="co">#Extract rows that contain at least one TRUE value</span></span>
 <span id="cb111-6"><a href="17-Differential_abundance_analysis.html#cb111-6" tabindex="-1"></a>res_ancom_class_media_sig <span class="ot">&lt;-</span> res_ancom_class_media <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter_all</span>(</span>
@@ -553,6 +553,7 @@ If you would like to learn more about these packages please see the <a href="htt
 <span id="cb111-9"><a href="17-Differential_abundance_analysis.html#cb111-9" tabindex="-1"></a><span class="co">#Number of rows and the top of the new df</span></span>
 <span id="cb111-10"><a href="17-Differential_abundance_analysis.html#cb111-10" tabindex="-1"></a><span class="fu">nrow</span>(res_ancom_class_media_sig)</span>
 <span id="cb111-11"><a href="17-Differential_abundance_analysis.html#cb111-11" tabindex="-1"></a><span class="fu">head</span>(res_ancom_class_media_sig)</span></code></pre></div>
+<p>This has removed one biomarker which is great.</p>
 <p>Next we need to do a variety of preprocessing steps.
 This will create an edited long data frame.
 Long data frames are needed for <code>ggplot2()</code> when not using a <code>phyloseq</code> object.
@@ -617,7 +618,7 @@ We are not interested in having all the bells and whistles so we will use the <c
 <span id="cb113-14"><a href="17-Differential_abundance_analysis.html#cb113-14" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">125</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
 <span id="cb113-15"><a href="17-Differential_abundance_analysis.html#cb113-15" tabindex="-1"></a><span class="co">#Display plot</span></span>
 <span id="cb113-16"><a href="17-Differential_abundance_analysis.html#cb113-16" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./ANCOMBC_class_media_ref_ENV.png&quot;</span>)</span></code></pre></div>
-<p>It is a good start but the colour gradient is not very useful.
+<p>It is a good start but the colour of the tiles is not useful.
 We are going to use the layer <code>ggplot2::scale_fill_gradient2()</code> to customise this.
 First, we need to decide on the minimum and maximum values.
 Let's generate these with some code based on the minimum and maximum LFC values.
@@ -651,23 +652,23 @@ We will use 0 as the midpoint so we can easily differentiate between higher and 
 Any 0 values are non-significant results we turned to 0 when we created the long data frame.</p>
 <ul>
 <li>Are there more biomarkers in higher abundance in ENV rather than the comparison media (i.e blue/negative results)?
-<div id="radio_SFRQNJVYII" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SFRQNJVYII" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SFRQNJVYII" value=""></input> <span><strong>No</strong></span></label>
+<div id="radio_KSVOUSAZQN" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KSVOUSAZQN" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KSVOUSAZQN" value=""></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>Which biomarker has the highest positive values?
-<div id="radio_PIJYTPYGXJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PIJYTPYGXJ" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PIJYTPYGXJ" value="answer"></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PIJYTPYGXJ" value=""></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
+<div id="radio_NRNXSHSWCP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NRNXSHSWCP" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NRNXSHSWCP" value="answer"></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NRNXSHSWCP" value=""></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
 </div></li>
 <li>Which biomarker has the lowest value?
-<div id="radio_OLWTADJCLH" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_OLWTADJCLH" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OLWTADJCLH" value=""></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OLWTADJCLH" value="answer"></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
+<div id="radio_GPDTEFDDAE" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GPDTEFDDAE" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GPDTEFDDAE" value=""></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GPDTEFDDAE" value="answer"></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
 </div></li>
 </ul>
 <p>From these results we can see that there are a lot of biomarkers with low abundances in the comparison media samples.
 There are only 2 biomarkers with higher abundance in the media samples.</p>
 <p>The LFC values between the different media are quite similar.
-There are some biomarkers that are only siginifcnat in 1 or 2 of the media though.
-It seems that CVP and KBC are more simialr to each other than to TSA.
+There are some biomarkers that are only significant in 1 or 2 of the media though.
+It seems that CVP and KBC are more similar to each other than to TSA.
 This matches the clustering we found in the beta diversity.</p>
 <p>This seems to indicate that the media samples are not a good representation of the actual environmental community.
 They appear to select for a few bacterial classes and select against a lot of bacterial classes.</p>

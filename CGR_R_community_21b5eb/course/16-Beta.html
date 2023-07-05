@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-07-03" />
+<meta name="date" content="2023-07-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -392,8 +392,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 This will include the production of ordination plots and statistical analysis.</p>
 <p>When carrying out beta diversity all samples are compared in a pairwise manner.
 Using various metrics a table of pairwise distances is created.
-These distance are dissimilarity measures with smaller values indicating higher similarity and larger values representing higher dissimilarity.</p>
-<p>With these dissimilarity measures we can produce scatter plots based (e.g. PCoA, &amp; NMDS plots).
+These distances are dissimilarity measures with smaller values indicating higher similarity and larger values representing higher dissimilarity.</p>
+<p>With these dissimilarity measures we can produce scatter plots based visualisations (e.g. PCoA, &amp; NMDS plots).
 Samples with low dissimilarity (i.e. similar samples) will be close to each other (cluster).
 Samples with high dissimilarity will be apart from each other.
 In a perfect example samples from the same group will form clusters that are distinct from the clusters of other groups.</p>
@@ -420,20 +420,20 @@ Add the following to the top of this new notebook to load the required libraries
 <h2><span class="header-section-number">16.2</span> Beta: ordination<a href="16-Beta.html#beta-ordination" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/ordinate.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>In this section we will ordinate our data with the <code>phyloseq::ordinate()</code> function.
-We will ordinate using the <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">MDS method</a> (AKA PCoA).
-We will be using the Weighted Unifrac metric as beta diversity dissimilarity scores.
+We'll use the <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">MDS method</a> (AKA PCoA).
+This will be done with the Weighted Unifrac metric as the beta diversity dissimilarity scores.
 This uses the count data along with the phylogenetic distances to calculate pairwise dissimilarity.</p>
 <div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="16-Beta.html#cb89-1" tabindex="-1"></a><span class="co">#Ordinate data</span></span>
 <span id="cb89-2"><a href="16-Beta.html#cb89-2" tabindex="-1"></a>ord.mds.wunifrac <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">ordinate</span>(pseq_rarefy, <span class="at">method =</span> <span class="st">&quot;MDS&quot;</span>, <span class="at">distance =</span> <span class="st">&quot;wunifrac&quot;</span>)</span></code></pre></div>
-<p>To see the different methods and distances that can used please try <code>?phyloseq:ordinate</code> and <code>phyloseq::distanceMethodList</code> respectively.
-More information about the different distances please see the <a href="19-Appendix.html#beta_appendix">APPENDIX</a>.</p>
+<p>To see the different methods and distances that can be used please try <code>?phyloseq:ordinate</code> and <code>phyloseq::distanceMethodList</code> respectively.
+For more information about the different distances please see the <a href="19-Appendix.html#beta_appendix">APPENDIX</a>.</p>
 </div>
 <div id="beta-plot-ordination" class="section level2 hasAnchor" number="16.3">
 <h2><span class="header-section-number">16.3</span> Beta: plot ordination<a href="16-Beta.html#beta-plot-ordination" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/Scatterplot_2.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Now that we have our ordination we can plot it.
 The script below uses <code>phyloseq::plot_ordination()</code> to plot our ordination.
-It needs the <code>phyloseq</code> object used for ordination (for the metadata) and the ordination data.
+It needs the <code>phyloseq</code> object used to create the ordination (for the metadata) and the ordination data itself.
 We will add the options <code>color =</code> and <code>shape =</code> to colour the points by site and shape the points by media.</p>
 <div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="16-Beta.html#cb90-1" tabindex="-1"></a><span class="co">#Plot ordination</span></span>
 <span id="cb90-2"><a href="16-Beta.html#cb90-2" tabindex="-1"></a>nmds.wunifrac <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">plot_ordination</span>(pseq_rarefy, ord.mds.wunifrac,</span>
@@ -450,14 +450,14 @@ We will add the options <code>color =</code> and <code>shape =</code> to colour 
 <li>CVP &amp; KBC</li>
 </ol>
 <p>A very important feature of ordination plots is the percentage values on the axes.
-These are the percentage variation explained values.
+These are the <strong>percentage variation explained</strong> values.
 These values show how much of the variation of the data is explained by each axis.
 We need these as we are converting high dimensional data (many pairwise comparisons) into a 2 dimensional plot.</p>
 <p>In our plot axis 1 has a very high percentage variation explained value of 72.5%.
 This indicates that most of the variation in our data is explained by the differences between the media samples (CVP, KBC, &amp; TSA) and the ENV samples.
 This is because the ENV samples are far removed (large distances) from the media samples in terms of axis 1.</p>
 <p>On the other hand, axis.2 (15.8%) seems to be primarily showing the difference between the TSA samples and the other samples, and within the TSA samples.</p>
-<p>The higher the total variation explained value is the better are plot represents the beta diversity in our data.
+<p>The higher the total variation explained value is, the better our plot represents the beta diversity in our data.
 In this case the total is &gt;88% which is very good.</p>
 <ul>
 <li><strong>&lt;30%</strong> is poor</li>
@@ -474,13 +474,13 @@ In this case the total is &gt;88% which is very good.</p>
 <p>For our beta diversity we will carry out PERMANOVA analysis for the media groupings.
 This will be carried out for all the samples and in a pairwise manner.</p>
 <p>PERMANOVA is a good test in this case to determine if there is a significance difference between the distances of groups.
-This allows us to determine if the clustering of groups is significant.
-More info on PERMANOVA <a href="https://en.wikipedia.org/wiki/Permutational_analysis_of_variance#:~:text=Permutational%20multivariate%20analysis%20of%20variance,are%20equivalent%20for%20all%20groups.">Wikipedia</a> is a good start.</p>
+This allows us to determine if the clustering of groups is significant.</p>
+<p>For more info on PERMANOVA, <a href="https://en.wikipedia.org/wiki/Permutational_analysis_of_variance#:~:text=Permutational%20multivariate%20analysis%20of%20variance,are%20equivalent%20for%20all%20groups.">Wikipedia</a> is a good start.</p>
 <div id="permanova" class="section level3 hasAnchor" number="16.4.1">
 <h3><span class="header-section-number">16.4.1</span> PERMANOVA<a href="16-Beta.html#permanova" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="figures/permanova.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>We will carry out a PERMANOVA test on all the samples based on media.
-This will help us determine if there is any differences between groupings but not which grouping.
+This will help us determine if there are any differences between groupings but not which groupings.
 Prior to PERMANOVA we need to create a matrix containing all the sample paired distance values.
 We will use the function <code>phyloseq::distance()</code>.</p>
 <div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="16-Beta.html#cb91-1" tabindex="-1"></a><span class="co">#PERMANOVA</span></span>
@@ -496,7 +496,7 @@ In this case we can assess if there are any differences by media and by site (<c
 <span id="cb92-5"><a href="16-Beta.html#cb92-5" tabindex="-1"></a>wunifrac_adonis</span></code></pre></div>
 <p>There is a lot of information in the resulting table.
 We are primarily interested in the P-value column (<code>Pr(&gt;F)</code>).
-We can see that significant differences are found within the groups for media (P = 0.001) and site (P = 0.006).</p>
+We can see that significant differences are found within the groups for media (P = 0.001) and site (P = 0.018).</p>
 </div>
 <div id="pairwise-permanova" class="section level3 hasAnchor" number="16.4.2">
 <h3><span class="header-section-number">16.4.2</span> Pairwise PERMANOVA<a href="16-Beta.html#pairwise-permanova" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -511,20 +511,27 @@ Unfortunately the <code>vegan</code> library does not have a function to do this
 <span id="cb93-4"><a href="16-Beta.html#cb93-4" tabindex="-1"></a>cbn</span>
 <span id="cb93-5"><a href="16-Beta.html#cb93-5" tabindex="-1"></a><span class="co">#First combination</span></span>
 <span id="cb93-6"><a href="16-Beta.html#cb93-6" tabindex="-1"></a>cbn[,<span class="dv">1</span>]</span></code></pre></div>
+<div id="pairwise-permanova-on-one-combination" class="section level4 hasAnchor" number="16.4.2.1">
+<h4><span class="header-section-number">16.4.2.1</span> Pairwise PERMANOVA on one combination<a href="16-Beta.html#pairwise-permanova-on-one-combination" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>For demonstration purposes we will first carry out the pairwise PERMANOVA on the 1st grouping combination.</p>
 <p>With the first media combination (CVP &amp; ENV) we can subset our <code>phyloseq</code> object so it only contains those samples.
 Additionally, we can extract the metadata from this subsetted <code>phyloseq</code> object.</p>
 <div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="16-Beta.html#cb94-1" tabindex="-1"></a><span class="co">#Subset phyloseq so it only contains CVP &amp; ENV samples (1st combination)</span></span>
 <span id="cb94-2"><a href="16-Beta.html#cb94-2" tabindex="-1"></a>pseq_rarefy_subset <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">subset_samples</span>(pseq_rarefy, media <span class="sc">%in%</span> cbn[,<span class="dv">1</span>])</span>
 <span id="cb94-3"><a href="16-Beta.html#cb94-3" tabindex="-1"></a><span class="co">#Metadata data frame</span></span>
-<span id="cb94-4"><a href="16-Beta.html#cb94-4" tabindex="-1"></a>metadf_subset <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq_rarefy_subset))</span></code></pre></div>
+<span id="cb94-4"><a href="16-Beta.html#cb94-4" tabindex="-1"></a>metadf_subset <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq_rarefy_subset))</span>
+<span id="cb94-5"><a href="16-Beta.html#cb94-5" tabindex="-1"></a>metadf_subset</span></code></pre></div>
 <p>With this info we can calculate the distances and then carry out the PERMANOVA.</p>
 <div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="16-Beta.html#cb95-1" tabindex="-1"></a><span class="co">#Weighted unifrac distance calculation</span></span>
 <span id="cb95-2"><a href="16-Beta.html#cb95-2" tabindex="-1"></a>wunifrac_dist_mat <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">distance</span>(pseq_rarefy_subset, <span class="at">method=</span><span class="st">&quot;wunifrac&quot;</span>)</span>
 <span id="cb95-3"><a href="16-Beta.html#cb95-3" tabindex="-1"></a><span class="co">#PERMANOVA/ADONIS of media</span></span>
 <span id="cb95-4"><a href="16-Beta.html#cb95-4" tabindex="-1"></a>wunifrac_pairwise_adonis <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">adonis2</span>(wunifrac_dist_mat <span class="sc">~</span> media, <span class="at">data =</span> metadf_subset, <span class="at">by =</span> <span class="st">&quot;margin&quot;</span>)</span>
 <span id="cb95-5"><a href="16-Beta.html#cb95-5" tabindex="-1"></a>wunifrac_pairwise_adonis</span></code></pre></div>
-<p>We can see that there is a significant difference between the CVP and ENV samples (P = 0.01).
-However, it would be quite inefficient to type the above script for each combination.
+<p>We can see that there is a significant difference between the CVP and ENV samples (P = 0.01).</p>
+</div>
+<div id="pairwise-permanova-on-all-combinations" class="section level4 hasAnchor" number="16.4.2.2">
+<h4><span class="header-section-number">16.4.2.2</span> Pairwise PERMANOVA on all combinations<a href="16-Beta.html#pairwise-permanova-on-all-combinations" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>It would be quite inefficient to type the above script for each combination.
 We will therefore create a script with a loop to automatically run the code for each combination.
 Additionally, we will create an empty data frame before the loop.
 This will be used to store the comparison info and the P-values.</p>
@@ -538,7 +545,7 @@ This will be used to store the comparison info and the P-values.</p>
 <span id="cb96-7"><a href="16-Beta.html#cb96-7" tabindex="-1"></a><span class="co">#Add column names</span></span>
 <span id="cb96-8"><a href="16-Beta.html#cb96-8" tabindex="-1"></a><span class="fu">colnames</span>(pairwise_permanova_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;2&quot;</span>,<span class="st">&quot;p&quot;</span>,<span class="st">&quot;p.adj&quot;</span>)</span>
 <span id="cb96-9"><a href="16-Beta.html#cb96-9" tabindex="-1"></a></span>
-<span id="cb96-10"><a href="16-Beta.html#cb96-10" tabindex="-1"></a><span class="co">#Loop trhough the combinations</span></span>
+<span id="cb96-10"><a href="16-Beta.html#cb96-10" tabindex="-1"></a><span class="co">#Loop through the combinations</span></span>
 <span id="cb96-11"><a href="16-Beta.html#cb96-11" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(cbn)){</span>
 <span id="cb96-12"><a href="16-Beta.html#cb96-12" tabindex="-1"></a>  <span class="co">#Subset to media phyloseq</span></span>
 <span id="cb96-13"><a href="16-Beta.html#cb96-13" tabindex="-1"></a>  <span class="co">#Ensure to change metadata group if using different grouping (media)</span></span>
@@ -550,7 +557,7 @@ This will be used to store the comparison info and the P-values.</p>
 <span id="cb96-19"><a href="16-Beta.html#cb96-19" tabindex="-1"></a>  <span class="co">#PERMANOVA/ADONIS of media</span></span>
 <span id="cb96-20"><a href="16-Beta.html#cb96-20" tabindex="-1"></a>  <span class="co">#Ensure to change metadata group if using different grouping (media)</span></span>
 <span id="cb96-21"><a href="16-Beta.html#cb96-21" tabindex="-1"></a>  wunifrac_pairwise_adonis <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">adonis2</span>(wunifrac_dist_mat <span class="sc">~</span> media, <span class="at">data =</span> metadf_subset, <span class="at">by =</span> <span class="st">&quot;margin&quot;</span>)</span>
-<span id="cb96-22"><a href="16-Beta.html#cb96-22" tabindex="-1"></a>  <span class="co">#Add the gorup names and p-value to the main data frame</span></span>
+<span id="cb96-22"><a href="16-Beta.html#cb96-22" tabindex="-1"></a>  <span class="co">#Add the group names and p-value to the main data frame</span></span>
 <span id="cb96-23"><a href="16-Beta.html#cb96-23" tabindex="-1"></a>  pairwise_permanova_df[i,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> cbn[,i]</span>
 <span id="cb96-24"><a href="16-Beta.html#cb96-24" tabindex="-1"></a>  pairwise_permanova_df[i,<span class="dv">3</span>] <span class="ot">&lt;-</span> wunifrac_pairwise_adonis[<span class="dv">1</span>,<span class="st">&quot;Pr(&gt;F)&quot;</span>]</span>
 <span id="cb96-25"><a href="16-Beta.html#cb96-25" tabindex="-1"></a>}</span>
@@ -569,9 +576,10 @@ We'll use the function <code>p.adjust()</code> to add Benjamin-Hochberg (<code>m
 <span id="cb97-6"><a href="16-Beta.html#cb97-6" tabindex="-1"></a><span class="fu">write.table</span>(<span class="at">x =</span> pairwise_permanova_df, <span class="at">file =</span> <span class="st">&quot;pairwise_permanova_media_wunifrac.tsv&quot;</span>,</span>
 <span id="cb97-7"><a href="16-Beta.html#cb97-7" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Brilliant, the adjusted P-values are still significant, in fact they did not even change.
-This shows us that the different media grouping are significantly different.
-This makes sense from our taxonomy, alpha diversity, and beta diversity analysis.
+This shows us that the different media groupings are significantly different.
+This makes sense from our taxonomy, alpha diversity, and beta diversity analyses.
 However, it is hard to see the separation of the CVP and KBC samples in the MDS plot.</p>
+</div>
 </div>
 </div>
 <div id="beta-facet-zoom" class="section level2 hasAnchor" number="16.5">
@@ -591,7 +599,7 @@ We will use this to zoom into the CVP and KBC samples within the weighted unifra
 <span id="cb98-9"><a href="16-Beta.html#cb98-9" tabindex="-1"></a>                  ggforce<span class="sc">::</span><span class="fu">facet_zoom</span>( <span class="at">xy =</span> media <span class="sc">==</span> <span class="fu">c</span>(<span class="st">&quot;CVP&quot;</span>,<span class="st">&quot;KBC&quot;</span>), <span class="at">zoom.size =</span> <span class="dv">1</span>)</span>
 <span id="cb98-10"><a href="16-Beta.html#cb98-10" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
 <span id="cb98-11"><a href="16-Beta.html#cb98-11" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Beta_diversity_mds_wunifrac_media_site_zoom.png&quot;</span>, <span class="at">plot =</span> nmds.wunifrac,</span>
-<span id="cb98-12"><a href="16-Beta.html#cb98-12" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">150</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
+<span id="cb98-12"><a href="16-Beta.html#cb98-12" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">100</span>, <span class="at">width =</span> <span class="dv">200</span>)</span>
 <span id="cb98-13"><a href="16-Beta.html#cb98-13" tabindex="-1"></a><span class="co">#Display plot</span></span>
 <span id="cb98-14"><a href="16-Beta.html#cb98-14" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./Beta_diversity_mds_wunifrac_media_site_zoom.png&quot;</span>)</span></code></pre></div>
 <p>With the zoomed section we can more clearly see there is a difference between the CVP and KBC samples.
@@ -613,18 +621,20 @@ To see the differences between the 3 media it will be good to remove it and prod
 <span id="cb99-5"><a href="16-Beta.html#cb99-5" tabindex="-1"></a><span class="co">#Plot ordination</span></span>
 <span id="cb99-6"><a href="16-Beta.html#cb99-6" tabindex="-1"></a>nmds.wunifrac <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">plot_ordination</span>(pseq_rarefy_no_env, ord.mds.wunifrac,</span>
 <span id="cb99-7"><a href="16-Beta.html#cb99-7" tabindex="-1"></a>                                   <span class="at">color =</span> <span class="st">&quot;site&quot;</span>, <span class="at">shape =</span> <span class="st">&quot;media&quot;</span>) <span class="sc">+</span></span>
-<span id="cb99-8"><a href="16-Beta.html#cb99-8" tabindex="-1"></a>                  ggforce<span class="sc">::</span><span class="fu">facet_zoom</span>( <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.055</span>,<span class="sc">-</span><span class="fl">0.03</span>), <span class="at">zoom.size =</span> <span class="dv">1</span>)</span>
-<span id="cb99-9"><a href="16-Beta.html#cb99-9" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
-<span id="cb99-10"><a href="16-Beta.html#cb99-10" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Beta_diversity_mds_wunifrac_media_site_no_env.png&quot;</span>, <span class="at">plot =</span> nmds.wunifrac,</span>
-<span id="cb99-11"><a href="16-Beta.html#cb99-11" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">150</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
-<span id="cb99-12"><a href="16-Beta.html#cb99-12" tabindex="-1"></a><span class="co">#Display plot</span></span>
-<span id="cb99-13"><a href="16-Beta.html#cb99-13" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./Beta_diversity_mds_wunifrac_media_site_no_env.png&quot;</span>)</span></code></pre></div>
+<span id="cb99-8"><a href="16-Beta.html#cb99-8" tabindex="-1"></a>                  <span class="co">#Choose a range of the x axis to zoom into</span></span>
+<span id="cb99-9"><a href="16-Beta.html#cb99-9" tabindex="-1"></a>                  <span class="co">#This was chosen after viewing the plot without the zoom</span></span>
+<span id="cb99-10"><a href="16-Beta.html#cb99-10" tabindex="-1"></a>                  ggforce<span class="sc">::</span><span class="fu">facet_zoom</span>( <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.055</span>,<span class="sc">-</span><span class="fl">0.03</span>), <span class="at">zoom.size =</span> <span class="dv">1</span>)</span>
+<span id="cb99-11"><a href="16-Beta.html#cb99-11" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
+<span id="cb99-12"><a href="16-Beta.html#cb99-12" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Beta_diversity_mds_wunifrac_media_site_no_env.png&quot;</span>, <span class="at">plot =</span> nmds.wunifrac,</span>
+<span id="cb99-13"><a href="16-Beta.html#cb99-13" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">150</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
+<span id="cb99-14"><a href="16-Beta.html#cb99-14" tabindex="-1"></a><span class="co">#Display plot</span></span>
+<span id="cb99-15"><a href="16-Beta.html#cb99-15" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./Beta_diversity_mds_wunifrac_media_site_no_env.png&quot;</span>)</span></code></pre></div>
 <p>This has changed our plot in a few ways.
 The biggest difference is that our 1st axis explains 94.7% of variation, a very large amount.
 This axis separates the media groups with TSA being the most different.</p>
 <p>We can clearly see separation of the sites within the media groups.
 There are a couple outliers within the CVP samples.</p>
-<p>Thankfully our pairwise PERMANOVA results are still valid as they use the distances which did not change compared to the ordination values which did change.</p>
+<p>Thankfully our pairwise PERMANOVA results are still valid as they use the <strong>distances</strong> which did not change compared to the <strong>ordination values</strong> which did change.</p>
 </div>
 <div id="permanova-tasks" class="section level2 hasAnchor" number="16.7">
 <h2><span class="header-section-number">16.7</span> PERMANOVA tasks<a href="16-Beta.html#permanova-tasks" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -709,7 +719,7 @@ Site and media PERMANOVA solution
 <span id="cb101-32"><a href="16-Beta.html#cb101-32" tabindex="-1"></a>pairwise_permanova_df</span></code></pre></div>
 </div>
 <p>We are getting very high adjusted P-values for these comparisons.
-There is most likely not enough power for this analysis as there are only 3 replicates for each group.</p>
+Most likely there is not enough power for this analysis as there are only 3 replicates for each grouping.</p>
 </div>
 <div id="beta-summary" class="section level2 hasAnchor" number="16.8">
 <h2><span class="header-section-number">16.8</span> Beta: Summary<a href="16-Beta.html#beta-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -720,15 +730,16 @@ There are many other things you could do such as:</p>
 <li>Carry out beta diversity with taxa aggregated <code>phyloseq</code> objects.</li>
 <li>Use different distance measures (<code>phyloseq::distanceMethodList</code>).
 <ul>
-<li>We had a phylogenetic tree in our <code>phyloseq</code> object which allows us to use <code>UniFrac</code> measures ("unifrac" and "wunifrac").</li>
-<li>If you do not have this you can use non-phylogenetic aware <code>betadiver</code> distances such as "jaccard" or "bray".</li>
+<li>We have a phylogenetic tree in our <code>phyloseq</code> object which allows us to use <code>UniFrac</code> measures ("unifrac" and "wunifrac").</li>
+<li>If you do not have this you will have to use non-phylogenetic aware <code>betadiver</code> distances such as "jaccard" or "bray".</li>
 </ul></li>
 <li>Use different different ordination methods (<code>?phyloseq:ordinate</code>).
 <ul>
-<li>Different methods will produce different" percentage of variation explained" values. If your plot has low values try another method to see if you can get higher values.</li>
+<li>Different methods will produce different <strong>percentage of variation explained</strong> values. If your plot has low values try another method to see if you can get higher values.</li>
+<li>Many people will try out different methods and use the one with the highest <strong>percentage of variation explained</strong> values. This is perfectly acceptable and encouraged by many.</li>
 </ul></li>
 </ul>
-<p>With our analysis we found out:</p>
+<p>With our analyses we found out:</p>
 <ul>
 <li>The samples significantly cluster by media with ENV being the most different followed by TSA.</li>
 <li>It appears that the samples cluster by site within each media group, however this is not backed up by statistics.</li>

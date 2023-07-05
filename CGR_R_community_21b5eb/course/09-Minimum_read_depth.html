@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-07-03" />
+<meta name="date" content="2023-07-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -441,8 +441,8 @@ This is the general consensus for <strong>human microbiome</strong> data.</p>
 <p>We have already created a vector and histogram of the read depths across our samples. Scroll up your notebook to view these and answer the following MCQ:</p>
 <ul>
 <li>What is the approximate read depth range of our dataset?
-<div id="radio_VOETSLCWYW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_VOETSLCWYW" value=""></input> <span><strong>1-8</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VOETSLCWYW" value="answer"></input> <span><strong>10,000-18,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VOETSLCWYW" value=""></input> <span><strong>20,000+</strong></span></label>
+<div id="radio_KMUKHUXIXZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KMUKHUXIXZ" value=""></input> <span><strong>1-8</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KMUKHUXIXZ" value="answer"></input> <span><strong>10,000-18,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KMUKHUXIXZ" value=""></input> <span><strong>20,000+</strong></span></label>
 </div></li>
 </ul>
 <p>This is a good first step but what if we want to know how the read depths vary between sample groups?</p>
@@ -457,7 +457,7 @@ This is the general consensus for <strong>human microbiome</strong> data.</p>
 <p>First, we need to create an object containing our sample names, site &amp; media information, and the depth.
 We will use this object to produce our boxplots.
 Thankfully the metadata in our <code>phyloseq</code> object contains all this information except the depth.</p>
-<p>In a new <strong>cell</strong> write and run the below code. This will extract the sample data (metadata) to a new object and display the top 6 rows fo this new object.</p>
+<p>In a new <strong>cell</strong> write and run the below code. This will extract the sample data (metadata) to a new object and display the top 6 rows of this new object.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="09-Minimum_read_depth.html#cb28-1" tabindex="-1"></a><span class="co">#Extract sample data as a separate R object</span></span>
 <span id="cb28-2"><a href="09-Minimum_read_depth.html#cb28-2" tabindex="-1"></a>abundance_metadf <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)</span>
 <span id="cb28-3"><a href="09-Minimum_read_depth.html#cb28-3" tabindex="-1"></a><span class="co">#View top 6 rows of metadata data frame</span></span>
@@ -502,10 +502,10 @@ We won't go into too much detail on how the code works here, instead learning mo
 <li><code>geom_boxplot()</code>: This adds a <strong>layer</strong> to our <code>ggplot2</code> object. In this case it converts the <code>ggplot</code> object, which is just information, into a boxplot.</li>
 </ul>
 <p>Write and run the following code in a new cell:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="09-Minimum_read_depth.html#cb31-1" tabindex="-1"></a><span class="co">#Create ggplot2 boxplot of depth by size</span></span>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="09-Minimum_read_depth.html#cb31-1" tabindex="-1"></a><span class="co">#Create ggplot2 boxplot of depth by site</span></span>
 <span id="cb31-2"><a href="09-Minimum_read_depth.html#cb31-2" tabindex="-1"></a>boxplot <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(abundance_metadf, <span class="fu">aes</span>(<span class="at">y=</span>depth, <span class="at">x=</span>site)) <span class="sc">+</span></span>
 <span id="cb31-3"><a href="09-Minimum_read_depth.html#cb31-3" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_boxplot</span>()</span></code></pre></div>
-<p>We have a saved <code>ggplot2</code> object but now we need to save and display it.</p>
+<p>We have a saved <code>ggplot2</code> object but now we need to save it as a image file and display it.</p>
 </div>
 <div id="save-ggplot-as-png" class="section level3 hasAnchor" number="9.4.3">
 <h3><span class="header-section-number">9.4.3</span> Save ggplot as png<a href="09-Minimum_read_depth.html#save-ggplot-as-png" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -520,8 +520,8 @@ This can then be displayed with <code>IRdisplay::display_png()</code>.</p>
 <span id="cb32-5"><a href="09-Minimum_read_depth.html#cb32-5" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./boxplot_x_site_y_depth.png&quot;</span>)</span></code></pre></div>
 <ul>
 <li>Which site has the highest median depth (middle line of boxplot)?
-<div id="radio_DJGOUCPXCN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DJGOUCPXCN" value="answer"></input> <span><strong>LD (Lower Durance)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DJGOUCPXCN" value=""></input> <span><strong>MD (Middle Durance)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DJGOUCPXCN" value=""></input> <span><strong>UD (Upper Durance</strong></span></label>
+<div id="radio_BSIIDNHDVD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BSIIDNHDVD" value="answer"></input> <span><strong>LD (Lower Durance)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BSIIDNHDVD" value=""></input> <span><strong>MD (Middle Durance)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BSIIDNHDVD" value=""></input> <span><strong>UD (Upper Durance</strong></span></label>
 </div></li>
 </ul>
 </div>
@@ -531,7 +531,7 @@ This can then be displayed with <code>IRdisplay::display_png()</code>.</p>
 <p>We will use the same code to plot the depth by media.
 You can copy and paste the code changing all the instances of <strong>site</strong> to <strong>media</strong>.
 Carry this out in the same cell and run the code.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="09-Minimum_read_depth.html#cb33-1" tabindex="-1"></a><span class="co">#Create ggplot2 boxplot of depth by size</span></span>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="09-Minimum_read_depth.html#cb33-1" tabindex="-1"></a><span class="co">#Create ggplot2 boxplot of depth by media</span></span>
 <span id="cb33-2"><a href="09-Minimum_read_depth.html#cb33-2" tabindex="-1"></a>boxplot <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(abundance_metadf, <span class="fu">aes</span>(<span class="at">y=</span>depth, <span class="at">x=</span>media)) <span class="sc">+</span></span>
 <span id="cb33-3"><a href="09-Minimum_read_depth.html#cb33-3" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_boxplot</span>()</span>
 <span id="cb33-4"><a href="09-Minimum_read_depth.html#cb33-4" tabindex="-1"></a><span class="co">#Save ggplot object as png file</span></span>
@@ -541,8 +541,8 @@ Carry this out in the same cell and run the code.</p>
 <span id="cb33-8"><a href="09-Minimum_read_depth.html#cb33-8" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./boxplot_x_media_y_depth.png&quot;</span>)</span></code></pre></div>
 <ul>
 <li>Which media has the lowest median depth (middle line of boxplot)?
-<div id="radio_FAYWICYMZX" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FAYWICYMZX" value="answer"></input> <span><strong>CVP</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FAYWICYMZX" value=""></input> <span><strong>ENV</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FAYWICYMZX" value=""></input> <span><strong>TSA</strong></span></label>
+<div id="radio_IVJXDSHLSJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_IVJXDSHLSJ" value="answer"></input> <span><strong>CVP</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IVJXDSHLSJ" value=""></input> <span><strong>ENV</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IVJXDSHLSJ" value=""></input> <span><strong>TSA</strong></span></label>
 </div></li>
 </ul>
 <p>From the boxplots we can see there is no drastic difference between the depths of the different media groups. We will therefore continue and make some rarefaction curves to further assess the depth of our samples.</p>
@@ -569,7 +569,7 @@ We need to transpose (<code>t()</code>) the table so it is in the correct orient
 Additionally, we will ensure it is a data frame with the function <code>as.data.frame()</code>.</p>
 <p>Carry this out in a new <strong>cell</strong>.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="09-Minimum_read_depth.html#cb34-1" tabindex="-1"></a><span class="co">#Rarefaction curve</span></span>
-<span id="cb34-2"><a href="09-Minimum_read_depth.html#cb34-2" tabindex="-1"></a><span class="co">#Extract ASV table as data frame</span></span>
+<span id="cb34-2"><a href="09-Minimum_read_depth.html#cb34-2" tabindex="-1"></a><span class="co">#Extract ASV table as transposed data frame</span></span>
 <span id="cb34-3"><a href="09-Minimum_read_depth.html#cb34-3" tabindex="-1"></a>asv_abund_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq)))</span></code></pre></div>
 </div>
 <div id="vegans-rarecurve" class="section level3 hasAnchor" number="9.5.2">
@@ -577,19 +577,18 @@ Additionally, we will ensure it is a data frame with the function <code>as.data.
 <p><img src="figures/vegan.png" width="10%" style="display: block; margin: auto;" /></p>
 <p>With this data frame we can create a rarefaction curve with <code>vegan</code>'s <code>rarecurve()</code> function.</p>
 <p>Add the following code to the same cell and run it.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="09-Minimum_read_depth.html#cb35-1" tabindex="-1"></a><span class="co">#Rarefaction curve</span></span>
-<span id="cb35-2"><a href="09-Minimum_read_depth.html#cb35-2" tabindex="-1"></a><span class="co">#Save as png</span></span>
-<span id="cb35-3"><a href="09-Minimum_read_depth.html#cb35-3" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;rarefaction.png&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
-<span id="cb35-4"><a href="09-Minimum_read_depth.html#cb35-4" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">200</span>)</span>
-<span id="cb35-5"><a href="09-Minimum_read_depth.html#cb35-5" tabindex="-1"></a><span class="co">#plot</span></span>
-<span id="cb35-6"><a href="09-Minimum_read_depth.html#cb35-6" tabindex="-1"></a>vegan<span class="sc">::</span><span class="fu">rarecurve</span>(</span>
-<span id="cb35-7"><a href="09-Minimum_read_depth.html#cb35-7" tabindex="-1"></a>  <span class="at">x =</span> asv_abund_df, <span class="at">step =</span> <span class="dv">50</span>,</span>
-<span id="cb35-8"><a href="09-Minimum_read_depth.html#cb35-8" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Read depth&quot;</span>,</span>
-<span id="cb35-9"><a href="09-Minimum_read_depth.html#cb35-9" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;ASVs&quot;</span></span>
-<span id="cb35-10"><a href="09-Minimum_read_depth.html#cb35-10" tabindex="-1"></a>)</span>
-<span id="cb35-11"><a href="09-Minimum_read_depth.html#cb35-11" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb35-12"><a href="09-Minimum_read_depth.html#cb35-12" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
-<span id="cb35-13"><a href="09-Minimum_read_depth.html#cb35-13" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./rarefaction.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="09-Minimum_read_depth.html#cb35-1" tabindex="-1"></a><span class="co">#Save as png</span></span>
+<span id="cb35-2"><a href="09-Minimum_read_depth.html#cb35-2" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;rarefaction.png&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
+<span id="cb35-3"><a href="09-Minimum_read_depth.html#cb35-3" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">200</span>)</span>
+<span id="cb35-4"><a href="09-Minimum_read_depth.html#cb35-4" tabindex="-1"></a><span class="co">#plot</span></span>
+<span id="cb35-5"><a href="09-Minimum_read_depth.html#cb35-5" tabindex="-1"></a>vegan<span class="sc">::</span><span class="fu">rarecurve</span>(</span>
+<span id="cb35-6"><a href="09-Minimum_read_depth.html#cb35-6" tabindex="-1"></a>  <span class="at">x =</span> asv_abund_df, <span class="at">step =</span> <span class="dv">50</span>,</span>
+<span id="cb35-7"><a href="09-Minimum_read_depth.html#cb35-7" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Read depth&quot;</span>,</span>
+<span id="cb35-8"><a href="09-Minimum_read_depth.html#cb35-8" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;ASVs&quot;</span></span>
+<span id="cb35-9"><a href="09-Minimum_read_depth.html#cb35-9" tabindex="-1"></a>)</span>
+<span id="cb35-10"><a href="09-Minimum_read_depth.html#cb35-10" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb35-11"><a href="09-Minimum_read_depth.html#cb35-11" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
+<span id="cb35-12"><a href="09-Minimum_read_depth.html#cb35-12" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./rarefaction.png&quot;</span>)</span></code></pre></div>
 <p><strong>Note</strong>: You will get a warning saying <code>"most observed count data have counts 1, but smallest count is 2"</code>. This can be ignored in this case.</p>
 <p>In essence, we are hoping that the majority of samples have plateaued.
 If the curves have flattened in relation to the y axis this indicates that most of the ASVs present in the sample have been captured.</p>
@@ -641,21 +640,22 @@ Add the following in the same cell and then run the code in the cell.</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="09-Minimum_read_depth.html#cb39-1" tabindex="-1"></a><span class="co">#Summarise subsetted phyloseq</span></span>
 <span id="cb39-2"><a href="09-Minimum_read_depth.html#cb39-2" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(pseq_min11K)</span>
 <span id="cb39-3"><a href="09-Minimum_read_depth.html#cb39-3" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq_min11K)</span>
-<span id="cb39-4"><a href="09-Minimum_read_depth.html#cb39-4" tabindex="-1"></a>pseq_min11K</span></code></pre></div>
+<span id="cb39-4"><a href="09-Minimum_read_depth.html#cb39-4" tabindex="-1"></a><span class="fu">length</span>(phyloseq<span class="sc">::</span><span class="fu">taxa_sums</span>(pseq_min11K))</span>
+<span id="cb39-5"><a href="09-Minimum_read_depth.html#cb39-5" tabindex="-1"></a>pseq_min11K</span></code></pre></div>
 <p>We can see that the data lost 26 ASVs (2551 - 2525).</p>
 <p>Try to write your own R code in a new cell to answer the following questions:</p>
 <ul>
 <li>What is the difference of the minimum number of reads between <code>pseq_min11K</code> and <code>pseq</code>?
-<div id="radio_RHTMHSTATV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RHTMHSTATV" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RHTMHSTATV" value="answer"></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RHTMHSTATV" value=""></input> <span><strong>42507</strong></span></label>
+<div id="radio_CHDBOPWREY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CHDBOPWREY" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CHDBOPWREY" value="answer"></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CHDBOPWREY" value=""></input> <span><strong>42507</strong></span></label>
 </div></li>
 <li>How many samples were removed due to the read depth filtering?
-<div id="radio_LVCYFWFWCA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_LVCYFWFWCA" value="answer"></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LVCYFWFWCA" value=""></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LVCYFWFWCA" value=""></input> <span><strong>42507</strong></span></label>
+<div id="radio_CYXAXAPVVG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CYXAXAPVVG" value="answer"></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CYXAXAPVVG" value=""></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CYXAXAPVVG" value=""></input> <span><strong>42507</strong></span></label>
 </div></li>
 <li>How many reads were removed by the minimum read filtering?
-<div id="radio_VJAWEBWGAN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_VJAWEBWGAN" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VJAWEBWGAN" value=""></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VJAWEBWGAN" value="answer"></input> <span><strong>42507</strong></span></label>
+<div id="radio_QRZHMIRKIP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QRZHMIRKIP" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QRZHMIRKIP" value=""></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QRZHMIRKIP" value="answer"></input> <span><strong>42507</strong></span></label>
 </div></li>
 </ul>
 <div class="webex-solution">
@@ -679,8 +679,8 @@ Code solutions + bonus
 <span id="cb40-9"><a href="09-Minimum_read_depth.html#cb40-9" tabindex="-1"></a><span class="fu">setdiff</span>(phyloseq<span class="sc">::</span><span class="fu">sample_names</span>(pseq), phyloseq<span class="sc">::</span><span class="fu">sample_names</span>(pseq_min11K))</span></code></pre></div>
 </div>
 <p>We won't actually use this subsetted file as we want to keep all the samples in this case.
-Since we not removing any samples we don't need to remove any ASVs as they should all have a total abundance &gt; 0.
-You can therfore remove the new <code>phyloseq</code> object in a new <strong>cell</strong>.</p>
+Since we are not removing any samples we don't need to remove any ASVs as they should all have a total abundance &gt; 0.
+You can therefore remove the new <code>phyloseq</code> object in a new <strong>cell</strong>.</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="09-Minimum_read_depth.html#cb41-1" tabindex="-1"></a><span class="co">#Remove subsetted phyloseq</span></span>
 <span id="cb41-2"><a href="09-Minimum_read_depth.html#cb41-2" tabindex="-1"></a><span class="fu">rm</span>(pseq_min11K)</span></code></pre></div>
 <p>Once you are finished with this notebook you can save it then close and halt it.</p>
@@ -692,7 +692,7 @@ You can therfore remove the new <code>phyloseq</code> object in a new <strong>ce
 This assessment included:</p>
 <ul>
 <li>Viewing a histogram of sample read depths.</li>
-<li>Creating boxplots to compare the sample read depths across sample groups (siet and media).</li>
+<li>Creating boxplots to compare the sample read depths across sample groups (site and media).</li>
 <li>Producing a rarefaction depth to determine if any samples did not represent a good amount of the ASVs present in the environment.</li>
 </ul>
 <p>Additionally, we created a new <code>phyloseq</code> object where the samples were filtered by depth.
