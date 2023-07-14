@@ -23,11 +23,7 @@
 <meta name="author" content="Helen Hipperson, Katy Maher, Victor Soria-Carrasco, Graeme Fox" />
 
 
-<<<<<<< Updated upstream
-<meta name="date" content="2023-06-19" />
-=======
 <meta name="date" content="2023-07-14" />
->>>>>>> Stashed changes
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -228,9 +224,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A" data-path="11-Appendix.html"><a href="11-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
 <ul>
 <li class="chapter" data-level="A.1" data-path="11-Appendix.html"><a href="11-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>A.1</b> Mamba installation and environment</a></li>
-<<<<<<< Updated upstream
-<li class="chapter" data-level="A.2" data-path="11-Appendix.html"><a href="11-Appendix.html#jupyter_appendix"><i class="fa fa-check"></i><b>A.2</b> Jupyter-notebook</a></li>
-=======
 </ul></li>
 <li class="chapter" data-level="B" data-path="11-Appendix.html"><a href="11-Appendix.html#jupyter_appendix"><i class="fa fa-check"></i><b>B</b> Jupyter-notebook</a></li>
 <li class="chapter" data-level="C" data-path="11-Appendix.html"><a href="11-Appendix.html#loops"><i class="fa fa-check"></i><b>C</b> Using loops to process multiple samples</a>
@@ -243,7 +236,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="E.1" data-path="11-Appendix.html"><a href="11-Appendix.html#rehh"><i class="fa fa-check"></i><b>E.1</b> rehh</a></li>
 <li class="chapter" data-level="E.2" data-path="11-Appendix.html"><a href="11-Appendix.html#gcta"><i class="fa fa-check"></i><b>E.2</b> GCTA</a></li>
->>>>>>> Stashed changes
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -279,26 +271,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="initial-set-up" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Initial set up<a href="09-Detecting_selection.html#initial-set-up" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>First you will need to move into the folder for this practical.</p>
-<<<<<<< Updated upstream
-<div class="sourceCode" id="cb76"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb76-1"><a href="09-Detecting_selection.html#cb76-1" tabindex="-1"></a><span class="bu">cd</span> ~/popgenomics/data/fst_hmm</span></code></pre></div>
-=======
 <div class="sourceCode" id="cb77"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb77-1"><a href="09-Detecting_selection.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/popgenomics/data/fst_hmm</span></code></pre></div>
->>>>>>> Stashed changes
 </div>
 <div id="data-formatting" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> Data formatting<a href="09-Detecting_selection.html#data-formatting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now let’s have a look at the data. You should have the following input files:</p>
-<<<<<<< Updated upstream
-<div class="sourceCode" id="cb77"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb77-1"><a href="09-Detecting_selection.html#cb77-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div>
-<p><img src="figures/data.png" width="80%" style="display: block; margin: auto;" /></p>
-<p>There is a vcf file containing single nucleotide polymorphisms (SNPs) from whole genome sequences of 20 individuals for each population (HVA and HVC). vcf is a very popular format for genetic variants, you can find more info <a href="https://www.internationalgenome.org/wiki/Analysis/vcf4.0/">here</a>. You can have a look at the file content with the following commands:</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb78-1"><a href="09-Detecting_selection.html#cb78-1" tabindex="-1"></a><span class="fu">zless</span> <span class="at">-S</span> data/timemaHVA.vcf.gz</span>
-<span id="cb78-2"><a href="09-Detecting_selection.html#cb78-2" tabindex="-1"></a><span class="co"># or with bcftools</span></span>
-<span id="cb78-3"><a href="09-Detecting_selection.html#cb78-3" tabindex="-1"></a><span class="ex">bcftools</span> view data/timemaHVA.vcf.gz <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span>
-<span id="cb78-4"><a href="09-Detecting_selection.html#cb78-4" tabindex="-1"></a><span class="co"># excluding long header</span></span>
-<span id="cb78-5"><a href="09-Detecting_selection.html#cb78-5" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> data/timemaHVA.vcf.gz <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
-<p>They need to be converted to the stripped down format (gl, genotype likelihood). Genotype likelihoods take into account base quality scores and other error rates (e.g. mapping errors). Genotype likelihoods are required for <code>estpEM</code>, the program we are going to use for allele frequency estimation later. This is done with a custom Perl script called <code>bcf2gl.pl</code>, which has a very simple syntax. For example, if we were to convert the file for the HVA population, the command that you would run is:</p>
-=======
 <div class="sourceCode" id="cb78"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb78-1"><a href="09-Detecting_selection.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div>
 <p><img src="figures/data.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>There is a vcf file containing single nucleotide polymorphisms (SNPs) from whole genome sequences of 20 individuals for each population (HVA and HVC). vcf is a very popular format for genetic variants, you can find more info <a href="https://www.internationalgenome.org/wiki/Analysis/vcf4.0/">here</a>. You can have a look at the file content with the following commands:</p>
@@ -308,16 +285,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb79-4"><a href="09-Detecting_selection.html#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="co"># excluding long header</span></span>
 <span id="cb79-5"><a href="09-Detecting_selection.html#cb79-5" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> data/timemaHVA.vcf.gz <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <p>They need to be converted to the stripped down format (gl, genotype likelihood). Genotype likelihoods take into account base quality scores and other error rates (e.g. mapping errors). Genotype likelihoods are required for <code>estpEM</code>, the program we are going to use for allele frequency estimation later. This is done with a custom Perl script called <code>bcf2gl.pl</code>, which has a very simple syntax. For example, if we were to convert the file for the HVA population, the command that you would run is:</p>
->>>>>>> Stashed changes
 <blockquote>
 <p>perl scripts/bcf2gl.pl -i data/timemaHVA.vcf.gz -o timemaHVA.gl</p>
 </blockquote>
 <p>To speed things up by processing the files in the cluster in parallel in different nodes, you can use <a href="https://docs.hpc.shef.ac.uk/en/latest/parallel/JobArray.html">SGE array job</a> that calls the Perl script for each file. Let’s have a look at the bcf2gl.sh script.</p>
-<<<<<<< Updated upstream
-<div class="sourceCode" id="cb79"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb79-1"><a href="09-Detecting_selection.html#cb79-1" tabindex="-1"></a><span class="fu">less</span> scripts/bcf2gl.sh</span></code></pre></div>
-=======
 <div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="09-Detecting_selection.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> scripts/bcf2gl.sh</span></code></pre></div>
->>>>>>> Stashed changes
 <p><img src="figures/bcf2gl.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>Do not run the following command as it will take a long time to run. If you were to run the script you could type:</p>
 <blockquote>
@@ -325,43 +297,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </blockquote>
 <p>As this will take a while to run, we have provided the output files in the data folder.</p>
 <p>Output .gl files should look like this:</p>
-<<<<<<< Updated upstream
-<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="09-Detecting_selection.html#cb80-1" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> data/timemaHVA.gl</span></code></pre></div>
-=======
 <div class="sourceCode" id="cb81"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb81-1"><a href="09-Detecting_selection.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> data/timemaHVA.gl</span></code></pre></div>
->>>>>>> Stashed changes
 <p><img src="figures/gl.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>The first line shows the number of samples and the number of SNPs, the second line show the samples IDs, and the third line specifies what samples will be used for analyses. The lines below represent a SNP per line. The first field is the ID (scaffold:position in this case) and it is followed by the phred scaled genotype likelihoods for the three possible genotypes (all variants are biallelic) for each individual. Therefore there are 3 x number of samples fields genotype likelihoods on each line.</p>
 </div>
 <div id="allele-frequency-estimation" class="section level2 hasAnchor" number="9.3">
 <h2><span class="header-section-number">9.3</span> Allele frequency estimation<a href="09-Detecting_selection.html#allele-frequency-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We will infer allele frequencies from genotype likelihoods by maximum likelihood, using an implementation of the iterative soft expectation-maximization algorithm (EM) described in <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3198575/">Li 2011</a> and also used in bcftools. This algorithm has been implemented in the program <code>estpEM</code>, with code kindly provided by <a href="https://gompertlab.com">Zach Gompert, Utah State University</a>. As before, this script is designed to use <code>SGE array</code> to parallelize jobs. In this case it will run <code>estpEM</code> to estimate allele frequencies from genotype likelihoods. You can have a look at the script:</p>
-<<<<<<< Updated upstream
-<div class="sourceCode" id="cb81"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb81-1"><a href="09-Detecting_selection.html#cb81-1" tabindex="-1"></a><span class="fu">less</span> scripts/alfreq.sh</span></code></pre></div>
-=======
 <div class="sourceCode" id="cb82"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb82-1"><a href="09-Detecting_selection.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> scripts/alfreq.sh</span></code></pre></div>
->>>>>>> Stashed changes
 <p><img src="figures/alfreq.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>Again we will not run this now as it would take too long but if you were to run it on your own data you could do so like this:</p>
 <blockquote>
 <p>scripts/alfreq.sh</p>
 </blockquote>
 <p>You can check an example output file. It should look something like this:</p>
-<<<<<<< Updated upstream
-<div class="sourceCode" id="cb82"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb82-1"><a href="09-Detecting_selection.html#cb82-1" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> results/timemaHVA.alfreq.txt</span></code></pre></div>
-<p><img src="figures/alfreq_results.png" width="50%" style="display: block; margin: auto;" /></p>
-<p>The columns are: locus, allele frequency from counts, and allele frequency inferred by maximum likelihood. Now we are going to merge the results from both populations into a single file:</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb83-1"><a href="09-Detecting_selection.html#cb83-1" tabindex="-1"></a><span class="co"># create header</span></span>
-<span id="cb83-2"><a href="09-Detecting_selection.html#cb83-2" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">&quot;locus\tafHVA\tafHVC&quot;</span> <span class="op">&gt;</span> timemaHVAxHVC.alfreq.txt</span>
-<span id="cb83-3"><a href="09-Detecting_selection.html#cb83-3" tabindex="-1"></a></span>
-<span id="cb83-4"><a href="09-Detecting_selection.html#cb83-4" tabindex="-1"></a><span class="co"># join files by locus (1st field), retain only locus id (1st field)</span></span>
-<span id="cb83-5"><a href="09-Detecting_selection.html#cb83-5" tabindex="-1"></a>    <span class="co"># and ML AFs (3rd and 5th fields)</span></span>
-<span id="cb83-6"><a href="09-Detecting_selection.html#cb83-6" tabindex="-1"></a><span class="fu">join</span> <span class="at">-j</span> 1 results/timemaHVA.alfreq.txt results/timemaHVC.alfreq.txt <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb83-7"><a href="09-Detecting_selection.html#cb83-7" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{OFS=&quot;\t&quot;; print $1,$3,$5}&#39;</span> <span class="op">&gt;&gt;</span> timemaHVAxHVC.alfreq.txt</span>
-<span id="cb83-8"><a href="09-Detecting_selection.html#cb83-8" tabindex="-1"></a></span>
-<span id="cb83-9"><a href="09-Detecting_selection.html#cb83-9" tabindex="-1"></a><span class="co"># show file</span></span>
-<span id="cb83-10"><a href="09-Detecting_selection.html#cb83-10" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> timemaHVAxHVC.alfreq.txt</span></code></pre></div>
-=======
 <div class="sourceCode" id="cb83"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb83-1"><a href="09-Detecting_selection.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> results/timemaHVA.alfreq.txt</span></code></pre></div>
 <p><img src="figures/alfreq_results.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>The columns are: locus, allele frequency from counts, and allele frequency inferred by maximum likelihood. Now we are going to merge the results from both populations into a single file:</p>
@@ -375,7 +324,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb84-8"><a href="09-Detecting_selection.html#cb84-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb84-9"><a href="09-Detecting_selection.html#cb84-9" aria-hidden="true" tabindex="-1"></a><span class="co"># show file</span></span>
 <span id="cb84-10"><a href="09-Detecting_selection.html#cb84-10" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> timemaHVAxHVC.alfreq.txt</span></code></pre></div>
->>>>>>> Stashed changes
 <p><img src="figures/al_merge.png" width="50%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="fst-estimation" class="section level2 hasAnchor" number="9.4">
@@ -392,21 +340,6 @@ F ^{Hudson}_{ST} =
 <li><p><em>Hb</em> is the between-population heterozygosity</p></li>
 <li><p><em>p1</em> and <em>p2</em> are the allele frequencies in each population</p></li>
 </ul>
-<<<<<<< Updated upstream
-<p>We are going to use the code provided in the script <code>fst.R</code> for FST estimation. This script can be run in batch mode like executing: <code>Rscript scripts/fst.R</code>, but you are likely to learn much more if you follow the steps below to run it step by step. Be aware that this is R code and will have to run within an R session.</p>
-<p>Open an R session simply typing the command:</p>
-<p><code>R</code></p>
-<p>First we change the working directory and then we load a library that will greatly speed up the loading of bit files and a library containing some functions required for calculations in the next section:</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="09-Detecting_selection.html#cb84-1" tabindex="-1"></a><span class="co"># change the working directory</span></span>
-<span id="cb84-2"><a href="09-Detecting_selection.html#cb84-2" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;~/popgenomics/data/fst_hmm/&quot;</span>)</span>
-<span id="cb84-3"><a href="09-Detecting_selection.html#cb84-3" tabindex="-1"></a></span>
-<span id="cb84-4"><a href="09-Detecting_selection.html#cb84-4" tabindex="-1"></a><span class="co"># load library to speed up loading of big tables</span></span>
-<span id="cb84-5"><a href="09-Detecting_selection.html#cb84-5" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb84-6"><a href="09-Detecting_selection.html#cb84-6" tabindex="-1"></a></span>
-<span id="cb84-7"><a href="09-Detecting_selection.html#cb84-7" tabindex="-1"></a><span class="co"># install a library of functions for population genetics calculations</span></span>
-<span id="cb84-8"><a href="09-Detecting_selection.html#cb84-8" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;/pub14/tea/nsc206/NEOF/popgenomics/popgenfunctions/&quot;</span>, <span class="at">repos=</span><span class="cn">NULL</span>)</span>
-<span id="cb84-9"><a href="09-Detecting_selection.html#cb84-9" tabindex="-1"></a><span class="fu">library</span>(popgenfunctions)</span></code></pre></div>
-=======
 <p>We are going to use the code provided in the script <code>fst.R</code> for FST estimation. This script can be run in batch mode like executing: <code>Rscript scripts/fst.R</code>, but you are likely to learn much more if you follow the steps below to run it step by step. Be aware that this is R code and will have to run using Jupyter.</p>
 <p>Create a new notebook called <strong>"Chp09a-FST-estimation"</strong>.</p>
 <p>First we change the working directory and then we load a library that will greatly speed up the loading of bit files and a library containing some functions required for calculations in the next section. In a new code cell type:</p>
@@ -419,17 +352,12 @@ F ^{Hudson}_{ST} =
 <span id="cb85-7"><a href="09-Detecting_selection.html#cb85-7" aria-hidden="true" tabindex="-1"></a><span class="co"># install a library of functions for population genetics calculations</span></span>
 <span id="cb85-8"><a href="09-Detecting_selection.html#cb85-8" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;/pub14/tea/nsc206/NEOF/popgenomics/popgenfunctions/&quot;</span>, <span class="at">repos=</span><span class="cn">NULL</span>)</span>
 <span id="cb85-9"><a href="09-Detecting_selection.html#cb85-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(popgenfunctions)</span></code></pre></div>
->>>>>>> Stashed changes
 <p>You will likely get a message like the one below if you are installing the library for the first time.</p>
 <p><img src="figures/Rlib1.png" width="75%" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Type <code>y</code> and press enter. You will likely then see this message:</p>
 <p><img src="figures/Rlib2.png" width="50%" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Type <code>y</code> again and press enter. Lastly, when this has installed load the package:</p>
-<<<<<<< Updated upstream
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="09-Detecting_selection.html#cb85-1" tabindex="-1"></a><span class="fu">library</span>(popgenfunctions)</span></code></pre></div>
-=======
 <div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="09-Detecting_selection.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(popgenfunctions)</span></code></pre></div>
->>>>>>> Stashed changes
 <!-- This is the function to calculate Hudson’s F~ST~: -->
 <!-- ```{R eval=FALSE} -->
 <!-- # function to calculate Hudson's Fst -->
@@ -444,59 +372,6 @@ F ^{Hudson}_{ST} =
 <!-- # -------------------------------------------------- -->
 <!-- ``` -->
 <p>Then we load allele frequencies:</p>
-<<<<<<< Updated upstream
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="09-Detecting_selection.html#cb86-1" tabindex="-1"></a><span class="co"># load file with allele frequencies</span></span>
-<span id="cb86-2"><a href="09-Detecting_selection.html#cb86-2" tabindex="-1"></a>pops.af<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;timemaHVAxHVC.alfreq.txt&quot;</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
-<span id="cb86-3"><a href="09-Detecting_selection.html#cb86-3" tabindex="-1"></a><span class="co"># check table</span></span>
-<span id="cb86-4"><a href="09-Detecting_selection.html#cb86-4" tabindex="-1"></a><span class="fu">head</span>(pops.af)</span></code></pre></div>
-<p>And now calculate the FSTs for every SNP:</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="09-Detecting_selection.html#cb87-1" tabindex="-1"></a><span class="co"># Calculate Fst for all loci</span></span>
-<span id="cb87-2"><a href="09-Detecting_selection.html#cb87-2" tabindex="-1"></a>fst.HVAxHVC<span class="ot">&lt;-</span><span class="fu">hudsonFst</span>(<span class="at">locus=</span>pops.af<span class="sc">$</span>locus, <span class="at">p1=</span>pops.af<span class="sc">$</span>afHVA,<span class="at">p2=</span>pops.af<span class="sc">$</span>afHVC)</span>
-<span id="cb87-3"><a href="09-Detecting_selection.html#cb87-3" tabindex="-1"></a><span class="co"># check results</span></span>
-<span id="cb87-4"><a href="09-Detecting_selection.html#cb87-4" tabindex="-1"></a><span class="fu">head</span>(fst.HVAxHVC)</span></code></pre></div>
-<p>Write results to file:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="09-Detecting_selection.html#cb88-1" tabindex="-1"></a><span class="co"># Write table to file</span></span>
-<span id="cb88-2"><a href="09-Detecting_selection.html#cb88-2" tabindex="-1"></a><span class="fu">write.table</span>(fst.HVAxHVC, <span class="at">file=</span><span class="st">&quot;timemaHVAxHVC.fst.dsv&quot;</span>, </span>
-<span id="cb88-3"><a href="09-Detecting_selection.html#cb88-3" tabindex="-1"></a>                <span class="at">quote=</span>F, <span class="at">row.names=</span>F, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
-<p>And plot the F<sub>ST</sub> histogram:</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="09-Detecting_selection.html#cb89-1" tabindex="-1"></a><span class="co"># plot FST histogram</span></span>
-<span id="cb89-2"><a href="09-Detecting_selection.html#cb89-2" tabindex="-1"></a><span class="fu">hist</span>(fst.HVAxHVC<span class="sc">$</span>fst, <span class="at">breaks=</span><span class="dv">100</span>)</span></code></pre></div>
-<p><img src="figures/timemaHVAxHVC.fst.png" width="100%" style="display: block; margin: auto;" /></p>
-<p>Now genome-wide F<sub>ST</sub> statistics are calculated as “ratio of averages” (i.e. averaging the variance components - numerator and denominator - separately), as suggested in <a href="https://genome.cshlp.org/content/23/9/1514.full">Bhatia <em>et al.</em> 2013</a></p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="09-Detecting_selection.html#cb90-1" tabindex="-1"></a><span class="co"># Genome-wide FST statistics</span></span>
-<span id="cb90-2"><a href="09-Detecting_selection.html#cb90-2" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
-<span id="cb90-3"><a href="09-Detecting_selection.html#cb90-3" tabindex="-1"></a><span class="co"># Calculate genome-wide FST as &quot;ratio of averages&quot; following Bhatia et al. 2013</span></span>
-<span id="cb90-4"><a href="09-Detecting_selection.html#cb90-4" tabindex="-1"></a>nloci<span class="ot">&lt;-</span><span class="fu">length</span>(<span class="fu">na.exclude</span>(fst.HVAxHVC<span class="sc">$</span>fst))</span>
-<span id="cb90-5"><a href="09-Detecting_selection.html#cb90-5" tabindex="-1"></a>fst.mean<span class="ot">&lt;-</span><span class="dv">1</span><span class="sc">-</span>((<span class="fu">sum</span>(fst.HVAxHVC<span class="sc">$</span>numerator)<span class="sc">/</span>nloci)<span class="sc">/</span>(<span class="fu">sum</span>(fst.HVAxHVC<span class="sc">$</span>denominator)<span class="sc">/</span>nloci))</span>
-<span id="cb90-6"><a href="09-Detecting_selection.html#cb90-6" tabindex="-1"></a>fst.mean</span></code></pre></div>
-<p>You can see “average of ratios” (i.e. mean of F<sub>ST</sub>s) produces a noticeable different (underestimated) value:</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="09-Detecting_selection.html#cb91-1" tabindex="-1"></a><span class="co"># &quot;average of ratios&quot; yields a noticeable lower value</span></span>
-<span id="cb91-2"><a href="09-Detecting_selection.html#cb91-2" tabindex="-1"></a><span class="fu">mean</span>(fst.HVAxHVC<span class="sc">$</span>fst,<span class="at">na.rm=</span>T)</span></code></pre></div>
-<p>Calculate median, upper quantiles (95%, 99%, 99.9%, 99.99%), and max:</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="09-Detecting_selection.html#cb92-1" tabindex="-1"></a><span class="co"># median and upper quantiles for all loci</span></span>
-<span id="cb92-2"><a href="09-Detecting_selection.html#cb92-2" tabindex="-1"></a>fst.quantile<span class="ot">&lt;-</span><span class="fu">quantile</span>(fst.HVAxHVC<span class="sc">$</span>fst, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.5</span>,<span class="fl">0.95</span>,<span class="fl">0.99</span>,<span class="fl">0.999</span>,<span class="fl">0.9999</span>), <span class="at">na.rm=</span>T)</span>
-<span id="cb92-3"><a href="09-Detecting_selection.html#cb92-3" tabindex="-1"></a>fst.quantile</span>
-<span id="cb92-4"><a href="09-Detecting_selection.html#cb92-4" tabindex="-1"></a></span>
-<span id="cb92-5"><a href="09-Detecting_selection.html#cb92-5" tabindex="-1"></a><span class="co"># max</span></span>
-<span id="cb92-6"><a href="09-Detecting_selection.html#cb92-6" tabindex="-1"></a>fst.max<span class="ot">&lt;-</span><span class="fu">max</span>(fst.HVAxHVC<span class="sc">$</span>fst,<span class="at">na.rm=</span>T)</span>
-<span id="cb92-7"><a href="09-Detecting_selection.html#cb92-7" tabindex="-1"></a>fst.max</span>
-<span id="cb92-8"><a href="09-Detecting_selection.html#cb92-8" tabindex="-1"></a></span>
-<span id="cb92-9"><a href="09-Detecting_selection.html#cb92-9" tabindex="-1"></a><span class="co"># put all together in a vector</span></span>
-<span id="cb92-10"><a href="09-Detecting_selection.html#cb92-10" tabindex="-1"></a>fst.genome<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;genome&quot;</span>,nloci,fst.mean,fst.quantile,fst.max)</span>
-<span id="cb92-11"><a href="09-Detecting_selection.html#cb92-11" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
-<p>Calculate F<sub>ST</sub> separately for each major linkage group (~chromosomes):</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="09-Detecting_selection.html#cb93-1" tabindex="-1"></a><span class="co"># FST stats by linkage group</span></span>
-<span id="cb93-2"><a href="09-Detecting_selection.html#cb93-2" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
-<span id="cb93-3"><a href="09-Detecting_selection.html#cb93-3" tabindex="-1"></a><span class="co"># get linkage groups from loci names</span></span>
-<span id="cb93-4"><a href="09-Detecting_selection.html#cb93-4" tabindex="-1"></a>lgs<span class="ot">&lt;-</span><span class="fu">unique</span>(<span class="fu">gsub</span>(<span class="st">&quot;_ord.*&quot;</span>,<span class="st">&quot;&quot;</span>, fst.HVAxHVC<span class="sc">$</span>locus))</span>
-<span id="cb93-5"><a href="09-Detecting_selection.html#cb93-5" tabindex="-1"></a></span>
-<span id="cb93-6"><a href="09-Detecting_selection.html#cb93-6" tabindex="-1"></a><span class="co"># calculate fst for each linkage group</span></span>
-<span id="cb93-7"><a href="09-Detecting_selection.html#cb93-7" tabindex="-1"></a>fst.stats.lgs<span class="ot">&lt;-</span><span class="fu">lapply</span>(lgs, fst.lg)</span>
-<span id="cb93-8"><a href="09-Detecting_selection.html#cb93-8" tabindex="-1"></a></span>
-<span id="cb93-9"><a href="09-Detecting_selection.html#cb93-9" tabindex="-1"></a><span class="co"># put them together in a data frame</span></span>
-<span id="cb93-10"><a href="09-Detecting_selection.html#cb93-10" tabindex="-1"></a>fst.stats.lgs<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">lg=</span>lgs,<span class="fu">do.call</span>(<span class="st">&quot;rbind&quot;</span>,fst.stats.lgs),<span class="at">stringsAsFactors=</span>F)</span>
-<span id="cb93-11"><a href="09-Detecting_selection.html#cb93-11" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
-=======
 <div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="09-Detecting_selection.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load file with allele frequencies</span></span>
 <span id="cb87-2"><a href="09-Detecting_selection.html#cb87-2" aria-hidden="true" tabindex="-1"></a>pops.af<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;timemaHVAxHVC.alfreq.txt&quot;</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
 <span id="cb87-3"><a href="09-Detecting_selection.html#cb87-3" aria-hidden="true" tabindex="-1"></a><span class="co"># check table</span></span>
@@ -548,7 +423,6 @@ F ^{Hudson}_{ST} =
 <span id="cb94-9"><a href="09-Detecting_selection.html#cb94-9" aria-hidden="true" tabindex="-1"></a><span class="co"># put them together in a data frame</span></span>
 <span id="cb94-10"><a href="09-Detecting_selection.html#cb94-10" aria-hidden="true" tabindex="-1"></a>fst.stats.lgs<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">lg=</span>lgs,<span class="fu">do.call</span>(<span class="st">&quot;rbind&quot;</span>,fst.stats.lgs),<span class="at">stringsAsFactors=</span>F)</span>
 <span id="cb94-11"><a href="09-Detecting_selection.html#cb94-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
->>>>>>> Stashed changes
 <!-- ## lg.fst() function removed from chunk as above as now -->
 <!-- ## loaded with popgenfunctions package -->
 <!-- # function to get fst (including median and quantiles) for a linkage group -->
@@ -561,26 +435,6 @@ F ^{Hudson}_{ST} =
 <!--               return(c(nloci=nloci,mean=fst.mean,fst.quantile,fst.max)) -->
 <!--             } -->
 <p>Put together F<sub>ST</sub> estimates for whole genome and linkage groups and write to a text file:</p>
-<<<<<<< Updated upstream
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="09-Detecting_selection.html#cb94-1" tabindex="-1"></a><span class="co"># summarize results</span></span>
-<span id="cb94-2"><a href="09-Detecting_selection.html#cb94-2" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
-<span id="cb94-3"><a href="09-Detecting_selection.html#cb94-3" tabindex="-1"></a><span class="co"># put together whole genome and linkage group estimates</span></span>
-<span id="cb94-4"><a href="09-Detecting_selection.html#cb94-4" tabindex="-1"></a>fst.stats<span class="ot">&lt;-</span><span class="fu">rbind</span>(fst.genome,fst.stats.lgs)</span>
-<span id="cb94-5"><a href="09-Detecting_selection.html#cb94-5" tabindex="-1"></a></span>
-<span id="cb94-6"><a href="09-Detecting_selection.html#cb94-6" tabindex="-1"></a><span class="co"># put names of columns</span></span>
-<span id="cb94-7"><a href="09-Detecting_selection.html#cb94-7" tabindex="-1"></a><span class="fu">colnames</span>(fst.stats)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;lg&quot;</span>,<span class="st">&quot;nloci&quot;</span>,<span class="st">&quot;mean&quot;</span>,<span class="st">&quot;median&quot;</span>,</span>
-<span id="cb94-8"><a href="09-Detecting_selection.html#cb94-8" tabindex="-1"></a>                       <span class="st">&quot;q95%&quot;</span>,<span class="st">&quot;q99%&quot;</span>,<span class="st">&quot;q99.9%&quot;</span>,<span class="st">&quot;q99.99%&quot;</span>,<span class="st">&quot;max&quot;</span>)</span>
-<span id="cb94-9"><a href="09-Detecting_selection.html#cb94-9" tabindex="-1"></a></span>
-<span id="cb94-10"><a href="09-Detecting_selection.html#cb94-10" tabindex="-1"></a><span class="co"># and check</span></span>
-<span id="cb94-11"><a href="09-Detecting_selection.html#cb94-11" tabindex="-1"></a>fst.stats</span>
-<span id="cb94-12"><a href="09-Detecting_selection.html#cb94-12" tabindex="-1"></a></span>
-<span id="cb94-13"><a href="09-Detecting_selection.html#cb94-13" tabindex="-1"></a><span class="co"># Write summary table to file</span></span>
-<span id="cb94-14"><a href="09-Detecting_selection.html#cb94-14" tabindex="-1"></a><span class="fu">write.table</span>(fst.stats,<span class="at">file=</span><span class="st">&quot;timemaHVAxHVC.lgs.fst.dsv&quot;</span>,</span>
-<span id="cb94-15"><a href="09-Detecting_selection.html#cb94-15" tabindex="-1"></a>            <span class="at">quote=</span>F, <span class="at">row.names=</span>F, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
-<span id="cb94-16"><a href="09-Detecting_selection.html#cb94-16" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span></code></pre></div>
-<p>Remember to quit the <code>R</code> session when finished:</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="09-Detecting_selection.html#cb95-1" tabindex="-1"></a><span class="fu">quit</span>()</span></code></pre></div>
-=======
 <div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="09-Detecting_selection.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize results</span></span>
 <span id="cb95-2"><a href="09-Detecting_selection.html#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
 <span id="cb95-3"><a href="09-Detecting_selection.html#cb95-3" aria-hidden="true" tabindex="-1"></a><span class="co"># put together whole genome and linkage group estimates</span></span>
@@ -597,33 +451,10 @@ F ^{Hudson}_{ST} =
 <span id="cb95-14"><a href="09-Detecting_selection.html#cb95-14" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(fst.stats,<span class="at">file=</span><span class="st">&quot;timemaHVAxHVC.lgs.fst.dsv&quot;</span>,</span>
 <span id="cb95-15"><a href="09-Detecting_selection.html#cb95-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">quote=</span>F, <span class="at">row.names=</span>F, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
 <span id="cb95-16"><a href="09-Detecting_selection.html#cb95-16" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span></code></pre></div>
->>>>>>> Stashed changes
 </div>
 <div id="delimitation-of-contiguous-regions-of-differentiation-using-a-hmm-model" class="section level2 hasAnchor" number="9.5">
 <h2><span class="header-section-number">9.5</span> Delimitation of contiguous regions of differentiation using a HMM model<a href="09-Detecting_selection.html#delimitation-of-contiguous-regions-of-differentiation-using-a-hmm-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We will use a 3-state discrete homogeneous Hidden Markov Model (HMM) to delimit contiguous regions of genetic differentiation, following the approach of <a href="https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-13-107">Hofer <em>et al.</em> 2012</a>. We will use the package HiddenMarkov to classify the genome in regions of low, medium, and high differentiation (LDI, IDI, and HDI, respectively). This will allow us to investigate the number, size, and distribution of regions of differentiation across the genome (and potentially under selection). We are going to use the code provided in the script <code>fitHMM.R</code> for that. This script can be run in batch mode like executing: Rscript <code>scripts/fit_hmm.R</code>, but you are likely to learn much more if you follow the steps below to run it step by step. Be aware that this is R code and will have to run within an R session.</p>
-<<<<<<< Updated upstream
-<p>Open an R session simply typing the command:</p>
-<p><code>R</code></p>
-<p>First we change the working directory:</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="09-Detecting_selection.html#cb96-1" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;~/popgenomics/data/fst_hmm&quot;</span>)</span></code></pre></div>
-<p>And then we re-load the package <code>popgenfunctions</code>, and load packages <code>HiddenMarkov</code> to fit HMMs and <code>data.table</code> to speed up loading big files:</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="09-Detecting_selection.html#cb97-1" tabindex="-1"></a><span class="co"># library to fit Hidden Markov Models</span></span>
-<span id="cb97-2"><a href="09-Detecting_selection.html#cb97-2" tabindex="-1"></a><span class="fu">library</span>(HiddenMarkov)</span>
-<span id="cb97-3"><a href="09-Detecting_selection.html#cb97-3" tabindex="-1"></a></span>
-<span id="cb97-4"><a href="09-Detecting_selection.html#cb97-4" tabindex="-1"></a><span class="co"># library to speed up loading of big tables</span></span>
-<span id="cb97-5"><a href="09-Detecting_selection.html#cb97-5" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb97-6"><a href="09-Detecting_selection.html#cb97-6" tabindex="-1"></a></span>
-<span id="cb97-7"><a href="09-Detecting_selection.html#cb97-7" tabindex="-1"></a><span class="co"># the library of popgen functions</span></span>
-<span id="cb97-8"><a href="09-Detecting_selection.html#cb97-8" tabindex="-1"></a><span class="fu">library</span>(popgenfunctions)</span></code></pre></div>
-<p>We will use a custom function called <code>Mstep.normc</code> (based on the <code>Mstep.norm</code> included in the <code>HiddenMarkov</code> package) to model the observed states (i.e. F<sub>ST</sub>) as a normal distribution with the standard deviation fixed to the genome-wide F<sub>ST</sub> standard deviation estimate. This function will be used for fitting a HMM later. This <code>Mstep.normc</code> function is contained within the ‘popgenfunctions’ library that we loaded earlier.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="09-Detecting_selection.html#cb98-1" tabindex="-1"></a><span class="co">#rnormc, dnormc, pnormc and qnormc are used further on in the ‘dthmm’ function that uses</span></span>
-<span id="cb98-2"><a href="09-Detecting_selection.html#cb98-2" tabindex="-1"></a><span class="co">#the normc distribution from mstep.normc</span></span>
-<span id="cb98-3"><a href="09-Detecting_selection.html#cb98-3" tabindex="-1"></a>rnormc <span class="ot">&lt;-</span> rnorm <span class="co">#random number generator</span></span>
-<span id="cb98-4"><a href="09-Detecting_selection.html#cb98-4" tabindex="-1"></a>dnormc <span class="ot">&lt;-</span> dnorm <span class="co">#density</span></span>
-<span id="cb98-5"><a href="09-Detecting_selection.html#cb98-5" tabindex="-1"></a>pnormc <span class="ot">&lt;-</span> pnorm <span class="co">#distribution function</span></span>
-<span id="cb98-6"><a href="09-Detecting_selection.html#cb98-6" tabindex="-1"></a>qnormc <span class="ot">&lt;-</span> qnorm <span class="co">#quantile function</span></span></code></pre></div>
-=======
 <p>Create a new Jupyter notebook titled <strong>"Chp09b-Delimitation_contiguous_regions"</strong></p>
 <p>Change the working directory in a code cell:</p>
 <div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="09-Detecting_selection.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;~/popgenomics/data/fst_hmm&quot;</span>)</span></code></pre></div>
@@ -643,7 +474,6 @@ F ^{Hudson}_{ST} =
 <span id="cb98-4"><a href="09-Detecting_selection.html#cb98-4" aria-hidden="true" tabindex="-1"></a>dnormc <span class="ot">&lt;-</span> dnorm <span class="co">#density</span></span>
 <span id="cb98-5"><a href="09-Detecting_selection.html#cb98-5" aria-hidden="true" tabindex="-1"></a>pnormc <span class="ot">&lt;-</span> pnorm <span class="co">#distribution function</span></span>
 <span id="cb98-6"><a href="09-Detecting_selection.html#cb98-6" aria-hidden="true" tabindex="-1"></a>qnormc <span class="ot">&lt;-</span> qnorm <span class="co">#quantile function</span></span></code></pre></div>
->>>>>>> Stashed changes
 <!-- ## Function removed by GF as it is now loaded -->
 <!-- ## with the popgenfuctions library -->
 <!-- # Modified version of Mstep.norm for fitting HMM below -->
@@ -661,60 +491,11 @@ F ^{Hudson}_{ST} =
 <!--   } -->
 <!-- } -->
 <p>Now we load the data:</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="09-Detecting_selection.html#cb99-1" tabindex="-1"></a><span class="co"># Prepare data</span></span>
-<span id="cb99-2"><a href="09-Detecting_selection.html#cb99-2" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------</span></span>
-<span id="cb99-3"><a href="09-Detecting_selection.html#cb99-3" tabindex="-1"></a><span class="co"># Load Fst</span></span>
-<span id="cb99-4"><a href="09-Detecting_selection.html#cb99-4" tabindex="-1"></a>fst.HVAxHVC<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;timemaHVAxHVC.fst.dsv&quot;</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="09-Detecting_selection.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data</span></span>
+<span id="cb99-2"><a href="09-Detecting_selection.html#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------</span></span>
+<span id="cb99-3"><a href="09-Detecting_selection.html#cb99-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Fst</span></span>
+<span id="cb99-4"><a href="09-Detecting_selection.html#cb99-4" aria-hidden="true" tabindex="-1"></a>fst.HVAxHVC<span class="ot">&lt;-</span><span class="fu">fread</span>(<span class="st">&quot;timemaHVAxHVC.fst.dsv&quot;</span>, <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
 <p>and restrict the analyses to a single linkage group:</p>
-<<<<<<< Updated upstream
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="09-Detecting_selection.html#cb100-1" tabindex="-1"></a><span class="co"># Use only one linkage group for this example</span></span>
-<span id="cb100-2"><a href="09-Detecting_selection.html#cb100-2" tabindex="-1"></a>fst<span class="ot">&lt;-</span>fst.HVAxHVC[<span class="fu">grep</span>(<span class="st">&quot;^lg01_&quot;</span>, fst.HVAxHVC<span class="sc">$</span>locus),]<span class="sc">$</span>fst</span></code></pre></div>
-<p>F<sub>ST</sub> is transformed using a logit function so that we can assume a normal distribution of F<sub>ST</sub> for each HMM state. Missing values (“NA”) are discarded and very low F<sub>ST</sub> values that may result in “Inf” values after transformation or affect the HMM fitting process are replaced by low, but tractable FST values (i.e. 1e-4) beforehand. We also store the number of SNPs, the mean and the standard deviation of logit F<sub>ST</sub>, as these values will be used later.</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="09-Detecting_selection.html#cb101-1" tabindex="-1"></a><span class="co"># Remove missing data</span></span>
-<span id="cb101-2"><a href="09-Detecting_selection.html#cb101-2" tabindex="-1"></a>fst<span class="ot">&lt;-</span>fst[<span class="sc">!</span><span class="fu">is.na</span>(fst)]</span>
-<span id="cb101-3"><a href="09-Detecting_selection.html#cb101-3" tabindex="-1"></a></span>
-<span id="cb101-4"><a href="09-Detecting_selection.html#cb101-4" tabindex="-1"></a><span class="co"># Replace too low Fst values by tractable value</span></span>
-<span id="cb101-5"><a href="09-Detecting_selection.html#cb101-5" tabindex="-1"></a>fst[fst<span class="sc">&lt;</span><span class="fl">1e-4</span>]<span class="ot">&lt;-</span><span class="fl">1e-4</span></span>
-<span id="cb101-6"><a href="09-Detecting_selection.html#cb101-6" tabindex="-1"></a></span>
-<span id="cb101-7"><a href="09-Detecting_selection.html#cb101-7" tabindex="-1"></a><span class="co"># logit transform Fst, we will assume a normal logit distribution </span></span>
-<span id="cb101-8"><a href="09-Detecting_selection.html#cb101-8" tabindex="-1"></a><span class="co"># for each HMM state</span></span>
-<span id="cb101-9"><a href="09-Detecting_selection.html#cb101-9" tabindex="-1"></a>lfst<span class="ot">&lt;-</span><span class="fu">log</span>(fst<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span>fst))</span>
-<span id="cb101-10"><a href="09-Detecting_selection.html#cb101-10" tabindex="-1"></a></span>
-<span id="cb101-11"><a href="09-Detecting_selection.html#cb101-11" tabindex="-1"></a><span class="co"># specify nloci, mean and sd (used below)</span></span>
-<span id="cb101-12"><a href="09-Detecting_selection.html#cb101-12" tabindex="-1"></a>nloci<span class="ot">&lt;-</span><span class="fu">length</span>(lfst)</span>
-<span id="cb101-13"><a href="09-Detecting_selection.html#cb101-13" tabindex="-1"></a>mean.lfst<span class="ot">&lt;-</span><span class="fu">mean</span>(lfst)</span>
-<span id="cb101-14"><a href="09-Detecting_selection.html#cb101-14" tabindex="-1"></a>sd.lfst<span class="ot">&lt;-</span><span class="fu">sd</span>(lfst)</span>
-<span id="cb101-15"><a href="09-Detecting_selection.html#cb101-15" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------</span></span></code></pre></div>
-<p>We now will fit a homogenous Hidden Markov Model of 3 discrete states: high (1), medium (2), and low (3) differentiation. We will use a reasonable starting transition matrix: low transition rates to and from medium state, but disallowing direct transitions between extremes (from low to high or high to low). It is highly recommended to run the algorithm multiple times (tens, hundreds, or even thousands) using different starting matrices, because the maximum-likelihood searching algorithm could be stuck in local optima. We will not do this in this practical for time reasons, but code to generate random matrices is included.</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="09-Detecting_selection.html#cb102-1" tabindex="-1"></a><span class="co"># Fit homogenous HMM of 3 discrete states</span></span>
-<span id="cb102-2"><a href="09-Detecting_selection.html#cb102-2" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------</span></span>
-<span id="cb102-3"><a href="09-Detecting_selection.html#cb102-3" tabindex="-1"></a><span class="co"># initial m x m transition probability matrix</span></span>
-<span id="cb102-4"><a href="09-Detecting_selection.html#cb102-4" tabindex="-1"></a><span class="co"># disable transitions from 1 to 3 and 3 to 1 (set value to zero) </span></span>
-<span id="cb102-5"><a href="09-Detecting_selection.html#cb102-5" tabindex="-1"></a><span class="co"># (direct transitions from low to high and high to low differentiation)</span></span>
-<span id="cb102-6"><a href="09-Detecting_selection.html#cb102-6" tabindex="-1"></a>Pi<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.9</span>,<span class="fl">0.1</span>,<span class="dv">0</span>,</span>
-<span id="cb102-7"><a href="09-Detecting_selection.html#cb102-7" tabindex="-1"></a>             <span class="fl">0.05</span>,<span class="fl">0.9</span>,<span class="fl">0.05</span>,</span>
-<span id="cb102-8"><a href="09-Detecting_selection.html#cb102-8" tabindex="-1"></a>             <span class="dv">0</span>,<span class="fl">0.1</span>,<span class="fl">0.9</span>),<span class="at">nrow=</span><span class="dv">3</span>,<span class="at">byrow=</span>T)</span>
-<span id="cb102-9"><a href="09-Detecting_selection.html#cb102-9" tabindex="-1"></a>Pi</span>
-<span id="cb102-10"><a href="09-Detecting_selection.html#cb102-10" tabindex="-1"></a><span class="co"># it is strongly recommended to run the EM algorithm multiple times (hundreds</span></span>
-<span id="cb102-11"><a href="09-Detecting_selection.html#cb102-11" tabindex="-1"></a><span class="co"># or thousands) with different starting matrices to avoid maximum-likelihood</span></span>
-<span id="cb102-12"><a href="09-Detecting_selection.html#cb102-12" tabindex="-1"></a><span class="co"># local optima; e.g. code to produce 100 random matrices:</span></span>
-<span id="cb102-13"><a href="09-Detecting_selection.html#cb102-13" tabindex="-1"></a><span class="co"># random.matrix&lt;-function(x){</span></span>
-<span id="cb102-14"><a href="09-Detecting_selection.html#cb102-14" tabindex="-1"></a><span class="co">#                   x&lt;-runif(3)</span></span>
-<span id="cb102-15"><a href="09-Detecting_selection.html#cb102-15" tabindex="-1"></a><span class="co">#                   matrix(c(x[1],1-x[1],0,</span></span>
-<span id="cb102-16"><a href="09-Detecting_selection.html#cb102-16" tabindex="-1"></a><span class="co">#                            x[2]/2,1-x[2],x[2]/2,</span></span>
-<span id="cb102-17"><a href="09-Detecting_selection.html#cb102-17" tabindex="-1"></a><span class="co">#                            0,x[3],1-x[3]),nrow=3,byrow=T)}</span></span>
-<span id="cb102-18"><a href="09-Detecting_selection.html#cb102-18" tabindex="-1"></a><span class="co"># matrices&lt;-lapply(1:100, random.matrix)</span></span></code></pre></div>
-<p>We also set an initial marginal probability distribution for the m hidden states (delta) and a list with the initial values for the distribution of observed process (i.e. logit F<sub>ST</sub>; pm). In this case the distribution is a normal with the standard deviation fixed to the standard deviation estimated genome-wide and reasonable starting values for the means around the genome-wide mean.</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="09-Detecting_selection.html#cb103-1" tabindex="-1"></a><span class="co"># initial marginal probability distribution of the m hidden states</span></span>
-<span id="cb103-2"><a href="09-Detecting_selection.html#cb103-2" tabindex="-1"></a>delta<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
-<span id="cb103-3"><a href="09-Detecting_selection.html#cb103-3" tabindex="-1"></a></span>
-<span id="cb103-4"><a href="09-Detecting_selection.html#cb103-4" tabindex="-1"></a><span class="co"># initial list of parameter values associated with the distribution </span></span>
-<span id="cb103-5"><a href="09-Detecting_selection.html#cb103-5" tabindex="-1"></a><span class="co"># of observed process</span></span>
-<span id="cb103-6"><a href="09-Detecting_selection.html#cb103-6" tabindex="-1"></a><span class="co"># they must coincide with the parameters of the function use</span></span>
-<span id="cb103-7"><a href="09-Detecting_selection.html#cb103-7" tabindex="-1"></a><span class="co"># we are using a normal and must give 3 means and 3 sds</span></span>
-<span id="cb103-8"><a href="09-Detecting_selection.html#cb103-8" tabindex="-1"></a>pm<span class="ot">&lt;-</span><span class="fu">list</span>(<span class="at">mean=</span><span class="fu">c</span>(mean.lfst<span class="sc">*</span><span class="fl">0.9</span>,mean.lfst,mean.lfst<span class="sc">*</span><span class="fl">1.1</span>),</span>
-<span id="cb103-9"><a href="09-Detecting_selection.html#cb103-9" tabindex="-1"></a>         <span class="at">sd=</span><span class="fu">rep</span>(sd.lfst,<span class="dv">3</span>))</span></code></pre></div>
-=======
 <div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="09-Detecting_selection.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use only one linkage group for this example</span></span>
 <span id="cb100-2"><a href="09-Detecting_selection.html#cb100-2" aria-hidden="true" tabindex="-1"></a>fst<span class="ot">&lt;-</span>fst.HVAxHVC[<span class="fu">grep</span>(<span class="st">&quot;^lg01_&quot;</span>, fst.HVAxHVC<span class="sc">$</span>locus),]<span class="sc">$</span>fst</span></code></pre></div>
 <p>F<sub>ST</sub> is transformed using a logit function so that we can assume a normal distribution of F<sub>ST</sub> for each HMM state. Missing values (“NA”) are discarded and very low F<sub>ST</sub> values that may result in “Inf” values after transformation or affect the HMM fitting process are replaced by low, but tractable FST values (i.e. 1e-4) beforehand. We also store the number of SNPs, the mean and the standard deviation of logit F<sub>ST</sub>, as these values will be used later.</p>
@@ -762,78 +543,17 @@ F ^{Hudson}_{ST} =
 <span id="cb103-7"><a href="09-Detecting_selection.html#cb103-7" aria-hidden="true" tabindex="-1"></a><span class="co"># we are using a normal and must give 3 means and 3 sds</span></span>
 <span id="cb103-8"><a href="09-Detecting_selection.html#cb103-8" aria-hidden="true" tabindex="-1"></a>pm<span class="ot">&lt;-</span><span class="fu">list</span>(<span class="at">mean=</span><span class="fu">c</span>(mean.lfst<span class="sc">*</span><span class="fl">0.9</span>,mean.lfst,mean.lfst<span class="sc">*</span><span class="fl">1.1</span>),</span>
 <span id="cb103-9"><a href="09-Detecting_selection.html#cb103-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">sd=</span><span class="fu">rep</span>(sd.lfst,<span class="dv">3</span>))</span></code></pre></div>
->>>>>>> Stashed changes
 <p>We finally set a discrete time HMM object with the initial values of the transition probability matrix (Pi), the marginal probability distribution of the hidden states (delta) at the start, using a modified normal distribution (normc) with variance fixed to the initial genome-wide variance estimate, and a list of initial observed process values (pm).</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="09-Detecting_selection.html#cb104-1" tabindex="-1"></a><span class="co"># set discrete time HMM object and initial values </span></span>
-<span id="cb104-2"><a href="09-Detecting_selection.html#cb104-2" tabindex="-1"></a><span class="co"># normc is modified distribution so that variance is fixed</span></span>
-<span id="cb104-3"><a href="09-Detecting_selection.html#cb104-3" tabindex="-1"></a><span class="co"># to genome-wide estimate (sd.lfst)</span></span>
-<span id="cb104-4"><a href="09-Detecting_selection.html#cb104-4" tabindex="-1"></a>init<span class="ot">&lt;-</span><span class="fu">dthmm</span>(<span class="at">x=</span>lfst,</span>
-<span id="cb104-5"><a href="09-Detecting_selection.html#cb104-5" tabindex="-1"></a>            <span class="at">Pi=</span>Pi,</span>
-<span id="cb104-6"><a href="09-Detecting_selection.html#cb104-6" tabindex="-1"></a>            <span class="at">delta=</span>delta,</span>
-<span id="cb104-7"><a href="09-Detecting_selection.html#cb104-7" tabindex="-1"></a>            <span class="at">distn=</span><span class="st">&quot;normc&quot;</span>,</span>
-<span id="cb104-8"><a href="09-Detecting_selection.html#cb104-8" tabindex="-1"></a>            <span class="at">pm=</span>pm,</span>
-<span id="cb104-9"><a href="09-Detecting_selection.html#cb104-9" tabindex="-1"></a>            <span class="at">discrete=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="09-Detecting_selection.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set discrete time HMM object and initial values </span></span>
+<span id="cb104-2"><a href="09-Detecting_selection.html#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="co"># normc is modified distribution so that variance is fixed</span></span>
+<span id="cb104-3"><a href="09-Detecting_selection.html#cb104-3" aria-hidden="true" tabindex="-1"></a><span class="co"># to genome-wide estimate (sd.lfst)</span></span>
+<span id="cb104-4"><a href="09-Detecting_selection.html#cb104-4" aria-hidden="true" tabindex="-1"></a>init<span class="ot">&lt;-</span><span class="fu">dthmm</span>(<span class="at">x=</span>lfst,</span>
+<span id="cb104-5"><a href="09-Detecting_selection.html#cb104-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">Pi=</span>Pi,</span>
+<span id="cb104-6"><a href="09-Detecting_selection.html#cb104-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">delta=</span>delta,</span>
+<span id="cb104-7"><a href="09-Detecting_selection.html#cb104-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">distn=</span><span class="st">&quot;normc&quot;</span>,</span>
+<span id="cb104-8"><a href="09-Detecting_selection.html#cb104-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">pm=</span>pm,</span>
+<span id="cb104-9"><a href="09-Detecting_selection.html#cb104-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">discrete=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p>We estimate the parameters of our HMM using the Baum-Welch EM algorithm. This will take a few minutes.</p>
-<<<<<<< Updated upstream
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="09-Detecting_selection.html#cb105-1" tabindex="-1"></a><span class="co"># estimate parameters of HMM using Baum-Welch EM algorithm</span></span>
-<span id="cb105-2"><a href="09-Detecting_selection.html#cb105-2" tabindex="-1"></a><span class="co"># this may take a while (a few minutes)</span></span>
-<span id="cb105-3"><a href="09-Detecting_selection.html#cb105-3" tabindex="-1"></a></span>
-<span id="cb105-4"><a href="09-Detecting_selection.html#cb105-4" tabindex="-1"></a><span class="co"># set maximum number of iterations and convergence criterion</span></span>
-<span id="cb105-5"><a href="09-Detecting_selection.html#cb105-5" tabindex="-1"></a>ctrl<span class="ot">&lt;-</span><span class="fu">bwcontrol</span>(<span class="at">maxiter=</span><span class="dv">1000</span>, <span class="at">tol=</span><span class="fl">1e-6</span>)</span>
-<span id="cb105-6"><a href="09-Detecting_selection.html#cb105-6" tabindex="-1"></a></span>
-<span id="cb105-7"><a href="09-Detecting_selection.html#cb105-7" tabindex="-1"></a><span class="co"># run BaumWelch algorithm</span></span>
-<span id="cb105-8"><a href="09-Detecting_selection.html#cb105-8" tabindex="-1"></a>paramHMM<span class="ot">&lt;-</span><span class="fu">BaumWelch</span>(init, ctrl)</span>
-<span id="cb105-9"><a href="09-Detecting_selection.html#cb105-9" tabindex="-1"></a></span>
-<span id="cb105-10"><a href="09-Detecting_selection.html#cb105-10" tabindex="-1"></a><span class="co"># compare initial and estimated transition matrices</span></span>
-<span id="cb105-11"><a href="09-Detecting_selection.html#cb105-11" tabindex="-1"></a><span class="co"># initial</span></span>
-<span id="cb105-12"><a href="09-Detecting_selection.html#cb105-12" tabindex="-1"></a>Pi</span>
-<span id="cb105-13"><a href="09-Detecting_selection.html#cb105-13" tabindex="-1"></a><span class="co"># estimate</span></span>
-<span id="cb105-14"><a href="09-Detecting_selection.html#cb105-14" tabindex="-1"></a>paramHMM<span class="sc">$</span>Pi</span>
-<span id="cb105-15"><a href="09-Detecting_selection.html#cb105-15" tabindex="-1"></a></span>
-<span id="cb105-16"><a href="09-Detecting_selection.html#cb105-16" tabindex="-1"></a><span class="co"># compare initial and estimated distribution parameters</span></span>
-<span id="cb105-17"><a href="09-Detecting_selection.html#cb105-17" tabindex="-1"></a><span class="co"># (normal means and sds)</span></span>
-<span id="cb105-18"><a href="09-Detecting_selection.html#cb105-18" tabindex="-1"></a><span class="co"># initial</span></span>
-<span id="cb105-19"><a href="09-Detecting_selection.html#cb105-19" tabindex="-1"></a>pm</span>
-<span id="cb105-20"><a href="09-Detecting_selection.html#cb105-20" tabindex="-1"></a><span class="co"># estimate</span></span>
-<span id="cb105-21"><a href="09-Detecting_selection.html#cb105-21" tabindex="-1"></a>paramHMM<span class="sc">$</span>pm</span></code></pre></div>
-<p>Lastly we infer the sequence of Markov hidden states using the Viterbi algorithm (i.e. state for each loci: low, medium, or high). This will take less than 1 minute.</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="09-Detecting_selection.html#cb106-1" tabindex="-1"></a><span class="co"># predict Markov states using Viterbi algorithm</span></span>
-<span id="cb106-2"><a href="09-Detecting_selection.html#cb106-2" tabindex="-1"></a>fitHMM<span class="ot">&lt;-</span><span class="fu">Viterbi</span>(paramHMM)</span>
-<span id="cb106-3"><a href="09-Detecting_selection.html#cb106-3" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
-<p>and summarize the results:</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="09-Detecting_selection.html#cb107-1" tabindex="-1"></a><span class="co"># Summarize results</span></span>
-<span id="cb107-2"><a href="09-Detecting_selection.html#cb107-2" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
-<span id="cb107-3"><a href="09-Detecting_selection.html#cb107-3" tabindex="-1"></a><span class="co"># mean FSTs of each state: high, medium, and low differentiation</span></span>
-<span id="cb107-4"><a href="09-Detecting_selection.html#cb107-4" tabindex="-1"></a><span class="co"># (reverse transform logit FSTs means)</span></span>
-<span id="cb107-5"><a href="09-Detecting_selection.html#cb107-5" tabindex="-1"></a>fst.states<span class="ot">&lt;-</span><span class="fu">round</span>(<span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">exp</span>(<span class="sc">-</span><span class="dv">1</span> <span class="sc">*</span> paramHMM<span class="sc">$</span>pm<span class="sc">$</span>mean)),<span class="dv">5</span>)</span>
-<span id="cb107-6"><a href="09-Detecting_selection.html#cb107-6" tabindex="-1"></a>fst.states</span>
-<span id="cb107-7"><a href="09-Detecting_selection.html#cb107-7" tabindex="-1"></a></span>
-<span id="cb107-8"><a href="09-Detecting_selection.html#cb107-8" tabindex="-1"></a><span class="co"># number of loci in each state</span></span>
-<span id="cb107-9"><a href="09-Detecting_selection.html#cb107-9" tabindex="-1"></a>nloci.states<span class="ot">&lt;-</span><span class="fu">table</span>(fitHMM)</span>
-<span id="cb107-10"><a href="09-Detecting_selection.html#cb107-10" tabindex="-1"></a></span>
-<span id="cb107-11"><a href="09-Detecting_selection.html#cb107-11" tabindex="-1"></a><span class="co"># proportion of loci in each state</span></span>
-<span id="cb107-12"><a href="09-Detecting_selection.html#cb107-12" tabindex="-1"></a>proploci.states<span class="ot">&lt;-</span>nloci.states<span class="sc">/</span>nloci</span>
-<span id="cb107-13"><a href="09-Detecting_selection.html#cb107-13" tabindex="-1"></a>proploci.states</span>
-<span id="cb107-14"><a href="09-Detecting_selection.html#cb107-14" tabindex="-1"></a></span>
-<span id="cb107-15"><a href="09-Detecting_selection.html#cb107-15" tabindex="-1"></a><span class="co"># number of contiguous regions for each state</span></span>
-<span id="cb107-16"><a href="09-Detecting_selection.html#cb107-16" tabindex="-1"></a>nregions.states<span class="ot">&lt;-</span><span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
-<span id="cb107-17"><a href="09-Detecting_selection.html#cb107-17" tabindex="-1"></a>                    <span class="cf">function</span>(x) <span class="fu">sum</span>((fitHMM<span class="sc">==</span>x)[<span class="dv">1</span><span class="sc">:</span>(nloci<span class="dv">-1</span>)]<span class="sc">-</span>(fitHMM<span class="sc">==</span>x)[<span class="dv">2</span><span class="sc">:</span>nloci]<span class="sc">==</span><span class="dv">1</span>)))</span>
-<span id="cb107-18"><a href="09-Detecting_selection.html#cb107-18" tabindex="-1"></a>nregions.states</span>
-<span id="cb107-19"><a href="09-Detecting_selection.html#cb107-19" tabindex="-1"></a></span>
-<span id="cb107-20"><a href="09-Detecting_selection.html#cb107-20" tabindex="-1"></a><span class="co"># put everything together in a table</span></span>
-<span id="cb107-21"><a href="09-Detecting_selection.html#cb107-21" tabindex="-1"></a>summary.table<span class="ot">&lt;-</span><span class="fu">cbind</span>(<span class="at">state=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),</span>
-<span id="cb107-22"><a href="09-Detecting_selection.html#cb107-22" tabindex="-1"></a>               <span class="at">mean.fst=</span>fst.states,</span>
-<span id="cb107-23"><a href="09-Detecting_selection.html#cb107-23" tabindex="-1"></a>               <span class="at">nloci=</span>nloci.states,</span>
-<span id="cb107-24"><a href="09-Detecting_selection.html#cb107-24" tabindex="-1"></a>               <span class="at">proploci=</span>proploci.states,</span>
-<span id="cb107-25"><a href="09-Detecting_selection.html#cb107-25" tabindex="-1"></a>               <span class="at">nregions=</span>nregions.states)</span>
-<span id="cb107-26"><a href="09-Detecting_selection.html#cb107-26" tabindex="-1"></a><span class="co"># show table</span></span>
-<span id="cb107-27"><a href="09-Detecting_selection.html#cb107-27" tabindex="-1"></a>summary.table</span>
-<span id="cb107-28"><a href="09-Detecting_selection.html#cb107-28" tabindex="-1"></a></span>
-<span id="cb107-29"><a href="09-Detecting_selection.html#cb107-29" tabindex="-1"></a><span class="co"># save to file</span></span>
-<span id="cb107-30"><a href="09-Detecting_selection.html#cb107-30" tabindex="-1"></a><span class="fu">write.table</span>(summary.table, <span class="at">file=</span><span class="st">&quot;fst_hmm_lg01_regions_summary.dsv&quot;</span>,</span>
-<span id="cb107-31"><a href="09-Detecting_selection.html#cb107-31" tabindex="-1"></a>              <span class="at">quote=</span>F, <span class="at">row.names=</span>F, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
-<span id="cb107-32"><a href="09-Detecting_selection.html#cb107-32" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
-=======
 <div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="09-Detecting_selection.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="co"># estimate parameters of HMM using Baum-Welch EM algorithm</span></span>
 <span id="cb105-2"><a href="09-Detecting_selection.html#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this may take a while (a few minutes)</span></span>
 <span id="cb105-3"><a href="09-Detecting_selection.html#cb105-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -893,27 +613,26 @@ F ^{Hudson}_{ST} =
 <span id="cb107-31"><a href="09-Detecting_selection.html#cb107-31" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(summary.table, <span class="at">file=</span><span class="st">&quot;fst_hmm_lg01_regions_summary.dsv&quot;</span>,</span>
 <span id="cb107-32"><a href="09-Detecting_selection.html#cb107-32" aria-hidden="true" tabindex="-1"></a>              <span class="at">quote=</span>F, <span class="at">row.names=</span>F, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
 <span id="cb107-33"><a href="09-Detecting_selection.html#cb107-33" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
->>>>>>> Stashed changes
 <p>We are going to plot the regions using a low, medium, and high differentiation legend.</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="09-Detecting_selection.html#cb108-1" tabindex="-1"></a><span class="co"># plot regions using differentiation legend</span></span>
-<span id="cb108-2"><a href="09-Detecting_selection.html#cb108-2" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
-<span id="cb108-3"><a href="09-Detecting_selection.html#cb108-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">4</span>)<span class="sc">+</span><span class="fl">0.1</span>)</span>
-<span id="cb108-4"><a href="09-Detecting_selection.html#cb108-4" tabindex="-1"></a>colours<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;dark grey&quot;</span>,<span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb108-5"><a href="09-Detecting_selection.html#cb108-5" tabindex="-1"></a><span class="fu">plot</span>(fst, <span class="at">col=</span>colours[fitHMM], <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.8</span>),</span>
-<span id="cb108-6"><a href="09-Detecting_selection.html#cb108-6" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;relative position&quot;</span>, <span class="at">ylab=</span><span class="fu">expression</span>(<span class="st">&quot;F&quot;</span>[ST]), </span>
-<span id="cb108-7"><a href="09-Detecting_selection.html#cb108-7" tabindex="-1"></a>     <span class="at">main=</span><span class="st">&quot;regions of differentiation&quot;</span>,</span>
-<span id="cb108-8"><a href="09-Detecting_selection.html#cb108-8" tabindex="-1"></a>     <span class="at">cex=</span><span class="dv">1</span>, <span class="at">cex.axis=</span><span class="dv">4</span>, <span class="at">cex.lab=</span><span class="dv">4</span>, <span class="at">cex.main=</span><span class="dv">4</span>, <span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">0</span>))</span>
-<span id="cb108-9"><a href="09-Detecting_selection.html#cb108-9" tabindex="-1"></a></span>
-<span id="cb108-10"><a href="09-Detecting_selection.html#cb108-10" tabindex="-1"></a><span class="co"># add horizontal line to illustrate top 0.1% FST values</span></span>
-<span id="cb108-11"><a href="09-Detecting_selection.html#cb108-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fu">quantile</span>(fst, <span class="at">prob=</span><span class="fl">0.999</span>,<span class="at">na.rm=</span>T), <span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">lty=</span><span class="dv">3</span>, <span class="at">cex=</span><span class="dv">4</span>, <span class="at">lwd=</span><span class="dv">3</span>)</span>
-<span id="cb108-12"><a href="09-Detecting_selection.html#cb108-12" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">0</span>,<span class="fu">quantile</span>(fst, <span class="at">prob=</span><span class="fl">0.999</span>,<span class="at">na.rm=</span>T)<span class="sc">+</span><span class="fl">0.025</span>, </span>
-<span id="cb108-13"><a href="09-Detecting_selection.html#cb108-13" tabindex="-1"></a>      <span class="at">label=</span><span class="fu">expression</span>(<span class="st">&quot;&quot;</span><span class="sc">&gt;=</span><span class="st">&quot; 0.1%&quot;</span>), <span class="at">adj=</span><span class="dv">1</span>, <span class="at">pos=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="dv">3</span>)</span>
-<span id="cb108-14"><a href="09-Detecting_selection.html#cb108-14" tabindex="-1"></a></span>
-<span id="cb108-15"><a href="09-Detecting_selection.html#cb108-15" tabindex="-1"></a><span class="co"># legend</span></span>
-<span id="cb108-16"><a href="09-Detecting_selection.html#cb108-16" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>,<span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;high&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;low&quot;</span>), </span>
-<span id="cb108-17"><a href="09-Detecting_selection.html#cb108-17" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span>colours, <span class="at">title=</span><span class="st">&quot;differentiation&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">cex=</span><span class="dv">4</span>)</span>
-<span id="cb108-18"><a href="09-Detecting_selection.html#cb108-18" tabindex="-1"></a></span>
-<span id="cb108-19"><a href="09-Detecting_selection.html#cb108-19" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="09-Detecting_selection.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot regions using differentiation legend</span></span>
+<span id="cb108-2"><a href="09-Detecting_selection.html#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
+<span id="cb108-3"><a href="09-Detecting_selection.html#cb108-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">4</span>)<span class="sc">+</span><span class="fl">0.1</span>)</span>
+<span id="cb108-4"><a href="09-Detecting_selection.html#cb108-4" aria-hidden="true" tabindex="-1"></a>colours<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;dark grey&quot;</span>,<span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb108-5"><a href="09-Detecting_selection.html#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fst, <span class="at">col=</span>colours[fitHMM], <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.8</span>),</span>
+<span id="cb108-6"><a href="09-Detecting_selection.html#cb108-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;relative position&quot;</span>, <span class="at">ylab=</span><span class="fu">expression</span>(<span class="st">&quot;F&quot;</span>[ST]), </span>
+<span id="cb108-7"><a href="09-Detecting_selection.html#cb108-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main=</span><span class="st">&quot;regions of differentiation&quot;</span>,</span>
+<span id="cb108-8"><a href="09-Detecting_selection.html#cb108-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex=</span><span class="dv">1</span>, <span class="at">cex.axis=</span><span class="dv">4</span>, <span class="at">cex.lab=</span><span class="dv">4</span>, <span class="at">cex.main=</span><span class="dv">4</span>, <span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">0</span>))</span>
+<span id="cb108-9"><a href="09-Detecting_selection.html#cb108-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-10"><a href="09-Detecting_selection.html#cb108-10" aria-hidden="true" tabindex="-1"></a><span class="co"># add horizontal line to illustrate top 0.1% FST values</span></span>
+<span id="cb108-11"><a href="09-Detecting_selection.html#cb108-11" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fu">quantile</span>(fst, <span class="at">prob=</span><span class="fl">0.999</span>,<span class="at">na.rm=</span>T), <span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">lty=</span><span class="dv">3</span>, <span class="at">cex=</span><span class="dv">4</span>, <span class="at">lwd=</span><span class="dv">3</span>)</span>
+<span id="cb108-12"><a href="09-Detecting_selection.html#cb108-12" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">0</span>,<span class="fu">quantile</span>(fst, <span class="at">prob=</span><span class="fl">0.999</span>,<span class="at">na.rm=</span>T)<span class="sc">+</span><span class="fl">0.025</span>, </span>
+<span id="cb108-13"><a href="09-Detecting_selection.html#cb108-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">label=</span><span class="fu">expression</span>(<span class="st">&quot;&quot;</span><span class="sc">&gt;=</span><span class="st">&quot; 0.1%&quot;</span>), <span class="at">adj=</span><span class="dv">1</span>, <span class="at">pos=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="dv">3</span>)</span>
+<span id="cb108-14"><a href="09-Detecting_selection.html#cb108-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-15"><a href="09-Detecting_selection.html#cb108-15" aria-hidden="true" tabindex="-1"></a><span class="co"># legend</span></span>
+<span id="cb108-16"><a href="09-Detecting_selection.html#cb108-16" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>,<span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;high&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;low&quot;</span>), </span>
+<span id="cb108-17"><a href="09-Detecting_selection.html#cb108-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span>colours, <span class="at">title=</span><span class="st">&quot;differentiation&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb108-18"><a href="09-Detecting_selection.html#cb108-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-19"><a href="09-Detecting_selection.html#cb108-19" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
 <p><img src="figures/fst_hmm_lg01.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>We have obtained the size of the regions in number of SNPs so far, let’s get the actual size in base pairs. First, we use a function to get the size of regions in bp given their coordinates (lb=lower boundaries, ub=upper boundaries) and some information about the length and order of the scaffolds in the linkage groups. This has an extra complication because of the particularities of the <em>T. cristinae</em> draft genome, where scaffolds were assigned to linkage groups in a particular order using additional genetic information from crosses. Actually, the values obtained here are only approximations, because although the order of the scaffolds in a linkage group is known, the distance among them (i.e. the number of bp) is not.</p>
 <!-- ```{R eval=FALSE} -->
@@ -946,69 +665,64 @@ F ^{Hudson}_{ST} =
 <!-- # ------------------------------------------------------------------------------ -->
 <!-- ``` -->
 <p>We need to get some info about the order and size of the scaffolds from the file lg_ord_sca_length.dsv</p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="09-Detecting_selection.html#cb109-1" tabindex="-1"></a><span class="co"># load the order and size of scaffolds in the draft genome</span></span>
-<span id="cb109-2"><a href="09-Detecting_selection.html#cb109-2" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
-<span id="cb109-3"><a href="09-Detecting_selection.html#cb109-3" tabindex="-1"></a>lgordscalen<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;data/lg_ord_sca_length.dsv&quot;</span>,<span class="at">header=</span>T,<span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
-<span id="cb109-4"><a href="09-Detecting_selection.html#cb109-4" tabindex="-1"></a>lgordscalen<span class="ot">&lt;-</span>lgordscalen[lgordscalen<span class="sc">$</span>lg<span class="sc">==</span><span class="dv">1</span>,]</span>
-<span id="cb109-5"><a href="09-Detecting_selection.html#cb109-5" tabindex="-1"></a></span>
-<span id="cb109-6"><a href="09-Detecting_selection.html#cb109-6" tabindex="-1"></a>loci.pos<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">&quot;.*:&quot;</span>,<span class="st">&quot;&quot;</span>,fst.HVAxHVC<span class="sc">$</span>locus))</span>
-<span id="cb109-7"><a href="09-Detecting_selection.html#cb109-7" tabindex="-1"></a>loci.ord<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">&quot;.*ord|_scaf.*&quot;</span>,<span class="st">&quot;&quot;</span>,fst.HVAxHVC<span class="sc">$</span>locus))</span>
-<span id="cb109-8"><a href="09-Detecting_selection.html#cb109-8" tabindex="-1"></a>loci.sca<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">&quot;.*_scaf|:.*&quot;</span>,<span class="st">&quot;&quot;</span>,fst.HVAxHVC<span class="sc">$</span>locus))</span>
-<span id="cb109-9"><a href="09-Detecting_selection.html#cb109-9" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="09-Detecting_selection.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the order and size of scaffolds in the draft genome</span></span>
+<span id="cb109-2"><a href="09-Detecting_selection.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
+<span id="cb109-3"><a href="09-Detecting_selection.html#cb109-3" aria-hidden="true" tabindex="-1"></a>lgordscalen<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;data/lg_ord_sca_length.dsv&quot;</span>,<span class="at">header=</span>T,<span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb109-4"><a href="09-Detecting_selection.html#cb109-4" aria-hidden="true" tabindex="-1"></a>lgordscalen<span class="ot">&lt;-</span>lgordscalen[lgordscalen<span class="sc">$</span>lg<span class="sc">==</span><span class="dv">1</span>,]</span>
+<span id="cb109-5"><a href="09-Detecting_selection.html#cb109-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-6"><a href="09-Detecting_selection.html#cb109-6" aria-hidden="true" tabindex="-1"></a>loci.pos<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">&quot;.*:&quot;</span>,<span class="st">&quot;&quot;</span>,fst.HVAxHVC<span class="sc">$</span>locus))</span>
+<span id="cb109-7"><a href="09-Detecting_selection.html#cb109-7" aria-hidden="true" tabindex="-1"></a>loci.ord<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">&quot;.*ord|_scaf.*&quot;</span>,<span class="st">&quot;&quot;</span>,fst.HVAxHVC<span class="sc">$</span>locus))</span>
+<span id="cb109-8"><a href="09-Detecting_selection.html#cb109-8" aria-hidden="true" tabindex="-1"></a>loci.sca<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">&quot;.*_scaf|:.*&quot;</span>,<span class="st">&quot;&quot;</span>,fst.HVAxHVC<span class="sc">$</span>locus))</span>
+<span id="cb109-9"><a href="09-Detecting_selection.html#cb109-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
 <p>Now get sizes of regions of high differentiation:</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="09-Detecting_selection.html#cb110-1" tabindex="-1"></a><span class="co"># high differentiation regions</span></span>
-<span id="cb110-2"><a href="09-Detecting_selection.html#cb110-2" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
-<span id="cb110-3"><a href="09-Detecting_selection.html#cb110-3" tabindex="-1"></a>lb.locindex<span class="ot">&lt;-</span><span class="fu">which</span>(fitHMM[<span class="dv">2</span><span class="sc">:</span>nloci]<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> fitHMM[<span class="dv">1</span><span class="sc">:</span>(nloci<span class="dv">-1</span>)]<span class="sc">!=</span><span class="dv">1</span>)</span>
-<span id="cb110-4"><a href="09-Detecting_selection.html#cb110-4" tabindex="-1"></a>ub.locindex<span class="ot">&lt;-</span><span class="fu">which</span>(fitHMM[<span class="dv">1</span><span class="sc">:</span>(nloci<span class="dv">-1</span>)]<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> fitHMM[<span class="dv">2</span><span class="sc">:</span>nloci]<span class="sc">!=</span><span class="dv">1</span>)</span>
-<span id="cb110-5"><a href="09-Detecting_selection.html#cb110-5" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(lb.locindex)<span class="sc">&lt;</span><span class="fu">length</span>(ub.locindex)) lb.locindex<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,lb.locindex)</span>
-<span id="cb110-6"><a href="09-Detecting_selection.html#cb110-6" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(lb.locindex)<span class="sc">&gt;</span><span class="fu">length</span>(ub.locindex)) ub.locindex<span class="ot">&lt;-</span><span class="fu">c</span>(ub.locindex,nloci)</span>
-<span id="cb110-7"><a href="09-Detecting_selection.html#cb110-7" tabindex="-1"></a></span>
-<span id="cb110-8"><a href="09-Detecting_selection.html#cb110-8" tabindex="-1"></a>hidif.regions<span class="ot">&lt;-</span><span class="fu">get.regions</span>(lb.locindex,ub.locindex,loci.ord,loci.pos,lgordscalen)</span>
-<span id="cb110-9"><a href="09-Detecting_selection.html#cb110-9" tabindex="-1"></a><span class="fu">write.table</span>(hidif.regions, <span class="at">file=</span><span class="st">&quot;fst_hmm_lg01_hidif_regions.dsv&quot;</span>, <span class="at">quote=</span>F, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
-<span id="cb110-10"><a href="09-Detecting_selection.html#cb110-10" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="09-Detecting_selection.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># high differentiation regions</span></span>
+<span id="cb110-2"><a href="09-Detecting_selection.html#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
+<span id="cb110-3"><a href="09-Detecting_selection.html#cb110-3" aria-hidden="true" tabindex="-1"></a>lb.locindex<span class="ot">&lt;-</span><span class="fu">which</span>(fitHMM[<span class="dv">2</span><span class="sc">:</span>nloci]<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> fitHMM[<span class="dv">1</span><span class="sc">:</span>(nloci<span class="dv">-1</span>)]<span class="sc">!=</span><span class="dv">1</span>)</span>
+<span id="cb110-4"><a href="09-Detecting_selection.html#cb110-4" aria-hidden="true" tabindex="-1"></a>ub.locindex<span class="ot">&lt;-</span><span class="fu">which</span>(fitHMM[<span class="dv">1</span><span class="sc">:</span>(nloci<span class="dv">-1</span>)]<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> fitHMM[<span class="dv">2</span><span class="sc">:</span>nloci]<span class="sc">!=</span><span class="dv">1</span>)</span>
+<span id="cb110-5"><a href="09-Detecting_selection.html#cb110-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(lb.locindex)<span class="sc">&lt;</span><span class="fu">length</span>(ub.locindex)) lb.locindex<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,lb.locindex)</span>
+<span id="cb110-6"><a href="09-Detecting_selection.html#cb110-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(lb.locindex)<span class="sc">&gt;</span><span class="fu">length</span>(ub.locindex)) ub.locindex<span class="ot">&lt;-</span><span class="fu">c</span>(ub.locindex,nloci)</span>
+<span id="cb110-7"><a href="09-Detecting_selection.html#cb110-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-8"><a href="09-Detecting_selection.html#cb110-8" aria-hidden="true" tabindex="-1"></a>hidif.regions<span class="ot">&lt;-</span><span class="fu">get.regions</span>(lb.locindex,ub.locindex,loci.ord,loci.pos,lgordscalen)</span>
+<span id="cb110-9"><a href="09-Detecting_selection.html#cb110-9" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(hidif.regions, <span class="at">file=</span><span class="st">&quot;fst_hmm_lg01_hidif_regions.dsv&quot;</span>, <span class="at">quote=</span>F, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb110-10"><a href="09-Detecting_selection.html#cb110-10" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
 <p>medium differentiation:</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="09-Detecting_selection.html#cb111-1" tabindex="-1"></a><span class="co"># medium differentiation regions</span></span>
-<span id="cb111-2"><a href="09-Detecting_selection.html#cb111-2" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
-<span id="cb111-3"><a href="09-Detecting_selection.html#cb111-3" tabindex="-1"></a>lb.locindex<span class="ot">&lt;-</span><span class="fu">which</span>(fitHMM[<span class="dv">2</span><span class="sc">:</span>nloci]<span class="sc">==</span><span class="dv">2</span> <span class="sc">&amp;</span> fitHMM[<span class="dv">1</span><span class="sc">:</span>(nloci<span class="dv">-1</span>)]<span class="sc">!=</span><span class="dv">2</span>)</span>
-<span id="cb111-4"><a href="09-Detecting_selection.html#cb111-4" tabindex="-1"></a>ub.locindex<span class="ot">&lt;-</span><span class="fu">which</span>(fitHMM[<span class="dv">1</span><span class="sc">:</span>(nloci<span class="dv">-1</span>)]<span class="sc">==</span><span class="dv">2</span> <span class="sc">&amp;</span> fitHMM[<span class="dv">2</span><span class="sc">:</span>nloci]<span class="sc">!=</span><span class="dv">2</span>)</span>
-<span id="cb111-5"><a href="09-Detecting_selection.html#cb111-5" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(lb.locindex)<span class="sc">&lt;</span><span class="fu">length</span>(ub.locindex)) lb.locindex<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,lb.locindex)</span>
-<span id="cb111-6"><a href="09-Detecting_selection.html#cb111-6" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(lb.locindex)<span class="sc">&gt;</span><span class="fu">length</span>(ub.locindex)) ub.locindex<span class="ot">&lt;-</span><span class="fu">c</span>(ub.locindex,nloci)</span>
-<span id="cb111-7"><a href="09-Detecting_selection.html#cb111-7" tabindex="-1"></a></span>
-<span id="cb111-8"><a href="09-Detecting_selection.html#cb111-8" tabindex="-1"></a>medif.regions<span class="ot">&lt;-</span><span class="fu">get.regions</span>(lb.locindex,ub.locindex,loci.ord,loci.pos,lgordscalen)</span>
-<span id="cb111-9"><a href="09-Detecting_selection.html#cb111-9" tabindex="-1"></a><span class="fu">write.table</span>(medif.regions, <span class="at">file=</span><span class="st">&quot;fst_hmm_lg01_medif_regions.dsv&quot;</span>, <span class="at">quote=</span>F, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
-<span id="cb111-10"><a href="09-Detecting_selection.html#cb111-10" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="09-Detecting_selection.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co"># medium differentiation regions</span></span>
+<span id="cb111-2"><a href="09-Detecting_selection.html#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
+<span id="cb111-3"><a href="09-Detecting_selection.html#cb111-3" aria-hidden="true" tabindex="-1"></a>lb.locindex<span class="ot">&lt;-</span><span class="fu">which</span>(fitHMM[<span class="dv">2</span><span class="sc">:</span>nloci]<span class="sc">==</span><span class="dv">2</span> <span class="sc">&amp;</span> fitHMM[<span class="dv">1</span><span class="sc">:</span>(nloci<span class="dv">-1</span>)]<span class="sc">!=</span><span class="dv">2</span>)</span>
+<span id="cb111-4"><a href="09-Detecting_selection.html#cb111-4" aria-hidden="true" tabindex="-1"></a>ub.locindex<span class="ot">&lt;-</span><span class="fu">which</span>(fitHMM[<span class="dv">1</span><span class="sc">:</span>(nloci<span class="dv">-1</span>)]<span class="sc">==</span><span class="dv">2</span> <span class="sc">&amp;</span> fitHMM[<span class="dv">2</span><span class="sc">:</span>nloci]<span class="sc">!=</span><span class="dv">2</span>)</span>
+<span id="cb111-5"><a href="09-Detecting_selection.html#cb111-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(lb.locindex)<span class="sc">&lt;</span><span class="fu">length</span>(ub.locindex)) lb.locindex<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,lb.locindex)</span>
+<span id="cb111-6"><a href="09-Detecting_selection.html#cb111-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(lb.locindex)<span class="sc">&gt;</span><span class="fu">length</span>(ub.locindex)) ub.locindex<span class="ot">&lt;-</span><span class="fu">c</span>(ub.locindex,nloci)</span>
+<span id="cb111-7"><a href="09-Detecting_selection.html#cb111-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-8"><a href="09-Detecting_selection.html#cb111-8" aria-hidden="true" tabindex="-1"></a>medif.regions<span class="ot">&lt;-</span><span class="fu">get.regions</span>(lb.locindex,ub.locindex,loci.ord,loci.pos,lgordscalen)</span>
+<span id="cb111-9"><a href="09-Detecting_selection.html#cb111-9" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(medif.regions, <span class="at">file=</span><span class="st">&quot;fst_hmm_lg01_medif_regions.dsv&quot;</span>, <span class="at">quote=</span>F, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb111-10"><a href="09-Detecting_selection.html#cb111-10" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
 <p>and low differentiation:</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="09-Detecting_selection.html#cb112-1" tabindex="-1"></a><span class="co"># low differentiation regions</span></span>
-<span id="cb112-2"><a href="09-Detecting_selection.html#cb112-2" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
-<span id="cb112-3"><a href="09-Detecting_selection.html#cb112-3" tabindex="-1"></a>lb.locindex<span class="ot">&lt;-</span><span class="fu">which</span>(fitHMM[<span class="dv">2</span><span class="sc">:</span>nloci]<span class="sc">==</span><span class="dv">3</span> <span class="sc">&amp;</span> fitHMM[<span class="dv">1</span><span class="sc">:</span>(nloci<span class="dv">-1</span>)]<span class="sc">!=</span><span class="dv">3</span>)</span>
-<span id="cb112-4"><a href="09-Detecting_selection.html#cb112-4" tabindex="-1"></a>ub.locindex<span class="ot">&lt;-</span><span class="fu">which</span>(fitHMM[<span class="dv">1</span><span class="sc">:</span>(nloci<span class="dv">-1</span>)]<span class="sc">==</span><span class="dv">3</span> <span class="sc">&amp;</span> fitHMM[<span class="dv">2</span><span class="sc">:</span>nloci]<span class="sc">!=</span><span class="dv">3</span>)</span>
-<span id="cb112-5"><a href="09-Detecting_selection.html#cb112-5" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(lb.locindex)<span class="sc">&lt;</span><span class="fu">length</span>(ub.locindex)) lb.locindex<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,lb.locindex)</span>
-<span id="cb112-6"><a href="09-Detecting_selection.html#cb112-6" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(lb.locindex)<span class="sc">&gt;</span><span class="fu">length</span>(ub.locindex)) ub.locindex<span class="ot">&lt;-</span><span class="fu">c</span>(ub.locindex,nloci)</span>
-<span id="cb112-7"><a href="09-Detecting_selection.html#cb112-7" tabindex="-1"></a></span>
-<span id="cb112-8"><a href="09-Detecting_selection.html#cb112-8" tabindex="-1"></a>lodif.regions<span class="ot">&lt;-</span><span class="fu">get.regions</span>(lb.locindex,ub.locindex,loci.ord,loci.pos,lgordscalen)</span>
-<span id="cb112-9"><a href="09-Detecting_selection.html#cb112-9" tabindex="-1"></a><span class="fu">write.table</span>(lodif.regions, <span class="at">file=</span><span class="st">&quot;fst_hmm_lg01_lodif_regions.dsv&quot;</span>, <span class="at">quote=</span>F, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
-<span id="cb112-10"><a href="09-Detecting_selection.html#cb112-10" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="09-Detecting_selection.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># low differentiation regions</span></span>
+<span id="cb112-2"><a href="09-Detecting_selection.html#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
+<span id="cb112-3"><a href="09-Detecting_selection.html#cb112-3" aria-hidden="true" tabindex="-1"></a>lb.locindex<span class="ot">&lt;-</span><span class="fu">which</span>(fitHMM[<span class="dv">2</span><span class="sc">:</span>nloci]<span class="sc">==</span><span class="dv">3</span> <span class="sc">&amp;</span> fitHMM[<span class="dv">1</span><span class="sc">:</span>(nloci<span class="dv">-1</span>)]<span class="sc">!=</span><span class="dv">3</span>)</span>
+<span id="cb112-4"><a href="09-Detecting_selection.html#cb112-4" aria-hidden="true" tabindex="-1"></a>ub.locindex<span class="ot">&lt;-</span><span class="fu">which</span>(fitHMM[<span class="dv">1</span><span class="sc">:</span>(nloci<span class="dv">-1</span>)]<span class="sc">==</span><span class="dv">3</span> <span class="sc">&amp;</span> fitHMM[<span class="dv">2</span><span class="sc">:</span>nloci]<span class="sc">!=</span><span class="dv">3</span>)</span>
+<span id="cb112-5"><a href="09-Detecting_selection.html#cb112-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(lb.locindex)<span class="sc">&lt;</span><span class="fu">length</span>(ub.locindex)) lb.locindex<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,lb.locindex)</span>
+<span id="cb112-6"><a href="09-Detecting_selection.html#cb112-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(lb.locindex)<span class="sc">&gt;</span><span class="fu">length</span>(ub.locindex)) ub.locindex<span class="ot">&lt;-</span><span class="fu">c</span>(ub.locindex,nloci)</span>
+<span id="cb112-7"><a href="09-Detecting_selection.html#cb112-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-8"><a href="09-Detecting_selection.html#cb112-8" aria-hidden="true" tabindex="-1"></a>lodif.regions<span class="ot">&lt;-</span><span class="fu">get.regions</span>(lb.locindex,ub.locindex,loci.ord,loci.pos,lgordscalen)</span>
+<span id="cb112-9"><a href="09-Detecting_selection.html#cb112-9" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(lodif.regions, <span class="at">file=</span><span class="st">&quot;fst_hmm_lg01_lodif_regions.dsv&quot;</span>, <span class="at">quote=</span>F, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb112-10"><a href="09-Detecting_selection.html#cb112-10" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
 <p>Finally, we plot the distribution of sizes for high, medium, and low differentiation regions.</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="09-Detecting_selection.html#cb113-1" tabindex="-1"></a><span class="co"># Compare distribution of sizes</span></span>
-<span id="cb113-2"><a href="09-Detecting_selection.html#cb113-2" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
-<span id="cb113-3"><a href="09-Detecting_selection.html#cb113-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
-<span id="cb113-4"><a href="09-Detecting_selection.html#cb113-4" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">15</span>,<span class="dv">10</span>,<span class="dv">4</span>)<span class="sc">+</span><span class="fl">0.1</span>,  <span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">0</span>))</span>
-<span id="cb113-5"><a href="09-Detecting_selection.html#cb113-5" tabindex="-1"></a><span class="fu">hist</span>(hidif.regions<span class="sc">$</span>length<span class="sc">/</span><span class="dv">1000</span>,<span class="at">main=</span><span class="st">&quot;high differentiation regions&quot;</span>,</span>
-<span id="cb113-6"><a href="09-Detecting_selection.html#cb113-6" tabindex="-1"></a>        <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>),<span class="at">xlab=</span><span class="st">&quot;size (Kbp)&quot;</span>,<span class="at">breaks=</span><span class="dv">50</span>, </span>
-<span id="cb113-7"><a href="09-Detecting_selection.html#cb113-7" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="dv">4</span>, <span class="at">cex.lab=</span><span class="dv">4</span>, <span class="at">cex.main=</span><span class="dv">4</span>)</span>
-<span id="cb113-8"><a href="09-Detecting_selection.html#cb113-8" tabindex="-1"></a><span class="fu">hist</span>(medif.regions<span class="sc">$</span>length<span class="sc">/</span><span class="dv">1000</span>,<span class="at">main=</span><span class="st">&quot;medium differentiation regions&quot;</span>,</span>
-<span id="cb113-9"><a href="09-Detecting_selection.html#cb113-9" tabindex="-1"></a>        <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>), <span class="at">xlab=</span><span class="st">&quot;size (Kbp)&quot;</span>,<span class="at">breaks=</span><span class="dv">50</span>, <span class="at">cex=</span><span class="dv">4</span>, </span>
-<span id="cb113-10"><a href="09-Detecting_selection.html#cb113-10" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="dv">4</span>, <span class="at">cex.lab=</span><span class="dv">4</span>, <span class="at">cex.main=</span><span class="dv">4</span>)</span>
-<span id="cb113-11"><a href="09-Detecting_selection.html#cb113-11" tabindex="-1"></a><span class="fu">hist</span>(lodif.regions<span class="sc">$</span>length<span class="sc">/</span><span class="dv">1000</span>,<span class="at">main=</span><span class="st">&quot;low differentiation regions&quot;</span>,</span>
-<span id="cb113-12"><a href="09-Detecting_selection.html#cb113-12" tabindex="-1"></a>        <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>), <span class="at">xlab=</span><span class="st">&quot;size (Kbp)&quot;</span>, <span class="at">breaks=</span><span class="dv">50</span>, <span class="at">cex=</span><span class="dv">4</span>, </span>
-<span id="cb113-13"><a href="09-Detecting_selection.html#cb113-13" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="dv">4</span>, <span class="at">cex.lab=</span><span class="dv">4</span>, <span class="at">cex.main=</span><span class="dv">4</span>)</span>
-<span id="cb113-14"><a href="09-Detecting_selection.html#cb113-14" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="09-Detecting_selection.html#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare distribution of sizes</span></span>
+<span id="cb113-2"><a href="09-Detecting_selection.html#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
+<span id="cb113-3"><a href="09-Detecting_selection.html#cb113-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb113-4"><a href="09-Detecting_selection.html#cb113-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">15</span>,<span class="dv">10</span>,<span class="dv">4</span>)<span class="sc">+</span><span class="fl">0.1</span>,  <span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">0</span>))</span>
+<span id="cb113-5"><a href="09-Detecting_selection.html#cb113-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(hidif.regions<span class="sc">$</span>length<span class="sc">/</span><span class="dv">1000</span>,<span class="at">main=</span><span class="st">&quot;high differentiation regions&quot;</span>,</span>
+<span id="cb113-6"><a href="09-Detecting_selection.html#cb113-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>),<span class="at">xlab=</span><span class="st">&quot;size (Kbp)&quot;</span>,<span class="at">breaks=</span><span class="dv">50</span>, </span>
+<span id="cb113-7"><a href="09-Detecting_selection.html#cb113-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="dv">4</span>, <span class="at">cex.lab=</span><span class="dv">4</span>, <span class="at">cex.main=</span><span class="dv">4</span>)</span>
+<span id="cb113-8"><a href="09-Detecting_selection.html#cb113-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(medif.regions<span class="sc">$</span>length<span class="sc">/</span><span class="dv">1000</span>,<span class="at">main=</span><span class="st">&quot;medium differentiation regions&quot;</span>,</span>
+<span id="cb113-9"><a href="09-Detecting_selection.html#cb113-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>), <span class="at">xlab=</span><span class="st">&quot;size (Kbp)&quot;</span>,<span class="at">breaks=</span><span class="dv">50</span>, <span class="at">cex=</span><span class="dv">4</span>, </span>
+<span id="cb113-10"><a href="09-Detecting_selection.html#cb113-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="dv">4</span>, <span class="at">cex.lab=</span><span class="dv">4</span>, <span class="at">cex.main=</span><span class="dv">4</span>)</span>
+<span id="cb113-11"><a href="09-Detecting_selection.html#cb113-11" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(lodif.regions<span class="sc">$</span>length<span class="sc">/</span><span class="dv">1000</span>,<span class="at">main=</span><span class="st">&quot;low differentiation regions&quot;</span>,</span>
+<span id="cb113-12"><a href="09-Detecting_selection.html#cb113-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>), <span class="at">xlab=</span><span class="st">&quot;size (Kbp)&quot;</span>, <span class="at">breaks=</span><span class="dv">50</span>, <span class="at">cex=</span><span class="dv">4</span>, </span>
+<span id="cb113-13"><a href="09-Detecting_selection.html#cb113-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="dv">4</span>, <span class="at">cex.lab=</span><span class="dv">4</span>, <span class="at">cex.main=</span><span class="dv">4</span>)</span>
+<span id="cb113-14"><a href="09-Detecting_selection.html#cb113-14" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
 <p><img src="figures/fst_hmm_lg01_dif_regions_sizes.png" width="100%" style="display: block; margin: auto;" /></p>
-<<<<<<< Updated upstream
-<p>Remember to quit the R session when finished:</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="09-Detecting_selection.html#cb114-1" tabindex="-1"></a><span class="fu">quit</span>()</span></code></pre></div>
-=======
->>>>>>> Stashed changes
 
 </div>
 </div>
