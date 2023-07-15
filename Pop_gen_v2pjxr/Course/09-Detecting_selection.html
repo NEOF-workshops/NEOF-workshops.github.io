@@ -23,7 +23,7 @@
 <meta name="author" content="Helen Hipperson, Katy Maher, Victor Soria-Carrasco, Graeme Fox" />
 
 
-<meta name="date" content="2023-07-14" />
+<meta name="date" content="2023-07-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -271,25 +271,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="initial-set-up" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Initial set up<a href="09-Detecting_selection.html#initial-set-up" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>First you will need to move into the folder for this practical.</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb77-1"><a href="09-Detecting_selection.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/popgenomics/data/fst_hmm</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb76-1"><a href="09-Detecting_selection.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/popgenomics/data/fst_hmm</span></code></pre></div>
 </div>
 <div id="data-formatting" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> Data formatting<a href="09-Detecting_selection.html#data-formatting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now let’s have a look at the data. You should have the following input files:</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb78-1"><a href="09-Detecting_selection.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb77-1"><a href="09-Detecting_selection.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div>
 <p><img src="figures/data.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>There is a vcf file containing single nucleotide polymorphisms (SNPs) from whole genome sequences of 20 individuals for each population (HVA and HVC). vcf is a very popular format for genetic variants, you can find more info <a href="https://www.internationalgenome.org/wiki/Analysis/vcf4.0/">here</a>. You can have a look at the file content with the following commands:</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb79-1"><a href="09-Detecting_selection.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">zless</span> <span class="at">-S</span> data/timemaHVA.vcf.gz</span>
-<span id="cb79-2"><a href="09-Detecting_selection.html#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or with bcftools</span></span>
-<span id="cb79-3"><a href="09-Detecting_selection.html#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view data/timemaHVA.vcf.gz <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span>
-<span id="cb79-4"><a href="09-Detecting_selection.html#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="co"># excluding long header</span></span>
-<span id="cb79-5"><a href="09-Detecting_selection.html#cb79-5" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> data/timemaHVA.vcf.gz <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb78-1"><a href="09-Detecting_selection.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">zless</span> <span class="at">-S</span> data/timemaHVA.vcf.gz</span>
+<span id="cb78-2"><a href="09-Detecting_selection.html#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or with bcftools</span></span>
+<span id="cb78-3"><a href="09-Detecting_selection.html#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view data/timemaHVA.vcf.gz <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span>
+<span id="cb78-4"><a href="09-Detecting_selection.html#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="co"># excluding long header</span></span>
+<span id="cb78-5"><a href="09-Detecting_selection.html#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> data/timemaHVA.vcf.gz <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <p>They need to be converted to the stripped down format (gl, genotype likelihood). Genotype likelihoods take into account base quality scores and other error rates (e.g. mapping errors). Genotype likelihoods are required for <code>estpEM</code>, the program we are going to use for allele frequency estimation later. This is done with a custom Perl script called <code>bcf2gl.pl</code>, which has a very simple syntax. For example, if we were to convert the file for the HVA population, the command that you would run is:</p>
 <blockquote>
 <p>perl scripts/bcf2gl.pl -i data/timemaHVA.vcf.gz -o timemaHVA.gl</p>
 </blockquote>
 <p>To speed things up by processing the files in the cluster in parallel in different nodes, you can use <a href="https://docs.hpc.shef.ac.uk/en/latest/parallel/JobArray.html">SGE array job</a> that calls the Perl script for each file. Let’s have a look at the bcf2gl.sh script.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="09-Detecting_selection.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> scripts/bcf2gl.sh</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb79-1"><a href="09-Detecting_selection.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> scripts/bcf2gl.sh</span></code></pre></div>
 <p><img src="figures/bcf2gl.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>Do not run the following command as it will take a long time to run. If you were to run the script you could type:</p>
 <blockquote>
@@ -297,33 +297,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </blockquote>
 <p>As this will take a while to run, we have provided the output files in the data folder.</p>
 <p>Output .gl files should look like this:</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb81-1"><a href="09-Detecting_selection.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> data/timemaHVA.gl</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href="09-Detecting_selection.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> data/timemaHVA.gl</span></code></pre></div>
 <p><img src="figures/gl.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>The first line shows the number of samples and the number of SNPs, the second line show the samples IDs, and the third line specifies what samples will be used for analyses. The lines below represent a SNP per line. The first field is the ID (scaffold:position in this case) and it is followed by the phred scaled genotype likelihoods for the three possible genotypes (all variants are biallelic) for each individual. Therefore there are 3 x number of samples fields genotype likelihoods on each line.</p>
 </div>
 <div id="allele-frequency-estimation" class="section level2 hasAnchor" number="9.3">
 <h2><span class="header-section-number">9.3</span> Allele frequency estimation<a href="09-Detecting_selection.html#allele-frequency-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We will infer allele frequencies from genotype likelihoods by maximum likelihood, using an implementation of the iterative soft expectation-maximization algorithm (EM) described in <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3198575/">Li 2011</a> and also used in bcftools. This algorithm has been implemented in the program <code>estpEM</code>, with code kindly provided by <a href="https://gompertlab.com">Zach Gompert, Utah State University</a>. As before, this script is designed to use <code>SGE array</code> to parallelize jobs. In this case it will run <code>estpEM</code> to estimate allele frequencies from genotype likelihoods. You can have a look at the script:</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb82-1"><a href="09-Detecting_selection.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> scripts/alfreq.sh</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb81-1"><a href="09-Detecting_selection.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> scripts/alfreq.sh</span></code></pre></div>
 <p><img src="figures/alfreq.png" width="80%" style="display: block; margin: auto;" /></p>
 <p>Again we will not run this now as it would take too long but if you were to run it on your own data you could do so like this:</p>
 <blockquote>
 <p>scripts/alfreq.sh</p>
 </blockquote>
 <p>You can check an example output file. It should look something like this:</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb83-1"><a href="09-Detecting_selection.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> results/timemaHVA.alfreq.txt</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb82-1"><a href="09-Detecting_selection.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> results/timemaHVA.alfreq.txt</span></code></pre></div>
 <p><img src="figures/alfreq_results.png" width="50%" style="display: block; margin: auto;" /></p>
 <p>The columns are: locus, allele frequency from counts, and allele frequency inferred by maximum likelihood. Now we are going to merge the results from both populations into a single file:</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb84-1"><a href="09-Detecting_selection.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create header</span></span>
-<span id="cb84-2"><a href="09-Detecting_selection.html#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">&quot;locus\tafHVA\tafHVC&quot;</span> <span class="op">&gt;</span> timemaHVAxHVC.alfreq.txt</span>
-<span id="cb84-3"><a href="09-Detecting_selection.html#cb84-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-4"><a href="09-Detecting_selection.html#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="co"># join files by locus (1st field), retain only locus id (1st field)</span></span>
-<span id="cb84-5"><a href="09-Detecting_selection.html#cb84-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># and ML AFs (3rd and 5th fields)</span></span>
-<span id="cb84-6"><a href="09-Detecting_selection.html#cb84-6" aria-hidden="true" tabindex="-1"></a><span class="fu">join</span> <span class="at">-j</span> 1 results/timemaHVA.alfreq.txt results/timemaHVC.alfreq.txt <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb84-7"><a href="09-Detecting_selection.html#cb84-7" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{OFS=&quot;\t&quot;; print $1,$3,$5}&#39;</span> <span class="op">&gt;&gt;</span> timemaHVAxHVC.alfreq.txt</span>
-<span id="cb84-8"><a href="09-Detecting_selection.html#cb84-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-9"><a href="09-Detecting_selection.html#cb84-9" aria-hidden="true" tabindex="-1"></a><span class="co"># show file</span></span>
-<span id="cb84-10"><a href="09-Detecting_selection.html#cb84-10" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> timemaHVAxHVC.alfreq.txt</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb83-1"><a href="09-Detecting_selection.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create header</span></span>
+<span id="cb83-2"><a href="09-Detecting_selection.html#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">&quot;locus\tafHVA\tafHVC&quot;</span> <span class="op">&gt;</span> timemaHVAxHVC.alfreq.txt</span>
+<span id="cb83-3"><a href="09-Detecting_selection.html#cb83-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-4"><a href="09-Detecting_selection.html#cb83-4" aria-hidden="true" tabindex="-1"></a><span class="co"># join files by locus (1st field), retain only locus id (1st field)</span></span>
+<span id="cb83-5"><a href="09-Detecting_selection.html#cb83-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># and ML AFs (3rd and 5th fields)</span></span>
+<span id="cb83-6"><a href="09-Detecting_selection.html#cb83-6" aria-hidden="true" tabindex="-1"></a><span class="fu">join</span> <span class="at">-j</span> 1 results/timemaHVA.alfreq.txt results/timemaHVC.alfreq.txt <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb83-7"><a href="09-Detecting_selection.html#cb83-7" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{OFS=&quot;\t&quot;; print $1,$3,$5}&#39;</span> <span class="op">&gt;&gt;</span> timemaHVAxHVC.alfreq.txt</span>
+<span id="cb83-8"><a href="09-Detecting_selection.html#cb83-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-9"><a href="09-Detecting_selection.html#cb83-9" aria-hidden="true" tabindex="-1"></a><span class="co"># show file</span></span>
+<span id="cb83-10"><a href="09-Detecting_selection.html#cb83-10" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> timemaHVAxHVC.alfreq.txt</span></code></pre></div>
 <p><img src="figures/al_merge.png" width="50%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="fst-estimation" class="section level2 hasAnchor" number="9.4">
@@ -340,24 +340,34 @@ F ^{Hudson}_{ST} =
 <li><p><em>Hb</em> is the between-population heterozygosity</p></li>
 <li><p><em>p1</em> and <em>p2</em> are the allele frequencies in each population</p></li>
 </ul>
-<p>We are going to use the code provided in the script <code>fst.R</code> for FST estimation. This script can be run in batch mode like executing: <code>Rscript scripts/fst.R</code>, but you are likely to learn much more if you follow the steps below to run it step by step. Be aware that this is R code and will have to run using Jupyter.</p>
-<p>Create a new notebook called <strong>"Chp09a-FST-estimation"</strong>.</p>
-<p>First we change the working directory and then we load a library that will greatly speed up the loading of bit files and a library containing some functions required for calculations in the next section. In a new code cell type:</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="09-Detecting_selection.html#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change the working directory</span></span>
-<span id="cb85-2"><a href="09-Detecting_selection.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;~/popgenomics/data/fst_hmm/&quot;</span>)</span>
-<span id="cb85-3"><a href="09-Detecting_selection.html#cb85-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb85-4"><a href="09-Detecting_selection.html#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load library to speed up loading of big tables</span></span>
-<span id="cb85-5"><a href="09-Detecting_selection.html#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb85-6"><a href="09-Detecting_selection.html#cb85-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb85-7"><a href="09-Detecting_selection.html#cb85-7" aria-hidden="true" tabindex="-1"></a><span class="co"># install a library of functions for population genetics calculations</span></span>
-<span id="cb85-8"><a href="09-Detecting_selection.html#cb85-8" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;/pub14/tea/nsc206/NEOF/popgenomics/popgenfunctions/&quot;</span>, <span class="at">repos=</span><span class="cn">NULL</span>)</span>
-<span id="cb85-9"><a href="09-Detecting_selection.html#cb85-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(popgenfunctions)</span></code></pre></div>
+<p>We are going to use the code provided in the script <code>fst.R</code> for FST estimation. This script can be run in batch mode like executing: <code>Rscript scripts/fst.R</code>, but you are likely to learn much more if you follow the steps below to run it step by step. Be aware that this is R code.</p>
+<p>First we change the working directory and then we load a library that will greatly speed up the loading of bit files and a library containing some functions required for calculations in the next section. To do this we must first launch an R session (not in Jupyter) by typing <code>R</code>. We are now working within an R session so we must now use R code:</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="09-Detecting_selection.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change the working directory</span></span>
+<span id="cb84-2"><a href="09-Detecting_selection.html#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;~/popgenomics/data/fst_hmm/&quot;</span>)</span>
+<span id="cb84-3"><a href="09-Detecting_selection.html#cb84-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-4"><a href="09-Detecting_selection.html#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load library to speed up loading of big tables</span></span>
+<span id="cb84-5"><a href="09-Detecting_selection.html#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb84-6"><a href="09-Detecting_selection.html#cb84-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-7"><a href="09-Detecting_selection.html#cb84-7" aria-hidden="true" tabindex="-1"></a><span class="co"># install a library of functions for population genetics calculations</span></span>
+<span id="cb84-8"><a href="09-Detecting_selection.html#cb84-8" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;/pub14/tea/nsc206/NEOF/popgenomics/popgenfunctions/&quot;</span>, <span class="at">repos=</span><span class="cn">NULL</span>)</span>
+<span id="cb84-9"><a href="09-Detecting_selection.html#cb84-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(popgenfunctions)</span></code></pre></div>
 <p>You will likely get a message like the one below if you are installing the library for the first time.</p>
 <p><img src="figures/Rlib1.png" width="75%" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Type <code>y</code> and press enter. You will likely then see this message:</p>
 <p><img src="figures/Rlib2.png" width="50%" style="display: block; margin: auto auto auto 0;" /></p>
 <p>Type <code>y</code> again and press enter. Lastly, when this has installed load the package:</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="09-Detecting_selection.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(popgenfunctions)</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="09-Detecting_selection.html#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load a library of functions for population genetics calculations</span></span>
+<span id="cb85-2"><a href="09-Detecting_selection.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(popgenfunctions)</span></code></pre></div>
+<p>If this is successful we can now exit the R session by typing <code>q()</code> and then <code>n</code> when prompted. You should now be back in your terminal session.</p>
+<p>Launch jupyter-notebook and create a new notebook called <strong>"Chp09a-FST-estimation"</strong>. Type the following into a new code cell:</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="09-Detecting_selection.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change the working directory</span></span>
+<span id="cb86-2"><a href="09-Detecting_selection.html#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;~/popgenomics/data/fst_hmm/&quot;</span>)</span>
+<span id="cb86-3"><a href="09-Detecting_selection.html#cb86-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-4"><a href="09-Detecting_selection.html#cb86-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load library to speed up loading of big tables</span></span>
+<span id="cb86-5"><a href="09-Detecting_selection.html#cb86-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb86-6"><a href="09-Detecting_selection.html#cb86-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-7"><a href="09-Detecting_selection.html#cb86-7" aria-hidden="true" tabindex="-1"></a><span class="co"># load a library of functions for population genetics calculations</span></span>
+<span id="cb86-8"><a href="09-Detecting_selection.html#cb86-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(popgenfunctions)</span></code></pre></div>
 <!-- This is the function to calculate Hudson’s F~ST~: -->
 <!-- ```{R eval=FALSE} -->
 <!-- # function to calculate Hudson's Fst -->
@@ -616,21 +626,21 @@ F ^{Hudson}_{ST} =
 <p>We are going to plot the regions using a low, medium, and high differentiation legend.</p>
 <div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="09-Detecting_selection.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot regions using differentiation legend</span></span>
 <span id="cb108-2"><a href="09-Detecting_selection.html#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
-<span id="cb108-3"><a href="09-Detecting_selection.html#cb108-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">10</span>,<span class="dv">4</span>)<span class="sc">+</span><span class="fl">0.1</span>)</span>
+<span id="cb108-3"><a href="09-Detecting_selection.html#cb108-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">3</span>,<span class="dv">10</span>,<span class="dv">4</span>)<span class="sc">+</span><span class="fl">1.5</span>)</span>
 <span id="cb108-4"><a href="09-Detecting_selection.html#cb108-4" aria-hidden="true" tabindex="-1"></a>colours<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;dark grey&quot;</span>,<span class="st">&quot;blue&quot;</span>)</span>
 <span id="cb108-5"><a href="09-Detecting_selection.html#cb108-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fst, <span class="at">col=</span>colours[fitHMM], <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.8</span>),</span>
 <span id="cb108-6"><a href="09-Detecting_selection.html#cb108-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;relative position&quot;</span>, <span class="at">ylab=</span><span class="fu">expression</span>(<span class="st">&quot;F&quot;</span>[ST]), </span>
 <span id="cb108-7"><a href="09-Detecting_selection.html#cb108-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main=</span><span class="st">&quot;regions of differentiation&quot;</span>,</span>
-<span id="cb108-8"><a href="09-Detecting_selection.html#cb108-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex=</span><span class="dv">1</span>, <span class="at">cex.axis=</span><span class="dv">4</span>, <span class="at">cex.lab=</span><span class="dv">4</span>, <span class="at">cex.main=</span><span class="dv">4</span>, <span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">0</span>))</span>
+<span id="cb108-8"><a href="09-Detecting_selection.html#cb108-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex=</span><span class="dv">1</span>, <span class="at">cex.axis=</span><span class="dv">1</span>, <span class="at">cex.lab=</span><span class="dv">1</span>, <span class="at">cex.main=</span><span class="fl">1.3</span>, <span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">0</span>))</span>
 <span id="cb108-9"><a href="09-Detecting_selection.html#cb108-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb108-10"><a href="09-Detecting_selection.html#cb108-10" aria-hidden="true" tabindex="-1"></a><span class="co"># add horizontal line to illustrate top 0.1% FST values</span></span>
 <span id="cb108-11"><a href="09-Detecting_selection.html#cb108-11" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fu">quantile</span>(fst, <span class="at">prob=</span><span class="fl">0.999</span>,<span class="at">na.rm=</span>T), <span class="at">col=</span><span class="st">&quot;black&quot;</span>, <span class="at">lty=</span><span class="dv">3</span>, <span class="at">cex=</span><span class="dv">4</span>, <span class="at">lwd=</span><span class="dv">3</span>)</span>
 <span id="cb108-12"><a href="09-Detecting_selection.html#cb108-12" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">0</span>,<span class="fu">quantile</span>(fst, <span class="at">prob=</span><span class="fl">0.999</span>,<span class="at">na.rm=</span>T)<span class="sc">+</span><span class="fl">0.025</span>, </span>
-<span id="cb108-13"><a href="09-Detecting_selection.html#cb108-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">label=</span><span class="fu">expression</span>(<span class="st">&quot;&quot;</span><span class="sc">&gt;=</span><span class="st">&quot; 0.1%&quot;</span>), <span class="at">adj=</span><span class="dv">1</span>, <span class="at">pos=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="dv">3</span>)</span>
+<span id="cb108-13"><a href="09-Detecting_selection.html#cb108-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">label=</span><span class="fu">expression</span>(<span class="st">&quot;&quot;</span><span class="sc">&gt;=</span><span class="st">&quot; 0.1%&quot;</span>), <span class="at">adj=</span><span class="dv">1</span>, <span class="at">pos=</span><span class="dv">2</span>, <span class="at">cex=</span><span class="dv">1</span>)</span>
 <span id="cb108-14"><a href="09-Detecting_selection.html#cb108-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb108-15"><a href="09-Detecting_selection.html#cb108-15" aria-hidden="true" tabindex="-1"></a><span class="co"># legend</span></span>
 <span id="cb108-16"><a href="09-Detecting_selection.html#cb108-16" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>,<span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;high&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;low&quot;</span>), </span>
-<span id="cb108-17"><a href="09-Detecting_selection.html#cb108-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span>colours, <span class="at">title=</span><span class="st">&quot;differentiation&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">cex=</span><span class="dv">4</span>)</span>
+<span id="cb108-17"><a href="09-Detecting_selection.html#cb108-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span>colours, <span class="at">title=</span><span class="st">&quot;differentiation&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">cex=</span><span class="dv">1</span>)</span>
 <span id="cb108-18"><a href="09-Detecting_selection.html#cb108-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb108-19"><a href="09-Detecting_selection.html#cb108-19" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
 <p><img src="figures/fst_hmm_lg01.png" width="100%" style="display: block; margin: auto;" /></p>
@@ -711,16 +721,16 @@ F ^{Hudson}_{ST} =
 <div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="09-Detecting_selection.html#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare distribution of sizes</span></span>
 <span id="cb113-2"><a href="09-Detecting_selection.html#cb113-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
 <span id="cb113-3"><a href="09-Detecting_selection.html#cb113-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
-<span id="cb113-4"><a href="09-Detecting_selection.html#cb113-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">15</span>,<span class="dv">10</span>,<span class="dv">4</span>)<span class="sc">+</span><span class="fl">0.1</span>,  <span class="at">mgp=</span><span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">3</span>,<span class="dv">0</span>))</span>
+<span id="cb113-4"><a href="09-Detecting_selection.html#cb113-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">3</span>)<span class="sc">+</span><span class="dv">1</span>)</span>
 <span id="cb113-5"><a href="09-Detecting_selection.html#cb113-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(hidif.regions<span class="sc">$</span>length<span class="sc">/</span><span class="dv">1000</span>,<span class="at">main=</span><span class="st">&quot;high differentiation regions&quot;</span>,</span>
 <span id="cb113-6"><a href="09-Detecting_selection.html#cb113-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>),<span class="at">xlab=</span><span class="st">&quot;size (Kbp)&quot;</span>,<span class="at">breaks=</span><span class="dv">50</span>, </span>
-<span id="cb113-7"><a href="09-Detecting_selection.html#cb113-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="dv">4</span>, <span class="at">cex.lab=</span><span class="dv">4</span>, <span class="at">cex.main=</span><span class="dv">4</span>)</span>
+<span id="cb113-7"><a href="09-Detecting_selection.html#cb113-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="dv">1</span>, <span class="at">cex.lab=</span><span class="dv">1</span>, <span class="at">cex.main=</span><span class="dv">1</span>)</span>
 <span id="cb113-8"><a href="09-Detecting_selection.html#cb113-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(medif.regions<span class="sc">$</span>length<span class="sc">/</span><span class="dv">1000</span>,<span class="at">main=</span><span class="st">&quot;medium differentiation regions&quot;</span>,</span>
 <span id="cb113-9"><a href="09-Detecting_selection.html#cb113-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>), <span class="at">xlab=</span><span class="st">&quot;size (Kbp)&quot;</span>,<span class="at">breaks=</span><span class="dv">50</span>, <span class="at">cex=</span><span class="dv">4</span>, </span>
-<span id="cb113-10"><a href="09-Detecting_selection.html#cb113-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="dv">4</span>, <span class="at">cex.lab=</span><span class="dv">4</span>, <span class="at">cex.main=</span><span class="dv">4</span>)</span>
+<span id="cb113-10"><a href="09-Detecting_selection.html#cb113-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="dv">1</span>, <span class="at">cex.lab=</span><span class="dv">1</span>, <span class="at">cex.main=</span><span class="dv">1</span>)</span>
 <span id="cb113-11"><a href="09-Detecting_selection.html#cb113-11" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(lodif.regions<span class="sc">$</span>length<span class="sc">/</span><span class="dv">1000</span>,<span class="at">main=</span><span class="st">&quot;low differentiation regions&quot;</span>,</span>
 <span id="cb113-12"><a href="09-Detecting_selection.html#cb113-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>), <span class="at">xlab=</span><span class="st">&quot;size (Kbp)&quot;</span>, <span class="at">breaks=</span><span class="dv">50</span>, <span class="at">cex=</span><span class="dv">4</span>, </span>
-<span id="cb113-13"><a href="09-Detecting_selection.html#cb113-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="dv">4</span>, <span class="at">cex.lab=</span><span class="dv">4</span>, <span class="at">cex.main=</span><span class="dv">4</span>)</span>
+<span id="cb113-13"><a href="09-Detecting_selection.html#cb113-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="dv">1</span>, <span class="at">cex.lab=</span><span class="dv">1</span>, <span class="at">cex.main=</span><span class="dv">1</span>)</span>
 <span id="cb113-14"><a href="09-Detecting_selection.html#cb113-14" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
 <p><img src="figures/fst_hmm_lg01_dif_regions_sizes.png" width="100%" style="display: block; margin: auto;" /></p>
 
