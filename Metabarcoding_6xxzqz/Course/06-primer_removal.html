@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher and Helen Hipperson" />
 
 
-<meta name="date" content="2023-08-24" />
+<meta name="date" content="2023-08-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -303,7 +303,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb21-14"><a href="06-primer_removal.html#cb21-14" aria-hidden="true" tabindex="-1"></a>REV.orients <span class="co"># print all orientations of the reverse primer to the console</span></span></code></pre></div>
 <p>It is a good idea to pre-filter your data before searching for the primer sequences to remove Ns (ambiguously called bases) from the dataset and improve mapping of the primers. To do this we can use the <code>filterAndTrim</code> function. For more information on <code>filterAndTrim</code> and the parameters you can specify type into the console.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="06-primer_removal.html#cb22-1" aria-hidden="true" tabindex="-1"></a>?filterAndTrim</span></code></pre></div>
-<p>(Press ‘q’ to exit the help and return to the R console).</p>
+<p>(Close the pop-up window).</p>
 <p>For now we are only filtering Ns but we will come back to this function later after removing our primers. Specify the path to a new output directory to contain the N filtered files. We will call this directory <code>filtN</code>, and a copy of each of the forward and reverse fastq files with any ‘N’ containing sequences removed will be written here.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="06-primer_removal.html#cb23-1" aria-hidden="true" tabindex="-1"></a>fnFs.filtN <span class="ot">&lt;-</span> <span class="fu">file.path</span>(output.path, <span class="st">&quot;filtN&quot;</span>, <span class="fu">basename</span>(fnFs)) </span>
 <span id="cb23-2"><a href="06-primer_removal.html#cb23-2" aria-hidden="true" tabindex="-1"></a>fnRs.filtN <span class="ot">&lt;-</span> <span class="fu">file.path</span>(output.path, <span class="st">&quot;filtN&quot;</span>, <span class="fu">basename</span>(fnRs))</span></code></pre></div>
@@ -317,7 +317,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>the path to write our N-trimmed reverse fastqs <code>fnRs.filtN</code></li>
 <li>and the function-specific options for <code>maxN</code> and <code>multithread</code></li>
 </ul>
-<p>This will take a few minutes to run. When it is finished the cursor will stop flashing and you will see the <code>&gt;</code> prompt and can carry on with the next command.</p>
+<p>This will take a few minutes to run.</p>
 <p>The following function will use all possible primer combinations to count the number of times a primer is found in the forward and reverse read in each orientation.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="06-primer_removal.html#cb25-1" aria-hidden="true" tabindex="-1"></a>primerHits <span class="ot">&lt;-</span> <span class="cf">function</span>(primer, fn) {</span>
 <span id="cb25-2"><a href="06-primer_removal.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Counts number of reads in which the primer is found</span></span>
@@ -353,6 +353,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb28-6"><a href="06-primer_removal.html#cb28-6" aria-hidden="true" tabindex="-1"></a>R2.flags <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;-G&quot;</span>, REV, <span class="st">&quot;-A&quot;</span>, FWD.RC) </span></code></pre></div>
 <p>What do the <code>-g</code> <code>-a</code> <code>-G</code> and <code>-A</code> parameters mean? (Hint: use the following command to check the helpfile for cutadapt)</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="06-primer_removal.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system2</span>(cutadapt, <span class="at">args =</span> <span class="st">&quot;--help&quot;</span>)</span></code></pre></div>
+<p>This should open the cutadapt help information in the Linux terminal session rather than Jupyter-Notebooks directly.</p>
 <p>In addition to trimming the primers from the reads we will also specify a couple of extra useful parameters.</p>
 <p><code>--discard-untrimmed</code> this tells cutadapt to discard any read where the primers haven’t been trimmed off. This is especially important for our data as our files at the moment contain sequences amplified using both MiFish-U and 12S-V5 primer sets. We only want to keep sequences matching the MiFish-U primer set for this analysis.</p>
 <p><code>--minimum-length 60</code> discard reads shorter than 60bp. This will remove unexpected short reads and help speed up further analysis.</p>
