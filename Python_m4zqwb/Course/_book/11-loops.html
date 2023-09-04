@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>11 Loops | Python for Bioinformatics</title>
+  <meta name="description" content="NEOF book for the Python for Bioinformatics workshop" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="11 Loops | Python for Bioinformatics" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the Python for Bioinformatics workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="11 Loops | Python for Bioinformatics" />
+  
+  <meta name="twitter:description" content="NEOF book for the Python for Bioinformatics workshop" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Graeme Fox &amp; Matthew R. Gemmell" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="10-conditions.html"/>
+<link rel="next" href="12-DNA_sequence_data.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li><a>Python for Bioinformatics</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>Intro</b></span></li>
+<li class="chapter" data-level="1" data-path="01-Python.html"><a href="01-Python.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="02-intro.html"><a href="02-intro.html"><i class="fa fa-check"></i><b>2</b> Python for bioinformatics</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-intro.html"><a href="02-intro.html#materials-covered-in-the-course"><i class="fa fa-check"></i><b>2.1</b> Materials Covered in the Course</a></li>
+<li class="chapter" data-level="2.2" data-path="02-intro.html"><a href="02-intro.html#inputting-commands"><i class="fa fa-check"></i><b>2.2</b> Inputting Commands</a></li>
+<li class="chapter" data-level="2.3" data-path="02-intro.html"><a href="02-intro.html#pseudocode"><i class="fa fa-check"></i><b>2.3</b> Pseudocode</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03_cluster_introduction.html"><a href="03_cluster_introduction.html"><i class="fa fa-check"></i><b>3</b> Cluster Introduction</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="03_cluster_introduction.html"><a href="03_cluster_introduction.html#logon-instructions"><i class="fa fa-check"></i><b>3.1</b> Logon Instructions</a></li>
+<li class="chapter" data-level="3.2" data-path="03_cluster_introduction.html"><a href="03_cluster_introduction.html#the-terminal-window"><i class="fa fa-check"></i><b>3.2</b> The Terminal Window</a></li>
+<li class="chapter" data-level="3.3" data-path="03_cluster_introduction.html"><a href="03_cluster_introduction.html#load-workshop-data"><i class="fa fa-check"></i><b>3.3</b> Load workshop data</a></li>
+<li class="chapter" data-level="3.4" data-path="03_cluster_introduction.html"><a href="03_cluster_introduction.html#mamba"><i class="fa fa-check"></i><b>3.4</b> Mamba</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="04-Jupyter.html"><a href="04-Jupyter.html"><i class="fa fa-check"></i><b>4</b> Jupyter</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-Jupyter.html"><a href="04-Jupyter.html#open-jupyter-notebook"><i class="fa fa-check"></i><b>4.1</b> Open Jupyter-notebook</a></li>
+<li class="chapter" data-level="4.2" data-path="04-Jupyter.html"><a href="04-Jupyter.html#changing-directories"><i class="fa fa-check"></i><b>4.2</b> Changing directories</a></li>
+<li class="chapter" data-level="4.3" data-path="04-Jupyter.html"><a href="04-Jupyter.html#create-notebook"><i class="fa fa-check"></i><b>4.3</b> Create notebook</a></li>
+<li class="chapter" data-level="4.4" data-path="04-Jupyter.html"><a href="04-Jupyter.html#cells-and-code"><i class="fa fa-check"></i><b>4.4</b> Cells and code</a></li>
+<li class="chapter" data-level="4.5" data-path="04-Jupyter.html"><a href="04-Jupyter.html#create-new-cells"><i class="fa fa-check"></i><b>4.5</b> Create new cells</a></li>
+<li class="chapter" data-level="4.6" data-path="04-Jupyter.html"><a href="04-Jupyter.html#running-code"><i class="fa fa-check"></i><b>4.6</b> Running code</a></li>
+<li class="chapter" data-level="4.7" data-path="04-Jupyter.html"><a href="04-Jupyter.html#saving-the-file"><i class="fa fa-check"></i><b>4.7</b> Saving the file</a></li>
+<li class="chapter" data-level="4.8" data-path="04-Jupyter.html"><a href="04-Jupyter.html#title-cells-with-markdown"><i class="fa fa-check"></i><b>4.8</b> Title cells with markdown</a></li>
+<li class="chapter" data-level="4.9" data-path="04-Jupyter.html"><a href="04-Jupyter.html#close-the-notebook"><i class="fa fa-check"></i><b>4.9</b> Close the notebook</a></li>
+<li class="chapter" data-level="4.10" data-path="04-Jupyter.html"><a href="04-Jupyter.html#video-tutorial"><i class="fa fa-check"></i><b>4.10</b> Video tutorial</a></li>
+</ul></li>
+<li class="part"><span><b>Fundamentals</b></span></li>
+<li class="chapter" data-level="5" data-path="05-basic_coding.html"><a href="05-basic_coding.html"><i class="fa fa-check"></i><b>5</b> Scripting in Python</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-basic_coding.html"><a href="05-basic_coding.html#introduction-to-commands-and-scripts"><i class="fa fa-check"></i><b>5.1</b> Introduction to commands and scripts</a></li>
+<li class="chapter" data-level="5.2" data-path="05-basic_coding.html"><a href="05-basic_coding.html#issuing-commands"><i class="fa fa-check"></i><b>5.2</b> Issuing commands</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="05-basic_coding.html"><a href="05-basic_coding.html#print"><i class="fa fa-check"></i><b>5.2.1</b> Print</a></li>
+<li class="chapter" data-level="5.2.2" data-path="05-basic_coding.html"><a href="05-basic_coding.html#working-directory"><i class="fa fa-check"></i><b>5.2.2</b> Working directory</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="05-basic_coding.html"><a href="05-basic_coding.html#a-note-on-indentation"><i class="fa fa-check"></i><b>5.3</b> A note on indentation</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="05-basic_coding.html"><a href="05-basic_coding.html#tabs-vs-spaces"><i class="fa fa-check"></i><b>5.3.1</b> Tabs vs spaces</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="05-basic_coding.html"><a href="05-basic_coding.html#scripting-recap-mcqs"><i class="fa fa-check"></i><b>5.4</b> Scripting recap MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="06-python_fundamentals.html"><a href="06-python_fundamentals.html"><i class="fa fa-check"></i><b>6</b> Python Fundamentals</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="06-python_fundamentals.html"><a href="06-python_fundamentals.html#operators"><i class="fa fa-check"></i><b>6.1</b> Operators</a></li>
+<li class="chapter" data-level="6.2" data-path="06-python_fundamentals.html"><a href="06-python_fundamentals.html#commentsannotations"><i class="fa fa-check"></i><b>6.2</b> Comments/Annotations</a></li>
+<li class="chapter" data-level="6.3" data-path="06-python_fundamentals.html"><a href="06-python_fundamentals.html#variables"><i class="fa fa-check"></i><b>6.3</b> Variables</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="06-python_fundamentals.html"><a href="06-python_fundamentals.html#strings"><i class="fa fa-check"></i><b>6.3.1</b> Strings</a></li>
+<li class="chapter" data-level="6.3.2" data-path="06-python_fundamentals.html"><a href="06-python_fundamentals.html#integers"><i class="fa fa-check"></i><b>6.3.2</b> Integers</a></li>
+<li class="chapter" data-level="6.3.3" data-path="06-python_fundamentals.html"><a href="06-python_fundamentals.html#floats-floating-point-numbers"><i class="fa fa-check"></i><b>6.3.3</b> Floats (floating point numbers)</a></li>
+<li class="chapter" data-level="6.3.4" data-path="06-python_fundamentals.html"><a href="06-python_fundamentals.html#booleans"><i class="fa fa-check"></i><b>6.3.4</b> Booleans</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="06-python_fundamentals.html"><a href="06-python_fundamentals.html#classes-of-variable"><i class="fa fa-check"></i><b>6.4</b> Classes of variable</a></li>
+<li class="chapter" data-level="6.5" data-path="06-python_fundamentals.html"><a href="06-python_fundamentals.html#transforming-variables"><i class="fa fa-check"></i><b>6.5</b> Transforming variables</a></li>
+<li class="chapter" data-level="6.6" data-path="06-python_fundamentals.html"><a href="06-python_fundamentals.html#why-so-many-code-cells"><i class="fa fa-check"></i><b>6.6</b> Why so many code cells?</a></li>
+<li class="chapter" data-level="6.7" data-path="06-python_fundamentals.html"><a href="06-python_fundamentals.html#fundamentals-mcq-recap"><i class="fa fa-check"></i><b>6.7</b> Fundamentals MCQ recap</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="07-functions_and_methods.html"><a href="07-functions_and_methods.html"><i class="fa fa-check"></i><b>7</b> Functions and methods</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="07-functions_and_methods.html"><a href="07-functions_and_methods.html#functions"><i class="fa fa-check"></i><b>7.1</b> Functions</a></li>
+<li class="chapter" data-level="7.2" data-path="07-functions_and_methods.html"><a href="07-functions_and_methods.html#methods"><i class="fa fa-check"></i><b>7.2</b> Methods</a></li>
+<li class="chapter" data-level="7.3" data-path="07-functions_and_methods.html"><a href="07-functions_and_methods.html#functions-and-methods-mcq-recap"><i class="fa fa-check"></i><b>7.3</b> Functions and methods MCQ recap</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="08-data_structures.html"><a href="08-data_structures.html"><i class="fa fa-check"></i><b>8</b> Data Structures</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="08-data_structures.html"><a href="08-data_structures.html#lists"><i class="fa fa-check"></i><b>8.1</b> Lists</a></li>
+<li class="chapter" data-level="8.2" data-path="08-data_structures.html"><a href="08-data_structures.html#subsetting-data"><i class="fa fa-check"></i><b>8.2</b> Subsetting data</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="08-data_structures.html"><a href="08-data_structures.html#single-values"><i class="fa fa-check"></i><b>8.2.1</b> Single values</a></li>
+<li class="chapter" data-level="8.2.2" data-path="08-data_structures.html"><a href="08-data_structures.html#multiple-values"><i class="fa fa-check"></i><b>8.2.2</b> Multiple values</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="08-data_structures.html"><a href="08-data_structures.html#set"><i class="fa fa-check"></i><b>8.3</b> Set</a></li>
+<li class="chapter" data-level="8.4" data-path="08-data_structures.html"><a href="08-data_structures.html#convert-a-list-to-a-set"><i class="fa fa-check"></i><b>8.4</b> Convert a list to a set</a></li>
+<li class="chapter" data-level="8.5" data-path="08-data_structures.html"><a href="08-data_structures.html#dictionary"><i class="fa fa-check"></i><b>8.5</b> Dictionary</a></li>
+<li class="chapter" data-level="8.6" data-path="08-data_structures.html"><a href="08-data_structures.html#data-structures-mcq-recap"><i class="fa fa-check"></i><b>8.6</b> Data structures MCQ recap</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="09-fundamental-exercises.html"><a href="09-fundamental-exercises.html"><i class="fa fa-check"></i><b>9</b> Fundamental exercise</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="09-fundamental-exercises.html"><a href="09-fundamental-exercises.html#fundamental-exercise-notebook"><i class="fa fa-check"></i><b>9.1</b> Fundamental exercise notebook</a></li>
+<li class="chapter" data-level="9.2" data-path="09-fundamental-exercises.html"><a href="09-fundamental-exercises.html#moth-light-trap-challenges"><i class="fa fa-check"></i><b>9.2</b> Moth light trap challenges</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="09-fundamental-exercises.html"><a href="09-fundamental-exercises.html#moth-challenge-1"><i class="fa fa-check"></i><b>9.2.1</b> Moth challenge 1</a></li>
+<li class="chapter" data-level="9.2.2" data-path="09-fundamental-exercises.html"><a href="09-fundamental-exercises.html#moth-challenge-2"><i class="fa fa-check"></i><b>9.2.2</b> Moth challenge 2</a></li>
+<li class="chapter" data-level="9.2.3" data-path="09-fundamental-exercises.html"><a href="09-fundamental-exercises.html#moth-challenge-3"><i class="fa fa-check"></i><b>9.2.3</b> Moth challenge 3</a></li>
+<li class="chapter" data-level="9.2.4" data-path="09-fundamental-exercises.html"><a href="09-fundamental-exercises.html#moth-challenge-4"><i class="fa fa-check"></i><b>9.2.4</b> Moth challenge 4</a></li>
+<li class="chapter" data-level="9.2.5" data-path="09-fundamental-exercises.html"><a href="09-fundamental-exercises.html#moth-challenge-5"><i class="fa fa-check"></i><b>9.2.5</b> Moth challenge 5</a></li>
+<li class="chapter" data-level="9.2.6" data-path="09-fundamental-exercises.html"><a href="09-fundamental-exercises.html#moth-challenge-6"><i class="fa fa-check"></i><b>9.2.6</b> Moth challenge 6</a></li>
+<li class="chapter" data-level="9.2.7" data-path="09-fundamental-exercises.html"><a href="09-fundamental-exercises.html#moth-challenge-7"><i class="fa fa-check"></i><b>9.2.7</b> Moth challenge 7</a></li>
+<li class="chapter" data-level="9.2.8" data-path="09-fundamental-exercises.html"><a href="09-fundamental-exercises.html#moth-challenge-8"><i class="fa fa-check"></i><b>9.2.8</b> Moth challenge 8</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="09-fundamental-exercises.html"><a href="09-fundamental-exercises.html#moth-exercise-conclusion"><i class="fa fa-check"></i><b>9.3</b> Moth exercise conclusion</a></li>
+</ul></li>
+<li class="part"><span><b>Programmatic coding</b></span></li>
+<li class="chapter" data-level="10" data-path="10-conditions.html"><a href="10-conditions.html"><i class="fa fa-check"></i><b>10</b> Python Conditions</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="10-conditions.html"><a href="10-conditions.html#logical-conditions"><i class="fa fa-check"></i><b>10.1</b> Logical conditions</a></li>
+<li class="chapter" data-level="10.2" data-path="10-conditions.html"><a href="10-conditions.html#if-statements"><i class="fa fa-check"></i><b>10.2</b> If statements</a></li>
+<li class="chapter" data-level="10.3" data-path="10-conditions.html"><a href="10-conditions.html#if-else-statements"><i class="fa fa-check"></i><b>10.3</b> If else statements</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="10-conditions.html"><a href="10-conditions.html#dna-length-comparison"><i class="fa fa-check"></i><b>10.3.1</b> DNA length comparison</a></li>
+<li class="chapter" data-level="10.3.2" data-path="10-conditions.html"><a href="10-conditions.html#nucleotide-count-comparison"><i class="fa fa-check"></i><b>10.3.2</b> Nucleotide count comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="10-conditions.html"><a href="10-conditions.html#conditions-reflection"><i class="fa fa-check"></i><b>10.4</b> Conditions reflection</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="11-loops.html"><a href="11-loops.html"><i class="fa fa-check"></i><b>11</b> Loops</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="11-loops.html"><a href="11-loops.html#for-loops"><i class="fa fa-check"></i><b>11.1</b> For Loops</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="11-loops.html"><a href="11-loops.html#loop-through-dna-nucleotides"><i class="fa fa-check"></i><b>11.1.1</b> Loop through DNA nucleotides</a></li>
+<li class="chapter" data-level="11.1.2" data-path="11-loops.html"><a href="11-loops.html#complement-a-dna-sequence"><i class="fa fa-check"></i><b>11.1.2</b> Complement a DNA sequence</a></li>
+<li class="chapter" data-level="11.1.3" data-path="11-loops.html"><a href="11-loops.html#reverse-complement-a-dna-sequence"><i class="fa fa-check"></i><b>11.1.3</b> Reverse-complement a DNA sequence</a></li>
+<li class="chapter" data-level="11.1.4" data-path="11-loops.html"><a href="11-loops.html#transcription-challenge"><i class="fa fa-check"></i><b>11.1.4</b> Transcription challenge</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="11-loops.html"><a href="11-loops.html#while-loops"><i class="fa fa-check"></i><b>11.2</b> While loops</a></li>
+<li class="chapter" data-level="11.3" data-path="11-loops.html"><a href="11-loops.html#further-control-statements"><i class="fa fa-check"></i><b>11.3</b> Further control statements</a></li>
+<li class="chapter" data-level="11.4" data-path="11-loops.html"><a href="11-loops.html#loop-reflection"><i class="fa fa-check"></i><b>11.4</b> Loop reflection</a></li>
+</ul></li>
+<li class="part"><span><b>Practical python</b></span></li>
+<li class="chapter" data-level="12" data-path="12-DNA_sequence_data.html"><a href="12-DNA_sequence_data.html"><i class="fa fa-check"></i><b>12</b> Reading sequence data</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="12-DNA_sequence_data.html"><a href="12-DNA_sequence_data.html#seqio"><i class="fa fa-check"></i><b>12.1</b> SeqIO</a></li>
+<li class="chapter" data-level="12.2" data-path="12-DNA_sequence_data.html"><a href="12-DNA_sequence_data.html#the-fastq-format"><i class="fa fa-check"></i><b>12.2</b> The FASTQ format</a></li>
+<li class="chapter" data-level="12.3" data-path="12-DNA_sequence_data.html"><a href="12-DNA_sequence_data.html#read-a-fastq-file-into-python"><i class="fa fa-check"></i><b>12.3</b> Read a FASTQ file into Python</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="12-DNA_sequence_data.html"><a href="12-DNA_sequence_data.html#loading-the-python-library"><i class="fa fa-check"></i><b>12.3.1</b> Loading the python library</a></li>
+<li class="chapter" data-level="12.3.2" data-path="12-DNA_sequence_data.html"><a href="12-DNA_sequence_data.html#read-a-file-of-sequence-data"><i class="fa fa-check"></i><b>12.3.2</b> Read a file of sequence data</a></li>
+<li class="chapter" data-level="12.3.3" data-path="12-DNA_sequence_data.html"><a href="12-DNA_sequence_data.html#fastq-record-elements"><i class="fa fa-check"></i><b>12.3.3</b> Fastq record elements</a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="12-DNA_sequence_data.html"><a href="12-DNA_sequence_data.html#reading-and-using-files"><i class="fa fa-check"></i><b>12.4</b> Reading and using files</a></li>
+<li class="chapter" data-level="12.5" data-path="12-DNA_sequence_data.html"><a href="12-DNA_sequence_data.html#modifying-reads"><i class="fa fa-check"></i><b>12.5</b> Modifying reads</a></li>
+<li class="chapter" data-level="12.6" data-path="12-DNA_sequence_data.html"><a href="12-DNA_sequence_data.html#count-reads"><i class="fa fa-check"></i><b>12.6</b> Count reads</a></li>
+<li class="chapter" data-level="12.7" data-path="12-DNA_sequence_data.html"><a href="12-DNA_sequence_data.html#reading-sequence-data-mcq-recap"><i class="fa fa-check"></i><b>12.7</b> Reading sequence data MCQ recap</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="13-DNA_conditions.html"><a href="13-DNA_conditions.html"><i class="fa fa-check"></i><b>13</b> Modifying DNA Data</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="13-DNA_conditions.html"><a href="13-DNA_conditions.html#length-filtering"><i class="fa fa-check"></i><b>13.1</b> Length filtering</a></li>
+<li class="chapter" data-level="13.2" data-path="13-DNA_conditions.html"><a href="13-DNA_conditions.html#remove-pcr-primers"><i class="fa fa-check"></i><b>13.2</b> Remove PCR primers</a></li>
+<li class="chapter" data-level="13.3" data-path="13-DNA_conditions.html"><a href="13-DNA_conditions.html#modifying-dna-reflection"><i class="fa fa-check"></i><b>13.3</b> Modifying DNA reflection</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="14-reading_and_writing.html"><a href="14-reading_and_writing.html"><i class="fa fa-check"></i><b>14</b> Reading and writing files</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="14-reading_and_writing.html"><a href="14-reading_and_writing.html#open"><i class="fa fa-check"></i><b>14.1</b> 'open'</a></li>
+<li class="chapter" data-level="14.2" data-path="14-reading_and_writing.html"><a href="14-reading_and_writing.html#read-a-data-file"><i class="fa fa-check"></i><b>14.2</b> Read a data file</a></li>
+<li class="chapter" data-level="14.3" data-path="14-reading_and_writing.html"><a href="14-reading_and_writing.html#write-data-to-a-file"><i class="fa fa-check"></i><b>14.3</b> Write data to a file</a></li>
+<li class="chapter" data-level="14.4" data-path="14-reading_and_writing.html"><a href="14-reading_and_writing.html#write-out-the-filtered-undulate-ray-sequence-data"><i class="fa fa-check"></i><b>14.4</b> Write out the filtered Undulate ray sequence data</a></li>
+<li class="chapter" data-level="14.5" data-path="14-reading_and_writing.html"><a href="14-reading_and_writing.html#reading-and-writing-mcq-recap"><i class="fa fa-check"></i><b>14.5</b> Reading and writing MCQ recap</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="15-Logical_operators.html"><a href="15-Logical_operators.html"><i class="fa fa-check"></i><b>15</b> Logical operators</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="15-Logical_operators.html"><a href="15-Logical_operators.html#and-logical-operator"><i class="fa fa-check"></i><b>15.1</b> and logical operator</a></li>
+<li class="chapter" data-level="15.2" data-path="15-Logical_operators.html"><a href="15-Logical_operators.html#filter-by-gc-range"><i class="fa fa-check"></i><b>15.2</b> Filter by GC% range</a></li>
+<li class="chapter" data-level="15.3" data-path="15-Logical_operators.html"><a href="15-Logical_operators.html#or-logical-operator"><i class="fa fa-check"></i><b>15.3</b> or logical operator</a></li>
+<li class="chapter" data-level="15.4" data-path="15-Logical_operators.html"><a href="15-Logical_operators.html#amino-acid-detection"><i class="fa fa-check"></i><b>15.4</b> Amino acid detection</a></li>
+<li class="chapter" data-level="15.5" data-path="15-Logical_operators.html"><a href="15-Logical_operators.html#logical-operators-reflection"><i class="fa fa-check"></i><b>15.5</b> Logical operators reflection</a></li>
+</ul></li>
+<li class="part"><span><b>Exercises</b></span></li>
+<li class="chapter" data-level="16" data-path="16-Fundamental_recap_exercise.html"><a href="16-Fundamental_recap_exercise.html"><i class="fa fa-check"></i><b>16</b> Fundamental recap exercise</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="16-Fundamental_recap_exercise.html"><a href="16-Fundamental_recap_exercise.html#fre-challenge-1"><i class="fa fa-check"></i><b>16.1</b> FRE challenge 1</a></li>
+<li class="chapter" data-level="16.2" data-path="16-Fundamental_recap_exercise.html"><a href="16-Fundamental_recap_exercise.html#fre-challenge-2"><i class="fa fa-check"></i><b>16.2</b> FRE challenge 2</a></li>
+<li class="chapter" data-level="16.3" data-path="16-Fundamental_recap_exercise.html"><a href="16-Fundamental_recap_exercise.html#fre-challenge-3"><i class="fa fa-check"></i><b>16.3</b> FRE challenge 3</a></li>
+<li class="chapter" data-level="16.4" data-path="16-Fundamental_recap_exercise.html"><a href="16-Fundamental_recap_exercise.html#fre-challenge-4"><i class="fa fa-check"></i><b>16.4</b> FRE challenge 4</a></li>
+<li class="chapter" data-level="16.5" data-path="16-Fundamental_recap_exercise.html"><a href="16-Fundamental_recap_exercise.html#fre-challenge-5"><i class="fa fa-check"></i><b>16.5</b> FRE challenge 5</a></li>
+<li class="chapter" data-level="16.6" data-path="16-Fundamental_recap_exercise.html"><a href="16-Fundamental_recap_exercise.html#exercise-1-conclusion"><i class="fa fa-check"></i><b>16.6</b> Exercise 1 conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="17-National_animals_exercise.html"><a href="17-National_animals_exercise.html"><i class="fa fa-check"></i><b>17</b> National animals exercise</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="17-National_animals_exercise.html"><a href="17-National_animals_exercise.html#na-challenge-1"><i class="fa fa-check"></i><b>17.1</b> NA challenge 1</a></li>
+<li class="chapter" data-level="17.2" data-path="17-National_animals_exercise.html"><a href="17-National_animals_exercise.html#na-challenge-2"><i class="fa fa-check"></i><b>17.2</b> NA challenge 2</a></li>
+<li class="chapter" data-level="17.3" data-path="17-National_animals_exercise.html"><a href="17-National_animals_exercise.html#na-challenge-3"><i class="fa fa-check"></i><b>17.3</b> NA challenge 3</a></li>
+<li class="chapter" data-level="17.4" data-path="17-National_animals_exercise.html"><a href="17-National_animals_exercise.html#na-challenge-4"><i class="fa fa-check"></i><b>17.4</b> NA challenge 4</a></li>
+<li class="chapter" data-level="17.5" data-path="17-National_animals_exercise.html"><a href="17-National_animals_exercise.html#na-challenge-5"><i class="fa fa-check"></i><b>17.5</b> NA challenge 5</a></li>
+<li class="chapter" data-level="17.6" data-path="17-National_animals_exercise.html"><a href="17-National_animals_exercise.html#na-challenge-6"><i class="fa fa-check"></i><b>17.6</b> NA challenge 6</a></li>
+<li class="chapter" data-level="17.7" data-path="17-National_animals_exercise.html"><a href="17-National_animals_exercise.html#na-challenge-7"><i class="fa fa-check"></i><b>17.7</b> NA challenge 7</a></li>
+<li class="chapter" data-level="17.8" data-path="17-National_animals_exercise.html"><a href="17-National_animals_exercise.html#na-challenge-8"><i class="fa fa-check"></i><b>17.8</b> NA challenge 8</a></li>
+<li class="chapter" data-level="17.9" data-path="17-National_animals_exercise.html"><a href="17-National_animals_exercise.html#national-animals-conclusion"><i class="fa fa-check"></i><b>17.9</b> National animals conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="18-Fastq_exercise.html"><a href="18-Fastq_exercise.html"><i class="fa fa-check"></i><b>18</b> Fastq exercise</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="18-Fastq_exercise.html"><a href="18-Fastq_exercise.html#fastq-challenge-1"><i class="fa fa-check"></i><b>18.1</b> Fastq challenge 1</a></li>
+<li class="chapter" data-level="18.2" data-path="18-Fastq_exercise.html"><a href="18-Fastq_exercise.html#fastq-challenge-2"><i class="fa fa-check"></i><b>18.2</b> Fastq challenge 2</a></li>
+<li class="chapter" data-level="18.3" data-path="18-Fastq_exercise.html"><a href="18-Fastq_exercise.html#fastq-challenge-3"><i class="fa fa-check"></i><b>18.3</b> Fastq challenge 3</a></li>
+<li class="chapter" data-level="18.4" data-path="18-Fastq_exercise.html"><a href="18-Fastq_exercise.html#fastq-challenge-4"><i class="fa fa-check"></i><b>18.4</b> Fastq challenge 4</a></li>
+<li class="chapter" data-level="18.5" data-path="18-Fastq_exercise.html"><a href="18-Fastq_exercise.html#fastq-challenge-5"><i class="fa fa-check"></i><b>18.5</b> Fastq challenge 5</a></li>
+<li class="chapter" data-level="18.6" data-path="18-Fastq_exercise.html"><a href="18-Fastq_exercise.html#fastq-exercise-conclusion"><i class="fa fa-check"></i><b>18.6</b> Fastq exercise conclusion</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="19-Appendix.html"><a href="19-Appendix.html"><i class="fa fa-check"></i><b>A</b> Further resources</a></li>
+<li class="chapter" data-level="B" data-path="19-Appendix.html"><a href="19-Appendix.html#mamba-installs"><i class="fa fa-check"></i><b>B</b> Mamba installs</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="19-Appendix.html"><a href="19-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>B.1</b> Mamba installation and environment</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="19-Appendix.html"><a href="19-Appendix.html#cheatsheet"><i class="fa fa-check"></i><b>C</b> Cheatsheet</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="19-Appendix.html"><a href="19-Appendix.html#operators-1"><i class="fa fa-check"></i><b>C.1</b> Operators</a>
+<ul>
+<li class="chapter" data-level="C.1.1" data-path="19-Appendix.html"><a href="19-Appendix.html#arithmetic-operators"><i class="fa fa-check"></i><b>C.1.1</b> Arithmetic operators</a></li>
+<li class="chapter" data-level="C.1.2" data-path="19-Appendix.html"><a href="19-Appendix.html#comparison-operators"><i class="fa fa-check"></i><b>C.1.2</b> Comparison operators</a></li>
+<li class="chapter" data-level="C.1.3" data-path="19-Appendix.html"><a href="19-Appendix.html#logical-operators"><i class="fa fa-check"></i><b>C.1.3</b> Logical operators</a></li>
+</ul></li>
+<li class="chapter" data-level="C.2" data-path="19-Appendix.html"><a href="19-Appendix.html#functions-1"><i class="fa fa-check"></i><b>C.2</b> Functions</a>
+<ul>
+<li class="chapter" data-level="C.2.1" data-path="19-Appendix.html"><a href="19-Appendix.html#biopython-functions"><i class="fa fa-check"></i><b>C.2.1</b> Biopython functions</a></li>
+</ul></li>
+<li class="chapter" data-level="C.3" data-path="19-Appendix.html"><a href="19-Appendix.html#methods-1"><i class="fa fa-check"></i><b>C.3</b> Methods</a>
+<ul>
+<li class="chapter" data-level="C.3.1" data-path="19-Appendix.html"><a href="19-Appendix.html#string-methods"><i class="fa fa-check"></i><b>C.3.1</b> String methods</a></li>
+<li class="chapter" data-level="C.3.2" data-path="19-Appendix.html"><a href="19-Appendix.html#list-methods"><i class="fa fa-check"></i><b>C.3.2</b> List methods</a></li>
+<li class="chapter" data-level="C.3.3" data-path="19-Appendix.html"><a href="19-Appendix.html#set-methods"><i class="fa fa-check"></i><b>C.3.3</b> Set methods</a></li>
+<li class="chapter" data-level="C.3.4" data-path="19-Appendix.html"><a href="19-Appendix.html#file-methods"><i class="fa fa-check"></i><b>C.3.4</b> File methods</a></li>
+<li class="chapter" data-level="C.3.5" data-path="19-Appendix.html"><a href="19-Appendix.html#biopython-methods"><i class="fa fa-check"></i><b>C.3.5</b> Biopython methods</a></li>
+</ul></li>
+<li class="chapter" data-level="C.4" data-path="19-Appendix.html"><a href="19-Appendix.html#statements"><i class="fa fa-check"></i><b>C.4</b> Statements</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Python for Bioinformatics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="loops" class="section level1 hasAnchor" number="11">
+<h1><span class="header-section-number">11</span> Loops<a href="11-loops.html#loops" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/loopdeloo.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>We now have some knowledge of Python data structures (<strong>lists</strong>, <strong>sets</strong>, and <strong>dictionaries</strong>), what type of data they hold, and how we can access the elements within them.</p>
+<p>How might we apply something to each element of a <strong>list</strong>? Perhaps we need to count the number of characters in each entry in the <strong>list</strong>?</p>
+<p>Where we need to apply the same commands to every item in a data structure, we can use a <strong>loop</strong>. This means that we do not need to manually apply the commands to every item in the <strong>list</strong>, one at a time.</p>
+<p>There are several types of <strong>loop</strong>; we will cover some of the most important in this section.</p>
+<p><strong>Note</strong>: Continue using the notebook <strong>"03-Programmatic_coding"</strong> for this chapter.</p>
+<div id="for-loops" class="section level2 hasAnchor" number="11.1">
+<h2><span class="header-section-number">11.1</span> For Loops<a href="11-loops.html#for-loops" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/assembly_line_robot.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>One of the most important and most common type of <strong>loops</strong> is the <strong>for</strong> <strong>loop</strong>.</p>
+<p>The <strong>for</strong> <strong>loop</strong> runs through a set of <strong>variables</strong> (such as those in our list) and applies a <strong>command</strong> (or series of commands) to each element once. This is the <strong>loop</strong> that you will most often encounter.</p>
+<p>Imagine you have a bag of 10 potatoes that you need to peel and put into a pot.</p>
+<center>
+<img src="figures/potatoes.jpg" style="width:20.0%" /><img src="figures/boiling_pot.webp" style="width:20.0%" />
+</center>
+<p>Using some pseudocode we can imagine how this script might look:</p>
+<ol style="list-style-type: decimal">
+<li>from bag_of_potatoes pick up potato_01</li>
+<li>peel potato_01</li>
+<li>put potato_01 into pot</li>
+<li>from bag_of_potatoes pick up potato_02</li>
+<li>peel potato_02</li>
+<li>put potato_02 into pot ....(and so on)</li>
+</ol>
+<p>You can see how inefficient this code is, especially if it was a particularly large bag of potatoes!</p>
+<p>Instead, we can use a <strong>for</strong> <strong>loop</strong> to recycle the code.</p>
+<ol style="list-style-type: decimal">
+<li><strong>for</strong> each potato in bag_of_potatoes:
+<ol start="2" style="list-style-type: decimal">
+<li>peel potato</li>
+<li>put potato into pot</li>
+</ol></li>
+</ol>
+<p>This <strong>loop</strong> would run until the bag of potatoes is empty, achieving the job in just three lines of code.</p>
+<p>This pseudocode is actually very similar to the required Python syntax. The generic format of a <strong>for</strong> <strong>loop</strong> is:</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb132-1"><a href="11-loops.html#cb132-1" tabindex="-1"></a><span class="cf">for</span> <span class="op">&lt;</span>value<span class="op">&gt;</span> <span class="kw">in</span> <span class="op">&lt;</span>data_structure<span class="op">&gt;</span>:</span>
+<span id="cb132-2"><a href="11-loops.html#cb132-2" tabindex="-1"></a>  do something</span></code></pre></div>
+<p>Note the colon (<code>:</code>) starting the loop and the tab indent of any commands inside the loop.</p>
+<div id="loop-through-dna-nucleotides" class="section level3 hasAnchor" number="11.1.1">
+<h3><span class="header-section-number">11.1.1</span> Loop through DNA nucleotides<a href="11-loops.html#loop-through-dna-nucleotides" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/loop_thru_dna.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><strong>For loops</strong> are extremely useful when we have a lot of values (for example, in a <strong>list</strong>) and we need to apply some commands to all of them.</p>
+<p>As an example, we will take a <strong>string</strong> of DNA nucleotides and use a couple <strong>loops</strong> to generate the complement and reverse complement sequences.</p>
+<p>Run the below code.
+The <strong>for loop</strong> will move through the DNA string, printing each base to the screen.</p>
+<p><strong>Note</strong>: Ensure lines inside a <strong>for loop</strong> are indented.
+Thankfully <code>jupyter-notebook</code> will automate a lot of this for you.</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb133-1"><a href="11-loops.html#cb133-1" tabindex="-1"></a><span class="co">#DNA string variable, yours does not need to be exactly the same</span></span>
+<span id="cb133-2"><a href="11-loops.html#cb133-2" tabindex="-1"></a>DNA_string <span class="op">=</span> <span class="st">&quot;ATTCGAAGTCGTGTAGTACCGCGTATA&quot;</span></span>
+<span id="cb133-3"><a href="11-loops.html#cb133-3" tabindex="-1"></a></span>
+<span id="cb133-4"><a href="11-loops.html#cb133-4" tabindex="-1"></a><span class="co">#Loop through each base in the string</span></span>
+<span id="cb133-5"><a href="11-loops.html#cb133-5" tabindex="-1"></a><span class="cf">for</span> base <span class="kw">in</span> DNA_string:</span>
+<span id="cb133-6"><a href="11-loops.html#cb133-6" tabindex="-1"></a>  <span class="co">#Print the current base</span></span>
+<span id="cb133-7"><a href="11-loops.html#cb133-7" tabindex="-1"></a>  <span class="bu">print</span>(base)</span></code></pre></div>
+<p>We can see from the output that the <strong>loop</strong> allows us to process each base in the string separately; in this case by printing them individually.</p>
+<p><strong>Note</strong>: The <strong>loop variable name</strong> <code>base</code> is arbitrary and chosen by us.</p>
+</div>
+<div id="complement-a-dna-sequence" class="section level3 hasAnchor" number="11.1.2">
+<h3><span class="header-section-number">11.1.2</span> Complement a DNA sequence<a href="11-loops.html#complement-a-dna-sequence" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/complement.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Next, let's use this <strong>loop</strong> functionality to do something useful to each base such as converting each nucleotide to the appropriate complement base.</p>
+<p>For this, we will use a <strong>dictionary</strong> to swap each base for the complement. Recall that a <strong>dictionary</strong> has a <strong>key</strong> and <strong>value</strong> for each entry. We can define the 'standard' base as the <strong>key</strong>, and the 'complement' as the <strong>value</strong>.</p>
+<p>Create and run the below code in a new <strong>code cell</strong>.
+With the code we first create the <strong>dictionary</strong> holding the complementary pairs of bases.
+This needs to come before the <strong>for loop</strong>.</p>
+<p><strong>Note</strong>: Each of the four lines of the <strong>dictionary</strong> need to have a leading TAB character.</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb134-1"><a href="11-loops.html#cb134-1" tabindex="-1"></a><span class="co">#Complement</span></span>
+<span id="cb134-2"><a href="11-loops.html#cb134-2" tabindex="-1"></a><span class="co">#DNA string variable, yours does not need to be exactly the same</span></span>
+<span id="cb134-3"><a href="11-loops.html#cb134-3" tabindex="-1"></a>DNA_string <span class="op">=</span> <span class="st">&quot;ATTCGAAGTCGTGTAGTACCGCGTATA&quot;</span></span>
+<span id="cb134-4"><a href="11-loops.html#cb134-4" tabindex="-1"></a></span>
+<span id="cb134-5"><a href="11-loops.html#cb134-5" tabindex="-1"></a><span class="co">#Define our dictionary of complements</span></span>
+<span id="cb134-6"><a href="11-loops.html#cb134-6" tabindex="-1"></a>complements <span class="op">=</span> {</span>
+<span id="cb134-7"><a href="11-loops.html#cb134-7" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span> : <span class="st">&quot;T&quot;</span>,</span>
+<span id="cb134-8"><a href="11-loops.html#cb134-8" tabindex="-1"></a>  <span class="st">&quot;T&quot;</span> : <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb134-9"><a href="11-loops.html#cb134-9" tabindex="-1"></a>  <span class="st">&quot;G&quot;</span> : <span class="st">&quot;C&quot;</span>,</span>
+<span id="cb134-10"><a href="11-loops.html#cb134-10" tabindex="-1"></a>  <span class="st">&quot;C&quot;</span> : <span class="st">&quot;G&quot;</span></span>
+<span id="cb134-11"><a href="11-loops.html#cb134-11" tabindex="-1"></a>}</span>
+<span id="cb134-12"><a href="11-loops.html#cb134-12" tabindex="-1"></a></span>
+<span id="cb134-13"><a href="11-loops.html#cb134-13" tabindex="-1"></a><span class="co">#Loop through each base in the string</span></span>
+<span id="cb134-14"><a href="11-loops.html#cb134-14" tabindex="-1"></a><span class="cf">for</span> base <span class="kw">in</span> DNA_string:</span>
+<span id="cb134-15"><a href="11-loops.html#cb134-15" tabindex="-1"></a>  <span class="co">#Print the complemented base</span></span>
+<span id="cb134-16"><a href="11-loops.html#cb134-16" tabindex="-1"></a>  <span class="bu">print</span>(complements[base])</span></code></pre></div>
+<p>The code will print out the complementary base for each iteration of the loop.</p>
+<p>Most likely we won't want our output to consist of separate bases on their own lines.
+We can therefore build up an 'output <strong>string</strong>' to format the complemented sequence.
+The complemented base is added to the <strong>variable</strong> <code>complement_DNA</code> each time and the whole <strong>string</strong> is printed at the end.</p>
+<p>Edit, your previous code to the following:</p>
+<p><strong>Note:</strong> The <strong>variable</strong> <code>complement_DNA</code> needs to be created before the <strong>for loop</strong> is run.</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb135-1"><a href="11-loops.html#cb135-1" tabindex="-1"></a><span class="co">#Complement</span></span>
+<span id="cb135-2"><a href="11-loops.html#cb135-2" tabindex="-1"></a><span class="co">#DNA string variable, yours does not need to be exactly the same</span></span>
+<span id="cb135-3"><a href="11-loops.html#cb135-3" tabindex="-1"></a>DNA_string <span class="op">=</span> <span class="st">&quot;ATTCGAAGTCGTGTAGTACCGCGTATA&quot;</span></span>
+<span id="cb135-4"><a href="11-loops.html#cb135-4" tabindex="-1"></a></span>
+<span id="cb135-5"><a href="11-loops.html#cb135-5" tabindex="-1"></a><span class="co">#Define our dictionary of complements</span></span>
+<span id="cb135-6"><a href="11-loops.html#cb135-6" tabindex="-1"></a>complements <span class="op">=</span> {</span>
+<span id="cb135-7"><a href="11-loops.html#cb135-7" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span> : <span class="st">&quot;T&quot;</span>,</span>
+<span id="cb135-8"><a href="11-loops.html#cb135-8" tabindex="-1"></a>  <span class="st">&quot;T&quot;</span> : <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb135-9"><a href="11-loops.html#cb135-9" tabindex="-1"></a>  <span class="st">&quot;G&quot;</span> : <span class="st">&quot;C&quot;</span>,</span>
+<span id="cb135-10"><a href="11-loops.html#cb135-10" tabindex="-1"></a>  <span class="st">&quot;C&quot;</span> : <span class="st">&quot;G&quot;</span></span>
+<span id="cb135-11"><a href="11-loops.html#cb135-11" tabindex="-1"></a>}</span>
+<span id="cb135-12"><a href="11-loops.html#cb135-12" tabindex="-1"></a></span>
+<span id="cb135-13"><a href="11-loops.html#cb135-13" tabindex="-1"></a><span class="co">#Create an empty string to add the complemented bases to</span></span>
+<span id="cb135-14"><a href="11-loops.html#cb135-14" tabindex="-1"></a>complement_DNA <span class="op">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb135-15"><a href="11-loops.html#cb135-15" tabindex="-1"></a></span>
+<span id="cb135-16"><a href="11-loops.html#cb135-16" tabindex="-1"></a><span class="co">#Loop through each base in the string</span></span>
+<span id="cb135-17"><a href="11-loops.html#cb135-17" tabindex="-1"></a><span class="cf">for</span> base <span class="kw">in</span> DNA_string:</span>
+<span id="cb135-18"><a href="11-loops.html#cb135-18" tabindex="-1"></a>  <span class="co">#Print the complemented base</span></span>
+<span id="cb135-19"><a href="11-loops.html#cb135-19" tabindex="-1"></a>  <span class="co">#print(complements[base])</span></span>
+<span id="cb135-20"><a href="11-loops.html#cb135-20" tabindex="-1"></a>  <span class="co">#Add the complemented base to the output string</span></span>
+<span id="cb135-21"><a href="11-loops.html#cb135-21" tabindex="-1"></a>  complement_DNA <span class="op">=</span> complement_DNA <span class="op">+</span> complements[base]</span>
+<span id="cb135-22"><a href="11-loops.html#cb135-22" tabindex="-1"></a></span>
+<span id="cb135-23"><a href="11-loops.html#cb135-23" tabindex="-1"></a><span class="co">#Print the output string</span></span>
+<span id="cb135-24"><a href="11-loops.html#cb135-24" tabindex="-1"></a><span class="bu">print</span>(complement_DNA)</span></code></pre></div>
+<p>Now you have a <strong>variable</strong> containing the complemented sequences.</p>
+</div>
+<div id="reverse-complement-a-dna-sequence" class="section level3 hasAnchor" number="11.1.3">
+<h3><span class="header-section-number">11.1.3</span> Reverse-complement a DNA sequence<a href="11-loops.html#reverse-complement-a-dna-sequence" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/reverse_complement.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>To generate the reverse complement we can use Python's built in <code>reversed()</code> <strong>function</strong> to reverse the <strong>string</strong>.
+This reversed <strong>string</strong> can then be used in the complementation.
+Copy your previous complementation code into a new <strong>code cell</strong>.
+Edit it to the below and run it.</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb136-1"><a href="11-loops.html#cb136-1" tabindex="-1"></a><span class="co">#Reverse complement</span></span>
+<span id="cb136-2"><a href="11-loops.html#cb136-2" tabindex="-1"></a><span class="co">#DNA string variable, yours does not need to be exactly the same</span></span>
+<span id="cb136-3"><a href="11-loops.html#cb136-3" tabindex="-1"></a>DNA_string <span class="op">=</span> <span class="st">&quot;ATTCGAAGTCGTGTAGTACCGCGTATA&quot;</span></span>
+<span id="cb136-4"><a href="11-loops.html#cb136-4" tabindex="-1"></a></span>
+<span id="cb136-5"><a href="11-loops.html#cb136-5" tabindex="-1"></a><span class="co">#Define our dictionary of complements</span></span>
+<span id="cb136-6"><a href="11-loops.html#cb136-6" tabindex="-1"></a>complements <span class="op">=</span> {</span>
+<span id="cb136-7"><a href="11-loops.html#cb136-7" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span> : <span class="st">&quot;T&quot;</span>,</span>
+<span id="cb136-8"><a href="11-loops.html#cb136-8" tabindex="-1"></a>  <span class="st">&quot;T&quot;</span> : <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb136-9"><a href="11-loops.html#cb136-9" tabindex="-1"></a>  <span class="st">&quot;G&quot;</span> : <span class="st">&quot;C&quot;</span>,</span>
+<span id="cb136-10"><a href="11-loops.html#cb136-10" tabindex="-1"></a>  <span class="st">&quot;C&quot;</span> : <span class="st">&quot;G&quot;</span></span>
+<span id="cb136-11"><a href="11-loops.html#cb136-11" tabindex="-1"></a>}</span>
+<span id="cb136-12"><a href="11-loops.html#cb136-12" tabindex="-1"></a></span>
+<span id="cb136-13"><a href="11-loops.html#cb136-13" tabindex="-1"></a><span class="co">#Create an empty string to add the complemented bases to</span></span>
+<span id="cb136-14"><a href="11-loops.html#cb136-14" tabindex="-1"></a>rc_DNA <span class="op">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb136-15"><a href="11-loops.html#cb136-15" tabindex="-1"></a></span>
+<span id="cb136-16"><a href="11-loops.html#cb136-16" tabindex="-1"></a><span class="co">#Loop through each base in the reversed string</span></span>
+<span id="cb136-17"><a href="11-loops.html#cb136-17" tabindex="-1"></a><span class="cf">for</span> base <span class="kw">in</span> <span class="bu">reversed</span>(DNA_string):</span>
+<span id="cb136-18"><a href="11-loops.html#cb136-18" tabindex="-1"></a>  <span class="co">#Add the complemented base to the output string</span></span>
+<span id="cb136-19"><a href="11-loops.html#cb136-19" tabindex="-1"></a>  rc_DNA <span class="op">=</span> rc_DNA <span class="op">+</span> complements[base]</span>
+<span id="cb136-20"><a href="11-loops.html#cb136-20" tabindex="-1"></a></span>
+<span id="cb136-21"><a href="11-loops.html#cb136-21" tabindex="-1"></a><span class="co">#Print the output string</span></span>
+<span id="cb136-22"><a href="11-loops.html#cb136-22" tabindex="-1"></a><span class="bu">print</span>(rc_DNA)</span></code></pre></div>
+<p>Running this new code will produce the reverse complement of our original DNA sequence.</p>
+</div>
+<div id="transcription-challenge" class="section level3 hasAnchor" number="11.1.4">
+<h3><span class="header-section-number">11.1.4</span> Transcription challenge<a href="11-loops.html#transcription-challenge" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/transcription.png" width="25%" style="display: block; margin: auto;" /></p>
+<p>In a new <strong>code cell</strong> create and run code to transcribe the DNA (<strong>"DNA_string"</strong>) to a RNA sequence.
+When a single strand of DNA is transcribed the resulting RNA strand is complemented with the relevant RNA bases.
+For example, the DNA sequence <strong>"ACGT"</strong> will become the RNA sequence <strong>"UGCA"</strong>.</p>
+<p>Give this a good attempt, ensuring you copy and paste old code.</p>
+<p>The solution is in the below expandable box if you want to check your code or you need a quick hint.</p>
+<div class="webex-solution">
+<button>
+Transcribe loop
+</button>
+<div class="sourceCode" id="cb137"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb137-1"><a href="11-loops.html#cb137-1" tabindex="-1"></a><span class="co">#Transcribe</span></span>
+<span id="cb137-2"><a href="11-loops.html#cb137-2" tabindex="-1"></a><span class="co">#DNA string variable, yours does not need to be exactly the same</span></span>
+<span id="cb137-3"><a href="11-loops.html#cb137-3" tabindex="-1"></a>DNA_string <span class="op">=</span> <span class="st">&quot;ATTCGAAGTCGTGTAGTACCGCGTATA&quot;</span></span>
+<span id="cb137-4"><a href="11-loops.html#cb137-4" tabindex="-1"></a></span>
+<span id="cb137-5"><a href="11-loops.html#cb137-5" tabindex="-1"></a><span class="co">#Define our dictionary of transcripts</span></span>
+<span id="cb137-6"><a href="11-loops.html#cb137-6" tabindex="-1"></a>transcripts <span class="op">=</span> {</span>
+<span id="cb137-7"><a href="11-loops.html#cb137-7" tabindex="-1"></a>  <span class="st">&quot;A&quot;</span> : <span class="st">&quot;U&quot;</span>,</span>
+<span id="cb137-8"><a href="11-loops.html#cb137-8" tabindex="-1"></a>  <span class="st">&quot;T&quot;</span> : <span class="st">&quot;A&quot;</span>,</span>
+<span id="cb137-9"><a href="11-loops.html#cb137-9" tabindex="-1"></a>  <span class="st">&quot;G&quot;</span> : <span class="st">&quot;C&quot;</span>,</span>
+<span id="cb137-10"><a href="11-loops.html#cb137-10" tabindex="-1"></a>  <span class="st">&quot;C&quot;</span> : <span class="st">&quot;G&quot;</span></span>
+<span id="cb137-11"><a href="11-loops.html#cb137-11" tabindex="-1"></a>}</span>
+<span id="cb137-12"><a href="11-loops.html#cb137-12" tabindex="-1"></a></span>
+<span id="cb137-13"><a href="11-loops.html#cb137-13" tabindex="-1"></a><span class="co">#Create an empty string to add the RNA bases to</span></span>
+<span id="cb137-14"><a href="11-loops.html#cb137-14" tabindex="-1"></a>RNA <span class="op">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb137-15"><a href="11-loops.html#cb137-15" tabindex="-1"></a></span>
+<span id="cb137-16"><a href="11-loops.html#cb137-16" tabindex="-1"></a><span class="co">#Loop through each base in the string</span></span>
+<span id="cb137-17"><a href="11-loops.html#cb137-17" tabindex="-1"></a><span class="cf">for</span> base <span class="kw">in</span> DNA_string:</span>
+<span id="cb137-18"><a href="11-loops.html#cb137-18" tabindex="-1"></a>  <span class="co">#Add the RNA base to the output string</span></span>
+<span id="cb137-19"><a href="11-loops.html#cb137-19" tabindex="-1"></a>  RNA <span class="op">=</span> RNA <span class="op">+</span> transcripts[base]</span>
+<span id="cb137-20"><a href="11-loops.html#cb137-20" tabindex="-1"></a></span>
+<span id="cb137-21"><a href="11-loops.html#cb137-21" tabindex="-1"></a><span class="co">#Print the output string</span></span>
+<span id="cb137-22"><a href="11-loops.html#cb137-22" tabindex="-1"></a><span class="bu">print</span>(RNA)</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="while-loops" class="section level2 hasAnchor" number="11.2">
+<h2><span class="header-section-number">11.2</span> While loops<a href="11-loops.html#while-loops" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/while_loop.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>The other type of <strong>loop</strong> you might encounter is the <strong>while</strong> <strong>loop</strong>. A <strong>while</strong> <strong>loop</strong> continues to run <strong>while</strong> a statement remains <strong>True</strong>. For example, returning to our bag of potatoes, a <strong>while</strong> <strong>loop</strong> for the same job might look like this:</p>
+<ol style="list-style-type: decimal">
+<li>while bag_of_potatoes is not empty :
+<ol start="2" style="list-style-type: decimal">
+<li>peel potato</li>
+<li>put potato into pot</li>
+</ol></li>
+</ol>
+<p>This <strong>loop</strong> would run until the last potato has been prepared, at which point the <strong>while statement</strong> would return <strong>False</strong> and the <strong>loop</strong> would be stopped.</p>
+<p>The generic format of a <strong>while</strong> <strong>loop</strong> is as follows:</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb138-1"><a href="11-loops.html#cb138-1" tabindex="-1"></a><span class="cf">while</span> <span class="op">&lt;</span>condition<span class="op">&gt;</span> :</span>
+<span id="cb138-2"><a href="11-loops.html#cb138-2" tabindex="-1"></a>  do something</span></code></pre></div>
+<p>Below are a few examples of <strong>while loops</strong> you can create and run.
+Ensure you understand why the code is giving you the output.
+If you are not sure please ask a demonstrator.</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb139-1"><a href="11-loops.html#cb139-1" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb139-2"><a href="11-loops.html#cb139-2" tabindex="-1"></a><span class="co">#While loop</span></span>
+<span id="cb139-3"><a href="11-loops.html#cb139-3" tabindex="-1"></a><span class="cf">while</span> x <span class="op">&lt;</span> <span class="dv">10</span>:</span>
+<span id="cb139-4"><a href="11-loops.html#cb139-4" tabindex="-1"></a>  x <span class="op">=</span> x <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb139-5"><a href="11-loops.html#cb139-5" tabindex="-1"></a>x</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb140-1"><a href="11-loops.html#cb140-1" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb140-2"><a href="11-loops.html#cb140-2" tabindex="-1"></a><span class="co">#Create new list containing 1 to add loop data to</span></span>
+<span id="cb140-3"><a href="11-loops.html#cb140-3" tabindex="-1"></a>num_list <span class="op">=</span> [x]</span>
+<span id="cb140-4"><a href="11-loops.html#cb140-4" tabindex="-1"></a><span class="co">#While loop</span></span>
+<span id="cb140-5"><a href="11-loops.html#cb140-5" tabindex="-1"></a><span class="cf">while</span> x <span class="op">&gt;=</span> <span class="op">-</span><span class="dv">9</span>:</span>
+<span id="cb140-6"><a href="11-loops.html#cb140-6" tabindex="-1"></a>  x <span class="op">=</span> x <span class="op">-</span> <span class="dv">2</span></span>
+<span id="cb140-7"><a href="11-loops.html#cb140-7" tabindex="-1"></a>  num_list.append(x)</span>
+<span id="cb140-8"><a href="11-loops.html#cb140-8" tabindex="-1"></a>num_list</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb141-1"><a href="11-loops.html#cb141-1" tabindex="-1"></a><span class="co">#Find first number after 101 that is divisible by 37</span></span>
+<span id="cb141-2"><a href="11-loops.html#cb141-2" tabindex="-1"></a>x  <span class="op">=</span> <span class="dv">101</span></span>
+<span id="cb141-3"><a href="11-loops.html#cb141-3" tabindex="-1"></a><span class="co">#Use modulus operator to end loop when the remainder from division is 0</span></span>
+<span id="cb141-4"><a href="11-loops.html#cb141-4" tabindex="-1"></a><span class="cf">while</span> (x <span class="op">%</span> <span class="dv">37</span>) <span class="op">!=</span> <span class="dv">0</span>:</span>
+<span id="cb141-5"><a href="11-loops.html#cb141-5" tabindex="-1"></a>  x <span class="op">=</span> x <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb141-6"><a href="11-loops.html#cb141-6" tabindex="-1"></a>x</span></code></pre></div>
+<p><strong>While</strong> <strong>loops</strong> are much less commonly used and we will not spend any more time on them in this book. Hopefully you can see the difference between a <strong>for</strong> <strong>loop</strong> and a <strong>while</strong> <strong>loop</strong> and have an idea of how they run.</p>
+</div>
+<div id="further-control-statements" class="section level2 hasAnchor" number="11.3">
+<h2><span class="header-section-number">11.3</span> Further control statements<a href="11-loops.html#further-control-statements" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/controller.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>You can control <strong>loops</strong> further using <strong>break</strong>, <strong>continue</strong> and <strong>pass</strong> <strong>statements</strong>.
+We won't cover these in this tutorial as they are much less common.
+You can find good resources covering <strong>Python control statements</strong> <a href="https://www.tutorialspoint.com/python/python_loop_control.htm">online</a>.</p>
+</div>
+<div id="loop-reflection" class="section level2 hasAnchor" number="11.4">
+<h2><span class="header-section-number">11.4</span> Loop reflection<a href="11-loops.html#loop-reflection" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/reflection.png" width="20%" style="display: block; margin: auto;" /></p>
+<p><strong>Loops</strong> are really useful when we need to perform the same task, or commands, over-and-over again.
+Where we have data stored in a data structure such as a <strong>list</strong>, we can apply something to everything in the <strong>list</strong> using a <strong>for</strong> <strong>loop</strong>.
+This is an efficient way to code as it means we do not need to duplicate the instructions.</p>
+
+</div>
+</div>
+
+
+
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="10-conditions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="12-DNA_sequence_data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

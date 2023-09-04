@@ -1,0 +1,130 @@
+# Modifying DNA Data {#modify_dna_data}
+```{r, fig.align = 'center',out.width= '20%', echo=FALSE }
+knitr::include_graphics(path = "figures/modify_dna.png", auto_pdf = TRUE)
+```
+
+Suppose we want to filter raw sequence reads by some parameter.
+For example, we could:
+
+- Remove reads of a certain length.
+- Remove sections of a sequence such as PCR primers.
+
+In this chapter we will use our knowledge of __loops__ and __conditions__ to perform these tasks. Continue using __"04-Practical_python"__ notebook.
+
+## Length filtering
+```{r, fig.align = 'center',out.width= '15%', echo=FALSE }
+knitr::include_graphics(path = "figures/filter_2.png", auto_pdf = TRUE)
+```
+
+Using what we know, we will create code to remove/filter reads shorter than a specified read-length threshold from a FastQ file.
+
+Write, run, and try to understand the below code.
+
+```{python, eval=FALSE}
+#Read in the fastq data
+R_undulata_data = SeqIO.parse(wd + "/Python_course_data/R_undulata_WGS.fastq", "fastq")
+
+#Initialise an empty list to hold the records that we want to keep
+wanted_sequences = []
+
+#Variable for choice of minimum length
+#in this case we will choose 100
+min_len = 100
+
+#Loop through the fastq records
+for record in R_undulata_data:
+  #If condition to determine if sequence length is greater or equal to minimum length
+  if len(record.seq) >= min_len:
+    #Add the record to the list of records meets minimum length threshold
+    wanted_sequences.append(record)
+
+#Print statement to show number of reads retained after length filtering
+print("Found " + str(len(wanted_sequences)) + " reads >= " + str(min_len) "bp in length.")
+```
+
+## Remove PCR primers
+```{r, fig.align = 'center',out.width= '15%', echo=FALSE }
+knitr::include_graphics(path = "figures/scissors_2.png", auto_pdf = TRUE)
+```
+
+Often you may want to check your sequence file for PCR primers, and remove them when they are found.
+Using a __for__ __loop__ to move through the sequence file, we can check each DNA sequence read for the presence of a pre-defined primer sequence.
+If it is present, we'll remove it.
+
+We are going to check for the presence of the 13 nucleotide PCR primer "ACACTGCTGATCG" at the start of the reads using the `startswith()` __method__.
+This __method__ checks whether a __string__ starts with a particular sub-string and returns __True__ or __False__. 
+It is very useful for checking for primer sequences in our data.
+
+The input for this primer removal step will be the 'wanted_sequences' __variable__ from the read filtering code (those of >=100bp in length).
+
+For demonstration purposes we will first run code that will tell us the number of sequences which have the PCR sequence present.
+
+__Note__: Below is the primer in triplet bases for ease of reading. Ensure you type it as one string with no spaces.
+
+__ACA CTG CTG ATC G__
+
+```{python, eval=FALSE}
+#Assign PCR sequence variable
+pcr_seq = "ACACTGCTGATCG"
+#Initialise variable to sum number of records with PCR primer present
+pcr_records = 0
+
+#Loop through the sequence records
+for record in wanted_sequences:
+  #Check whether the sequence starts with the primer sequence
+  if record.seq.startswith("ACACTGCTGATCG"):
+    pcr_records = pcr_records + 1
+
+print("Number of sequences with the PCR sequence present: " + str(pcr_records))
+```
+
+We have found that there are lots of sequences with the primer sequence present.
+Now that we have identified their presence, let's trim them off the start of the reads.
+
+Create and run the below code in a new __cell__. 
+This will create a new __variable__ "trimmed_sequences". 
+This will contain records that have been:
+
+- Filtered to remove sequences shorter than 100bp.
+- Trimmed to remove the PCR sequence ("ACACTGCTGATCG"). 
+  - However, we also want to keep untrimmed sequences that did not contain the PCR sequence.
+
+```{python, eval=FALSE}
+#Define a list to hold the trimmed sequences
+trimmed_sequences = []
+#Assign PCR sequence variable
+pcr_seq = "ACACTGCTGATCG"
+#Initialise variable to sum number of records with PCR primer present
+pcr_records = 0
+
+#Loop through the sequence records
+for record in wanted_sequences:
+  #Check whether the sequence starts with the primer sequence
+  if record.seq.startswith("ACACTGCTGATCG"):
+    #Subset read from position 14 onwards and add to trimmed_sequences
+    #This will remove the first 13 bases, the PCR sequence
+    trimmed_sequences.append(record[13:])
+    pcr_records = pcr_records + 1
+  else:
+    #Add untrimmed sequence to trimmed_sequences
+    #this is because there is no PCR sequence present to trim off
+    trimmed_sequences.append(record)
+
+print("Number of sequences with the PCR sequence present: " + str(pcr_records))
+```
+
+## Modifying DNA reflection
+```{r, fig.align = 'center',out.width= '15%', echo=FALSE }
+knitr::include_graphics(path = "figures/reflection.png", auto_pdf = TRUE)
+``` 
+
+In this chapter we used your knowledge of reading FASTQ files, to:
+
+- Loop through the data.
+- Use conditions to check certain characteristics of the data.
+- Filter out short reads.
+- Trim off PCR primers.
+
+With this we've created a pipeline.
+
+In the next chapter we'll learn how to write data out and store it in a new file.

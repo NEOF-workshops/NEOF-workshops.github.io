@@ -1,0 +1,304 @@
+# Loops {#loops}
+```{r, fig.align = 'center',out.width= '20%', echo=FALSE }
+knitr::include_graphics(path = "figures/loopdeloo.png", auto_pdf = TRUE)
+```
+
+We now have some knowledge of Python data structures (**lists**, **sets**, and **dictionaries**), what type of data they hold, and how we can access the elements within them.
+
+How might we apply something to each element of a **list**? Perhaps we need to count the number of characters in each entry in the **list**?
+
+Where we need to apply the same commands to every item in a data structure, we can use a **loop**. This means that we do not need to manually apply the commands to every item in the **list**, one at a time.
+
+There are several types of **loop**; we will cover some of the most important in this section.
+
+__Note__: Continue using the notebook __"03-Programmatic_coding"__ for this chapter.
+
+## For Loops
+```{r, fig.align = 'center',out.width= '20%', echo=FALSE }
+knitr::include_graphics(path = "figures/assembly_line_robot.png", auto_pdf = TRUE)
+```
+
+One of the most important and most common type of **loops** is the **for** **loop**.
+
+The **for** **loop** runs through a set of **variables** (such as those in our list) and applies a **command** (or series of commands) to each element once. This is the **loop** that you will most often encounter.
+
+Imagine you have a bag of 10 potatoes that you need to peel and put into a pot.
+
+<center>![](./figures/potatoes.jpg){width="20%"}![](./figures/boiling_pot.webp){width="20%"}</center>
+
+Using some pseudocode we can imagine how this script might look:
+
+1)  from bag_of_potatoes pick up potato_01
+2)  peel potato_01
+3)  put potato_01 into pot
+4)  from bag_of_potatoes pick up potato_02
+5)  peel potato_02
+6)  put potato_02 into pot ....(and so on)
+
+You can see how inefficient this code is, especially if it was a particularly large bag of potatoes!
+
+Instead, we can use a **for** **loop** to recycle the code.
+
+1)  **for** each potato in bag_of_potatoes:
+    2)  peel potato
+    3)  put potato into pot
+
+This **loop** would run until the bag of potatoes is empty, achieving the job in just three lines of code.
+
+This pseudocode is actually very similar to the required Python syntax. The generic format of a **for** **loop** is:
+
+```{python, eval=FALSE}
+for <value> in <data_structure>:
+  do something
+```
+
+Note the colon (`:`) starting the loop and the tab indent of any commands inside the loop.
+
+### Loop through DNA nucleotides
+```{r, fig.align = 'center',out.width= '15%', echo=FALSE }
+knitr::include_graphics(path = "figures/loop_thru_dna.png", auto_pdf = TRUE)
+```
+
+**For loops** are extremely useful when we have a lot of values (for example, in a **list**) and we need to apply some commands to all of them.
+
+As an example, we will take a __string__ of DNA nucleotides and use a couple **loops** to generate the complement and reverse complement sequences.
+
+Run the below code. 
+The __for loop__ will move through the DNA string, printing each base to the screen.
+
+__Note__: Ensure lines inside a __for loop__ are indented. 
+Thankfully `jupyter-notebook` will automate a lot of this for you.
+
+```{python, eval=FALSE}
+#DNA string variable, yours does not need to be exactly the same
+DNA_string = "ATTCGAAGTCGTGTAGTACCGCGTATA"
+
+#Loop through each base in the string
+for base in DNA_string:
+  #Print the current base
+  print(base)
+```
+
+We can see from the output that the **loop** allows us to process each base in the string separately; in this case by printing them individually.
+
+__Note__: The __loop variable name__ `base` is arbitrary and chosen by us.
+
+### Complement a DNA sequence
+```{r, fig.align = 'center',out.width= '15%', echo=FALSE }
+knitr::include_graphics(path = "figures/complement.png", auto_pdf = TRUE)
+```
+
+Next, let's use this **loop** functionality to do something useful to each base such as converting each nucleotide to the appropriate complement base.
+
+For this, we will use a **dictionary** to swap each base for the complement. Recall that a **dictionary** has a **key** and **value** for each entry. We can define the 'standard' base as the **key**, and the 'complement' as the **value**.
+
+Create and run the below code in a new __code cell__.
+With the code we first create the **dictionary** holding the complementary pairs of bases. 
+This needs to come before the __for loop__. 
+
+__Note__: Each of the four lines of the **dictionary** need to have a leading TAB character.
+
+```{python, eval=FALSE}
+#Complement
+#DNA string variable, yours does not need to be exactly the same
+DNA_string = "ATTCGAAGTCGTGTAGTACCGCGTATA"
+
+#Define our dictionary of complements
+complements = {
+  "A" : "T",
+  "T" : "A",
+  "G" : "C",
+  "C" : "G"
+}
+
+#Loop through each base in the string
+for base in DNA_string:
+  #Print the complemented base
+  print(complements[base])
+```
+
+The code will print out the complementary base for each iteration of the loop.
+
+Most likely we won't want our output to consist of separate bases on their own lines.
+We can therefore build up an 'output __string__' to format the complemented sequence. 
+The complemented base is added to the **variable** `complement_DNA` each time and the whole **string** is printed at the end.
+
+Edit, your previous code to the following:
+
+__Note:__ The **variable** `complement_DNA` needs to be created before the __for loop__ is run.
+
+```{python, eval=FALSE}
+#Complement
+#DNA string variable, yours does not need to be exactly the same
+DNA_string = "ATTCGAAGTCGTGTAGTACCGCGTATA"
+
+#Define our dictionary of complements
+complements = {
+  "A" : "T",
+  "T" : "A",
+  "G" : "C",
+  "C" : "G"
+}
+
+#Create an empty string to add the complemented bases to
+complement_DNA = ""
+
+#Loop through each base in the string
+for base in DNA_string:
+  #Print the complemented base
+  #print(complements[base])
+  #Add the complemented base to the output string
+  complement_DNA = complement_DNA + complements[base]
+
+#Print the output string
+print(complement_DNA)
+```
+
+Now you have a __variable__ containing the complemented sequences.
+
+### Reverse-complement a DNA sequence
+```{r, fig.align = 'center',out.width= '15%', echo=FALSE }
+knitr::include_graphics(path = "figures/reverse_complement.png", auto_pdf = TRUE)
+```
+
+To generate the reverse complement we can use Python's built in `reversed()` **function** to reverse the __string__.
+This reversed __string__ can then be used in the complementation. 
+Copy your previous complementation code into a new __code cell__.
+Edit it to the below and run it.
+
+```{python, eval=FALSE}
+#Reverse complement
+#DNA string variable, yours does not need to be exactly the same
+DNA_string = "ATTCGAAGTCGTGTAGTACCGCGTATA"
+
+#Define our dictionary of complements
+complements = {
+  "A" : "T",
+  "T" : "A",
+  "G" : "C",
+  "C" : "G"
+}
+
+#Create an empty string to add the complemented bases to
+rc_DNA = ""
+
+#Loop through each base in the reversed string
+for base in reversed(DNA_string):
+  #Add the complemented base to the output string
+  rc_DNA = rc_DNA + complements[base]
+
+#Print the output string
+print(rc_DNA)
+```
+
+Running this new code will produce the reverse complement of our original DNA sequence.
+
+### Transcription challenge
+```{r, fig.align = 'center',out.width= '25%', echo=FALSE }
+knitr::include_graphics(path = "figures/transcription.png", auto_pdf = TRUE)
+```
+
+In a new __code cell__ create and run code to transcribe the DNA (__"DNA_string"__) to a RNA sequence.
+When a single strand of DNA is transcribed the resulting RNA strand is complemented with the relevant RNA bases.
+For example, the DNA sequence __"ACGT"__ will become the RNA sequence __"UGCA"__.
+
+Give this a good attempt, ensuring you copy and paste old code.
+
+The solution is in the below expandable box if you want to check your code or you need a quick hint.
+
+`r hide("Transcribe loop")`
+```{python, eval=FALSE}
+#Transcribe
+#DNA string variable, yours does not need to be exactly the same
+DNA_string = "ATTCGAAGTCGTGTAGTACCGCGTATA"
+
+#Define our dictionary of transcripts
+transcripts = {
+  "A" : "U",
+  "T" : "A",
+  "G" : "C",
+  "C" : "G"
+}
+
+#Create an empty string to add the RNA bases to
+RNA = ""
+
+#Loop through each base in the string
+for base in DNA_string:
+  #Add the RNA base to the output string
+  RNA = RNA + transcripts[base]
+
+#Print the output string
+print(RNA)
+```
+`r unhide()`
+
+## While loops
+```{r, fig.align = 'center',out.width= '20%', echo=FALSE }
+knitr::include_graphics(path = "figures/while_loop.png", auto_pdf = TRUE)
+```
+
+The other type of **loop** you might encounter is the **while** **loop**. A **while** **loop** continues to run **while** a statement remains **True**. For example, returning to our bag of potatoes, a **while** **loop** for the same job might look like this:
+
+1)  while bag_of_potatoes is not empty :
+    2)  peel potato
+    3)  put potato into pot
+
+This **loop** would run until the last potato has been prepared, at which point the __while statement__ would return **False** and the __loop__ would be stopped.
+
+The generic format of a **while** **loop** is as follows:
+
+```{python, eval=FALSE}
+while <condition> :
+  do something
+```
+
+Below are a few examples of __while loops__ you can create and run.
+Ensure you understand why the code is giving you the output.
+If you are not sure please ask a demonstrator.
+
+```{python, eval=FALSE}
+x = 1
+#While loop
+while x < 10:
+  x = x + 1
+x
+```
+```{python, eval=FALSE}
+x = 1
+#Create new list containing 1 to add loop data to
+num_list = [x]
+#While loop
+while x >= -9:
+  x = x - 2
+  num_list.append(x)
+num_list
+```
+```{python, eval=FALSE}
+#Find first number after 101 that is divisible by 37
+x  = 101
+#Use modulus operator to end loop when the remainder from division is 0
+while (x % 37) != 0:
+  x = x + 1
+x
+```
+
+**While** **loops** are much less commonly used and we will not spend any more time on them in this book. Hopefully you can see the difference between a **for** **loop** and a **while** **loop** and have an idea of how they run.
+
+## Further control statements
+```{r, fig.align = 'center',out.width= '15%', echo=FALSE }
+knitr::include_graphics(path = "figures/controller.png", auto_pdf = TRUE)
+```
+
+You can control **loops** further using __break__, __continue__ and __pass__ __statements__.
+We won't cover these in this tutorial as they are much less common. 
+You can find good resources covering __Python control statements__ [online](https://www.tutorialspoint.com/python/python_loop_control.htm).
+
+## Loop reflection
+```{r, fig.align = 'center',out.width= '20%', echo=FALSE }
+knitr::include_graphics(path = "figures/reflection.png", auto_pdf = TRUE)
+```
+
+**Loops** are really useful when we need to perform the same task, or commands, over-and-over again. 
+Where we have data stored in a data structure such as a **list**, we can apply something to everything in the **list** using a **for** **loop**. 
+This is an efficient way to code as it means we do not need to duplicate the instructions.

@@ -1,0 +1,238 @@
+# Logical operators {#logical_operators}
+```{r, fig.align = 'center',out.width= '15%', echo=FALSE }
+knitr::include_graphics(path = "figures/logic.png", auto_pdf = TRUE)
+```
+
+In this chapter you will learn how to use 2 different __logical operators__:
+
+- `and`
+- `or`
+
+With these statements you will:
+
+- Filter reads by GC% ranges.
+- Detect the presence of 1 or more amino acids.
+
+This will further solidify your use of __loops__ and __conditions__. 
+
+Use a new notebook called __"06-Logical_statements"__. Add the top to this notebook to loadd the required __library__.
+
+__Note__: Ensure `wd =` is set to __your__ working directory (not `nsc201`).
+
+```{python, eval=FALSE}
+wd = "/pub14/tea/nsc201/Python_course_data"
+from Bio import SeqIO
+```
+
+## and logical operator
+```{r, fig.align = 'center',out.width= '15%', echo=FALSE }
+knitr::include_graphics(path = "figures/and.png", auto_pdf = TRUE)
+```
+
+We will first look at the `and` __logical operator__. 
+This allows us to compare two comparisons. 
+__If__ both are `True` the __conditional statement__ will return as `True`.
+__If__ either/both are `False` the __conditional statement__ will return as `False`.
+Lets show a few examples.
+
+First create a few demonstration variables.
+
+```{python, eval = FALSE}
+num_list = [1,2,3,4,5,6,7,8,9]
+string_list = ["one","two","three","four","five","six","seven","eight","nine"]
+```
+
+Print numbers between 3 __and__ 7.
+
+```{python, eval = FALSE}
+#Loop through numbers
+for num in num_list:
+  #If number is greater than 3 and less than 7
+  if num > 3 and num < 7:
+    #Print number
+    print(num)
+```
+
+Print numbers divisible by 2 that are also greater than 5.
+
+```{python, eval = FALSE}
+#Loop through numbers
+for num in num_list:
+  #If number is divisible by 2 and greater than 5
+  if num%2 == 0 and num > 5:
+    #Print number
+    print(num)
+```
+
+Print strings longer than three characters __and__ has at least on letter __e__.
+
+```{python, eval = FALSE}
+#Loop through strings
+for string in string_list:
+  #If string length is greater than 3 and the "e" count is greater than 0
+  if len(string) > 3 and string.count("e") > 0:
+    #Print the string
+    print(string)
+```
+
+Print strings shorter or equal to 3 characters __and__ that have no __e__.
+
+```{python, eval = FALSE}
+#Loop through strings
+for string in string_list:
+  #If string length is less than or equal to 3 and the "e" count is 0
+  if len(string) <= 3 and string.count("e") == 0:
+    #Print the string
+    print(string)
+```
+
+In the above examples we have only used one `and` __operator__. You can use multiple but of course the more you use the more complex your __statement__ becomes.
+
+## Filter by GC% range
+```{r, fig.align = 'center',out.width= '40%', echo=FALSE }
+knitr::include_graphics(path = "figures/40_60_range.png", auto_pdf = TRUE)
+```
+
+With the `and` __logical operator__ we can filter by a GC% range.
+
+The next bit of coding will retain reads with a GC% between 40% and 60%. This is not normally something you would do but instead we've included it for demonstration purposes.
+
+```{python, eval=FALSE}
+#Read in the fastq data
+R_undulata_data = SeqIO.parse(wd + "/Python_course_data/R_undulata_WGS.fastq", "fastq")
+
+#Initialise an empty list to hold the records that we want to keep
+gc_sequences = []
+
+#Variables for choice of min and max gc%
+min_gc = 40
+max_gc = 60
+
+#Loop through the fastq records
+for record in R_undulata_data:
+  #Calculate GC%
+  gc_count = record.seq.upper().count("G") + record.seq.upper().count("C")
+  gc_perc = (gc_count / len(record.seq)) * 100
+  #If GC percent is greater than min and less than max
+  if gc_perc > min_gc and gc_perc < max_gc:
+    #Add the record to the list of records
+    gc_sequences.append(record)
+
+#Print statement to show number of reads retained after length filtering
+print("Found " + str(len(gc_sequences)) + " reads with GC% range between " + 
+  str(min_gc) + "% and " + str(max_gc) + "%.")
+```
+
+Ensure you understand the above code before continuing.
+Please ask a demonstrator if you are unsure.
+
+## or logical operator
+```{r, fig.align = 'center',out.width= '15%', echo=FALSE }
+knitr::include_graphics(path = "figures/oar.png", auto_pdf = TRUE)
+```
+
+For this we will use the `or` __logical operator__. This allows us to test two comparisons and __if__ the first __or__ second is `True` the __condition__ will return the output. Lets go through a few examples.
+
+We will use the same variables as our `and` __operator__ examples.
+
+```{python, eval = FALSE}
+num_list = [1,2,3,4,5,6,7,8,9]
+string_list = ["one","two","three","four","five","six","seven","eight","nine"]
+```
+
+Print numbers greater than 4 __or__ if they are odd.
+
+```{python, eval = FALSE}
+#Loop through numbers
+for num in num_list:
+  #If number is greater than 4 or odd
+  if num > 4 or num%2 == 1:
+    #Print number
+    print(num)
+```
+
+Print numbers less than or equal to 2 __or__ greater than or equal to 8.
+
+```{python, eval = FALSE}
+#Loop through numbers
+for num in num_list:
+  #If number is less than or equal to 2 or greater than or qual to 8
+  if num <= 2 or num >= 8:
+    #Print number
+    print(num)
+```
+
+Print strings shorter than 4 characters __or__ longer than 4 characters.
+
+```{python, eval = FALSE}
+#Loop through strings
+for string in string_list:
+  #If string length is less than or greater than 4
+  if len(string) < 4 or len(string) > 4:
+    #Print the string
+    print(string)
+```
+
+Print strings with an __n__ count of more than 1 __or__ an __e__ count of 0.
+
+```{python, eval = FALSE}
+#Loop through strings
+for string in string_list:
+  #If n count is greater than 0 or e count is 0
+  if len(string) <= 3 and string.count("e") == 0:
+    #Print the string
+    print(string)
+```
+
+
+## Amino acid detection
+```{r, fig.align = 'center',out.width= '15%', echo=FALSE }
+knitr::include_graphics(path = "figures/amino_acid.png", auto_pdf = TRUE)
+```
+
+In this part you will translate part of each sequence with `.translate()`.
+Then you will count the number of sequences that have at least one translated __Glutamine (Q)__ or _Serine (S)_.
+This will be carried out with the  `or` __logical operator__.
+
+When translating the sequence length needs to be divisible by three to match codon lengths. We will only translate the first 10 codons (30 bases) to check.
+
+```{python, eval=FALSE}
+#Read in the fastq data
+R_undulata_data = SeqIO.parse(wd + "/Python_course_data/R_undulata_WGS.fastq", "fastq")
+
+#Initialise a variable for the counter
+counter = 0
+
+#Variables for amino acids
+aa_1 = "S"
+aa_2 = "Q"
+
+#Loop through the fastq records
+for record in R_undulata_data:
+  #Extract the first 30 bases
+  subset_seq = record.seq[:30]
+  #Translate sequence
+  aa_seq = subset_seq.translate()
+  #Amino acid counts
+  aa_1_count = aa_seq.upper().count(aa_1)
+  aa_2_count = aa_seq.upper().count(aa_2)
+  #If aa_1 is present or aa_2 is present
+  if aa_1_count > 0 or aa_2_count > 0:
+    #Add 1 to counter
+    counter = counter + 1
+
+#Print statement to show number translated sequences with either of the amino acids
+print("Found " + str(counter) + " reads with a translated " + 
+  aa_1 + " or " + aa_2 + " in the first 10 codons.")
+```
+
+## Logical operators reflection
+```{r, fig.align = 'center',out.width= '20%', echo=FALSE }
+knitr::include_graphics(path = "figures/reflection.png", auto_pdf = TRUE)
+``` 
+
+Excellent! You have learnt how to use the `and` and `or` __logical operators__.
+You now have a good tool kit to carry out a lot of different python coding and be able to learn more yourself.
+
+We'll finish this book with some challenges to give you practice with all you have learnt followed by an overall recap.
+
