@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher and Helen Hipperson" />
 
 
-<meta name="date" content="2023-08-31" />
+<meta name="date" content="2023-09-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -317,7 +317,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>the path to write our N-trimmed reverse fastqs <code>fnRs.filtN</code></li>
 <li>and the function-specific options for <code>maxN</code> and <code>multithread</code></li>
 </ul>
-<p>This will take a few minutes to run.</p>
+<p>This will take a few minutes to run. Wait for <code>filterAndTrim</code> to finish running before running the next step. This is indicated by the colour of the circle next to <code>R</code> on the right-hand side of the screen. Grey=running, clear=idle:</p>
+<p><img src="figures/running_circle.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>The following function will use all possible primer combinations to count the number of times a primer is found in the forward and reverse read in each orientation.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="06-primer_removal.html#cb25-1" aria-hidden="true" tabindex="-1"></a>primerHits <span class="ot">&lt;-</span> <span class="cf">function</span>(primer, fn) {</span>
 <span id="cb25-2"><a href="06-primer_removal.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Counts number of reads in which the primer is found</span></span>
@@ -357,7 +358,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In addition to trimming the primers from the reads we will also specify a couple of extra useful parameters.</p>
 <p><code>--discard-untrimmed</code> this tells cutadapt to discard any read where the primers haven’t been trimmed off. This is especially important for our data as our files at the moment contain sequences amplified using both MiFish-U and 12S-V5 primer sets. We only want to keep sequences matching the MiFish-U primer set for this analysis.</p>
 <p><code>--minimum-length 60</code> discard reads shorter than 60bp. This will remove unexpected short reads and help speed up further analysis.</p>
-<p>Run cutadapt. (Note. The cutadapt step is time intensive so this might take a little while to run, probably about 15 minutes, and a lot of output will be written to the screen while it is running).</p>
+<p>Run cutadapt. (Note. The cutadapt step is time intensive so this might take a little while to run, probably about 15 minutes, and a lot of output will be written to the Linux terminal screen while it is running).</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="06-primer_removal.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(fnFs)) {</span>
 <span id="cb30-2"><a href="06-primer_removal.html#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system2</span>(cutadapt, <span class="at">args =</span> <span class="fu">c</span>(R1.flags, R2.flags, <span class="st">&quot;-n&quot;</span>, <span class="dv">2</span>, </span>
 <span id="cb30-3"><a href="06-primer_removal.html#cb30-3" aria-hidden="true" tabindex="-1"></a>                             <span class="co"># -n 2 required to remove FWD and REV</span></span>
