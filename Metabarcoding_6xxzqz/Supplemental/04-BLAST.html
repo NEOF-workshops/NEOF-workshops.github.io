@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher and Helen Hipperson" />
 
 
-<meta name="date" content="2023-06-19" />
+<meta name="date" content="2023-09-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -196,10 +196,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>BLAST is used on the linux command line, rather than in R as we have been working in all the earlier steps of the workbook.</p>
 <div id="blast-againt-the-nt-database" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> BLAST againt the nt database<a href="04-BLAST.html#blast-againt-the-nt-database" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/blast_1.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>To perform a <code>blastn</code> search of our MiFish ASVs against the nt database the command would be:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="04-BLAST.html#cb14-1" tabindex="-1"></a><span class="ex">blastn</span> <span class="at">-query</span> MiFish_ASVs.fa <span class="at">-task</span> blastn <span class="at">-db</span> nt <span class="dt">\</span></span>
-<span id="cb14-2"><a href="04-BLAST.html#cb14-2" tabindex="-1"></a>      <span class="at">-evalue</span> 0.001 <span class="at">-outfmt</span> 6 <span class="at">-out</span> MiFish_ASVs_blast_out.txt</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="04-BLAST.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">blastn</span> <span class="at">-query</span> MiFish_ASVs.fa <span class="at">-task</span> blastn <span class="at">-db</span> nt <span class="dt">\</span></span>
+<span id="cb14-2"><a href="04-BLAST.html#cb14-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">-evalue</span> 0.001 <span class="at">-outfmt</span> 6 <span class="at">-out</span> MiFish_ASVs_blast_out.txt</span></code></pre></div>
 <p>The options specified are:</p>
 <ul>
 <li><code>-query filename.fa</code> fasta file of ASV sequences</li>
@@ -216,17 +215,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="blast-against-a-custom-database" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> BLAST against a custom database<a href="04-BLAST.html#blast-against-a-custom-database" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/blast_2.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>If you have your own fasta file of curated reference sequences you can also use BLAST to match your ASVs to this.</p>
 <p>First make a BLAST database from the fasta file:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="04-BLAST.html#cb15-1" tabindex="-1"></a><span class="ex">makeblastdb</span> <span class="at">-in</span> My_12S_Fish_sequences.fa <span class="dt">\</span></span>
-<span id="cb15-2"><a href="04-BLAST.html#cb15-2" tabindex="-1"></a>    <span class="at">-parse_seqids</span> <span class="dt">\</span></span>
-<span id="cb15-3"><a href="04-BLAST.html#cb15-3" tabindex="-1"></a>    <span class="at">-dbtype</span> nucl <span class="dt">\</span></span>
-<span id="cb15-4"><a href="04-BLAST.html#cb15-4" tabindex="-1"></a>    <span class="at">-out</span> My12S</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="04-BLAST.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">makeblastdb</span> <span class="at">-in</span> My_12S_Fish_sequences.fa <span class="dt">\</span></span>
+<span id="cb15-2"><a href="04-BLAST.html#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-parse_seqids</span> <span class="dt">\</span></span>
+<span id="cb15-3"><a href="04-BLAST.html#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-dbtype</span> nucl <span class="dt">\</span></span>
+<span id="cb15-4"><a href="04-BLAST.html#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-out</span> My12S</span></code></pre></div>
 <p>This will generate all of the database files needed to run <code>blastn</code> against the sequences in ‘My_12S_Fish_sequences.fa’. To do this the command would be:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="04-BLAST.html#cb16-1" tabindex="-1"></a><span class="ex">blastn</span> <span class="at">-query</span> MiFish_ASVs.fa <span class="at">-task</span> blastn <span class="dt">\</span></span>
-<span id="cb16-2"><a href="04-BLAST.html#cb16-2" tabindex="-1"></a>    <span class="at">-db</span> My12S <span class="at">-evalue</span> 0.001 <span class="at">-outfmt</span> 6 <span class="dt">\</span></span>
-<span id="cb16-3"><a href="04-BLAST.html#cb16-3" tabindex="-1"></a>    <span class="at">-out</span> MiFish_ASVs_blast_My12S_out.txt</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="04-BLAST.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">blastn</span> <span class="at">-query</span> MiFish_ASVs.fa <span class="at">-task</span> blastn <span class="dt">\</span></span>
+<span id="cb16-2"><a href="04-BLAST.html#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-db</span> My12S <span class="at">-evalue</span> 0.001 <span class="at">-outfmt</span> 6 <span class="dt">\</span></span>
+<span id="cb16-3"><a href="04-BLAST.html#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-out</span> MiFish_ASVs_blast_My12S_out.txt</span></code></pre></div>
 
 </div>
 </div>
