@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 NanoPlot | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
-  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 NanoPlot | Long read Quality Control" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2023-06-19" />
+<meta name="date" content="2023-09-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,6 +52,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -142,7 +146,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a>Long read QC</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="01-Long_read_QC.html"><a href="01-Long_read_QC.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="1" data-path="01-Long_read_QC.html"><a href="01-Long_read_QC.html"><i class="fa fa-check"></i><b>1</b> Overview</a>
+<ul>
+<li class="chapter" data-level="" data-path="01-Long_read_QC.html"><a href="01-Long_read_QC.html#table-of-contents"><i class="fa fa-check"></i>Table of contents</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="02-Intro.html"><a href="02-Intro.html"><i class="fa fa-check"></i><b>2</b> Data</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="02-Intro.html"><a href="02-Intro.html#the-data"><i class="fa fa-check"></i><b>2.1</b> The data</a></li>
@@ -231,7 +238,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="15-Appendix.html"><a href="15-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
 <ul>
-<li class="chapter" data-level="A.1" data-path="15-Appendix.html"><a href="15-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>A.1</b> Mamba installation</a></li>
+<li class="chapter" data-level="A.1" data-path="15-Appendix.html"><a href="15-Appendix.html#mamba-installation"><i class="fa fa-check"></i><b>A.1</b> Mamba installation</a></li>
 <li class="chapter" data-level="A.2" data-path="15-Appendix.html"><a href="15-Appendix.html#ont-qc-environment"><i class="fa fa-check"></i><b>A.2</b> ONT QC environment</a></li>
 <li class="chapter" data-level="A.3" data-path="15-Appendix.html"><a href="15-Appendix.html#pb-qc-environment"><i class="fa fa-check"></i><b>A.3</b> PB QC environment</a></li>
 </ul></li>
@@ -255,8 +262,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="nanoplot" class="section level1 hasAnchor" number="7">
-<h1><span class="header-section-number">Chapter 7</span> NanoPlot<a href="07-NanoPlot.html#nanoplot" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="nanoplotchap" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> NanoPlot<a href="07-NanoPlot.html#nanoplotchap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="figures/nanoplot_hexes.png" width="15%" style="display: block; margin: auto;" /></p>
 <p><code>NanoPlot</code> can be thought of as the <code>fastqc</code> for ONT data. It produces a lot of useful visualisations to investigate the quality of ONT sequencing data. It can be used for <strong>fastq</strong>, <strong>fasta</strong>, <strong>BAM</strong>, and sequencing summary files. The link for its github page is: <a href="https://github.com/wdecoster/NanoPlot" class="uri">https://github.com/wdecoster/NanoPlot</a></p>
 <p>ONT data has much lower quality scores than Illumina with Q10 being good. If you have enough coverage and length the low quality can be corrected by downstream processes not covered in this tutorial.</p>
@@ -290,120 +297,221 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 NanoStat of pre-porechopped reads
 </button>
 <table>
-<colgroup>
-<col width="75%" />
-<col width="24%" />
-</colgroup>
 <thead>
-<tr class="header">
-<th align="left">General summary</th>
-<th align="left">values</th>
+<tr>
+<th style="text-align:left;">
+General summary
+</th>
+<th style="text-align:left;">
+values
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">Mean read length</td>
-<td align="left">7,070.8</td>
+<tr>
+<td style="text-align:left;">
+Mean read length
+</td>
+<td style="text-align:left;">
+7,070.8
+</td>
 </tr>
-<tr class="even">
-<td align="left">Mean read quality</td>
-<td align="left">9.5</td>
+<tr>
+<td style="text-align:left;">
+Mean read quality
+</td>
+<td style="text-align:left;">
+9.5
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Median read length</td>
-<td align="left">6,700.5</td>
+<tr>
+<td style="text-align:left;">
+Median read length
+</td>
+<td style="text-align:left;">
+6,700.5
+</td>
 </tr>
-<tr class="even">
-<td align="left">Median read quality</td>
-<td align="left">10.4</td>
+<tr>
+<td style="text-align:left;">
+Median read quality
+</td>
+<td style="text-align:left;">
+10.4
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Number of reads</td>
-<td align="left">2,000.0</td>
+<tr>
+<td style="text-align:left;">
+Number of reads
+</td>
+<td style="text-align:left;">
+2,000.0
+</td>
 </tr>
-<tr class="even">
-<td align="left">Read length N50</td>
-<td align="left">8,143.0</td>
+<tr>
+<td style="text-align:left;">
+Read length N50
+</td>
+<td style="text-align:left;">
+8,143.0
+</td>
 </tr>
-<tr class="odd">
-<td align="left">STDEV read length</td>
-<td align="left">3,336.0</td>
+<tr>
+<td style="text-align:left;">
+STDEV read length
+</td>
+<td style="text-align:left;">
+3,336.0
+</td>
 </tr>
-<tr class="even">
-<td align="left">Total bases</td>
-<td align="left">14,141,646.0</td>
+<tr>
+<td style="text-align:left;">
+Total bases
+</td>
+<td style="text-align:left;">
+14,141,646.0
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Number, percentage and megabases of reads above quality cutoffs</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+Number, percentage and megabases of reads above quality cutoffs
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="even">
-<td align="left">&gt;Q5</td>
-<td align="left">2000 (100.0%) 14.1Mb</td>
+<tr>
+<td style="text-align:left;">
+&gt;Q5
+</td>
+<td style="text-align:left;">
+2000 (100.0%) 14.1Mb
+</td>
 </tr>
-<tr class="odd">
-<td align="left">&gt;Q7</td>
-<td align="left">1998 (99.9%) 14.1Mb</td>
+<tr>
+<td style="text-align:left;">
+&gt;Q7
+</td>
+<td style="text-align:left;">
+1998 (99.9%) 14.1Mb
+</td>
 </tr>
-<tr class="even">
-<td align="left">&gt;Q10</td>
-<td align="left">1231 (61.6%) 8.8Mb</td>
+<tr>
+<td style="text-align:left;">
+&gt;Q10
+</td>
+<td style="text-align:left;">
+1231 (61.6%) 8.8Mb
+</td>
 </tr>
-<tr class="odd">
-<td align="left">&gt;Q12</td>
-<td align="left">29 (1.5%) 0.2Mb</td>
+<tr>
+<td style="text-align:left;">
+&gt;Q12
+</td>
+<td style="text-align:left;">
+29 (1.5%) 0.2Mb
+</td>
 </tr>
-<tr class="even">
-<td align="left">&gt;Q15</td>
-<td align="left">0 (0.0%) 0.0Mb</td>
+<tr>
+<td style="text-align:left;">
+&gt;Q15
+</td>
+<td style="text-align:left;">
+0 (0.0%) 0.0Mb
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Top 5 highest mean basecall quality scores and their read lengths</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+Top 5 highest mean basecall quality scores and their read lengths
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="even">
-<td align="left">1</td>
-<td align="left">12.3 (7039)</td>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+12.3 (7039)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">2</td>
-<td align="left">12.3 (5770)</td>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+12.3 (5770)
+</td>
 </tr>
-<tr class="even">
-<td align="left">3</td>
-<td align="left">12.3 (8052)</td>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+12.3 (8052)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">4</td>
-<td align="left">12.2 (8120)</td>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+12.2 (8120)
+</td>
 </tr>
-<tr class="even">
-<td align="left">5</td>
-<td align="left">12.2 (3041)</td>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+12.2 (3041)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Top 5 longest reads and their mean basecall quality score</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+Top 5 longest reads and their mean basecall quality score
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="even">
-<td align="left">1</td>
-<td align="left">34661 (9.2)</td>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+34661 (9.2)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">2</td>
-<td align="left">31549 (8.5)</td>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+31549 (8.5)
+</td>
 </tr>
-<tr class="even">
-<td align="left">3</td>
-<td align="left">25072 (10.0)</td>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+25072 (10.0)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">4</td>
-<td align="left">24871 (10.3)</td>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+24871 (10.3)
+</td>
 </tr>
-<tr class="even">
-<td align="left">5</td>
-<td align="left">23185 (10.7)</td>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+23185 (10.7)
+</td>
 </tr>
 </tbody>
 </table>
@@ -463,24 +571,24 @@ With these plots you can:</p>
 Please attempt the below MCQs with the information in the report html.</p>
 <ol style="list-style-type: decimal">
 <li>What is the mean read quality for all the data?
-<div id="radio_MFHXJLTETM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MFHXJLTETM" value="answer"></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MFHXJLTETM" value=""></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MFHXJLTETM" value=""></input> <span><strong>8.8Mb</strong></span></label>
+<div id="radio_QEAEAELDWH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QEAEAELDWH" value="answer"></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QEAEAELDWH" value=""></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QEAEAELDWH" value=""></input> <span><strong>8.8Mb</strong></span></label>
 </div></li>
 <li>What is the mean read length of the data?
-<div id="radio_OJAQNSPPQJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_OJAQNSPPQJ" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OJAQNSPPQJ" value="answer"></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OJAQNSPPQJ" value=""></input> <span><strong>8.8Mb</strong></span></label>
+<div id="radio_KWMQMCXIIE" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KWMQMCXIIE" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KWMQMCXIIE" value="answer"></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KWMQMCXIIE" value=""></input> <span><strong>8.8Mb</strong></span></label>
 </div></li>
 <li>How many Megabases are within reads with a quality cutoff of &gt;Q10?
-<div id="radio_SEGVLKOORA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SEGVLKOORA" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SEGVLKOORA" value=""></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SEGVLKOORA" value="answer"></input> <span><strong>8.8Mb</strong></span></label>
+<div id="radio_QEXHRVIMYK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QEXHRVIMYK" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QEXHRVIMYK" value=""></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QEXHRVIMYK" value="answer"></input> <span><strong>8.8Mb</strong></span></label>
 </div></li>
 <li>Approximately how many bases would you retain if you filtered out/removed reads with a length &lt;10,000bp (Yield by length)?
-<div id="radio_WQFGMLMBPQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WQFGMLMBPQ" value=""></input> <span><strong>10</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WQFGMLMBPQ" value=""></input> <span><strong>146</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WQFGMLMBPQ" value="answer"></input> <span><strong>4Mb (0.004Gb)</strong></span></label>
+<div id="radio_NUDTRAPVVT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NUDTRAPVVT" value=""></input> <span><strong>10</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NUDTRAPVVT" value=""></input> <span><strong>146</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NUDTRAPVVT" value="answer"></input> <span><strong>4Mb (0.004Gb)</strong></span></label>
 </div></li>
 <li>Look at the "Read lengths vs Average read quality plot". In what average quality range are the majority of reads?
-<div id="radio_BEYJRKRCQY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_BEYJRKRCQY" value=""></input> <span><strong>6-8</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BEYJRKRCQY" value=""></input> <span><strong>8-10</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BEYJRKRCQY" value="answer"></input> <span><strong>10-12</strong></span></label>
+<div id="radio_GCTQYBFGUX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GCTQYBFGUX" value=""></input> <span><strong>6-8</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GCTQYBFGUX" value=""></input> <span><strong>8-10</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GCTQYBFGUX" value="answer"></input> <span><strong>10-12</strong></span></label>
 </div></li>
 </ol>
 </div>
