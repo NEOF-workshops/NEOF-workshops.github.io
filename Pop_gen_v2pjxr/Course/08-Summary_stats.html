@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Calculating population summary statistics using PopGenome | Population Genomics</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
-  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Calculating population summary statistics using PopGenome | Population Genomics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Helen Hipperson, Katy Maher, Victor Soria-Carrasco, Graeme Fox" />
 
 
-<meta name="date" content="2023-07-17" />
+<meta name="date" content="2023-09-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,6 +52,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -143,7 +147,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="part"><span><b>Getting started</b></span></li>
-<li class="chapter" data-level="1" data-path="01-Intro.html"><a href="01-Intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="1" data-path="01-Intro.html"><a href="01-Intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="01-Intro.html"><a href="01-Intro.html#table-of-contents"><i class="fa fa-check"></i>Table of contents</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="02-Background.html"><a href="02-Background.html"><i class="fa fa-check"></i><b>2</b> Background</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="02-Background.html"><a href="02-Background.html#example-data-whole-genome-resequencing-of-killer-whales"><i class="fa fa-check"></i><b>2.1</b> Example data: Whole-genome resequencing of killer whales</a></li>
@@ -223,7 +230,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="11-Appendix.html"><a href="11-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
 <ul>
-<li class="chapter" data-level="A.1" data-path="11-Appendix.html"><a href="11-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>A.1</b> Mamba installation and environment</a></li>
+<li class="chapter" data-level="A.1" data-path="11-Appendix.html"><a href="11-Appendix.html#mamba-installation-and-environment"><i class="fa fa-check"></i><b>A.1</b> Mamba installation and environment</a></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="11-Appendix.html"><a href="11-Appendix.html#jupyter_appendix"><i class="fa fa-check"></i><b>B</b> Jupyter-notebook</a></li>
 <li class="chapter" data-level="C" data-path="11-Appendix.html"><a href="11-Appendix.html#loops"><i class="fa fa-check"></i><b>C</b> Using loops to process multiple samples</a>
@@ -301,15 +308,15 @@ F _{ST} =
 <p>First navigate to the 'pca' directory in a terminal window session (not in Jupyter) and then launch <code>jupyter-notebook</code>. Create a new notebook called <strong>"Chp08-PopGenome"</strong>.</p>
 <p>Create a new markdown cell titled # Summary Statistics using PopGenome</p>
 <p>Load the PopGenome package in a new code cell.</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="08-Summary_stats.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PopGenome)</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="08-Summary_stats.html#cb69-1" tabindex="-1"></a><span class="fu">library</span>(PopGenome)</span></code></pre></div>
 <p>We will now load in our SNP data, PopGenome can handle vcf files.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="08-Summary_stats.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data</span></span>
-<span id="cb70-2"><a href="08-Summary_stats.html#cb70-2" aria-hidden="true" tabindex="-1"></a>GENOME.class <span class="ot">&lt;-</span> <span class="fu">readData</span>(<span class="st">&quot;/pub14/tea/nsc206/NEOF/popgenomics/data/popgenome/&quot;</span>, </span>
-<span id="cb70-3"><a href="08-Summary_stats.html#cb70-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">format=</span><span class="st">&quot;VCF&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="08-Summary_stats.html#cb70-1" tabindex="-1"></a><span class="co"># Load the data</span></span>
+<span id="cb70-2"><a href="08-Summary_stats.html#cb70-2" tabindex="-1"></a>GENOME.class <span class="ot">&lt;-</span> <span class="fu">readData</span>(<span class="st">&quot;/pub14/tea/nsc206/NEOF/popgenomics/data/popgenome/&quot;</span>, </span>
+<span id="cb70-3"><a href="08-Summary_stats.html#cb70-3" tabindex="-1"></a>                         <span class="at">format=</span><span class="st">&quot;VCF&quot;</span>)</span></code></pre></div>
 <p>This makes a complex object which we can use to extract useful data.</p>
 <p>First we can get a summary of the vcf we have imported.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="08-Summary_stats.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is complex object, with several slots</span></span>
-<span id="cb71-2"><a href="08-Summary_stats.html#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get.sum.data</span>(GENOME.class)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="08-Summary_stats.html#cb71-1" tabindex="-1"></a><span class="co"># This is complex object, with several slots</span></span>
+<span id="cb71-2"><a href="08-Summary_stats.html#cb71-2" tabindex="-1"></a><span class="fu">get.sum.data</span>(GENOME.class)</span></code></pre></div>
 <ul>
 <li>n.sites - this is the position of the last SNP in the vcf file - in this case 17,452,779</li>
 <li>n.biallelic.sites - Number of biallelic sites (SNPs) - there are 7,511 biallelic SNPs in this scaffold file - note SNPs are only counted if they have a 'PASS' description in the filter column (you can get the full number of SNPs in the vcf by typing <code>GENOME.class@n.sites2</code>)</li>
@@ -321,37 +328,37 @@ F _{ST} =
 from A ↔︎ C, A ↔︎T, G ↔︎ C or G ↔︎ T) ratio</li>
 </ul>
 <p>The object <code>GENOME.class</code> contains all the information of the different data that you can import and assign to the vcf and the statistics that can be run. To get a summary, type:</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="08-Summary_stats.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show.slots</span>(GENOME.class)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="08-Summary_stats.html#cb72-1" tabindex="-1"></a><span class="fu">show.slots</span>(GENOME.class)</span></code></pre></div>
 <p>These slots can be accessed by using the "@" sign. For example the number of sites:</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="08-Summary_stats.html#cb73-1" aria-hidden="true" tabindex="-1"></a>GENOME.class<span class="sc">@</span>n.sites</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="08-Summary_stats.html#cb73-1" tabindex="-1"></a>GENOME.class<span class="sc">@</span>n.sites</span></code></pre></div>
 <p>For more information on the slots available using PopGenome please refer to the <a href="https://cran.r-project.org/web/packages/PopGenome/vignettes/An_introduction_to_the_PopGenome_package.pdf">manual</a></p>
 <p>We can now assign population information to the object. This is needed to calculate <em>F<sub>ST</sub></em> and <em>π</em>. For now we will specify just two of the populations.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="08-Summary_stats.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a list of individuals for each population</span></span>
-<span id="cb74-2"><a href="08-Summary_stats.html#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: the sample names in the vcf contain the path and the .bam file extension</span></span>
-<span id="cb74-3"><a href="08-Summary_stats.html#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we are just making a list of sample names as they appear in the vcf -</span></span>
-<span id="cb74-4"><a href="08-Summary_stats.html#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="co"># we are not importing any additional files</span></span>
-<span id="cb74-5"><a href="08-Summary_stats.html#cb74-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb74-6"><a href="08-Summary_stats.html#cb74-6" aria-hidden="true" tabindex="-1"></a>pop1<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;./aligned/SRR8861576_paired.bam&quot;</span>,<span class="st">&quot;./aligned/SRR8861581_paired.bam&quot;</span>,</span>
-<span id="cb74-7"><a href="08-Summary_stats.html#cb74-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;./aligned/SRR8861586_paired.bam&quot;</span>,<span class="st">&quot;/aligned/SRR8861592_paired.bam&quot;</span>)</span>
-<span id="cb74-8"><a href="08-Summary_stats.html#cb74-8" aria-hidden="true" tabindex="-1"></a>pop2<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;./aligned/SRR8861578_paired.bam&quot;</span>,<span class="st">&quot;./aligned/SRR8861583_paired.bam&quot;</span>,</span>
-<span id="cb74-9"><a href="08-Summary_stats.html#cb74-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;./aligned/SRR8861589_paired.bam&quot;</span>,<span class="st">&quot;./aligned/SRR8861591_paired.bam&quot;</span>)</span>
-<span id="cb74-10"><a href="08-Summary_stats.html#cb74-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb74-11"><a href="08-Summary_stats.html#cb74-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Set populations</span></span>
-<span id="cb74-12"><a href="08-Summary_stats.html#cb74-12" aria-hidden="true" tabindex="-1"></a>GENOME.class  <span class="ot">&lt;-</span> <span class="fu">set.populations</span>(GENOME.class, <span class="fu">list</span>(pop1,pop2))</span>
-<span id="cb74-13"><a href="08-Summary_stats.html#cb74-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb74-14"><a href="08-Summary_stats.html#cb74-14" aria-hidden="true" tabindex="-1"></a><span class="co"># check if setting the populations worked</span></span>
-<span id="cb74-15"><a href="08-Summary_stats.html#cb74-15" aria-hidden="true" tabindex="-1"></a>GENOME.class<span class="sc">@</span>populations <span class="co"># You can see that the sample names have been assigned to </span></span>
-<span id="cb74-16"><a href="08-Summary_stats.html#cb74-16" aria-hidden="true" tabindex="-1"></a>                            <span class="co">#two different within  @populations</span></span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="08-Summary_stats.html#cb74-1" tabindex="-1"></a><span class="co"># Make a list of individuals for each population</span></span>
+<span id="cb74-2"><a href="08-Summary_stats.html#cb74-2" tabindex="-1"></a><span class="co"># Note: the sample names in the vcf contain the path and the .bam file extension</span></span>
+<span id="cb74-3"><a href="08-Summary_stats.html#cb74-3" tabindex="-1"></a><span class="co"># Here we are just making a list of sample names as they appear in the vcf -</span></span>
+<span id="cb74-4"><a href="08-Summary_stats.html#cb74-4" tabindex="-1"></a><span class="co"># we are not importing any additional files</span></span>
+<span id="cb74-5"><a href="08-Summary_stats.html#cb74-5" tabindex="-1"></a></span>
+<span id="cb74-6"><a href="08-Summary_stats.html#cb74-6" tabindex="-1"></a>pop1<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;./aligned/SRR8861576_paired.bam&quot;</span>,<span class="st">&quot;./aligned/SRR8861581_paired.bam&quot;</span>,</span>
+<span id="cb74-7"><a href="08-Summary_stats.html#cb74-7" tabindex="-1"></a>        <span class="st">&quot;./aligned/SRR8861586_paired.bam&quot;</span>,<span class="st">&quot;/aligned/SRR8861592_paired.bam&quot;</span>)</span>
+<span id="cb74-8"><a href="08-Summary_stats.html#cb74-8" tabindex="-1"></a>pop2<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;./aligned/SRR8861578_paired.bam&quot;</span>,<span class="st">&quot;./aligned/SRR8861583_paired.bam&quot;</span>,</span>
+<span id="cb74-9"><a href="08-Summary_stats.html#cb74-9" tabindex="-1"></a>        <span class="st">&quot;./aligned/SRR8861589_paired.bam&quot;</span>,<span class="st">&quot;./aligned/SRR8861591_paired.bam&quot;</span>)</span>
+<span id="cb74-10"><a href="08-Summary_stats.html#cb74-10" tabindex="-1"></a></span>
+<span id="cb74-11"><a href="08-Summary_stats.html#cb74-11" tabindex="-1"></a><span class="co"># Set populations</span></span>
+<span id="cb74-12"><a href="08-Summary_stats.html#cb74-12" tabindex="-1"></a>GENOME.class  <span class="ot">&lt;-</span> <span class="fu">set.populations</span>(GENOME.class, <span class="fu">list</span>(pop1,pop2))</span>
+<span id="cb74-13"><a href="08-Summary_stats.html#cb74-13" tabindex="-1"></a></span>
+<span id="cb74-14"><a href="08-Summary_stats.html#cb74-14" tabindex="-1"></a><span class="co"># check if setting the populations worked</span></span>
+<span id="cb74-15"><a href="08-Summary_stats.html#cb74-15" tabindex="-1"></a>GENOME.class<span class="sc">@</span>populations <span class="co"># You can see that the sample names have been assigned to </span></span>
+<span id="cb74-16"><a href="08-Summary_stats.html#cb74-16" tabindex="-1"></a>                            <span class="co">#two different within  @populations</span></span></code></pre></div>
 <p>Since the calculation of certain population genetic parameters can be computationally intensive, they have to be executed separately beforehand. For this, modules have to be run. To calculate <em>F<sub>ST</sub></em> and <em>π</em> we can use the F_st.stats module.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="08-Summary_stats.html#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform the calculations and add the results to the appropriate slots</span></span>
-<span id="cb75-2"><a href="08-Summary_stats.html#cb75-2" aria-hidden="true" tabindex="-1"></a>GENOME.class <span class="ot">&lt;-</span> <span class="fu">F_ST.stats</span>(GENOME.class) </span>
-<span id="cb75-3"><a href="08-Summary_stats.html#cb75-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-4"><a href="08-Summary_stats.html#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print FST</span></span>
-<span id="cb75-5"><a href="08-Summary_stats.html#cb75-5" aria-hidden="true" tabindex="-1"></a>GENOME.class<span class="sc">@</span>nucleotide.F_ST <span class="co"># Fst is very low between these two populations</span></span>
-<span id="cb75-6"><a href="08-Summary_stats.html#cb75-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-7"><a href="08-Summary_stats.html#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Print nucleotide diversity along the scaffold and average nucleotide diversity per site</span></span>
-<span id="cb75-8"><a href="08-Summary_stats.html#cb75-8" aria-hidden="true" tabindex="-1"></a>GENOME.class<span class="sc">@</span>Pi</span>
-<span id="cb75-9"><a href="08-Summary_stats.html#cb75-9" aria-hidden="true" tabindex="-1"></a>GENOME.class<span class="sc">@</span>Pi<span class="sc">/</span>GENOME.class<span class="sc">@</span>n.sites2</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="08-Summary_stats.html#cb75-1" tabindex="-1"></a><span class="co"># Perform the calculations and add the results to the appropriate slots</span></span>
+<span id="cb75-2"><a href="08-Summary_stats.html#cb75-2" tabindex="-1"></a>GENOME.class <span class="ot">&lt;-</span> <span class="fu">F_ST.stats</span>(GENOME.class) </span>
+<span id="cb75-3"><a href="08-Summary_stats.html#cb75-3" tabindex="-1"></a></span>
+<span id="cb75-4"><a href="08-Summary_stats.html#cb75-4" tabindex="-1"></a><span class="co"># Print FST</span></span>
+<span id="cb75-5"><a href="08-Summary_stats.html#cb75-5" tabindex="-1"></a>GENOME.class<span class="sc">@</span>nucleotide.F_ST <span class="co"># Fst is very low between these two populations</span></span>
+<span id="cb75-6"><a href="08-Summary_stats.html#cb75-6" tabindex="-1"></a></span>
+<span id="cb75-7"><a href="08-Summary_stats.html#cb75-7" tabindex="-1"></a><span class="co"># Print nucleotide diversity along the scaffold and average nucleotide diversity per site</span></span>
+<span id="cb75-8"><a href="08-Summary_stats.html#cb75-8" tabindex="-1"></a>GENOME.class<span class="sc">@</span>Pi</span>
+<span id="cb75-9"><a href="08-Summary_stats.html#cb75-9" tabindex="-1"></a>GENOME.class<span class="sc">@</span>Pi<span class="sc">/</span>GENOME.class<span class="sc">@</span>n.sites2</span></code></pre></div>
 <p>This can give you a quick feel for your dataset but in reality diversity will vary throughout the genome. It is often more appropriate and interesting to examine how different regions of the genome have diverged between populations. We will explore one method for estimating differentiation between a pair of populations in the next chapter.</p>
 
 </div>
