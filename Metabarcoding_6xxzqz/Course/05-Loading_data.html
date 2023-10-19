@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Loading data into R and DADA2 | Metabarcoding for diet analysis and environmental DNA</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
-  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Loading data into R and DADA2 | Metabarcoding for diet analysis and environmental DNA" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher and Helen Hipperson" />
 
 
-<meta name="date" content="2023-09-04" />
+<meta name="date" content="2023-10-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,6 +52,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -125,6 +129,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
 </head>
 
 <body>
@@ -142,7 +147,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="part"><span><b>Getting started</b></span></li>
-<li class="chapter" data-level="1" data-path="01-Metabarcoding.html"><a href="01-Metabarcoding.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="1" data-path="01-Metabarcoding.html"><a href="01-Metabarcoding.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="01-Metabarcoding.html"><a href="01-Metabarcoding.html#table-of-contents"><i class="fa fa-check"></i>Table of contents</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="02-Example_dataset.html"><a href="02-Example_dataset.html"><i class="fa fa-check"></i><b>2</b> Background</a></li>
 <li class="chapter" data-level="3" data-path="03-R_DADA2_intro.html"><a href="03-R_DADA2_intro.html"><i class="fa fa-check"></i><b>3</b> Introduction to DADA2 and R</a>
 <ul>
@@ -247,6 +255,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.9" data-path="13-Others_marker_steps.html"><a href="13-Others_marker_steps.html#alpha-diversity-1"><i class="fa fa-check"></i><b>13.9</b> Alpha diversity</a></li>
 <li class="chapter" data-level="13.10" data-path="13-Others_marker_steps.html"><a href="13-Others_marker_steps.html#beta-diversity-1"><i class="fa fa-check"></i><b>13.10</b> Beta diversity</a></li>
 </ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="14-Appendix.html"><a href="14-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>A.1</b> Mamba installation and environment</a></li>
+<li class="chapter" data-level="A.2" data-path="14-Appendix.html"><a href="14-Appendix.html#jupyter_appendix"><i class="fa fa-check"></i><b>A.2</b> Jupyter-notebook</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -271,15 +285,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 5</span> Loading data into R and DADA2<a href="05-Loading_data.html#loaddata" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Before we can start we first need to make a directory which will be used to contain all the files you generate throughout this workshop.</p>
 <p>To do this type the following commands.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="05-Loading_data.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Change directory to home</span></span>
-<span id="cb9-2"><a href="05-Loading_data.html#cb9-2" aria-hidden="true" tabindex="-1"></a>cd <span class="sc">~</span></span>
-<span id="cb9-3"><a href="05-Loading_data.html#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Make a directory in home called &quot;Metabarcoding&quot;</span></span>
-<span id="cb9-4"><a href="05-Loading_data.html#cb9-4" aria-hidden="true" tabindex="-1"></a>mkdir Metabarcoding</span>
-<span id="cb9-5"><a href="05-Loading_data.html#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Change directory to &quot;Metabarcoding&quot;</span></span>
-<span id="cb9-6"><a href="05-Loading_data.html#cb9-6" aria-hidden="true" tabindex="-1"></a>cd Metabarcoding</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb9-1"><a href="05-Loading_data.html#cb9-1" tabindex="-1"></a><span class="co">#Change directory to home</span></span>
+<span id="cb9-2"><a href="05-Loading_data.html#cb9-2" tabindex="-1"></a>cd <span class="sc">~</span></span>
+<span id="cb9-3"><a href="05-Loading_data.html#cb9-3" tabindex="-1"></a><span class="co">#Make a directory in home called &quot;Metabarcoding&quot;</span></span>
+<span id="cb9-4"><a href="05-Loading_data.html#cb9-4" tabindex="-1"></a>mkdir Metabarcoding</span>
+<span id="cb9-5"><a href="05-Loading_data.html#cb9-5" tabindex="-1"></a><span class="co">#Change directory to &quot;Metabarcoding&quot;</span></span>
+<span id="cb9-6"><a href="05-Loading_data.html#cb9-6" tabindex="-1"></a>cd Metabarcoding</span></code></pre></div>
 <p>You will need to activate the metabarcoding conda environment before continuing. Carry this out with the following command.</p>
 <p>Note: Ensure you include the dot and space (. ) at the start before usemetabarcoding</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="05-Loading_data.html#cb10-1" aria-hidden="true" tabindex="-1"></a>. usemetabarcoding</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb10-1"><a href="05-Loading_data.html#cb10-1" tabindex="-1"></a>. usemetabarcoding</span></code></pre></div>
 <div id="jupyter" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Jupyter<a href="05-Loading_data.html#jupyter" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/jupyter_logo.png" width="20%" style="display: block; margin: auto;" /></p>
@@ -296,16 +310,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="open-jupyter-notebook" class="section level3 hasAnchor" number="5.1.1">
 <h3><span class="header-section-number">5.1.1</span> Open Jupyter-notebook<a href="05-Loading_data.html#open-jupyter-notebook" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The first step is to open <code>jupyter-notebook</code>. Run the below command in your <code>(meta_barcode)</code> environment.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="05-Loading_data.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter-notebook</span></span></code></pre></div>
-<p>This will open <code>jupyter-notebook</code> in firefox. We won’t need to access the linux terminal anymore. Leave the terminal running <code>jupyter-notebook</code> and full screen your <code>firefox</code> so you should see something like below.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb11-1"><a href="05-Loading_data.html#cb11-1" tabindex="-1"></a><span class="ex">jupyter-notebook</span></span></code></pre></div>
+<p>This will open <code>jupyter-notebook</code> in firefox. We won't need to access the linux terminal anymore. Leave the terminal running <code>jupyter-notebook</code> and full screen your <code>firefox</code> so you should see something like below.</p>
 <p><img src="figures/jupyter_notebook_example_1.png" width="100%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="create-r-notebook" class="section level3 hasAnchor" number="5.1.2">
 <h3><span class="header-section-number">5.1.2</span> Create R notebook<a href="05-Loading_data.html#create-r-notebook" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The next step is to create a R notebook.</p>
 <ol style="list-style-type: decimal">
-<li>Click on the <strong>“New”</strong> button towards the top right, right of the “Upload” button.</li>
-<li>From the dropdown click <strong>“R”</strong> below “Python 3 (ipykernel)”.</li>
+<li>Click on the <strong>"New"</strong> button towards the top right, right of the "Upload" button.</li>
+<li>From the dropdown click <strong>"R"</strong> below "Python 3 (ipykernel)".</li>
 </ol>
 <p>This will open up a new R notebook like below.</p>
 <p><img src="figures/jupyter_notebook_example_2.png" width="100%" style="display: block; margin: auto;" /></p>
@@ -314,8 +328,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">5.1.3</span> Cells and code<a href="05-Loading_data.html#cells-and-code" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><code>Jupyter-notebook</code> uses <strong>cells</strong> (the gray boxes) to separate code. This is very useful to compartmentalise our code.</p>
 <p>There will already be one <strong>cell</strong>. Within the <strong>cell</strong>, type in the below commands.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="05-Loading_data.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
-<span id="cb12-2"><a href="05-Loading_data.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2-3</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb12-1"><a href="05-Loading_data.html#cb12-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb12-2"><a href="05-Loading_data.html#cb12-2" tabindex="-1"></a><span class="dv">2-3</span></span></code></pre></div>
 <p>When pressing enter in <strong>cells</strong> it will create a new line. To run all commands in a <strong>cell</strong> press <code>CTRL + enter</code>.</p>
 <p>Run your current <strong>cell</strong> and you should see something like below.</p>
 <p><img src="figures/jupyter_notebook_example_3.png" width="100%" style="display: block; margin: auto;" /></p>
@@ -329,11 +343,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p><strong>Tip:</strong> Hover over the toolbar icons to display a text based description of its function.</p>
 <p>With that knowledge add a second <strong>cell</strong> below the first <strong>cell</strong>. Add the following code to your second <strong>cell</strong> but do not run it.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="05-Loading_data.html#cb13-1" aria-hidden="true" tabindex="-1"></a>num_1 <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb13-2"><a href="05-Loading_data.html#cb13-2" aria-hidden="true" tabindex="-1"></a>num_2 <span class="ot">&lt;-</span> <span class="dv">10</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb13-1"><a href="05-Loading_data.html#cb13-1" tabindex="-1"></a>num_1 <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb13-2"><a href="05-Loading_data.html#cb13-2" tabindex="-1"></a>num_2 <span class="ot">&lt;-</span> <span class="dv">10</span></span></code></pre></div>
 <p><strong>Tip:</strong> Notice there are green lines around your selected cell.</p>
 <p>Insert a third <strong>cell</strong> and add the following code to it. Do not run the code.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="05-Loading_data.html#cb14-1" aria-hidden="true" tabindex="-1"></a>num_1 <span class="sc">*</span> num_2</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb14-1"><a href="05-Loading_data.html#cb14-1" tabindex="-1"></a>num_1 <span class="sc">*</span> num_2</span></code></pre></div>
 </div>
 <div id="running-code" class="section level3 hasAnchor" number="5.1.5">
 <h3><span class="header-section-number">5.1.5</span> Running code<a href="05-Loading_data.html#running-code" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -341,8 +355,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We can run all the code in a notebook starting from the first <strong>cell</strong> to the last <strong>cell</strong>.</p>
 <p>To run all <strong>cells</strong> from the start:</p>
 <ul>
-<li>Click on the <strong>“Cell”</strong> button.</li>
-<li>Click <strong>“Run All”</strong> from the drop-down options.</li>
+<li>Click on the <strong>"Cell"</strong> button.</li>
+<li>Click <strong>"Run All"</strong> from the drop-down options.</li>
 </ul>
 <p>You should then see something like the below in your notebook.</p>
 <p><img src="figures/jupyter_notebook_example_4.png" width="100%" style="display: block; margin: auto;" /></p>
@@ -352,19 +366,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">5.1.6</span> Saving the file<a href="05-Loading_data.html#saving-the-file" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="figures/r_save.png" width="10%" style="display: block; margin: auto;" /></p>
 <p>As with RStudio and other good coding interfaces we can save our notebook.</p>
-<p>First we should rename the file. Rename the notebook to <strong>“jupyter_tut”</strong>:</p>
+<p>First we should rename the file. Rename the notebook to <strong>"jupyter_tut"</strong>:</p>
 <ol style="list-style-type: decimal">
-<li>Click on the name of the notebook, currently called <strong>“Untitled”</strong>.
+<li>Click on the name of the notebook, currently called <strong>"Untitled"</strong>.
 <ul>
 <li>This is at the very top of the notebook, right of the Jupyter logo.</li>
 </ul></li>
-<li>A pop-up called <strong>“Rename Notebook”</strong> will appear. Change the Name to <strong>“jupyter_tut”</strong>.</li>
-<li>Click <strong>“Rename”</strong>.</li>
+<li>A pop-up called <strong>"Rename Notebook"</strong> will appear. Change the Name to <strong>"jupyter_tut"</strong>.</li>
+<li>Click <strong>"Rename"</strong>.</li>
 </ol>
 <p>Now we can save the file. Two methods to save are:</p>
 <ul>
 <li>Click the floppy disk <svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M380.93,57.37A32,32,0,0,0,358.3,48H94.22A46.21,46.21,0,0,0,48,94.22V417.78A46.21,46.21,0,0,0,94.22,464H417.78A46.36,46.36,0,0,0,464,417.78V153.7a32,32,0,0,0-9.37-22.63ZM256,416a64,64,0,1,1,64-64A63.92,63.92,0,0,1,256,416Zm48-224H112a16,16,0,0,1-16-16V112a16,16,0,0,1,16-16H304a16,16,0,0,1,16,16v64A16,16,0,0,1,304,192Z" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></path></svg> on the toolbar.</li>
-<li>Click on the <strong>“File”</strong> button. Click <strong>“Save and Checkpoint”</strong> from the dropdown options.</li>
+<li>Click on the <strong>"File"</strong> button. Click <strong>"Save and Checkpoint"</strong> from the dropdown options.</li>
 </ul>
 </div>
 <div id="title-cells-with-markdown" class="section level3 hasAnchor" number="5.1.7">
@@ -373,33 +387,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To add a header <strong>cell</strong> to the top of our notebook:</p>
 <ul>
 <li>Create a new <strong>cell</strong> at the top of the notebook.</li>
-<li>Click on the <strong>“Code”</strong> drop down and select <strong>“Markdown”</strong>.
+<li>Click on the <strong>"Code"</strong> drop down and select <strong>"Markdown"</strong>.
 <ul>
-<li>The <strong>“Heading”</strong> option no longer works.</li>
+<li>The <strong>"Heading"</strong> option no longer works.</li>
 </ul></li>
 </ul>
 <p><img src="figures/jupyter_notebook_example_5.png" width="100%" style="display: block; margin: auto;" /></p>
 <ul>
-<li>Add the following to the <strong>“Markdown”</strong> cell to create a first level header.
+<li>Add the following to the <strong>"Markdown"</strong> cell to create a first level header.
 <ul>
-<li>Ensure you have a space between the <code>#</code> and header text (“Tutorial”).</li>
+<li>Ensure you have a space between the <code>#</code> and header text ("Tutorial").</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="05-Loading_data.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tutorial</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb15-1"><a href="05-Loading_data.html#cb15-1" tabindex="-1"></a><span class="co"># Tutorial</span></span></code></pre></div>
 <p>Great, we can now add nice headers in our notebooks. <strong>Save</strong> the notebook once more before carrying on to the next section.</p>
 <div class="webex-solution">
 <button>
 Markdown
 </button>
-<p>You won’t need to know more about <code>Markdown</code> but if you are interested please see the <a href="https://www.markdownguide.org/basic-syntax/"><code>Markdown</code> guide</a>.</p>
+<p>You won't need to know more about <code>Markdown</code> but if you are interested please see the <a href="https://www.markdownguide.org/basic-syntax/"><code>Markdown</code> guide</a>.</p>
 </div>
 </div>
 <div id="close-the-notebook" class="section level3 hasAnchor" number="5.1.8">
 <h3><span class="header-section-number">5.1.8</span> Close the notebook<a href="05-Loading_data.html#close-the-notebook" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To close the notebook:</p>
 <ul>
-<li>Click on <strong>“File”</strong>.</li>
-<li>From the dropdown options click <strong>“Close and Halt”</strong>.</li>
+<li>Click on <strong>"File"</strong>.</li>
+<li>From the dropdown options click <strong>"Close and Halt"</strong>.</li>
 </ul>
 <p>When you are back in the file explorer page you may not yet see the new file you saved. If so, you will need to refresh the page with the Refresh button <svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M320,146s24.36-12-64-12A160,160,0,1,0,416,294" style="fill:none;stroke:#000;stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"></path> <polyline points="256 58 336 138 256 218" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></polyline></svg> towards the top right.</p>
 <p><img src="figures/jupyter_notebook_refresh.png" width="100%" style="display: block; margin: auto;" /></p>
@@ -415,38 +429,244 @@ Markdown
 </div>
 <div id="r-1" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> R<a href="05-Loading_data.html#r-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Create a new notebook called <strong>“DADA2_analysis_pipeline_MiFish-U_primer_set”</strong>.
+<p>Create a new notebook called <strong>"DADA2_analysis_pipeline_MiFish-U_primer_set"</strong>.
 - Add a markdown cell with the first level header: # MiFish-U primer set analysis using DADA2</p>
 </div>
 <div id="loading-dada2" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Loading DADA2<a href="05-Loading_data.html#loading-dada2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To start with we will need to load a few packages (see section 3.2.3 for a description of what a package is if you are not familiar with R) which we will need for running the first part of our analysis. First add a new code cell and type the following and run the cell to load the following package libraries.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="05-Loading_data.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dada2)</span>
-<span id="cb16-2"><a href="05-Loading_data.html#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Biostrings)</span>
-<span id="cb16-3"><a href="05-Loading_data.html#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ShortRead)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb16-1"><a href="05-Loading_data.html#cb16-1" tabindex="-1"></a><span class="fu">library</span>(dada2)</span>
+<span id="cb16-2"><a href="05-Loading_data.html#cb16-2" tabindex="-1"></a><span class="fu">library</span>(Biostrings)</span>
+<span id="cb16-3"><a href="05-Loading_data.html#cb16-3" tabindex="-1"></a><span class="fu">library</span>(ShortRead)</span></code></pre></div>
 </div>
 <div id="loading-our-data" class="section level2 hasAnchor" number="5.4">
 <h2><span class="header-section-number">5.4</span> Loading our data<a href="05-Loading_data.html#loading-our-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="saving-the-paths-for-our-input-and-output-directories" class="section level3 hasAnchor" number="5.4.1">
 <h3><span class="header-section-number">5.4.1</span> Saving the paths for our input and output directories<a href="05-Loading_data.html#saving-the-paths-for-our-input-and-output-directories" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We are now nearly ready to input our data but first we need to set the main paths we will be using which contain the input files (the raw sequencing data files) and where we want to save the output files we generate (the ‘Metabarcoding’ directory we made above). In a new code cell type the following and run:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="05-Loading_data.html#cb17-1" aria-hidden="true" tabindex="-1"></a>input.path <span class="ot">&lt;-</span> <span class="st">&quot;/pub39/tea/nsc006/NEOF/metabarcoding_workshop&quot;</span></span>
-<span id="cb17-2"><a href="05-Loading_data.html#cb17-2" aria-hidden="true" tabindex="-1"></a>output.path <span class="ot">&lt;-</span> <span class="st">&quot;~/Metabarcoding&quot;</span></span></code></pre></div>
+<p>We are now nearly ready to input our data but first we need to set the main paths we will be using which contain the input files (the raw sequencing data files) and where we want to save the output files we generate (the 'Metabarcoding' directory we made above). In a new code cell type the following and run:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb17-1"><a href="05-Loading_data.html#cb17-1" tabindex="-1"></a>input.path <span class="ot">&lt;-</span> <span class="st">&quot;/pub14/tea/nsc206/NEOF/metabarcoding_workshop&quot;</span></span>
+<span id="cb17-2"><a href="05-Loading_data.html#cb17-2" tabindex="-1"></a>output.path <span class="ot">&lt;-</span> <span class="st">&quot;~/Metabarcoding&quot;</span></span></code></pre></div>
 <p>In a new code cell we can now check what files are contained in our input directory. Type and then run the following:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="05-Loading_data.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(input.path)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb18-1"><a href="05-Loading_data.html#cb18-1" tabindex="-1"></a><span class="fu">list.files</span>(input.path)</span></code></pre></div>
 <p>You should see a list of paired fastq sequencing files listed. Forward and reverse fastq filenames have format: <code>SAMPLENAME_L001_R1_001.fastq</code> and <code>SAMPLENAME_L001_R2_001.fastq</code>.
-This shows that we have set our input path correctly. There is also a directory called ‘taxonomy’ and a csv file of sample information, both of which we will use later.</p>
+This shows that we have set our input path correctly. There is also a directory called 'taxonomy' and a csv file of sample information, both of which we will use later.</p>
 <p>From now on you will get less instructions on your notebook structure. Please create your own coding and markdown cells where you think appropriate.</p>
 </div>
 <div id="inputting-the-forward-and-reverse-reads" class="section level3 hasAnchor" number="5.4.2">
 <h3><span class="header-section-number">5.4.2</span> Inputting the forward and reverse reads<a href="05-Loading_data.html#inputting-the-forward-and-reverse-reads" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We will assign the input path and specify all files which end in <code>_L001_R1_001.fastq</code> as our forward reads (stored as the variable <code>fnFs</code>) and <code>_L001_R2_001.fastq</code> as our reverse reads (stored as the variable <code>fnRs</code>).</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="05-Loading_data.html#cb19-1" aria-hidden="true" tabindex="-1"></a>fnFs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(input.path, <span class="at">pattern =</span> <span class="st">&quot;_L001_R1_001.fastq&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb19-2"><a href="05-Loading_data.html#cb19-2" aria-hidden="true" tabindex="-1"></a>fnRs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(input.path, <span class="at">pattern =</span> <span class="st">&quot;_L001_R2_001.fastq&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb19-1"><a href="05-Loading_data.html#cb19-1" tabindex="-1"></a>fnFs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(input.path, <span class="at">pattern =</span> <span class="st">&quot;_L001_R1_001.fastq&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb19-2"><a href="05-Loading_data.html#cb19-2" tabindex="-1"></a>fnRs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(input.path, <span class="at">pattern =</span> <span class="st">&quot;_L001_R2_001.fastq&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 
 </div>
 </div>
 </div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
             </section>
 
           </div>
