@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Poorer quality genomic dataset | Illumina Quality Control</title>
   <meta name="description" content="NEOF book for the Illumina quality control workshop" />
-  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Poorer quality genomic dataset | Illumina Quality Control" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-09-12" />
+<meta name="date" content="2023-10-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -208,7 +208,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="B" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#mamba-1"><i class="fa fa-check"></i><b>B</b> Mamba</a>
 <ul>
-<li class="chapter" data-level="B.1" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#mamba_install"><i class="fa fa-check"></i><b>B.1</b> Mamba installation</a></li>
+<li class="chapter" data-level="B.1" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#mamba_install"><i class="fa fa-check"></i><b>B.1</b> Mamba installation and environment</a></li>
 <li class="chapter" data-level="B.2" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#illumina-qc-environment"><i class="fa fa-check"></i><b>B.2</b> Illumina QC environment</a></li>
 </ul></li>
 <li class="divider"></li>
@@ -239,18 +239,18 @@ We will be looking at <em>Bacillus cereus</em> MiSeq data that can be found in t
 <p>For the purposes of the tutorial I subsampled the reads down to a more manageable 50,000 pairs, normally read data will not come in such round numbers.</p>
 <p>Before running any analysis we need to change directory to the example_2 directory.
 From the example_1 directory we can use the following command, where <code>../</code> represents going up one directory.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="05-Poorer_quality_data.html#cb11-1" tabindex="-1"></a><span class="bu">cd</span> ../example_2</span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb11-1"><a href="05-Poorer_quality_data.html#cb11-1" tabindex="-1"></a><span class="bu">cd</span> ../example_2</span>
 <span id="cb11-2"><a href="05-Poorer_quality_data.html#cb11-2" tabindex="-1"></a><span class="co">#List contents of directory</span></span>
 <span id="cb11-3"><a href="05-Poorer_quality_data.html#cb11-3" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
 <div id="quality-checking" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Quality checking<a href="05-Poorer_quality_data.html#quality-checking" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/magnify_glass_27AUG2020.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>Let's make a directory for the <code>fastqc</code> output</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="05-Poorer_quality_data.html#cb12-1" tabindex="-1"></a><span class="fu">mkdir</span> raw_fastqc_output</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb12-1"><a href="05-Poorer_quality_data.html#cb12-1" tabindex="-1"></a><span class="fu">mkdir</span> raw_fastqc_output</span></code></pre></div>
 <p>Run <code>fastqc</code> on the all paired read files (<code>*.fastq</code> representing all the files that end with <code>.fastq</code>)</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="05-Poorer_quality_data.html#cb13-1" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> raw_fastqc_output <span class="pp">*</span>.fastq</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb13-1"><a href="05-Poorer_quality_data.html#cb13-1" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> raw_fastqc_output <span class="pp">*</span>.fastq</span></code></pre></div>
 <p>We can open the <code>fastqc</code> output with the following command</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="05-Poorer_quality_data.html#cb14-1" tabindex="-1"></a><span class="ex">firefox</span> raw_fastqc_output/<span class="pp">*</span>_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb14-1"><a href="05-Poorer_quality_data.html#cb14-1" tabindex="-1"></a><span class="ex">firefox</span> raw_fastqc_output/<span class="pp">*</span>_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
 <p>Some typical features to note are:</p>
 <ul>
 <li>The quality decreases towards the end of the reads</li>
@@ -263,40 +263,40 @@ From the example_1 directory we can use the following command, where <code>../</
 <p>Investigate the <code>fastqc</code> reports and answer the below question.</p>
 <ol style="list-style-type: decimal">
 <li>How many total reads/sequences are there in the R2 file?
-<div id="radio_BSXXUOMLGO" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_BSXXUOMLGO" value=""></input> <span><strong>36</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BSXXUOMLGO" value=""></input> <span><strong>35-251</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BSXXUOMLGO" value="answer"></input> <span><strong>50,000</strong></span></label>
+<div id="radio_WAWQSHCGHN" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WAWQSHCGHN" value=""></input> <span><strong>36</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WAWQSHCGHN" value=""></input> <span><strong>35-251</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WAWQSHCGHN" value="answer"></input> <span><strong>50,000</strong></span></label>
 </div></li>
 <li>What is the length range of the data?
-<div id="radio_WUUNVPZGTJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WUUNVPZGTJ" value=""></input> <span><strong>36</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WUUNVPZGTJ" value="answer"></input> <span><strong>35-251</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WUUNVPZGTJ" value=""></input> <span><strong>50,000</strong></span></label>
+<div id="radio_DSVDKRYUIS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DSVDKRYUIS" value=""></input> <span><strong>36</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DSVDKRYUIS" value="answer"></input> <span><strong>35-251</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DSVDKRYUIS" value=""></input> <span><strong>50,000</strong></span></label>
 </div></li>
 <li>What is the average GC (%) content of the data?
-<div id="radio_BGICHBDWEZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_BGICHBDWEZ" value="answer"></input> <span><strong>36</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BGICHBDWEZ" value=""></input> <span><strong>35-251</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BGICHBDWEZ" value=""></input> <span><strong>50,000</strong></span></label>
+<div id="radio_ZCKVCVNFGX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZCKVCVNFGX" value="answer"></input> <span><strong>36</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZCKVCVNFGX" value=""></input> <span><strong>35-251</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZCKVCVNFGX" value=""></input> <span><strong>50,000</strong></span></label>
 </div></li>
 <li>At what base position/s does the IQR (Interquartile Range/yellow box) drop below a quality of Q28 for the R1 data?
-<div id="radio_KGZKOBUZEV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_KGZKOBUZEV" value=""></input> <span><strong>15-19</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KGZKOBUZEV" value=""></input> <span><strong>235-239</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KGZKOBUZEV" value="answer"></input> <span><strong>250-251</strong></span></label>
+<div id="radio_VXRHAYDRTA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VXRHAYDRTA" value=""></input> <span><strong>15-19</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VXRHAYDRTA" value=""></input> <span><strong>235-239</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VXRHAYDRTA" value="answer"></input> <span><strong>250-251</strong></span></label>
 </div></li>
 <li>At what base position/s does the IQR and whiskers (lines) first completely go above a quality of Q28 for the R2 data?
-<div id="radio_PZLGIRSYQM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PZLGIRSYQM" value="answer"></input> <span><strong>15-19</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PZLGIRSYQM" value=""></input> <span><strong>235-239</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PZLGIRSYQM" value=""></input> <span><strong>250-251</strong></span></label>
+<div id="radio_MXAOQHKYTI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MXAOQHKYTI" value="answer"></input> <span><strong>15-19</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MXAOQHKYTI" value=""></input> <span><strong>235-239</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MXAOQHKYTI" value=""></input> <span><strong>250-251</strong></span></label>
 </div></li>
 <li>At what base position/s does the IQR (Interquartile Range/yellow box) drop below a quality of Q20 for the R2 data?
-<div id="radio_WRCIEIKMQJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WRCIEIKMQJ" value=""></input> <span><strong>15-19</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WRCIEIKMQJ" value="answer"></input> <span><strong>235-239</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WRCIEIKMQJ" value=""></input> <span><strong>250-251</strong></span></label>
+<div id="radio_GVNDOBISVB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GVNDOBISVB" value=""></input> <span><strong>15-19</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GVNDOBISVB" value="answer"></input> <span><strong>235-239</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GVNDOBISVB" value=""></input> <span><strong>250-251</strong></span></label>
 </div></li>
 <li>What is the most common "mean sequence quality" for the reads in R2 (see the peak of the "Per sequence quality scores" graph)?
-<div id="radio_PXHHMEDMQE" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PXHHMEDMQE" value="answer"></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PXHHMEDMQE" value=""></input> <span><strong>129</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PXHHMEDMQE" value=""></input> <span><strong>250-251</strong></span></label>
+<div id="radio_NUYNUMIOAG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NUYNUMIOAG" value="answer"></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NUYNUMIOAG" value=""></input> <span><strong>129</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NUYNUMIOAG" value=""></input> <span><strong>250-251</strong></span></label>
 </div></li>
 <li>What is the total count of overrepresented sequences in R1?
-<div id="radio_SPTEIIPGPJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SPTEIIPGPJ" value=""></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SPTEIIPGPJ" value="answer"></input> <span><strong>129</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SPTEIIPGPJ" value=""></input> <span><strong>250-251</strong></span></label>
+<div id="radio_WFNCYOIQFZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WFNCYOIQFZ" value=""></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WFNCYOIQFZ" value="answer"></input> <span><strong>129</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WFNCYOIQFZ" value=""></input> <span><strong>250-251</strong></span></label>
 </div></li>
 <li>What is the most common base length range for R2 (see the peak of the "Sequence Length Distribution" graph)?
-<div id="radio_UJULNOVMLD" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_UJULNOVMLD" value=""></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UJULNOVMLD" value=""></input> <span><strong>129</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UJULNOVMLD" value="answer"></input> <span><strong>250-251</strong></span></label>
+<div id="radio_RGIZDCNHOM" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_RGIZDCNHOM" value=""></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RGIZDCNHOM" value=""></input> <span><strong>129</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RGIZDCNHOM" value="answer"></input> <span><strong>250-251</strong></span></label>
 </div></li>
 </ol>
 <p>This data is pretty typical of what would normally be seen.
@@ -315,7 +315,7 @@ Unfortunately data straight from the sequencer always needs quality control.</p>
 <p>To carry this out we are going to use <code>trimmomatic</code>.
 <a href="http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf" class="uri">http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf</a></p>
 <p>To run <code>trimmomatic</code> with the reads we will use the below command.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="05-Poorer_quality_data.html#cb15-1" tabindex="-1"></a><span class="ex">trimmomatic</span> PE <span class="dt">\</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb15-1"><a href="05-Poorer_quality_data.html#cb15-1" tabindex="-1"></a><span class="ex">trimmomatic</span> PE <span class="dt">\</span></span>
 <span id="cb15-2"><a href="05-Poorer_quality_data.html#cb15-2" tabindex="-1"></a>-phred33 <span class="dt">\</span></span>
 <span id="cb15-3"><a href="05-Poorer_quality_data.html#cb15-3" tabindex="-1"></a>B_cereus_R1.fastq B_cereus_R2.fastq <span class="dt">\</span></span>
 <span id="cb15-4"><a href="05-Poorer_quality_data.html#cb15-4" tabindex="-1"></a>-baseout B_cereus.fastq <span class="dt">\</span></span>
@@ -332,8 +332,8 @@ Unfortunately data straight from the sequencer always needs quality control.</p>
 <p><strong>Note</strong>: When using <code>trimmomatic</code> on future data ensure you change the input files and the <code>-baseout</code> parameter to match your data.</p>
 Once the command is run it will give you some useful output to the screen.
 Based on it, what percentage of paired reads were kept?
-<div id="radio_ENZLMFMKDY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ENZLMFMKDY" value=""></input> <span><strong>4.73%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ENZLMFMKDY" value=""></input> <span><strong>14.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ENZLMFMKDY" value="answer"></input> <span><strong>76.62%</strong></span></label>
+<div id="radio_YZLVRABUTE" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YZLVRABUTE" value=""></input> <span><strong>4.73%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YZLVRABUTE" value=""></input> <span><strong>14.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YZLVRABUTE" value="answer"></input> <span><strong>76.62%</strong></span></label>
 </div>
 <p><br></p>
 <p><strong>Output</strong></p>
@@ -355,52 +355,52 @@ This can be ignored in most cases.</li>
 <p><img src="figures/magnify_glass_good.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>To see how successful the quality control has been we need to run <code>fastqc</code> on the <code>trimmomatic</code> output.</p>
 <p>First create a new directory for the <code>fastqc</code> output</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="05-Poorer_quality_data.html#cb16-1" tabindex="-1"></a><span class="fu">mkdir</span> trimmomatic_fastqc_output</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb16-1"><a href="05-Poorer_quality_data.html#cb16-1" tabindex="-1"></a><span class="fu">mkdir</span> trimmomatic_fastqc_output</span></code></pre></div>
 <p>Now run <code>fastqc</code> on the two paired read files</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="05-Poorer_quality_data.html#cb17-1" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> trimmomatic_fastqc_output <span class="dt">\</span></span>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb17-1"><a href="05-Poorer_quality_data.html#cb17-1" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> trimmomatic_fastqc_output <span class="dt">\</span></span>
 <span id="cb17-2"><a href="05-Poorer_quality_data.html#cb17-2" tabindex="-1"></a>B_cereus_1P.fastq B_cereus_2P.fastq</span></code></pre></div>
 <p>We can open the <code>fastqc</code> output with the following commands</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="05-Poorer_quality_data.html#cb18-1" tabindex="-1"></a><span class="ex">firefox</span> trimmomatic_fastqc_output/<span class="pp">*</span>_fastqc.html $</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb18-1"><a href="05-Poorer_quality_data.html#cb18-1" tabindex="-1"></a><span class="ex">firefox</span> trimmomatic_fastqc_output/<span class="pp">*</span>_fastqc.html $</span></code></pre></div>
 <div id="quality-checking-mcqs-1" class="section level3 hasAnchor" number="5.3.1">
 <h3><span class="header-section-number">5.3.1</span> Quality checking MCQs<a href="05-Poorer_quality_data.html#quality-checking-mcqs-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="figures/question_bubble.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>To see how well the reads have improved answer the below questions and compare to them to the answers of the raw read <code>fastqc</code> questions.</p>
 <ol style="list-style-type: decimal">
 <li>How many total reads/sequences are there in the R2 file?
-<div id="radio_RWOSMFTUNH" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RWOSMFTUNH" value=""></input> <span><strong>35</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RWOSMFTUNH" value=""></input> <span><strong>50-251</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RWOSMFTUNH" value="answer"></input> <span><strong>38,309</strong></span></label>
+<div id="radio_WAZKXIQLRS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WAZKXIQLRS" value=""></input> <span><strong>35</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WAZKXIQLRS" value=""></input> <span><strong>50-251</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WAZKXIQLRS" value="answer"></input> <span><strong>38,309</strong></span></label>
 </div></li>
 <li>What is the length range of the data?
-<div id="radio_FOCSSSQABW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FOCSSSQABW" value=""></input> <span><strong>35</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FOCSSSQABW" value="answer"></input> <span><strong>50-251</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FOCSSSQABW" value=""></input> <span><strong>38,309</strong></span></label>
+<div id="radio_OMLUAGUKBA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OMLUAGUKBA" value=""></input> <span><strong>35</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OMLUAGUKBA" value="answer"></input> <span><strong>50-251</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OMLUAGUKBA" value=""></input> <span><strong>38,309</strong></span></label>
 </div></li>
 <li>What is the average GC (%) content of the data?
-<div id="radio_XIFLAGCAIL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XIFLAGCAIL" value="answer"></input> <span><strong>35</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XIFLAGCAIL" value=""></input> <span><strong>50-251</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XIFLAGCAIL" value=""></input> <span><strong>38,309</strong></span></label>
+<div id="radio_WAMQULRKXF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WAMQULRKXF" value="answer"></input> <span><strong>35</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WAMQULRKXF" value=""></input> <span><strong>50-251</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WAMQULRKXF" value=""></input> <span><strong>38,309</strong></span></label>
 </div></li>
 <li>In R1, do the IQRs and/or whiskers drop below Q28 in the "Per base sequence quality" graph?
-<div id="radio_COZAHLJNAY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_COZAHLJNAY" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_COZAHLJNAY" value="answer"></input> <span><strong>No</strong></span></label>
+<div id="radio_AFLSSYNIHI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_AFLSSYNIHI" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AFLSSYNIHI" value="answer"></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>In R2, do the IQRs and/or whiskers drop below Q28 in the "Per base sequence quality" graph?
-<div id="radio_GAQOENFHSU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_GAQOENFHSU" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GAQOENFHSU" value=""></input> <span><strong>No</strong></span></label>
+<div id="radio_BWCPLFFSKV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BWCPLFFSKV" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BWCPLFFSKV" value=""></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>In R2, do the IQRs drop below Q28 in the "Per base sequence quality" graph?
-<div id="radio_OTSCNFTYZV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_OTSCNFTYZV" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OTSCNFTYZV" value="answer"></input> <span><strong>No</strong></span></label>
+<div id="radio_LCEPCPZTVI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LCEPCPZTVI" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LCEPCPZTVI" value="answer"></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>What is the most common "mean sequence quality" for the reads in R2 (see the peak of the "Per sequence quality scores" graph)?
-<div id="radio_OZDLLHANHL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_OZDLLHANHL" value=""></input> <span><strong>0</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OZDLLHANHL" value="answer"></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OZDLLHANHL" value=""></input> <span><strong>250-251</strong></span></label>
+<div id="radio_MVFCUDVIPG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MVFCUDVIPG" value=""></input> <span><strong>0</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MVFCUDVIPG" value="answer"></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MVFCUDVIPG" value=""></input> <span><strong>250-251</strong></span></label>
 </div></li>
 <li>What is the total count of overrepresented sequences in R1?
-<div id="radio_UAGFCOKVRQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_UAGFCOKVRQ" value="answer"></input> <span><strong>0</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UAGFCOKVRQ" value=""></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UAGFCOKVRQ" value=""></input> <span><strong>250-251</strong></span></label>
+<div id="radio_FUJMSMVRNZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FUJMSMVRNZ" value="answer"></input> <span><strong>0</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FUJMSMVRNZ" value=""></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FUJMSMVRNZ" value=""></input> <span><strong>250-251</strong></span></label>
 </div></li>
 <li>What is the most common base length range for R2 (see the peak of the "Sequence Length Distribution" graph)?
-<div id="radio_VQWQZVWTLU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_VQWQZVWTLU" value=""></input> <span><strong>0</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VQWQZVWTLU" value=""></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VQWQZVWTLU" value="answer"></input> <span><strong>250-251</strong></span></label>
+<div id="radio_LWPVULPQEG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LWPVULPQEG" value=""></input> <span><strong>0</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LWPVULPQEG" value=""></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LWPVULPQEG" value="answer"></input> <span><strong>250-251</strong></span></label>
 </div></li>
 </ol>
 <p>Some things to note:</p>
