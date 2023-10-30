@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Long read Quality Control</title>
+  <title>Chapter 7 NanoPlot | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
   <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Long read Quality Control" />
+  <meta property="og:title" content="Chapter 7 NanoPlot | Long read Quality Control" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Long read quality control workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Long read Quality Control" />
+  <meta name="twitter:title" content="Chapter 7 NanoPlot | Long read Quality Control" />
   
   <meta name="twitter:description" content="NEOF book for the Long read quality control workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-
-
+<link rel="prev" href="06-Porechop.html"/>
+<link rel="next" href="08-NanoFilt.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -262,11 +262,343 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="nanoplotchap" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> NanoPlot<a href="07-NanoPlot.html#nanoplotchap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/nanoplot_hexes.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><code>NanoPlot</code> can be thought of as the <code>fastqc</code> for ONT data. It produces a lot of useful visualisations to investigate the quality of ONT sequencing data. It can be used for <strong>fastq</strong>, <strong>fasta</strong>, <strong>BAM</strong>, and sequencing summary files. The link for its github page is: <a href="https://github.com/wdecoster/NanoPlot" class="uri">https://github.com/wdecoster/NanoPlot</a></p>
+<p>ONT data has much lower quality scores than Illumina with Q10 being good. If you have enough coverage and length the low quality can be corrected by downstream processes not covered in this tutorial.</p>
+<div id="nanoplot-run" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> NanoPlot: run<a href="07-NanoPlot.html#nanoplot-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/enter_key_green.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Prior to running <code>NanoPlot</code> we will make a directory for the <code>NanoPlot</code> output. As <code>NanoPlot</code> creates a lot of files, we'll make a subdirectory for the <code>NanoPlot</code> output for the porechopped data.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb10-1"><a href="07-NanoPlot.html#cb10-1" tabindex="-1"></a><span class="fu">mkdir</span> nanoplot</span>
+<span id="cb10-2"><a href="07-NanoPlot.html#cb10-2" tabindex="-1"></a><span class="fu">mkdir</span> nanoplot/porechop</span></code></pre></div>
+<p>Now to run <code>NanoPlot</code>. The options we will use are:</p>
+<ul>
+<li><code>-t</code>: Number of threads to be used.</li>
+<li><code>--fastq</code>: Specifies the input path which is a fastq file.</li>
+<li><code>-o</code>: Directory where the output will be created.</li>
+<li><code>-p</code>: Prefix of output files. It is useful to have "_" at the end of the prefix.</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb11-1"><a href="07-NanoPlot.html#cb11-1" tabindex="-1"></a><span class="ex">NanoPlot</span> <span class="at">-t</span> 4 <span class="dt">\</span></span>
+<span id="cb11-2"><a href="07-NanoPlot.html#cb11-2" tabindex="-1"></a>--fastq porechop/Acinetobacter.porechop.fastq <span class="dt">\</span></span>
+<span id="cb11-3"><a href="07-NanoPlot.html#cb11-3" tabindex="-1"></a>-o nanoplot/porechop <span class="at">-p</span> Acinetobacter_ </span></code></pre></div>
+</div>
+<div id="nanoplot-output" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> NanoPlot: output<a href="07-NanoPlot.html#nanoplot-output" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/output_file_green.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>List the files in the output directory.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb12-1"><a href="07-NanoPlot.html#cb12-1" tabindex="-1"></a><span class="fu">ls</span> nanoplot/porechop/</span></code></pre></div>
+<p>There are quite a few files. These should all start with "Acinetobacter_" thanks to the <code>-p</code> option. To quickly check all the results we can open the report html file with firefox.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb13-1"><a href="07-NanoPlot.html#cb13-1" tabindex="-1"></a><span class="ex">firefox</span> nanoplot/porechop/Acinetobacter_NanoPlot-report.html</span></code></pre></div>
+<p>The first section contains <a href="05-NanoStat.html#nanostat_output"><code>NanoStat</code> output</a>. Quickly look over this and see how it compares to the <code>NanoStat</code> output of the pre-porechopped reads.</p>
+<div class="webex-solution">
+<button>
+NanoStat of pre-porechopped reads
+</button>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+General summary
+</th>
+<th style="text-align:left;">
+values
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Mean read length
+</td>
+<td style="text-align:left;">
+7,070.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mean read quality
+</td>
+<td style="text-align:left;">
+9.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Median read length
+</td>
+<td style="text-align:left;">
+6,700.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Median read quality
+</td>
+<td style="text-align:left;">
+10.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of reads
+</td>
+<td style="text-align:left;">
+2,000.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Read length N50
+</td>
+<td style="text-align:left;">
+8,143.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+STDEV read length
+</td>
+<td style="text-align:left;">
+3,336.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total bases
+</td>
+<td style="text-align:left;">
+14,141,646.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number, percentage and megabases of reads above quality cutoffs
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+&gt;Q5
+</td>
+<td style="text-align:left;">
+2000 (100.0%) 14.1Mb
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+&gt;Q7
+</td>
+<td style="text-align:left;">
+1998 (99.9%) 14.1Mb
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+&gt;Q10
+</td>
+<td style="text-align:left;">
+1231 (61.6%) 8.8Mb
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+&gt;Q12
+</td>
+<td style="text-align:left;">
+29 (1.5%) 0.2Mb
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+&gt;Q15
+</td>
+<td style="text-align:left;">
+0 (0.0%) 0.0Mb
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Top 5 highest mean basecall quality scores and their read lengths
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+12.3 (7039)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+12.3 (5770)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+12.3 (8052)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+12.2 (8120)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+12.2 (3041)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Top 5 longest reads and their mean basecall quality score
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+34661 (9.2)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+31549 (8.5)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+25072 (10.0)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+24871 (10.3)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+23185 (10.7)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>After the <strong>Summary Statistics</strong> section there is a <strong>Plots</strong> section.
+These are all plots created by <a href="https://plotly.com/">plotly</a> meaning they are interactive.
+With these plots you can:</p>
+<ul>
+<li>Make boxes to zoom into a specific area.</li>
+<li>Click and drag left or right only to zoom into a specific part of the x axis.</li>
+<li>Click and drag up or down only to zoom into a specific part of the y axis.</li>
+<li>Click the home icon (<svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M261.56,101.28a8,8,0,0,0-11.06,0L66.4,277.15a8,8,0,0,0-2.47,5.79L63.9,448a32,32,0,0,0,32,32H192a16,16,0,0,0,16-16V328a8,8,0,0,1,8-8h80a8,8,0,0,1,8,8l0,136a16,16,0,0,0,16,16h96.06a32,32,0,0,0,32-32l0-165.06a8,8,0,0,0-2.47-5.79Z"></path> <path d="M490.91,244.15l-74.8-71.56,0-108.59a16,16,0,0,0-16-16h-48a16,16,0,0,0-16,16l0,32L278.19,40.62C272.77,35.14,264.71,32,256,32h0c-8.68,0-16.72,3.14-22.14,8.63L21.16,244.13c-6.22,6-7,15.87-1.34,22.37A16,16,0,0,0,43,267.56L250.5,69.28a8,8,0,0,1,11.06,0L469.08,267.56a16,16,0,0,0,22.59-.44C497.81,260.76,497.3,250.26,490.91,244.15Z"></path></svg>) on the top right to reset the axes.</li>
+<li>Hover over a points/bars to see the specific values of it.</li>
+</ul>
+<p>The plots are:</p>
+<ul>
+<li><strong>Weighted Histogram of read lengths</strong>
+<ul>
+<li>Histogram of "Number of <em>bases</em>" (y) against "Read length" (x).</li>
+</ul></li>
+<li><strong>Weighted Histogram of read lengths after log transformation</strong>
+<ul>
+<li>Histogram of "Number of <em>bases</em>" (y) against log transformed "Read length" (x).</li>
+</ul></li>
+<li><strong>Non weighted histogram of read lengths</strong>
+<ul>
+<li>Histogram of "Number of <em>reads</em>" (y) against "Read length" (x).</li>
+</ul></li>
+<li><strong>Non weighted histogram of read lengths after log transformations</strong>
+<ul>
+<li>Histogram of "Number of <em>reads</em>" (y) against log transformed "Read length" (x).</li>
+</ul></li>
+<li><strong>Yield by length</strong>
+<ul>
+<li>Plot showing the "Cumulative yield for minimal length" (y) by "Read length" (x).</li>
+<li>The cumulative yield is measured in Gigabases (billion bases).</li>
+<li>This plot is useful to know how many bases you would retain if you filtered reads based on read length.</li>
+</ul></li>
+<li><strong>Read lengths vs Average read quality plot using dots</strong>
+<ul>
+<li>Each dot represents a single read.</li>
+<li>At the top of the plot is a histogram of Number of reads against read lengths.</li>
+<li>At the right of the plot is a sideways histogram of number of reads against average read quality.</li>
+</ul></li>
+<li><strong>Read lengths vs Average read quality kde plot</strong>
+<ul>
+<li>Each dot represents a single read with a topology map showing the density of plots. THe darker the area the more dense.</li>
+<li>This is the most informative plot.</li>
+<li>At the top of the plot is a histogram of Number of reads against read lengths.</li>
+<li>At the right of the plot is a sideways histogram of number of reads against average read quality.</li>
+</ul></li>
+</ul>
+</div>
+<div id="nanoplot-mcqs" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> NanoPlot: MCQs<a href="07-NanoPlot.html#nanoplot-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/question_bubble_green.png" width="15%" style="display: block; margin: auto;" />
+Please attempt the below MCQs with the information in the report html.</p>
+<ol style="list-style-type: decimal">
+<li>What is the mean read quality for all the data?
+<div id="radio_OTHWTLBEXG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OTHWTLBEXG" value="answer"></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OTHWTLBEXG" value=""></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OTHWTLBEXG" value=""></input> <span><strong>8.8Mb</strong></span></label>
+</div></li>
+<li>What is the mean read length of the data?
+<div id="radio_RWZDQQTUST" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_RWZDQQTUST" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RWZDQQTUST" value="answer"></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RWZDQQTUST" value=""></input> <span><strong>8.8Mb</strong></span></label>
+</div></li>
+<li>How many Megabases are within reads with a quality cutoff of &gt;Q10?
+<div id="radio_YDUVIJUXZG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YDUVIJUXZG" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YDUVIJUXZG" value=""></input> <span><strong>6,962.1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YDUVIJUXZG" value="answer"></input> <span><strong>8.8Mb</strong></span></label>
+</div></li>
+<li>Approximately how many bases would you retain if you filtered out/removed reads with a length &lt;10,000bp (Yield by length)?
+<div id="radio_HVEGGJEDOB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HVEGGJEDOB" value=""></input> <span><strong>10</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HVEGGJEDOB" value=""></input> <span><strong>146</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HVEGGJEDOB" value="answer"></input> <span><strong>4Mb (0.004Gb)</strong></span></label>
+</div></li>
+<li>Look at the "Read lengths vs Average read quality plot". In what average quality range are the majority of reads?
+<div id="radio_KUQYAYJRLK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KUQYAYJRLK" value=""></input> <span><strong>6-8</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KUQYAYJRLK" value=""></input> <span><strong>8-10</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KUQYAYJRLK" value="answer"></input> <span><strong>10-12</strong></span></label>
+</div></li>
+</ol>
+</div>
+<div id="nanoplot-summary" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> NanoPlot: summary<a href="07-NanoPlot.html#nanoplot-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/sum_green.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>We have use <code>NanoPlot</code> to produce read quality and length stats in table and plot form. Our data still looks good after porechopping but we still need to carry out some filtering.</p>
+<p>You can use <code>NanoPlot</code> with different input files. This will give you different plots. For more details please see the "Plots Generated" section on: <a href="https://github.com/wdecoster/NanoPlot" class="uri">https://github.com/wdecoster/NanoPlot</a>.</p>
+
+</div>
 </div>
 <script>
 
@@ -444,8 +776,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-
-
+<a href="06-Porechop.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="08-NanoFilt.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

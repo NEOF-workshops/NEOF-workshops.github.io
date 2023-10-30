@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Long read Quality Control</title>
+  <title>Chapter 3 ONT background | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
   <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Long read Quality Control" />
+  <meta property="og:title" content="Chapter 3 ONT background | Long read Quality Control" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Long read quality control workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Long read Quality Control" />
+  <meta name="twitter:title" content="Chapter 3 ONT background | Long read Quality Control" />
   
   <meta name="twitter:description" content="NEOF book for the Long read quality control workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-
-
+<link rel="prev" href="02-Intro.html"/>
+<link rel="next" href="04-ONT_setup.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -262,11 +262,93 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="ont" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> ONT background<a href="03-ONT_background.html#ont" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/ONT_logo.png" width="60%" style="display: block; margin: auto;" /></p>
+<p>In this section we are going to carry out a quick QC of ONT data using the tool suite NanoPack and the tool Porechop. For this we will use the fastq files.</p>
+<p>Before carrying out analysis we will cover some background of ONT data. This will include <a href="03-ONT_background.html#ont_file_formats">file formats</a>, &amp; <a href="03-ONT_background.html#ont_basecalling">basecalling</a>.</p>
+<div id="ont_file_formats" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> File formats<a href="03-ONT_background.html#ont_file_formats" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/files.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Although we will only be using fastq files for this tutorial it is important to know the other file formats you may encounter when working with ONT data.</p>
+<div id="fast5" class="section level3 hasAnchor" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Fast5<a href="03-ONT_background.html#fast5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/fast5.png" width="10%" style="display: block; margin: auto;" /></p>
+<p>The raw data from ONT machines comes as Fast5 (<code>.fast5</code>) files. This contains the signal data from the pore which can be processed into more useful files.</p>
+<p>Fast5 files can contain:</p>
+<ul>
+<li>Raw signal data</li>
+<li>Run metadata</li>
+<li>fastq-basecalls</li>
+<li>Other additional analyses</li>
+</ul>
+<p>The Fast5 file format is an implementation of the HDF5 file format specifically for ONT sequencing data. For more information on Fast5 and a tool to interface with these types of file please see:
+<a href="https://github.com/nanoporetech/ont_fast5_api" class="uri">https://github.com/nanoporetech/ont_fast5_api</a></p>
+</div>
+<div id="summary-file" class="section level3 hasAnchor" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Summary file<a href="03-ONT_background.html#summary-file" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The MinION and GridION output a single sequencing summary file in addition to the Fast5 files. This file contains metdata which describes each sequenced read.</p>
+<p>We will not use Fast5 or summary files for this tutorial as they are not needed most of the time. It is likely these files will not be initially provided to you by a sequencing service as they are very large. However, if you do require them you can always ask but be careful with how long the sequencing centre will retain your data.</p>
+</div>
+<div id="bam-file" class="section level3 hasAnchor" number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> BAM file<a href="03-ONT_background.html#bam-file" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/bam.png" width="10%" style="display: block; margin: auto;" /></p>
+<p><strong>BAM</strong> files (<code>.bam</code>) are the binary version of <strong>SAM</strong> files (<code>.sam</code>).</p>
+<ul>
+<li><strong>SAM</strong> stands for "Sequence Alignment/Map" (the B in <strong>BAM</strong> is Binary).</li>
+<li><strong>SAM</strong> files are tab delimited and contain alignment information.</li>
+<li><strong>BAM</strong> files are not human readable whilst <strong>SAM</strong> files are.</li>
+<li><strong>SAM</strong> files are larger than <strong>BAM</strong>.</li>
+</ul>
+<p>Generally programs that can work on <strong>SAM</strong> files can also work on <strong>BAM</strong> files. Due to the size difference it is preferable to store data in <strong>BAM</strong> format over <strong>SAM</strong>. Even though a BAM file is smaller than its matching <strong>SAM</strong> file, <strong>BAM</strong> files are still very large and can be &gt;100GB.</p>
+<p>It can be useful to contain unaligned reads from sequencing machines (e.g. PacBio and ONT) in <strong>BAM</strong> files as they can contain more metadata in the header and per-record auxiliary tags compared to <strong>fastq</strong> files.</p>
+<p>If you are working with <strong>SAM</strong>/<strong>BAM</strong> files the following link will prove useful:
+<a href="https://www.htslib.org/" class="uri">https://www.htslib.org/</a></p>
+<p>For more information on the <strong>SAM</strong> and <strong>BAM</strong> format please see:
+<a href="https://samtools.github.io/hts-specs/SAMv1.pdf" class="uri">https://samtools.github.io/hts-specs/SAMv1.pdf</a></p>
+</div>
+<div id="fastq-file" class="section level3 hasAnchor" number="3.1.4">
+<h3><span class="header-section-number">3.1.4</span> fastq file<a href="03-ONT_background.html#fastq-file" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="figures/fastq.png" width="10%" style="display: block; margin: auto;" /></p>
+<p>The <strong>fastq</strong> file format is very consistent and so there is no real difference between <strong>fastq</strong> files for Illumina, PacBio, and ONT data.</p>
+<p>All <strong>fastq</strong> files will contain a number of lines divisible by 4. This is because each entry/sequence will take up four lines consisting of the following information:</p>
+<ol style="list-style-type: decimal">
+<li>Header for <strong>fastq</strong> entry known as the <strong>fastq header</strong>.
+<ul>
+<li>This always begins with a <strong>'@'</strong></li>
+<li>This is where you might see the most difference between different data. Different machines and different public databases will use different formats for <strong>fastq</strong> headers.</li>
+</ul></li>
+<li>Sequence content</li>
+<li>Quality header
+<ul>
+<li>Always begins with a '+'. Sometimes also contains the same information as <strong>fastq</strong> header.<br />
+</li>
+</ul></li>
+<li>Quality
+<ul>
+<li>Each base in the 2nd line will have a corresponding quality value in this line.</li>
+<li>Note this uses Phred encoding, of which there are different formats. Most, if not all, new files will use Phred+33 but be careful if you are using older data as it may use a different one. See the "Encoding" section in the following link for more info: <a href="https://en.wikipedia.org/wiki/FASTQ_format" class="uri">https://en.wikipedia.org/wiki/FASTQ_format</a>.</li>
+<li>NOTE: <strong>'@'</strong> can be used as a quality value.</li>
+</ul></li>
+</ol>
+<p>An example of the information of one sequence/entry is:</p>
+<p><strong>@Sequence 1</strong><br />
+<strong>CTGTTAAATACCGACTTGCGTCAGGTGCGTGAACAACTGGGCCGCTTT</strong><br />
+<strong>+</strong><br />
+<strong>=&lt;&lt;&lt;=&gt;@@@ACDCBCDAC@BAA@BA@BBCBBDA@BB@&gt;CD@A@B?B@@</strong></p>
+</div>
+</div>
+<div id="ont_basecalling" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Basecalling<a href="03-ONT_background.html#ont_basecalling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/guppy.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>In short, basecalling is the converting of ONT signals to bases and quality. This step converts the <strong>Fast5</strong> files to <strong>BAM</strong> and/or <strong>fastq</strong> files.</p>
+<p>There are many tools to carry out basecalling with ONT data. ONT sequencing machines carry this out with in built programs. However, if you are interested in the tools used for this the primary ones are Guppy and Albacore. Unfortunately it is quite hard to find information about these tools unless you own an ONT machine.</p>
+<p>Basecalling with Guppy tutorial:</p>
+<p><a href="https://denbi-nanopore-training-course.readthedocs.io/en/latest/basecalling/basecalling.html" class="uri">https://denbi-nanopore-training-course.readthedocs.io/en/latest/basecalling/basecalling.html</a></p>
+<p>Basecalling with Albacore tutorial:</p>
+<p><a href="https://denbi-nanopore-training-course.readthedocs.io/en/stable/basecalling/basecalling.html" class="uri">https://denbi-nanopore-training-course.readthedocs.io/en/stable/basecalling/basecalling.html</a></p>
+
+</div>
 </div>
 <script>
 
@@ -444,8 +526,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-
-
+<a href="02-Intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="04-ONT_setup.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

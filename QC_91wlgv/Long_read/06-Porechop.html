@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Long read Quality Control</title>
+  <title>Chapter 6 Porechop | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
   <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Long read Quality Control" />
+  <meta property="og:title" content="Chapter 6 Porechop | Long read Quality Control" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Long read quality control workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Long read Quality Control" />
+  <meta name="twitter:title" content="Chapter 6 Porechop | Long read Quality Control" />
   
   <meta name="twitter:description" content="NEOF book for the Long read quality control workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-
-
+<link rel="prev" href="05-NanoStat.html"/>
+<link rel="next" href="07-NanoPlot.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -262,11 +262,66 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="porechopchap" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Porechop<a href="06-Porechop.html#porechopchap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/porechop_logo_knife.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><code>Porechop</code> is a tool to find and remove adapters from ONT data (<a href="https://github.com/rrwick/Porechop" class="uri">https://github.com/rrwick/Porechop</a>). Adapters are artificial sequences essential for sequencing but of no biological value and so you will typically want them removed.</p>
+<p><code>Porechop</code> is no longer supported but it still works and is a good tool. Depending on which basecaller was used on your data, adapter removal may have already been carried out. However, it is always best to run <code>porechop</code> if you are not sure.</p>
+<p><code>Porechop</code> has a list of known adapters it will look for and remove. These contain:</p>
+<ul>
+<li>Ligation kit adapters</li>
+<li>Rapid kit adapters</li>
+<li>PCR kit adapters</li>
+<li>Barcodes</li>
+<li>Native barcoding</li>
+<li>Rapid barcoding</li>
+</ul>
+<p><code>Porechop</code> will look for these adapters at the start and end of each read. Then it will look for adapters within the sequence (known as middle adapters to <code>Porechop</code>). If it finds a middle adapter it will conclude that the read is chimeric (a recombinant read containing sequences from 2 or more reads) and split the read. Depending on the number of middle adapters the chimeric read may split into 2 or more reads.</p>
+<div id="porechop-run" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Porechop: run<a href="06-Porechop.html#porechop-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/enter_key_blue.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>With all that explanation we will now run <code>Porechop.</code> Thankfully the command is relatively straight forward with the options:</p>
+<ul>
+<li><code>-t</code>: Number of threads to be used.</li>
+<li><code>-i</code>: Input path of a fasta file, fastq file, or a directory. If a directory is specified it will be recursively searched for fastq files.</li>
+<li><code>-o</code>: Output path. This will either be a fastq or fasta file name.</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb9-1"><a href="06-Porechop.html#cb9-1" tabindex="-1"></a><span class="co">#Create output directory</span></span>
+<span id="cb9-2"><a href="06-Porechop.html#cb9-2" tabindex="-1"></a><span class="fu">mkdir</span> porechop</span>
+<span id="cb9-3"><a href="06-Porechop.html#cb9-3" tabindex="-1"></a><span class="co">#Run porechop command</span></span>
+<span id="cb9-4"><a href="06-Porechop.html#cb9-4" tabindex="-1"></a><span class="ex">porechop</span> <span class="at">-t</span> 4 <span class="at">-i</span> ./data/Acinetobacter/Acinetobacter_genome_ONT.fastq <span class="dt">\</span></span>
+<span id="cb9-5"><a href="06-Porechop.html#cb9-5" tabindex="-1"></a>-o porechop/Acinetobacter.porechop.fastq</span></code></pre></div>
+<p><code>Porechop</code> will take a while to run. Whilst it is running, look at the screen output to get an idea of what it is doing. When finished, look at the bottom of the printed results.</p>
+</div>
+<div id="porechop-mcqs" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Porechop: MCQs<a href="06-Porechop.html#porechop-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/question_bubble_blue.png" width="15%" style="display: block; margin: auto;" /></p>
+<ol style="list-style-type: decimal">
+<li>How many reads had adapters trimmed from their start?
+<div id="radio_OCPKNMQQCZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OCPKNMQQCZ" value=""></input> <span><strong>0</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OCPKNMQQCZ" value="answer"></input> <span><strong>1,952</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OCPKNMQQCZ" value=""></input> <span><strong>79,015</strong></span></label>
+</div></li>
+<li>How many bases were removed by adapters being trimmed from the end of reads?
+<div id="radio_JQGLLXBCWH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JQGLLXBCWH" value=""></input> <span><strong>0</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JQGLLXBCWH" value=""></input> <span><strong>1,952</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JQGLLXBCWH" value="answer"></input> <span><strong>79,015</strong></span></label>
+</div></li>
+<li>How many reads were split based on middle adapters?
+<div id="radio_EGDDVQGEWN" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EGDDVQGEWN" value="answer"></input> <span><strong>0</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EGDDVQGEWN" value=""></input> <span><strong>1,952</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EGDDVQGEWN" value=""></input> <span><strong>79,015</strong></span></label>
+</div></li>
+</ol>
+</div>
+<div id="porechop-summary" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Porechop: summary<a href="06-Porechop.html#porechop-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/sum_blue.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><code>Porechop</code> did its job and removed adapters successfully. The next step is to view the quality of our reads prior to so we can be informed when we filter out poor quality reads and bases.</p>
+<p>For more uses of <code>Porechop</code> please see the below links:</p>
+<ul>
+<li><a href="https://github.com/rrwick/Porechop#quick-usage-examples" class="uri">https://github.com/rrwick/Porechop#quick-usage-examples</a></li>
+<li><a href="https://github.com/rrwick/Porechop#full-usage" class="uri">https://github.com/rrwick/Porechop#full-usage</a></li>
+</ul>
+
+</div>
 </div>
 <script>
 
@@ -444,8 +499,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-
-
+<a href="05-NanoStat.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="07-NanoPlot.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

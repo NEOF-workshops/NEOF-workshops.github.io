@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Long read Quality Control</title>
+  <title>Chapter 8 NanoFilt | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
   <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Long read Quality Control" />
+  <meta property="og:title" content="Chapter 8 NanoFilt | Long read Quality Control" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Long read quality control workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Long read Quality Control" />
+  <meta name="twitter:title" content="Chapter 8 NanoFilt | Long read Quality Control" />
   
   <meta name="twitter:description" content="NEOF book for the Long read quality control workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-
-
+<link rel="prev" href="07-NanoPlot.html"/>
+<link rel="next" href="09-ONT_final_check.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -262,11 +262,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="nanofiltchap" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> NanoFilt<a href="08-NanoFilt.html#nanofiltchap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/quality_filtering.png" width="10%" style="display: block; margin: auto;" /></p>
+<p><code>NanoFilt</code> can be used to remove/filter reads by quality and/or read length (<a href="https://github.com/wdecoster/nanofilt" class="uri">https://github.com/wdecoster/nanofilt</a>). This is very useful as you will most likely want long and good quality reads for downstream processes, such as genome assemblies.</p>
+<p>It is always important to know what your data is and if your planned filtering and trimming is appropriate. For example, you may be working with amplicon data where the read lengths will vary between 500bp and 750bp. In that case it is useful to set a min length of 500 and a maxlength of 750.</p>
+<p>This data is from a genome so wanting long and high quality reads is appropriate. Overall the quality of our data looks good. The main exception is the low amount of sequencing/coverage. The low coverage is because it is a subset of the whole data for workshop purposes (the full dataset would take too long to run here). There are some shorter length and lower quality reads which we will remove.</p>
+<div id="nanofilt-run" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> NanoFilt: run<a href="08-NanoFilt.html#nanofilt-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/enter_key_purple.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>First we will create an output directory.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb14-1"><a href="08-NanoFilt.html#cb14-1" tabindex="-1"></a><span class="fu">mkdir</span> nanofilt</span></code></pre></div>
+<p>We will filter out sequences that are shorter than 500bp (<code>-l 500bp</code>) and filter out sequences with a average read quality less than Q10 (<code>-q 10</code>). We have chosen these values as they are a good default for genomic data. Q10 appeared to be a good choice from NanoPlot as the majority of reads had a quality of &gt;Q10.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb15-1"><a href="08-NanoFilt.html#cb15-1" tabindex="-1"></a><span class="fu">cat</span> porechop/Acinetobacter.porechop.fastq <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb15-2"><a href="08-NanoFilt.html#cb15-2" tabindex="-1"></a><span class="ex">NanoFilt</span> <span class="at">-l</span> 500 <span class="at">-q</span> 10 <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb15-3"><a href="08-NanoFilt.html#cb15-3" tabindex="-1"></a>nanofilt/Acinetobacter.nanofiltq10minlen500.porechop.fastq</span></code></pre></div>
+<p>Are the chosen options appropriate? Let's find out.</p>
+
+</div>
 </div>
 <script>
 
@@ -444,8 +457,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-
-
+<a href="07-NanoPlot.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="09-ONT_final_check.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

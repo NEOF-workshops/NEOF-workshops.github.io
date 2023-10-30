@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Long read Quality Control</title>
+  <title>Chapter 10 PacBio Background | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
   <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Long read Quality Control" />
+  <meta property="og:title" content="Chapter 10 PacBio Background | Long read Quality Control" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Long read quality control workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Long read Quality Control" />
+  <meta name="twitter:title" content="Chapter 10 PacBio Background | Long read Quality Control" />
   
   <meta name="twitter:description" content="NEOF book for the Long read quality control workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-
-
+<link rel="prev" href="09-ONT_final_check.html"/>
+<link rel="next" href="11-PB_CLR_setup.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -262,11 +262,68 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="pb" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">Chapter 10</span> PacBio Background<a href="10-PB_background.html#pb" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/Pacbio_logo.png" width="40%" style="display: block; margin: auto;" /></p>
+<p>In this section we will quality check PacBio sequencing raw data (BAM files), perform a filter to retain only the longest reads and output the data in fastq format.</p>
+<div id="file-formats" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> File formats<a href="10-PB_background.html#file-formats" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/files.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Sequence data from PacBio are output as subreads in unaligned BAM format. (Further explanation of the BAM format is in section 3.1.3).</p>
+<p>The figure below shows a schematic of a circular DNA molecule of a PacBio library with the colours representing:</p>
+<ul>
+<li>Black, I = Insert DNA, i.e. the double-stranded DNA of your sample</li>
+<li>Red, B = Barcodes, optional single (Left or Right) or double (Left &amp; Right) for multiplexing samples</li>
+<li>Green, A = Adapter, SMRTbell adapters with a double-stranded stem and single-stranded hairpin loop.</li>
+</ul>
+<p><img src="figures/smrtbell.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Sequencing follows the direction of the arrows and continues around until either the end of the sequencing run or if the DNA polymerase fails.</p>
+<p>PacBio sequencing takes place in Zero-Mode Waveguides (ZMWs) on a sequencing cell. These are tiny holes where a DNA polymerase binds a single molecule of DNA for sequencing, and each DNA base is detected when a labelled nucleotide is incorporated and fluoresces when excited by light.</p>
+<p>A ZMW read consists of the data collected from a single ZMW, with the HQ (high quality) region recorded when just a single molecule of DNA is present in the ZMW.</p>
+<p><img src="figures/zmw.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>This schematic shows the structure of a ZMW read in linear format. Insert DNA subreads are interspersed with the barcode and adapter sequence of the SMRTbell library.
+For more information see: <a href="https://pacbiofileformats.readthedocs.io/en/10.0/Primer.html" class="uri">https://pacbiofileformats.readthedocs.io/en/10.0/Primer.html</a></p>
+<p><strong>subreads.bam file</strong></p>
+<p>This contains the sequence for each read (or pass) of the insert DNA (grey).</p>
+<p><strong>scraps.bam file</strong></p>
+<p>This contains the adapter (green) and barcode (red) sequences, as well as any low quality (black) regions.</p>
+<p>These BAM files will usually have an accompanying PacBio BAM index file (subreads.bam.pbi and scraps.bam.pbi).</p>
+</div>
+<div id="clr-ccs" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> CLR &amp; CCS<a href="10-PB_background.html#clr-ccs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/clr_and_ccs.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>PacBio data can be generated in two ways depending on the goal of the experiment.</p>
+<ul>
+<li><p><strong>Continuous Long Reads (CLR)</strong> the aim is to produce sequence reads as long as possible, such as for genome assembly, sequencing through long repeat regions or finding other large structural variants. CLR runs usually generate one subread (i.e. there would be just one or one and a bit of the grey insert regions shown above) and sequences have an error rate of ~ 10-15%.</p></li>
+<li><p><strong>Circular Consensus Sequences (CCS)</strong> the aim is to sequence shorter molecules (up to 10-15kb max), such as amplicons, and to generate accurate consensus sequences. CCS runs generate higher-accuracy sequences from a consensus of many subreads (i.e. there would be several of the grey insert regions shown above in every ZMW read).</p></li>
+</ul>
+<p>For this tutorial we will carry out quality checking and control on both CLR and CCS BAM files.</p>
+</div>
+<div id="tools" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> Tools<a href="10-PB_background.html#tools" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/toolbox.png" width="15%" style="display: block; margin: auto;" /></p>
+<div id="sequeltools" class="section level3 hasAnchor" number="10.3.1">
+<h3><span class="header-section-number">10.3.1</span> SequelTools<a href="10-PB_background.html#sequeltools" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><a href="https://github.com/ISUgenomics/SequelTools" class="uri">https://github.com/ISUgenomics/SequelTools</a></p>
+<p>We will use the <code>SequelTools</code> program to both assess and filter our PacBio CLR and CCS data.</p>
+</div>
+<div id="smrttools" class="section level3 hasAnchor" number="10.3.2">
+<h3><span class="header-section-number">10.3.2</span> smrttools<a href="10-PB_background.html#smrttools" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><a href="https://www.pacb.com/wp-content/uploads/SMRT_Tools_Reference_Guide_v90.pdf" class="uri">https://www.pacb.com/wp-content/uploads/SMRT_Tools_Reference_Guide_v90.pdf</a></p>
+<p>We will also use <code>smrttools</code> from PacBio to:</p>
+<ul>
+<li>Generate any missing index files</li>
+<li>Generate CCS reads from subreads BAM files</li>
+<li>Convert BAM to fasta/q format.</li>
+</ul>
+</div>
+<div id="rabbitqcplus" class="section level3 hasAnchor" number="10.3.3">
+<h3><span class="header-section-number">10.3.3</span> RabbitQCPlus<a href="10-PB_background.html#rabbitqcplus" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><a href="https://github.com/RabbitBio/RabbitQCPlus" class="uri">https://github.com/RabbitBio/RabbitQCPlus</a></p>
+<p>Lastly, we will also use <code>RabbitQCPlus</code> to assess the CCS assembled reads in fastq format.</p>
+
+</div>
+</div>
 </div>
 <script>
 
@@ -444,8 +501,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-
-
+<a href="09-ONT_final_check.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="11-PB_CLR_setup.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
