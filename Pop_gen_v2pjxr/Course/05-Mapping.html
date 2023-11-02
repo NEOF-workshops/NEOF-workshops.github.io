@@ -23,7 +23,7 @@
 <meta name="author" content="Helen Hipperson, Katy Maher, Victor Soria-Carrasco, Graeme Fox" />
 
 
-<meta name="date" content="2023-09-05" />
+<meta name="date" content="2023-11-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -281,43 +281,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">5.2</span> Read mapping<a href="05-Mapping.html#read-mapping" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/map%20-%20Copy.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>To map our paired-end, trimmed reads type the following:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="05-Mapping.html#cb16-1" tabindex="-1"></a><span class="ex">bwa</span> mem <span class="dt">\</span></span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb16-1"><a href="05-Mapping.html#cb16-1" tabindex="-1"></a><span class="ex">bwa</span> mem <span class="dt">\</span></span>
 <span id="cb16-2"><a href="05-Mapping.html#cb16-2" tabindex="-1"></a>/pub14/tea/nsc206/NEOF/popgenomics/genome/GCF_000331955.2_Oorc_1.1_genomic.fna <span class="dt">\</span></span>
 <span id="cb16-3"><a href="05-Mapping.html#cb16-3" tabindex="-1"></a>SRR8861574_1_out_paired.fastq SRR8861574_2_out_paired.fastq <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb16-4"><a href="05-Mapping.html#cb16-4" tabindex="-1"></a><span class="ex">samtools</span> sort <span class="at">-o</span> SRR8861574_paired.bam</span></code></pre></div>
 <p><code>bwa mem</code> is an alignment algorithm well suited to Illumina-length sequences. The default output is a SAM <a href="https://samtools.github.io/hts-specs/SAMv1.pdf">(Sequence Alignment Map format)</a>. However, here we pipe the output to <a href="http://www.htslib.org/"><code>samtools</code></a>, a program for writing, viewing and manipulating alignment files, to sort and generate a BAM format, a binary, compressed version of SAM format.</p>
 <p>The mapping will take a few minutes to run, during which some output messages will be printed to the screen. When it has finished you will see the command prompt <code>$</code> and flashing cursor again.</p>
 <p>We can view this file using <code>samtools view</code> and <code>head</code> to display only the first few lines:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="05-Mapping.html#cb17-1" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-h</span> SRR8861574_paired.bam <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb17-1"><a href="05-Mapping.html#cb17-1" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-h</span> SRR8861574_paired.bam <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
 <p>The header section consists of lines starting with '@'. In this case, we have a header line for each of the scaffolds in the killer whale reference genome with their name (SN) and length in bp (LN) given.</p>
 <p>To look at the information in the alignment section, we can leave out the <code>-h</code> option:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="05-Mapping.html#cb18-1" tabindex="-1"></a><span class="ex">samtools</span> view SRR8861574_paired.bam <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb18-1"><a href="05-Mapping.html#cb18-1" tabindex="-1"></a><span class="ex">samtools</span> view SRR8861574_paired.bam <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
 <p>Here is an example of one line, representing information from one sequence read.</p>
 <p><img src="figures/sam1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>Each column contains information on where and how well the read aligns to the reference. After column 11 there can be several optional tags, often specific to the aligner used and can be useful for downstream analysis.</p>
 <p><img src="figures/sam2.png" width="60%" style="display: block; margin: auto auto auto 0;" /></p>
 <p>The image above is from a different alignment file to the one you have generated here. On the first line of your alignment file what is the query sequence name? What is the reference contig name?</p>
 <p>In order to process the BAM files for further analysis, it is usually required that they are indexed. This can also be done with <code>samtools</code>:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="05-Mapping.html#cb19-1" tabindex="-1"></a><span class="ex">samtools</span> index SRR8861574_paired.bam</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb19-1"><a href="05-Mapping.html#cb19-1" tabindex="-1"></a><span class="ex">samtools</span> index SRR8861574_paired.bam</span></code></pre></div>
 <p>Use <code>ls</code> to view the contents of your directory - you should now have an index file with the extensions <code>.bam.bai</code>.</p>
 </div>
 <div id="assessing-mapping-results" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Assessing mapping results<a href="05-Mapping.html#assessing-mapping-results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/flag.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>Lastly, we can use the <code>samtools</code> command <code>flagstat</code> to find information on how the reads mapped:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="05-Mapping.html#cb20-1" tabindex="-1"></a><span class="ex">samtools</span> flagstat SRR8861574_paired.bam</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb20-1"><a href="05-Mapping.html#cb20-1" tabindex="-1"></a><span class="ex">samtools</span> flagstat SRR8861574_paired.bam</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>How many reads have mapped?
-<div id="radio_HNCLIHRDSU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HNCLIHRDSU" value=""></input> <span>710696</span></label><label><input type="radio" autocomplete="off" name="radio_HNCLIHRDSU" value=""></input> <span>710142</span></label><label><input type="radio" autocomplete="off" name="radio_HNCLIHRDSU" value="answer"></input> <span>705371</span></label><label><input type="radio" autocomplete="off" name="radio_HNCLIHRDSU" value=""></input> <span>687024</span></label>
+<div id="radio_NWCDBUKWEK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NWCDBUKWEK" value=""></input> <span>710696</span></label><label><input type="radio" autocomplete="off" name="radio_NWCDBUKWEK" value=""></input> <span>710142</span></label><label><input type="radio" autocomplete="off" name="radio_NWCDBUKWEK" value="answer"></input> <span>705371</span></label><label><input type="radio" autocomplete="off" name="radio_NWCDBUKWEK" value=""></input> <span>687024</span></label>
 </div></li>
 <li>What percentage of reads have mapped?
-<div id="radio_TBZEEUSQIQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TBZEEUSQIQ" value=""></input> <span>90.32</span></label><label><input type="radio" autocomplete="off" name="radio_TBZEEUSQIQ" value=""></input> <span>96.74</span></label><label><input type="radio" autocomplete="off" name="radio_TBZEEUSQIQ" value="answer"></input> <span>99.25</span></label><label><input type="radio" autocomplete="off" name="radio_TBZEEUSQIQ" value=""></input> <span>100</span></label>
+<div id="radio_ECZZNQUYJI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ECZZNQUYJI" value=""></input> <span>90.32</span></label><label><input type="radio" autocomplete="off" name="radio_ECZZNQUYJI" value=""></input> <span>96.74</span></label><label><input type="radio" autocomplete="off" name="radio_ECZZNQUYJI" value="answer"></input> <span>99.25</span></label><label><input type="radio" autocomplete="off" name="radio_ECZZNQUYJI" value=""></input> <span>100</span></label>
 </div></li>
 </ol>
 <p>This information is a summary of the <code>FLAG</code> values - the second field in the sam/bam file. These values can be used if you want to extract or exclude a specific set of reads for downstream analysis. For example, to exclude unmapped reads from our alignment file we can run:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="05-Mapping.html#cb21-1" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-F</span> 4 <span class="at">-b</span> SRR8861574_paired.bam <span class="op">&gt;</span> SRR8861574_paired_mapped.bam</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb21-1"><a href="05-Mapping.html#cb21-1" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-F</span> 4 <span class="at">-b</span> SRR8861574_paired.bam <span class="op">&gt;</span> SRR8861574_paired_mapped.bam</span></code></pre></div>
 <p>The options used are:
 <code>-F</code>: only include reads without this flag</p>
 <p><code>-b</code>: output in bam format</p>
@@ -326,12 +326,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Run <code>flagstat</code> on the bam file from which we have excluded the unmapped reads.</p>
 <ol style="list-style-type: decimal">
 <li>How many reads are in the filtered file (compare this to the unfiltered file)?
-<div id="radio_WKNCNWWLXI" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WKNCNWWLXI" value=""></input> <span>710696</span></label><label><input type="radio" autocomplete="off" name="radio_WKNCNWWLXI" value="answer"></input> <span>705371</span></label><label><input type="radio" autocomplete="off" name="radio_WKNCNWWLXI" value=""></input> <span>704817</span></label><label><input type="radio" autocomplete="off" name="radio_WKNCNWWLXI" value=""></input> <span>687024</span></label>
+<div id="radio_SWKSKBOWBB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SWKSKBOWBB" value=""></input> <span>710696</span></label><label><input type="radio" autocomplete="off" name="radio_SWKSKBOWBB" value="answer"></input> <span>705371</span></label><label><input type="radio" autocomplete="off" name="radio_SWKSKBOWBB" value=""></input> <span>704817</span></label><label><input type="radio" autocomplete="off" name="radio_SWKSKBOWBB" value=""></input> <span>687024</span></label>
 </div></li>
 <li>What proportion of the reads in this file are now mapped (compare this to the unfiltered file)?
-<div id="radio_GJTQXBAIED" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_GJTQXBAIED" value=""></input> <span>90.32</span></label><label><input type="radio" autocomplete="off" name="radio_GJTQXBAIED" value=""></input> <span>96.74</span></label><label><input type="radio" autocomplete="off" name="radio_GJTQXBAIED" value=""></input> <span>99.25</span></label><label><input type="radio" autocomplete="off" name="radio_GJTQXBAIED" value="answer"></input> <span>100</span></label>
+<div id="radio_FHVRQFDWIE" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FHVRQFDWIE" value=""></input> <span>90.32</span></label><label><input type="radio" autocomplete="off" name="radio_FHVRQFDWIE" value=""></input> <span>96.74</span></label><label><input type="radio" autocomplete="off" name="radio_FHVRQFDWIE" value=""></input> <span>99.25</span></label><label><input type="radio" autocomplete="off" name="radio_FHVRQFDWIE" value="answer"></input> <span>100</span></label>
 </div></li>
 </ol>
 <p>In the next step, we will use alignment files from several samples to detect genetic variation.</p>
