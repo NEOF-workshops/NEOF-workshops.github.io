@@ -23,7 +23,7 @@
 <meta name="author" content="Sujai Kumar &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2023-11-02" />
+<meta name="date" content="2023-11-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,10 +244,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="introduction-1" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Introduction<a href="05-Pre_assembly.html#introduction-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Assembling a eukaryotic genome using short reads used to be a time consuming process. One had to do a lot of QC checks to see if the reads had any quality issues or remaining adapters. With PacBio Hifi reads, the quality and length and adapters are not usually an issue as the PacBio HiFi platform has already done the circular consensus step so what you get is high quality long read data.</p>
-<p>However, it's good to have a sense of whether your read coverage is adequate, and whether your genome is haploid, diploid, or polyploid. To do this we analyse the k-mers present in the HiFi reads. The broad steps are to first run a k-mer counter, and then run the resulting histograms through a tool like Genomescope.</p>
+<p>However, it's good to have a sense of whether your read coverage is adequate, and whether your genome is haploid, diploid, or polyploid. To do this we analyse the k-mers present in the HiFi reads. The broad steps are to first run a k-mer counter, and then run the resulting histograms through a tool like <code>Genomescope</code>.</p>
 </div>
 <div id="obtaining-the-read-data" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Obtaining the read data<a href="05-Pre_assembly.html#obtaining-the-read-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/Oscheius_dolichura.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>We are going to assemble the genome of a nematode <em>Oscheius onirici</em> which we expect to be 60-100 million bases or Megabases (Mb) in size because other <em>Oscheius</em> species are approximately that size.</p>
 <p>First, we need to create a directory to put the data in and then change directory to it.</p>
 <pre><code>mkdir -p ~/eukaryote_assembly/1-preassembly
@@ -262,6 +263,7 @@ cd ~/eukaryote_assembly/1-preassembly</code></pre>
 </div>
 <div id="counting-reads-and-bases" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Counting reads and bases<a href="05-Pre_assembly.html#counting-reads-and-bases" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/count.png" width="20%" style="display: block; margin: auto;" /></p>
 <p>A simple QC step is to count how many reads and bases are in the raw data. To get an estimate of how much data is in this file we will use <a href="https://bioinf.shenwei.me/seqkit/"><code>seqkit</code></a>:</p>
 <pre><code>seqkit stats ERR7979900.fastq</code></pre>
 <p><img src="figures/seqkit_stats.png" width="100%" style="display: block; margin: auto;" /></p>
@@ -269,7 +271,8 @@ cd ~/eukaryote_assembly/1-preassembly</code></pre>
 </div>
 <div id="counting-and-analysing-k-mers" class="section level2 hasAnchor" number="5.4">
 <h2><span class="header-section-number">5.4</span> Counting and analysing k-mers<a href="05-Pre_assembly.html#counting-and-analysing-k-mers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Another QC step that can be run very fast is k-mer analysis. K-mers are short, overlapping sub-sequences of length k from a longer sequence. For example, here are all the 3-mers (i.e. k=3) from the read ATGAATC: ATG TGA GAA AAT ATC</p>
+<p><img src="figures/k-mer_pic.png" width="60%" style="display: block; margin: auto;" /></p>
+<p>Another QC step that can be run very fast is k-mer analysis. K-mers are short, overlapping sub-sequences of length k from a longer sequence. For example, here are all the 3-mers (i.e. k=3) from the read AACGATT: AAC ACG CGA GAT ATT</p>
 <p>There are many great reviews and tutorials on why k-mers work and how you can use them to analyse read sets and assemblies. But for now, we're going to use them in a simple way to estimate the size of the genome and it's heterozygosity. We will use the software <a href="https://github.com/refresh-bio/KMC"><code>kmc</code></a> to do this:</p>
 <pre><code>kmc -cs2000 -k21 ERR7979900.fastq ERR7979900k21 .</code></pre>
 <ul>
@@ -279,7 +282,7 @@ cd ~/eukaryote_assembly/1-preassembly</code></pre>
 <li><code>.</code> Use the current directory for storing temporary files</li>
 </ul>
 <p>This step should take about 2-3 minutes to count all the k-mers and store them in kmc's own binary file formats with the <code>.kmc_suf</code> and <code>.kmc_pre</code> extensions.</p>
-<p>Now use the kmc's <code>transform</code> tool to extract a k-mer frequency histogram:</p>
+<p>Now use the <code>kmc</code>'s <code>transform</code> tool to extract a k-mer frequency histogram:</p>
 <pre><code>kmc_tools transform ERR7979900k21 histogram ERR7979900k21.histo</code></pre>
 <ul>
 <li><code>transform</code> is the kmc_tools function</li>
@@ -312,6 +315,7 @@ To run a process in the <strong>background</strong>, so you can type and run new
 </div>
 <div id="summary" class="section level2 hasAnchor" number="5.5">
 <h2><span class="header-section-number">5.5</span> Summary<a href="05-Pre_assembly.html#summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/sum_black.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Counting reads and bases and k-mers in a set of read files can give you a good sense of whether your genome assembly is going to work, and whether you need to worry about low coverage, or highly erroneous k-mers, etc.</p>
 <p>The length of the genome assembly should be roughly what you expect the genome size to be. It may not be the exact size of your species of interest if the sample also includes DNA from other co-bionts such as contaminants or parasites or endosymbionts.</p>
 
@@ -323,25 +327,41 @@ To run a process in the <strong>background</strong>, so you can type and run new
 update_total_correct = function() {
   console.log("webex: update total_correct");
 
-  if (t = document.getElementById("webex-total_correct")) {
-    var correct = document.getElementsByClassName("webex-correct").length;
-    var solvemes = document.getElementsByClassName("webex-solveme").length;
-    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
-    var selects = document.getElementsByClassName("webex-select").length;
-    
-    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
   }
 }
 
 /* webex-solution button toggling function */
 b_func = function() {
   console.log("webex: toggle hide");
-  
+
   var cl = this.parentElement.classList;
   if (cl.contains('open')) {
     cl.remove("open");
   } else {
     cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
   }
 }
 
@@ -395,9 +415,9 @@ solveme_func = function(e) {
 /* function for checking select answers */
 select_func = function(e) {
   console.log("webex: check select");
-  
+
   var cl = this.classList
-  
+
   /* add style */
   cl.remove("webex-incorrect");
   cl.remove("webex-correct");
@@ -406,7 +426,7 @@ select_func = function(e) {
   } else if (this.value != "blank") {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
@@ -417,25 +437,25 @@ radiogroups_func = function(e) {
   var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
   var cl = checked_button.parentElement.classList;
   var labels = checked_button.parentElement.parentElement.children;
-  
+
   /* get rid of styles */
   for (i = 0; i < labels.length; i++) {
     labels[i].classList.remove("webex-incorrect");
     labels[i].classList.remove("webex-correct");
   }
-  
+
   /* add style */
   if (checked_button.value == "answer") {
     cl.add("webex-correct");
   } else {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
 window.onload = function() {
-  console.log("onload");
+  console.log("webex onload");
   /* set up solution buttons */
   var buttons = document.getElementsByTagName("button");
 
@@ -443,6 +463,22 @@ window.onload = function() {
     if (buttons[i].parentElement.classList.contains('webex-solution')) {
       buttons[i].onclick = b_func;
     }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
   }
 
   /* set up webex-solveme inputs */
@@ -470,18 +506,21 @@ window.onload = function() {
     /* attach checking function */
     solveme[i].onkeyup = solveme_func;
     solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
-  
+
   /* set up radiogroups */
   var radiogroups = document.getElementsByClassName("webex-radiogroup");
   for (var i = 0; i < radiogroups.length; i++) {
     radiogroups[i].onchange = radiogroups_func;
   }
-  
+
   /* set up selects */
   var selects = document.getElementsByClassName("webex-select");
   for (var i = 0; i < selects.length; i++) {
     selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
 
   update_total_correct();

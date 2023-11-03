@@ -23,7 +23,7 @@
 <meta name="author" content="Sujai Kumar &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2023-11-02" />
+<meta name="date" content="2023-11-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,14 +244,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>After carrying out a genome assembly, you should always do some basic checks on it to make sure it has the expected size, and that it matches the species that you sampled.</p>
 <p>In this section we will use a few different tools to check the quality of the assembly:</p>
 <ul>
-<li>seqkit - which you used to check the raw read files as well</li>
-<li>tiara - a very fast bacterial and prokaryote DNA classifier</li>
-<li>busco - for finding universal single copy orthologues for that clade</li>
+<li><code>seqkit</code> - which you used to check the raw read files as well</li>
+<li><code>tiara</code> - a very fast bacterial and prokaryote DNA classifier</li>
+<li><code>busco</code> - for finding universal single copy orthologues for that clade</li>
 </ul>
-<p>We will also learn about purge_dups, a tool for removing duplicate contigs so that you are left with only a haploid genome assembly.</p>
-<p>In the previous section you saw how to run the hifiasm assembler on a smaller downsampled subset of reads. In this section we will be using the full genome assembly (which took about 3 hours to complete).</p>
+<p>We will also learn about <code>purge_dups</code>, a tool for removing duplicate contigs so that you are left with only a haploid genome assembly.</p>
+<p>In the previous section you saw how to run the <code>hifiasm</code> assembler on a smaller downsampled subset of reads. In this section we will be using the full genome assembly (which took about 3 hours to complete).</p>
 <div id="obtaining-the-full-assembly" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Obtaining the full assembly<a href="07-Genome_assessment.html#obtaining-the-full-assembly" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/obtain.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>We need to create a directory to put the assembly in and then change directory to it.</p>
 <pre><code>mkdir -p ~/eukaryote_assembly/3-assessment
 cd ~/eukaryote_assembly/3-assessment</code></pre>
@@ -260,7 +261,8 @@ cd ~/eukaryote_assembly/3-assessment</code></pre>
 </div>
 <div id="basic-assembly-statistics" class="section level2 hasAnchor" number="7.2">
 <h2><span class="header-section-number">7.2</span> Basic assembly statistics<a href="07-Genome_assessment.html#basic-assembly-statistics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Run seqkit stats to find some basic statistics about the genome assembly:</p>
+<p><img src="figures/metric_square_1.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Run <code>seqkit stats</code> to find some basic statistics about the genome assembly:</p>
 <pre><code>seqkit stats -a ERR7979900_hifiasm.bp.p_ctg.fa</code></pre>
 <ul>
 <li><code>-a</code> specifies all stats, including n50</li>
@@ -269,7 +271,7 @@ cd ~/eukaryote_assembly/3-assessment</code></pre>
 <pre><code>file                            format  type  num_seqs      sum_len  min_len    avg_len     max_len        Q1      Q2        Q3  sum_gap        N50  Q20(%)  Q30(%)  GC(%)
 ERR7979900_hifiasm.bp.p_ctg.fa  FASTA   DNA        548  122,586,855    6,222  223,698.7  13,381,880  21,636.5  27,578  40,509.5        0  5,147,866       0       0   51.9
 </code></pre>
-<p>Statistics such as num_seqs, sum_len, min_len, avg_len, max_len etc are self explanatory, but you can get a full reference <a href="https://bioinf.shenwei.me/seqkit/usage/#stats">here</a>. The Q20, Q30 values are only for FastQ files which have quality scores as well. Hifiasm creates a contig assembly, i.e. it creates contiguous sequences with no gaps, therefore sum_gap = 0.</p>
+<p>Statistics such as num_seqs, sum_len, min_len, avg_len, max_len etc are self explanatory, but you can get a full reference <a href="https://bioinf.shenwei.me/seqkit/usage/#stats">here</a>. The Q20, Q30 values are only for FastQ files which have quality scores as well. <code>Hifiasm</code> creates a contig assembly, i.e. it creates contiguous sequences with no gaps, therefore sum_gap = 0.</p>
 <p>You may not be aware of the N50 metric, which is calculated using the following method:</p>
 <ol style="list-style-type: decimal">
 <li>Order the contigs from largest to smallest.</li>
@@ -301,9 +303,10 @@ ERR7979900_hifiasm.bp.p_ctg.fa  FASTA   DNA        548  122,586,855    6,222  22
 </div>
 <div id="check-for-contamination" class="section level2 hasAnchor" number="7.3">
 <h2><span class="header-section-number">7.3</span> Check for contamination<a href="07-Genome_assessment.html#check-for-contamination" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/tiara.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>When assembling the genome of a eukaryote, it is very common to accidentally also sequence bacteria or other microorganisms that live alongside, on the surface of, or inside the target organism. There might also be endosymbionts (bacteria that live inside the cell of the eukaryote, eg Wolbachia), symbionts (eg Cyanobacteria when sequencing lichen), parasites (eg apicomplexan parasites inside some insects), or even the host organism if the target organism is a parasite (eg a host plant if you are sequencing a parasitoid gall wasp). In general, a non-target organism in your sample can be called a co-biont, i.e. an organism present alongside your organism of interest in a given sample.</p>
-<p>A full discussion of methods for separating these cobionts is beyond the scope of this course. However, when doing a eukaryote genome assembly, it is always a good idea to do a quick check for bacteria and other prokaryotes using Tiara. <a href="https://academic.oup.com/bioinformatics/article/38/2/344/6375939">Tiara</a> is a very fast deep-learning based tool for identifying archaea, bacteria, prokarya, eukarya, and organelle (mitochondria and plastids) sequences.</p>
-<p>First we need to open a new terminal window (<code>right click -&gt; click terminal</code>), load the tiara <code>environment</code> and then navigate to your <code>3-assessment</code> directory.</p>
+<p>A full discussion of methods for separating these cobionts is beyond the scope of this course. However, when doing a eukaryote genome assembly, it is always a good idea to do a quick check for bacteria and other prokaryotes using <code>Tiara</code>. <a href="https://academic.oup.com/bioinformatics/article/38/2/344/6375939"><code>Tiara</code></a> is a very fast deep-learning based tool for identifying archaea, bacteria, prokarya, eukarya, and organelle (mitochondria and plastids) sequences.</p>
+<p>First we need to open a new terminal window (<code>right click -&gt; click terminal</code>), load the <code>tiara environment</code> and then navigate to your <code>3-assessment</code> directory.</p>
 <pre><code>. usetiara
 
 cd ~/eukaryote_assembly/3-assessment</code></pre>
@@ -350,13 +353,13 @@ plastid_ERR7979900_hifiasm.bp.p_ctg.fa        FASTA   DNA          1       16,56
 unknown_ERR7979900_hifiasm.bp.p_ctg.fa        FASTA   DNA         16      627,026   23,742     39,189.1      77,760</code></pre>
 <p>Based on this table, most of the assembly by number (493 out of 548 sequences), and almost half by span (56 Mb out of 122 Mb) is actually bacterial in origin.</p>
 <ol style="list-style-type: decimal">
-<li>The default threshold for assigning a sequence to one of the above classes is 0.65. If you change that to 0.9 (Hint: use the <code>-p</code> option in tiara), what is the span of eukaryotic sequences?
-<div id="radio_WGZKQIFVSI" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WGZKQIFVSI" value=""></input> <span>55 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_WGZKQIFVSI" value="answer"></input> <span>65 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_WGZKQIFVSI" value=""></input> <span>75 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_WGZKQIFVSI" value=""></input> <span>85 Mb</span></label>
+<li>The default threshold for assigning a sequence to one of the above classes is 0.65. If you change that to 0.9 (Hint: use the <code>-p</code> option in <code>tiara</code>), what is the span of eukaryotic sequences?
+<div id="radio_EJXGOTSQDI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EJXGOTSQDI" value=""></input> <span>55 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_EJXGOTSQDI" value="answer"></input> <span>65 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_EJXGOTSQDI" value=""></input> <span>75 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_EJXGOTSQDI" value=""></input> <span>85 Mb</span></label>
 </div></li>
 </ol>
-<p>In this case, Tiara has done a very good job of separating the eukaryotic nematode sequences from the rest, because we know that the <em>Oscheius onirici</em> genome is 65 Mb in size.</p>
-<p>However, the 16 kb sequence labelled plastid is odd as only plants should have plastids. We can check this sequence by Blasting it. Using firefox, load the BLAST webpage and upload the plastid fasta file.</p>
+<p>In this case, <code>Tiara</code> has done a very good job of separating the eukaryotic nematode sequences from the rest, because we know that the <em>Oscheius onirici</em> genome is 65 Mb in size.</p>
+<p>However, the 16 kb sequence labelled plastid is odd as only plants should have plastids. We can check this sequence by Blasting it. Using <code>firefox</code>, load the BLAST webpage and upload the plastid fasta file.</p>
 <pre><code>firefox https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn &amp;</code></pre>
 <p>Click on <code>Nucleotide BLAST</code> &gt; <code>Browse</code> next to where it says 'upload file' and choose the plastid assembly file.</p>
 <p>Under 'Organism' enter 'Oscheius (taxid:42476)' and run a megablast search.</p>
@@ -365,8 +368,8 @@ unknown_ERR7979900_hifiasm.bp.p_ctg.fa        FASTA   DNA         16      627,02
 <p><img src="figures/blast_result.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>A few things to remember:</p>
 <ul>
-<li>Tiara sometimes labels mitochondrial sequences as plastids</li>
-<li>Tiara is not perfect. It is a lightweight and fast way to get a sense of what is going on in your assembly. A very good tool that requires more resources but is also fast is the <a href="https://github.com/ncbi/fcs">NCBI Foreign Contamination Screen</a></li>
+<li><code>Tiara</code> sometimes labels mitochondrial sequences as plastids</li>
+<li><code>Tiara</code> is not perfect. It is a lightweight and fast way to get a sense of what is going on in your assembly. A very good tool that requires more resources but is also fast is the <a href="https://github.com/ncbi/fcs">NCBI Foreign Contamination Screen</a></li>
 </ul>
 </div>
 <div id="busco" class="section level2 hasAnchor" number="7.4">
@@ -389,20 +392,20 @@ First make sure that you are make in the <code>. useassembly</code> terminal win
 <p>Looking through the choices (and using the <a href="https://www.ncbi.nlm.nih.gov/taxonomy">NCBI taxonomy website</a>) what lineage dataset would you use for the following genera?</p>
 <ol style="list-style-type: decimal">
 <li><strong>Heliconius</strong> (Taxonomy ID: 33416)
-<div id="radio_KHCZCCHXWM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_KHCZCCHXWM" value="answer"></input> <span>lepidoptera_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_KHCZCCHXWM" value=""></input> <span>diptera_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_KHCZCCHXWM" value=""></input> <span>arthropoda_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_KHCZCCHXWM" value=""></input> <span>eukaryota_odb10</span></label>
+<div id="radio_KDNNCVKWCC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KDNNCVKWCC" value="answer"></input> <span>lepidoptera_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_KDNNCVKWCC" value=""></input> <span>diptera_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_KDNNCVKWCC" value=""></input> <span>arthropoda_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_KDNNCVKWCC" value=""></input> <span>eukaryota_odb10</span></label>
 </div></li>
 <li><strong>Saccharomyces</strong> (Taxonomy ID: 4930)
-<div id="radio_CXXOZDAQIG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_CXXOZDAQIG" value=""></input> <span>eukaryota_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_CXXOZDAQIG" value="answer"></input> <span>saccharomycetes_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_CXXOZDAQIG" value=""></input> <span>bacteria_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_CXXOZDAQIG" value=""></input> <span>fungi_odb10</span></label>
+<div id="radio_NRDIKPVFPE" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NRDIKPVFPE" value=""></input> <span>eukaryota_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_NRDIKPVFPE" value="answer"></input> <span>saccharomycetes_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_NRDIKPVFPE" value=""></input> <span>bacteria_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_NRDIKPVFPE" value=""></input> <span>fungi_odb10</span></label>
 </div></li>
 <li><strong>Oscheius</strong> (Taxonomy ID: 42476)
-<div id="radio_DICESXMRYC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DICESXMRYC" value=""></input> <span>insecta_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_DICESXMRYC" value=""></input> <span>metazoa_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_DICESXMRYC" value="answer"></input> <span>nematoda_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_DICESXMRYC" value=""></input> <span>eukaryota_odb10</span></label>
+<div id="radio_QJTNNGMHSX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QJTNNGMHSX" value=""></input> <span>insecta_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_QJTNNGMHSX" value=""></input> <span>metazoa_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_QJTNNGMHSX" value="answer"></input> <span>nematoda_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_QJTNNGMHSX" value=""></input> <span>eukaryota_odb10</span></label>
 </div></li>
 <li><strong>Neoparamoeba</strong> (Taxonomy ID: 1641714)
-<div id="radio_VPXBLOPPGU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_VPXBLOPPGU" value=""></input> <span>alveolata_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_VPXBLOPPGU" value=""></input> <span>coccidia_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_VPXBLOPPGU" value=""></input> <span>plasmodium_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_VPXBLOPPGU" value="answer"></input> <span>eukaryota_odb10</span></label>
+<div id="radio_SZRVADMBKE" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SZRVADMBKE" value=""></input> <span>alveolata_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_SZRVADMBKE" value=""></input> <span>coccidia_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_SZRVADMBKE" value=""></input> <span>plasmodium_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_SZRVADMBKE" value="answer"></input> <span>eukaryota_odb10</span></label>
 </div></li>
 </ol>
 <div class="webex-solution">
@@ -466,16 +469,16 @@ Click to reveal links to NCBI taxonomies
 <p>Answer the below MCQs based on the results in your short summary file.</p>
 <ol style="list-style-type: decimal">
 <li>Ignoring "total BUSCO groups searched", which value is the highest?
-<div id="radio_MFYSFWVNGL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MFYSFWVNGL" value="answer"></input> <span>Complete BUSCOs (C)</span></label><label><input type="radio" autocomplete="off" name="radio_MFYSFWVNGL" value=""></input> <span>Fragmented BUSCOs (F)</span></label><label><input type="radio" autocomplete="off" name="radio_MFYSFWVNGL" value=""></input> <span>Missing BUSCOs (M)</span></label>
+<div id="radio_JBZQTLOWIF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JBZQTLOWIF" value="answer"></input> <span>Complete BUSCOs (C)</span></label><label><input type="radio" autocomplete="off" name="radio_JBZQTLOWIF" value=""></input> <span>Fragmented BUSCOs (F)</span></label><label><input type="radio" autocomplete="off" name="radio_JBZQTLOWIF" value=""></input> <span>Missing BUSCOs (M)</span></label>
 </div></li>
 <li>What is the sum of fragmented and missing BUSCOs?
-<div id="radio_DSMDDNBIFQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DSMDDNBIFQ" value=""></input> <span>1</span></label><label><input type="radio" autocomplete="off" name="radio_DSMDDNBIFQ" value=""></input> <span>151</span></label><label><input type="radio" autocomplete="off" name="radio_DSMDDNBIFQ" value="answer"></input> <span>616</span></label>
+<div id="radio_LVCKNXVJNL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LVCKNXVJNL" value=""></input> <span>1</span></label><label><input type="radio" autocomplete="off" name="radio_LVCKNXVJNL" value=""></input> <span>151</span></label><label><input type="radio" autocomplete="off" name="radio_LVCKNXVJNL" value="answer"></input> <span>616</span></label>
 </div></li>
 <li>Which value would you want to be highest for a complete non duplicated assembly?
-<div id="radio_ORVPUJHBRU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ORVPUJHBRU" value="answer"></input> <span>Complete and single-copy BUSCOs (S)</span></label><label><input type="radio" autocomplete="off" name="radio_ORVPUJHBRU" value=""></input> <span>Complete and duplicated BUSCOs (D)</span></label><label><input type="radio" autocomplete="off" name="radio_ORVPUJHBRU" value=""></input> <span>Fragmented BUSCOs (F)</span></label><label><input type="radio" autocomplete="off" name="radio_ORVPUJHBRU" value=""></input> <span>Missing BUSCOs (M)</span></label>
+<div id="radio_PIXXGUHJDK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PIXXGUHJDK" value="answer"></input> <span>Complete and single-copy BUSCOs (S)</span></label><label><input type="radio" autocomplete="off" name="radio_PIXXGUHJDK" value=""></input> <span>Complete and duplicated BUSCOs (D)</span></label><label><input type="radio" autocomplete="off" name="radio_PIXXGUHJDK" value=""></input> <span>Fragmented BUSCOs (F)</span></label><label><input type="radio" autocomplete="off" name="radio_PIXXGUHJDK" value=""></input> <span>Missing BUSCOs (M)</span></label>
 </div></li>
 </ol>
 </div>
@@ -487,11 +490,12 @@ Click to reveal links to NCBI taxonomies
 </div>
 <div id="purging-duplications-using-purge_dups" class="section level2 hasAnchor" number="7.5">
 <h2><span class="header-section-number">7.5</span> Purging duplications using purge_dups<a href="07-Genome_assessment.html#purging-duplications-using-purge_dups" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>If you are assembling a diploid genome, then the small allelic variations between the two copies of a genome can cause several alternate duplicated contigs to be assembled. Hifiasm tries to account for this by generating alternate haplotig assembly files. However, sometimes hifiasm isn't able to clearly distinguish two contigs as being alternate haplotigs of the same genomic region.</p>
-<p>This is where <em>purge_dups</em> comes in. It is a piece of software that maps the original reads back to the assembly and tries to figure out which bits are alternate haplotigs and which bits are genuine haploid genome representations.</p>
-<p>The genomescope plot for our workshop example species <em>Oscheius onirici</em> didn't indicate much heterozygosity, so it is very likely that purge_dups will not find many extra contigs to remove.</p>
-<p>For this part of the workshop, we will use only the eukarya part of the genome assembly as identified by Tiara.</p>
-<p>First make a sub-folder for purge_dups and change into it:</p>
+<p><img src="figures/collapse.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>If you are assembling a diploid genome, then the small allelic variations between the two copies of a genome can cause several alternate duplicated contigs to be assembled. <code>Hifiasm</code> tries to account for this by generating alternate haplotig assembly files. However, sometimes <code>hifiasm</code> isn't able to clearly distinguish two contigs as being alternate haplotigs of the same genomic region.</p>
+<p>This is where <code>purge_dups</code> comes in. It is a piece of software that maps the original reads back to the assembly and tries to figure out which bits are alternate haplotigs and which bits are genuine haploid genome representations.</p>
+<p>The genomescope plot for our workshop example species <em>Oscheius onirici</em> didn't indicate much heterozygosity, so it is very likely that <code>purge_dups</code> will not find many extra contigs to remove.</p>
+<p>For this part of the workshop, we will use only the eukarya part of the genome assembly as identified by <code>Tiara</code>.</p>
+<p>First make a sub-folder for <code>purge_dups</code> and change into it:</p>
 <pre><code>mkdir -p ~/eukaryote_assembly/3-assessment/purge_dups
 cd ~/eukaryote_assembly/3-assessment/purge_dups</code></pre>
 <p>Now make a symlink to the eukarya_ part of the assembly, and to the reads from the assembly directory:</p>
@@ -551,7 +555,7 @@ eukarya_ERR7979900_hifiasm.bp.p_ctg.fa_hap.fa     FASTA   DNA         27     903
 </div>
 <div id="assessment-recap" class="section level2 hasAnchor" number="7.6">
 <h2><span class="header-section-number">7.6</span> Assessment recap<a href="07-Genome_assessment.html#assessment-recap" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/recap.png" width="10%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/recap.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>We used the following tools to assess our assembly:</p>
 <ol style="list-style-type: decimal">
 <li><code>seqkit stats</code> to get assembly metrics</li>
@@ -568,25 +572,41 @@ eukarya_ERR7979900_hifiasm.bp.p_ctg.fa_hap.fa     FASTA   DNA         27     903
 update_total_correct = function() {
   console.log("webex: update total_correct");
 
-  if (t = document.getElementById("webex-total_correct")) {
-    var correct = document.getElementsByClassName("webex-correct").length;
-    var solvemes = document.getElementsByClassName("webex-solveme").length;
-    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
-    var selects = document.getElementsByClassName("webex-select").length;
-    
-    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
   }
 }
 
 /* webex-solution button toggling function */
 b_func = function() {
   console.log("webex: toggle hide");
-  
+
   var cl = this.parentElement.classList;
   if (cl.contains('open')) {
     cl.remove("open");
   } else {
     cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
   }
 }
 
@@ -640,9 +660,9 @@ solveme_func = function(e) {
 /* function for checking select answers */
 select_func = function(e) {
   console.log("webex: check select");
-  
+
   var cl = this.classList
-  
+
   /* add style */
   cl.remove("webex-incorrect");
   cl.remove("webex-correct");
@@ -651,7 +671,7 @@ select_func = function(e) {
   } else if (this.value != "blank") {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
@@ -662,25 +682,25 @@ radiogroups_func = function(e) {
   var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
   var cl = checked_button.parentElement.classList;
   var labels = checked_button.parentElement.parentElement.children;
-  
+
   /* get rid of styles */
   for (i = 0; i < labels.length; i++) {
     labels[i].classList.remove("webex-incorrect");
     labels[i].classList.remove("webex-correct");
   }
-  
+
   /* add style */
   if (checked_button.value == "answer") {
     cl.add("webex-correct");
   } else {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
 window.onload = function() {
-  console.log("onload");
+  console.log("webex onload");
   /* set up solution buttons */
   var buttons = document.getElementsByTagName("button");
 
@@ -688,6 +708,22 @@ window.onload = function() {
     if (buttons[i].parentElement.classList.contains('webex-solution')) {
       buttons[i].onclick = b_func;
     }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
   }
 
   /* set up webex-solveme inputs */
@@ -715,18 +751,21 @@ window.onload = function() {
     /* attach checking function */
     solveme[i].onkeyup = solveme_func;
     solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
-  
+
   /* set up radiogroups */
   var radiogroups = document.getElementsByClassName("webex-radiogroup");
   for (var i = 0; i < radiogroups.length; i++) {
     radiogroups[i].onchange = radiogroups_func;
   }
-  
+
   /* set up selects */
   var selects = document.getElementsByClassName("webex-select");
   for (var i = 0; i < selects.length; i++) {
     selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
 
   update_total_correct();
