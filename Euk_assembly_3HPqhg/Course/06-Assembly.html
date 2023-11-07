@@ -23,7 +23,7 @@
 <meta name="author" content="Sujai Kumar &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2023-09-05" />
+<meta name="date" content="2023-11-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -243,11 +243,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/string.png" width="20%" style="display: block; margin: auto;" /></p>
 <div id="overview-1" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Overview<a href="06-Assembly.html#overview-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/tree_of_life.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>In this section we're going to assemble a eukaryotic genome from long and highly accurate (&gt;Q30) PacBio HiFi reads.</p>
-<p>The following workflow is courtesy <a href="https://www.sanger.ac.uk/person/stevens-lewis/">Lewis Stevens</a> who uses it to assemble nematode genomes (which range in size from 50-700 Mbp). Broadly, the same steps are also used by the <a href="https://www.darwintreeoflife.org">Darwin Tree of Life Project</a>, which is sequencing 70,000 eukaryotic species, ranging in size from 15 Mbp fungal genomes, to 100 Gbp plants genomes.</p>
+<p>The following workflow is courtesy of <a href="https://www.sanger.ac.uk/person/stevens-lewis/">Lewis Stevens</a> who uses it to assemble nematode genomes (which range in size from 50-700 Mbp). Broadly, the same steps are also used by the <a href="https://www.darwintreeoflife.org">Darwin Tree of Life Project</a>, which is sequencing 70,000 eukaryotic species, ranging in size from 15 Mbp fungal genomes, to 100 Gbp plants genomes.</p>
 </div>
 <div id="downsample-raw-data" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Downsample raw data<a href="06-Assembly.html#downsample-raw-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/subsample.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>First, we need to create a directory to put the data in and then change directory to it.</p>
 <pre><code>mkdir -p ~/eukaryote_assembly/2-assembly
 cd ~/eukaryote_assembly/2-assembly</code></pre>
@@ -266,7 +268,8 @@ gzip -c &gt; ERR7979900.6pct.fastq.gz</code></pre>
 </div>
 <div id="run-the-hifiasm-assembler" class="section level2 hasAnchor" number="6.3">
 <h2><span class="header-section-number">6.3</span> Run the Hifiasm assembler<a href="06-Assembly.html#run-the-hifiasm-assembler" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>We are now ready to use <a href="https://hifiasm.readthedocs.io/en/latest/index.html">hifiasm</a> to assemble the 6% downsampled data. hifiasm is a very fast genome assembler for PacBio HiFi data:</p>
+<p><img src="figures/combine_assembly.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>We are now ready to use <a href="https://hifiasm.readthedocs.io/en/latest/index.html"><code>hifiasm</code></a> to assemble the 6% downsampled data. hifiasm is a very fast genome assembler for PacBio HiFi data:</p>
 <pre><code>hifiasm -l 0 -t 16 -o ERR7979900_hifiasm6l0 ERR7979900.6pct.fastq.gz</code></pre>
 <p>This command should take ~8 minutes, during which time information about the progress of the assembly is printed to the terminal. Further information and discussion on this can be found <a href="https://hifiasm.readthedocs.io/en/latest/interpreting-output.html#hifiasm-log-interpretation">here</a>.</p>
 <p>Explanation of the parameters:</p>
@@ -275,13 +278,14 @@ gzip -c &gt; ERR7979900.6pct.fastq.gz</code></pre>
 <li><code>-o</code> (lower case letter o) Output prefix. We used the input read file name followed by *_hifiasm6* to indicate that it is a hifiasm assembly on only 6% of the reads, followed by <em>l0</em> to indicate the level of duplicate purging applied</li>
 <li><code>-t</code> Number of CPU threads</li>
 </ul>
-<p>Hifiasm returns several <code>.gfa</code> files which have the graph structure of the assembled fasta contigs. We need the file with the suffix <code>.bp.p_ctg.gfa</code> as that has the primary assembled contigs. To convert it to fasta, we use an awk command that prints out the sequence headers and the sequence in fasta format:</p>
+<p><code>Hifiasm</code> returns several <code>.gfa</code> files which have the graph structure of the assembled fasta contigs. We need the file with the suffix <code>.bp.p_ctg.gfa</code> as that has the primary assembled contigs. To convert it to fasta, we use an <code>awk</code> command that prints out the sequence headers and the sequence in fasta format:</p>
 <pre><code>awk &#39;/^S/{print &quot;&gt;&quot;$2;print $3}&#39; ERR7979900_hifiasm6l0.bp.p_ctg.gfa &gt; ERR7979900_hifiasm6l0.bp.p_ctg.fa</code></pre>
 <p>If you run the UNIX command <code>ls -lh</code> to see the size of the files, you should see it is about 80 Megabytes in size:</p>
 <pre><code>ls -lh ERR7979900_hifiasm6l0.bp.p_ctg.fa</code></pre>
 </div>
 <div id="summary-1" class="section level2 hasAnchor" number="6.4">
 <h2><span class="header-section-number">6.4</span> Summary<a href="06-Assembly.html#summary-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/sum_green.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>In this exercise, you have successfully downsampled the raw read sequence data and run the hifiasm assembler. In a real genome assembly project, you would not downsample the data.</p>
 <p>However, sometimes you may have more than 500X or 1000X sequencing depth if you are assembling a species with a small genome size. In those cases, you may want to downsample the raw data to about 50X using the method shown here, because otherwise the assembly will take very long, and might give you too many alternate contigs.</p>
 <p>In the next section you will look at tools and approaches to assess what you have asssembled.</p>
@@ -294,25 +298,41 @@ gzip -c &gt; ERR7979900.6pct.fastq.gz</code></pre>
 update_total_correct = function() {
   console.log("webex: update total_correct");
 
-  if (t = document.getElementById("webex-total_correct")) {
-    var correct = document.getElementsByClassName("webex-correct").length;
-    var solvemes = document.getElementsByClassName("webex-solveme").length;
-    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
-    var selects = document.getElementsByClassName("webex-select").length;
-    
-    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
   }
 }
 
 /* webex-solution button toggling function */
 b_func = function() {
   console.log("webex: toggle hide");
-  
+
   var cl = this.parentElement.classList;
   if (cl.contains('open')) {
     cl.remove("open");
   } else {
     cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
   }
 }
 
@@ -366,9 +386,9 @@ solveme_func = function(e) {
 /* function for checking select answers */
 select_func = function(e) {
   console.log("webex: check select");
-  
+
   var cl = this.classList
-  
+
   /* add style */
   cl.remove("webex-incorrect");
   cl.remove("webex-correct");
@@ -377,7 +397,7 @@ select_func = function(e) {
   } else if (this.value != "blank") {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
@@ -388,25 +408,25 @@ radiogroups_func = function(e) {
   var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
   var cl = checked_button.parentElement.classList;
   var labels = checked_button.parentElement.parentElement.children;
-  
+
   /* get rid of styles */
   for (i = 0; i < labels.length; i++) {
     labels[i].classList.remove("webex-incorrect");
     labels[i].classList.remove("webex-correct");
   }
-  
+
   /* add style */
   if (checked_button.value == "answer") {
     cl.add("webex-correct");
   } else {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
 window.onload = function() {
-  console.log("onload");
+  console.log("webex onload");
   /* set up solution buttons */
   var buttons = document.getElementsByTagName("button");
 
@@ -414,6 +434,22 @@ window.onload = function() {
     if (buttons[i].parentElement.classList.contains('webex-solution')) {
       buttons[i].onclick = b_func;
     }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
   }
 
   /* set up webex-solveme inputs */
@@ -441,18 +477,21 @@ window.onload = function() {
     /* attach checking function */
     solveme[i].onkeyup = solveme_func;
     solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
-  
+
   /* set up radiogroups */
   var radiogroups = document.getElementsByClassName("webex-radiogroup");
   for (var i = 0; i < radiogroups.length; i++) {
     radiogroups[i].onchange = radiogroups_func;
   }
-  
+
   /* set up selects */
   var selects = document.getElementsByClassName("webex-select");
   for (var i = 0; i < selects.length; i++) {
     selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
 
   update_total_correct();

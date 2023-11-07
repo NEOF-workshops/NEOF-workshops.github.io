@@ -23,7 +23,7 @@
 <meta name="author" content="Sujai Kumar &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2023-09-05" />
+<meta name="date" content="2023-11-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -243,11 +243,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/scaffold.png" width="18%" style="display: block; margin: auto;" /></p>
 <div id="introduction-3" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Introduction<a href="09-Scaffolding.html#introduction-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>In the section on genome assessment, we separated the high-probability bacteria contigs from the eukarya contigs, and then ran purge_dups on the eukarya contigs. We were left with a very high contiguity nematode genome assembly.</p>
+<p>In the section on genome assessment, we separated the high-probability bacteria contigs from the eukarya contigs, and then ran <code>purge_dups</code> on the eukarya contigs. We were left with a very high contiguity nematode genome assembly.</p>
 <p>In this exercise we will use our best assembly from the previous step and paired Illumina Hi-C reads to scaffold the already very good assembly into chromosome sized scaffolds.</p>
 </div>
 <div id="set-up-1" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> Set up<a href="09-Scaffolding.html#set-up-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/setup_3.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>Open a new terminal and load the Hi-C environment:</p>
 <pre><code>. usehic</code></pre>
 <p>Create a new directory, change into it, and link to the files we need:</p>
@@ -261,6 +262,7 @@ ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/test10m2.fq.gz</code></pre>
 </div>
 <div id="map-the-hi-c-reads-to-the-genome-assembly" class="section level2 hasAnchor" number="9.3">
 <h2><span class="header-section-number">9.3</span> Map the Hi-C reads to the genome assembly<a href="09-Scaffolding.html#map-the-hi-c-reads-to-the-genome-assembly" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/alignment.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>As in the previous steps, we're going to use BASH variables so that in future you can just copy the commands:</p>
 <pre><code>REF=eukarya_ERR7979900_hifiasm.bp.p_ctg.fa_purged.fa
 FASTQ1=test10m1.fq.gz
@@ -275,13 +277,14 @@ samtools faidx $REF
 
 bwa mem -t $CPU $REF $FASTQ1 $FASTQ2 | \
 samtools view -b - &gt; $PREFIX.bam</code></pre>
-<p>This will take a few minutes to run. When it's finished run the actual scaffolding step using <a href="https://github.com/c-zhou/yahss">YAHS</a> (Yet Another Hi-C Scaffolder)</p>
+<p>This will take a few minutes to run. When it's finished run the actual scaffolding step using <a href="https://github.com/c-zhou/yahss"><code>YAHS</code></a> (Yet Another Hi-C Scaffolder)</p>
 <pre><code>yahs $REF $PREFIX.bam -o $PREFIX</code></pre>
 </div>
 <div id="visualise-the-scaffolding-data-in-juicer" class="section level2 hasAnchor" number="9.4">
 <h2><span class="header-section-number">9.4</span> Visualise the scaffolding data in Juicer<a href="09-Scaffolding.html#visualise-the-scaffolding-data-in-juicer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Juicer and Juicebox are tools that allow you to visualise scaffolds and manipulate them.</p>
-<p>These yahs scripts create a file ready for juicer:</p>
+<p><img src="figures/hand_juicer.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><code>Juicer</code> and <code>Juicebox</code> are tools that allow you to visualise scaffolds and manipulate them.</p>
+<p>These <code>yahs</code> scripts create a file ready for <code>juicer</code>:</p>
 <pre><code>juicer pre ${PREFIX}.bin ${PREFIX}_scaffolds_final.agp $REF.fai | \
 sort -k2,2d -k6,6d --parallel=$CPU -S$MEM | \
 awk &#39;NF&#39; &gt; \
@@ -291,14 +294,14 @@ samtools faidx ${PREFIX}_scaffolds_final.fa
 
 cut -f1,2 ${PREFIX}_scaffolds_final.fa.fai &gt; \
 ${PREFIX}_scaffolds_final.fa_chromosome_sizes.txt</code></pre>
-<p>Now run juicer_tools to create a file that can be seen in Juicebox:</p>
+<p>Now run <code>juicer_tools</code> to create a file that can be seen in <code>Juicebox</code>:</p>
 <pre><code>java -jar -Xmx$MEM /pub14/tea/nsc206/jars/juicebox/juicer_tools_2.15.08.jar \
 pre --threads $CPU \
 ${PREFIX}_alignments_sorted.txt \
 ${PREFIX}.hic \
 ${PREFIX}_scaffolds_final.fa_chromosome_sizes.txt</code></pre>
 <p>This step takes ~10 minutes to run.
-When it's finished launch juicebox:</p>
+When it's finished launch <code>juicebox</code>:</p>
 <pre><code>java -jar /pub14/tea/nsc206/jars/juicebox/juicebox_2.15.08.jar</code></pre>
 <p>Go to the top menu File -&gt; Open, click on 'Local', navigate to the your <code>~/eukaryote_assembly/5-scaffolding</code> directory and load purged10m.hic</p>
 <p>You should see something that looks like this:
@@ -307,7 +310,8 @@ When it's finished launch juicebox:</p>
 </div>
 <div id="summary-3" class="section level2 hasAnchor" number="9.5">
 <h2><span class="header-section-number">9.5</span> Summary<a href="09-Scaffolding.html#summary-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Not all examples will work as well as this. But with high quality PacBio Hifi data, and high quality Illumina Hi-C data - and tools like Hifiasm and YAHS, we can often get a reference quality chromosomal level assembly.</p>
+<p><img src="figures/sum_orange.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Not all examples will work as well as this. But with high quality PacBio Hifi data, and high quality Illumina Hi-C data - and tools like <code>Hifiasm</code> and <code>YAHS</code>, we can often get a reference quality chromosomal level assembly.</p>
 
 </div>
 </div>
@@ -317,25 +321,41 @@ When it's finished launch juicebox:</p>
 update_total_correct = function() {
   console.log("webex: update total_correct");
 
-  if (t = document.getElementById("webex-total_correct")) {
-    var correct = document.getElementsByClassName("webex-correct").length;
-    var solvemes = document.getElementsByClassName("webex-solveme").length;
-    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
-    var selects = document.getElementsByClassName("webex-select").length;
-    
-    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
   }
 }
 
 /* webex-solution button toggling function */
 b_func = function() {
   console.log("webex: toggle hide");
-  
+
   var cl = this.parentElement.classList;
   if (cl.contains('open')) {
     cl.remove("open");
   } else {
     cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
   }
 }
 
@@ -389,9 +409,9 @@ solveme_func = function(e) {
 /* function for checking select answers */
 select_func = function(e) {
   console.log("webex: check select");
-  
+
   var cl = this.classList
-  
+
   /* add style */
   cl.remove("webex-incorrect");
   cl.remove("webex-correct");
@@ -400,7 +420,7 @@ select_func = function(e) {
   } else if (this.value != "blank") {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
@@ -411,25 +431,25 @@ radiogroups_func = function(e) {
   var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
   var cl = checked_button.parentElement.classList;
   var labels = checked_button.parentElement.parentElement.children;
-  
+
   /* get rid of styles */
   for (i = 0; i < labels.length; i++) {
     labels[i].classList.remove("webex-incorrect");
     labels[i].classList.remove("webex-correct");
   }
-  
+
   /* add style */
   if (checked_button.value == "answer") {
     cl.add("webex-correct");
   } else {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
 window.onload = function() {
-  console.log("onload");
+  console.log("webex onload");
   /* set up solution buttons */
   var buttons = document.getElementsByTagName("button");
 
@@ -437,6 +457,22 @@ window.onload = function() {
     if (buttons[i].parentElement.classList.contains('webex-solution')) {
       buttons[i].onclick = b_func;
     }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
   }
 
   /* set up webex-solveme inputs */
@@ -464,18 +500,21 @@ window.onload = function() {
     /* attach checking function */
     solveme[i].onkeyup = solveme_func;
     solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
-  
+
   /* set up radiogroups */
   var radiogroups = document.getElementsByClassName("webex-radiogroup");
   for (var i = 0; i < radiogroups.length; i++) {
     radiogroups[i].onchange = radiogroups_func;
   }
-  
+
   /* set up selects */
   var selects = document.getElementsByClassName("webex-select");
   for (var i = 0; i < selects.length; i++) {
     selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
 
   update_total_correct();
