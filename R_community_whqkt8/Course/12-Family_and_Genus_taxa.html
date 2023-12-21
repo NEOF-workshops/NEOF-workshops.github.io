@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-11-27" />
+<meta name="date" content="2023-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -414,7 +414,7 @@ Run this at the bottom of your "3-taxonomy_barchart.ipynb" notebook.</p>
 <p><img src="figures/aggregate_taxa.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>First we will create a <code>phyloseq</code> object by aggregating the families from the relative abundance <code>phyloseq</code> object.
 Let us also then check the family <code>phyloseq</code> object.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="12-Family_and_Genus_taxa.html#cb54-1" tabindex="-1"></a><span class="co">#Family phyloseq</span></span>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb54-1"><a href="12-Family_and_Genus_taxa.html#cb54-1" tabindex="-1"></a><span class="co">#Family phyloseq</span></span>
 <span id="cb54-2"><a href="12-Family_and_Genus_taxa.html#cb54-2" tabindex="-1"></a>family_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_taxa</span>(pseq_relabund, <span class="st">&quot;Family&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb54-3"><a href="12-Family_and_Genus_taxa.html#cb54-3" tabindex="-1"></a><span class="co">#Head of family relative abundance table</span></span>
 <span id="cb54-4"><a href="12-Family_and_Genus_taxa.html#cb54-4" tabindex="-1"></a><span class="fu">head</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(family_pseq))</span>
@@ -434,7 +434,7 @@ By default <code>microbiome::plot_composition()</code> will plot the taxa/famili
 Thankfully we can use the <code>ggplot2()</code> function/component <code>coord_flip()</code> to flip/swap the x and y axes.</p>
 <p><strong>Note</strong>: The <code>xlab()</code> and <code>ylab()</code> are specified the before this flipping.
 E.g. <code>xlab()</code> is set to "Family" which will appear on the y axis because of the flip.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="12-Family_and_Genus_taxa.html#cb55-1" tabindex="-1"></a><span class="co">#Family heatmap</span></span>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb55-1"><a href="12-Family_and_Genus_taxa.html#cb55-1" tabindex="-1"></a><span class="co">#Family heatmap</span></span>
 <span id="cb55-2"><a href="12-Family_and_Genus_taxa.html#cb55-2" tabindex="-1"></a>family_heatmap <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">plot_composition</span>(family_pseq, <span class="at">plot.type =</span> <span class="st">&quot;heatmap&quot;</span>) <span class="sc">+</span></span>
 <span id="cb55-3"><a href="12-Family_and_Genus_taxa.html#cb55-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Family&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Sample&quot;</span>) <span class="sc">+</span></span>
 <span id="cb55-4"><a href="12-Family_and_Genus_taxa.html#cb55-4" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Family relative abundance heatmap&quot;</span>) <span class="sc">+</span></span>
@@ -462,13 +462,13 @@ Twelve is a good number as it is the total number of colours in the Paired palet
 You may need more in your own analysis so it is not a hard limit.</p>
 <p>Therefore, lets try out various thresholds and see how many families we get.
 To get a good idea where to start we can get a summary of the mean relative abundance values of the families.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="12-Family_and_Genus_taxa.html#cb56-1" tabindex="-1"></a><span class="co">#Summary of row means (families) from the family otu table</span></span>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb56-1"><a href="12-Family_and_Genus_taxa.html#cb56-1" tabindex="-1"></a><span class="co">#Summary of row means (families) from the family otu table</span></span>
 <span id="cb56-2"><a href="12-Family_and_Genus_taxa.html#cb56-2" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rowMeans</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(family_pseq)))</span></code></pre></div>
 <p>We have a lot of families so we will want to remove a good amount of them.
 For our first attempt at rare aggregation we will use a value near the 3rd Quartile (0.0021601).
 This will hopefully remove at least 3/4 of the families.</p>
 <p>We'll set up the code a bit differently so we can easily copy and paste it to try out various other values of detection and threshold.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="12-Family_and_Genus_taxa.html#cb57-1" tabindex="-1"></a><span class="co">#Tests</span></span>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb57-1"><a href="12-Family_and_Genus_taxa.html#cb57-1" tabindex="-1"></a><span class="co">#Tests</span></span>
 <span id="cb57-2"><a href="12-Family_and_Genus_taxa.html#cb57-2" tabindex="-1"></a><span class="co">#1</span></span>
 <span id="cb57-3"><a href="12-Family_and_Genus_taxa.html#cb57-3" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fl">0.002</span></span>
 <span id="cb57-4"><a href="12-Family_and_Genus_taxa.html#cb57-4" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">5</span><span class="sc">/</span><span class="dv">100</span></span>
@@ -479,7 +479,7 @@ This will hopefully remove at least 3/4 of the families.</p>
 <span id="cb57-9"><a href="12-Family_and_Genus_taxa.html#cb57-9" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;Detection = &quot;</span>, d, <span class="st">&quot;, Prevalence = &quot;</span>, p,</span>
 <span id="cb57-10"><a href="12-Family_and_Genus_taxa.html#cb57-10" tabindex="-1"></a>       <span class="st">&quot;, Number of families = &quot;</span>, <span class="fu">nrow</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(test_pseq)))</span></code></pre></div>
 <p>That gives us 56 families which is too high for a nice visualisation. We'll therefore try a bunch of trial and error to get 12 families after aggregation.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="12-Family_and_Genus_taxa.html#cb58-1" tabindex="-1"></a><span class="co">#2 Increase prevalence threshold</span></span>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb58-1"><a href="12-Family_and_Genus_taxa.html#cb58-1" tabindex="-1"></a><span class="co">#2 Increase prevalence threshold</span></span>
 <span id="cb58-2"><a href="12-Family_and_Genus_taxa.html#cb58-2" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fl">0.002</span></span>
 <span id="cb58-3"><a href="12-Family_and_Genus_taxa.html#cb58-3" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">/</span><span class="dv">100</span></span>
 <span id="cb58-4"><a href="12-Family_and_Genus_taxa.html#cb58-4" tabindex="-1"></a>test_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_rare</span>(</span>
@@ -520,7 +520,7 @@ This will hopefully remove at least 3/4 of the families.</p>
 <p>Super!
 A Detection threshold of 0.02 and a prevalence threshold of 20/100 gives us 12 families.
 We'll now create a new <code>phyloseq</code> object using this info in a new cell.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="12-Family_and_Genus_taxa.html#cb59-1" tabindex="-1"></a><span class="co">#Aggregate families</span></span>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb59-1"><a href="12-Family_and_Genus_taxa.html#cb59-1" tabindex="-1"></a><span class="co">#Aggregate families</span></span>
 <span id="cb59-2"><a href="12-Family_and_Genus_taxa.html#cb59-2" tabindex="-1"></a>family_rareaggregate_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_rare</span>(</span>
 <span id="cb59-3"><a href="12-Family_and_Genus_taxa.html#cb59-3" tabindex="-1"></a>  pseq_relabund, <span class="at">level =</span> <span class="st">&quot;Family&quot;</span>,</span>
 <span id="cb59-4"><a href="12-Family_and_Genus_taxa.html#cb59-4" tabindex="-1"></a>  <span class="at">detection =</span> <span class="fl">0.02</span>, <span class="at">prevalence =</span> <span class="dv">20</span><span class="sc">/</span><span class="dv">100</span></span>
@@ -533,7 +533,7 @@ One piece of advise is to only change one threshold at a time during your trial 
 <h3><span class="header-section-number">12.1.4</span> Family bar chart<a href="12-Family_and_Genus_taxa.html#family-bar-chart" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><img src="figures/chocolate_bar.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>With our family rare aggregated <code>phyloseq</code> object we'll create a bar chart.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="12-Family_and_Genus_taxa.html#cb60-1" tabindex="-1"></a><span class="co">#Plot</span></span>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb60-1"><a href="12-Family_and_Genus_taxa.html#cb60-1" tabindex="-1"></a><span class="co">#Plot</span></span>
 <span id="cb60-2"><a href="12-Family_and_Genus_taxa.html#cb60-2" tabindex="-1"></a>family_bar <span class="ot">&lt;-</span> </span>
 <span id="cb60-3"><a href="12-Family_and_Genus_taxa.html#cb60-3" tabindex="-1"></a>  microbiome<span class="sc">::</span><span class="fu">plot_composition</span>(family_rareaggregate_pseq,</span>
 <span id="cb60-4"><a href="12-Family_and_Genus_taxa.html#cb60-4" tabindex="-1"></a>                               <span class="co">#otu.sort to sort family by abundance</span></span>
@@ -575,7 +575,7 @@ If your code is different but it works and you understand it then that is fine.<
 <button>
 Aggregate genus and summarise
 </button>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="12-Family_and_Genus_taxa.html#cb61-1" tabindex="-1"></a><span class="co">#Genus phyloseq</span></span>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb61-1"><a href="12-Family_and_Genus_taxa.html#cb61-1" tabindex="-1"></a><span class="co">#Genus phyloseq</span></span>
 <span id="cb61-2"><a href="12-Family_and_Genus_taxa.html#cb61-2" tabindex="-1"></a>genus_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_taxa</span>(pseq_relabund, <span class="st">&quot;Genus&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb61-3"><a href="12-Family_and_Genus_taxa.html#cb61-3" tabindex="-1"></a><span class="co">#Head of genus relative abundance table</span></span>
 <span id="cb61-4"><a href="12-Family_and_Genus_taxa.html#cb61-4" tabindex="-1"></a><span class="fu">head</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(genus_pseq))</span>
@@ -589,7 +589,7 @@ Aggregate genus and summarise
 <button>
 Heatmap
 </button>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="12-Family_and_Genus_taxa.html#cb62-1" tabindex="-1"></a><span class="co">#Genus heatmap</span></span>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb62-1"><a href="12-Family_and_Genus_taxa.html#cb62-1" tabindex="-1"></a><span class="co">#Genus heatmap</span></span>
 <span id="cb62-2"><a href="12-Family_and_Genus_taxa.html#cb62-2" tabindex="-1"></a>genus_heatmap <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">plot_composition</span>(genus_pseq, <span class="at">plot.type =</span> <span class="st">&quot;heatmap&quot;</span>) <span class="sc">+</span></span>
 <span id="cb62-3"><a href="12-Family_and_Genus_taxa.html#cb62-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Genus&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Sample&quot;</span>) <span class="sc">+</span></span>
 <span id="cb62-4"><a href="12-Family_and_Genus_taxa.html#cb62-4" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Genus relative abundance heatmap&quot;</span>) <span class="sc">+</span></span>
@@ -605,9 +605,9 @@ Heatmap
 <button>
 Aggregate rare genus
 </button>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="12-Family_and_Genus_taxa.html#cb63-1" tabindex="-1"></a><span class="co">#Summary of row means (families) from the family otu table</span></span>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb63-1"><a href="12-Family_and_Genus_taxa.html#cb63-1" tabindex="-1"></a><span class="co">#Summary of row means (families) from the family otu table</span></span>
 <span id="cb63-2"><a href="12-Family_and_Genus_taxa.html#cb63-2" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rowMeans</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(genus_pseq)))</span></code></pre></div>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="12-Family_and_Genus_taxa.html#cb64-1" tabindex="-1"></a><span class="co">#Tests</span></span>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb64-1"><a href="12-Family_and_Genus_taxa.html#cb64-1" tabindex="-1"></a><span class="co">#Tests</span></span>
 <span id="cb64-2"><a href="12-Family_and_Genus_taxa.html#cb64-2" tabindex="-1"></a><span class="co">#1</span></span>
 <span id="cb64-3"><a href="12-Family_and_Genus_taxa.html#cb64-3" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fl">0.001</span></span>
 <span id="cb64-4"><a href="12-Family_and_Genus_taxa.html#cb64-4" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">5</span><span class="sc">/</span><span class="dv">100</span></span>
@@ -656,7 +656,7 @@ Aggregate rare genus
 <span id="cb64-47"><a href="12-Family_and_Genus_taxa.html#cb64-47" tabindex="-1"></a></span>
 <span id="cb64-48"><a href="12-Family_and_Genus_taxa.html#cb64-48" tabindex="-1"></a><span class="co">#Remove unwanted test_pseq</span></span>
 <span id="cb64-49"><a href="12-Family_and_Genus_taxa.html#cb64-49" tabindex="-1"></a><span class="fu">rm</span>(test_pseq)</span></code></pre></div>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="12-Family_and_Genus_taxa.html#cb65-1" tabindex="-1"></a><span class="co">#Aggregate genus</span></span>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb65-1"><a href="12-Family_and_Genus_taxa.html#cb65-1" tabindex="-1"></a><span class="co">#Aggregate genus</span></span>
 <span id="cb65-2"><a href="12-Family_and_Genus_taxa.html#cb65-2" tabindex="-1"></a>genus_rareaggregate_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_rare</span>(</span>
 <span id="cb65-3"><a href="12-Family_and_Genus_taxa.html#cb65-3" tabindex="-1"></a>  pseq_relabund, <span class="at">level =</span> <span class="st">&quot;Genus&quot;</span>,</span>
 <span id="cb65-4"><a href="12-Family_and_Genus_taxa.html#cb65-4" tabindex="-1"></a>  <span class="at">detection =</span> <span class="fl">0.006</span>, <span class="at">prevalence =</span> <span class="dv">20</span><span class="sc">/</span><span class="dv">100</span></span>
@@ -666,7 +666,7 @@ Aggregate rare genus
 <button>
 Bar chart
 </button>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="12-Family_and_Genus_taxa.html#cb66-1" tabindex="-1"></a><span class="co">#Plot</span></span>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb66-1"><a href="12-Family_and_Genus_taxa.html#cb66-1" tabindex="-1"></a><span class="co">#Plot</span></span>
 <span id="cb66-2"><a href="12-Family_and_Genus_taxa.html#cb66-2" tabindex="-1"></a>genus_bar <span class="ot">&lt;-</span> </span>
 <span id="cb66-3"><a href="12-Family_and_Genus_taxa.html#cb66-3" tabindex="-1"></a>  microbiome<span class="sc">::</span><span class="fu">plot_composition</span>(genus_rareaggregate_pseq,</span>
 <span id="cb66-4"><a href="12-Family_and_Genus_taxa.html#cb66-4" tabindex="-1"></a>                               <span class="co">#otu.sort to sort genera by abundance</span></span>
@@ -695,25 +695,41 @@ Bar chart
 update_total_correct = function() {
   console.log("webex: update total_correct");
 
-  if (t = document.getElementById("webex-total_correct")) {
-    var correct = document.getElementsByClassName("webex-correct").length;
-    var solvemes = document.getElementsByClassName("webex-solveme").length;
-    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
-    var selects = document.getElementsByClassName("webex-select").length;
-    
-    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
   }
 }
 
 /* webex-solution button toggling function */
 b_func = function() {
   console.log("webex: toggle hide");
-  
+
   var cl = this.parentElement.classList;
   if (cl.contains('open')) {
     cl.remove("open");
   } else {
     cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
   }
 }
 
@@ -767,9 +783,9 @@ solveme_func = function(e) {
 /* function for checking select answers */
 select_func = function(e) {
   console.log("webex: check select");
-  
+
   var cl = this.classList
-  
+
   /* add style */
   cl.remove("webex-incorrect");
   cl.remove("webex-correct");
@@ -778,7 +794,7 @@ select_func = function(e) {
   } else if (this.value != "blank") {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
@@ -789,25 +805,25 @@ radiogroups_func = function(e) {
   var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
   var cl = checked_button.parentElement.classList;
   var labels = checked_button.parentElement.parentElement.children;
-  
+
   /* get rid of styles */
   for (i = 0; i < labels.length; i++) {
     labels[i].classList.remove("webex-incorrect");
     labels[i].classList.remove("webex-correct");
   }
-  
+
   /* add style */
   if (checked_button.value == "answer") {
     cl.add("webex-correct");
   } else {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
 window.onload = function() {
-  console.log("onload");
+  console.log("webex onload");
   /* set up solution buttons */
   var buttons = document.getElementsByTagName("button");
 
@@ -815,6 +831,22 @@ window.onload = function() {
     if (buttons[i].parentElement.classList.contains('webex-solution')) {
       buttons[i].onclick = b_func;
     }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
   }
 
   /* set up webex-solveme inputs */
@@ -842,18 +874,21 @@ window.onload = function() {
     /* attach checking function */
     solveme[i].onkeyup = solveme_func;
     solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
-  
+
   /* set up radiogroups */
   var radiogroups = document.getElementsByClassName("webex-radiogroup");
   for (var i = 0; i < radiogroups.length; i++) {
     radiogroups[i].onchange = radiogroups_func;
   }
-  
+
   /* set up selects */
   var selects = document.getElementsByClassName("webex-select");
   for (var i = 0; i < selects.length; i++) {
     selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
 
   update_total_correct();

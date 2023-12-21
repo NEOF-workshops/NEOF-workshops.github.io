@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-11-27" />
+<meta name="date" content="2023-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -414,7 +414,7 @@ In a perfect example samples from the same group will form clusters that are dis
 <p><img src="figures/books.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>We will use a new notebook called <strong>"6-beta_diversity.ipynb"</strong>.
 Add the following to the top of this new notebook to load the required libraries/packages and data.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="16-Beta.html#cb91-1" tabindex="-1"></a><span class="co">#Libraries</span></span>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb91-1"><a href="16-Beta.html#cb91-1" tabindex="-1"></a><span class="co">#Libraries</span></span>
 <span id="cb91-2"><a href="16-Beta.html#cb91-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
 <span id="cb91-3"><a href="16-Beta.html#cb91-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span>
 <span id="cb91-4"><a href="16-Beta.html#cb91-4" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;IRdisplay&quot;</span>)</span>
@@ -430,7 +430,7 @@ Add the following to the top of this new notebook to load the required libraries
 We'll use the <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">MDS method</a> (AKA PCoA).
 This will be done with the Weighted Unifrac metric as the beta diversity dissimilarity scores.
 This uses the count data along with the phylogenetic distances to calculate pairwise dissimilarity.</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="16-Beta.html#cb92-1" tabindex="-1"></a><span class="co">#Ordinate data</span></span>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb92-1"><a href="16-Beta.html#cb92-1" tabindex="-1"></a><span class="co">#Ordinate data</span></span>
 <span id="cb92-2"><a href="16-Beta.html#cb92-2" tabindex="-1"></a>ord.mds.wunifrac <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">ordinate</span>(pseq_rarefy, <span class="at">method =</span> <span class="st">&quot;MDS&quot;</span>, <span class="at">distance =</span> <span class="st">&quot;wunifrac&quot;</span>)</span></code></pre></div>
 <p>To see the different methods and distances that can be used please try <code>?phyloseq:ordinate</code> and <code>phyloseq::distanceMethodList</code> respectively.
 For more information about the different distances please see the <a href="19-Appendix.html#beta_appendix">APPENDIX</a>.</p>
@@ -442,7 +442,7 @@ For more information about the different distances please see the <a href="19-Ap
 The script below uses <code>phyloseq::plot_ordination()</code> to plot our ordination.
 It needs the <code>phyloseq</code> object used to create the ordination (for the metadata) and the ordination data itself.
 We will add the options <code>color =</code> and <code>shape =</code> to colour the points by site and shape the points by media.</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="16-Beta.html#cb93-1" tabindex="-1"></a><span class="co">#Plot ordination</span></span>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb93-1"><a href="16-Beta.html#cb93-1" tabindex="-1"></a><span class="co">#Plot ordination</span></span>
 <span id="cb93-2"><a href="16-Beta.html#cb93-2" tabindex="-1"></a>nmds.wunifrac <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">plot_ordination</span>(pseq_rarefy, ord.mds.wunifrac,</span>
 <span id="cb93-3"><a href="16-Beta.html#cb93-3" tabindex="-1"></a>                                   <span class="at">color =</span> <span class="st">&quot;site&quot;</span>, <span class="at">shape =</span> <span class="st">&quot;media&quot;</span>)</span>
 <span id="cb93-4"><a href="16-Beta.html#cb93-4" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
@@ -490,13 +490,13 @@ This allows us to determine if the clustering of groups is significant.</p>
 This will help us determine if there are any differences between groupings but not which groupings.
 Prior to PERMANOVA we need to create a matrix containing all the sample paired distance values.
 We will use the function <code>phyloseq::distance()</code>.</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="16-Beta.html#cb94-1" tabindex="-1"></a><span class="co">#PERMANOVA</span></span>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb94-1"><a href="16-Beta.html#cb94-1" tabindex="-1"></a><span class="co">#PERMANOVA</span></span>
 <span id="cb94-2"><a href="16-Beta.html#cb94-2" tabindex="-1"></a><span class="co">#Produce distance matrix</span></span>
 <span id="cb94-3"><a href="16-Beta.html#cb94-3" tabindex="-1"></a>wunifrac_dist_mat <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">distance</span>(pseq_rarefy, <span class="at">method=</span><span class="st">&quot;wunifrac&quot;</span>)</span></code></pre></div>
 <p>With the distance matrix we can carry out a PERMANOVA test with <a href="https://search.r-project.org/CRAN/refmans/vegan/html/adonis.html"><code>vegan::adonis2()</code></a>.
 This requires the metadata in the form of a data frame.
 In this case we can assess if there are any differences by media and by site (<code>media+site</code>).</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="16-Beta.html#cb95-1" tabindex="-1"></a><span class="co">#Extract metadata data frame from phyloseq</span></span>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb95-1"><a href="16-Beta.html#cb95-1" tabindex="-1"></a><span class="co">#Extract metadata data frame from phyloseq</span></span>
 <span id="cb95-2"><a href="16-Beta.html#cb95-2" tabindex="-1"></a>metadf <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq_rarefy))</span>
 <span id="cb95-3"><a href="16-Beta.html#cb95-3" tabindex="-1"></a><span class="co">#PERMANOVA/ADONIS of media and site</span></span>
 <span id="cb95-4"><a href="16-Beta.html#cb95-4" tabindex="-1"></a>wunifrac_adonis <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">adonis2</span>(wunifrac_dist_mat <span class="sc">~</span> media<span class="sc">+</span>site, <span class="at">data =</span> metadf, <span class="at">by =</span> <span class="st">&quot;margin&quot;</span>)</span>
@@ -512,7 +512,7 @@ We can see that significant differences are found within the groups for media (P
 We will do this with pairwise PERMANOVA tests.
 Unfortunately the <code>vegan</code> library does not have a function to do this so we will need to do some scripting.</p>
 <p>The first step is to get every combination of groupings with the <code>combn()</code> and <code>unique()</code> functions.</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="16-Beta.html#cb96-1" tabindex="-1"></a><span class="co">#Pairwise comparisons</span></span>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb96-1"><a href="16-Beta.html#cb96-1" tabindex="-1"></a><span class="co">#Pairwise comparisons</span></span>
 <span id="cb96-2"><a href="16-Beta.html#cb96-2" tabindex="-1"></a><span class="co">#Get combinations of unique media values</span></span>
 <span id="cb96-3"><a href="16-Beta.html#cb96-3" tabindex="-1"></a>cbn <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="at">x =</span> <span class="fu">unique</span>(metadf<span class="sc">$</span>media), <span class="at">m =</span> <span class="dv">2</span>)</span>
 <span id="cb96-4"><a href="16-Beta.html#cb96-4" tabindex="-1"></a>cbn</span>
@@ -523,13 +523,13 @@ Unfortunately the <code>vegan</code> library does not have a function to do this
 <p>For demonstration purposes we will first carry out the pairwise PERMANOVA on the 1st grouping combination.</p>
 <p>With the first media combination (CVP &amp; ENV) we can subset our <code>phyloseq</code> object so it only contains those samples.
 Additionally, we can extract the metadata from this subsetted <code>phyloseq</code> object.</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="16-Beta.html#cb97-1" tabindex="-1"></a><span class="co">#Subset phyloseq so it only contains CVP &amp; ENV samples (1st combination)</span></span>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb97-1"><a href="16-Beta.html#cb97-1" tabindex="-1"></a><span class="co">#Subset phyloseq so it only contains CVP &amp; ENV samples (1st combination)</span></span>
 <span id="cb97-2"><a href="16-Beta.html#cb97-2" tabindex="-1"></a>pseq_rarefy_subset <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">subset_samples</span>(pseq_rarefy, media <span class="sc">%in%</span> cbn[,<span class="dv">1</span>])</span>
 <span id="cb97-3"><a href="16-Beta.html#cb97-3" tabindex="-1"></a><span class="co">#Metadata data frame</span></span>
 <span id="cb97-4"><a href="16-Beta.html#cb97-4" tabindex="-1"></a>metadf_subset <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq_rarefy_subset))</span>
 <span id="cb97-5"><a href="16-Beta.html#cb97-5" tabindex="-1"></a>metadf_subset</span></code></pre></div>
 <p>With this info we can calculate the distances and then carry out the PERMANOVA.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="16-Beta.html#cb98-1" tabindex="-1"></a><span class="co">#Weighted unifrac distance calculation</span></span>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb98-1"><a href="16-Beta.html#cb98-1" tabindex="-1"></a><span class="co">#Weighted unifrac distance calculation</span></span>
 <span id="cb98-2"><a href="16-Beta.html#cb98-2" tabindex="-1"></a>wunifrac_dist_mat <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">distance</span>(pseq_rarefy_subset, <span class="at">method=</span><span class="st">&quot;wunifrac&quot;</span>)</span>
 <span id="cb98-3"><a href="16-Beta.html#cb98-3" tabindex="-1"></a><span class="co">#PERMANOVA/ADONIS of media</span></span>
 <span id="cb98-4"><a href="16-Beta.html#cb98-4" tabindex="-1"></a>wunifrac_pairwise_adonis <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">adonis2</span>(wunifrac_dist_mat <span class="sc">~</span> media, <span class="at">data =</span> metadf_subset, <span class="at">by =</span> <span class="st">&quot;margin&quot;</span>)</span>
@@ -543,7 +543,7 @@ We will therefore create a script with a loop to automatically run the code for 
 Additionally, we will create an empty data frame before the loop.
 This will be used to store the comparison info and the P-values.</p>
 <p>Create the below script in a new code block, reading the annotation to help understand how it works.</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="16-Beta.html#cb99-1" tabindex="-1"></a><span class="co">#Pairwise comparison loop</span></span>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb99-1"><a href="16-Beta.html#cb99-1" tabindex="-1"></a><span class="co">#Pairwise comparison loop</span></span>
 <span id="cb99-2"><a href="16-Beta.html#cb99-2" tabindex="-1"></a><span class="co">#Get combinations of unique media values</span></span>
 <span id="cb99-3"><a href="16-Beta.html#cb99-3" tabindex="-1"></a>cbn <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="at">x =</span> <span class="fu">unique</span>(metadf<span class="sc">$</span>media), <span class="at">m =</span> <span class="dv">2</span>)</span>
 <span id="cb99-4"><a href="16-Beta.html#cb99-4" tabindex="-1"></a><span class="co">#Create empty final data frame with 4 columns</span></span>
@@ -575,7 +575,7 @@ You may have noticed that the <code>p.adj</code> column is empty.
 We will add adjusted P-values to these columns.
 It is always important to use adjusted P-values when carrying out multiple significant tests such as with pairwise comparisons.
 We'll use the function <code>p.adjust()</code> to add Benjamin-Hochberg (<code>method = "BH"</code>) adjusted values values.</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="16-Beta.html#cb100-1" tabindex="-1"></a><span class="co">#Add adjusted P-values</span></span>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb100-1"><a href="16-Beta.html#cb100-1" tabindex="-1"></a><span class="co">#Add adjusted P-values</span></span>
 <span id="cb100-2"><a href="16-Beta.html#cb100-2" tabindex="-1"></a>pairwise_permanova_df<span class="sc">$</span>p.adj <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(pairwise_permanova_df<span class="sc">$</span>p, <span class="at">method =</span> <span class="st">&quot;BH&quot;</span>)</span>
 <span id="cb100-3"><a href="16-Beta.html#cb100-3" tabindex="-1"></a><span class="co">#View data frame</span></span>
 <span id="cb100-4"><a href="16-Beta.html#cb100-4" tabindex="-1"></a>pairwise_permanova_df</span>
@@ -595,7 +595,7 @@ However, it is hard to see the separation of the CVP and KBC samples in the MDS 
 <p>The <a href="https://ggforce.data-imaginist.com/index.html"><code>ggforce</code> library</a> is a very powerful library to edit <code>ggplot2</code> objects.
 One of its functions, <code>ggforce::facet_zoom()</code>, allows us to zoom into a specific part of a plot whilst also showing the main plot.
 We will use this to zoom into the CVP and KBC samples within the weighted unifrac MDS plot.</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="16-Beta.html#cb101-1" tabindex="-1"></a><span class="co">#Ordinate data</span></span>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb101-1"><a href="16-Beta.html#cb101-1" tabindex="-1"></a><span class="co">#Ordinate data</span></span>
 <span id="cb101-2"><a href="16-Beta.html#cb101-2" tabindex="-1"></a>ord.mds.wunifrac <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">ordinate</span>(pseq_rarefy, <span class="at">method =</span> <span class="st">&quot;MDS&quot;</span>, <span class="at">distance =</span> <span class="st">&quot;wunifrac&quot;</span>)</span>
 <span id="cb101-3"><a href="16-Beta.html#cb101-3" tabindex="-1"></a><span class="co">#Plot ordination</span></span>
 <span id="cb101-4"><a href="16-Beta.html#cb101-4" tabindex="-1"></a>nmds.wunifrac <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">plot_ordination</span>(pseq_rarefy, ord.mds.wunifrac,</span>
@@ -621,7 +621,7 @@ There are various resources in the <a href="19-Appendix.html#ggplot2_appendix">A
 <p>Another plot we can quickly make is to subset the <code>phyloseq</code> object to remove the ENV samples.
 The ENV samples are causing the biggest difference between the samples.
 To see the differences between the 3 media it will be good to remove it and produce an ordination plot.</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="16-Beta.html#cb102-1" tabindex="-1"></a><span class="co">#Subset phyloseq to remove ENV samples</span></span>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb102-1"><a href="16-Beta.html#cb102-1" tabindex="-1"></a><span class="co">#Subset phyloseq to remove ENV samples</span></span>
 <span id="cb102-2"><a href="16-Beta.html#cb102-2" tabindex="-1"></a>pseq_rarefy_no_env <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">subset_samples</span>(pseq_rarefy, media <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CVP&quot;</span>,<span class="st">&quot;KBC&quot;</span>,<span class="st">&quot;TSA&quot;</span>))</span>
 <span id="cb102-3"><a href="16-Beta.html#cb102-3" tabindex="-1"></a><span class="co">#Ordinate data</span></span>
 <span id="cb102-4"><a href="16-Beta.html#cb102-4" tabindex="-1"></a>ord.mds.wunifrac <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">ordinate</span>(pseq_rarefy_no_env, <span class="at">method =</span> <span class="st">&quot;MDS&quot;</span>, <span class="at">distance =</span> <span class="st">&quot;wunifrac&quot;</span>)</span>
@@ -652,7 +652,7 @@ I highly encourage you to copy, paste, and edit previous code you have created.<
 <button>
 Site PERMANOVA solution
 </button>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="16-Beta.html#cb103-1" tabindex="-1"></a><span class="co">#Pairwise comparison loop</span></span>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb103-1"><a href="16-Beta.html#cb103-1" tabindex="-1"></a><span class="co">#Pairwise comparison loop</span></span>
 <span id="cb103-2"><a href="16-Beta.html#cb103-2" tabindex="-1"></a><span class="co">#Get combinations of unique site values</span></span>
 <span id="cb103-3"><a href="16-Beta.html#cb103-3" tabindex="-1"></a>cbn <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="at">x =</span> <span class="fu">unique</span>(metadf<span class="sc">$</span>site), <span class="at">m =</span> <span class="dv">2</span>)</span>
 <span id="cb103-4"><a href="16-Beta.html#cb103-4" tabindex="-1"></a><span class="co">#Create empty final data frame with 4 columns</span></span>
@@ -692,7 +692,7 @@ Use the <code>site.media</code> metadata category to carry out pairwise PERMANOV
 <button>
 Site and media PERMANOVA solution
 </button>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="16-Beta.html#cb104-1" tabindex="-1"></a><span class="co">#Pairwise comparison loop</span></span>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb104-1"><a href="16-Beta.html#cb104-1" tabindex="-1"></a><span class="co">#Pairwise comparison loop</span></span>
 <span id="cb104-2"><a href="16-Beta.html#cb104-2" tabindex="-1"></a><span class="co">#Get combinations of unique site &amp; media values</span></span>
 <span id="cb104-3"><a href="16-Beta.html#cb104-3" tabindex="-1"></a>cbn <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="at">x =</span> <span class="fu">unique</span>(metadf<span class="sc">$</span>site.media), <span class="at">m =</span> <span class="dv">2</span>)</span>
 <span id="cb104-4"><a href="16-Beta.html#cb104-4" tabindex="-1"></a><span class="co">#Create empty final data frame with 4 columns</span></span>
@@ -767,25 +767,41 @@ Let's try to figure out which taxa are affected in which ways.</p>
 update_total_correct = function() {
   console.log("webex: update total_correct");
 
-  if (t = document.getElementById("webex-total_correct")) {
-    var correct = document.getElementsByClassName("webex-correct").length;
-    var solvemes = document.getElementsByClassName("webex-solveme").length;
-    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
-    var selects = document.getElementsByClassName("webex-select").length;
-    
-    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
   }
 }
 
 /* webex-solution button toggling function */
 b_func = function() {
   console.log("webex: toggle hide");
-  
+
   var cl = this.parentElement.classList;
   if (cl.contains('open')) {
     cl.remove("open");
   } else {
     cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
   }
 }
 
@@ -839,9 +855,9 @@ solveme_func = function(e) {
 /* function for checking select answers */
 select_func = function(e) {
   console.log("webex: check select");
-  
+
   var cl = this.classList
-  
+
   /* add style */
   cl.remove("webex-incorrect");
   cl.remove("webex-correct");
@@ -850,7 +866,7 @@ select_func = function(e) {
   } else if (this.value != "blank") {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
@@ -861,25 +877,25 @@ radiogroups_func = function(e) {
   var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
   var cl = checked_button.parentElement.classList;
   var labels = checked_button.parentElement.parentElement.children;
-  
+
   /* get rid of styles */
   for (i = 0; i < labels.length; i++) {
     labels[i].classList.remove("webex-incorrect");
     labels[i].classList.remove("webex-correct");
   }
-  
+
   /* add style */
   if (checked_button.value == "answer") {
     cl.add("webex-correct");
   } else {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
 window.onload = function() {
-  console.log("onload");
+  console.log("webex onload");
   /* set up solution buttons */
   var buttons = document.getElementsByTagName("button");
 
@@ -887,6 +903,22 @@ window.onload = function() {
     if (buttons[i].parentElement.classList.contains('webex-solution')) {
       buttons[i].onclick = b_func;
     }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
   }
 
   /* set up webex-solveme inputs */
@@ -914,18 +946,21 @@ window.onload = function() {
     /* attach checking function */
     solveme[i].onkeyup = solveme_func;
     solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
-  
+
   /* set up radiogroups */
   var radiogroups = document.getElementsByClassName("webex-radiogroup");
   for (var i = 0; i < radiogroups.length; i++) {
     radiogroups[i].onchange = radiogroups_func;
   }
-  
+
   /* set up selects */
   var selects = document.getElementsByClassName("webex-select");
   for (var i = 0; i < selects.length; i++) {
     selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
 
   update_total_correct();

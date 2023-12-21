@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-11-27" />
+<meta name="date" content="2023-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -403,7 +403,7 @@ Please make your own decision if you want to do this or not in your own analysis
 <p><img src="figures/library_1.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>We will use a new notebook called <strong>"4-rarefaction.ipynb"</strong>.
 Add the following to the top of this new notebook to load the required libraries/packages and data.</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="14-Rarefaction.html#cb67-1" tabindex="-1"></a><span class="co">#Libraries</span></span>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb67-1"><a href="14-Rarefaction.html#cb67-1" tabindex="-1"></a><span class="co">#Libraries</span></span>
 <span id="cb67-2"><a href="14-Rarefaction.html#cb67-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
 <span id="cb67-3"><a href="14-Rarefaction.html#cb67-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span>
 <span id="cb67-4"><a href="14-Rarefaction.html#cb67-4" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;vegan&quot;</span>)</span>
@@ -503,7 +503,7 @@ table below:</p>
 <pre><code>## Loading required package: permute</code></pre>
 <pre><code>## Loading required package: lattice</code></pre>
 <pre><code>## This is vegan 2.6-4</code></pre>
-<p><img src="R-community-analysis_files/figure-html/unnamed-chunk-175-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="R-community-analysis_files/figure-html/unnamed-chunk-176-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>In this case we can be fairly confident that seven days is enough to find all the birds we can in the Old Lords wood (green).
 I.e. the sampling depth is enough.
 Just like bird watching, it is very hard to find all the species present in a sample with metabarcoding or shotgun metagenomics.
@@ -517,7 +517,7 @@ This can be caused by our barcodes not picking up all species, our sampling wasn
 <p><img src="figures/crayon.png" width="15%" style="display: block; margin: auto;" /></p>
 <p>We'll use <code>vegan</code> to create our rarefaction curve like we did in
 <a href="09-Minimum_read_depth.html#chap9rarefaction">Chapter 9</a>.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="14-Rarefaction.html#cb71-1" tabindex="-1"></a><span class="co">#Extract ASV table as data frame</span></span>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb71-1"><a href="14-Rarefaction.html#cb71-1" tabindex="-1"></a><span class="co">#Extract ASV table as data frame</span></span>
 <span id="cb71-2"><a href="14-Rarefaction.html#cb71-2" tabindex="-1"></a>asv_abund_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq)))</span>
 <span id="cb71-3"><a href="14-Rarefaction.html#cb71-3" tabindex="-1"></a><span class="co">#Rarefaction curve</span></span>
 <span id="cb71-4"><a href="14-Rarefaction.html#cb71-4" tabindex="-1"></a><span class="co">#Save as png file</span></span>
@@ -551,7 +551,7 @@ how many ASVs were discovered at the sampling depth.</li>
 <p>We will initially use our minimum sample depth as our rarefaction/sampling depth.
 This is a good idea if it seems like a good amount as it will allow us to keep all our samples after rarefaction.
 Any samples with a lower depth than are final rarefaction size will be removed.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="14-Rarefaction.html#cb72-1" tabindex="-1"></a><span class="co">#Improved plot saved as file</span></span>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb72-1"><a href="14-Rarefaction.html#cb72-1" tabindex="-1"></a><span class="co">#Improved plot saved as file</span></span>
 <span id="cb72-2"><a href="14-Rarefaction.html#cb72-2" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;./rarefaction_plot.png&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
 <span id="cb72-3"><a href="14-Rarefaction.html#cb72-3" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">300</span>)</span>
 <span id="cb72-4"><a href="14-Rarefaction.html#cb72-4" tabindex="-1"></a><span class="co">#Plot</span></span>
@@ -576,7 +576,7 @@ This can be seen in the sample with the highest number of ASVs where 5-20 more A
 A slope of 0 shows a flat horizontal line (what we want).
 A slope of 1 shows a flat vertical line (not what we want).</p>
 <p>To get the slope of each sample we will use <code>vegan::rareslope()</code>.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="14-Rarefaction.html#cb73-1" tabindex="-1"></a><span class="co">#Rarefaction slopes</span></span>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb73-1"><a href="14-Rarefaction.html#cb73-1" tabindex="-1"></a><span class="co">#Rarefaction slopes</span></span>
 <span id="cb73-2"><a href="14-Rarefaction.html#cb73-2" tabindex="-1"></a>rarefaction_slopes <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">rareslope</span>(</span>
 <span id="cb73-3"><a href="14-Rarefaction.html#cb73-3" tabindex="-1"></a>  <span class="at">x =</span> asv_abund_df, <span class="at">sample =</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq))</span>
 <span id="cb73-4"><a href="14-Rarefaction.html#cb73-4" tabindex="-1"></a>)</span>
@@ -596,16 +596,16 @@ A slope of 1 shows a flat vertical line (not what we want).</p>
 <p>With the calculated slopes attempt the following questions:</p>
 <ol style="list-style-type: decimal">
 <li>Which sample has the largest slope value?
-<div id="radio_ZGBDDEOZSV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZGBDDEOZSV" value=""></input> <span><strong>UD_ENV_rep2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZGBDDEOZSV" value="answer"></input> <span><strong>MD_ENV_rep3</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZGBDDEOZSV" value=""></input> <span><strong>LD_CVP_rep1</strong></span></label>
+<div id="radio_CFOBXOKUCL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CFOBXOKUCL" value=""></input> <span><strong>UD_ENV_rep2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CFOBXOKUCL" value="answer"></input> <span><strong>MD_ENV_rep3</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CFOBXOKUCL" value=""></input> <span><strong>LD_CVP_rep1</strong></span></label>
 </div></li>
 <li>Which sample has the lowest slope value?
-<div id="radio_DZAZPQQXII" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DZAZPQQXII" value=""></input> <span><strong>UD_ENV_rep2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DZAZPQQXII" value=""></input> <span><strong>MD_ENV_rep3</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DZAZPQQXII" value="answer"></input> <span><strong>LD_CVP_rep1</strong></span></label>
+<div id="radio_CGFGNLZMDP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CGFGNLZMDP" value=""></input> <span><strong>UD_ENV_rep2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CGFGNLZMDP" value=""></input> <span><strong>MD_ENV_rep3</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CGFGNLZMDP" value="answer"></input> <span><strong>LD_CVP_rep1</strong></span></label>
 </div></li>
 <li>Which samples have larger slope values; the environmental samples or media samples?
-<div id="radio_JRHNVJTEYJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_JRHNVJTEYJ" value="answer"></input> <span><strong>Environmental</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JRHNVJTEYJ" value=""></input> <span><strong>Media</strong></span></label>
+<div id="radio_ZDBSKRUFGF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZDBSKRUFGF" value="answer"></input> <span><strong>Environmental</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZDBSKRUFGF" value=""></input> <span><strong>Media</strong></span></label>
 </div></li>
 </ol>
 <p>Overall the slopes values are low (&lt;0.01).
@@ -620,7 +620,7 @@ It keeps all the samples and at this depth the samples have a very good coverage
 This is represented by the good plateauing in the rarefaction plot and the low valued slopes (&lt;0.01).
 In your own analyses you may need to balance the loss of samples with the loss of depth.</p>
 <p>With that decision we will rarefy our data to the minimum depth.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="14-Rarefaction.html#cb74-1" tabindex="-1"></a><span class="co">#Rarefy to minimum depth</span></span>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb74-1"><a href="14-Rarefaction.html#cb74-1" tabindex="-1"></a><span class="co">#Rarefy to minimum depth</span></span>
 <span id="cb74-2"><a href="14-Rarefaction.html#cb74-2" tabindex="-1"></a>pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(</span>
 <span id="cb74-3"><a href="14-Rarefaction.html#cb74-3" tabindex="-1"></a>  pseq, <span class="at">sample.size =</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq)),</span>
 <span id="cb74-4"><a href="14-Rarefaction.html#cb74-4" tabindex="-1"></a>  <span class="at">rngseed =</span> <span class="dv">1000</span></span>
@@ -637,7 +637,7 @@ In your own analyses you may need to balance the loss of samples with the loss o
 </ul></li>
 </ul>
 <p>As always, it is useful to check our data.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="14-Rarefaction.html#cb75-1" tabindex="-1"></a><span class="co">#Summarise and check sample counts which should each amount to 10433 (min depth)</span></span>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb75-1"><a href="14-Rarefaction.html#cb75-1" tabindex="-1"></a><span class="co">#Summarise and check sample counts which should each amount to 10433 (min depth)</span></span>
 <span id="cb75-2"><a href="14-Rarefaction.html#cb75-2" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(pseq_rarefy)</span>
 <span id="cb75-3"><a href="14-Rarefaction.html#cb75-3" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq_rarefy)</span>
 <span id="cb75-4"><a href="14-Rarefaction.html#cb75-4" tabindex="-1"></a><span class="co">#ASV counts</span></span>
@@ -647,7 +647,7 @@ In your own analyses you may need to balance the loss of samples with the loss o
 <p>With this we can see that all our samples have the correct depth (10,433) and very few ASVs have been lost (2551-2498 = 53).
 I would definetly be happy with this outcome.</p>
 <p>Once you have viewed the outputs save your <code>phyloseq</code> object and ASV count vector.</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="14-Rarefaction.html#cb76-1" tabindex="-1"></a><span class="co">#Phyloseq save</span></span>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb76-1"><a href="14-Rarefaction.html#cb76-1" tabindex="-1"></a><span class="co">#Phyloseq save</span></span>
 <span id="cb76-2"><a href="14-Rarefaction.html#cb76-2" tabindex="-1"></a><span class="fu">save</span>(pseq_rarefy, <span class="at">file =</span><span class="st">&quot;phyloseq_rarefied.RData&quot;</span>)</span>
 <span id="cb76-3"><a href="14-Rarefaction.html#cb76-3" tabindex="-1"></a><span class="co">#ASV count save</span></span>
 <span id="cb76-4"><a href="14-Rarefaction.html#cb76-4" tabindex="-1"></a><span class="fu">save</span>(num_asvs_vec, <span class="at">file=</span><span class="st">&quot;num_asvs_vec.v2.RData&quot;</span>)</span></code></pre></div>
@@ -671,25 +671,41 @@ I would definetly be happy with this outcome.</p>
 update_total_correct = function() {
   console.log("webex: update total_correct");
 
-  if (t = document.getElementById("webex-total_correct")) {
-    var correct = document.getElementsByClassName("webex-correct").length;
-    var solvemes = document.getElementsByClassName("webex-solveme").length;
-    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
-    var selects = document.getElementsByClassName("webex-select").length;
-    
-    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
   }
 }
 
 /* webex-solution button toggling function */
 b_func = function() {
   console.log("webex: toggle hide");
-  
+
   var cl = this.parentElement.classList;
   if (cl.contains('open')) {
     cl.remove("open");
   } else {
     cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
   }
 }
 
@@ -743,9 +759,9 @@ solveme_func = function(e) {
 /* function for checking select answers */
 select_func = function(e) {
   console.log("webex: check select");
-  
+
   var cl = this.classList
-  
+
   /* add style */
   cl.remove("webex-incorrect");
   cl.remove("webex-correct");
@@ -754,7 +770,7 @@ select_func = function(e) {
   } else if (this.value != "blank") {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
@@ -765,25 +781,25 @@ radiogroups_func = function(e) {
   var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
   var cl = checked_button.parentElement.classList;
   var labels = checked_button.parentElement.parentElement.children;
-  
+
   /* get rid of styles */
   for (i = 0; i < labels.length; i++) {
     labels[i].classList.remove("webex-incorrect");
     labels[i].classList.remove("webex-correct");
   }
-  
+
   /* add style */
   if (checked_button.value == "answer") {
     cl.add("webex-correct");
   } else {
     cl.add("webex-incorrect");
   }
-  
+
   update_total_correct();
 }
 
 window.onload = function() {
-  console.log("onload");
+  console.log("webex onload");
   /* set up solution buttons */
   var buttons = document.getElementsByTagName("button");
 
@@ -791,6 +807,22 @@ window.onload = function() {
     if (buttons[i].parentElement.classList.contains('webex-solution')) {
       buttons[i].onclick = b_func;
     }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
   }
 
   /* set up webex-solveme inputs */
@@ -818,18 +850,21 @@ window.onload = function() {
     /* attach checking function */
     solveme[i].onkeyup = solveme_func;
     solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
-  
+
   /* set up radiogroups */
   var radiogroups = document.getElementsByClassName("webex-radiogroup");
   for (var i = 0; i < radiogroups.length; i++) {
     radiogroups[i].onchange = radiogroups_func;
   }
-  
+
   /* set up selects */
   var selects = document.getElementsByClassName("webex-select");
   for (var i = 0; i < selects.length; i++) {
     selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
   }
 
   update_total_correct();
