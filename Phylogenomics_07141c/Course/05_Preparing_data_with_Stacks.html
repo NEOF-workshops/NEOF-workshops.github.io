@@ -263,14 +263,17 @@ It also offers the choice of assembling loci using a reference genome, through a
 <p>Before we run <code>process_radtags</code>, create a directory to receive the demultiplexed data:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb17-1"><a href="05_Preparing_data_with_Stacks.html#cb17-1" tabindex="-1"></a><span class="fu">mkdir</span> working_data</span></code></pre></div>
 <p>We can now execute <code>process_radtags</code>. The command below contains arguments specific to the way this library was indexed. The Stacks <a href="http://catchenlab.life.illinois.edu/stacks/comp/process_radtags.php">website</a> and <a href="http://catchenlab.life.illinois.edu/stacks/manual/">manual</a> provide detailed examples of code for dealing with various indexing schemas and barcode combinations for single- and paired-end reads. In this case, the library was indexed and each sample is identified using a combination of two different barcodes, which are included in the P1 and the P2 adapters, respectively. The barcoded P1 adapter is appended to the start of the sequence that becomes the R1 read and the barcoded P2 adapter to the start of the R2 read. However, the full sequencing output has already undergone one demultiplexing step, using the P2 barcodes, as they came off the sequencer, and these read files and samples were all indexed with the same P2 barcode. This barcode is now included in the sequence index line (sequence header) in the fastq file, as we noted in the previous chapter.</p>
+<p>We can also inspect the sequence data itself to see the barcodes.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb18-1"><a href="05_Preparing_data_with_Stacks.html#cb18-1" tabindex="-1"></a><span class="fu">zcat</span> Lib01_001_R1.fastq.gz <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;TGCA&quot;</span></span></code></pre></div>
+<p>I this command, we are using <code>zcat</code> as before, piping the output and then using <code>grep</code> (for "grab regular expression"), which is essentially a search function that will pull out each line in the file that contains our search term <code>TGCA</code>. This is the enzyme cutsite overhang for the restriction enzyme <em>SbfI</em>. This overhand is where the the P1 adapter is ligated to start the R1 read. The cutsite should may be bolded or in colour in your output. Most of the matches will be near the start of the sequences, but there may be other random nucleotide stretches "deeper" in the sequences. The nucleotides to the left of those near the start are our barcodes and those to the right are the sequence data of the RADtag fragment.</p>
 <p>The following command will demultiplex these read files:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb18-1"><a href="05_Preparing_data_with_Stacks.html#cb18-1" tabindex="-1"></a><span class="ex">process_radtags</span> <span class="at">-1</span> raw_data/Lib1_001_R1.fastq.gz <span class="dt">\</span></span>
-<span id="cb18-2"><a href="05_Preparing_data_with_Stacks.html#cb18-2" tabindex="-1"></a>-2 raw_data/Lib1_001_R2.fastq.gz <span class="dt">\</span></span>
-<span id="cb18-3"><a href="05_Preparing_data_with_Stacks.html#cb18-3" tabindex="-1"></a>-P <span class="at">-i</span> gzfastq <span class="dt">\</span></span>
-<span id="cb18-4"><a href="05_Preparing_data_with_Stacks.html#cb18-4" tabindex="-1"></a>-b raw_data/manta_samples.barcodes <span class="dt">\</span></span>
-<span id="cb18-5"><a href="05_Preparing_data_with_Stacks.html#cb18-5" tabindex="-1"></a>-o working_data/ <span class="dt">\</span></span>
-<span id="cb18-6"><a href="05_Preparing_data_with_Stacks.html#cb18-6" tabindex="-1"></a>--inline-index <span class="at">--renz_1</span> sbfI <span class="at">--filter_illumina</span> <span class="dt">\</span></span>
-<span id="cb18-7"><a href="05_Preparing_data_with_Stacks.html#cb18-7" tabindex="-1"></a>-c <span class="at">-q</span> <span class="at">-r</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb19-1"><a href="05_Preparing_data_with_Stacks.html#cb19-1" tabindex="-1"></a><span class="ex">process_radtags</span> <span class="at">-1</span> raw_data/Lib1_001_R1.fastq.gz <span class="dt">\</span></span>
+<span id="cb19-2"><a href="05_Preparing_data_with_Stacks.html#cb19-2" tabindex="-1"></a>-2 raw_data/Lib1_001_R2.fastq.gz <span class="dt">\</span></span>
+<span id="cb19-3"><a href="05_Preparing_data_with_Stacks.html#cb19-3" tabindex="-1"></a>-P <span class="at">-i</span> gzfastq <span class="dt">\</span></span>
+<span id="cb19-4"><a href="05_Preparing_data_with_Stacks.html#cb19-4" tabindex="-1"></a>-b raw_data/manta_samples.barcodes <span class="dt">\</span></span>
+<span id="cb19-5"><a href="05_Preparing_data_with_Stacks.html#cb19-5" tabindex="-1"></a>-o working_data/ <span class="dt">\</span></span>
+<span id="cb19-6"><a href="05_Preparing_data_with_Stacks.html#cb19-6" tabindex="-1"></a>--inline-index <span class="at">--renz_1</span> sbfI <span class="at">--filter_illumina</span> <span class="dt">\</span></span>
+<span id="cb19-7"><a href="05_Preparing_data_with_Stacks.html#cb19-7" tabindex="-1"></a>-c <span class="at">-q</span> <span class="at">-r</span></span></code></pre></div>
 <p>In this instance, the arguments used are:</p>
 <ul>
 <li><code>-1</code> and <code>-2</code> specify the path to and the names of the raw R1 and R2 sequence data files, respectively.</li>
@@ -289,20 +292,20 @@ It also offers the choice of assembling loci using a reference genome, through a
 <p>Execute the script (it should take about a minute to run), and let's consider the terminal output.</p>
 <ol style="list-style-type: decimal">
 <li>How many reads were retained and assigned to individual samples?
-<div id="radio_MMSMUVJLCP" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MMSMUVJLCP" value=""></input> <span>40739</span></label><label><input type="radio" autocomplete="off" name="radio_MMSMUVJLCP" value=""></input> <span>61572</span></label><label><input type="radio" autocomplete="off" name="radio_MMSMUVJLCP" value="answer"></input> <span>392829</span></label><label><input type="radio" autocomplete="off" name="radio_MMSMUVJLCP" value=""></input> <span>500000</span></label>
+<div id="radio_WRYAKQDZYU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WRYAKQDZYU" value=""></input> <span>40739</span></label><label><input type="radio" autocomplete="off" name="radio_WRYAKQDZYU" value=""></input> <span>61572</span></label><label><input type="radio" autocomplete="off" name="radio_WRYAKQDZYU" value="answer"></input> <span>392829</span></label><label><input type="radio" autocomplete="off" name="radio_WRYAKQDZYU" value=""></input> <span>500000</span></label>
 </div></li>
 <li>What percentage of reads where not assigned because the RAD cutsite (the correct overhang for enzyme <em>SbfI</em>) could not be found?
-<div id="radio_VUMSKDPVVU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_VUMSKDPVVU" value=""></input> <span>0%</span></label><label><input type="radio" autocomplete="off" name="radio_VUMSKDPVVU" value=""></input> <span>1.1%</span></label><label><input type="radio" autocomplete="off" name="radio_VUMSKDPVVU" value="answer"></input> <span>8.0%</span></label><label><input type="radio" autocomplete="off" name="radio_VUMSKDPVVU" value=""></input> <span>12.3%</span></label>
+<div id="radio_GTFFSQGWTJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GTFFSQGWTJ" value=""></input> <span>0%</span></label><label><input type="radio" autocomplete="off" name="radio_GTFFSQGWTJ" value=""></input> <span>1.1%</span></label><label><input type="radio" autocomplete="off" name="radio_GTFFSQGWTJ" value="answer"></input> <span>8.0%</span></label><label><input type="radio" autocomplete="off" name="radio_GTFFSQGWTJ" value=""></input> <span>12.3%</span></label>
 </div></li>
 <li>What percentage of reads failed to pass the quality filters and were discarded?
-<div id="radio_INWIIPGOBC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_INWIIPGOBC" value=""></input> <span>0.0%</span></label><label><input type="radio" autocomplete="off" name="radio_INWIIPGOBC" value="answer"></input> <span>0.4%</span></label><label><input type="radio" autocomplete="off" name="radio_INWIIPGOBC" value=""></input> <span>8.0%</span></label><label><input type="radio" autocomplete="off" name="radio_INWIIPGOBC" value=""></input> <span>13.0%</span></label>
+<div id="radio_ECZWJQNXXT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ECZWJQNXXT" value=""></input> <span>0.0%</span></label><label><input type="radio" autocomplete="off" name="radio_ECZWJQNXXT" value="answer"></input> <span>0.4%</span></label><label><input type="radio" autocomplete="off" name="radio_ECZWJQNXXT" value=""></input> <span>8.0%</span></label><label><input type="radio" autocomplete="off" name="radio_ECZWJQNXXT" value=""></input> <span>13.0%</span></label>
 </div></li>
 <li>What percentage of the (500 000) reads were not assigned because the barcodes in the sequence could not be matched to any in the barcode file?
-<div id="radio_GUWDTUJKNN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_GUWDTUJKNN" value=""></input> <span>0%</span></label><label><input type="radio" autocomplete="off" name="radio_GUWDTUJKNN" value=""></input> <span>1.1%</span></label><label><input type="radio" autocomplete="off" name="radio_GUWDTUJKNN" value=""></input> <span>8%</span></label><label><input type="radio" autocomplete="off" name="radio_GUWDTUJKNN" value="answer"></input> <span>13.0%</span></label>
+<div id="radio_IGVSEDDUKQ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_IGVSEDDUKQ" value=""></input> <span>0%</span></label><label><input type="radio" autocomplete="off" name="radio_IGVSEDDUKQ" value=""></input> <span>1.1%</span></label><label><input type="radio" autocomplete="off" name="radio_IGVSEDDUKQ" value=""></input> <span>8%</span></label><label><input type="radio" autocomplete="off" name="radio_IGVSEDDUKQ" value="answer"></input> <span>13.0%</span></label>
 </div></li>
 </ol>
 <div class="webex-solution">
@@ -312,10 +315,10 @@ Why do you think these barcodes were not found?
 <p>Remember that many (up to 96) individuals were multiplexed and included in this pair of read files. We have only specified a few (25) of the potential barcode combinations to identify samples, in order to keep the processing time short for the workshop. We have also thinned the data set.</p>
 </div>
 <p>We can peek into the 'working_data' directory to see what files were produced, and also have look at the <code>process_radtags</code> log, which will give us more detailed information on how the reads were demultiplexed.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb19-1"><a href="05_Preparing_data_with_Stacks.html#cb19-1" tabindex="-1"></a><span class="co"># List the contents of the &#39;working_data&#39; subdirectory</span></span>
-<span id="cb19-2"><a href="05_Preparing_data_with_Stacks.html#cb19-2" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> working_data</span>
-<span id="cb19-3"><a href="05_Preparing_data_with_Stacks.html#cb19-3" tabindex="-1"></a><span class="co"># View the contents of the &#39;process_radtags&#39; log</span></span>
-<span id="cb19-4"><a href="05_Preparing_data_with_Stacks.html#cb19-4" tabindex="-1"></a><span class="fu">less</span> working_data/process_radtags.raw_data.log</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb20-1"><a href="05_Preparing_data_with_Stacks.html#cb20-1" tabindex="-1"></a><span class="co"># List the contents of the &#39;working_data&#39; subdirectory</span></span>
+<span id="cb20-2"><a href="05_Preparing_data_with_Stacks.html#cb20-2" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> working_data</span>
+<span id="cb20-3"><a href="05_Preparing_data_with_Stacks.html#cb20-3" tabindex="-1"></a><span class="co"># View the contents of the &#39;process_radtags&#39; log</span></span>
+<span id="cb20-4"><a href="05_Preparing_data_with_Stacks.html#cb20-4" tabindex="-1"></a><span class="fu">less</span> working_data/process_radtags.raw_data.log</span></code></pre></div>
 <p>For each sample (ours are identified by a number), four gzipped fastq sequence files were produced. The 'Sample'.1.fq.gz and 'Sample'.2.fq.gz files contain the paired forward and reverse reads, respectively, that were assigned to that sample. The 'Sample'.rem.1.fq.gz includes the forward reads that were assigned to that sample, but the matching reverse reads could not be assigned or were discarded because of quality issues, and <em>vice versa</em> for 'Sample'.rem.2.fq.gz. We normally would not need these 'remainder' files again.</p>
 <p>The <code>process_radtags</code> log expands the summary that we saw in the terminal and indicates at a sample or barcode-combination level how many reads were retained or lost/unassigned because of quality or mismatched barcodes and enzyme cutsites. It also lists and counts potential barcodes that were observed in the data, given the mismatching limits we specified, that were not listed or assigned in the barcode file.</p>
 <p>If you need to demultiplex several pairs of read files, as you typically would in a RADseq study, the Appendix gives some guidance on how to do this with loops. With our sequence data demultiplexed and assigned to samples, we can now begin to reconstruct loci and call our SNPs.</p>
@@ -326,23 +329,23 @@ Why do you think these barcodes were not found?
 <p>We'll use the Stacks pipeline <code>denovo_map.pl</code> to reconstruct loci, identify variants and prepare data for downstream analysis. This pipeline combines several of the core modules of Stacks in a single execution. These modules are 'ustacks', which "stacks" up sequence reads to identify alleles and compile loci in individual samples, 'cstacks', which combines the loci from each of the individuals into a catalogue of loci for all the included samples, 'sstacks', which refers the samples back to the catalogue to identify shared loci, and 'tvs2bam', which then transposes the data from being arranged by sample to being arranged by locus. It then uses 'gstacks' to create contigs from paired-end reads, call SNPs and, importantly for phylogenetic applications, compile and combine the SNPs into haplotypes. The 'populations' module is used to generate some basic population-level summary and diversity statistics, which are probably more relevant for population genomics, but this module is also used to prepare files for other applications (which we will do below), and is included in the pipeline by default as a filtering tool and as a controller for which samples are processed down the pipeline.</p>
 <p>For demonstrating <code>denovo_map.pl</code>, we'll use a subset of five samples from the Hosegood <em>et al.</em> (2020) study. These have already been demultiplexed and quality-filtered in <code>process_radtags</code>.</p>
 <p>Navigate to the directory where this data are located.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb20-1"><a href="05_Preparing_data_with_Stacks.html#cb20-1" tabindex="-1"></a><span class="bu">cd</span> ~/phylogenomics/demultiplexed_data</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb21-1"><a href="05_Preparing_data_with_Stacks.html#cb21-1" tabindex="-1"></a><span class="bu">cd</span> ~/phylogenomics/demultiplexed_data</span></code></pre></div>
 <p>List the files that are present:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb21-1"><a href="05_Preparing_data_with_Stacks.html#cb21-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb22-1"><a href="05_Preparing_data_with_Stacks.html#cb22-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span></code></pre></div>
 <p>You should see 10 fastq files, the R1 ('.1.fq.gz') and R2 ('.2.fq.gz') reads for each of five samples, and a 'popmap' (populations map) file ('5samples.popmap').</p>
 <p>Have a look at the 'popmap' file:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb22-1"><a href="05_Preparing_data_with_Stacks.html#cb22-1" tabindex="-1"></a><span class="fu">less</span> 5samples.popmap</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb23-1"><a href="05_Preparing_data_with_Stacks.html#cb23-1" tabindex="-1"></a><span class="fu">less</span> 5samples.popmap</span></code></pre></div>
 <p>This is also a tab-delimited file, with the names of the sequence files (without the R1, R2, 1 or 2 indicators, and without file extensions) of the samples that we want to analyse in the left column, and a second column on the right for assigning these samples to populations or species. These assignments are important for the calculation of statistics in the 'populations' module, defining units for downstream analysis and implementing data filtering options. Here, the population map contains five individuals, each representing a different species of <em>Mobula</em>.</p>
 <p>We can now create a directory to receive the output...</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb23-1"><a href="05_Preparing_data_with_Stacks.html#cb23-1" tabindex="-1"></a><span class="fu">mkdir</span> ../denovo_map</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb24-1"><a href="05_Preparing_data_with_Stacks.html#cb24-1" tabindex="-1"></a><span class="fu">mkdir</span> ../denovo_map</span></code></pre></div>
 <p>...and execute the pipeline:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb24-1"><a href="05_Preparing_data_with_Stacks.html#cb24-1" tabindex="-1"></a><span class="ex">denovo_map.pl</span> <span class="at">--samples</span> . <span class="dt">\</span></span>
-<span id="cb24-2"><a href="05_Preparing_data_with_Stacks.html#cb24-2" tabindex="-1"></a>--popmap 5samples.popmap <span class="dt">\</span></span>
-<span id="cb24-3"><a href="05_Preparing_data_with_Stacks.html#cb24-3" tabindex="-1"></a>-o ../denovo_map/  <span class="dt">\</span></span>
-<span id="cb24-4"><a href="05_Preparing_data_with_Stacks.html#cb24-4" tabindex="-1"></a>-T 8 <span class="at">-d</span> <span class="dt">\</span></span>
-<span id="cb24-5"><a href="05_Preparing_data_with_Stacks.html#cb24-5" tabindex="-1"></a>-M 3 <span class="at">-n</span> 3 <span class="dt">\</span></span>
-<span id="cb24-6"><a href="05_Preparing_data_with_Stacks.html#cb24-6" tabindex="-1"></a>-p 1 <span class="at">-r</span> 1 <span class="dt">\</span></span>
-<span id="cb24-7"><a href="05_Preparing_data_with_Stacks.html#cb24-7" tabindex="-1"></a>--paired </span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb25-1"><a href="05_Preparing_data_with_Stacks.html#cb25-1" tabindex="-1"></a><span class="ex">denovo_map.pl</span> <span class="at">--samples</span> . <span class="dt">\</span></span>
+<span id="cb25-2"><a href="05_Preparing_data_with_Stacks.html#cb25-2" tabindex="-1"></a>--popmap 5samples.popmap <span class="dt">\</span></span>
+<span id="cb25-3"><a href="05_Preparing_data_with_Stacks.html#cb25-3" tabindex="-1"></a>-o ../denovo_map/  <span class="dt">\</span></span>
+<span id="cb25-4"><a href="05_Preparing_data_with_Stacks.html#cb25-4" tabindex="-1"></a>-T 8 <span class="at">-d</span> <span class="dt">\</span></span>
+<span id="cb25-5"><a href="05_Preparing_data_with_Stacks.html#cb25-5" tabindex="-1"></a>-M 3 <span class="at">-n</span> 3 <span class="dt">\</span></span>
+<span id="cb25-6"><a href="05_Preparing_data_with_Stacks.html#cb25-6" tabindex="-1"></a>-p 1 <span class="at">-r</span> 1 <span class="dt">\</span></span>
+<span id="cb25-7"><a href="05_Preparing_data_with_Stacks.html#cb25-7" tabindex="-1"></a>--paired </span></code></pre></div>
 <p>Was this successful? Did it look like all the expected information appeared as output in the terminal?</p>
 <p>Let's take a look at the arguments we used in this script:</p>
 <ul>
@@ -357,11 +360,11 @@ Why do you think these barcodes were not found?
 </ul>
 <p><strong>Importantly</strong>,
 - <code>-d</code>: 'Dry run' gives you the option of checking whether the command will execute without actually processing any of your called data, allowing you to check for typos, incorrect paths or any other errors. <code>denovo_map.pl</code> is the most time-consuming of the processes we can run in Stacks, and it is good to see that it is working properly before committing time to it. You can check the 'denovo_map.log' for errors and issues, although the output to the terminal should have indicated these.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb25-1"><a href="05_Preparing_data_with_Stacks.html#cb25-1" tabindex="-1"></a><span class="fu">less</span> ../denovo_map/denovo_map.log</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb26-1"><a href="05_Preparing_data_with_Stacks.html#cb26-1" tabindex="-1"></a><span class="fu">less</span> ../denovo_map/denovo_map.log</span></code></pre></div>
 <p>Now, remove <code>-d</code> from the code above and execute it again. <strong>Remember</strong> that you can use the up key to scroll through your Linux history to save you from retyping code.</p>
 <p>Now would be a good time to go make yourself a cup of tea; it will take Stacks about 12 minutes to take the set of sample data sequentially through the different modules. As each module executes, a report for each sample will be sent to the terminal.</p>
 <p>Once this is done, we can have a look at the files that <code>denovo_map.pl</code> produces.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb26-1"><a href="05_Preparing_data_with_Stacks.html#cb26-1" tabindex="-1"></a><span class="fu">ls</span> ../denovo_map</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb27-1"><a href="05_Preparing_data_with_Stacks.html#cb27-1" tabindex="-1"></a><span class="fu">ls</span> ../denovo_map</span></code></pre></div>
 <p>For each of our samples, four '.tsv.gz' (tab-delimited) output files are produced. These contain:
 1) The alleles that are constructed from each RADtag locus ('XXX.alleles.tsv.gz'),
 2) The assembled loci for each sample ('XXX.tags.tsv.gz'),
@@ -369,18 +372,18 @@ Why do you think these barcodes were not found?
 4) and the final SNP genotype calls ('XXX.snps.tsv.gz').
 You can consult the Stacks <a href="https://catchenlab.life.illinois.edu/stacks/manual/index.php#files">manual</a> to see exactly what information is contained in each.</p>
 <p>There are also individual log files for each of the Stacks modules, which are synthesised in the 'denovo_map.log'. There are a few things that we would want to note or consider from this output. These may determine how we proceed with our analyses. A few MCQs will guide you through these.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb27-1"><a href="05_Preparing_data_with_Stacks.html#cb27-1" tabindex="-1"></a><span class="fu">less</span> ../denovo_map/denovo_map.log</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb28-1"><a href="05_Preparing_data_with_Stacks.html#cb28-1" tabindex="-1"></a><span class="fu">less</span> ../denovo_map/denovo_map.log</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>What is the lowest depth of coverage for our samples? (Scroll to the bottom of the <code>ustacks</code> section)
-<div id="radio_XLEPDLVBVQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XLEPDLVBVQ" value=""></input> <span>231.19x</span></label><label><input type="radio" autocomplete="off" name="radio_XLEPDLVBVQ" value=""></input> <span>140.44x</span></label><label><input type="radio" autocomplete="off" name="radio_XLEPDLVBVQ" value=""></input> <span>99.05x</span></label><label><input type="radio" autocomplete="off" name="radio_XLEPDLVBVQ" value="answer"></input> <span>45.78x</span></label><label><input type="radio" autocomplete="off" name="radio_XLEPDLVBVQ" value=""></input> <span>37.49x</span></label>
+<div id="radio_KGDWGTBISP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KGDWGTBISP" value=""></input> <span>231.19x</span></label><label><input type="radio" autocomplete="off" name="radio_KGDWGTBISP" value=""></input> <span>140.44x</span></label><label><input type="radio" autocomplete="off" name="radio_KGDWGTBISP" value=""></input> <span>99.05x</span></label><label><input type="radio" autocomplete="off" name="radio_KGDWGTBISP" value="answer"></input> <span>45.78x</span></label><label><input type="radio" autocomplete="off" name="radio_KGDWGTBISP" value=""></input> <span>37.49x</span></label>
 </div></li>
 </ol>
 <p>As a rule of thumb, we would like at least 30x depth coverage for SNP genotyping in a typical spatial population genomics study and higher coverage for the accuracy needed to build high-resolution pedigrees. For a phylogenomic study, this would also depend on the taxonomic scope and sampling. The coverage in this case is excellent for these samples.</p>
 <ol start="2" style="list-style-type: decimal">
 <li>How many loci are in the catalogue? (Scroll to the bottom of the <code>cstacks</code> section).
-<div id="radio_FQAUJGFKXH" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FQAUJGFKXH" value=""></input> <span>5612</span></label><label><input type="radio" autocomplete="off" name="radio_FQAUJGFKXH" value="answer"></input> <span>27619</span></label><label><input type="radio" autocomplete="off" name="radio_FQAUJGFKXH" value=""></input> <span>52291</span></label><label><input type="radio" autocomplete="off" name="radio_FQAUJGFKXH" value=""></input> <span>75125</span></label>
+<div id="radio_DUNTTPFRJU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DUNTTPFRJU" value=""></input> <span>5612</span></label><label><input type="radio" autocomplete="off" name="radio_DUNTTPFRJU" value="answer"></input> <span>27619</span></label><label><input type="radio" autocomplete="off" name="radio_DUNTTPFRJU" value=""></input> <span>52291</span></label><label><input type="radio" autocomplete="off" name="radio_DUNTTPFRJU" value=""></input> <span>75125</span></label>
 </div></li>
 </ol>
 <p>These represent the total number of loci present across all five samples, before one starts filtering to see which are shared among different sample combinations. With more divergent taxa added to the set of samples, we may see many more loci in the catalogue (depending, of course, on our sequencing yield and coverage), but we may see a large attrition of data that can actually be informative.</p>
@@ -389,10 +392,10 @@ You can consult the Stacks <a href="https://catchenlab.life.illinois.edu/stacks/
 <h2><span class="header-section-number">5.4</span> Preparing a sequence alignment file in <code>populations</code><a href="05_Preparing_data_with_Stacks.html#preparing-a-sequence-alignment-file-in-populations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We'll use the 'populations' module of Stacks to produce Phylip files for downstream analysis. This data format was developed for the programme <a href="https://evolution.genetics.washington.edu/phylip/general.html">PHYLIP</a>, and is a common format for all forms of phylogenetic data and accepted by many applications. While the 'populations' module and the filtering and file-creation arguments can be included directly in the <code>denovo_map.pl</code> bash script above, we'll use the 'populations' module separately to demonstrate the effect of two different filtering strategies. The choice between these two (or of any other along a continuum) will depend on your study, research questions, taxonomic sampling and the data itself.</p>
 <p>In the first instance, we will minimise the missing data in our data matrix by only including SNPs that are found in all our taxa. The script is as follows:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb28-1"><a href="05_Preparing_data_with_Stacks.html#cb28-1" tabindex="-1"></a><span class="ex">populations</span> <span class="at">-P</span> ../denovo_map/ <span class="at">-M</span> 5samples.popmap <span class="dt">\ </span></span>
-<span id="cb28-2"><a href="05_Preparing_data_with_Stacks.html#cb28-2" tabindex="-1"></a><span class="ex">-t</span> 8 <span class="at">-p</span> 5 <span class="at">-R</span> 1.0 <span class="dt">\</span></span>
-<span id="cb28-3"><a href="05_Preparing_data_with_Stacks.html#cb28-3" tabindex="-1"></a>--write-single-snp</span>
-<span id="cb28-4"><a href="05_Preparing_data_with_Stacks.html#cb28-4" tabindex="-1"></a><span class="ex">--phylip</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb29-1"><a href="05_Preparing_data_with_Stacks.html#cb29-1" tabindex="-1"></a><span class="ex">populations</span> <span class="at">-P</span> ../denovo_map/ <span class="at">-M</span> 5samples.popmap <span class="dt">\ </span></span>
+<span id="cb29-2"><a href="05_Preparing_data_with_Stacks.html#cb29-2" tabindex="-1"></a><span class="ex">-t</span> 8 <span class="at">-p</span> 5 <span class="at">-R</span> 1.0 <span class="dt">\</span></span>
+<span id="cb29-3"><a href="05_Preparing_data_with_Stacks.html#cb29-3" tabindex="-1"></a>--write-single-snp</span>
+<span id="cb29-4"><a href="05_Preparing_data_with_Stacks.html#cb29-4" tabindex="-1"></a><span class="ex">--phylip</span></span></code></pre></div>
 <p>In this command,</p>
 <ul>
 <li><code>-P</code> indicates the path to where the files were saved by <code>process_radtags.pl</code> above.</li>
@@ -403,20 +406,20 @@ You can consult the Stacks <a href="https://catchenlab.life.illinois.edu/stacks/
 <li><code>--phylip</code> specifies the output format. This particular argument will include SNPs in the haplotype that are fixed within populations (i.e., species here), but variable between them. Other options allow for including sites that are variable between, as well as within populations (<code>--phylip-var</code>), or all sequences and variable sites (<code>--phylip-var-all</code>).
 Take a look at the Phylip file that was produced. An explanation and example of the Phylip format can be found <a href="https://rosalind.info/glossary/phylip-format/">here</a>.</li>
 </ul>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb29-1"><a href="05_Preparing_data_with_Stacks.html#cb29-1" tabindex="-1"></a><span class="fu">less</span> ../denovo_map/populations.fixed.phylip</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb30-1"><a href="05_Preparing_data_with_Stacks.html#cb30-1" tabindex="-1"></a><span class="fu">less</span> ../denovo_map/populations.fixed.phylip</span></code></pre></div>
 How many SNP characters are in the data matrix and present in all five taxa?
-<div id="radio_IBDPJCPBDB" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_IBDPJCPBDB" value=""></input> <span>5</span></label><label><input type="radio" autocomplete="off" name="radio_IBDPJCPBDB" value="answer"></input> <span>1677</span></label><label><input type="radio" autocomplete="off" name="radio_IBDPJCPBDB" value=""></input> <span>2517</span></label><label><input type="radio" autocomplete="off" name="radio_IBDPJCPBDB" value=""></input> <span>8435</span></label>
+<div id="radio_TFDPVLGODH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TFDPVLGODH" value=""></input> <span>5</span></label><label><input type="radio" autocomplete="off" name="radio_TFDPVLGODH" value="answer"></input> <span>1677</span></label><label><input type="radio" autocomplete="off" name="radio_TFDPVLGODH" value=""></input> <span>2517</span></label><label><input type="radio" autocomplete="off" name="radio_TFDPVLGODH" value=""></input> <span>8435</span></label>
 </div>
 <p>In the second scenario, we'll attempt to maximise the number of loci in the data matrix, but this could introduce a lot of missing data:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb30-1"><a href="05_Preparing_data_with_Stacks.html#cb30-1" tabindex="-1"></a><span class="ex">populations</span> <span class="at">-P</span> ../denovo_map/ <span class="at">-M</span> 5samples.popmap <span class="dt">\</span></span>
-<span id="cb30-2"><a href="05_Preparing_data_with_Stacks.html#cb30-2" tabindex="-1"></a>-t 8 <span class="at">-p</span> 2 <span class="at">-R</span> 0.4 <span class="dt">\</span></span>
-<span id="cb30-3"><a href="05_Preparing_data_with_Stacks.html#cb30-3" tabindex="-1"></a>--write-single-snp</span>
-<span id="cb30-4"><a href="05_Preparing_data_with_Stacks.html#cb30-4" tabindex="-1"></a><span class="ex">--phylip</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb31-1"><a href="05_Preparing_data_with_Stacks.html#cb31-1" tabindex="-1"></a><span class="ex">populations</span> <span class="at">-P</span> ../denovo_map/ <span class="at">-M</span> 5samples.popmap <span class="dt">\</span></span>
+<span id="cb31-2"><a href="05_Preparing_data_with_Stacks.html#cb31-2" tabindex="-1"></a>-t 8 <span class="at">-p</span> 2 <span class="at">-R</span> 0.4 <span class="dt">\</span></span>
+<span id="cb31-3"><a href="05_Preparing_data_with_Stacks.html#cb31-3" tabindex="-1"></a>--write-single-snp</span>
+<span id="cb31-4"><a href="05_Preparing_data_with_Stacks.html#cb31-4" tabindex="-1"></a><span class="ex">--phylip</span></span></code></pre></div>
 <p>Here, we have specified that a locus only needs to be present in two individuals or species (<code>-p 2</code>) and in 40% (<code>-R 0.4</code>) of the overall sample (i.e., those two individuals) to be included. Once executed, open the Phylip file. You can use the same code as above, as the previous output will be overwritten.</p>
 How many SNP characters are included in the data matrix now?
-<div id="radio_QKVLTFVQNL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_QKVLTFVQNL" value=""></input> <span>5</span></label><label><input type="radio" autocomplete="off" name="radio_QKVLTFVQNL" value=""></input> <span>1678</span></label><label><input type="radio" autocomplete="off" name="radio_QKVLTFVQNL" value=""></input> <span>2517</span></label><label><input type="radio" autocomplete="off" name="radio_QKVLTFVQNL" value="answer"></input> <span>8436</span></label>
+<div id="radio_BWJVZJPNLZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BWJVZJPNLZ" value=""></input> <span>5</span></label><label><input type="radio" autocomplete="off" name="radio_BWJVZJPNLZ" value=""></input> <span>1678</span></label><label><input type="radio" autocomplete="off" name="radio_BWJVZJPNLZ" value=""></input> <span>2517</span></label><label><input type="radio" autocomplete="off" name="radio_BWJVZJPNLZ" value="answer"></input> <span>8436</span></label>
 </div>
 <p>Now that we have compiled the Phylip data matrix, we will proceed with generating, investigating and further interrogating phylogenetic trees.</p>
 <p>If you are interested in exploring SNP identification, variant calling, genotyping, variant filtering and subsetting further, consider registering for the NEOF Population Genomics course. Please visit the <a href="https://neof.org.uk/training/">NEOF Training website</a> periodically to see what courses are on offer.</p>
