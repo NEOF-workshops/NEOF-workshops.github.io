@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Species delimitation with the Multispecies Coalescent | Phylogenomics</title>
+  <meta name="description" content="NEOF book for the Phylogenomics workshop" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 Species delimitation with the Multispecies Coalescent | Phylogenomics" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the Phylogenomics workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 Species delimitation with the Multispecies Coalescent | Phylogenomics" />
+  
+  <meta name="twitter:description" content="NEOF book for the Phylogenomics workshop" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Gavin Gouws, Matthew Gemmell, Helen Hipperson, Ewan Harney, Kathryn Maher" />
+
+
+<meta name="date" content="2024-01-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="08-Dating_phylogenies.html"/>
+<link rel="next" href="10-Appendix.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
+<li><a>Phylogenomics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="01-Intro.html"><a href="01-Intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="02-Background.html"><a href="02-Background.html"><i class="fa fa-check"></i><b>2</b> Background</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-Background.html"><a href="02-Background.html#example-data-ddradseq-data-of-manta-and-devil-rays"><i class="fa fa-check"></i><b>2.1</b> Example data: ddRADseq data of manta and devil rays</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html"><i class="fa fa-check"></i><b>3</b> Cluster Introduction</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#logon-instructions"><i class="fa fa-check"></i><b>3.1</b> Logon instructions</a></li>
+<li class="chapter" data-level="3.2" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#the-terminal-window"><i class="fa fa-check"></i><b>3.2</b> The Terminal Window</a></li>
+<li class="chapter" data-level="3.3" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#accessing-the-example-data"><i class="fa fa-check"></i><b>3.3</b> Accessing the example data</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="04-Quality_Control.html"><a href="04-Quality_Control.html"><i class="fa fa-check"></i><b>4</b> Quality Control</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-Quality_Control.html"><a href="04-Quality_Control.html#workshop-data"><i class="fa fa-check"></i><b>4.1</b> Workshop data</a></li>
+<li class="chapter" data-level="4.2" data-path="04-Quality_Control.html"><a href="04-Quality_Control.html#manta--and-devil-ray-ddrad-data-set"><i class="fa fa-check"></i><b>4.2</b> Manta- and devil-ray ddRAD data set</a></li>
+<li class="chapter" data-level="4.3" data-path="04-Quality_Control.html"><a href="04-Quality_Control.html#quality-assessment"><i class="fa fa-check"></i><b>4.3</b> Quality assessment</a></li>
+<li class="chapter" data-level="4.4" data-path="04-Quality_Control.html"><a href="04-Quality_Control.html#quality-control"><i class="fa fa-check"></i><b>4.4</b> Quality Control</a></li>
+<li class="chapter" data-level="4.5" data-path="04-Quality_Control.html"><a href="04-Quality_Control.html#post-qc-check"><i class="fa fa-check"></i><b>4.5</b> Post QC Check</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="05_Preparing_data_with_Stacks.html"><a href="05_Preparing_data_with_Stacks.html"><i class="fa fa-check"></i><b>5</b> Preparing data in Stacks</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05_Preparing_data_with_Stacks.html"><a href="05_Preparing_data_with_Stacks.html#stacks-1"><i class="fa fa-check"></i><b>5.1</b> Stacks</a></li>
+<li class="chapter" data-level="5.2" data-path="05_Preparing_data_with_Stacks.html"><a href="05_Preparing_data_with_Stacks.html#demultiplexing-data-with-process_radtags"><i class="fa fa-check"></i><b>5.2</b> Demultiplexing data with <code>process_radtags</code></a></li>
+<li class="chapter" data-level="5.3" data-path="05_Preparing_data_with_Stacks.html"><a href="05_Preparing_data_with_Stacks.html#building-the-catalogue-loci-with-denovo_map.pl"><i class="fa fa-check"></i><b>5.3</b> Building the catalogue loci with <code>denovo_map.pl</code></a></li>
+<li class="chapter" data-level="5.4" data-path="05_Preparing_data_with_Stacks.html"><a href="05_Preparing_data_with_Stacks.html#preparing-a-sequence-alignment-file-in-populations"><i class="fa fa-check"></i><b>5.4</b> Preparing a sequence alignment file in <code>populations</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="06-Phylogeny.html"><a href="06-Phylogeny.html"><i class="fa fa-check"></i><b>6</b> Model selection, tree reconstruction and support evaluation</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="06-Phylogeny.html"><a href="06-Phylogeny.html#estimating-a-best-fit-model-of-nucleotide-or-sequence-evolution"><i class="fa fa-check"></i><b>6.1</b> Estimating a best-fit model of nucleotide or sequence evolution</a></li>
+<li class="chapter" data-level="6.2" data-path="06-Phylogeny.html"><a href="06-Phylogeny.html#constructing-a-maximum-likelihood-phylogenetic-tree"><i class="fa fa-check"></i><b>6.2</b> Constructing a maximum-likelihood phylogenetic tree</a></li>
+<li class="chapter" data-level="6.3" data-path="06-Phylogeny.html"><a href="06-Phylogeny.html#calculating-nodal-support"><i class="fa fa-check"></i><b>6.3</b> Calculating nodal support</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="07-Topology_testing.html"><a href="07-Topology_testing.html"><i class="fa fa-check"></i><b>7</b> Hypothesis and topology testing</a></li>
+<li class="chapter" data-level="8" data-path="08-Dating_phylogenies.html"><a href="08-Dating_phylogenies.html"><i class="fa fa-check"></i><b>8</b> Dating phylogenies</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="08-Dating_phylogenies.html"><a href="08-Dating_phylogenies.html#setting-up-the-date-file"><i class="fa fa-check"></i><b>8.1</b> Setting up the date file</a></li>
+<li class="chapter" data-level="8.2" data-path="08-Dating_phylogenies.html"><a href="08-Dating_phylogenies.html#running-the-analysis"><i class="fa fa-check"></i><b>8.2</b> Running the analysis</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="08-Dating_phylogenies.html"><a href="08-Dating_phylogenies.html#dating-our-tree"><i class="fa fa-check"></i><b>8.2.1</b> Dating our tree</a></li>
+<li class="chapter" data-level="8.2.2" data-path="08-Dating_phylogenies.html"><a href="08-Dating_phylogenies.html#getting-confidence-intervals-around-our-dates"><i class="fa fa-check"></i><b>8.2.2</b> Getting confidence intervals around our dates</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="09-Delimiting_species.html"><a href="09-Delimiting_species.html"><i class="fa fa-check"></i><b>9</b> Species delimitation with the Multispecies Coalescent</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="09-Delimiting_species.html"><a href="09-Delimiting_species.html#beast2"><i class="fa fa-check"></i><b>9.1</b> beast2</a></li>
+<li class="chapter" data-level="9.2" data-path="09-Delimiting_species.html"><a href="09-Delimiting_species.html#gene-tree---species-tree-conflicts"><i class="fa fa-check"></i><b>9.2</b> Gene tree - species tree conflicts</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="09-Delimiting_species.html"><a href="09-Delimiting_species.html#setting-up-the-analysis"><i class="fa fa-check"></i><b>9.2.1</b> Setting up the analysis</a></li>
+<li class="chapter" data-level="9.2.2" data-path="09-Delimiting_species.html"><a href="09-Delimiting_species.html#starting-the-analysis"><i class="fa fa-check"></i><b>9.2.2</b> Starting the analysis</a></li>
+<li class="chapter" data-level="9.2.3" data-path="09-Delimiting_species.html"><a href="09-Delimiting_species.html#examining-the-results"><i class="fa fa-check"></i><b>9.2.3</b> Examining the results</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="09-Delimiting_species.html"><a href="09-Delimiting_species.html#bayes-factor-delimitation"><i class="fa fa-check"></i><b>9.3</b> Bayes Factor Delimitation</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="09-Delimiting_species.html"><a href="09-Delimiting_species.html#setting-up-the-analysis-1"><i class="fa fa-check"></i><b>9.3.1</b> Setting up the analysis</a></li>
+<li class="chapter" data-level="9.3.2" data-path="09-Delimiting_species.html"><a href="09-Delimiting_species.html#running-the-analysis-1"><i class="fa fa-check"></i><b>9.3.2</b> Running the analysis</a></li>
+<li class="chapter" data-level="9.3.3" data-path="09-Delimiting_species.html"><a href="09-Delimiting_species.html#selecting-the-taxonomic-hypothesis"><i class="fa fa-check"></i><b>9.3.3</b> Selecting the taxonomic hypothesis</a></li>
+</ul></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="10-Appendix.html"><a href="10-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="10-Appendix.html"><a href="10-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>A.1</b> Mamba installation and environment</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="10-Appendix.html"><a href="10-Appendix.html#loops"><i class="fa fa-check"></i><b>B</b> Wildcards and loops</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="10-Appendix.html"><a href="10-Appendix.html#a-simple-wildcard"><i class="fa fa-check"></i><b>B.1</b> A simple wildcard</a></li>
+<li class="chapter" data-level="B.2" data-path="10-Appendix.html"><a href="10-Appendix.html#loops-1"><i class="fa fa-check"></i><b>B.2</b> Loops</a>
+<ul>
+<li class="chapter" data-level="B.2.1" data-path="10-Appendix.html"><a href="10-Appendix.html#an-example-of-a-simple-loop"><i class="fa fa-check"></i><b>B.2.1</b> An example of a simple loop</a></li>
+<li class="chapter" data-level="B.2.2" data-path="10-Appendix.html"><a href="10-Appendix.html#stacks-process_radtags-loop-example"><i class="fa fa-check"></i><b>B.2.2</b> Stacks <code>process_radtags</code> loop example</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="10-Appendix.html"><a href="10-Appendix.html#optimising-loci-reconstruction-in-denovo_map.pl-in-stacks"><i class="fa fa-check"></i><b>C</b> Optimising loci reconstruction in <code>denovo_map.pl</code> in Stacks</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Phylogenomics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="MSC" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Species delimitation with the Multispecies Coalescent<a href="09-Delimiting_species.html#MSC" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/beast2.png" width="15%" style="display: block; margin: auto;" /></p>
+<div id="beast2" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> beast2<a href="09-Delimiting_species.html#beast2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this section, we are going to use <a href="http://www.beast2.org/">beast2 ('Bayesian evolutionary analsis by sampling trees')</a> to explore species delimitation and taxonomic hypotheses further through the Multispecies Coalescent (MSC). beast2 is a large, but versatile, package that applies Bayesian approaches in a multitude of different phylogenetic, demographic and species delimitation analyses. Many different add-ons or plug-ins, such as those that we will be using, are developed and maintained separate to the main package.</p>
+<p>We'll conduct two different analyses, both using the add-on package SNAPP (SNP and AFLP Package for Phylogenetic analysis). More information on the package can be found <a href="https://www.beast2.org/snapp/">here</a>. We will also need the plug-in MODEL-SELECTOR. These have already been installed on the webVNC.</p>
+<p><img src="figures/snapp.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>INSERT A LITTLE BACKGROUND TO THE MSC</p>
+<p>The application of the MSC used in SNAPP is based on an algorithm developed by <a href="https://academic.oup.com/mbe/article/29/8/1917/1045283">Bryant et al. (2012)</a> specifically for biallelic markers that allows the inference of a species tree directly from the markers themselves. It evaluates lineage and allele probabilities on a tree directly, rather than imputing a gene-tree for each marker and then integrating these individual trees, which is computationally-demanding for many genomic data sets. The key assumptions are that the markers are biallelic and the genealogies of each marker are independent (i.e., the markers are unlinked). The vast majority of our SNP markers are be biallelic, and we'll assume they are unlinked, given that we only used one SNP from each RADtag when compiling the data.</p>
+</div>
+<div id="gene-tree---species-tree-conflicts" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Gene tree - species tree conflicts<a href="09-Delimiting_species.html#gene-tree---species-tree-conflicts" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We'll first use SNAPP to examine gene tree - species tree conflicts or concordance. This will be particularly useful to determine whether taxonomic separation mirrors actual divergence replicated across many markers or whether there are conflicting, alternative relationships from the underlying "gene trees". It provides a picture of the uncertainty of the topology of the "true" species tree. The underlying conflicts could result from incomplete lineage sorting, hybridization, introgression, horizontal gene transfer, gene duplication or some analytical artifacts. It provides another means to assess the confidence we have in our species tree, our taxonomy (or another hypothesis we are testing) and provides some nice figures for publication or animations for presentations!</p>
+<div id="setting-up-the-analysis" class="section level3 hasAnchor" number="9.2.1">
+<h3><span class="header-section-number">9.2.1</span> Setting up the analysis<a href="09-Delimiting_species.html#setting-up-the-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For this exercise, we'll use a compiled data set from the Hosegood <em>et al.</em> (2020) study, containing a number of samples of <em>Mobula japanica</em> and <em>Mobula mobular</em>, as well as one sample of <em>Manta alfredi</em>. _Mobula <em>japanica</em> is now considered a synonym of <em>Mobula mobular</em>. The data set contains samples from across the distribution of the former <em>Mobula japanica</em>. This choice of taxa is explained in the next analysis. This file has been prepared exactly as we did for the earlier files, excluding all missing data. The alignment has been compiled and saved in the nexus format for use in beast2. The nexus format is another widely-used, cross-platform format for alignments of sequences (or other data sets) for phylogenetic analysis. You can find more information about the nexus format <a href="https://en.wikipedia.org/wiki/Nexus_file">here</a>. There are several packages that will allow you to convert the phylip-formatted file into a nexus-formatted one, and many alignment and analytical packages will let you output your data as either (Stacks is not one of these). It is also quite easy to create the file yourself from your phylip file or an aligned file in <a href="https://zhanggroup.org/FASTA/">fasta</a> format, as long as you know the relevant format and headers, and the dimensions and nature of your data.</p>
+<p>To take a look at our data in nexus format, you can navigate to the directory where the files for this chapter are located:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb51-1"><a href="09-Delimiting_species.html#cb51-1" tabindex="-1"></a><span class="bu">cd</span> ~/phylogenomics/snapp</span></code></pre></div>
+<p>Then open the nexus file:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb52-1"><a href="09-Delimiting_species.html#cb52-1" tabindex="-1"></a><span class="fu">less</span> mobular_japanica.nex</span></code></pre></div>
+<p>All input for beast2 needs to be converted to an <a href="https://www.beast2.org/xml/index.html">'xml'</a> file, which will include the data (the sequence alignment), all the model parameters and priors needed for the analysis and the specifications of the run itself. Fortunately, beast2 provides a package - <a href="https://www.beast2.org/beauti/">BEAUti</a> (Bayesian Evolutionary Analysis Utility) - to prepare the data and set all these parameters. This is also a package manager for installing the various beast2 add-ons. We'll use this to prepare our input file.</p>
+<p>Launch BEAUti by typing</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb53-1"><a href="09-Delimiting_species.html#cb53-1" tabindex="-1"></a><span class="ex">beauti</span></span></code></pre></div>
+<p>At this point, you may be asked whether an update to beast2 should be installed. Please choose "No" or "Not yet". Once open, you should see a graphical interface that looks like this.</p>
+<p><img src="figures/beauti_grab.png" width="15%" style="display: block; margin: auto;" /></p>
+<ol style="list-style-type: decimal">
+<li><p>From <code>File</code> on the taskbar/menu, select <code>Template</code> and then <code>SNAPP</code>. The tabs of the window should change to accommodate our SNAPP input and should be different to the image above, with only four tabs above the window.</p></li>
+<li><p>Now import your nexus-alignment, by selecting <code>File</code>, then <code>Add Alignment</code>, navigating to and selecting the file ('mobular_japanica.nex'). The taxa in our analysis will then appear in the 'Taxon sets' window. On the left is a list of the taxa in our file and on the right (under 'Species/Population') is the arrangement we are proposing with respect to species membership or taxonomy. BEAUti assigns these automatically based on the taxon or sample names in our alignment. You can click the <code>Guess</code> button at the bottom to specify how this assignment is done (i.e., specifying which characters are used as delimiters to parse the name, which parts of the name to use, etc.). Alternatively, <code>Fill down</code> will allow you to edit the text of the 'Species/Population' column directly.</p></li>
+</ol>
+<p>For the purposes of getting interesting output from this exercise, we will ignore the current taxonomy. Ordinarily, that would be a sensible scenario to evaluate, but a tree with just two divergent species (the synonymised <em>Mobula japanica</em> and <em>Mobula mobular</em> vs. <em>Mobula alfredi</em>) is not going to be very interesting and it's unlikely that there are many alternative topologies or any evidence of conflict underlying this species tree. Instead, to show the utility of this analysis, we will evaluate a tree with five different species. We will consider <em>M. mobular</em> and <em>M. alfredi</em> as separate species, and we will then regard the different geographic populations of <em>M. japanica</em> to each represent an independent species from the Western Pacific ('WP'), Persian Gulf ('PG') and Eastern Atlantic ('EA'), respectively. Use the <code>Fill down</code> button and assign each of the samples to one of these five species in the 'Species/Population' column. Alternatively, you can create five species of your own and randomly assign samples to these. Don't define more than five species or the analysis may take too long to run.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Model parameters need to be set under the 'Model Parameters' tab. Here, we'll set the parameters for <em>v</em> (the mutation rate from allele 0 to allele 1), <em>u</em> (the mutation rate from allele 1 to allele 0) and the coalescent rate. You can leave <em>u</em> and <em>v</em> set at 1 or use the <code>Calc mutation rates</code> button below to estimate the mutation rate. By clicking the <code>Sample</code> button next to any parameter, we choose to have these sampled from the posterior distribution. For the mutation rates, it is <strong>not</strong> necessary to sample these; we merely need to set the initial values. We <strong>do</strong> want to sample the coalescent rate from the posterior distribution, otherwise we are assuming equal population sizes. In this version of BEAUti, you should see see little circular icons next to some of the fields; older versions might not have this. These open windows that allow us to set upper and lower bounds on these rates. We'll leave these unset for now, but you may have reason (and the information) to set these in your own analysis.</li>
+</ol>
+<p>We need to indicate whether our data include non-polymorphic sites. Given the way our data were compiled, there shouldn't be any constant sites. Make sure that the 'Include non-polymorphic sites' box is not flagged/.</p>
+<p>Also be sure that the 'Mutation Only At Root' box is not checked. This specifies zero mutations except at the root, which will effectively make all the branches coalesce at the root and not within the tree. This is only really used to determine model parameters in some other applications.</p>
+<ol start="4" style="list-style-type: decimal">
+<li>The 'Prior' tab lets us set the priors for the tree and rates. The choice of priors is always a contentious issue and too often the temptation is to use the defaults. You'll need to consider biologically relevant priors, carefully considering the nature of your data, or alternatively consider whether your data and analyses are robust to the choice of prior. Two important priors need our attention.</li>
+</ol>
+<p>The tree prior in SNAPP is a Yule prior for the topology and branch lengths of the species tree, which is controlled by a single parameter, lambda. In essence this is the speciation rate, which represents the prior expected 'height' of the tree. By setting a high value, we are providing prior information that we expect more species to be contained in the tree and delimited than with a low value. Generally, we can use fixed values or a broad prior (typically with a gamma distribution). There is a handy Python script <a href="https://github.com/joaks1/pyule">'pyule'</a> for modelling lambda.</p>
+<p>The rate prior, which is determined by theta, specifies the mutation rate variation over the tree, which is influenced and modeled via ancestral population sizes at each node.</p>
+<p>If we are sampling any of the priors in our analysis, we need to specify hyperpriors. As in the Hosegood <em>et al.</em> (2020) paper, we will leave the prior settings for lambda, theta, <em>u</em>, <em>v</em> and the settings of the hyperpriors as the defaults.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Lastly, we'll set the dimensions and "instructions" for the MCMC run in the MCMC tab. In order to keep this example short, we'll use only 100 000 generations ('Chain Length'), keeping every 100th generation sampled from the posterior distribution ('Store Every'). Edit these to reflect this. You can also set the parameters of the 'tracelog', 'screenlog' and 'treelog' by clicking the drop-down arrows further below. Edit the logging frequency of the 'tracelog' and 'treelog' to log every 100th generation to keep this "in step" with the actual sampling.</li>
+</ol>
+<p>Once that is done you can save the 'xml' file by selecting <code>File</code> and <code>Save</code>, giving it a 'mobula_japanica' as a name. The 'xml' extension is automatically added. You can then exit BEAUti by clicking <code>File</code> and <code>Exit</code>.</p>
+</div>
+<div id="starting-the-analysis" class="section level3 hasAnchor" number="9.2.2">
+<h3><span class="header-section-number">9.2.2</span> Starting the analysis<a href="09-Delimiting_species.html#starting-the-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Once the 'xml' file is set up, starting the analysis is straightforward. Call up beast2 with the following code and this will launch a graphic interface (like the image below):</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb54-1"><a href="09-Delimiting_species.html#cb54-1" tabindex="-1"></a><span class="ex">beast</span></span></code></pre></div>
+<p><img src="figures/beast_grab.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>In this, navigate to and <code>Open</code> the file we just saved. The analysis will start on opening the file. If there are results or log-files from a previous beast2 run, you will be asked if you want to overwrite these. Please do.</p>
+<p>Once started, this SNAPP analysis will take a few minutes to run.</p>
+</div>
+<div id="examining-the-results" class="section level3 hasAnchor" number="9.2.3">
+<h3><span class="header-section-number">9.2.3</span> Examining the results<a href="09-Delimiting_species.html#examining-the-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The analysis will produce a 'snap.log' and a 'snap.trees' file. The 'snap.log' contains the likelihood and the theta parameters sampled from the posterior distribution at each sampled generation or step. The 'snap.trees' file contains the topologies, branch-lengths and theta estimates from each of these sampled generations. These each represent a potential species tree based on the likelihoods of allele changes and lineage coalescence of each marker through the tree.</p>
+<p>You can look at the two files with the following commands:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb55-1"><a href="09-Delimiting_species.html#cb55-1" tabindex="-1"></a><span class="co"># View the SNAPP log</span></span>
+<span id="cb55-2"><a href="09-Delimiting_species.html#cb55-2" tabindex="-1"></a><span class="fu">less</span> snap.log</span>
+<span id="cb55-3"><a href="09-Delimiting_species.html#cb55-3" tabindex="-1"></a><span class="co"># Press &#39;q&#39; to close</span></span>
+<span id="cb55-4"><a href="09-Delimiting_species.html#cb55-4" tabindex="-1"></a><span class="co"># View the SNAPP trees file</span></span>
+<span id="cb55-5"><a href="09-Delimiting_species.html#cb55-5" tabindex="-1"></a><span class="fu">less</span> snap.trees</span></code></pre></div>
+<p>As with all Bayesian, MCMC-based approaches, it is important to evaluate the output for stationarity (determining the length of the burn-in, ensuring the MCMC run was sufficient to sample the posterior distribution effectively), convergence or the sufficient sampling of parameters (through the Effective Sample Size or ESS), and, in the case of multiple runs, that there was convergence on the same part of the posterior distrbution. We will not attempt that here; these results may not be particularly well-sampled anyway. However, <a href="https://www.beast2.org/tracer-2/">Tracer</a> is a useful tool to examine these features graphically and manipulate the log and tree files (e.g., specifying and removing the burn-in) for further analysis.</p>
+<p><img src="figures/densitree.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>We will, however, examine the species tree and the uncertainty around the underlying gene trees by generating a tree cloud or "cloudogram" in <a href="https://academic.oup.com/bioinformatics/article/26/10/1372/192963">DensiTree</a>. There is also an overview of DensiTree <a href="https://www.cs.auckland.ac.nz/~remco/DensiTree/">here</a>.</p>
+<p>Open DensiTree, with the following command:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb56-1"><a href="09-Delimiting_species.html#cb56-1" tabindex="-1"></a><span class="ex">densitree</span></span></code></pre></div>
+<p>This will also open a graphic interface, which should look like this:</p>
+<p><img src="figures/densitree_grab.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>Click <code>File</code> and <code>Load</code> or use the folder icon to navigate to your 'snap.trees' file and open it. The trees will now be displayed. There is a wealth of functionality available with respect to editing the display and "look" of the tree cloud and consensus trees, specifying and eliminating burn-in, putting confidence limits around clades. More excitingly, you can view your trees as animation, scrolling through them and building the full tree set from those sampled. The best way to come to terms with the features is to play around with the package.</p>
+<p>In terms of interpretation:
+- The most popular/common tree is consensus is blue (as are any consensus trees)
+- The next most popular tree is red.
+- The third most popular tree is green.
+- The remainder are all dark green.
+- Any obvious conflicts and differences in topology should be apparent from different branching structures in the tree cloud, and
+- Different branching depths represent difference coalescent events (depending on the markers) at different points in the past.</p>
+<p>Close DensiTree with <code>File</code> and <code>Exit</code>.</p>
+<p>Now that we have seen the uncertainty undelying that particular, wildly-inaccurate species arrangement, we will do more rigorous statistical testing of alternative taxonomic models.</p>
+</div>
+</div>
+<div id="bayes-factor-delimitation" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> Bayes Factor Delimitation<a href="09-Delimiting_species.html#bayes-factor-delimitation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>'Bayes Factor Delimitation (*with genomic data)' or <a href="https://www.beast2.org/bfd/">BFD*</a> is used to test various user-defined species boundaries or species-designation hypotheses. It essentially evaluates, within a Bayesian Posterior Probability framework, which assignment of genetic lineages to which species is most plausible. In this analysis, we will propose a base scenario or null hypothesis against which we will test alternative taxonomic hypotheses or arrangements. We will run each scenario and then do a quick "desktop" statistical evaluation to compare these. Unlike the exercise in a preceding chapter, where we tested these hypotheses purely on the basis of the tree topology, here we are using the MSC to model coalescent events backwards in time, considering the multitude of gene trees (and potential conflicts) and demography that underlie any given topology.</p>
+<p>Unfortunately, this analysis can be very time-consuming or limiting. There is a great <a href="https://github.com/BEAST2-Dev/beast-docs/releases/download/v1.0/BFD-tutorial-2018.zip">tutorial</a> available, and its authors do not recommend this analysis for testing more than 20 species. Hosegood <em>et al.</em> (2020) employed an elegant strategy where they focused on each clade in their tree separately, completing the analysis by testing smaller sets of species, but including a few representatives of a sister clade in each such test to consider the "deeper" species boundaries. The data we have compiled and used above is of one of these subsets. When analysing your own data, the number of samples has a much greater impact on the analysis time than the number of SNPs, so a good approach would be to include only a few representatives of the species you want to test and gradually add data (samples) to your analysis when it starts to produce reliable and reasonable results.</p>
+<div id="setting-up-the-analysis-1" class="section level3 hasAnchor" number="9.3.1">
+<h3><span class="header-section-number">9.3.1</span> Setting up the analysis<a href="09-Delimiting_species.html#setting-up-the-analysis-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Although we will again use BEAUti to compile our data and run the analysis in beast2 and SNAPP, the implementation of this analysis is slightly different to that above. We will first create a base 'xml' file, which represents the taxonomic arrangement that we want to compare the others to - our null hypothesis. We'll similarly create 'xml' files for the alternative hypotheses. Then, some text editing of these files is required to enable the Path Analysis for the calculation of Marginal Likelihoods. Thereafter, some desktop statistical analysis is needed to compare and select the competing hypotheses.</p>
+<ol style="list-style-type: decimal">
+<li><p>Open up BEAUti as you did above and load the SNAPP template.</p></li>
+<li><p>Open the 'mobular_japanica.xml' file that you created in the preceding section. We will use that as a basis for this analysis, changing a few parameters.</p></li>
+<li><p>For our base scenario, we will use the currently-accepted taxonomy. Change the species names of <em>M. japanica</em> to <em>M. mobular</em> (these species have been synonymised), and change <em>Manta_alfredi</em> to <em>Mobula alfredi</em> in the 'Species/Population' column.</p></li>
+<li><p>The model parameters need to be set up under the 'Model Parameters' tab exactly as you did above. These should not need any editing, but it is worthwhile to check the parameters. The only additional task is to tick the <code>Use Log Likelihood Correction</code> checkbox. This calculates corrected likelihood values in the Bayes Factor assessments of the different species arrangements.</p></li>
+<li><p>In setting the priors under the 'Prior' tab, we'll follow Hosegood <em>et al.</em> (2020) and implement a gamma distribution for the lambda prior. Select this from the drop-down to the right of 'lambda'. These authors also assessed the effect of a 1/<em>X</em> prior; testing alternative priors and seeing how these impact your results is a means of evaluating the robustness of your results and data, as mentioned above.</p></li>
+<li><p>Under the 'MCMC' tab, we'll use the same parameters as above. Make sure the 'Chain Length' is set at 100 000, 'Store Every' at 100, 'Pre Burnin' at zero and 'Num Initialization Attempts' at 10. Under the 'tracelog' drop-down (arrow) change the 'File Name' to 'runA.log', and set the 'File Name' under the 'treelog' drop-down to 'runA.trees'. You can leave the 'Log Every' for each of these set at 100.</p></li>
+<li><p>Save the 'xml' file as 'runA.xml', and exit BEAUti.</p></li>
+</ol>
+<p>This file needs some additional text editing to set up the Path Analysis in beast2 to the estimate the Marginal Likelihood. The tutorial instructions for making these edits. This has already been done and the file has been saved here as 'runA.xml' in a directory with the same name ('runA'). Through this editing, the analysis has been set to run 10 path sampling steps with a MCMC chain of 10 000 steps for each. A burn-in of 10% was also specified for analysing the log files. Note that these parameters and the MCMC settings above could be unrealistically low and will need to be explored in a full analysis; we are only using these so that we can complete the analysis during the workshop.</p>
+<p>Following the same procedure, we need to compile and edit similar 'xml' files for the other species delimitation models or scenarios we want to test in subsequent runs.</p>
+<p>These, which represent the scenarios tested by Hosegood <em>et al.</em> (2020), are:</p>
+<p><strong>Run B</strong>: <em>Manta alfredi</em> and <em>Mobula mobular</em> are lumped as one species, an arrangement that was proposed before, with <em>Mobula japanica</em> as another species.</p>
+<p><strong>Run C</strong>: A split between Atlantic-Mediterranean and Indo-Pacific individuals.</p>
+<p><strong>Run D</strong>: A random assignment of individuals to two species.</p>
+<p>These files are already compiled and placed in the respective 'runB', 'runC' and 'runD' directories.</p>
+</div>
+<div id="running-the-analysis-1" class="section level3 hasAnchor" number="9.3.2">
+<h3><span class="header-section-number">9.3.2</span> Running the analysis<a href="09-Delimiting_species.html#running-the-analysis-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can now complete the Path Analysis for each of these scenarios.</p>
+<p>Navigate to the 'runA' subdirectory.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb57-1"><a href="09-Delimiting_species.html#cb57-1" tabindex="-1"></a><span class="bu">cd</span> runA</span></code></pre></div>
+<p>We will launch beast2 from a command line. This is handy as the GUI does not always work for some applications, like this one. The command line also lets you set the number of threads to use, which you can't do in this particular version of the beast2 GUI.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb58-1"><a href="09-Delimiting_species.html#cb58-1" tabindex="-1"></a><span class="ex">/pub14/tea/nsc206/bin/beast/bin/beast</span> <span class="at">-threads</span> 8 mobular_japanica.xml</span></code></pre></div>
+<p>If you use this approach outside of the webVNC, <code>/pub14/tea/nsc206/bin/beast/bin/beast</code> will need to be replaced with the path to the beast executable on your computer or HPC.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb59-1"><a href="09-Delimiting_species.html#cb59-1" tabindex="-1"></a><span class="ex">/pub14/tea/nsc206/bin/beast/bin/beast</span> <span class="at">-threads</span> 8 runA.xml</span></code></pre></div>
+<p>The analysis will take a few minutes to run. Once it is complete, the Marginal Likelihood for this hypothesis will be presented in the terminal. Also note the Effective Sample Size (ESS) scores.</p>
+What is the Marginal Likelihood for the Run A hypothesis (the current taxonomy)? Note that your estimates may not match exactly.
+<div id="radio_USCLNJYKBL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_USCLNJYKBL" value=""></input> <span>930.5</span></label><label><input type="radio" autocomplete="off" name="radio_USCLNJYKBL" value="answer"></input> <span>953.1</span></label><label><input type="radio" autocomplete="off" name="radio_USCLNJYKBL" value=""></input> <span>1,856.2</span></label><label><input type="radio" autocomplete="off" name="radio_USCLNJYKBL" value=""></input> <span>2,236.0</span></label>
+</div>
+<p>The ESS scores are very low, indicating that these parameters have not converged and are not well-sampled. At a minimum, we would like these to be &gt; 200. This is not suprising given the low sampling by the chains in both the SNAPP and Path Analysis parts of our analysis.</p>
+<p>We can then repeat this for Run B.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb60-1"><a href="09-Delimiting_species.html#cb60-1" tabindex="-1"></a><span class="co"># Change directory to &#39;runB&#39;</span></span>
+<span id="cb60-2"><a href="09-Delimiting_species.html#cb60-2" tabindex="-1"></a><span class="bu">cd</span> ../runB</span>
+<span id="cb60-3"><a href="09-Delimiting_species.html#cb60-3" tabindex="-1"></a><span class="co"># Start the analysis</span></span>
+<span id="cb60-4"><a href="09-Delimiting_species.html#cb60-4" tabindex="-1"></a><span class="ex">/pub14/tea/nsc206/bin/beast/bin/beast</span> <span class="at">-threads</span> 8 runB.xml</span></code></pre></div>
+What is the Marginal Likelihood for the Run B hypothesis: <em>Mobula mobular</em> and <em>Manta alfredi</em> are conspecific, excluding <em>Mobula japanica</em>)?
+<div id="radio_TFTQGPJUCH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TFTQGPJUCH" value=""></input> <span>930.5</span></label><label><input type="radio" autocomplete="off" name="radio_TFTQGPJUCH" value=""></input> <span>953.1</span></label><label><input type="radio" autocomplete="off" name="radio_TFTQGPJUCH" value="answer"></input> <span>1,856.2</span></label><label><input type="radio" autocomplete="off" name="radio_TFTQGPJUCH" value=""></input> <span>2,236.0</span></label>
+</div>
+<p>Now do the same for Runs C and D.</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb61-1"><a href="09-Delimiting_species.html#cb61-1" tabindex="-1"></a><span class="co"># Change directory to &#39;runC&#39;</span></span>
+<span id="cb61-2"><a href="09-Delimiting_species.html#cb61-2" tabindex="-1"></a><span class="bu">cd</span> ../runC</span>
+<span id="cb61-3"><a href="09-Delimiting_species.html#cb61-3" tabindex="-1"></a><span class="co"># Start the analysis</span></span>
+<span id="cb61-4"><a href="09-Delimiting_species.html#cb61-4" tabindex="-1"></a><span class="ex">/pub14/tea/nsc206/bin/beast/bin/beast</span> <span class="at">-threads</span> 8 runC.xml</span></code></pre></div>
+What is the Marginal Likelihood for the Run C hypothesis: an Atlantic-Mediterranean species and a Pacific species?
+<div id="radio_LATGBBPUTU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LATGBBPUTU" value="answer"></input> <span>930.5</span></label><label><input type="radio" autocomplete="off" name="radio_LATGBBPUTU" value=""></input> <span>953.1</span></label><label><input type="radio" autocomplete="off" name="radio_LATGBBPUTU" value=""></input> <span>1,856.2</span></label><label><input type="radio" autocomplete="off" name="radio_LATGBBPUTU" value=""></input> <span>2,236.0</span></label>
+</div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb62-1"><a href="09-Delimiting_species.html#cb62-1" tabindex="-1"></a><span class="co"># Change directory to &#39;runD&#39;</span></span>
+<span id="cb62-2"><a href="09-Delimiting_species.html#cb62-2" tabindex="-1"></a><span class="bu">cd</span> ../runD</span>
+<span id="cb62-3"><a href="09-Delimiting_species.html#cb62-3" tabindex="-1"></a><span class="co"># Start the analysis</span></span>
+<span id="cb62-4"><a href="09-Delimiting_species.html#cb62-4" tabindex="-1"></a><span class="ex">/pub14/tea/nsc206/bin/beast/bin/beast</span> <span class="at">-threads</span> 8 runD.xml</span></code></pre></div>
+What is the Marginal Likelihood for the Run D hypothesis (a random assignment of individuals to two species)?
+<div id="radio_YTICXVWUNO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YTICXVWUNO" value=""></input> <span>930.5</span></label><label><input type="radio" autocomplete="off" name="radio_YTICXVWUNO" value=""></input> <span>953.1</span></label><label><input type="radio" autocomplete="off" name="radio_YTICXVWUNO" value=""></input> <span>1,856.2</span></label><label><input type="radio" autocomplete="off" name="radio_YTICXVWUNO" value="answer"></input> <span>2,236.0</span></label>
+</div>
+</div>
+<div id="selecting-the-taxonomic-hypothesis" class="section level3 hasAnchor" number="9.3.3">
+<h3><span class="header-section-number">9.3.3</span> Selecting the taxonomic hypothesis<a href="09-Delimiting_species.html#selecting-the-taxonomic-hypothesis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Once this is done, we'll rank our Marginal Likelihoods and use <a href="https://www.tandfonline.com/doi/abs/10.1080/01621459.1995.10476572">Bayes Factors</a> to evaluate competing hypotheses.</p>
+<p><img src="figures/bayesfactor.png" width="15%" style="display: block; margin: auto;" /></p>
+<p>This is a small desktop exercise that is done as follows:</p>
+<ol style="list-style-type: decimal">
+<li><p>Sequentially compare the Marginal Likelihood of each alternative hypothesis to that of the null hyopthesis or base model. You could also compare the alternative hyoptheses with each other, if of interest.</p></li>
+<li><p>The Bayes Factor is calculated as
+<strong>BF = 2 x (Marginal Likelihood of model 1 - Marginal Likelihood of model 2)</strong></p></li>
+<li><p>The resulting BF can be interpreted in the following framework:</p></li>
+</ol>
+<ul>
+<li>0 &lt; BF &lt; 2: Negligible difference between the two models,</li>
+<li>2 &lt; BF &lt; 6: Positive evidence that one model is better,</li>
+<li>6 &lt; BF &lt; 10: Strong evidence that one model is better,</li>
+<li>10 &lt; BF: It's decisive! One model <strong>is</strong> better.</li>
+</ul>
+<p>Is the current taxonomy the best species arrangement, given the limited data we have used and our very limited analysis)? This is not answered definitively here, because you may have had different likelihoods calculated by the sampling regime in your analysis. Based on the values in the MCQs above, the arrangement by ocean region is a decisively better arrangement than the current taxonomy and the other arrangements are decisively worse. This could well be an artefact of the sampling distribution of the examples we included to represent the current taxonomy.</p>
+<p>Congratulations! You have made it to the end of the initial part of the workshop. Please feel free to work through additional examples in the supplemental workbook.</p>
+
+</div>
+</div>
+</div>
+
+
+
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="08-Dating_phylogenies.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="10-Appendix.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

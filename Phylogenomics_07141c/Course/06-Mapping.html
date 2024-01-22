@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Mapping sequences to the reference genome using BWA | Phylogenomics</title>
+  <meta name="description" content="NEOF book for the Phylogenomics workshop" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Mapping sequences to the reference genome using BWA | Phylogenomics" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the Phylogenomics workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Mapping sequences to the reference genome using BWA | Phylogenomics" />
+  
+  <meta name="twitter:description" content="NEOF book for the Phylogenomics workshop" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Gavin Gouws, Matthew Gemmell, Helen Hipperson, Ewan Harney, Kathryn Maher" />
+
+
+<meta name="date" content="2024-01-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="05_Preparing_data_with_Stacks.html"/>
+<link rel="next" href="07-Phylogeny.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
+<li><a>Phylogenomics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="01-Intro.html"><a href="01-Intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="02-Background.html"><a href="02-Background.html"><i class="fa fa-check"></i><b>2</b> Background</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-Background.html"><a href="02-Background.html#example-data-ddradseq-data-of-manta-and-devil-rays"><i class="fa fa-check"></i><b>2.1</b> Example data: ddRADseq data of manta and devil rays</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html"><i class="fa fa-check"></i><b>3</b> Cluster Introduction</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#logon-instructions"><i class="fa fa-check"></i><b>3.1</b> Logon instructions</a></li>
+<li class="chapter" data-level="3.2" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#the-terminal-window"><i class="fa fa-check"></i><b>3.2</b> The Terminal Window</a></li>
+<li class="chapter" data-level="3.3" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#accessing-the-example-data"><i class="fa fa-check"></i><b>3.3</b> Accessing the example data</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="04-Quality_Control.html"><a href="04-Quality_Control.html"><i class="fa fa-check"></i><b>4</b> Quality Control</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-Quality_Control.html"><a href="04-Quality_Control.html#workshop-data"><i class="fa fa-check"></i><b>4.1</b> Workshop data</a></li>
+<li class="chapter" data-level="4.2" data-path="04-Quality_Control.html"><a href="04-Quality_Control.html#manta--and-devil-ray-ddrad-data-set"><i class="fa fa-check"></i><b>4.2</b> Manta- and devil-ray ddRAD data set</a></li>
+<li class="chapter" data-level="4.3" data-path="04-Quality_Control.html"><a href="04-Quality_Control.html#quality-assessment"><i class="fa fa-check"></i><b>4.3</b> Quality assessment</a></li>
+<li class="chapter" data-level="4.4" data-path="04-Quality_Control.html"><a href="04-Quality_Control.html#quality-control"><i class="fa fa-check"></i><b>4.4</b> Quality Control</a></li>
+<li class="chapter" data-level="4.5" data-path="04-Quality_Control.html"><a href="04-Quality_Control.html#post-qc-check"><i class="fa fa-check"></i><b>4.5</b> Post QC Check</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="05_Preparing_data_with_Stacks.html"><a href="05_Preparing_data_with_Stacks.html"><i class="fa fa-check"></i><b>5</b> Preparing data in Stacks</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05_Preparing_data_with_Stacks.html"><a href="05_Preparing_data_with_Stacks.html#stacks-1"><i class="fa fa-check"></i><b>5.1</b> Stacks</a></li>
+<li class="chapter" data-level="5.2" data-path="05_Preparing_data_with_Stacks.html"><a href="05_Preparing_data_with_Stacks.html#demultiplexing-data-with-process_radtags"><i class="fa fa-check"></i><b>5.2</b> Demultiplexing data with <code>process_radtags</code></a></li>
+<li class="chapter" data-level="5.3" data-path="05_Preparing_data_with_Stacks.html"><a href="05_Preparing_data_with_Stacks.html#building-the-catalogue-loci-with-denovo_map.pl"><i class="fa fa-check"></i><b>5.3</b> Building the catalogue loci with <code>denovo_map.pl</code></a></li>
+<li class="chapter" data-level="5.4" data-path="05_Preparing_data_with_Stacks.html"><a href="05_Preparing_data_with_Stacks.html#preparing-a-sequence-alignment-file-in-populations"><i class="fa fa-check"></i><b>5.4</b> Preparing a sequence alignment file in <code>populations</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="06-Mapping.html"><a href="06-Mapping.html"><i class="fa fa-check"></i><b>6</b> Mapping sequences to the reference genome using BWA</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="06-Mapping.html"><a href="06-Mapping.html#reference-sequence-preparation"><i class="fa fa-check"></i><b>6.1</b> Reference sequence preparation</a></li>
+<li class="chapter" data-level="6.2" data-path="06-Mapping.html"><a href="06-Mapping.html#read-mapping"><i class="fa fa-check"></i><b>6.2</b> Read mapping</a></li>
+<li class="chapter" data-level="6.3" data-path="06-Mapping.html"><a href="06-Mapping.html#assessing-mapping-results"><i class="fa fa-check"></i><b>6.3</b> Assessing mapping results</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="07-Phylogeny.html"><a href="07-Phylogeny.html"><i class="fa fa-check"></i><b>7</b> Model selection, tree reconstruction and support evaluation</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="07-Phylogeny.html"><a href="07-Phylogeny.html#estimating-a-best-fit-model-of-nucleotide-or-sequence-evolution"><i class="fa fa-check"></i><b>7.1</b> Estimating a best-fit model of nucleotide or sequence evolution</a></li>
+<li class="chapter" data-level="7.2" data-path="07-Phylogeny.html"><a href="07-Phylogeny.html#constructing-a-maximum-likelihood-phylogenetic-tree"><i class="fa fa-check"></i><b>7.2</b> Constructing a maximum-likelihood phylogenetic tree</a></li>
+<li class="chapter" data-level="7.3" data-path="07-Phylogeny.html"><a href="07-Phylogeny.html#calculating-nodal-support"><i class="fa fa-check"></i><b>7.3</b> Calculating nodal support</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="08-Topology_testing.html"><a href="08-Topology_testing.html"><i class="fa fa-check"></i><b>8</b> Hypothesis and topology testing</a></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="11-Appendix.html"><a href="11-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="11-Appendix.html"><a href="11-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>A.1</b> Mamba installation and environment</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="11-Appendix.html"><a href="11-Appendix.html#loops-and-wildcards"><i class="fa fa-check"></i><b>B</b> Loops and wildcards</a></li>
+<li class="chapter" data-level="C" data-path="11-Appendix.html"><a href="11-Appendix.html#ipyrad"><i class="fa fa-check"></i><b>C</b> iPYRAD</a></li>
+<li class="chapter" data-level="D" data-path="11-Appendix.html"><a href="11-Appendix.html#optimising-loci-reconstruction-in-denovo_map.pl-in-stacks"><i class="fa fa-check"></i><b>D</b> Optimising loci reconstruction in <code>denovo_map.pl</code> in Stacks</a></li>
+<li class="chapter" data-level="E" data-path="11-Appendix.html"><a href="11-Appendix.html#jupyter_appendix"><i class="fa fa-check"></i><b>E</b> Jupyter-notebook</a></li>
+<li class="chapter" data-level="F" data-path="11-Appendix.html"><a href="11-Appendix.html#loops"><i class="fa fa-check"></i><b>F</b> Using loops to process multiple samples</a>
+<ul>
+<li class="chapter" data-level="F.1" data-path="11-Appendix.html"><a href="11-Appendix.html#simple-loop-example"><i class="fa fa-check"></i><b>F.1</b> Simple loop example</a></li>
+<li class="chapter" data-level="F.2" data-path="11-Appendix.html"><a href="11-Appendix.html#trimmomatic-loop-example"><i class="fa fa-check"></i><b>F.2</b> Trimmomatic loop example</a></li>
+</ul></li>
+<li class="chapter" data-level="G" data-path="11-Appendix.html"><a href="11-Appendix.html#an-overview-of-bayesian-statistics"><i class="fa fa-check"></i><b>G</b> An overview of Bayesian statistics</a></li>
+<li class="chapter" data-level="H" data-path="11-Appendix.html"><a href="11-Appendix.html#additional-approaches-for-detecting-selection-and-for-gwas"><i class="fa fa-check"></i><b>H</b> Additional approaches for detecting selection and for GWAS</a>
+<ul>
+<li class="chapter" data-level="H.1" data-path="11-Appendix.html"><a href="11-Appendix.html#rehh"><i class="fa fa-check"></i><b>H.1</b> rehh</a></li>
+<li class="chapter" data-level="H.2" data-path="11-Appendix.html"><a href="11-Appendix.html#gcta"><i class="fa fa-check"></i><b>H.2</b> GCTA</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Phylogenomics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="alignment" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Mapping sequences to the reference genome using BWA<a href="06-Mapping.html#alignment" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>BWA is a program for mapping sequences to a reference genome. Here we will use BWA to map our paired, trimmed sequences to the killer whale reference genome (GCF_000331955.2_Oorc_1.1_genomic.fna), and output a BAM (Binary sequence Alignment/Map format) file of the results.</p>
+<p>Further information on the reference genome, such as the sex of the sequenced individual, the technology and assembly programs used, the number of scaffolds/contigs and the sequence coverage can be found on the <a href="https://www.ncbi.nlm.nih.gov/assembly/GCF_000331955.2">NCBI website page for this assembly</a>.</p>
+<div id="reference-sequence-preparation" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Reference sequence preparation<a href="06-Mapping.html#reference-sequence-preparation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/index.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>BWA uses indexing of the reference genome to speed up the mapping. The index needs to be prepared before we map our reads. As this takes some time, this has been run for you, but for information the command used to do this was:</p>
+<blockquote>
+<p>bwa index GCF_000331955.2_Oorc_1.1_genomic.fna</p>
+</blockquote>
+<p>This produces index files with the extensions '.sa', '.pac', '.ann', '.amb' and '.bwt' that will be automatically detected and used in the mapping step below.</p>
+</div>
+<div id="read-mapping" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Read mapping<a href="06-Mapping.html#read-mapping" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/map.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>To map our paired-end, trimmed reads type the following:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb31-1"><a href="06-Mapping.html#cb31-1" tabindex="-1"></a><span class="ex">bwa</span> mem <span class="dt">\</span></span>
+<span id="cb31-2"><a href="06-Mapping.html#cb31-2" tabindex="-1"></a>/pub14/tea/nsc206/NEOF/popgenomics/genome/GCF_000331955.2_Oorc_1.1_genomic.fna <span class="dt">\</span></span>
+<span id="cb31-3"><a href="06-Mapping.html#cb31-3" tabindex="-1"></a>SRR8861574_1_out_paired.fastq SRR8861574_2_out_paired.fastq <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb31-4"><a href="06-Mapping.html#cb31-4" tabindex="-1"></a><span class="ex">samtools</span> sort <span class="at">-o</span> SRR8861574_paired.bam</span></code></pre></div>
+<p><code>bwa mem</code> is an alignment algorithm well suited to Illumina-length sequences. The default output is a SAM <a href="https://samtools.github.io/hts-specs/SAMv1.pdf">(Sequence Alignment Map format)</a>. However, here we pipe the output to <a href="http://www.htslib.org/"><code>samtools</code></a>, a program for writing, viewing and manipulating alignment files, to sort and generate a BAM format, a binary, compressed version of SAM format.</p>
+<p>The mapping will take a few minutes to run, during which some output messages will be printed to the screen. When it has finished you will see the command prompt <code>$</code> and flashing cursor again.</p>
+<p>We can view this file using <code>samtools view</code> and <code>head</code> to display only the first few lines:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb32-1"><a href="06-Mapping.html#cb32-1" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-h</span> SRR8861574_paired.bam <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
+<p>The header section consists of lines starting with '@'. In this case, we have a header line for each of the scaffolds in the killer whale reference genome with their name (SN) and length in bp (LN) given.</p>
+<p>To look at the information in the alignment section, we can leave out the <code>-h</code> option:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb33-1"><a href="06-Mapping.html#cb33-1" tabindex="-1"></a><span class="ex">samtools</span> view SRR8861574_paired.bam <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
+<p>Here is an example of one line, representing information from one sequence read.</p>
+<p>#<code>{r, fig.align = 'center',out.width= '100%', echo=FALSE } #knitr::include_graphics(path = "figures/sam1.png", auto_pdf = TRUE) #</code></p>
+<p>Each column contains information on where and how well the read aligns to the reference. After column 11 there can be several optional tags, often specific to the aligner used and can be useful for downstream analysis.</p>
+<p>#<code>{r, fig.align = 'left',out.width= '60%', echo=FALSE } #knitr::include_graphics(path = "figures/sam2.png", auto_pdf = TRUE) #</code></p>
+<p>The image above is from a different alignment file to the one you have generated here. On the first line of your alignment file what is the query sequence name? What is the reference contig name?</p>
+<p>In order to process the BAM files for further analysis, it is usually required that they are indexed. This can also be done with <code>samtools</code>:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb34-1"><a href="06-Mapping.html#cb34-1" tabindex="-1"></a><span class="ex">samtools</span> index SRR8861574_paired.bam</span></code></pre></div>
+<p>Use <code>ls</code> to view the contents of your directory - you should now have an index file with the extensions <code>.bam.bai</code>.</p>
+</div>
+<div id="assessing-mapping-results" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Assessing mapping results<a href="06-Mapping.html#assessing-mapping-results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/flag.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>Lastly, we can use the <code>samtools</code> command <code>flagstat</code> to find information on how the reads mapped:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb35-1"><a href="06-Mapping.html#cb35-1" tabindex="-1"></a><span class="ex">samtools</span> flagstat SRR8861574_paired.bam</span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>How many reads have mapped?
+<div id="radio_VPTNQLLYJV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VPTNQLLYJV" value=""></input> <span>710696</span></label><label><input type="radio" autocomplete="off" name="radio_VPTNQLLYJV" value=""></input> <span>710142</span></label><label><input type="radio" autocomplete="off" name="radio_VPTNQLLYJV" value="answer"></input> <span>705371</span></label><label><input type="radio" autocomplete="off" name="radio_VPTNQLLYJV" value=""></input> <span>687024</span></label>
+</div></li>
+<li>What percentage of reads have mapped?
+<div id="radio_NGGTDBSHUJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NGGTDBSHUJ" value=""></input> <span>90.32</span></label><label><input type="radio" autocomplete="off" name="radio_NGGTDBSHUJ" value=""></input> <span>96.74</span></label><label><input type="radio" autocomplete="off" name="radio_NGGTDBSHUJ" value="answer"></input> <span>99.25</span></label><label><input type="radio" autocomplete="off" name="radio_NGGTDBSHUJ" value=""></input> <span>100</span></label>
+</div></li>
+</ol>
+<p>This information is a summary of the <code>FLAG</code> values - the second field in the sam/bam file. These values can be used if you want to extract or exclude a specific set of reads for downstream analysis. For example, to exclude unmapped reads from our alignment file we can run:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb36-1"><a href="06-Mapping.html#cb36-1" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-F</span> 4 <span class="at">-b</span> SRR8861574_paired.bam <span class="op">&gt;</span> SRR8861574_paired_mapped.bam</span></code></pre></div>
+<p>The options used are:
+<code>-F</code>: only include reads without this flag</p>
+<p><code>-b</code>: output in bam format</p>
+<p>Conversely, you can use <code>-f</code> to include the reads with the specified flag.</p>
+<p>The Broad Institute has a useful <a href="https://broadinstitute.github.io/picard/explain-flags.html">website to interpret the FLAG values</a>, likewise they are <a href="http://www.htslib.org/doc/samtools-flags.html">listed in the samtools documentation</a>.</p>
+<p>Run <code>flagstat</code> on the bam file from which we have excluded the unmapped reads.</p>
+<ol style="list-style-type: decimal">
+<li>How many reads are in the filtered file (compare this to the unfiltered file)?
+<div id="radio_AMRCWIIGZL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_AMRCWIIGZL" value=""></input> <span>710696</span></label><label><input type="radio" autocomplete="off" name="radio_AMRCWIIGZL" value="answer"></input> <span>705371</span></label><label><input type="radio" autocomplete="off" name="radio_AMRCWIIGZL" value=""></input> <span>704817</span></label><label><input type="radio" autocomplete="off" name="radio_AMRCWIIGZL" value=""></input> <span>687024</span></label>
+</div></li>
+<li>What proportion of the reads in this file are now mapped (compare this to the unfiltered file)?
+<div id="radio_TMOVCHGXYX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TMOVCHGXYX" value=""></input> <span>90.32</span></label><label><input type="radio" autocomplete="off" name="radio_TMOVCHGXYX" value=""></input> <span>96.74</span></label><label><input type="radio" autocomplete="off" name="radio_TMOVCHGXYX" value=""></input> <span>99.25</span></label><label><input type="radio" autocomplete="off" name="radio_TMOVCHGXYX" value="answer"></input> <span>100</span></label>
+</div></li>
+</ol>
+<p>In the next step, we will use alignment files from several samples to detect genetic variation.</p>
+
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="05_Preparing_data_with_Stacks.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="07-Phylogeny.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
