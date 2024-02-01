@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Trim the PCR primer sequences | Bacterial 16S metabarcoding</title>
   <meta name="description" content="NEOF book for the Bacterial 16S metabarcoding workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Trim the PCR primer sequences | Bacterial 16S metabarcoding" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Luca Lenzi and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-01-15" />
+<meta name="date" content="2024-02-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -345,12 +345,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="pcrtrim" class="section level1 hasAnchor" number="8">
 <h1><span class="header-section-number">Chapter 8</span> Trim the PCR primer sequences<a href="08-Trim_PCR_sequences.html#pcrtrim" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/prepare.png" width="20%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/prepare.png" width="200px" style="display: block; margin: auto;" /></p>
 <p>Reads are paired-end (R1 and R2) and may overlap in the middle, depending on the size of the sequenced amplicon and the size of the paired reads. Our sequencing data is of the 16S rRNA V4 region (length: ~250bp). Therefore, our 250bp x 2 paired end reads should overlap. If R1 and R2 overlap, we can use this to reconstruct the V4 region by aligning and merging the forward and reverse reads of each pair.</p>
 <p>However, before we carry this out we will need to remove any sequence data that is not biologically relevant. This includes the primer sequences that were used in the Illumina sequencing.</p>
 <div id="cutadapt-run" class="section level2 hasAnchor" number="8.1">
 <h2><span class="header-section-number">8.1</span> Cutadapt: run<a href="08-Trim_PCR_sequences.html#cutadapt-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/play_black.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/play_black.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>We will use the “cutadapt” (Martin, 2011) tool to remove the PCR primer sequences from R1 and R2.</p>
 <p><strong>Note</strong>: You can copy and paste (using right click) the forward and reverse primer from the fasta file "primers_seqs.fasta"</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb8-1"><a href="08-Trim_PCR_sequences.html#cb8-1" tabindex="-1"></a><span class="co">#Print primer sequences to screen for copying and pasting</span></span>
@@ -364,7 +364,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-9"><a href="08-Trim_PCR_sequences.html#cb8-9" tabindex="-1"></a>--o-trimmed-sequences paired-end-demux.trim.qza</span></code></pre></div>
 <div id="parameters-2" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="08-Trim_PCR_sequences.html#parameters-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_black.png" width="10%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/parameter_black.png" width="100px" style="display: block; margin: auto;" /></p>
 <ul>
 <li><strong><code>--i-demultiplexed-sequences</code></strong>: The input demultiplexed sequence artifact.</li>
 <li><strong><code>--p-front-f</code></strong>: Sequence for the forward primer (<code>f</code>). The sequence is ligated to the 5 prime end (<code>front</code>), this is the normal.</li>
@@ -376,7 +376,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="cutadapt-visualise" class="section level2 hasAnchor" number="8.2">
 <h2><span class="header-section-number">8.2</span> Cutadapt: visualise<a href="08-Trim_PCR_sequences.html#cutadapt-visualise" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/eye_brown.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/eye_brown.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>To visualise information on the trimmed samples, the following command will create a visualisation artifact associated with the main sample artifact. This is the same visualisation command as in <a href="07-Import_sequences_into_QIIME2.html#chap7_vis">chapter 7</a> with different a different input and output.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb9-1"><a href="08-Trim_PCR_sequences.html#cb9-1" tabindex="-1"></a><span class="ex">qiime</span> demux summarize <span class="dt">\</span></span>
 <span id="cb9-2"><a href="08-Trim_PCR_sequences.html#cb9-2" tabindex="-1"></a>--i-data paired-end-demux.trim.qza <span class="dt">\</span></span>
@@ -389,33 +389,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="cutadapt-mcqs" class="section level2 hasAnchor" number="8.3">
 <h2><span class="header-section-number">8.3</span> Cutadapt: MCQs<a href="08-Trim_PCR_sequences.html#cutadapt-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/question_bubble_black.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/question_bubble_black.png" width="150px" style="display: block; margin: auto;" /></p>
 <ol style="list-style-type: decimal">
 <li>which sample has the lowest number of forward reads?
-<div id="radio_TBRHMKNUEG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TBRHMKNUEG" value=""></input> <span><strong>1TE</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TBRHMKNUEG" value=""></input> <span><strong>2K2E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TBRHMKNUEG" value="answer"></input> <span><strong>3K1E</strong></span></label>
+<div id="radio_WHVCGJZUSU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WHVCGJZUSU" value=""></input> <span><strong>1TE</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WHVCGJZUSU" value=""></input> <span><strong>2K2E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WHVCGJZUSU" value="answer"></input> <span><strong>3K1E</strong></span></label>
 </div></li>
 <li>Which sample has the highest number of forward reads?
-<div id="radio_NYGOZUHPYY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_NYGOZUHPYY" value=""></input> <span><strong>1TE</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NYGOZUHPYY" value="answer"></input> <span><strong>2K2E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NYGOZUHPYY" value=""></input> <span><strong>3K1E</strong></span></label>
+<div id="radio_CUTRVQJWOU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CUTRVQJWOU" value=""></input> <span><strong>1TE</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CUTRVQJWOU" value="answer"></input> <span><strong>2K2E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CUTRVQJWOU" value=""></input> <span><strong>3K1E</strong></span></label>
 </div></li>
 <li>Approximately, at which base position do you see a drastic drop of quality in the forward reads (thick bars drop below Q20)?
-<div id="radio_TMWLSTSLJR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TMWLSTSLJR" value=""></input> <span><strong>&lt;200</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TMWLSTSLJR" value=""></input> <span><strong>200-220</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TMWLSTSLJR" value="answer"></input> <span><strong>&gt;220</strong></span></label>
+<div id="radio_KLPEWWXURX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KLPEWWXURX" value=""></input> <span><strong>&lt;200</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KLPEWWXURX" value=""></input> <span><strong>200-220</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KLPEWWXURX" value="answer"></input> <span><strong>&gt;220</strong></span></label>
 </div></li>
 <li>Approximately, at which base position do you see a drastic drop of quality in the reverse reads (thick bars drop below Q20)?
-<div id="radio_CEBINAEBVW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_CEBINAEBVW" value=""></input> <span><strong>&lt;200</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CEBINAEBVW" value=""></input> <span><strong>200-220</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CEBINAEBVW" value="answer"></input> <span><strong>&gt;220</strong></span></label>
+<div id="radio_JFRTSMGATH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JFRTSMGATH" value=""></input> <span><strong>&lt;200</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JFRTSMGATH" value=""></input> <span><strong>200-220</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JFRTSMGATH" value="answer"></input> <span><strong>&gt;220</strong></span></label>
 </div></li>
 <li>What is the median length of the forward reads?
-<div id="radio_ZJWUQQWFSO" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZJWUQQWFSO" value="answer"></input> <span><strong>226</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZJWUQQWFSO" value=""></input> <span><strong>230</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZJWUQQWFSO" value=""></input> <span><strong>250</strong></span></label>
+<div id="radio_ODRWJSBRTY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ODRWJSBRTY" value="answer"></input> <span><strong>226</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ODRWJSBRTY" value=""></input> <span><strong>230</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ODRWJSBRTY" value=""></input> <span><strong>250</strong></span></label>
 </div></li>
 </ol>
 </div>
 <div id="cutadapt-summary" class="section level2 hasAnchor" number="8.4">
 <h2><span class="header-section-number">8.4</span> Cutadapt: summary<a href="08-Trim_PCR_sequences.html#cutadapt-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/sum_black.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/sum_black.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>We have trimmed the adapters from our sequences. This has made the majority of reads shorter going from a length of 250 to &gt;=226. This is expected. We have also kept a good amount of reads and the quality looks good so we can move to denoising.</p>
 
 </div>

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Handy QIIME2 commands | Bacterial 16S metabarcoding supplemental</title>
   <meta name="description" content="NEOF book for the Introduction to command line bioinformatics workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Handy QIIME2 commands | Bacterial 16S metabarcoding supplemental" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-01-18" />
+<meta name="date" content="2024-02-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -194,14 +194,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="handy" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Handy QIIME2 commands<a href="03-Handy_QIIME2_commands.html#handy" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/tools.png" width="20%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/tools.png" width="200px" style="display: block; margin: auto;" /></p>
 <p>This section will contain a few useful commands for QIIME2 analysis.</p>
 <p>Copy over a directory with the content you will need and move into it for this section.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb19-1"><a href="03-Handy_QIIME2_commands.html#cb19-1" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> /pub14/tea/nsc206/NEOF/16s_workshop/handy_qiime2_cmds ~/Metagenetics</span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb19-1"><a href="03-Handy_QIIME2_commands.html#cb19-1" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> /pub39/tea/matthew/NEOF/16s_workshop/handy_qiime2_cmds ~/Metagenetics</span>
 <span id="cb19-2"><a href="03-Handy_QIIME2_commands.html#cb19-2" tabindex="-1"></a><span class="bu">cd</span> ~/Metagenetics/handy_qiime2_cmds</span></code></pre></div>
 <div id="create-a-manifest-file" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Create a manifest file<a href="03-Handy_QIIME2_commands.html#create-a-manifest-file" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/manifest.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/manifest.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>In the main practical you used a premade manifest file. However, in your own analyses you will need to create your own manifest files based on the path of your fastq files. This can be done through manually typing all the information. However, it is best to use commands to create this automatically.</p>
 <p>The first step is to create a manifest file with the header line.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb20-1"><a href="03-Handy_QIIME2_commands.html#cb20-1" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;sample-id,absolute-filepath,direction&quot;</span> <span class="op">&gt;</span> manifest.csv</span></code></pre></div>
@@ -220,9 +220,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb21-12"><a href="03-Handy_QIIME2_commands.html#cb21-12" tabindex="-1"></a><span class="cf">done</span> <span class="op">&gt;&gt;</span> manifest.csv</span></code></pre></div>
 <p>Note the above is quite complicated and you may get away with just changing the specified directory for your own analyses. Always make sure you check the output manifest file before importing with it. If it is wrong make sure to start from the first step so you reset your file.</p>
 <ul>
-<li><code>find /pub14/tea/nsc206/NEOF/16sworkshop/RawReads/ -name *R1*fastq.gz</code>
+<li><code>find /pub39/tea/matthew/NEOF/16sworkshop/RawReads/ -name *R1*fastq.gz</code>
 <ul>
-<li>This will find all the absolute paths from the specified directory and its subdirectories (<code>/pub14/tea/nsc206/16sworkshop/RawReads/</code>) that contain “R1” and end with “fastq.gz” (<code>-name *R1*fastq.gz</code>). Ensure the specified directory and its subdirectories only contain your fastq files of interest.</li>
+<li>This will find all the absolute paths from the specified directory and its subdirectories (<code>/pub39/tea/matthew/NEOF/16sworkshop/RawReads/</code>) that contain “R1” and end with “fastq.gz” (<code>-name *R1*fastq.gz</code>). Ensure the specified directory and its subdirectories only contain your fastq files of interest.</li>
 </ul></li>
 <li><code>while read path ;</code>
 <ul>
@@ -248,7 +248,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="filter-asvs-from-a-table" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Filter ASVs from a table<a href="03-Handy_QIIME2_commands.html#filter-asvs-from-a-table" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/filter.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/filter.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>QIIME2 has many methods to filter out ASVs. I find a lot of these methods are hard to use and I have had much difficulty trying to use them in the past. Thankfully one method always appears to work.</p>
 <p>The functioning method requires a metadata file to be provided that contains ASV names.</p>
 <p>The file must have a header of <code>feature-id</code> and then have the names of ASVs you would like removed. An example called <code>asv_names.txt</code> is in your directory. Look at it with less, these are simply the last 10 ASVs in the table for demonstrative purposes.</p>
@@ -269,7 +269,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="split-tables" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Split tables<a href="03-Handy_QIIME2_commands.html#split-tables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/split.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/split.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>It is possible you may run multiple 16S experiments on a single Illumina run. In this case it can be useful to run it all together for the steps up to and including the phylogenetic tree construction if the experiments are relatively similar (i.e. if they are human gut samples). If the experiments are not similar (i.e. human gut and soil microbiome) I would suggest to split the table after the dada2 denoising. However, I might suggests to keep the samples separate from the start if the experiments are very different as it may make the dada2 denosing take a very long time.</p>
 <p>Then you would want to split the table into the different experiments. This is done in a similar manner as filtering out ASVs except we filter out samples.</p>
 <p>The metadata file we use for filtering is the same metadata file we use for alpha and beta diversity analysis, except it must only contain the samples we want included. View the 3 metadata files begiining with “experiment_”.</p>
@@ -307,7 +307,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="merge-tables" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Merge tables<a href="03-Handy_QIIME2_commands.html#merge-tables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/merge.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/merge.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>The opposite of the last section may occur, where you have one experiment over multiple runs. Each run must be run through the QIIME2 steps up to and including the dada2 denoising step. Then they should be merged.</p>
 <p>As an example we will merge the tables for the 3 experiments back together.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb25-1"><a href="03-Handy_QIIME2_commands.html#cb25-1" tabindex="-1"></a><span class="co">#Merge command</span></span>

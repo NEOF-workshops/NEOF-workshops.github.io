@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 11 Phylogenetic tree construction | Bacterial 16S metabarcoding</title>
   <meta name="description" content="NEOF book for the Bacterial 16S metabarcoding workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 11 Phylogenetic tree construction | Bacterial 16S metabarcoding" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Luca Lenzi and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-01-15" />
+<meta name="date" content="2024-02-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -345,18 +345,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="phylogeny" class="section level1 hasAnchor" number="11">
 <h1><span class="header-section-number">Chapter 11</span> Phylogenetic tree construction<a href="11-Phylogentic_tree.html#phylogeny" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/phylo_tree.png" width="20%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/phylo_tree.png" width="200px" style="display: block; margin: auto;" /></p>
 <p>In this section we will obtain a phylogenetic tree of our ASV representative sequences. The final rooted tree will be used to compute phylogenetically aware alpha- and beta-diversity metrics such as Faith’s Phylogenetic Distance (Faith’s PD) and UniFrac distances. This is only carried out on marker regions for which this is possible (therefore excluding ITS and others).</p>
 <div id="mafft-alignment" class="section level2 hasAnchor" number="11.1">
 <h2><span class="header-section-number">11.1</span> MAFFT alignment<a href="11-Phylogentic_tree.html#mafft-alignment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/dna_alignment.png" width="20%" style="display: block; margin: auto;" />
+<p><img src="figures/dna_alignment.png" width="200px" style="display: block; margin: auto;" />
 The first step is to align our representative sequences against each other. This is very straightforward as 16S amplicon sequences are relatively similar and short in length.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb21-1"><a href="11-Phylogentic_tree.html#cb21-1" tabindex="-1"></a><span class="ex">qiime</span> alignment mafft <span class="dt">\</span></span>
 <span id="cb21-2"><a href="11-Phylogentic_tree.html#cb21-2" tabindex="-1"></a>--i-sequences rep-seqs-dada2.qza <span class="dt">\</span></span>
 <span id="cb21-3"><a href="11-Phylogentic_tree.html#cb21-3" tabindex="-1"></a>--o-alignment aligned-rep-seqs.qza</span></code></pre></div>
 <div id="parameters-10" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="11-Phylogentic_tree.html#parameters-10" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_red.png" width="10%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/parameter_red.png" width="100px" style="display: block; margin: auto;" /></p>
 <ul>
 <li><strong><code>--i-sequences</code></strong>: Input artifact containing the representative sequences of the features (ASVs) to be aligned.</li>
 <li><strong><code>--o-alignment</code></strong>: Output artifact containing the aligned representative sequences.</li>
@@ -366,7 +366,7 @@ The first step is to align our representative sequences against each other. This
 </div>
 <div id="masking" class="section level2 hasAnchor" number="11.2">
 <h2><span class="header-section-number">11.2</span> Masking<a href="11-Phylogentic_tree.html#masking" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/mask.png" width="15%" style="display: block; margin: auto;" />
+<p><img src="figures/mask.png" width="150px" style="display: block; margin: auto;" />
 After alignment non-informative regions are masked. This will make our phylogenetic construction quicker and better.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb22-1"><a href="11-Phylogentic_tree.html#cb22-1" tabindex="-1"></a><span class="ex">qiime</span> alignment mask <span class="dt">\</span></span>
 <span id="cb22-2"><a href="11-Phylogentic_tree.html#cb22-2" tabindex="-1"></a>--i-alignment aligned-rep-seqs.qza <span class="dt">\</span></span>
@@ -375,23 +375,23 @@ After alignment non-informative regions are masked. This will make our phylogene
 <span id="cb22-5"><a href="11-Phylogentic_tree.html#cb22-5" tabindex="-1"></a>--o-masked-alignment masked-aligned-rep-seqs.qza</span></code></pre></div>
 <div id="parameters-11" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="11-Phylogentic_tree.html#parameters-11" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_blue.png" width="10%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/parameter_blue.png" width="100px" style="display: block; margin: auto;" /></p>
 <ul>
 <li><strong><code>--i-alignment</code></strong>: Input artifact containing aligned representative sequences.</li>
 <li><strong><code>--p-max-gap-frequency</code></strong>: This determines the relative frequency of gap characters in an aligned column for the column to be retained.
 <ul>
 <li>This option is provided with a number from 0-1.</li>
-<li>0.0 = Columns consisting of &lt;=0% gaps will be retained. I.e. a column must have no gaps to be retained.</li>
-<li>1.0 = Columns consisting of &lt;=100% gaps will be retained. I.e. no column will be removed based on number of gaps.</li>
+<li>0.0 = Columns consisting of &lt;=00px gaps will be retained. I.e. a column must have no gaps to be retained.</li>
+<li>1.0 = Columns consisting of &lt;=1000px gaps will be retained. I.e. no column will be removed based on number of gaps.</li>
 <li>1.0 was chosen as it is the default option. Unless you have good reason this is what you should use for your future 16S analysis.</li>
 </ul></li>
 <li><strong><code>--p-min-conservation</code></strong>: The minimum relative frequency of at least one non-gap character (e.g. A,G,C,T) in a column for that column to be retained.
 <ul>
 <li>This option is provided with a number from 0-1.</li>
-<li>0.4 = A column will be retained if it contains at least one character that is present in at least 40% of the sequences.
+<li>0.4 = A column will be retained if it contains at least one character that is present in at least 400px of the sequences.
 <ul>
 <li>E.g. a column consisting of 25% A, 25% G, 25% C, and 25% T will <strong>not</strong> be retained.</li>
-<li>A column consisting of 40% A, 20% G, 20% C, and 20% T <strong>will</strong> be retained.</li>
+<li>A column consisting of 400px A, 200px G, 200px C, and 200px T <strong>will</strong> be retained.</li>
 <li>0.4 was chosen as it is the default. Unless you have good reason this is what you should use for your future 16S analysis.</li>
 </ul></li>
 </ul></li>
@@ -402,14 +402,14 @@ After alignment non-informative regions are masked. This will make our phylogene
 </div>
 <div id="un-rooted-tree-creation-with-fasttree" class="section level2 hasAnchor" number="11.3">
 <h2><span class="header-section-number">11.3</span> Un-rooted tree creation with FASTTREE<a href="11-Phylogentic_tree.html#un-rooted-tree-creation-with-fasttree" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/tree_unrooted.png" width="15%" style="display: block; margin: auto;" />
+<p><img src="figures/tree_unrooted.png" width="150px" style="display: block; margin: auto;" />
 Create an un-rooted maximum-likelihood tree from our masked alignment with the Fasttree 2 tool.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb23-1"><a href="11-Phylogentic_tree.html#cb23-1" tabindex="-1"></a><span class="ex">qiime</span> phylogeny fasttree <span class="dt">\</span></span>
 <span id="cb23-2"><a href="11-Phylogentic_tree.html#cb23-2" tabindex="-1"></a>--i-alignment masked-aligned-rep-seqs.qza <span class="dt">\</span></span>
 <span id="cb23-3"><a href="11-Phylogentic_tree.html#cb23-3" tabindex="-1"></a>--o-tree unrooted-tree.qza</span></code></pre></div>
 <div id="parameters-12" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="11-Phylogentic_tree.html#parameters-12" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_purple.png" width="10%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/parameter_purple.png" width="100px" style="display: block; margin: auto;" /></p>
 <ul>
 <li><strong><code>--i-alignment</code></strong>: Input artifact containing the masked aligned representative sequences.</li>
 <li><strong><code>--o-tree</code></strong>: Output artifact containing the un-rooted tree.</li>
@@ -419,14 +419,14 @@ Create an un-rooted maximum-likelihood tree from our masked alignment with the F
 </div>
 <div id="rooted-tree-creation" class="section level2 hasAnchor" number="11.4">
 <h2><span class="header-section-number">11.4</span> Rooted tree creation<a href="11-Phylogentic_tree.html#rooted-tree-creation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/tree_rooted.png" width="15%" style="display: block; margin: auto;" />
+<p><img src="figures/tree_rooted.png" width="150px" style="display: block; margin: auto;" />
 Finally the un-rooted tree is rooted.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb24-1"><a href="11-Phylogentic_tree.html#cb24-1" tabindex="-1"></a><span class="ex">qiime</span> phylogeny midpoint-root <span class="dt">\</span></span>
 <span id="cb24-2"><a href="11-Phylogentic_tree.html#cb24-2" tabindex="-1"></a>--i-tree unrooted-tree.qza <span class="dt">\</span></span>
 <span id="cb24-3"><a href="11-Phylogentic_tree.html#cb24-3" tabindex="-1"></a>--o-rooted-tree rooted-tree.qza</span></code></pre></div>
 <div id="parameters-13" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="11-Phylogentic_tree.html#parameters-13" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_black.png" width="10%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/parameter_black.png" width="100px" style="display: block; margin: auto;" /></p>
 <ul>
 <li><strong><code>--i-tree</code></strong>: Input artifact containing the un-rooted tree</li>
 <li><strong><code>--o-rooted-tree</code></strong>: Output artifact containing the rooted tree.</li>
@@ -436,7 +436,7 @@ Finally the un-rooted tree is rooted.</p>
 </div>
 <div id="phylogeny-summary" class="section level2 hasAnchor" number="11.5">
 <h2><span class="header-section-number">11.5</span> Phylogeny: summary<a href="11-Phylogentic_tree.html#phylogeny-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/sum_black.png" width="10%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/sum_black.png" width="100px" style="display: block; margin: auto;" /></p>
 <p>All these steps should finish in approximately 3 minutes. The final artifact for later use is ‘rooted-tree.qza’. This is a rooted tree that will be used for some biodiversity measures that require phylogenetic information.</p>
 <p>The file ‘rooted-tree.qza’ contains a phylogenetic tree that can be exported to a newick file. This is covered in the <a href="http://www.cgr.liv.ac.uk/illum/NEOFworkshops_5bfa93ca0482d69d/16S/16s_supplemental/02-Exporting_artifacts.html#phylogenetic-tree-export">supplemental book</a>.</p>
 
