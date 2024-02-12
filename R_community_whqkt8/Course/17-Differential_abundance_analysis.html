@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 17 Differential abundance (DA) analysis | R community analysis</title>
   <meta name="description" content="NEOF book for the R community analysis workflow" />
-  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 17 Differential abundance (DA) analysis | R community analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-02-01" />
+<meta name="date" content="2024-02-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -297,15 +297,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16.1" data-path="16-Beta.html"><a href="16-Beta.html#beta-setup"><i class="fa fa-check"></i><b>16.1</b> Beta: setup</a></li>
 <li class="chapter" data-level="16.2" data-path="16-Beta.html"><a href="16-Beta.html#beta-ordination"><i class="fa fa-check"></i><b>16.2</b> Beta: ordination</a></li>
 <li class="chapter" data-level="16.3" data-path="16-Beta.html"><a href="16-Beta.html#beta-plot-ordination"><i class="fa fa-check"></i><b>16.3</b> Beta: plot ordination</a></li>
-<li class="chapter" data-level="16.4" data-path="16-Beta.html"><a href="16-Beta.html#beta-statistics"><i class="fa fa-check"></i><b>16.4</b> Beta: statistics</a>
+<li class="chapter" data-level="16.4" data-path="16-Beta.html"><a href="16-Beta.html#beta-plot-ordination-with-ellipse"><i class="fa fa-check"></i><b>16.4</b> Beta: plot ordination with ellipse</a></li>
+<li class="chapter" data-level="16.5" data-path="16-Beta.html"><a href="16-Beta.html#beta-statistics"><i class="fa fa-check"></i><b>16.5</b> Beta: statistics</a>
 <ul>
-<li class="chapter" data-level="16.4.1" data-path="16-Beta.html"><a href="16-Beta.html#permanova"><i class="fa fa-check"></i><b>16.4.1</b> PERMANOVA</a></li>
-<li class="chapter" data-level="16.4.2" data-path="16-Beta.html"><a href="16-Beta.html#pairwise-permanova"><i class="fa fa-check"></i><b>16.4.2</b> Pairwise PERMANOVA</a></li>
+<li class="chapter" data-level="16.5.1" data-path="16-Beta.html"><a href="16-Beta.html#permanova"><i class="fa fa-check"></i><b>16.5.1</b> PERMANOVA</a></li>
+<li class="chapter" data-level="16.5.2" data-path="16-Beta.html"><a href="16-Beta.html#pairwise-permanova"><i class="fa fa-check"></i><b>16.5.2</b> Pairwise PERMANOVA</a></li>
 </ul></li>
-<li class="chapter" data-level="16.5" data-path="16-Beta.html"><a href="16-Beta.html#beta-facet-zoom"><i class="fa fa-check"></i><b>16.5</b> Beta: Facet zoom</a></li>
-<li class="chapter" data-level="16.6" data-path="16-Beta.html"><a href="16-Beta.html#beta-subset-samples"><i class="fa fa-check"></i><b>16.6</b> Beta: subset samples</a></li>
-<li class="chapter" data-level="16.7" data-path="16-Beta.html"><a href="16-Beta.html#permanova-tasks"><i class="fa fa-check"></i><b>16.7</b> PERMANOVA tasks</a></li>
-<li class="chapter" data-level="16.8" data-path="16-Beta.html"><a href="16-Beta.html#beta-summary"><i class="fa fa-check"></i><b>16.8</b> Beta: Summary</a></li>
+<li class="chapter" data-level="16.6" data-path="16-Beta.html"><a href="16-Beta.html#beta-facet-zoom"><i class="fa fa-check"></i><b>16.6</b> Beta: Facet zoom</a></li>
+<li class="chapter" data-level="16.7" data-path="16-Beta.html"><a href="16-Beta.html#beta-subset-samples"><i class="fa fa-check"></i><b>16.7</b> Beta: subset samples</a></li>
+<li class="chapter" data-level="16.8" data-path="16-Beta.html"><a href="16-Beta.html#permanova-tasks"><i class="fa fa-check"></i><b>16.8</b> PERMANOVA tasks</a></li>
+<li class="chapter" data-level="16.9" data-path="16-Beta.html"><a href="16-Beta.html#beta-summary"><i class="fa fa-check"></i><b>16.9</b> Beta: Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="17-Differential_abundance_analysis.html"><a href="17-Differential_abundance_analysis.html"><i class="fa fa-check"></i><b>17</b> Differential abundance (DA) analysis</a>
 <ul>
@@ -394,7 +395,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="DA_chap" class="section level1 hasAnchor" number="17">
 <h1><span class="header-section-number">Chapter 17</span> Differential abundance (DA) analysis<a href="17-Differential_abundance_analysis.html#DA_chap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/difference.png" width="20%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/difference.png" width="200px" style="display: block; margin: auto;" /></p>
 <p>We are going to carry out differential abundance analysis with <a href="https://www.nature.com/articles/s41467-020-17041-7">ANCOM-BC (Analysis of compositions of microbiomes with bias correction)</a>.
 This is an improvement of the original ANCOM method but with added bias correction.
 This bias correction aims to account for the bias caused by the difference in sampling/depth across the samples.</p>
@@ -409,19 +410,19 @@ If a class is detected to have higher abundance in media compared to the environ
 Additionally, we will be able to detect class that have been depleted in the media samples versus the environmental sample.</p>
 <div id="da-setup" class="section level2 hasAnchor" number="17.1">
 <h2><span class="header-section-number">17.1</span> DA: setup<a href="17-Differential_abundance_analysis.html#da-setup" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/packages_1.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/packages_1.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>We will use a new notebook called <strong>"7-differential_abundance.ipynb"</strong>.
 Add the following to the top of this new notebook to load the required libraries/packages and data.</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb102-1"><a href="17-Differential_abundance_analysis.html#cb102-1" tabindex="-1"></a><span class="co">#Packages</span></span>
-<span id="cb102-2"><a href="17-Differential_abundance_analysis.html#cb102-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
-<span id="cb102-3"><a href="17-Differential_abundance_analysis.html#cb102-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span>
-<span id="cb102-4"><a href="17-Differential_abundance_analysis.html#cb102-4" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;IRdisplay&quot;</span>)</span>
-<span id="cb102-5"><a href="17-Differential_abundance_analysis.html#cb102-5" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ANCOMBC&quot;</span>)</span>
-<span id="cb102-6"><a href="17-Differential_abundance_analysis.html#cb102-6" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;DT&quot;</span>)</span>
-<span id="cb102-7"><a href="17-Differential_abundance_analysis.html#cb102-7" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
-<span id="cb102-8"><a href="17-Differential_abundance_analysis.html#cb102-8" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyr&quot;</span>)</span>
-<span id="cb102-9"><a href="17-Differential_abundance_analysis.html#cb102-9" tabindex="-1"></a><span class="co">#Load phyloseq object</span></span>
-<span id="cb102-10"><a href="17-Differential_abundance_analysis.html#cb102-10" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;phyloseq.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb104-1"><a href="17-Differential_abundance_analysis.html#cb104-1" tabindex="-1"></a><span class="co">#Packages</span></span>
+<span id="cb104-2"><a href="17-Differential_abundance_analysis.html#cb104-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
+<span id="cb104-3"><a href="17-Differential_abundance_analysis.html#cb104-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span>
+<span id="cb104-4"><a href="17-Differential_abundance_analysis.html#cb104-4" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;IRdisplay&quot;</span>)</span>
+<span id="cb104-5"><a href="17-Differential_abundance_analysis.html#cb104-5" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ANCOMBC&quot;</span>)</span>
+<span id="cb104-6"><a href="17-Differential_abundance_analysis.html#cb104-6" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;DT&quot;</span>)</span>
+<span id="cb104-7"><a href="17-Differential_abundance_analysis.html#cb104-7" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb104-8"><a href="17-Differential_abundance_analysis.html#cb104-8" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyr&quot;</span>)</span>
+<span id="cb104-9"><a href="17-Differential_abundance_analysis.html#cb104-9" tabindex="-1"></a><span class="co">#Load phyloseq object</span></span>
+<span id="cb104-10"><a href="17-Differential_abundance_analysis.html#cb104-10" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;phyloseq.RData&quot;</span>)</span></code></pre></div>
 <p>We will be using the package <a href="https://github.com/FrederickHuangLin/ANCOM-BC-Code-Archive"><code>ANCOMBC</code></a> to carry out our DA analysis.
 Instead of using our rarefied data we will use our original abundance data.
 This is because ANCOM-BC uses absolute abundances and corrects for differences between samples.
@@ -430,7 +431,7 @@ As bioinformaticians we are more interested in the output rather than the method
 </div>
 <div id="da-preprocess" class="section level2 hasAnchor" number="17.2">
 <h2><span class="header-section-number">17.2</span> DA: Preprocess<a href="17-Differential_abundance_analysis.html#da-preprocess" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/water_surface.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/water_surface.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>When carrying out ANCOM analysis you need to specify the reference group for the groupings you use.
 The reference group will be the 1st level of the factor.
 Therefore we will check our level orders for our media and site metadata categories.</p>
@@ -441,36 +442,36 @@ What are factors?
 <p>For an explanation on the factors class please see the following section in the R primer omics book:
 <a href="https://neof-workshops.github.io/R_j4c0xh/14-Plots_scatterplot_and_box_plots.html#factors">Factors</a></p>
 </div>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb103-1"><a href="17-Differential_abundance_analysis.html#cb103-1" tabindex="-1"></a><span class="co">#Check media and site levels</span></span>
-<span id="cb103-2"><a href="17-Differential_abundance_analysis.html#cb103-2" tabindex="-1"></a><span class="fu">levels</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>media)</span>
-<span id="cb103-3"><a href="17-Differential_abundance_analysis.html#cb103-3" tabindex="-1"></a><span class="fu">levels</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>site)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb105-1"><a href="17-Differential_abundance_analysis.html#cb105-1" tabindex="-1"></a><span class="co">#Check media and site levels</span></span>
+<span id="cb105-2"><a href="17-Differential_abundance_analysis.html#cb105-2" tabindex="-1"></a><span class="fu">levels</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>media)</span>
+<span id="cb105-3"><a href="17-Differential_abundance_analysis.html#cb105-3" tabindex="-1"></a><span class="fu">levels</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>site)</span></code></pre></div>
 <p>The levels are not in the order we would like.
 We'll therefore change the order with the <code>factor()</code> function and <code>levels =</code> option.</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb104-1"><a href="17-Differential_abundance_analysis.html#cb104-1" tabindex="-1"></a><span class="co">#Ensure ENV is our reference level for media</span></span>
-<span id="cb104-2"><a href="17-Differential_abundance_analysis.html#cb104-2" tabindex="-1"></a>phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>media <span class="ot">&lt;-</span> <span class="fu">factor</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>media,</span>
-<span id="cb104-3"><a href="17-Differential_abundance_analysis.html#cb104-3" tabindex="-1"></a>                                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;ENV&quot;</span>, <span class="st">&quot;CVP&quot;</span>, <span class="st">&quot;KBC&quot;</span>, <span class="st">&quot;TSA&quot;</span>))</span>
-<span id="cb104-4"><a href="17-Differential_abundance_analysis.html#cb104-4" tabindex="-1"></a><span class="fu">levels</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>media)</span>
-<span id="cb104-5"><a href="17-Differential_abundance_analysis.html#cb104-5" tabindex="-1"></a><span class="co">#Ensure UD is our reference level for site</span></span>
-<span id="cb104-6"><a href="17-Differential_abundance_analysis.html#cb104-6" tabindex="-1"></a>phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>site <span class="ot">&lt;-</span> <span class="fu">factor</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>site,</span>
-<span id="cb104-7"><a href="17-Differential_abundance_analysis.html#cb104-7" tabindex="-1"></a>                                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;UD&quot;</span>, <span class="st">&quot;MD&quot;</span>, <span class="st">&quot;LD&quot;</span>))</span>
-<span id="cb104-8"><a href="17-Differential_abundance_analysis.html#cb104-8" tabindex="-1"></a><span class="fu">levels</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>site)</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb106-1"><a href="17-Differential_abundance_analysis.html#cb106-1" tabindex="-1"></a><span class="co">#Ensure ENV is our reference level for media</span></span>
+<span id="cb106-2"><a href="17-Differential_abundance_analysis.html#cb106-2" tabindex="-1"></a>phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>media <span class="ot">&lt;-</span> <span class="fu">factor</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>media,</span>
+<span id="cb106-3"><a href="17-Differential_abundance_analysis.html#cb106-3" tabindex="-1"></a>                                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;ENV&quot;</span>, <span class="st">&quot;CVP&quot;</span>, <span class="st">&quot;KBC&quot;</span>, <span class="st">&quot;TSA&quot;</span>))</span>
+<span id="cb106-4"><a href="17-Differential_abundance_analysis.html#cb106-4" tabindex="-1"></a><span class="fu">levels</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>media)</span>
+<span id="cb106-5"><a href="17-Differential_abundance_analysis.html#cb106-5" tabindex="-1"></a><span class="co">#Ensure UD is our reference level for site</span></span>
+<span id="cb106-6"><a href="17-Differential_abundance_analysis.html#cb106-6" tabindex="-1"></a>phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>site <span class="ot">&lt;-</span> <span class="fu">factor</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>site,</span>
+<span id="cb106-7"><a href="17-Differential_abundance_analysis.html#cb106-7" tabindex="-1"></a>                                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;UD&quot;</span>, <span class="st">&quot;MD&quot;</span>, <span class="st">&quot;LD&quot;</span>))</span>
+<span id="cb106-8"><a href="17-Differential_abundance_analysis.html#cb106-8" tabindex="-1"></a><span class="fu">levels</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)<span class="sc">$</span>site)</span></code></pre></div>
 </div>
 <div id="da-ancom-bc-analysis" class="section level2 hasAnchor" number="17.3">
 <h2><span class="header-section-number">17.3</span> DA: ANCOM-BC analysis<a href="17-Differential_abundance_analysis.html#da-ancom-bc-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/play_blue.png" width="10%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/play_blue.png" width="100px" style="display: block; margin: auto;" /></p>
 <p>Now that we have our data the way we would like it we can carry out the ANCOM analysis.
 We'll use the function <code>ANCOMBC::ancombc2()</code> for our ANCOM-BC analysis.</p>
 <p><strong>Note:</strong> This command will take a few minutes to run.</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb105-1"><a href="17-Differential_abundance_analysis.html#cb105-1" tabindex="-1"></a><span class="co">#Run ANCOMBC</span></span>
-<span id="cb105-2"><a href="17-Differential_abundance_analysis.html#cb105-2" tabindex="-1"></a>ancom_class_out <span class="ot">&lt;-</span> ANCOMBC<span class="sc">::</span><span class="fu">ancombc2</span>(<span class="at">data =</span> pseq, <span class="at">fix_formula =</span> <span class="st">&quot;media + site&quot;</span>,</span>
-<span id="cb105-3"><a href="17-Differential_abundance_analysis.html#cb105-3" tabindex="-1"></a>                                     <span class="at">p_adj_method =</span> <span class="st">&quot;holm&quot;</span>,</span>
-<span id="cb105-4"><a href="17-Differential_abundance_analysis.html#cb105-4" tabindex="-1"></a>                                     <span class="at">tax_level =</span> <span class="st">&quot;Class&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb107-1"><a href="17-Differential_abundance_analysis.html#cb107-1" tabindex="-1"></a><span class="co">#Run ANCOMBC</span></span>
+<span id="cb107-2"><a href="17-Differential_abundance_analysis.html#cb107-2" tabindex="-1"></a>ancom_class_out <span class="ot">&lt;-</span> ANCOMBC<span class="sc">::</span><span class="fu">ancombc2</span>(<span class="at">data =</span> pseq, <span class="at">fix_formula =</span> <span class="st">&quot;media + site&quot;</span>,</span>
+<span id="cb107-3"><a href="17-Differential_abundance_analysis.html#cb107-3" tabindex="-1"></a>                                     <span class="at">p_adj_method =</span> <span class="st">&quot;holm&quot;</span>,</span>
+<span id="cb107-4"><a href="17-Differential_abundance_analysis.html#cb107-4" tabindex="-1"></a>                                     <span class="at">tax_level =</span> <span class="st">&quot;Class&quot;</span>)</span></code></pre></div>
 <p>The resulting object is very large so it can be a good idea to save it.</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb106-1"><a href="17-Differential_abundance_analysis.html#cb106-1" tabindex="-1"></a><span class="co">#Save results</span></span>
-<span id="cb106-2"><a href="17-Differential_abundance_analysis.html#cb106-2" tabindex="-1"></a><span class="fu">save</span>(ancom_class_out, <span class="at">file =</span> <span class="st">&quot;ANCOMBC2_class_analysis.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb108-1"><a href="17-Differential_abundance_analysis.html#cb108-1" tabindex="-1"></a><span class="co">#Save results</span></span>
+<span id="cb108-2"><a href="17-Differential_abundance_analysis.html#cb108-2" tabindex="-1"></a><span class="fu">save</span>(ancom_class_out, <span class="at">file =</span> <span class="st">&quot;ANCOMBC2_class_analysis.RData&quot;</span>)</span></code></pre></div>
 <div id="ancombc2-options" class="section level3 hasAnchor" number="17.3.1">
 <h3><span class="header-section-number">17.3.1</span> ANCOMBC2 options<a href="17-Differential_abundance_analysis.html#ancombc2-options" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/parameter_blue.png" width="10%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/parameter_blue.png" width="100px" style="display: block; margin: auto;" /></p>
 <p>The options we use in the function are:</p>
 <ul>
 <li><code>data =</code>: The data to be analysed. This can be provided in various types of objects including the <code>phyloseq</code> object.</li>
@@ -484,15 +485,15 @@ Please see the package <a href="https://bioc.ism.ac.jp/packages/devel/bioc/manua
 </div>
 <div id="da-ancom-bc-results" class="section level2 hasAnchor" number="17.4">
 <h2><span class="header-section-number">17.4</span> DA: ANCOM-BC results<a href="17-Differential_abundance_analysis.html#da-ancom-bc-results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/output_file_blue.png" width="10%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/output_file_blue.png" width="100px" style="display: block; margin: auto;" /></p>
 <p>There is a lot of information in <code>ancom_class_out</code>.
 Therefore, lets extract the results we want to look at and then remove the large object.</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb107-1"><a href="17-Differential_abundance_analysis.html#cb107-1" tabindex="-1"></a><span class="co">#Output of analysis compared to reference groups</span></span>
-<span id="cb107-2"><a href="17-Differential_abundance_analysis.html#cb107-2" tabindex="-1"></a>res_ancom_class <span class="ot">&lt;-</span> ancom_class_out<span class="sc">$</span>res</span>
-<span id="cb107-3"><a href="17-Differential_abundance_analysis.html#cb107-3" tabindex="-1"></a><span class="co">#Remove large object</span></span>
-<span id="cb107-4"><a href="17-Differential_abundance_analysis.html#cb107-4" tabindex="-1"></a><span class="fu">rm</span>(ancom_class_out)</span>
-<span id="cb107-5"><a href="17-Differential_abundance_analysis.html#cb107-5" tabindex="-1"></a><span class="co">#Check top rows of results</span></span>
-<span id="cb107-6"><a href="17-Differential_abundance_analysis.html#cb107-6" tabindex="-1"></a><span class="fu">head</span>(res_ancom_class)</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb109-1"><a href="17-Differential_abundance_analysis.html#cb109-1" tabindex="-1"></a><span class="co">#Output of analysis compared to reference groups</span></span>
+<span id="cb109-2"><a href="17-Differential_abundance_analysis.html#cb109-2" tabindex="-1"></a>res_ancom_class <span class="ot">&lt;-</span> ancom_class_out<span class="sc">$</span>res</span>
+<span id="cb109-3"><a href="17-Differential_abundance_analysis.html#cb109-3" tabindex="-1"></a><span class="co">#Remove large object</span></span>
+<span id="cb109-4"><a href="17-Differential_abundance_analysis.html#cb109-4" tabindex="-1"></a><span class="fu">rm</span>(ancom_class_out)</span>
+<span id="cb109-5"><a href="17-Differential_abundance_analysis.html#cb109-5" tabindex="-1"></a><span class="co">#Check top rows of results</span></span>
+<span id="cb109-6"><a href="17-Differential_abundance_analysis.html#cb109-6" tabindex="-1"></a><span class="fu">head</span>(res_ancom_class)</span></code></pre></div>
 <p>These results only contain taxon where a significant result was found in at least one comparison.
 This is based on the adjusted p-values (&lt;0.05).
 There are a lot of columns (37) in our result data frame.
@@ -514,16 +515,16 @@ These contain the following information:</p>
 <li>__diff*__: This indicates whether there is a significant difference in the abundances of the comparison and reference group. In other words, is the Q-value &lt; 0.05.</li>
 </ul>
 <p>It is quite a large table so let's save it as a tsv (tab separated value) file.</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb108-1"><a href="17-Differential_abundance_analysis.html#cb108-1" tabindex="-1"></a><span class="co">#Save as file</span></span>
-<span id="cb108-2"><a href="17-Differential_abundance_analysis.html#cb108-2" tabindex="-1"></a><span class="fu">write.table</span>(<span class="at">x =</span> res_ancom_class, <span class="at">file =</span> <span class="st">&quot;ANCOMBC2_class_results.tsv&quot;</span>,</span>
-<span id="cb108-3"><a href="17-Differential_abundance_analysis.html#cb108-3" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb110-1"><a href="17-Differential_abundance_analysis.html#cb110-1" tabindex="-1"></a><span class="co">#Save as file</span></span>
+<span id="cb110-2"><a href="17-Differential_abundance_analysis.html#cb110-2" tabindex="-1"></a><span class="fu">write.table</span>(<span class="at">x =</span> res_ancom_class, <span class="at">file =</span> <span class="st">&quot;ANCOMBC2_class_results.tsv&quot;</span>,</span>
+<span id="cb110-3"><a href="17-Differential_abundance_analysis.html#cb110-3" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>This is good to open in excel but we don't have something like that on our cluster.
 Therefore, we will use the package <code>DT</code> to create an interactive table with the function <code>datatable()</code>.
 We can then save this object as an HTML with <code>htmlwidgets::saveWidget()</code>.</p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb109-1"><a href="17-Differential_abundance_analysis.html#cb109-1" tabindex="-1"></a><span class="co">#Create data table</span></span>
-<span id="cb109-2"><a href="17-Differential_abundance_analysis.html#cb109-2" tabindex="-1"></a>m <span class="ot">&lt;-</span> DT<span class="sc">::</span><span class="fu">datatable</span>(res_ancom_class)</span>
-<span id="cb109-3"><a href="17-Differential_abundance_analysis.html#cb109-3" tabindex="-1"></a><span class="co">#Save data table as html</span></span>
-<span id="cb109-4"><a href="17-Differential_abundance_analysis.html#cb109-4" tabindex="-1"></a>htmlwidgets<span class="sc">::</span><span class="fu">saveWidget</span>(m, <span class="st">&quot;ANCOM_class_results.html&quot;</span>, <span class="at">selfcontained =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb111-1"><a href="17-Differential_abundance_analysis.html#cb111-1" tabindex="-1"></a><span class="co">#Create data table</span></span>
+<span id="cb111-2"><a href="17-Differential_abundance_analysis.html#cb111-2" tabindex="-1"></a>m <span class="ot">&lt;-</span> DT<span class="sc">::</span><span class="fu">datatable</span>(res_ancom_class)</span>
+<span id="cb111-3"><a href="17-Differential_abundance_analysis.html#cb111-3" tabindex="-1"></a><span class="co">#Save data table as html</span></span>
+<span id="cb111-4"><a href="17-Differential_abundance_analysis.html#cb111-4" tabindex="-1"></a>htmlwidgets<span class="sc">::</span><span class="fu">saveWidget</span>(m, <span class="st">&quot;ANCOM_class_results.html&quot;</span>, <span class="at">selfcontained =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Go to the jupyter-notebook file explorer tab and click on the html file to open it in a new tab.
 This gives a relatively nice way to view all the results.</p>
 <p>One very clear pattern is that there are no biomarkers found for the site comparisons (MD and LD).
@@ -532,34 +533,34 @@ However, there is a good amount of biomarkers for the three different medias com
 </div>
 <div id="da-create-signifcant-lfc-long-data-frame" class="section level2 hasAnchor" number="17.5">
 <h2><span class="header-section-number">17.5</span> DA: Create signifcant LFC long data frame<a href="17-Differential_abundance_analysis.html#da-create-signifcant-lfc-long-data-frame" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/portrait.png" width="10%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/portrait.png" width="100px" style="display: block; margin: auto;" /></p>
 <p>The results table is good but let's make a heatmap showing the LFCs (Log fold changes) of the significant biomarkers. First, we need to do some preprecessing.</p>
 <p>Remove columns unrelated to the media comparisons.</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb110-1"><a href="17-Differential_abundance_analysis.html#cb110-1" tabindex="-1"></a><span class="co">#Extract the taxon column and the media columns from the results</span></span>
-<span id="cb110-2"><a href="17-Differential_abundance_analysis.html#cb110-2" tabindex="-1"></a><span class="co">#Get positions of columns which contain &quot;media&quot;</span></span>
-<span id="cb110-3"><a href="17-Differential_abundance_analysis.html#cb110-3" tabindex="-1"></a>media_colnames_pos <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;media&quot;</span>, <span class="fu">colnames</span>(res_ancom_class))</span>
-<span id="cb110-4"><a href="17-Differential_abundance_analysis.html#cb110-4" tabindex="-1"></a><span class="co">#Taxon column and media column names</span></span>
-<span id="cb110-5"><a href="17-Differential_abundance_analysis.html#cb110-5" tabindex="-1"></a>media_colnames <span class="ot">&lt;-</span> <span class="fu">colnames</span>(res_ancom_class)[<span class="fu">c</span>(<span class="dv">1</span>,media_colnames_pos)]</span>
-<span id="cb110-6"><a href="17-Differential_abundance_analysis.html#cb110-6" tabindex="-1"></a>media_colnames</span>
-<span id="cb110-7"><a href="17-Differential_abundance_analysis.html#cb110-7" tabindex="-1"></a><span class="co">#Create new df with only taxon and media columns</span></span>
-<span id="cb110-8"><a href="17-Differential_abundance_analysis.html#cb110-8" tabindex="-1"></a>res_ancom_class_media <span class="ot">&lt;-</span> res_ancom_class[,media_colnames]</span>
-<span id="cb110-9"><a href="17-Differential_abundance_analysis.html#cb110-9" tabindex="-1"></a><span class="fu">head</span>(res_ancom_class_media)</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb112-1"><a href="17-Differential_abundance_analysis.html#cb112-1" tabindex="-1"></a><span class="co">#Extract the taxon column and the media columns from the results</span></span>
+<span id="cb112-2"><a href="17-Differential_abundance_analysis.html#cb112-2" tabindex="-1"></a><span class="co">#Get positions of columns which contain &quot;media&quot;</span></span>
+<span id="cb112-3"><a href="17-Differential_abundance_analysis.html#cb112-3" tabindex="-1"></a>media_colnames_pos <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">&quot;media&quot;</span>, <span class="fu">colnames</span>(res_ancom_class))</span>
+<span id="cb112-4"><a href="17-Differential_abundance_analysis.html#cb112-4" tabindex="-1"></a><span class="co">#Taxon column and media column names</span></span>
+<span id="cb112-5"><a href="17-Differential_abundance_analysis.html#cb112-5" tabindex="-1"></a>media_colnames <span class="ot">&lt;-</span> <span class="fu">colnames</span>(res_ancom_class)[<span class="fu">c</span>(<span class="dv">1</span>,media_colnames_pos)]</span>
+<span id="cb112-6"><a href="17-Differential_abundance_analysis.html#cb112-6" tabindex="-1"></a>media_colnames</span>
+<span id="cb112-7"><a href="17-Differential_abundance_analysis.html#cb112-7" tabindex="-1"></a><span class="co">#Create new df with only taxon and media columns</span></span>
+<span id="cb112-8"><a href="17-Differential_abundance_analysis.html#cb112-8" tabindex="-1"></a>res_ancom_class_media <span class="ot">&lt;-</span> res_ancom_class[,media_colnames]</span>
+<span id="cb112-9"><a href="17-Differential_abundance_analysis.html#cb112-9" tabindex="-1"></a><span class="fu">head</span>(res_ancom_class_media)</span></code></pre></div>
 <p>Because we had comparisons with more that 1 grouping (media &amp; site) we might have rows with no significnat results.
 We will therefore remove these rows.</p>
 <p><strong>Note:</strong> The next 2 code sections use the packages <code>dplyr</code> &amp; <code>tidyr</code> along with piping <code>%&gt;%</code>.
 This is used as it would be very difficult to do these steps in base R and they are the code provided in the <a href="https://bioconductor.org/packages/release/bioc/vignettes/ANCOMBC/inst/doc/ANCOMBC2.html"><code>ANCOMBC2</code> tutorial</a>.
 If you would like to learn more about these packages please see the <a href="https://r4ds.had.co.nz/">R for Data Science book</a>.</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb111-1"><a href="17-Differential_abundance_analysis.html#cb111-1" tabindex="-1"></a><span class="co">#Remove any taxon where there are no TRUE values</span></span>
-<span id="cb111-2"><a href="17-Differential_abundance_analysis.html#cb111-2" tabindex="-1"></a><span class="co">#I.e. no significant differences found for the media samples</span></span>
-<span id="cb111-3"><a href="17-Differential_abundance_analysis.html#cb111-3" tabindex="-1"></a><span class="co">#Number of biomarkers prior to removal</span></span>
-<span id="cb111-4"><a href="17-Differential_abundance_analysis.html#cb111-4" tabindex="-1"></a><span class="fu">nrow</span>(res_ancom_class_media)</span>
-<span id="cb111-5"><a href="17-Differential_abundance_analysis.html#cb111-5" tabindex="-1"></a><span class="co">#Extract rows that contain at least one TRUE value</span></span>
-<span id="cb111-6"><a href="17-Differential_abundance_analysis.html#cb111-6" tabindex="-1"></a>res_ancom_class_media_sig <span class="ot">&lt;-</span> res_ancom_class_media <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter_all</span>(</span>
-<span id="cb111-7"><a href="17-Differential_abundance_analysis.html#cb111-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">any_vars</span>(. <span class="sc">%in%</span> <span class="cn">TRUE</span>)</span>
-<span id="cb111-8"><a href="17-Differential_abundance_analysis.html#cb111-8" tabindex="-1"></a>)</span>
-<span id="cb111-9"><a href="17-Differential_abundance_analysis.html#cb111-9" tabindex="-1"></a><span class="co">#Number of rows and the top of the new df</span></span>
-<span id="cb111-10"><a href="17-Differential_abundance_analysis.html#cb111-10" tabindex="-1"></a><span class="fu">nrow</span>(res_ancom_class_media_sig)</span>
-<span id="cb111-11"><a href="17-Differential_abundance_analysis.html#cb111-11" tabindex="-1"></a><span class="fu">head</span>(res_ancom_class_media_sig)</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb113-1"><a href="17-Differential_abundance_analysis.html#cb113-1" tabindex="-1"></a><span class="co">#Remove any taxon where there are no TRUE values</span></span>
+<span id="cb113-2"><a href="17-Differential_abundance_analysis.html#cb113-2" tabindex="-1"></a><span class="co">#I.e. no significant differences found for the media samples</span></span>
+<span id="cb113-3"><a href="17-Differential_abundance_analysis.html#cb113-3" tabindex="-1"></a><span class="co">#Number of biomarkers prior to removal</span></span>
+<span id="cb113-4"><a href="17-Differential_abundance_analysis.html#cb113-4" tabindex="-1"></a><span class="fu">nrow</span>(res_ancom_class_media)</span>
+<span id="cb113-5"><a href="17-Differential_abundance_analysis.html#cb113-5" tabindex="-1"></a><span class="co">#Extract rows that contain at least one TRUE value</span></span>
+<span id="cb113-6"><a href="17-Differential_abundance_analysis.html#cb113-6" tabindex="-1"></a>res_ancom_class_media_sig <span class="ot">&lt;-</span> res_ancom_class_media <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter_all</span>(</span>
+<span id="cb113-7"><a href="17-Differential_abundance_analysis.html#cb113-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">any_vars</span>(. <span class="sc">%in%</span> <span class="cn">TRUE</span>)</span>
+<span id="cb113-8"><a href="17-Differential_abundance_analysis.html#cb113-8" tabindex="-1"></a>)</span>
+<span id="cb113-9"><a href="17-Differential_abundance_analysis.html#cb113-9" tabindex="-1"></a><span class="co">#Number of rows and the top of the new df</span></span>
+<span id="cb113-10"><a href="17-Differential_abundance_analysis.html#cb113-10" tabindex="-1"></a><span class="fu">nrow</span>(res_ancom_class_media_sig)</span>
+<span id="cb113-11"><a href="17-Differential_abundance_analysis.html#cb113-11" tabindex="-1"></a><span class="fu">head</span>(res_ancom_class_media_sig)</span></code></pre></div>
 <p>This has removed one biomarker which is great.</p>
 <p>Next we need to do a variety of preprocessing steps.
 This will create an edited long data frame.
@@ -574,101 +575,101 @@ The long data frame will contain the following columns:</p>
 <p>Please see the code and its annotation below.
 If you do not fully understand the code that is fine.
 As long as you can edit it to work with your own future code.</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb112-1"><a href="17-Differential_abundance_analysis.html#cb112-1" tabindex="-1"></a><span class="co">#Create edited long df to plot significant log fold changes on heatmap</span></span>
-<span id="cb112-2"><a href="17-Differential_abundance_analysis.html#cb112-2" tabindex="-1"></a>res_ancom_class_media_sig_lfc_fig <span class="ot">&lt;-</span> res_ancom_class_media_sig <span class="sc">%&gt;%</span></span>
-<span id="cb112-3"><a href="17-Differential_abundance_analysis.html#cb112-3" tabindex="-1"></a>  <span class="co">#Change log change values to 0 if diff is false</span></span>
-<span id="cb112-4"><a href="17-Differential_abundance_analysis.html#cb112-4" tabindex="-1"></a>  <span class="co">#test: Is diff TRUE?</span></span>
-<span id="cb112-5"><a href="17-Differential_abundance_analysis.html#cb112-5" tabindex="-1"></a>  <span class="co">#yes: Set LFC to original value (e.g. lfc_mediaCVP)</span></span>
-<span id="cb112-6"><a href="17-Differential_abundance_analysis.html#cb112-6" tabindex="-1"></a>  <span class="co">#no: Set LFC to 0</span></span>
-<span id="cb112-7"><a href="17-Differential_abundance_analysis.html#cb112-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">lfc_mediaCVP =</span> <span class="fu">ifelse</span>(<span class="at">test =</span> diff_mediaCVP <span class="sc">==</span> <span class="cn">TRUE</span>,</span>
-<span id="cb112-8"><a href="17-Differential_abundance_analysis.html#cb112-8" tabindex="-1"></a>                                      <span class="at">yes =</span> lfc_mediaCVP, <span class="at">no =</span> <span class="dv">0</span>),</span>
-<span id="cb112-9"><a href="17-Differential_abundance_analysis.html#cb112-9" tabindex="-1"></a>                <span class="at">lfc_mediaKBC =</span> <span class="fu">ifelse</span>(<span class="at">test =</span> diff_mediaKBC <span class="sc">==</span> <span class="cn">TRUE</span>,</span>
-<span id="cb112-10"><a href="17-Differential_abundance_analysis.html#cb112-10" tabindex="-1"></a>                                      <span class="at">yes =</span> lfc_mediaKBC, <span class="at">no =</span> <span class="dv">0</span>),</span>
-<span id="cb112-11"><a href="17-Differential_abundance_analysis.html#cb112-11" tabindex="-1"></a>                <span class="at">lfc_mediaTSA =</span> <span class="fu">ifelse</span>(<span class="at">test =</span> diff_mediaTSA <span class="sc">==</span> <span class="cn">TRUE</span>,</span>
-<span id="cb112-12"><a href="17-Differential_abundance_analysis.html#cb112-12" tabindex="-1"></a>                                      <span class="at">yes =</span> lfc_mediaTSA, <span class="at">no =</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb112-13"><a href="17-Differential_abundance_analysis.html#cb112-13" tabindex="-1"></a>  <span class="co">#Only retain taxon and log fold changes columns</span></span>
-<span id="cb112-14"><a href="17-Differential_abundance_analysis.html#cb112-14" tabindex="-1"></a>  <span class="co">#Additionally, change column names and round LFC values to 2 decimal places</span></span>
-<span id="cb112-15"><a href="17-Differential_abundance_analysis.html#cb112-15" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">transmute</span>(taxon,</span>
-<span id="cb112-16"><a href="17-Differential_abundance_analysis.html#cb112-16" tabindex="-1"></a>                   <span class="at">CVP =</span> <span class="fu">round</span>(lfc_mediaCVP,<span class="dv">2</span>),</span>
-<span id="cb112-17"><a href="17-Differential_abundance_analysis.html#cb112-17" tabindex="-1"></a>                   <span class="at">KBC =</span> <span class="fu">round</span>(lfc_mediaKBC,<span class="dv">2</span>),</span>
-<span id="cb112-18"><a href="17-Differential_abundance_analysis.html#cb112-18" tabindex="-1"></a>                   <span class="at">TSA =</span> <span class="fu">round</span>(lfc_mediaTSA,<span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb112-19"><a href="17-Differential_abundance_analysis.html#cb112-19" tabindex="-1"></a>  <span class="co">#Convert to long data frame</span></span>
-<span id="cb112-20"><a href="17-Differential_abundance_analysis.html#cb112-20" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="at">cols =</span> CVP<span class="sc">:</span>TSA,</span>
-<span id="cb112-21"><a href="17-Differential_abundance_analysis.html#cb112-21" tabindex="-1"></a>                      <span class="at">names_to =</span> <span class="st">&quot;group&quot;</span>,</span>
-<span id="cb112-22"><a href="17-Differential_abundance_analysis.html#cb112-22" tabindex="-1"></a>                      <span class="at">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb112-23"><a href="17-Differential_abundance_analysis.html#cb112-23" tabindex="-1"></a>  <span class="co">#Arrange order of rows based on taxons</span></span>
-<span id="cb112-24"><a href="17-Differential_abundance_analysis.html#cb112-24" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(taxon)</span>
-<span id="cb112-25"><a href="17-Differential_abundance_analysis.html#cb112-25" tabindex="-1"></a><span class="co">#Check new long df</span></span>
-<span id="cb112-26"><a href="17-Differential_abundance_analysis.html#cb112-26" tabindex="-1"></a><span class="fu">head</span>(res_ancom_class_media_sig_lfc_fig)</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb114-1"><a href="17-Differential_abundance_analysis.html#cb114-1" tabindex="-1"></a><span class="co">#Create edited long df to plot significant log fold changes on heatmap</span></span>
+<span id="cb114-2"><a href="17-Differential_abundance_analysis.html#cb114-2" tabindex="-1"></a>res_ancom_class_media_sig_lfc_fig <span class="ot">&lt;-</span> res_ancom_class_media_sig <span class="sc">%&gt;%</span></span>
+<span id="cb114-3"><a href="17-Differential_abundance_analysis.html#cb114-3" tabindex="-1"></a>  <span class="co">#Change log change values to 0 if diff is false</span></span>
+<span id="cb114-4"><a href="17-Differential_abundance_analysis.html#cb114-4" tabindex="-1"></a>  <span class="co">#test: Is diff TRUE?</span></span>
+<span id="cb114-5"><a href="17-Differential_abundance_analysis.html#cb114-5" tabindex="-1"></a>  <span class="co">#yes: Set LFC to original value (e.g. lfc_mediaCVP)</span></span>
+<span id="cb114-6"><a href="17-Differential_abundance_analysis.html#cb114-6" tabindex="-1"></a>  <span class="co">#no: Set LFC to 0</span></span>
+<span id="cb114-7"><a href="17-Differential_abundance_analysis.html#cb114-7" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">lfc_mediaCVP =</span> <span class="fu">ifelse</span>(<span class="at">test =</span> diff_mediaCVP <span class="sc">==</span> <span class="cn">TRUE</span>,</span>
+<span id="cb114-8"><a href="17-Differential_abundance_analysis.html#cb114-8" tabindex="-1"></a>                                      <span class="at">yes =</span> lfc_mediaCVP, <span class="at">no =</span> <span class="dv">0</span>),</span>
+<span id="cb114-9"><a href="17-Differential_abundance_analysis.html#cb114-9" tabindex="-1"></a>                <span class="at">lfc_mediaKBC =</span> <span class="fu">ifelse</span>(<span class="at">test =</span> diff_mediaKBC <span class="sc">==</span> <span class="cn">TRUE</span>,</span>
+<span id="cb114-10"><a href="17-Differential_abundance_analysis.html#cb114-10" tabindex="-1"></a>                                      <span class="at">yes =</span> lfc_mediaKBC, <span class="at">no =</span> <span class="dv">0</span>),</span>
+<span id="cb114-11"><a href="17-Differential_abundance_analysis.html#cb114-11" tabindex="-1"></a>                <span class="at">lfc_mediaTSA =</span> <span class="fu">ifelse</span>(<span class="at">test =</span> diff_mediaTSA <span class="sc">==</span> <span class="cn">TRUE</span>,</span>
+<span id="cb114-12"><a href="17-Differential_abundance_analysis.html#cb114-12" tabindex="-1"></a>                                      <span class="at">yes =</span> lfc_mediaTSA, <span class="at">no =</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb114-13"><a href="17-Differential_abundance_analysis.html#cb114-13" tabindex="-1"></a>  <span class="co">#Only retain taxon and log fold changes columns</span></span>
+<span id="cb114-14"><a href="17-Differential_abundance_analysis.html#cb114-14" tabindex="-1"></a>  <span class="co">#Additionally, change column names and round LFC values to 2 decimal places</span></span>
+<span id="cb114-15"><a href="17-Differential_abundance_analysis.html#cb114-15" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">transmute</span>(taxon,</span>
+<span id="cb114-16"><a href="17-Differential_abundance_analysis.html#cb114-16" tabindex="-1"></a>                   <span class="at">CVP =</span> <span class="fu">round</span>(lfc_mediaCVP,<span class="dv">2</span>),</span>
+<span id="cb114-17"><a href="17-Differential_abundance_analysis.html#cb114-17" tabindex="-1"></a>                   <span class="at">KBC =</span> <span class="fu">round</span>(lfc_mediaKBC,<span class="dv">2</span>),</span>
+<span id="cb114-18"><a href="17-Differential_abundance_analysis.html#cb114-18" tabindex="-1"></a>                   <span class="at">TSA =</span> <span class="fu">round</span>(lfc_mediaTSA,<span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb114-19"><a href="17-Differential_abundance_analysis.html#cb114-19" tabindex="-1"></a>  <span class="co">#Convert to long data frame</span></span>
+<span id="cb114-20"><a href="17-Differential_abundance_analysis.html#cb114-20" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="at">cols =</span> CVP<span class="sc">:</span>TSA,</span>
+<span id="cb114-21"><a href="17-Differential_abundance_analysis.html#cb114-21" tabindex="-1"></a>                      <span class="at">names_to =</span> <span class="st">&quot;group&quot;</span>,</span>
+<span id="cb114-22"><a href="17-Differential_abundance_analysis.html#cb114-22" tabindex="-1"></a>                      <span class="at">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb114-23"><a href="17-Differential_abundance_analysis.html#cb114-23" tabindex="-1"></a>  <span class="co">#Arrange order of rows based on taxons</span></span>
+<span id="cb114-24"><a href="17-Differential_abundance_analysis.html#cb114-24" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(taxon)</span>
+<span id="cb114-25"><a href="17-Differential_abundance_analysis.html#cb114-25" tabindex="-1"></a><span class="co">#Check new long df</span></span>
+<span id="cb114-26"><a href="17-Differential_abundance_analysis.html#cb114-26" tabindex="-1"></a><span class="fu">head</span>(res_ancom_class_media_sig_lfc_fig)</span></code></pre></div>
 </div>
 <div id="da-biomarker-lfc-heatmap" class="section level2 hasAnchor" number="17.6">
 <h2><span class="header-section-number">17.6</span> DA: Biomarker LFC heatmap<a href="17-Differential_abundance_analysis.html#da-biomarker-lfc-heatmap" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/tiles.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/tiles.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>We now have a long data frame with the significant LFC values.
 We can use this to create a heatmap.</p>
 <p>There are some specific functions and packages for R that can produce heatmaps.
 These can include dendrograms on the y and x axes to show clustering.
 We are not interested in having all the bells and whistles so we will use the <code>ggplot2</code> layer <code>geom_tile()</code>.</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb113-1"><a href="17-Differential_abundance_analysis.html#cb113-1" tabindex="-1"></a><span class="co">#LFC heatmap</span></span>
-<span id="cb113-2"><a href="17-Differential_abundance_analysis.html#cb113-2" tabindex="-1"></a>heatmap_media <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(res_ancom_class_media_sig_lfc_fig,</span>
-<span id="cb113-3"><a href="17-Differential_abundance_analysis.html#cb113-3" tabindex="-1"></a>                        <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> taxon, <span class="at">fill =</span> value)) <span class="sc">+</span></span>
-<span id="cb113-4"><a href="17-Differential_abundance_analysis.html#cb113-4" tabindex="-1"></a>                  <span class="co">#Produce ggplot as tile/heatmap style plot</span></span>
-<span id="cb113-5"><a href="17-Differential_abundance_analysis.html#cb113-5" tabindex="-1"></a>                  ggplot2<span class="sc">::</span><span class="fu">geom_tile</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb113-6"><a href="17-Differential_abundance_analysis.html#cb113-6" tabindex="-1"></a>                  <span class="co">#Add the LFC values as text in the cells</span></span>
-<span id="cb113-7"><a href="17-Differential_abundance_analysis.html#cb113-7" tabindex="-1"></a>                  ggplot2<span class="sc">::</span><span class="fu">geom_text</span>(<span class="fu">aes</span>(group, taxon, <span class="at">label =</span> value),</span>
-<span id="cb113-8"><a href="17-Differential_abundance_analysis.html#cb113-8" tabindex="-1"></a>                      <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb113-9"><a href="17-Differential_abundance_analysis.html#cb113-9" tabindex="-1"></a>                  <span class="co">#Remove the x and y labels (NULL) and add a title</span></span>
-<span id="cb113-10"><a href="17-Differential_abundance_analysis.html#cb113-10" tabindex="-1"></a>                  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>,</span>
-<span id="cb113-11"><a href="17-Differential_abundance_analysis.html#cb113-11" tabindex="-1"></a>                    <span class="at">title =</span> <span class="st">&quot;Log fold changes compared to ENV samples&quot;</span>)</span>
-<span id="cb113-12"><a href="17-Differential_abundance_analysis.html#cb113-12" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
-<span id="cb113-13"><a href="17-Differential_abundance_analysis.html#cb113-13" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./ANCOMBC_class_media_ref_ENV.png&quot;</span>, <span class="at">plot =</span> heatmap_media,</span>
-<span id="cb113-14"><a href="17-Differential_abundance_analysis.html#cb113-14" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">125</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
-<span id="cb113-15"><a href="17-Differential_abundance_analysis.html#cb113-15" tabindex="-1"></a><span class="co">#Display plot</span></span>
-<span id="cb113-16"><a href="17-Differential_abundance_analysis.html#cb113-16" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./ANCOMBC_class_media_ref_ENV.png&quot;</span>)</span></code></pre></div>
-<p>It is a good start but the colour of the tiles is not useful.
-We are going to use the layer <code>ggplot2::scale_fill_gradient2()</code> to customise this.
-First, we need to decide on the minimum and maximum values.
-Let's generate these with some code based on the minimum and maximum LFC values.
-We will use 0 as the midpoint so we can easily differentiate between higher and lower abundance biomarkers.</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb114-1"><a href="17-Differential_abundance_analysis.html#cb114-1" tabindex="-1"></a><span class="co">#Get min and max log fold changes</span></span>
-<span id="cb114-2"><a href="17-Differential_abundance_analysis.html#cb114-2" tabindex="-1"></a>lo <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fu">min</span>(res_ancom_class_media_sig_lfc_fig<span class="sc">$</span>value))</span>
-<span id="cb114-3"><a href="17-Differential_abundance_analysis.html#cb114-3" tabindex="-1"></a>up <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">max</span>(res_ancom_class_media_sig_lfc_fig<span class="sc">$</span>value))</span>
-<span id="cb114-4"><a href="17-Differential_abundance_analysis.html#cb114-4" tabindex="-1"></a>mid <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
-<p>With these values we can now make our upgraded heatmap.</p>
 <div class="sourceCode" id="cb115"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb115-1"><a href="17-Differential_abundance_analysis.html#cb115-1" tabindex="-1"></a><span class="co">#LFC heatmap</span></span>
 <span id="cb115-2"><a href="17-Differential_abundance_analysis.html#cb115-2" tabindex="-1"></a>heatmap_media <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(res_ancom_class_media_sig_lfc_fig,</span>
 <span id="cb115-3"><a href="17-Differential_abundance_analysis.html#cb115-3" tabindex="-1"></a>                        <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> taxon, <span class="at">fill =</span> value)) <span class="sc">+</span></span>
 <span id="cb115-4"><a href="17-Differential_abundance_analysis.html#cb115-4" tabindex="-1"></a>                  <span class="co">#Produce ggplot as tile/heatmap style plot</span></span>
 <span id="cb115-5"><a href="17-Differential_abundance_analysis.html#cb115-5" tabindex="-1"></a>                  ggplot2<span class="sc">::</span><span class="fu">geom_tile</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb115-6"><a href="17-Differential_abundance_analysis.html#cb115-6" tabindex="-1"></a>                  <span class="co">#Customise colour gradient</span></span>
-<span id="cb115-7"><a href="17-Differential_abundance_analysis.html#cb115-7" tabindex="-1"></a>                  ggplot2<span class="sc">::</span><span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;white&quot;</span>,</span>
-<span id="cb115-8"><a href="17-Differential_abundance_analysis.html#cb115-8" tabindex="-1"></a>                                                <span class="at">na.value =</span> <span class="st">&quot;white&quot;</span>,</span>
-<span id="cb115-9"><a href="17-Differential_abundance_analysis.html#cb115-9" tabindex="-1"></a>                                                <span class="at">midpoint =</span> mid, <span class="at">limit =</span> <span class="fu">c</span>(lo,up)) <span class="sc">+</span></span>
-<span id="cb115-10"><a href="17-Differential_abundance_analysis.html#cb115-10" tabindex="-1"></a>                  <span class="co">#Add the LFC values as text in the cells</span></span>
-<span id="cb115-11"><a href="17-Differential_abundance_analysis.html#cb115-11" tabindex="-1"></a>                  ggplot2<span class="sc">::</span><span class="fu">geom_text</span>(<span class="fu">aes</span>(group, taxon, <span class="at">label =</span> value),</span>
-<span id="cb115-12"><a href="17-Differential_abundance_analysis.html#cb115-12" tabindex="-1"></a>                      <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb115-13"><a href="17-Differential_abundance_analysis.html#cb115-13" tabindex="-1"></a>                  <span class="co">#Remove the x and y labels (NULL) and add a title</span></span>
-<span id="cb115-14"><a href="17-Differential_abundance_analysis.html#cb115-14" tabindex="-1"></a>                  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>,</span>
-<span id="cb115-15"><a href="17-Differential_abundance_analysis.html#cb115-15" tabindex="-1"></a>                    <span class="at">title =</span> <span class="st">&quot;Log fold changes compared to ENV samples&quot;</span>)</span>
-<span id="cb115-16"><a href="17-Differential_abundance_analysis.html#cb115-16" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
-<span id="cb115-17"><a href="17-Differential_abundance_analysis.html#cb115-17" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./ANCOMBC_class_media_ref_ENV.png&quot;</span>, <span class="at">plot =</span> heatmap_media,</span>
-<span id="cb115-18"><a href="17-Differential_abundance_analysis.html#cb115-18" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">125</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
-<span id="cb115-19"><a href="17-Differential_abundance_analysis.html#cb115-19" tabindex="-1"></a><span class="co">#Display plot</span></span>
-<span id="cb115-20"><a href="17-Differential_abundance_analysis.html#cb115-20" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./ANCOMBC_class_media_ref_ENV.png&quot;</span>)</span></code></pre></div>
+<span id="cb115-6"><a href="17-Differential_abundance_analysis.html#cb115-6" tabindex="-1"></a>                  <span class="co">#Add the LFC values as text in the cells</span></span>
+<span id="cb115-7"><a href="17-Differential_abundance_analysis.html#cb115-7" tabindex="-1"></a>                  ggplot2<span class="sc">::</span><span class="fu">geom_text</span>(<span class="fu">aes</span>(group, taxon, <span class="at">label =</span> value),</span>
+<span id="cb115-8"><a href="17-Differential_abundance_analysis.html#cb115-8" tabindex="-1"></a>                      <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb115-9"><a href="17-Differential_abundance_analysis.html#cb115-9" tabindex="-1"></a>                  <span class="co">#Remove the x and y labels (NULL) and add a title</span></span>
+<span id="cb115-10"><a href="17-Differential_abundance_analysis.html#cb115-10" tabindex="-1"></a>                  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb115-11"><a href="17-Differential_abundance_analysis.html#cb115-11" tabindex="-1"></a>                    <span class="at">title =</span> <span class="st">&quot;Log fold changes compared to ENV samples&quot;</span>)</span>
+<span id="cb115-12"><a href="17-Differential_abundance_analysis.html#cb115-12" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
+<span id="cb115-13"><a href="17-Differential_abundance_analysis.html#cb115-13" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./ANCOMBC_class_media_ref_ENV.png&quot;</span>, <span class="at">plot =</span> heatmap_media,</span>
+<span id="cb115-14"><a href="17-Differential_abundance_analysis.html#cb115-14" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">125</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
+<span id="cb115-15"><a href="17-Differential_abundance_analysis.html#cb115-15" tabindex="-1"></a><span class="co">#Display plot</span></span>
+<span id="cb115-16"><a href="17-Differential_abundance_analysis.html#cb115-16" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./ANCOMBC_class_media_ref_ENV.png&quot;</span>)</span></code></pre></div>
+<p>It is a good start but the colour of the tiles is not useful.
+We are going to use the layer <code>ggplot2::scale_fill_gradient2()</code> to customise this.
+First, we need to decide on the minimum and maximum values.
+Let's generate these with some code based on the minimum and maximum LFC values.
+We will use 0 as the midpoint so we can easily differentiate between higher and lower abundance biomarkers.</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb116-1"><a href="17-Differential_abundance_analysis.html#cb116-1" tabindex="-1"></a><span class="co">#Get min and max log fold changes</span></span>
+<span id="cb116-2"><a href="17-Differential_abundance_analysis.html#cb116-2" tabindex="-1"></a>lo <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fu">min</span>(res_ancom_class_media_sig_lfc_fig<span class="sc">$</span>value))</span>
+<span id="cb116-3"><a href="17-Differential_abundance_analysis.html#cb116-3" tabindex="-1"></a>up <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(<span class="fu">max</span>(res_ancom_class_media_sig_lfc_fig<span class="sc">$</span>value))</span>
+<span id="cb116-4"><a href="17-Differential_abundance_analysis.html#cb116-4" tabindex="-1"></a>mid <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
+<p>With these values we can now make our upgraded heatmap.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb117-1"><a href="17-Differential_abundance_analysis.html#cb117-1" tabindex="-1"></a><span class="co">#LFC heatmap</span></span>
+<span id="cb117-2"><a href="17-Differential_abundance_analysis.html#cb117-2" tabindex="-1"></a>heatmap_media <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(res_ancom_class_media_sig_lfc_fig,</span>
+<span id="cb117-3"><a href="17-Differential_abundance_analysis.html#cb117-3" tabindex="-1"></a>                        <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> taxon, <span class="at">fill =</span> value)) <span class="sc">+</span></span>
+<span id="cb117-4"><a href="17-Differential_abundance_analysis.html#cb117-4" tabindex="-1"></a>                  <span class="co">#Produce ggplot as tile/heatmap style plot</span></span>
+<span id="cb117-5"><a href="17-Differential_abundance_analysis.html#cb117-5" tabindex="-1"></a>                  ggplot2<span class="sc">::</span><span class="fu">geom_tile</span>(<span class="at">colour =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb117-6"><a href="17-Differential_abundance_analysis.html#cb117-6" tabindex="-1"></a>                  <span class="co">#Customise colour gradient</span></span>
+<span id="cb117-7"><a href="17-Differential_abundance_analysis.html#cb117-7" tabindex="-1"></a>                  ggplot2<span class="sc">::</span><span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb117-8"><a href="17-Differential_abundance_analysis.html#cb117-8" tabindex="-1"></a>                                                <span class="at">na.value =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb117-9"><a href="17-Differential_abundance_analysis.html#cb117-9" tabindex="-1"></a>                                                <span class="at">midpoint =</span> mid, <span class="at">limit =</span> <span class="fu">c</span>(lo,up)) <span class="sc">+</span></span>
+<span id="cb117-10"><a href="17-Differential_abundance_analysis.html#cb117-10" tabindex="-1"></a>                  <span class="co">#Add the LFC values as text in the cells</span></span>
+<span id="cb117-11"><a href="17-Differential_abundance_analysis.html#cb117-11" tabindex="-1"></a>                  ggplot2<span class="sc">::</span><span class="fu">geom_text</span>(<span class="fu">aes</span>(group, taxon, <span class="at">label =</span> value),</span>
+<span id="cb117-12"><a href="17-Differential_abundance_analysis.html#cb117-12" tabindex="-1"></a>                      <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb117-13"><a href="17-Differential_abundance_analysis.html#cb117-13" tabindex="-1"></a>                  <span class="co">#Remove the x and y labels (NULL) and add a title</span></span>
+<span id="cb117-14"><a href="17-Differential_abundance_analysis.html#cb117-14" tabindex="-1"></a>                  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb117-15"><a href="17-Differential_abundance_analysis.html#cb117-15" tabindex="-1"></a>                    <span class="at">title =</span> <span class="st">&quot;Log fold changes compared to ENV samples&quot;</span>)</span>
+<span id="cb117-16"><a href="17-Differential_abundance_analysis.html#cb117-16" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
+<span id="cb117-17"><a href="17-Differential_abundance_analysis.html#cb117-17" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./ANCOMBC_class_media_ref_ENV.png&quot;</span>, <span class="at">plot =</span> heatmap_media,</span>
+<span id="cb117-18"><a href="17-Differential_abundance_analysis.html#cb117-18" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">125</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
+<span id="cb117-19"><a href="17-Differential_abundance_analysis.html#cb117-19" tabindex="-1"></a><span class="co">#Display plot</span></span>
+<span id="cb117-20"><a href="17-Differential_abundance_analysis.html#cb117-20" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./ANCOMBC_class_media_ref_ENV.png&quot;</span>)</span></code></pre></div>
 <p>Great, now we can see the biomarker with higher abundances in the ENV sample (blue) and higher abundances in the comparison media (red).
 Any 0 values are non-significant results we turned to 0 when we created the long data frame.</p>
 <ul>
 <li>Are there more biomarkers in higher abundance in ENV rather than the comparison media (i.e blue/negative results)?
-<div id="radio_RAMOQSMDQQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RAMOQSMDQQ" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RAMOQSMDQQ" value=""></input> <span><strong>No</strong></span></label>
+<div id="radio_NWFQOIALEC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NWFQOIALEC" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NWFQOIALEC" value=""></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>Which biomarker has the highest positive values?
-<div id="radio_WZDJOIYPHJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WZDJOIYPHJ" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WZDJOIYPHJ" value="answer"></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WZDJOIYPHJ" value=""></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
+<div id="radio_WSFDPWVCBW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WSFDPWVCBW" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WSFDPWVCBW" value="answer"></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WSFDPWVCBW" value=""></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
 </div></li>
 <li>Which biomarker has the lowest value?
-<div id="radio_BKJHUACRSQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_BKJHUACRSQ" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BKJHUACRSQ" value=""></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BKJHUACRSQ" value="answer"></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
+<div id="radio_DEUNERQMJW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DEUNERQMJW" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DEUNERQMJW" value=""></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DEUNERQMJW" value="answer"></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
 </div></li>
 </ul>
 <p>From these results we can see that there are a lot of biomarkers with low abundances in the comparison media samples.
@@ -682,23 +683,23 @@ They appear to select for a few bacterial classes and select against a lot of ba
 </div>
 <div id="da-matching-bar-plot" class="section level2 hasAnchor" number="17.7">
 <h2><span class="header-section-number">17.7</span> DA: matching bar plot<a href="17-Differential_abundance_analysis.html#da-matching-bar-plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/bar_chart.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/bar_chart.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>Using code from the <a href="11-Taxa_plots.html#chaptaxaplots">taxa plots chapter</a> we'll make a quick class based taxa plot.
 We will use the relative abundances for this.</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb116-1"><a href="17-Differential_abundance_analysis.html#cb116-1" tabindex="-1"></a><span class="co">#Quick class based relative abundance heatmap</span></span>
-<span id="cb116-2"><a href="17-Differential_abundance_analysis.html#cb116-2" tabindex="-1"></a><span class="co">#Convert abundance table to class relative abundance (compositional) table</span></span>
-<span id="cb116-3"><a href="17-Differential_abundance_analysis.html#cb116-3" tabindex="-1"></a>pseq_relabund <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">transform</span>(pseq, <span class="st">&quot;compositional&quot;</span>)</span>
-<span id="cb116-4"><a href="17-Differential_abundance_analysis.html#cb116-4" tabindex="-1"></a><span class="co">#Class phyloseq</span></span>
-<span id="cb116-5"><a href="17-Differential_abundance_analysis.html#cb116-5" tabindex="-1"></a>class_relabund_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_taxa</span>(pseq_relabund, <span class="st">&quot;Class&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb116-6"><a href="17-Differential_abundance_analysis.html#cb116-6" tabindex="-1"></a><span class="co">#Produce heatmap ggplot</span></span>
-<span id="cb116-7"><a href="17-Differential_abundance_analysis.html#cb116-7" tabindex="-1"></a>class_heatmap <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">plot_composition</span>(class_relabund_pseq, <span class="at">plot.type =</span> <span class="st">&quot;heatmap&quot;</span>) <span class="sc">+</span></span>
-<span id="cb116-8"><a href="17-Differential_abundance_analysis.html#cb116-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Class&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Sample&quot;</span>) <span class="sc">+</span></span>
-<span id="cb116-9"><a href="17-Differential_abundance_analysis.html#cb116-9" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Class relative abundance heatmap&quot;</span>)</span>
-<span id="cb116-10"><a href="17-Differential_abundance_analysis.html#cb116-10" tabindex="-1"></a><span class="co">#Save ggplot object as png file</span></span>
-<span id="cb116-11"><a href="17-Differential_abundance_analysis.html#cb116-11" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./class_relabund_heatmap.png&quot;</span>, <span class="at">plot =</span> class_heatmap,</span>
-<span id="cb116-12"><a href="17-Differential_abundance_analysis.html#cb116-12" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">200</span>)</span>
-<span id="cb116-13"><a href="17-Differential_abundance_analysis.html#cb116-13" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
-<span id="cb116-14"><a href="17-Differential_abundance_analysis.html#cb116-14" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./class_relabund_heatmap.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb118-1"><a href="17-Differential_abundance_analysis.html#cb118-1" tabindex="-1"></a><span class="co">#Quick class based relative abundance heatmap</span></span>
+<span id="cb118-2"><a href="17-Differential_abundance_analysis.html#cb118-2" tabindex="-1"></a><span class="co">#Convert abundance table to class relative abundance (compositional) table</span></span>
+<span id="cb118-3"><a href="17-Differential_abundance_analysis.html#cb118-3" tabindex="-1"></a>pseq_relabund <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">transform</span>(pseq, <span class="st">&quot;compositional&quot;</span>)</span>
+<span id="cb118-4"><a href="17-Differential_abundance_analysis.html#cb118-4" tabindex="-1"></a><span class="co">#Class phyloseq</span></span>
+<span id="cb118-5"><a href="17-Differential_abundance_analysis.html#cb118-5" tabindex="-1"></a>class_relabund_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_taxa</span>(pseq_relabund, <span class="st">&quot;Class&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb118-6"><a href="17-Differential_abundance_analysis.html#cb118-6" tabindex="-1"></a><span class="co">#Produce heatmap ggplot</span></span>
+<span id="cb118-7"><a href="17-Differential_abundance_analysis.html#cb118-7" tabindex="-1"></a>class_heatmap <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">plot_composition</span>(class_relabund_pseq, <span class="at">plot.type =</span> <span class="st">&quot;heatmap&quot;</span>) <span class="sc">+</span></span>
+<span id="cb118-8"><a href="17-Differential_abundance_analysis.html#cb118-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Class&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Sample&quot;</span>) <span class="sc">+</span></span>
+<span id="cb118-9"><a href="17-Differential_abundance_analysis.html#cb118-9" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Class relative abundance heatmap&quot;</span>)</span>
+<span id="cb118-10"><a href="17-Differential_abundance_analysis.html#cb118-10" tabindex="-1"></a><span class="co">#Save ggplot object as png file</span></span>
+<span id="cb118-11"><a href="17-Differential_abundance_analysis.html#cb118-11" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./class_relabund_heatmap.png&quot;</span>, <span class="at">plot =</span> class_heatmap,</span>
+<span id="cb118-12"><a href="17-Differential_abundance_analysis.html#cb118-12" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">200</span>)</span>
+<span id="cb118-13"><a href="17-Differential_abundance_analysis.html#cb118-13" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
+<span id="cb118-14"><a href="17-Differential_abundance_analysis.html#cb118-14" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./class_relabund_heatmap.png&quot;</span>)</span></code></pre></div>
 <p>With this plot we can clearly see that there are many classess with abundances in the ENV samples that have very little in the media samples.
 Most the the relative abundances of the media samples consist of Gammaproteobacteria.
 The TSA and KBC samples also have a high abundance of Bacilli.
@@ -706,7 +707,7 @@ Overall, this is a nice visual confirmation of our ANCOM results.</p>
 </div>
 <div id="da-summary" class="section level2 hasAnchor" number="17.8">
 <h2><span class="header-section-number">17.8</span> DA: summary<a href="17-Differential_abundance_analysis.html#da-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/sum_blue.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/sum_blue.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>We have used ANCOMBC to detect biomarkers in the media samples compared to the ENV samples.
 This showed most biomarkers were caused by depletion of many classes and selection of a few classes by the media.</p>
 <p>You could carry out more analysis in your future research in various ways:</p>

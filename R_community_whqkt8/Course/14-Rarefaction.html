@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 14 Rarefaction | R community analysis</title>
   <meta name="description" content="NEOF book for the R community analysis workflow" />
-  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 14 Rarefaction | R community analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-02-01" />
+<meta name="date" content="2024-02-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -297,15 +297,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16.1" data-path="16-Beta.html"><a href="16-Beta.html#beta-setup"><i class="fa fa-check"></i><b>16.1</b> Beta: setup</a></li>
 <li class="chapter" data-level="16.2" data-path="16-Beta.html"><a href="16-Beta.html#beta-ordination"><i class="fa fa-check"></i><b>16.2</b> Beta: ordination</a></li>
 <li class="chapter" data-level="16.3" data-path="16-Beta.html"><a href="16-Beta.html#beta-plot-ordination"><i class="fa fa-check"></i><b>16.3</b> Beta: plot ordination</a></li>
-<li class="chapter" data-level="16.4" data-path="16-Beta.html"><a href="16-Beta.html#beta-statistics"><i class="fa fa-check"></i><b>16.4</b> Beta: statistics</a>
+<li class="chapter" data-level="16.4" data-path="16-Beta.html"><a href="16-Beta.html#beta-plot-ordination-with-ellipse"><i class="fa fa-check"></i><b>16.4</b> Beta: plot ordination with ellipse</a></li>
+<li class="chapter" data-level="16.5" data-path="16-Beta.html"><a href="16-Beta.html#beta-statistics"><i class="fa fa-check"></i><b>16.5</b> Beta: statistics</a>
 <ul>
-<li class="chapter" data-level="16.4.1" data-path="16-Beta.html"><a href="16-Beta.html#permanova"><i class="fa fa-check"></i><b>16.4.1</b> PERMANOVA</a></li>
-<li class="chapter" data-level="16.4.2" data-path="16-Beta.html"><a href="16-Beta.html#pairwise-permanova"><i class="fa fa-check"></i><b>16.4.2</b> Pairwise PERMANOVA</a></li>
+<li class="chapter" data-level="16.5.1" data-path="16-Beta.html"><a href="16-Beta.html#permanova"><i class="fa fa-check"></i><b>16.5.1</b> PERMANOVA</a></li>
+<li class="chapter" data-level="16.5.2" data-path="16-Beta.html"><a href="16-Beta.html#pairwise-permanova"><i class="fa fa-check"></i><b>16.5.2</b> Pairwise PERMANOVA</a></li>
 </ul></li>
-<li class="chapter" data-level="16.5" data-path="16-Beta.html"><a href="16-Beta.html#beta-facet-zoom"><i class="fa fa-check"></i><b>16.5</b> Beta: Facet zoom</a></li>
-<li class="chapter" data-level="16.6" data-path="16-Beta.html"><a href="16-Beta.html#beta-subset-samples"><i class="fa fa-check"></i><b>16.6</b> Beta: subset samples</a></li>
-<li class="chapter" data-level="16.7" data-path="16-Beta.html"><a href="16-Beta.html#permanova-tasks"><i class="fa fa-check"></i><b>16.7</b> PERMANOVA tasks</a></li>
-<li class="chapter" data-level="16.8" data-path="16-Beta.html"><a href="16-Beta.html#beta-summary"><i class="fa fa-check"></i><b>16.8</b> Beta: Summary</a></li>
+<li class="chapter" data-level="16.6" data-path="16-Beta.html"><a href="16-Beta.html#beta-facet-zoom"><i class="fa fa-check"></i><b>16.6</b> Beta: Facet zoom</a></li>
+<li class="chapter" data-level="16.7" data-path="16-Beta.html"><a href="16-Beta.html#beta-subset-samples"><i class="fa fa-check"></i><b>16.7</b> Beta: subset samples</a></li>
+<li class="chapter" data-level="16.8" data-path="16-Beta.html"><a href="16-Beta.html#permanova-tasks"><i class="fa fa-check"></i><b>16.8</b> PERMANOVA tasks</a></li>
+<li class="chapter" data-level="16.9" data-path="16-Beta.html"><a href="16-Beta.html#beta-summary"><i class="fa fa-check"></i><b>16.9</b> Beta: Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="17-Differential_abundance_analysis.html"><a href="17-Differential_abundance_analysis.html"><i class="fa fa-check"></i><b>17</b> Differential abundance (DA) analysis</a>
 <ul>
@@ -394,30 +395,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="rarefaction_chap" class="section level1 hasAnchor" number="14">
 <h1><span class="header-section-number">Chapter 14</span> Rarefaction<a href="14-Rarefaction.html#rarefaction_chap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/whale.png" width="20%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/whale.png" width="200px" style="display: block; margin: auto;" /></p>
 <p>We are going to create a rarefied abundance table in this chapter.
 This can be a controversial topic.
 Please make your own decision if you want to do this or not in your own analysis.</p>
 <div id="rarefaction-setup" class="section level2 hasAnchor" number="14.1">
 <h2><span class="header-section-number">14.1</span> Rarefaction: setup<a href="14-Rarefaction.html#rarefaction-setup" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/library_1.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/library_1.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>We will use a new notebook called <strong>"4-rarefaction.ipynb"</strong>.
 Add the following to the top of this new notebook to load the required libraries/packages and data.</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb67-1"><a href="14-Rarefaction.html#cb67-1" tabindex="-1"></a><span class="co">#Libraries</span></span>
-<span id="cb67-2"><a href="14-Rarefaction.html#cb67-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
-<span id="cb67-3"><a href="14-Rarefaction.html#cb67-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span>
-<span id="cb67-4"><a href="14-Rarefaction.html#cb67-4" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;vegan&quot;</span>)</span>
-<span id="cb67-5"><a href="14-Rarefaction.html#cb67-5" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;IRdisplay&quot;</span>)</span>
-<span id="cb67-6"><a href="14-Rarefaction.html#cb67-6" tabindex="-1"></a><span class="co">#Load phyloseq object</span></span>
-<span id="cb67-7"><a href="14-Rarefaction.html#cb67-7" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;phyloseq.RData&quot;</span>)</span>
-<span id="cb67-8"><a href="14-Rarefaction.html#cb67-8" tabindex="-1"></a><span class="co">#Load ASV count vector</span></span>
-<span id="cb67-9"><a href="14-Rarefaction.html#cb67-9" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;num_asvs_vec.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb68-1"><a href="14-Rarefaction.html#cb68-1" tabindex="-1"></a><span class="co">#Libraries</span></span>
+<span id="cb68-2"><a href="14-Rarefaction.html#cb68-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
+<span id="cb68-3"><a href="14-Rarefaction.html#cb68-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span>
+<span id="cb68-4"><a href="14-Rarefaction.html#cb68-4" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;vegan&quot;</span>)</span>
+<span id="cb68-5"><a href="14-Rarefaction.html#cb68-5" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;IRdisplay&quot;</span>)</span>
+<span id="cb68-6"><a href="14-Rarefaction.html#cb68-6" tabindex="-1"></a><span class="co">#Load phyloseq object</span></span>
+<span id="cb68-7"><a href="14-Rarefaction.html#cb68-7" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;phyloseq.RData&quot;</span>)</span>
+<span id="cb68-8"><a href="14-Rarefaction.html#cb68-8" tabindex="-1"></a><span class="co">#Load ASV count vector</span></span>
+<span id="cb68-9"><a href="14-Rarefaction.html#cb68-9" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;num_asvs_vec.RData&quot;</span>)</span></code></pre></div>
 <p>Ensure you add markdown and code cells to this notebook to give yourself
 a good structure.</p>
 </div>
 <div id="rarefaction-curve" class="section level2 hasAnchor" number="14.2">
 <h2><span class="header-section-number">14.2</span> Rarefaction curve<a href="14-Rarefaction.html#rarefaction-curve" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/rarefaction.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/rarefaction.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>Prior to rarefying our data we need to determine the depth we want to
 use. We can carry this out with a rarefaction curve.</p>
 <p>A rarefaction curve is produced by randomly sampling the sequences in a
@@ -432,7 +433,7 @@ will be at a depth of 500 on the x-axis (50 * 10) and it will show how
 many unique ASVs it has currently discovered from all 10 samplings.</p>
 <div id="bird-analogy" class="section level3 hasAnchor" number="14.2.1">
 <h3><span class="header-section-number">14.2.1</span> Bird analogy<a href="14-Rarefaction.html#bird-analogy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/ibyster.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/ibyster.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>You are cataloguing the bird diversity (ASV diversity) in three forests/woods
 in Hampshire (3 samples of our abundance table). You record your
 findings over a week for each forest. Your record on the cumulative
@@ -500,7 +501,7 @@ table below:</p>
 </tbody>
 </table>
 <p>This can then be plotted in a rarefaction plot like below.</p>
-<p><img src="R-community-analysis_files/figure-html/unnamed-chunk-171-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="R-community-analysis_files/figure-html/unnamed-chunk-165-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>In this case we can be fairly confident that seven days is enough to find all the birds we can in the Old Lords wood (green).
 I.e. the sampling depth is enough.
 Just like bird watching, it is very hard to find all the species present in a sample with metabarcoding or shotgun metagenomics.
@@ -511,28 +512,28 @@ This can be caused by our barcodes not picking up all species, our sampling wasn
 </div>
 <div id="rarefaction-curve-simple-plot" class="section level3 hasAnchor" number="14.2.2">
 <h3><span class="header-section-number">14.2.2</span> Rarefaction curve: simple plot<a href="14-Rarefaction.html#rarefaction-curve-simple-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/crayon.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/crayon.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>We'll use <code>vegan</code> to create our rarefaction curve like we did in
 <a href="09-Minimum_read_depth.html#chap9rarefaction">Chapter 9</a>.</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb68-1"><a href="14-Rarefaction.html#cb68-1" tabindex="-1"></a><span class="co">#Extract ASV table as data frame</span></span>
-<span id="cb68-2"><a href="14-Rarefaction.html#cb68-2" tabindex="-1"></a>asv_abund_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq)))</span>
-<span id="cb68-3"><a href="14-Rarefaction.html#cb68-3" tabindex="-1"></a><span class="co">#Rarefaction curve</span></span>
-<span id="cb68-4"><a href="14-Rarefaction.html#cb68-4" tabindex="-1"></a><span class="co">#Save as png file</span></span>
-<span id="cb68-5"><a href="14-Rarefaction.html#cb68-5" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;./rarefaction_plot.png&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
-<span id="cb68-6"><a href="14-Rarefaction.html#cb68-6" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">300</span>)</span>
-<span id="cb68-7"><a href="14-Rarefaction.html#cb68-7" tabindex="-1"></a><span class="co">#Produce plot</span></span>
-<span id="cb68-8"><a href="14-Rarefaction.html#cb68-8" tabindex="-1"></a>vegan<span class="sc">::</span><span class="fu">rarecurve</span>(</span>
-<span id="cb68-9"><a href="14-Rarefaction.html#cb68-9" tabindex="-1"></a>  <span class="at">x =</span> asv_abund_df, <span class="at">step =</span> <span class="dv">50</span>,</span>
-<span id="cb68-10"><a href="14-Rarefaction.html#cb68-10" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Read depth&quot;</span>,</span>
-<span id="cb68-11"><a href="14-Rarefaction.html#cb68-11" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;ASVs&quot;</span></span>
-<span id="cb68-12"><a href="14-Rarefaction.html#cb68-12" tabindex="-1"></a>)</span>
-<span id="cb68-13"><a href="14-Rarefaction.html#cb68-13" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb68-14"><a href="14-Rarefaction.html#cb68-14" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
-<span id="cb68-15"><a href="14-Rarefaction.html#cb68-15" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./rarefaction_plot.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb69-1"><a href="14-Rarefaction.html#cb69-1" tabindex="-1"></a><span class="co">#Extract ASV table as data frame</span></span>
+<span id="cb69-2"><a href="14-Rarefaction.html#cb69-2" tabindex="-1"></a>asv_abund_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq)))</span>
+<span id="cb69-3"><a href="14-Rarefaction.html#cb69-3" tabindex="-1"></a><span class="co">#Rarefaction curve</span></span>
+<span id="cb69-4"><a href="14-Rarefaction.html#cb69-4" tabindex="-1"></a><span class="co">#Save as png file</span></span>
+<span id="cb69-5"><a href="14-Rarefaction.html#cb69-5" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;./rarefaction_plot.png&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
+<span id="cb69-6"><a href="14-Rarefaction.html#cb69-6" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">300</span>)</span>
+<span id="cb69-7"><a href="14-Rarefaction.html#cb69-7" tabindex="-1"></a><span class="co">#Produce plot</span></span>
+<span id="cb69-8"><a href="14-Rarefaction.html#cb69-8" tabindex="-1"></a>vegan<span class="sc">::</span><span class="fu">rarecurve</span>(</span>
+<span id="cb69-9"><a href="14-Rarefaction.html#cb69-9" tabindex="-1"></a>  <span class="at">x =</span> asv_abund_df, <span class="at">step =</span> <span class="dv">50</span>,</span>
+<span id="cb69-10"><a href="14-Rarefaction.html#cb69-10" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Read depth&quot;</span>,</span>
+<span id="cb69-11"><a href="14-Rarefaction.html#cb69-11" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;ASVs&quot;</span></span>
+<span id="cb69-12"><a href="14-Rarefaction.html#cb69-12" tabindex="-1"></a>)</span>
+<span id="cb69-13"><a href="14-Rarefaction.html#cb69-13" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb69-14"><a href="14-Rarefaction.html#cb69-14" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
+<span id="cb69-15"><a href="14-Rarefaction.html#cb69-15" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./rarefaction_plot.png&quot;</span>)</span></code></pre></div>
 </div>
 <div id="rarefaction-curve-better-plot" class="section level3 hasAnchor" number="14.2.3">
 <h3><span class="header-section-number">14.2.3</span> Rarefaction curve: better plot<a href="14-Rarefaction.html#rarefaction-curve-better-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/palette_brush.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/palette_brush.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>It is a useful plot but we can make it better!
 We will do that with the following addition:</p>
 <ul>
@@ -548,18 +549,18 @@ how many ASVs were discovered at the sampling depth.</li>
 <p>We will initially use our minimum sample depth as our rarefaction/sampling depth.
 This is a good idea if it seems like a good amount as it will allow us to keep all our samples after rarefaction.
 Any samples with a lower depth than are final rarefaction size will be removed.</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb69-1"><a href="14-Rarefaction.html#cb69-1" tabindex="-1"></a><span class="co">#Improved plot saved as file</span></span>
-<span id="cb69-2"><a href="14-Rarefaction.html#cb69-2" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;./rarefaction_plot.png&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
-<span id="cb69-3"><a href="14-Rarefaction.html#cb69-3" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">300</span>)</span>
-<span id="cb69-4"><a href="14-Rarefaction.html#cb69-4" tabindex="-1"></a><span class="co">#Plot</span></span>
-<span id="cb69-5"><a href="14-Rarefaction.html#cb69-5" tabindex="-1"></a>vegan<span class="sc">::</span><span class="fu">rarecurve</span>(</span>
-<span id="cb69-6"><a href="14-Rarefaction.html#cb69-6" tabindex="-1"></a>  <span class="at">x =</span> asv_abund_df, <span class="at">step =</span> <span class="dv">50</span>,</span>
-<span id="cb69-7"><a href="14-Rarefaction.html#cb69-7" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Read depth&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;ASVs&quot;</span>, <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">label =</span> F,</span>
-<span id="cb69-8"><a href="14-Rarefaction.html#cb69-8" tabindex="-1"></a>  <span class="at">sample =</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq))</span>
-<span id="cb69-9"><a href="14-Rarefaction.html#cb69-9" tabindex="-1"></a>)</span>
-<span id="cb69-10"><a href="14-Rarefaction.html#cb69-10" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb69-11"><a href="14-Rarefaction.html#cb69-11" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
-<span id="cb69-12"><a href="14-Rarefaction.html#cb69-12" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./rarefaction_plot.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb70-1"><a href="14-Rarefaction.html#cb70-1" tabindex="-1"></a><span class="co">#Improved plot saved as file</span></span>
+<span id="cb70-2"><a href="14-Rarefaction.html#cb70-2" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;./rarefaction_plot.png&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
+<span id="cb70-3"><a href="14-Rarefaction.html#cb70-3" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">300</span>)</span>
+<span id="cb70-4"><a href="14-Rarefaction.html#cb70-4" tabindex="-1"></a><span class="co">#Plot</span></span>
+<span id="cb70-5"><a href="14-Rarefaction.html#cb70-5" tabindex="-1"></a>vegan<span class="sc">::</span><span class="fu">rarecurve</span>(</span>
+<span id="cb70-6"><a href="14-Rarefaction.html#cb70-6" tabindex="-1"></a>  <span class="at">x =</span> asv_abund_df, <span class="at">step =</span> <span class="dv">50</span>,</span>
+<span id="cb70-7"><a href="14-Rarefaction.html#cb70-7" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Read depth&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;ASVs&quot;</span>, <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">label =</span> F,</span>
+<span id="cb70-8"><a href="14-Rarefaction.html#cb70-8" tabindex="-1"></a>  <span class="at">sample =</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq))</span>
+<span id="cb70-9"><a href="14-Rarefaction.html#cb70-9" tabindex="-1"></a>)</span>
+<span id="cb70-10"><a href="14-Rarefaction.html#cb70-10" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb70-11"><a href="14-Rarefaction.html#cb70-11" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
+<span id="cb70-12"><a href="14-Rarefaction.html#cb70-12" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./rarefaction_plot.png&quot;</span>)</span></code></pre></div>
 <p>From this plot we can see that most of the samples have plateu'd quite nicely at the minimum depth.
 This indicates that this is a good sampling depth, i.e. depth to be chosen for rarefying the data.
 The grey horizontal lines help show how many more ASVs are found in a sample after the chosen sampling depth.
@@ -568,41 +569,41 @@ This can be seen in the sample with the highest number of ASVs where 5-20 more A
 </div>
 <div id="rarefaction-slope" class="section level2 hasAnchor" number="14.3">
 <h2><span class="header-section-number">14.3</span> Rarefaction slope<a href="14-Rarefaction.html#rarefaction-slope" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/hill_landscape.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/hill_landscape.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>We can calculate the slope of each sample at our specified sampling depth.
 A slope of 0 shows a flat horizontal line (what we want).
 A slope of 1 shows a flat vertical line (not what we want).</p>
 <p>To get the slope of each sample we will use <code>vegan::rareslope()</code>.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb70-1"><a href="14-Rarefaction.html#cb70-1" tabindex="-1"></a><span class="co">#Rarefaction slopes</span></span>
-<span id="cb70-2"><a href="14-Rarefaction.html#cb70-2" tabindex="-1"></a>rarefaction_slopes <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">rareslope</span>(</span>
-<span id="cb70-3"><a href="14-Rarefaction.html#cb70-3" tabindex="-1"></a>  <span class="at">x =</span> asv_abund_df, <span class="at">sample =</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq))</span>
-<span id="cb70-4"><a href="14-Rarefaction.html#cb70-4" tabindex="-1"></a>)</span>
-<span id="cb70-5"><a href="14-Rarefaction.html#cb70-5" tabindex="-1"></a><span class="co">#View slopes from lowest to highest value</span></span>
-<span id="cb70-6"><a href="14-Rarefaction.html#cb70-6" tabindex="-1"></a><span class="fu">sort</span>(rarefaction_slopes)</span>
-<span id="cb70-7"><a href="14-Rarefaction.html#cb70-7" tabindex="-1"></a><span class="co">#Summary of slopes</span></span>
-<span id="cb70-8"><a href="14-Rarefaction.html#cb70-8" tabindex="-1"></a><span class="fu">summary</span>(rarefaction_slopes)</span>
-<span id="cb70-9"><a href="14-Rarefaction.html#cb70-9" tabindex="-1"></a><span class="co">#Histogram of slopes</span></span>
-<span id="cb70-10"><a href="14-Rarefaction.html#cb70-10" tabindex="-1"></a><span class="co">#Save as png</span></span>
-<span id="cb70-11"><a href="14-Rarefaction.html#cb70-11" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;./rarefaction_slopes_histogram.png&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
-<span id="cb70-12"><a href="14-Rarefaction.html#cb70-12" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">100</span>, <span class="at">width =</span> <span class="dv">200</span>)</span>
-<span id="cb70-13"><a href="14-Rarefaction.html#cb70-13" tabindex="-1"></a><span class="co">#Plot</span></span>
-<span id="cb70-14"><a href="14-Rarefaction.html#cb70-14" tabindex="-1"></a><span class="fu">hist</span>(rarefaction_slopes)</span>
-<span id="cb70-15"><a href="14-Rarefaction.html#cb70-15" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb70-16"><a href="14-Rarefaction.html#cb70-16" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
-<span id="cb70-17"><a href="14-Rarefaction.html#cb70-17" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./rarefaction_slopes_histogram.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb71-1"><a href="14-Rarefaction.html#cb71-1" tabindex="-1"></a><span class="co">#Rarefaction slopes</span></span>
+<span id="cb71-2"><a href="14-Rarefaction.html#cb71-2" tabindex="-1"></a>rarefaction_slopes <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">rareslope</span>(</span>
+<span id="cb71-3"><a href="14-Rarefaction.html#cb71-3" tabindex="-1"></a>  <span class="at">x =</span> asv_abund_df, <span class="at">sample =</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq))</span>
+<span id="cb71-4"><a href="14-Rarefaction.html#cb71-4" tabindex="-1"></a>)</span>
+<span id="cb71-5"><a href="14-Rarefaction.html#cb71-5" tabindex="-1"></a><span class="co">#View slopes from lowest to highest value</span></span>
+<span id="cb71-6"><a href="14-Rarefaction.html#cb71-6" tabindex="-1"></a><span class="fu">sort</span>(rarefaction_slopes)</span>
+<span id="cb71-7"><a href="14-Rarefaction.html#cb71-7" tabindex="-1"></a><span class="co">#Summary of slopes</span></span>
+<span id="cb71-8"><a href="14-Rarefaction.html#cb71-8" tabindex="-1"></a><span class="fu">summary</span>(rarefaction_slopes)</span>
+<span id="cb71-9"><a href="14-Rarefaction.html#cb71-9" tabindex="-1"></a><span class="co">#Histogram of slopes</span></span>
+<span id="cb71-10"><a href="14-Rarefaction.html#cb71-10" tabindex="-1"></a><span class="co">#Save as png</span></span>
+<span id="cb71-11"><a href="14-Rarefaction.html#cb71-11" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;./rarefaction_slopes_histogram.png&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
+<span id="cb71-12"><a href="14-Rarefaction.html#cb71-12" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">100</span>, <span class="at">width =</span> <span class="dv">200</span>)</span>
+<span id="cb71-13"><a href="14-Rarefaction.html#cb71-13" tabindex="-1"></a><span class="co">#Plot</span></span>
+<span id="cb71-14"><a href="14-Rarefaction.html#cb71-14" tabindex="-1"></a><span class="fu">hist</span>(rarefaction_slopes)</span>
+<span id="cb71-15"><a href="14-Rarefaction.html#cb71-15" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb71-16"><a href="14-Rarefaction.html#cb71-16" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
+<span id="cb71-17"><a href="14-Rarefaction.html#cb71-17" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./rarefaction_slopes_histogram.png&quot;</span>)</span></code></pre></div>
 <p>With the calculated slopes attempt the following questions:</p>
 <ol style="list-style-type: decimal">
 <li>Which sample has the largest slope value?
-<div id="radio_SQDQHKLKNI" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SQDQHKLKNI" value=""></input> <span><strong>UD_ENV_rep2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SQDQHKLKNI" value="answer"></input> <span><strong>MD_ENV_rep3</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SQDQHKLKNI" value=""></input> <span><strong>LD_CVP_rep1</strong></span></label>
+<div id="radio_ZASBAEDEUR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZASBAEDEUR" value=""></input> <span><strong>UD_ENV_rep2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZASBAEDEUR" value="answer"></input> <span><strong>MD_ENV_rep3</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZASBAEDEUR" value=""></input> <span><strong>LD_CVP_rep1</strong></span></label>
 </div></li>
 <li>Which sample has the lowest slope value?
-<div id="radio_REMLDHARAY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_REMLDHARAY" value=""></input> <span><strong>UD_ENV_rep2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_REMLDHARAY" value=""></input> <span><strong>MD_ENV_rep3</strong></span></label><label><input type="radio" autocomplete="off" name="radio_REMLDHARAY" value="answer"></input> <span><strong>LD_CVP_rep1</strong></span></label>
+<div id="radio_TPSTYGYZQP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TPSTYGYZQP" value=""></input> <span><strong>UD_ENV_rep2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TPSTYGYZQP" value=""></input> <span><strong>MD_ENV_rep3</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TPSTYGYZQP" value="answer"></input> <span><strong>LD_CVP_rep1</strong></span></label>
 </div></li>
 <li>Which samples have larger slope values; the environmental samples or media samples?
-<div id="radio_MRGAGHTPEK" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MRGAGHTPEK" value="answer"></input> <span><strong>Environmental</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MRGAGHTPEK" value=""></input> <span><strong>Media</strong></span></label>
+<div id="radio_NBIALRJYRA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NBIALRJYRA" value="answer"></input> <span><strong>Environmental</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NBIALRJYRA" value=""></input> <span><strong>Media</strong></span></label>
 </div></li>
 </ol>
 <p>Overall the slopes values are low (&lt;0.01).
@@ -611,17 +612,17 @@ Biologically, this makes sense as there is no bias being introduced by media.</p
 </div>
 <div id="rarefy-data" class="section level2 hasAnchor" number="14.4">
 <h2><span class="header-section-number">14.4</span> Rarefy data<a href="14-Rarefaction.html#rarefy-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/pangolin.png" width="20%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/pangolin.png" width="200px" style="display: block; margin: auto;" /></p>
 <p>The minimum sample depth appears to be a good choice for rarefying.
 It keeps all the samples and at this depth the samples have a very good coverage of the ASVs present in the data.
 This is represented by the good plateauing in the rarefaction plot and the low valued slopes (&lt;0.01).
 In your own analyses you may need to balance the loss of samples with the loss of depth.</p>
 <p>With that decision we will rarefy our data to the minimum depth.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb71-1"><a href="14-Rarefaction.html#cb71-1" tabindex="-1"></a><span class="co">#Rarefy to minimum depth</span></span>
-<span id="cb71-2"><a href="14-Rarefaction.html#cb71-2" tabindex="-1"></a>pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(</span>
-<span id="cb71-3"><a href="14-Rarefaction.html#cb71-3" tabindex="-1"></a>  pseq, <span class="at">sample.size =</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq)),</span>
-<span id="cb71-4"><a href="14-Rarefaction.html#cb71-4" tabindex="-1"></a>  <span class="at">rngseed =</span> <span class="dv">1000</span></span>
-<span id="cb71-5"><a href="14-Rarefaction.html#cb71-5" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb72-1"><a href="14-Rarefaction.html#cb72-1" tabindex="-1"></a><span class="co">#Rarefy to minimum depth</span></span>
+<span id="cb72-2"><a href="14-Rarefaction.html#cb72-2" tabindex="-1"></a>pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(</span>
+<span id="cb72-3"><a href="14-Rarefaction.html#cb72-3" tabindex="-1"></a>  pseq, <span class="at">sample.size =</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq)),</span>
+<span id="cb72-4"><a href="14-Rarefaction.html#cb72-4" tabindex="-1"></a>  <span class="at">rngseed =</span> <span class="dv">1000</span></span>
+<span id="cb72-5"><a href="14-Rarefaction.html#cb72-5" tabindex="-1"></a>  )</span></code></pre></div>
 <p>The options we provided to the function <code>rarefy_even_depth</code> were:</p>
 <ul>
 <li><strong><code>pseq</code></strong>: The <code>phyloseq</code> object to rarefy.</li>
@@ -634,25 +635,25 @@ In your own analyses you may need to balance the loss of samples with the loss o
 </ul></li>
 </ul>
 <p>As always, it is useful to check our data.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb72-1"><a href="14-Rarefaction.html#cb72-1" tabindex="-1"></a><span class="co">#Summarise and check sample counts which should each amount to 10433 (min depth)</span></span>
-<span id="cb72-2"><a href="14-Rarefaction.html#cb72-2" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(pseq_rarefy)</span>
-<span id="cb72-3"><a href="14-Rarefaction.html#cb72-3" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq_rarefy)</span>
-<span id="cb72-4"><a href="14-Rarefaction.html#cb72-4" tabindex="-1"></a><span class="co">#ASV counts</span></span>
-<span id="cb72-5"><a href="14-Rarefaction.html#cb72-5" tabindex="-1"></a><span class="co">#Add relative abundance ASV count</span></span>
-<span id="cb72-6"><a href="14-Rarefaction.html#cb72-6" tabindex="-1"></a>num_asvs_vec[<span class="st">&quot;rarefied&quot;</span>] <span class="ot">&lt;-</span> <span class="fu">nrow</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq_rarefy))</span>
-<span id="cb72-7"><a href="14-Rarefaction.html#cb72-7" tabindex="-1"></a>num_asvs_vec</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb73-1"><a href="14-Rarefaction.html#cb73-1" tabindex="-1"></a><span class="co">#Summarise and check sample counts which should each amount to 10433 (min depth)</span></span>
+<span id="cb73-2"><a href="14-Rarefaction.html#cb73-2" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(pseq_rarefy)</span>
+<span id="cb73-3"><a href="14-Rarefaction.html#cb73-3" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq_rarefy)</span>
+<span id="cb73-4"><a href="14-Rarefaction.html#cb73-4" tabindex="-1"></a><span class="co">#ASV counts</span></span>
+<span id="cb73-5"><a href="14-Rarefaction.html#cb73-5" tabindex="-1"></a><span class="co">#Add relative abundance ASV count</span></span>
+<span id="cb73-6"><a href="14-Rarefaction.html#cb73-6" tabindex="-1"></a>num_asvs_vec[<span class="st">&quot;rarefied&quot;</span>] <span class="ot">&lt;-</span> <span class="fu">nrow</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq_rarefy))</span>
+<span id="cb73-7"><a href="14-Rarefaction.html#cb73-7" tabindex="-1"></a>num_asvs_vec</span></code></pre></div>
 <p>With this we can see that all our samples have the correct depth (10,433) and very few ASVs have been lost (2551-2498 = 53).
 I would definetly be happy with this outcome.</p>
 <p>Once you have viewed the outputs save your <code>phyloseq</code> object and ASV count vector.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb73-1"><a href="14-Rarefaction.html#cb73-1" tabindex="-1"></a><span class="co">#Phyloseq save</span></span>
-<span id="cb73-2"><a href="14-Rarefaction.html#cb73-2" tabindex="-1"></a><span class="fu">save</span>(pseq_rarefy, <span class="at">file =</span><span class="st">&quot;phyloseq_rarefied.RData&quot;</span>)</span>
-<span id="cb73-3"><a href="14-Rarefaction.html#cb73-3" tabindex="-1"></a><span class="co">#ASV count save</span></span>
-<span id="cb73-4"><a href="14-Rarefaction.html#cb73-4" tabindex="-1"></a><span class="fu">save</span>(num_asvs_vec, <span class="at">file=</span><span class="st">&quot;num_asvs_vec.v2.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb74-1"><a href="14-Rarefaction.html#cb74-1" tabindex="-1"></a><span class="co">#Phyloseq save</span></span>
+<span id="cb74-2"><a href="14-Rarefaction.html#cb74-2" tabindex="-1"></a><span class="fu">save</span>(pseq_rarefy, <span class="at">file =</span><span class="st">&quot;phyloseq_rarefied.RData&quot;</span>)</span>
+<span id="cb74-3"><a href="14-Rarefaction.html#cb74-3" tabindex="-1"></a><span class="co">#ASV count save</span></span>
+<span id="cb74-4"><a href="14-Rarefaction.html#cb74-4" tabindex="-1"></a><span class="fu">save</span>(num_asvs_vec, <span class="at">file=</span><span class="st">&quot;num_asvs_vec.v2.RData&quot;</span>)</span></code></pre></div>
 <p>Now you can close and halt the notebook.</p>
 </div>
 <div id="rarefaction-summary" class="section level2 hasAnchor" number="14.5">
 <h2><span class="header-section-number">14.5</span> Rarefaction: summary<a href="14-Rarefaction.html#rarefaction-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/sum_orange.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/sum_orange.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>In this chapter we:</p>
 <ul>
 <li>Determined the sampling depth to rarefy to with rarefaction curves and slopes.</li>
