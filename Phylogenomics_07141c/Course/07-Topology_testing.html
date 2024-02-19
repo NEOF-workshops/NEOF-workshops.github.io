@@ -20,10 +20,10 @@
   <meta name="twitter:description" content="NEOF book for the Phylogenomics workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
 
-<meta name="author" content="Gavin Gouws, Matthew Gemmell, Helen Hipperson, Ewan Harney, Kathryn Maher" />
+<meta name="author" content="Gavin Gouws, Matthew Gemmell, Ewan Harney, Helen Hipperson, Kathryn Maher" />
 
 
-<meta name="date" content="2024-01-22" />
+<meta name="date" content="2024-02-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -215,6 +215,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="10-Appendix.html"><a href="10-Appendix.html#optimising-loci-reconstruction-in-denovo_map.pl-in-stacks"><i class="fa fa-check"></i><b>C</b> Optimising loci reconstruction in <code>denovo_map.pl</code> in Stacks</a></li>
+<li class="chapter" data-level="D" data-path="10-Appendix.html"><a href="10-Appendix.html#additional-resources"><i class="fa fa-check"></i><b>D</b> Additional resources</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="10-Appendix.html"><a href="10-Appendix.html#snp-variant-calling"><i class="fa fa-check"></i><b>D.1</b> SNP variant calling</a></li>
+<li class="chapter" data-level="D.2" data-path="10-Appendix.html"><a href="10-Appendix.html#sequence-alignment-tools"><i class="fa fa-check"></i><b>D.2</b> Sequence alignment tools</a></li>
+<li class="chapter" data-level="D.3" data-path="10-Appendix.html"><a href="10-Appendix.html#model-selection-tools"><i class="fa fa-check"></i><b>D.3</b> Model selection tools</a></li>
+<li class="chapter" data-level="D.4" data-path="10-Appendix.html"><a href="10-Appendix.html#phylogeny-reconstruction-tools"><i class="fa fa-check"></i><b>D.4</b> Phylogeny reconstruction tools</a></li>
+<li class="chapter" data-level="D.5" data-path="10-Appendix.html"><a href="10-Appendix.html#r-packages"><i class="fa fa-check"></i><b>D.5</b> R-packages</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -237,52 +245,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="hypothesis" class="section level1 hasAnchor" number="7">
 <h1><span class="header-section-number">Chapter 7</span> Hypothesis and topology testing<a href="07-Topology_testing.html#hypothesis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/hypothesis.png" width="15%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/hypothesis.png" width="400px" style="display: block; margin: auto;" /></p>
 <p>In this section, we'll use IQ-TREE to test some alternative hypotheses to the tree we generated in the previous chapter. We can constrain the tree (i.e., move around or swap branches) to represent relationships under any alternative hypothesis that we want to test - statistically - against the most likely tree. These constrained trees can be informed by any taxonomic arrangement, biogeographic scenario or patterns of phenotypic or character evolution.</p>
 <p>Prior to conducting the analysis, you would need to edit the Newick tree file (or compile a new one), such that the topology reflects that which you want to propose. In most applications, the topology along would suffice; it is very seldom that you would need to propose branch lengths for the relationships that you want to test. This is a relief, because that can be quite tricky, and is done in this analysis anyway (see below) - should you need these later!</p>
 <p>We have already edited a few trees and placed them in a file to analyse. You can view this file (you should still be in the 'iqtree' subdirectory):</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb42-1"><a href="07-Topology_testing.html#cb42-1" tabindex="-1"></a><span class="fu">less</span> manta_tests.treefile</span></code></pre></div>
 <p>If you would like to challenge yourself, you are welcome to grab a notepad and try to reconstruct the topologies from the notation. If not, these are the topologies we would like to test:</p>
 <ol style="list-style-type: decimal">
-<li>The first tree is only a slight modification of the tree we recovered before, in that we are forcing the two <em>Mobula japanica</em> samples to form a clade of their own. In the previous tree, one of <em>Mobula japanica</em> samples was a sister-taxon to the two <em>Mobula mobular</em> individuals, with some support (74%), with the other <em>Mobula japanica</em> individual outside of this; these species are considered synonyms, so this relationship is not that surprising.</li>
+<li>The first tree is only a slight modification of the tree we recovered before in that we are forcing the two <em>Mobula japanica</em> samples to form a clade of their own. In the previous tree, one of <em>Mobula japanica</em> samples was a sister-taxon to the two <em>Mobula mobular</em> individuals, with some support (74%), with the other <em>Mobula japanica</em> individual outside of this; these species are considered synonyms, so this relationship is not that surprising.</li>
 </ol>
-<p><img src="figures/tree_1.png" width="60%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/tree_1.png" style="max-width: 700px; border-radius: 5px; border: 1px solid #333333; background-color: white" />
+</center>
 <ol start="2" style="list-style-type: decimal">
-<li>In the second tree, we are testing whether the former genus <em>Manta</em> could be considered as a separate, monophyletic sister genus to <em>Mobula</em>.</li>
+<li>In the second tree, we are testing whether the former genus <em>Manta</em> could be considered as a separate, monophyletic-sister genus to <em>Mobula</em>.</li>
 </ol>
-<p><img src="figures/tree_2.png" width="60%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/tree_2.png" style="max-width: 700px; border-radius: 5px; border: 1px solid #333333; background-color: white" />
+</center>
 <ol start="3" style="list-style-type: decimal">
-<li>In the last example, we are testing a fanciful biogeographic hypothesis, using distribution information retrieved from <a href="https://researcharchive.calacademy.org/research/ichthyology/catalog/fishcatmain.asp">here</a>. We are proposing that an ancestor with a circum-global distribution gave rise to new species in the Atlantic Ocean, including <em>Mobula hypostoma</em>. One of these, <em>Manta alfredi</em>, with an Atlantic and Indo-West Pacific (IWP) distribution, then gave rise a clade of species with a Red Sea, Indo-Pacific (IP) distribution, including a <em>Mobula munkiana</em> in the Eastern Pacific.</li>
+<li>In the last example, we are testing a fanciful biogeographic hypothesis, using distribution information retrieved from <a href="https://researcharchive.calacademy.org/research/ichthyology/catalog/fishcatmain.asp">here</a>. We are proposing that an ancestor with a circum-global distribution gave rise to new species in the Atlantic Ocean, including <em>Mobula hypostoma</em>. One of these, <em>Manta alfredi</em>, with an Atlantic and Indo-West Pacific (IWP) distribution, then gave rise a clade of species with a Red Sea, Indo-Pacific (IP) distribution, including <em>Mobula munkiana</em> in the Eastern Pacific.</li>
 </ol>
-<p><img src="figures/tree_3.png" width="60%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/tree_3.png" style="max-width: 700px; border-radius: 5px; border: 1px solid #333333; background-color: white" />
+</center>
 <p>Within each of these 'alternative hypothesis' trees, we have tried to keep the relationships, branching order and patterns (other than the obvious rearrangements and constraints) as close as possible to the original tree.</p>
 <p>When conducting tree topology tests, IQ-TREE will perform RELL replicates (analogous to bootstraps) for a number of the common topology test statistics. These include the bootstrap proportion test, the KH test <a href="https://link.springer.com/article/10.1007/BF02100115">(Kishino &amp; Hasegawa, 1989)</a>, the SH test <a href="https://cophylogeny.net/pdf/SHtest.pdf">(Shimoadaira &amp; Hasegawa, 1999)</a> and <a href="https://royalsocietypublishing.org/doi/abs/10.1098/rspb.2001.1862">Strimmer &amp; Rambaut's (2002)</a> expected likelihood weights (ELW) test. You could optionally include various weighted (KH and SH) tests and an approximately unbiased (AU) test <a href="https://academic.oup.com/sysbio/article/51/3/492/1616895">(Shimodaira, 2002)</a>. We'll include the default array of tests, as well as the AU test, and execute with the following command:</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb43-1"><a href="07-Topology_testing.html#cb43-1" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> manta_phylogeny.phylip <span class="at">-z</span> manta_tests.treefile <span class="dt">\</span></span>
 <span id="cb43-2"><a href="07-Topology_testing.html#cb43-2" tabindex="-1"></a>-zb 10000 <span class="at">-au</span> <span class="at">-te</span> manta_phylogeny.phylip.treefile <span class="at">--redo</span></span></code></pre></div>
-<p>In this script,
-- <code>-s</code> opens our data file, as before.
-- <code>-z</code>: This is the treefile containing the topologies that we want to test and compare.
-- <code>-zb</code> indicates how many RELL replicates we wish to perform. We have specified 10000, as this is the minimum recommended for the approximately unbiased test.
-- <code>-au</code> is included to include the approximately unbiased test.
-- <code>-te</code> specifies a user-defined tree to use to estimate model parameters. IQ-TREE will essentially execute the full model selection and tree reconstruction process anew on each execution. Here, we will just specify the tree we had generated previously to reduce (highly unlikely) chance that another topology would be obtained with a different starting tree for the model selection.
-- <code>--redo</code>: As before, we release the safety feature.</p>
-<p>After this has completed running (after about two minutes), we can consult the standard logfile and evaluate our results.</p>
+<p>In this script:</p>
+<ul>
+<li><code>-s</code> opens our data file, as before.</li>
+<li><code>-z</code>: This is the treefile containing the topologies that we want to test and compare.</li>
+<li><code>-zb</code> indicates how many RELL replicates we wish to perform. We have specified 10,000, as this is the minimum recommended for the approximately unbiased test.</li>
+<li><code>-au</code> is included to include the approximately unbiased test.</li>
+<li><code>-te</code> specifies a user-defined tree to use to estimate model parameters. IQ-TREE will essentially execute the full model selection and tree reconstruction process anew on each execution. Here, we will just specify the tree we had generated previously to reduce (highly unlikely) chance that another topology would be obtained with a different starting tree for the model selection.</li>
+<li><code>--redo</code>: As before, we release the safety feature.</li>
+</ul>
+<p>When this has completed running (after about two minutes), we can consult the standard logfile and evaluate our results.</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb44-1"><a href="07-Topology_testing.html#cb44-1" tabindex="-1"></a><span class="fu">less</span> manta_phylogeny.phylip.iqtree</span></code></pre></div>
 <p>Scroll towards the bottom. You'll find the results under the <strong>USER TREES</strong> subheader. A table will include the log-likelihood for each of the three alternative topologies, the difference in likelihood ('deltaL') compared to our earlier most-likely tree, the RELL bootstrap proportion, the p-values for the KH, SH and AU tests, and the expected likelihood weights (ELW). It is also indicated as to whether a particular tree is statistically excluded as a reasonable alternative to the original tree.</p>
 <p>Looking at these results:</p>
 <ol style="list-style-type: decimal">
 <li>Which tree has the lowest likelihood score? (Keep in mind that these are log-likelihoods which will be negative)
-<div id="radio_JXHSTSKGSS" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_JXHSTSKGSS" value=""></input> <span>Tree 1</span></label><label><input type="radio" autocomplete="off" name="radio_JXHSTSKGSS" value=""></input> <span>Tree 2</span></label><label><input type="radio" autocomplete="off" name="radio_JXHSTSKGSS" value="answer"></input> <span>Tree 3</span></label>
+<div id="radio_IRDCDFHPSC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_IRDCDFHPSC" value=""></input> <span>Tree 1</span></label><label><input type="radio" autocomplete="off" name="radio_IRDCDFHPSC" value=""></input> <span>Tree 2</span></label><label><input type="radio" autocomplete="off" name="radio_IRDCDFHPSC" value="answer"></input> <span>Tree 3</span></label>
 </div></li>
-<li>Which one, if any, of these trees is an acceptable alternative hypothesis to the original tree?
-<div id="radio_PRKLBVLMWA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PRKLBVLMWA" value=""></input> <span>None of them</span></label><label><input type="radio" autocomplete="off" name="radio_PRKLBVLMWA" value="answer"></input> <span>Tree 1</span></label><label><input type="radio" autocomplete="off" name="radio_PRKLBVLMWA" value=""></input> <span>Tree 2</span></label><label><input type="radio" autocomplete="off" name="radio_PRKLBVLMWA" value=""></input> <span>Tree 3</span></label>
+<li>Which one, if any, of these trees is an acceptable alternative hypothesis (i.e., with a likelihood that it is not significantly different to that of the original tree)?
+<div id="radio_QOMLHMFGRH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QOMLHMFGRH" value=""></input> <span>None of them</span></label><label><input type="radio" autocomplete="off" name="radio_QOMLHMFGRH" value="answer"></input> <span>Tree 1</span></label><label><input type="radio" autocomplete="off" name="radio_QOMLHMFGRH" value=""></input> <span>Tree 2</span></label><label><input type="radio" autocomplete="off" name="radio_QOMLHMFGRH" value=""></input> <span>Tree 3</span></label>
 </div></li>
 </ol>
 <p>If of interest, you can consult the file 'manta_phylogeny.phylip.trees' to see that branch lengths were appended to each of our three proposed user trees. These are the branch lengths that would maximise the likelihood of that topology, given our data and the model that best fits our data.</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb45-1"><a href="07-Topology_testing.html#cb45-1" tabindex="-1"></a><span class="fu">less</span> manta_phylogeny.phylip.trees</span></code></pre></div>
-<p>In the next chapter, we will attempt to date divergences (cladogenic events) in the tree.</p>
+<p>In the next chapter, we will attempt to date divergences (cladogenic events) in our tree.</p>
 
 </div>
 <script>
@@ -538,6 +554,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

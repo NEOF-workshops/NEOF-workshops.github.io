@@ -20,10 +20,10 @@
   <meta name="twitter:description" content="NEOF book for the Phylogenomics workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
 
-<meta name="author" content="Gavin Gouws, Matthew Gemmell, Helen Hipperson, Ewan Harney, Kathryn Maher" />
+<meta name="author" content="Gavin Gouws, Matthew Gemmell, Ewan Harney, Helen Hipperson, Kathryn Maher" />
 
 
-<meta name="date" content="2024-01-22" />
+<meta name="date" content="2024-02-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -215,6 +215,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="10-Appendix.html"><a href="10-Appendix.html#optimising-loci-reconstruction-in-denovo_map.pl-in-stacks"><i class="fa fa-check"></i><b>C</b> Optimising loci reconstruction in <code>denovo_map.pl</code> in Stacks</a></li>
+<li class="chapter" data-level="D" data-path="10-Appendix.html"><a href="10-Appendix.html#additional-resources"><i class="fa fa-check"></i><b>D</b> Additional resources</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="10-Appendix.html"><a href="10-Appendix.html#snp-variant-calling"><i class="fa fa-check"></i><b>D.1</b> SNP variant calling</a></li>
+<li class="chapter" data-level="D.2" data-path="10-Appendix.html"><a href="10-Appendix.html#sequence-alignment-tools"><i class="fa fa-check"></i><b>D.2</b> Sequence alignment tools</a></li>
+<li class="chapter" data-level="D.3" data-path="10-Appendix.html"><a href="10-Appendix.html#model-selection-tools"><i class="fa fa-check"></i><b>D.3</b> Model selection tools</a></li>
+<li class="chapter" data-level="D.4" data-path="10-Appendix.html"><a href="10-Appendix.html#phylogeny-reconstruction-tools"><i class="fa fa-check"></i><b>D.4</b> Phylogeny reconstruction tools</a></li>
+<li class="chapter" data-level="D.5" data-path="10-Appendix.html"><a href="10-Appendix.html#r-packages"><i class="fa fa-check"></i><b>D.5</b> R-packages</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -237,7 +245,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="quality" class="section level1 hasAnchor" number="4">
 <h1><span class="header-section-number">Chapter 4</span> Quality Control<a href="04-Quality_Control.html#quality" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/magnify_glass.png" width="20%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/magnify_glass.png" width="200px" style="display: block; margin: auto;" /></p>
 <p>This tutorial will give hands-on experience with the quality control of Illumina sequence data. We will first assess the quality of the RADseq data produced through an Illumina sequencing run before proceeding to some quality control.</p>
 <div id="workshop-data" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Workshop data<a href="04-Quality_Control.html#workshop-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -246,27 +254,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-2"><a href="04-Quality_Control.html#cb5-2" tabindex="-1"></a><span class="bu">pwd</span></span>
 <span id="cb5-3"><a href="04-Quality_Control.html#cb5-3" tabindex="-1"></a><span class="co"># Then navigate to the sub-directory</span></span>
 <span id="cb5-4"><a href="04-Quality_Control.html#cb5-4" tabindex="-1"></a><span class="bu">cd</span> raw_data</span>
-<span id="cb5-5"><a href="04-Quality_Control.html#cb5-5" tabindex="-1"></a><span class="co"># You can navigate to the sub-directory directly, regardless of where you are with this command</span></span>
+<span id="cb5-5"><a href="04-Quality_Control.html#cb5-5" tabindex="-1"></a><span class="co"># You can navigate to the sub-directory directly, regardless of where you are, with this command</span></span>
 <span id="cb5-6"><a href="04-Quality_Control.html#cb5-6" tabindex="-1"></a><span class="bu">cd</span> ~/phylogenomics/raw_data</span></code></pre></div>
 </div>
 <div id="manta--and-devil-ray-ddrad-data-set" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> Manta- and devil-ray ddRAD data set<a href="04-Quality_Control.html#manta--and-devil-ray-ddrad-data-set" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/manta_icon.png" width="20%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/manta_icon.png" width="300px" style="display: block; margin: auto;" /></p>
 <p>This dataset contains one set of sequence files, the forward (R1) and reverse (R2) read files of 'Lib1_001_', that were demultiplexed from the paired-end Illumina sequencing run.
 These are compressed (gzipped) fastq files, as indicated by the '.gz' extension.
 The files contain sequence reads of many RADtags (double-digested DNA sequence fragments) that were isolated and sequenced from a number of individuals of different manta ray and devil ray species, and multiplexed (combined) into a single pool for sequencing.
-These are some of the original raw data from Hosegood <em>et al.</em> (2020), but the files have been randomly "thinned" (they contain about 10% of the original data) to enable us to complete the exercises in a timely manner.</p>
+These are some of the original raw data from Hosegood <em>et al.</em> (2020), but the files have been randomly "down-sampled" (they contain about 10% of the original data) to enable us to complete the exercises in a timely manner.</p>
 <p>List the contents of the current directory to confirm that the two sequence files are there. There should also be two additional files ('manta_samples.barcodes' and 'TruSeq3-PE.fa'), which we will use later.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb6-1"><a href="04-Quality_Control.html#cb6-1" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
-<p>Have a look at the structure of the reverse (R2) fastq file: <strong>Remember:</strong> You can use 'Tab' to auto-complete and save yourself the typing.</p>
+<p>Have a look at the structure of the reverse (R2) fastq file.</p>
+<p><strong>Remember:</strong> You can use 'Tab' to auto-complete and save yourself the typing.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb7-1"><a href="04-Quality_Control.html#cb7-1" tabindex="-1"></a><span class="fu">zcat</span> Lib1_001_R2.fastq.gz <span class="kw">|</span> <span class="fu">head</span> </span></code></pre></div>
-<p><code>zcat</code> is a command for viewing the contents of compressed files (equivalent to using <code>cat</code> for other files) and the pipe <code>|</code> symbol then passes this output to <code>head</code> to display only the first few lines of the file.</p>
+<p><code>zcat</code> is a command for viewing the contents of compressed files (equivalent to using <code>cat</code> for other files).
+The pipe <code>|</code> symbol then passes this output to <code>head</code> to display only the first few lines of the file.</p>
 <p>Fastq files contain a sequence header line, the nucleotide sequence, a quality header line (containing only a '+' symbol) and the quality scores for each nucleotide.</p>
 <p>We have opened the R2 file, because there is an important detail that is not present in the R1 file, which we will come back to later. Note and remember the 'GTATGCCG' sequence string at the end of the sequence header line.</p>
 </div>
 <div id="quality-assessment" class="section level2 hasAnchor" number="4.3">
 <h2><span class="header-section-number">4.3</span> Quality assessment<a href="04-Quality_Control.html#quality-assessment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/fastqc_icon.png" width="20%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/fastqc_icon.png" style="max-width: 200px; border-radius: 15px; border: 5px solid #333333" />
+</center>
 <p>We’ll run this raw sequence data through <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">fastQC</a>, a tool for conducting quality assessments on Illumina data, to summarise the data quality.</p>
 <p>First, make a directory for the output.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb8-1"><a href="04-Quality_Control.html#cb8-1" tabindex="-1"></a><span class="fu">mkdir</span> fastqc_output</span></code></pre></div>
@@ -281,7 +293,7 @@ These are some of the original raw data from Hosegood <em>et al.</em> (2020), bu
 <p>Normally, when you run a command it will run the process in the foreground. This means your command line will be locked while the process is running. You will only be able to type a new command in the terminal once the foreground process is finished.</p>
 <p>This is normally wanted, but not always - for example, when you run a process like firefox. To run a process in the background, so that you can type and run new commands, you can add the symbol <code>&amp;</code> to the end of a command. We will use this for running firefox.</p>
 <p>Please follow <a href="https://linuxconfig.org/understanding-foreground-and-background-linux-processes">this link</a> for more information on foreground and background processing.</p>
-<p><img src="figures/magnifying_glass_blue.png" width="20%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/magnifying_glass_blue.png" width="200px" style="display: block; margin: auto;" /></p>
 <p>Using firefox, have a look at the output html reports and answer the questions further below.</p>
 <p>To look at the R1 fastQC output:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb10-1"><a href="04-Quality_Control.html#cb10-1" tabindex="-1"></a><span class="ex">firefox</span> fastqc_output/Lib1_001_R1_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
@@ -290,46 +302,46 @@ These are some of the original raw data from Hosegood <em>et al.</em> (2020), bu
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb11-1"><a href="04-Quality_Control.html#cb11-1" tabindex="-1"></a><span class="ex">firefox</span> fastqc_output/Lib1_001_R2_fastqc.html <span class="kw">&amp;</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>How many total reads are there in each of the files?
-<div id="radio_MIWCOXISGP" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MIWCOXISGP" value=""></input> <span>53,260</span></label><label><input type="radio" autocomplete="off" name="radio_MIWCOXISGP" value=""></input> <span>165,017</span></label><label><input type="radio" autocomplete="off" name="radio_MIWCOXISGP" value="answer"></input> <span>250,000</span></label>
+<div id="radio_QLOVYYKGEW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QLOVYYKGEW" value=""></input> <span>53,260</span></label><label><input type="radio" autocomplete="off" name="radio_QLOVYYKGEW" value=""></input> <span>165,017</span></label><label><input type="radio" autocomplete="off" name="radio_QLOVYYKGEW" value="answer"></input> <span>250,000</span></label>
 </div></li>
 <li>What is the length of the reads?
-<div id="radio_QHPKQNCAVV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_QHPKQNCAVV" value=""></input> <span>75</span></label><label><input type="radio" autocomplete="off" name="radio_QHPKQNCAVV" value=""></input> <span>100</span></label><label><input type="radio" autocomplete="off" name="radio_QHPKQNCAVV" value="answer"></input> <span>125</span></label><label><input type="radio" autocomplete="off" name="radio_QHPKQNCAVV" value=""></input> <span>151</span></label>
+<div id="radio_CSWMQZUQWG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CSWMQZUQWG" value=""></input> <span>75</span></label><label><input type="radio" autocomplete="off" name="radio_CSWMQZUQWG" value=""></input> <span>100</span></label><label><input type="radio" autocomplete="off" name="radio_CSWMQZUQWG" value="answer"></input> <span>125</span></label><label><input type="radio" autocomplete="off" name="radio_CSWMQZUQWG" value=""></input> <span>151</span></label>
 </div></li>
 <li>In the read 2 file, at what base position does the quality of all the reads go below 28 (i.e., the position where not all of the box plot is in the green)?
-<div id="radio_ERADAOAFYK" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ERADAOAFYK" value=""></input> <span>104-105</span></label><label><input type="radio" autocomplete="off" name="radio_ERADAOAFYK" value=""></input> <span>114-115</span></label><label><input type="radio" autocomplete="off" name="radio_ERADAOAFYK" value=""></input> <span>124-125</span></label><label><input type="radio" autocomplete="off" name="radio_ERADAOAFYK" value="answer"></input> <span>It does not</span></label>
+<div id="radio_DICJAITBOO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DICJAITBOO" value=""></input> <span>104-105</span></label><label><input type="radio" autocomplete="off" name="radio_DICJAITBOO" value=""></input> <span>114-115</span></label><label><input type="radio" autocomplete="off" name="radio_DICJAITBOO" value=""></input> <span>124-125</span></label><label><input type="radio" autocomplete="off" name="radio_DICJAITBOO" value="answer"></input> <span>It does not</span></label>
 </div></li>
 <li>Are there any over-represented sequences or sequences with adapter content?
-<div id="radio_YYTRFPVAID" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YYTRFPVAID" value="answer"></input> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_YYTRFPVAID" value=""></input> <span>No</span></label>
+<div id="radio_MSZBEIOZMX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MSZBEIOZMX" value="answer"></input> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_MSZBEIOZMX" value=""></input> <span>No</span></label>
 </div></li>
 </ol>
 <p>In this case, the reads seem to be of generally very high quality.
 This is likely as these reads are still relatively short, considering the Illumina sequencing kits used.
 Longer sequences can be of poorer quality, especially towards the end of the reads, and reads from the sequencing of shorter fragments may contain adapter sequence.</p>
-<p>Unfortunately, data from a sequencing run may often not look so nice and will require quality trimming and filtering.</p>
+<p>Unfortunately, data from a sequencing run may often not look as nice and will require quality trimming and filtering.</p>
 <p>For most datasets:</p>
 <ul>
 <li>The quality decreases towards the end of the reads</li>
-<li>The R2 reads have poorer quality than the R1 reads</li>
+<li>The R2 reads are of poorer quality than the R1 reads</li>
 <li>Depending on what has been sequenced and the sequencing kit used, the reads may be a range of sizes compared to being the same size. However, most of the reads will be towards the long end of the range.</li>
 </ul>
-<p>Even if data does look very good, we would carry out quality control to remove any poor data masked by the high-quality data and to remove any adapter sequences.</p>
+<p>Even if data do look very good, we would carry out quality control to remove any poor data masked by the high-quality data and to remove any adapter sequences.</p>
 <p>The application we will use in the next chapter has an internal quality filter.
-However, it is good practice to work through QC to get a feel for what you may lose from your data set prior to processing it further.
+However, it is good practice to work through QC steps like these to get a feel for what you may lose from your data set prior to processing it further.
 This may put your mind at ease, indicate that you may need to proceed with caution or that you should perhaps revisit your libraries if this was a pilot sequencing run.</p>
 </div>
 <div id="quality-control" class="section level2 hasAnchor" number="4.4">
 <h2><span class="header-section-number">4.4</span> Quality Control<a href="04-Quality_Control.html#quality-control" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/quality_trimming_and_filtering.png" width="30%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/quality_trimming_and_filtering.png" width="300px" style="display: block; margin: auto;" /></p>
 <p>Quality control generally comes in two forms:</p>
 <ol style="list-style-type: decimal">
 <li><strong>Trimming</strong>: This involves cutting off bits of sequence. This is typically in the form of trimming off low quality bases from the end of reads, and trimming off adapters or primers at the start of reads.</li>
 <li><strong>Filtering</strong>: This occurs when entire reads are removed. A typical occurrence of this is when a read is too short, as we do not want reads below a certain length, or if the read has an excess of uncertain or poor quality base-calls.</li>
 </ol>
-<p><img src="figures/hedge_trimming.png" width="20%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/hedge_trimming.png" width="200px" style="display: block; margin: auto;" /></p>
 <p>To carry this out, we are going to use <a href="https://github.com/usadellab/Trimmomatic"><strong>trimmomatic</strong></a>.</p>
 <p>To run trimmomatic with the above sequence data we will use the command below.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb12-1"><a href="04-Quality_Control.html#cb12-1" tabindex="-1"></a><span class="ex">trimmomatic</span> <span class="dt">\</span></span>
@@ -354,13 +366,13 @@ This may put your mind at ease, indicate that you may need to proceed with cauti
 </ul>
 <p>Once the command is run, it will give you some summary output to the screen.</p>
 Based on this output, approximately what percentage of paired reads were kept?
-<div id="radio_ZMEDFGGHMC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZMEDFGGHMC" value=""></input> <span>95</span></label><label><input type="radio" autocomplete="off" name="radio_ZMEDFGGHMC" value="answer"></input> <span>66</span></label><label><input type="radio" autocomplete="off" name="radio_ZMEDFGGHMC" value=""></input> <span>15</span></label><label><input type="radio" autocomplete="off" name="radio_ZMEDFGGHMC" value=""></input> <span>5</span></label>
+<div id="radio_BEEBNXXOGT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BEEBNXXOGT" value=""></input> <span>95</span></label><label><input type="radio" autocomplete="off" name="radio_BEEBNXXOGT" value="answer"></input> <span>66</span></label><label><input type="radio" autocomplete="off" name="radio_BEEBNXXOGT" value=""></input> <span>15</span></label><label><input type="radio" autocomplete="off" name="radio_BEEBNXXOGT" value=""></input> <span>5</span></label>
 </div>
 </div>
 <div id="post-qc-check" class="section level2 hasAnchor" number="4.5">
 <h2><span class="header-section-number">4.5</span> Post QC Check<a href="04-Quality_Control.html#post-qc-check" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/magnify_glass_good.png" width="20%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/magnify_glass_good.png" width="200px" style="display: block; margin: auto;" /></p>
 <p>To see the impact of our quality control, we will run fastQC on the trimmomatic output, specifically the two paired read files, and send the output to the 'fastqc_out' directory we created earlier.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb13-1"><a href="04-Quality_Control.html#cb13-1" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-o</span> fastqc_output <span class="dt">\</span></span>
 <span id="cb13-2"><a href="04-Quality_Control.html#cb13-2" tabindex="-1"></a>Lib1_1_out_paired.fastq Lib1_2_out_paired.fastq</span></code></pre></div>
@@ -369,25 +381,25 @@ Based on this output, approximately what percentage of paired reads were kept?
 <p>To see if the quality of the reads has improved and to evaluate what we have lost, let’s answer the questions below and compare these to the answers to the questions about the fastQC raw read assessment above.</p>
 <ol style="list-style-type: decimal">
 <li>How many total reads are there in each of the files?
-<div id="radio_ZHKDNWCCHY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZHKDNWCCHY" value=""></input> <span>53 260</span></label><label><input type="radio" autocomplete="off" name="radio_ZHKDNWCCHY" value="answer"></input> <span>165 017</span></label><label><input type="radio" autocomplete="off" name="radio_ZHKDNWCCHY" value=""></input> <span>250 000</span></label><label><input type="radio" autocomplete="off" name="radio_ZHKDNWCCHY" value=""></input> <span>513 778</span></label>
+<div id="radio_JJFSNCVXGX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JJFSNCVXGX" value=""></input> <span>53,260</span></label><label><input type="radio" autocomplete="off" name="radio_JJFSNCVXGX" value="answer"></input> <span>165,017</span></label><label><input type="radio" autocomplete="off" name="radio_JJFSNCVXGX" value=""></input> <span>250,000</span></label><label><input type="radio" autocomplete="off" name="radio_JJFSNCVXGX" value=""></input> <span>513,778</span></label>
 </div></li>
 <li>What is the length of the reads?
-<div id="radio_NEXYIGPOKN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_NEXYIGPOKN" value=""></input> <span>35-76</span></label><label><input type="radio" autocomplete="off" name="radio_NEXYIGPOKN" value=""></input> <span>50-76</span></label><label><input type="radio" autocomplete="off" name="radio_NEXYIGPOKN" value=""></input> <span>75-100</span></label><label><input type="radio" autocomplete="off" name="radio_NEXYIGPOKN" value="answer"></input> <span>50-125</span></label>
+<div id="radio_KLKDGYSTGT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KLKDGYSTGT" value=""></input> <span>35-76</span></label><label><input type="radio" autocomplete="off" name="radio_KLKDGYSTGT" value=""></input> <span>50-76</span></label><label><input type="radio" autocomplete="off" name="radio_KLKDGYSTGT" value=""></input> <span>75-100</span></label><label><input type="radio" autocomplete="off" name="radio_KLKDGYSTGT" value="answer"></input> <span>50-125</span></label>
 </div></li>
 <li>What is the average GC content (%) of the R2 reads?
-<div id="radio_PFXERMWBHA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PFXERMWBHA" value=""></input> <span>40</span></label><label><input type="radio" autocomplete="off" name="radio_PFXERMWBHA" value="answer"></input> <span>43</span></label><label><input type="radio" autocomplete="off" name="radio_PFXERMWBHA" value=""></input> <span>45</span></label><label><input type="radio" autocomplete="off" name="radio_PFXERMWBHA" value=""></input> <span>50</span></label>
+<div id="radio_YYCDABTKAX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YYCDABTKAX" value=""></input> <span>40</span></label><label><input type="radio" autocomplete="off" name="radio_YYCDABTKAX" value="answer"></input> <span>43</span></label><label><input type="radio" autocomplete="off" name="radio_YYCDABTKAX" value=""></input> <span>45</span></label><label><input type="radio" autocomplete="off" name="radio_YYCDABTKAX" value=""></input> <span>50</span></label>
 </div></li>
 </ol>
 <p>Some things to note:</p>
 <ul>
 <li>There is now a range of read lengths. This reflects the trimming of regions of poor quality at the ends of reads through the sliding window. Depending on the downstream application, you may need to truncate reads to an equal length. We won't do that here, as we can still construct loci with fragments that are overlapping between the R1 and R2 reads. Shorter reads may not overlap, but we may still be able to "stack" them within a RADlocus to assemble alleles and loci (see the next section).</li>
-<li>The number of reads has significantly decreased due to quality control. This is expected, but will need to be taken into account. If you do not have enough reads to create sufficient depth or coverage to confidently reconstruct loci and call variants, you will need to be less stringent with the quality filtering you implement in the next section. What is the minimum number of reads required for downstream analysis? Unfortunately, this depends on what you intend to do with your sequence data. For genome assemblies, the general rule of thumb is you want at least 20 times as many bases in the reads as would be in the final assembly (based on the genome size of the organisms). For calling SNPs, you need less coverage of the genome, but you do want a sufficiently large enough number of reads of the same RADtag to be able to confidently reconstruct your loci and genotype your samples.</li>
+<li>The number of reads has significantly decreased due to quality control. This is expected, but will need to be taken into account. If you do not have enough reads to create sufficient depth or coverage to confidently reconstruct loci and call variants, you will need to be less stringent with the quality filtering you implement in the next section. What is the minimum number of reads required for downstream analysis? Unfortunately, this depends on what you intend to do with your sequence data. For genome assemblies, the general rule of thumb is you want at least 20 times as many bases in the reads as would be in the final assembly (based on the genome size of the organism). For calling SNPs, you need less coverage of the genome, but you do want a sufficiently large enough number of reads of the same RADtag to be able to confidently reconstruct your loci and genotype your samples.</li>
 <li>R2 quality is still slightly worse than R1 quality towards the end of the reads. Again, this is normal, and is mostly an artifact of the Illumina chemistry. You could be more stringent, but you may be removing too many reads (including potentially good forward reads).</li>
 </ul>
-<p><img src="figures/loop.png" width="25%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/loop.png" width="250px" style="display: block; margin: auto;" /></p>
 <p>In this section, we ran fastQC and trimmomatic on a single set of paired read files. The output of a sequencing run on your library may produce several paired read-files, as would the sequencing of multiple libraries. You may wonder how you would run fastQC and trimmomatic on multiple sets of fastq files. The use of wildcards and loops to accomplish this is explained in the Appendix.</p>
 
 </div>
@@ -645,6 +657,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

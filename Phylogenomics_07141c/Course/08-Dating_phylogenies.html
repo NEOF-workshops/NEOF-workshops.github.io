@@ -20,10 +20,10 @@
   <meta name="twitter:description" content="NEOF book for the Phylogenomics workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
 
-<meta name="author" content="Gavin Gouws, Matthew Gemmell, Helen Hipperson, Ewan Harney, Kathryn Maher" />
+<meta name="author" content="Gavin Gouws, Matthew Gemmell, Ewan Harney, Helen Hipperson, Kathryn Maher" />
 
 
-<meta name="date" content="2024-01-22" />
+<meta name="date" content="2024-02-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -215,6 +215,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="C" data-path="10-Appendix.html"><a href="10-Appendix.html#optimising-loci-reconstruction-in-denovo_map.pl-in-stacks"><i class="fa fa-check"></i><b>C</b> Optimising loci reconstruction in <code>denovo_map.pl</code> in Stacks</a></li>
+<li class="chapter" data-level="D" data-path="10-Appendix.html"><a href="10-Appendix.html#additional-resources"><i class="fa fa-check"></i><b>D</b> Additional resources</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="10-Appendix.html"><a href="10-Appendix.html#snp-variant-calling"><i class="fa fa-check"></i><b>D.1</b> SNP variant calling</a></li>
+<li class="chapter" data-level="D.2" data-path="10-Appendix.html"><a href="10-Appendix.html#sequence-alignment-tools"><i class="fa fa-check"></i><b>D.2</b> Sequence alignment tools</a></li>
+<li class="chapter" data-level="D.3" data-path="10-Appendix.html"><a href="10-Appendix.html#model-selection-tools"><i class="fa fa-check"></i><b>D.3</b> Model selection tools</a></li>
+<li class="chapter" data-level="D.4" data-path="10-Appendix.html"><a href="10-Appendix.html#phylogeny-reconstruction-tools"><i class="fa fa-check"></i><b>D.4</b> Phylogeny reconstruction tools</a></li>
+<li class="chapter" data-level="D.5" data-path="10-Appendix.html"><a href="10-Appendix.html#r-packages"><i class="fa fa-check"></i><b>D.5</b> R-packages</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -237,22 +245,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="dating" class="section level1 hasAnchor" number="8">
 <h1><span class="header-section-number">Chapter 8</span> Dating phylogenies<a href="08-Dating_phylogenies.html#dating" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/clock.png" width="20%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/clock.png" width="200px" style="display: block; margin: auto;" /></p>
 <p>We will use IQ-TREE to date the divergences in our tree. IQ-TREE implements the least-square dating (LSD2) dating procedure and algorithm of <a href="https://academic.oup.com/sysbio/article/65/1/82/2461506?login=true">To <em>et al.</em> (2016)</a>. This approach and IQ-TREE allow us to date the phylogeny using tip dates, e.g., known sampling dates of the terminal taxa as one would have in a study of viral evolution, or by using ancestral dates. This procedure will work as long as you can place a date or age for the most-recent common ancestor (MRCA) on one node of the tree. This date or age can be derived from fossil data or some biogeographic, geological or historical event.</p>
 <div id="setting-up-the-date-file" class="section level2 hasAnchor" number="8.1">
 <h2><span class="header-section-number">8.1</span> Setting up the date file<a href="08-Dating_phylogenies.html#setting-up-the-date-file" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>For our data and situation, we will use the ancestral dating approach. As a first step, we will need to prepare a date file specifying the date record of the ancestral nodes or at least one node in the tree. This has been prepared already.</p>
+<p>For our data and situation, we will use the ancestral dating approach. As a first step, we will need to prepare a 'date file' specifying the date record of the ancestral nodes or at least one node in the tree. This has been prepared already.</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb46-1"><a href="08-Dating_phylogenies.html#cb46-1" tabindex="-1"></a><span class="co"># Check whether you are in the &#39;iqtree&#39; directory</span></span>
 <span id="cb46-2"><a href="08-Dating_phylogenies.html#cb46-2" tabindex="-1"></a><span class="bu">pwd</span></span>
 <span id="cb46-3"><a href="08-Dating_phylogenies.html#cb46-3" tabindex="-1"></a><span class="co"># Open the dating file</span></span>
 <span id="cb46-4"><a href="08-Dating_phylogenies.html#cb46-4" tabindex="-1"></a><span class="fu">less</span> manta_phylogeny.dating</span></code></pre></div>
-<p>Again, this is a tab-delimited file. In the left column, we have the list of taxa that share a MRCA at the node with the age - in millions of years before present (hence specified as a negative value) - in the right column. In setting this up, it is important the the taxa names match those in our alignment file ('manta_phylogeny.phylip') exactly. These should be separated by commas and there should be no spaces (as spaces can also be used to delimit fields).</p>
-<p><img src="figures/sharktooth.png" width="20%" style="display: block; margin: auto;" /></p>
-<p>Part of the reason for the taxonomic uncertainty in this group is that it has undergone very rapid and recent speciation, and Hosegood <em>et al.</em>'s (2020) results also suggested this. <a href="https://www.sciencedirect.com/science/article/pii/S1055790314003637?via%3Dihub">Poortvliet <em>et al.</em> (2015)</a> provided a dated phylogeny, based on mitogenomes, for the manta- and devil-rays, and discussed the fossil evidence. Fossils of extant manta- and devil-rays are recent and only date back to between 11.6 and 3.6 million years ago (Mya). Fossil teeth of <em>Mobula mobular</em> and <em>Mobula japanica</em> date to between 11.6 and 3.6 Mya. The first fossils of <em>Manta</em> appeared 4.8 Mya. Based on molecular and fossil evidence, it is thought that <em>Manta alfredi</em> and <em>Manta birostris</em> diverged within the last one million years.</p>
+<p>Again, this is a tab-delimited file. In the left column, we have the list of taxa that share a MRCA (i.e., all the decendent taxa of the node we are constraining by date). The age of that node or MRCA in millions of years before present (hence specified as a negative value) is in the right column. In setting this up, it is important that the taxa names match those in our alignment file ('manta_phylogeny.phylip') exactly. These should be separated by commas and there should be no spaces (as spaces can also be used to delimit fields).</p>
+<p><img src="figures/sharktooth.png" width="300px" style="display: block; margin: auto;" /></p>
+<p>Part of the reason for the taxonomic uncertainty in this group is that it has undergone very rapid and recent speciation, and Hosegood <em>et al.</em>'s (2020) results also suggested this. <a href="https://www.sciencedirect.com/science/article/pii/S1055790314003637?via%3Dihub">Poortvliet <em>et al.</em> (2015)</a> provided a dated phylogeny, based on mitogenomes, for the manta- and devil-rays, and discussed the fossil evidence used as calibrations. Fossils of extant manta- and devil-rays are recent and only date back to between 11.6 and 3.6 million years ago (Mya). Fossil teeth of <em>Mobula mobular</em> and <em>Mobula japanica</em> date to between 11.6 and 3.6 Mya. The first fossils of <em>Manta</em> appeared 4.8 Mya. Based on molecular and fossil evidence, it is thought that <em>Manta alfredi</em> and <em>Manta birostris</em> diverged within the last one million years.</p>
 <p>Based on this, we can specify:
-1) The age of the MRCA of <em>Manta birostris</em> and <em>Manta alfredi</em> to be 1 million years or to be at least 4.8 million years, and
-2) The age of the MRCA of <em>Mobula mobular</em> and <em>Mobula japanica</em> to be at most 11.6 million years.</p>
-<p>All three cases are included in the date file ('manta_phylogeny.dating'), but we will comment out (using '#') those that we don't want to constraints that we don't want to use.</p>
+(1) The age of the MRCA of <em>Manta birostris</em> and <em>Manta alfredi</em> to be 1 million years or to be at least 4.8 million years, and
+(2) the age of the MRCA of <em>Mobula mobular</em> and <em>Mobula japanica</em> to be at most 11.6 million years.</p>
+<p>All three constraints are included in the date file ('manta_phylogeny.dating'), but we will comment out (using '#') those that we don't want apply.</p>
 <div class="webex-solution">
 <button>
 Annotation with #
@@ -264,7 +272,7 @@ Annotation with #
 <h2><span class="header-section-number">8.2</span> Running the analysis<a href="08-Dating_phylogenies.html#running-the-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="dating-our-tree" class="section level3 hasAnchor" number="8.2.1">
 <h3><span class="header-section-number">8.2.1</span> Dating our tree<a href="08-Dating_phylogenies.html#dating-our-tree" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/calendar.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><img src="figures/calendar.png" width="300px" style="display: block; margin: auto;" /></p>
 <p>Starting the analysis in IQ-TREE is straightforward:</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb47-1"><a href="08-Dating_phylogenies.html#cb47-1" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> manta_phylogeny.phylip <span class="at">--date</span> manta_phylogeny.dating <span class="at">--date-tip</span> 0 <span class="at">--redo</span></span></code></pre></div>
 <p>In this command:</p>
@@ -274,8 +282,8 @@ Annotation with #
 <li><code>--date-tip</code>: This indicates that all our terminal taxa are extant and present at the present date ("time zero"). You could optimistically have ancient DNA from an extinct taxon or a mixture of contemporary tip dates and ancestral dates in a viral study.</li>
 <li><strong>Remember</strong> <code>--redo</code>. Our output and log files from the previous chapter are still in the folder.</li>
 </ul>
-<p>This will run through the full analysis as we did before. It will use ModelFinder to find the optimal model and parameters of sequence evolution and find a maximum-likelihood tree, with the branch lengths representing the number of substitutions per site. For the dating, it will rescale the branches, using our time constraints, to build a time-calibrated tree.</p>
-<p>Once run, a few results are output to the terminal. These include the 'tMRCA', which is the age of the root of the tree, and a substitution rate at the root rate as the number of subtitutions per site along that branch of the tree.</p>
+<p>This will run through the full analysis, as we did before. It will use ModelFinder to find the optimal model and parameters of sequence evolution and find a maximum-likelihood tree, with the branch lengths representing the number of substitutions per site. For the dating, it will rescale the branches, using our time constraints, to build a time-calibrated tree.</p>
+<p>Once run, a few results are output to the terminal. These include the 'tMRCA', which is the age of the root of the tree, and a substitution rate at the root as the number of subtitutions per site along that branch of the tree.</p>
 <p>Alongside the typical IQ-TREE output we looked at in the last section, this analysis will also produce three 'timetree' files:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb48-1"><a href="08-Dating_phylogenies.html#cb48-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span></code></pre></div>
 <p>These are:</p>
@@ -284,16 +292,18 @@ Annotation with #
 <li>'manta_phylogeny.phylip.timetree.nex', the time-tree in a nexus tree format, and</li>
 <li>'manta_phylogeny.phylip.timetree.nwk', the time-tree in newick format.</li>
 </ul>
-<p><img src="figures/icytree.png" width="80%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/icytree.png" style="max-width: 300px; border-radius: 15px; border: 5px solid #333333" />
+</center>
 <p>We will use a web-browser and <a href="https://academic.oup.com/bioinformatics/article/33/15/2392/3604867">IcyTree</a> to examine our time-calibrated tree.</p>
 <ol style="list-style-type: decimal">
-<li><p>Right-click the grey are of your terminal and select <code>Firefox</code>. This will open the web browser.</p></li>
+<li><p>Right-click the grey area of your terminal and select <code>Firefox</code>. This will open the web browser.</p></li>
 <li><p>Navigate to 'icytree.org'.</p></li>
 <li><p>Use the <code>File</code> button at the top to navigate to and load your nexus tree.</p></li>
 <li><p>You are welcome to play around with the various functions and style of the tree, but to see the dates of our nodes and divergences, click the <code>Style</code> button, then <code>Internal node text</code> and the <code>Date</code>.</p></li>
 <li><p>Do not close Firefox quite yet.</p></li>
 </ol>
-<p>We can now take a quick look to see if changing one of the ancestral nodal constraints or dates changes the remaining dates in the tree.</p>
+<p>We can now take a quick look to see if changing one of the ancestral node constraints or dates changes the remaining dates in the tree.</p>
 <p>We'll use <a href="https://www.nano-editor.org/">nano</a>, a Linux text editor, to quickly edit the 'manta_phylogeny.dating' file.</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb49-1"><a href="08-Dating_phylogenies.html#cb49-1" tabindex="-1"></a><span class="fu">nano</span> manta_phylogeny.dating</span></code></pre></div>
 <p>This will open the file in what looks like another terminal within your terminal. You can edit in this as you would a normal text document.</p>
@@ -301,18 +311,18 @@ Annotation with #
 <li><p>Delete the '#' from the second line, and place a '#' at the start of the first line. The age of <em>Manta</em> used in the analysis will now be 4.8 million years rather than one million, as the first line will be ignored.</p></li>
 <li><p>Press 'ctrl + x'.</p></li>
 <li><p>Press 'y' to save the changes.</p></li>
-<li><p>Press 'Enter' to use the existing file name (note the use of annotations rather than saving lots of different files under different names).</p></li>
+<li><p>Press 'Enter' to use the existing file name. Hopefully, this shows the benefits of using annotations rather than saving lots of files under different names.</p></li>
 </ol>
 <p>Now you can execute the analysis again!</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb50-1"><a href="08-Dating_phylogenies.html#cb50-1" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> manta_phylogeny.phylip <span class="at">--date</span> manta_phylogeny.dating <span class="at">--date-tip</span> 0 <span class="at">--redo</span></span></code></pre></div>
-<p>Open another tab in Firefox, open IcyTree and the latest nexus tree file (it will have the same name) as you did above. Display the dates on the nodes. By flipping between the tabs you can compare the trees to see if there are any obvious or large differences or if the dating was fairly robust to these changes.</p>
+<p>Open another tab in Firefox, open IcyTree and load the latest nexus tree file (it will have the same name) as you did above. Display the dates on the nodes. By flipping between the tabs you can compare the trees to see if there are any obvious or large differences or if the dating was fairly robust to these changes.</p>
 </div>
 <div id="getting-confidence-intervals-around-our-dates" class="section level3 hasAnchor" number="8.2.2">
 <h3><span class="header-section-number">8.2.2</span> Getting confidence intervals around our dates<a href="08-Dating_phylogenies.html#getting-confidence-intervals-around-our-dates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>IQ-TREE uses a procedure that resamples and combines a mixed Poisson and log-normal distribution of the relaxed clock model. As it is not published as yet, it is probably best to use this with caution and to keep an eye on the literature. Unless we are at the end of the day or a session.</p>
+<p>IQ-TREE uses a procedure that resamples and combines a mixed Poisson and log-normal distribution of the relaxed clock model. As it is not published yet, it is probably best to use this with caution and to keep an eye on the literature.</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb51-1"><a href="08-Dating_phylogenies.html#cb51-1" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> manta_phylogeny.phylip <span class="at">--date</span> manta_phylogeny.dating <span class="at">--date-ci</span> 100 <span class="at">--redo</span></span></code></pre></div>
-<p>The only code different from the above is the command <code>--date-ci</code>, which specifies how many resampling replicates we want to use (<code>100</code>). We can set the standard deviation of the log-normal distribution, but increasing this can make the confidence intervals wider. We will use the default (0.2), so we will not set <code>--clock-sd</code> here.</p>
-<p>Once this is run, you can again use IcyTree to display the 95% confidence intervals around the dates we calculated before. Are these wide or our estimated dates quite accurate. They're unlikely to be, given the limitations of the current analysis and the sparse data file.</p>
+<p>The only code different from the above is the command <code>--date-ci</code>, which specifies how many resampling replicates we want to use (<code>100</code>). We can set the standard deviation of the log-normal distribution (through <code>--clock-sd</code>), but increasing this can make the confidence intervals wider. We will use the default (0.2) here.</p>
+<p>Once this is run, you can again use IcyTree to display the 95% confidence intervals around the dates we calculated before. Are these wide or our estimated dates quite accurate? They're unlikely to be, given the limitations of the current analysis and our sparse data.</p>
 <p>You have now dated your phylogeny, and can use these dates to examine various evolutionary, historical or biogeographic scenarios. In the next chapter, we will return to testing species models, specifically using the Multispecies Coalescent.</p>
 
 </div>
@@ -571,6 +581,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
