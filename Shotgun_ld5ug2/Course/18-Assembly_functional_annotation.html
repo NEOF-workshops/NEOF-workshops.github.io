@@ -387,12 +387,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><prefix>.log</strong>: Log file of command.</li>
 </ul>
 <p>View the summary file for bin K1.1.</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb96-1"><a href="18-Assembly_functional_annotation.html#cb96-1" tabindex="-1"></a><span class="fu">less</span> K1.1/K1.1.txt</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb96-1"><a href="18-Assembly_functional_annotation.html#cb96-1" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> K1.1/K1.1.txt</span></code></pre></div>
 <div class="webex-solution">
 <button>
 Summary fields
 </button>
-<p>Sequence infomration</p>
+<p>Sequence information</p>
 <ul>
 <li>Length: Number of bases.</li>
 <li>Count: Number of contigs/scaffolds.</li>
@@ -422,7 +422,7 @@ Summary fields
 </div>
 <p>View the gff file for bin K1.1.</p>
 <div class="sourceCode" id="cb97"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb97-1"><a href="18-Assembly_functional_annotation.html#cb97-1" tabindex="-1"></a><span class="fu">less</span> K1.1/K1.1.gff3</span></code></pre></div>
-<p>The GFF file is a tab delimited file contain annotation information for the features in the assembly/bin. In this case it is a GFF3 file (most curent version of GFF).</p>
+<p>The GFF file is a tab delimited file containing annotation information for the features in the assembly/bin. In this case it is a GFF3 file (most curent version of GFF).</p>
 <p>There is quite a lot of information contained in each row so instead of listing all the columns here please have a look at the official documentation:</p>
 <p><a href="https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md" class="uri">https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md</a></p>
 <div class="webex-solution">
@@ -437,7 +437,7 @@ Loop used to analyse all bins
 <span id="cb98-5"><a href="18-Assembly_functional_annotation.html#cb98-5" tabindex="-1"></a>~/7-Binning/K1_fullset/bins/K1.1.fa</span></code></pre></div>
 </div>
 <p>A quick thing we can do with these files is to see if any of the bins contain a specific annotation. For example, if we wanted to know if there were any ATP-binding proteins in any of the bins we could carry out the below command.</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb99-1"><a href="18-Assembly_functional_annotation.html#cb99-1" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;ATP-binding protein&quot;</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">less</span></span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb99-1"><a href="18-Assembly_functional_annotation.html#cb99-1" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;ATP-binding protein&quot;</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <p>We can now view the lines containing "ATP-binding protein" with the start of the line containing the file name the line belongs to.</p>
 <p>In your future analyses you can expect these files further with excel, R, or visualisation software like <code>IGV</code> (<a href="https://software.broadinstitute.org/software/igv/GFF" class="uri">https://software.broadinstitute.org/software/igv/GFF</a>).</p>
 <p>What if you want to know about pathways?</p>
@@ -467,7 +467,7 @@ The input<code>.ec</code> files required for <code>MinPath</code> are tab delimi
 <li>Protein/sequence id. E.g. GDGAPA_12670.</li>
 <li>EC annotation. E.g. 6.1.1.4.</li>
 </ol>
-<p><strong>Note</strong>: The lack of <code>\</code> at the end of most of the ines is intentional.
+<p><strong>Note</strong>: The lack of <code>\</code> at the end of most of the lines is intentional.
 The below is all one command over multiple lines but loops work slightly different and don't need <code>\</code> in certain parts.
 Ensure you do press enter at the end of each line.</p>
 <div class="sourceCode" id="cb101"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb101-1"><a href="18-Assembly_functional_annotation.html#cb101-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s|.*/||&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.gff3//&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">bin</span></span>
@@ -550,7 +550,7 @@ Additionally, it is always good to run it on one file and <code>head</code> the 
 <p>Now we can loop through the file suffixes to run MinPath.</p>
 <div class="sourceCode" id="cb107"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb107-1"><a href="18-Assembly_functional_annotation.html#cb107-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>ec <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.ec//&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">bin</span></span>
 <span id="cb107-2"><a href="18-Assembly_functional_annotation.html#cb107-2" tabindex="-1"></a><span class="cf">do</span></span>
-<span id="cb107-3"><a href="18-Assembly_functional_annotation.html#cb107-3" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/MinPath/MinPath.py <span class="dt">\</span></span>
+<span id="cb107-3"><a href="18-Assembly_functional_annotation.html#cb107-3" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/Minpath/MinPath.py <span class="dt">\</span></span>
 <span id="cb107-4"><a href="18-Assembly_functional_annotation.html#cb107-4" tabindex="-1"></a>-ec <span class="va">${bin}</span>.ec <span class="dt">\</span></span>
 <span id="cb107-5"><a href="18-Assembly_functional_annotation.html#cb107-5" tabindex="-1"></a>-report ../MetaCyc/<span class="va">${bin}</span>.minpath</span>
 <span id="cb107-6"><a href="18-Assembly_functional_annotation.html#cb107-6" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
@@ -606,7 +606,7 @@ The code:</p>
 <span id="cb111-15"><a href="18-Assembly_functional_annotation.html#cb111-15" tabindex="-1"></a><span class="co">#Run MinPath</span></span>
 <span id="cb111-16"><a href="18-Assembly_functional_annotation.html#cb111-16" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>kegg <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.kegg//&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">bin</span></span>
 <span id="cb111-17"><a href="18-Assembly_functional_annotation.html#cb111-17" tabindex="-1"></a><span class="cf">do</span></span>
-<span id="cb111-18"><a href="18-Assembly_functional_annotation.html#cb111-18" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/MinPath/MinPath.py <span class="dt">\</span></span>
+<span id="cb111-18"><a href="18-Assembly_functional_annotation.html#cb111-18" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/Minpath/MinPath.py <span class="dt">\</span></span>
 <span id="cb111-19"><a href="18-Assembly_functional_annotation.html#cb111-19" tabindex="-1"></a>-ko <span class="va">${bin}</span>.kegg <span class="dt">\</span></span>
 <span id="cb111-20"><a href="18-Assembly_functional_annotation.html#cb111-20" tabindex="-1"></a>-report ../KEGG_minpath/<span class="va">${bin}</span>.minpath</span>
 <span id="cb111-21"><a href="18-Assembly_functional_annotation.html#cb111-21" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
