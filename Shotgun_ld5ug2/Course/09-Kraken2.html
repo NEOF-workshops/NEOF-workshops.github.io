@@ -23,7 +23,7 @@
 <meta name="author" content="Sam Haldenby and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-02-26" />
+<meta name="date" content="2024-03-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -346,7 +346,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><code>--db</code></strong>: Specify the <code>Kraken2</code> database to be used for taxonomic classification.
 <ul>
 <li>Previous to the command we set the <code>KRAKEN2_DB_PATH</code> so in this case the command will look for the directory called <code>minikraken2_v1_8GB</code> within <code>KRAKEN2_DB_PATH</code>.</li>
-<li>Alternatively the full path of the required database could be provided (<code>/pub39/tea/nsc006/NEOF/Shotgun_metagenomics/kraken2_db/minikraken2_v1_8GB</code>).</li>
+<li>Alternatively the full path of the required database could be provided (<code>/pub14/tea/nsc206/NEOF/Shotgun_metagenomics/kraken2_db/minikraken2_v1_8GB</code>).</li>
 </ul></li>
 <li><strong><code>--threads</code></strong>: Number of CPUs the process will use.</li>
 <li><strong><code>--output</code></strong>: The output file. More info below.</li>
@@ -358,25 +358,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="kraken2-output" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> Kraken2: output<a href="09-Kraken2.html#kraken2-output" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/output_file_blue.png" width="100px" style="display: block; margin: auto;" /></p>
-<p>There are two major output formats from Kraken2:</p>
-<ul>
-<li><code>--output</code>, <code>.kraken</code>: Each sequence (or sequence pair, in the case of paired reads) classified by <code>Kraken2</code> results in a single line of output. <code>Kraken2</code>'s output lines contain five tab-delimited fields; from left to right, they are:
+<p>There are two major output formats from Kraken2.</p>
+<div id="output-file" class="section level4 unnumbered hasAnchor">
+<h4>Output file<a href="09-Kraken2.html#output-file" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The <code>--output</code> parameter creates a <code>.kraken</code> file. Each sequence (or sequence pair, in the case of paired reads) classified by <code>Kraken2</code> results in a single line of output. <code>Kraken2</code>'s output lines contain five tab-delimited fields; from left to right, they are</p>
 <ol style="list-style-type: decimal">
-<li>"C"/"U": a one letter code indicating that the sequence was either classified or unclassified.</li>
-<li>The sequence ID, obtained from the FASTA/FASTQ header.</li>
-<li>The taxonomy ID <code>Kraken2</code> used to label the sequence; this is 0 if the sequence is unclassified.</li>
-<li>The length of the sequence in bp. In the case of paired read data, this will be a string containing the lengths of the two sequences in bp, separated by a pipe character, e.g. "98|94".</li>
-<li>A space-delimited list indicating the LCA mapping of each k-mer in the sequence(s). For example, "562:13 561:4 A:31 0:1 562:3" would indicate that:
+<li><strong>"C"/"U":</strong> a one letter code indicating that the sequence was either classified or unclassified.</li>
+<li><strong>Sequence ID:</strong> Obtained from the FASTA/FASTQ header.</li>
+<li><strong>Taxonomy ID:</strong> Assigned by <code>Kraken2</code>. This is 0 if the sequence is unclassified.</li>
+<li><strong>Length of the sequence in bp:</strong> In the case of paired read data, this will be a string containing the lengths of the two sequences in bp, separated by a pipe character, e.g. "98|94".</li>
+<li><strong>LCA mapping:</strong> A space-delimited list indicating the LCA mapping of each k-mer in the sequence(s). For example, "562:13 561:4 A:31 0:1 562:3" would indicate that:
 <ul>
-<li>the first 13 k-mers mapped to taxonomy ID #562</li>
-<li>the next 4 k-mers mapped to taxonomy ID #561</li>
-<li>the next 31 k-mers contained an ambiguous nucleotide</li>
-<li>the next k-mer was not in the database</li>
-<li>the last 3 k-mers mapped to taxonomy ID #562</li>
+<li>562:13 - The first 13 k-mers mapped to taxonomy ID #562</li>
+<li>561:4 - The next 4 k-mers mapped to taxonomy ID #561</li>
+<li>A:31 - The next 31 k-mers contained an ambiguous nucleotide</li>
+<li>0:1 - The next k-mer was not in the database</li>
+<li>562:3 - The last 3 k-mers mapped to taxonomy ID #562</li>
 <li><strong>Note</strong>: that paired read data will contain a "|:|" token in this list to indicate the end of one read and the beginning of another.</li>
 </ul></li>
-</ol></li>
-<li><code>--report</code>, <code>.kreport2</code>: The report output format. This is required for bracken. It is tab-delimited with one line per taxon. The fields of the output, from left-to-right, are as follows:
+</ol>
+</div>
+<div id="report-file" class="section level4 unnumbered hasAnchor">
+<h4>Report file<a href="09-Kraken2.html#report-file" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The <code>--report</code> parameter creates a <code>.kreport2</code> file. This is the report output format. This is required for bracken. It is tab-delimited with one line per taxon. The fields of the output, from left-to-right, are as follows:</p>
 <ol style="list-style-type: decimal">
 <li>Percentage of paired reads covered by the clade rooted at this taxon.</li>
 <li>Number of paired reads covered by the clade rooted at this taxon.</li>
@@ -384,11 +388,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>A rank code, indicating (U)nclassified, (R)oot, (D)omain, (K)ingdom, (P)hylum, (C)lass, (O)rder, (F)amily, (G)enus, or (S)pecies. Taxa that are not at any of these 10 ranks have a rank code that is formed by using the rank code of the closest ancestor rank with a number indicating the distance from that rank. E.g., "G2" is a rank code indicating a taxon is between genus and species and the grandparent taxon is at the genus rank.</li>
 <li>NCBI taxonomic ID number</li>
 <li>Indented scientific name</li>
-</ol></li>
-</ul>
+</ol>
+</div>
+<div id="screen-output" class="section level4 unnumbered hasAnchor">
+<h4>Screen output<a href="09-Kraken2.html#screen-output" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The output to screen will show how many sequences are classified. This will be lower than normal as we are using a mini <code>Kraken2</code> database.</p>
+</div>
+<div id="confidence-threshold" class="section level4 unnumbered hasAnchor">
+<h4>Confidence threshold<a href="09-Kraken2.html#confidence-threshold" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>In a real analysis you may use the option <code>--confidence</code> which represents the <strong>"Confidence score threshold"</strong>. The default is <code>0.0</code>, which is the lowest, with the maximum value being <code>1</code>. A good place to start may be <code>0.1</code>. Too many classifications are removed if you attempt it with this dataset, due to the mini <code>Kraken2</code> database used. More info on the confidence scoring can be found at: <a href="https://github.com/DerrickWood/kraken2/wiki/Manual#confidence-scoring" class="uri">https://github.com/DerrickWood/kraken2/wiki/Manual#confidence-scoring</a></p>
-<p><strong>Task</strong>: Once the Kraken2 command has finished running, run it on the other two samples. Attempt the commands without looking at the help box.</p>
+</div>
+<div id="task-1" class="section level4 unnumbered hasAnchor">
+<h4>Task<a href="09-Kraken2.html#task-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Once the Kraken2 command has finished running, run it on the other two samples. Attempt the commands without looking at the help box.</p>
 <p><strong>Hint</strong>: You will need to change all instances of K1 to K2 or W1 in the above command</p>
 <div class="webex-solution">
 <button>
@@ -404,34 +416,35 @@ K2 &amp; W1 Kraken 2 commands
 <span id="cb25-8"><a href="09-Kraken2.html#cb25-8" tabindex="-1"></a>~/2-Trimmed/W1_R1.fq.gz ~/2-Trimmed/W1_R2.fq.gz</span></code></pre></div>
 </div>
 </div>
+</div>
 <div id="kraken-2-mcqs" class="section level2 hasAnchor" number="9.3">
 <h2><span class="header-section-number">9.3</span> Kraken 2: MCQs<a href="09-Kraken2.html#kraken-2-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/question_bubble_blue.png" width="100px" style="display: block; margin: auto;" /></p>
 <p>Viewing the Kraken2 output files with your favourite text viewer (<code>less</code>, <code>nano</code>, <code>vim</code>, etc.), attempt the below MCQs.</p>
 <ol style="list-style-type: decimal">
 <li>How many paired reads were unclassified for K1?
-<div id="radio_NKKZWJLQXF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_NKKZWJLQXF" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NKKZWJLQXF" value=""></input> <span><strong>486,723</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NKKZWJLQXF" value="answer"></input> <span><strong>555,162</strong></span></label>
+<div id="radio_TNWTPCHUUI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TNWTPCHUUI" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TNWTPCHUUI" value=""></input> <span><strong>486,723</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TNWTPCHUUI" value="answer"></input> <span><strong>555,162</strong></span></label>
 </div></li>
 <li>How many paired reads were classified for K2 (i.e. number of reads classified at root level and below)?
-<div id="radio_VZMXQKJIWL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_VZMXQKJIWL" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VZMXQKJIWL" value="answer"></input> <span><strong>486,723</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VZMXQKJIWL" value=""></input> <span><strong>555,162</strong></span></label>
+<div id="radio_QKVCEAMAIK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QKVCEAMAIK" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QKVCEAMAIK" value="answer"></input> <span><strong>486,723</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QKVCEAMAIK" value=""></input> <span><strong>555,162</strong></span></label>
 </div></li>
 <li>How many paired reads were assigned directly to root level for W1?
-<div id="radio_SCLKYYYEPG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SCLKYYYEPG" value="answer"></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SCLKYYYEPG" value=""></input> <span><strong>486,723</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SCLKYYYEPG" value=""></input> <span><strong>555,162</strong></span></label>
+<div id="radio_UWSGBNTAQD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UWSGBNTAQD" value="answer"></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UWSGBNTAQD" value=""></input> <span><strong>486,723</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UWSGBNTAQD" value=""></input> <span><strong>555,162</strong></span></label>
 </div></li>
 <li>What percentage of W1's paired reads were assigned to the clade of Bacteroidetes (Phylum)?
-<div id="radio_TVJYWNSFPU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TVJYWNSFPU" value=""></input> <span><strong>0.12</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TVJYWNSFPU" value=""></input> <span><strong>0.59</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TVJYWNSFPU" value="answer"></input> <span><strong>14.89</strong></span></label>
+<div id="radio_VVQRAPXVFU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VVQRAPXVFU" value=""></input> <span><strong>0.12</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VVQRAPXVFU" value=""></input> <span><strong>0.59</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VVQRAPXVFU" value="answer"></input> <span><strong>14.89</strong></span></label>
 </div></li>
 <li>What percentage of K2's paired reads were assigned to the clade of Rikenellaceae (Family)?
-<div id="radio_FIIDYVOABJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FIIDYVOABJ" value=""></input> <span><strong>0.12</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FIIDYVOABJ" value="answer"></input> <span><strong>0.59</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FIIDYVOABJ" value=""></input> <span><strong>14.89</strong></span></label>
+<div id="radio_ZJYKTJKEGG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZJYKTJKEGG" value=""></input> <span><strong>0.12</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZJYKTJKEGG" value="answer"></input> <span><strong>0.59</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZJYKTJKEGG" value=""></input> <span><strong>14.89</strong></span></label>
 </div></li>
 <li>What percentage of K1's paired reads were assigned to the clade of Bacteroides helcogenes (Species)?
-<div id="radio_CUVSLHTCZP" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_CUVSLHTCZP" value="answer"></input> <span><strong>0.12</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CUVSLHTCZP" value=""></input> <span><strong>0.59</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CUVSLHTCZP" value=""></input> <span><strong>14.89</strong></span></label>
+<div id="radio_YOTJNWNZAZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YOTJNWNZAZ" value="answer"></input> <span><strong>0.12</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YOTJNWNZAZ" value=""></input> <span><strong>0.59</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YOTJNWNZAZ" value=""></input> <span><strong>14.89</strong></span></label>
 </div></li>
 </ol>
 

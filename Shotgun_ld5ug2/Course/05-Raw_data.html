@@ -23,7 +23,7 @@
 <meta name="author" content="Sam Haldenby and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-02-26" />
+<meta name="date" content="2024-03-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -325,7 +325,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/usb_stick.png" width="200px" style="display: block; margin: auto;" /></p>
 <p>The very first thing we need to do is to obtain a dataset to work with. The European Bioinformatics Institute (EBI) provides an excellent metagenomics resource (<a href="https://www.ebi.ac.uk/metagenomics/" class="uri">https://www.ebi.ac.uk/metagenomics/</a>) which allows users to download publicly available metagenomic and metagenetic datasets.</p>
 <p>Have a browse of some of the projects by selecting one of the biomes on the website.</p>
-<p>We have selected a dataset from this site that consists of DNA shotgun data generated from 24 human faecal samples. 12 of these samples are from subjects who were fed a western diet and 12 are from subjects who were fed a Korean diet. This dataset comes from the EBI metagenomics resource (<a href="https://www.ebi.ac.uk/metagenomics/projects/ERP005558" class="uri">https://www.ebi.ac.uk/metagenomics/projects/ERP005558</a>).</p>
+<p>We have selected a dataset from this site that consists of DNA shotgun data generated from 24 human faecal samples. 12 of these samples are from subjects who were fed a Western diet and 12 are from subjects who were fed a Korean diet. This dataset comes from the EBI metagenomics resource (<a href="https://www.ebi.ac.uk/metagenomics/projects/ERP005558" class="uri">https://www.ebi.ac.uk/metagenomics/projects/ERP005558</a>).</p>
 <div id="obtaining-the-data" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Obtaining the data<a href="05-Raw_data.html#obtaining-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/link.png" width="150px" style="display: block; margin: auto;" /></p>
@@ -335,7 +335,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Now we can generate a symbolic links (i.e. shortcut) to the raw sequence data files, which will appear in the current directory:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb4-1"><a href="05-Raw_data.html#cb4-1" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc206/NEOF/Shotgun_metagenomics/raw_fastq/<span class="pp">*</span> .</span></code></pre></div>
 <p>If you would like to know more about the <code>ln</code> command please check out: <a href="https://linuxize.com/post/how-to-create-symbolic-links-in-linux-using-the-ln-command/" class="uri">https://linuxize.com/post/how-to-create-symbolic-links-in-linux-using-the-ln-command/</a>.</p>
-<p>Now, check the symbolic links are in your current directory:</p>
+<p>Check the symbolic links are in your current directory:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb5-1"><a href="05-Raw_data.html#cb5-1" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
 <p>There should be six files in the directory, two for each sample in the dataset. e.g. <code>K1_R1.fastq.gz</code></p>
 <p>The file ID has three components:</p>
@@ -357,7 +357,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This results in two sequences generated for each sequenced fragment: One reading in from the 3' end (R1) and the other reading in from the 5' end (R2).</p>
 <p>FASTQ is a sequence format much like FASTA, with the addition of quality scores. To see what a FASTQ file looks like, we can inspect the first few lines on one of our sequence files:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb6-1"><a href="05-Raw_data.html#cb6-1" tabindex="-1"></a><span class="fu">zcat</span> K1_R1.fastq.gz <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 4 <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
-<p>The pipe symbol ( <code>|</code> ) is used to pass the output of one command as input to the next command. So, this command (1) shows the unzipped contents of the FASTQ file, (2) displays only the first 4 lines, and (3) displays them without wrapping lines (with <code>–S</code>, for easy viewing).</p>
+<p>The pipe symbol ( <code>|</code> ) is used to pass the output of one command as input to the next command. So, this command:</p>
+<ol style="list-style-type: decimal">
+<li>Shows the unzipped contents of the FASTQ file</li>
+<li>Displays only the first 4 lines</li>
+<li>Displays them without wrapping lines (with <code>–S</code>, for easy viewing)</li>
+</ol>
 <p>The lines displayed represent one FASTQ sequence entry, or one read of a read pair: The corresponding second read can be viewed by running the same command on K1_R2.fastq.gz. The first line is the read identifier, the second line is the sequence itself, the third line is a secondary header (which is usually left blank except for '+') and the fourth line is the sequence quality score: For each base in the sequence, there is a corresponding quality encoded in this string of characters.</p>
 <p><strong>To return to the command prompt, press</strong> <code>q</code>.</p>
 <p>Due to computational constraints, the files you have linked to are a subset of the original data (i.e. 1 million read pairs from each sample).</p>
