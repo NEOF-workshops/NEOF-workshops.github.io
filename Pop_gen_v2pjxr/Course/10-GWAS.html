@@ -23,7 +23,7 @@
 <meta name="author" content="Helen Hipperson, Katy Maher, Victor Soria-Carrasco, Graeme Fox" />
 
 
-<meta name="date" content="2023-11-22" />
+<meta name="date" content="2024-03-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li 
+  class="toc-logo">
+  <a 
+    href="https://neof.org.uk/" 
+    target="blank"><img src="figures/neof_bordered_small.png">
+  </a>
+</li>
 <li><a>Population Genomics</a></li>
 
 <li class="divider"></li>
@@ -267,7 +273,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="gwas" class="section level1 hasAnchor" number="10">
 <h1><span class="header-section-number">Chapter 10</span> Genetic architecture of traits using multi-locus Genome Wide Association (GWA) mapping with GEMMA<a href="10-GWAS.html#gwas" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>The aim of this chapter is to use a multi-SNP method to study the genetic architecture of colour pattern phenotype (i.e. white stripe) in <em>Timema cristinae</em> stick insects. In particular, we will use the Bayesian Sparse Linear Mixed Model (BSLMM) model implemented in the program <code>GEMMA</code>, a piece of software that also allows taking into account any potential population structure. This model is a hybrid approach that allows inferring whether the genetic basis of a trait is highly polygenic or rather determined by a few loci (i.e. oligogenic), as well as identifying the loci that show the strongest association with the trait. We will use the dataset of <a href="https://www.cell.com/current-biology/fulltext/S0960-9822(15)00661-2">Comeault <em>et al. 2015</em></a>, which consists of 602 individuals sampled from a phenotypically variable population called FHA. We will infer the proportion of phenotypic variance explained by the genotypes, what fraction of such variance can be explained by a reduced number of major effect loci, and will identify what loci show the most significant association with this trait.</p>
-<p><img src="figures/timema.png" width="80%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/timema.png" style="width:800px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
 <p>Resources</p>
 <ul>
 <li><p><a href="https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1003264">Zhou <em>et al.</em> 2013</a> - Paper where the Bayesian Sparse Linear Mixed Model approach implemented in GEMMA is described.</p></li>
@@ -282,7 +290,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="data-formatting-1" class="section level2 hasAnchor" number="10.2">
 <h2><span class="header-section-number">10.2</span> Data formatting<a href="10-GWAS.html#data-formatting-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb115"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb115-1"><a href="10-GWAS.html#cb115-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div>
-<p><img src="figures/gwas_list_files.png" width="80%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/gwas_list_files.png" style="width:800px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>There is a vcf file containing single nucleotide polymorphisms (SNPs) from RAD data of 602 individuals from a single polymorphic population of <em>Timema cristinae</em> (population code FHA). You can have a look at the file content with the following commands:</p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb116-1"><a href="10-GWAS.html#cb116-1" tabindex="-1"></a><span class="fu">zless</span> <span class="at">-S</span> data/fha.vcf.gz</span>
 <span id="cb116-2"><a href="10-GWAS.html#cb116-2" tabindex="-1"></a><span class="co"># or with bcftools</span></span>
@@ -292,9 +302,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>There are two files containing the phenotypes of the same individuals in the same order as in the vcf file (NA when the phenotype is missing). These phenotypes encode the dorsal white stripe either as a continuous trait (standardised white stripe area; <code>fha.pheno</code>) or as a discrete binary trait (presence/absence of the stripe; <code>fha.pheno2</code>). We will be using the first one for this practical (but it would be a good exercise to repeat the analyses using the other one with the probit model using - <code>bslmm 3</code>).</p>
 <p>You can have a look at the files content:</p>
 <div class="sourceCode" id="cb117"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb117-1"><a href="10-GWAS.html#cb117-1" tabindex="-1"></a><span class="fu">head</span> data/fha.pheno</span></code></pre></div>
-<p><img src="figures/gwas_pheno.png" width="80%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/gwas_pheno.png" style="width:800px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <div class="sourceCode" id="cb118"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb118-1"><a href="10-GWAS.html#cb118-1" tabindex="-1"></a><span class="fu">head</span> data/fha.pheno2</span></code></pre></div>
-<p><img src="figures/gwas_pheno2.png" width="80%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/gwas_pheno2.png" style="width:800px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p><code>GEMMA</code>, the program we will be using to carry out multi-variant GWA, needs two input files: one with the genotypes and another one with the phenotypes. Most GWA programs rely on called genotypes, but <code>GEMMA</code> can work with genotype probabilities, which allows incorporating genotype uncertainty in the analyses. <code>GEMMA</code> accepts a number of formats for genotypes, we are going to use the mean genotype format (based on the BIMBAM format), where genotypes are encoded as mean genotypes. A mean genotype is a value between 0 and 2 that can be interpreted as the minor allele dosage: 0 is homozygous for the major allele, 1 is a heterozygote, and 2 is a homozygote for the minor allele. Thus, intermediate values reflect the uncertainty in genotypes.</p>
 <p>We are going to use the custom Perl script <code>bcf2bbgeno.pl</code> to calculate the mean genotypes. First, the script removes all the SNPs that have more than two alleles. This is common practice, because most of the models used for inference are based on biallelic variants. Then, the script calculates empirical posterior genotype probabilities from the genotype likelihoods in the vcf file under the assumption that the population is in Hardy-Weinberg equilibrium (HWE). Specifically, the script uses inferred allele frequencies to set HWE priors:</p>
 <p><strong>Equation</strong>:
@@ -319,11 +333,15 @@ p ^{2}; p(aa) =
 <div class="sourceCode" id="cb120"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb120-1"><a href="10-GWAS.html#cb120-1" tabindex="-1"></a><span class="fu">cp</span> results/<span class="pp">*</span>.bbgeno.<span class="pp">*</span> .</span></code></pre></div>
 <p>You should now have two new files: fha.bbgeno.gz, which contains the mean genotypes, and fha.bbgeno.ids.txt, which contains the IDs of the samples (i.e. individuals) in the same order as shown in the genotypes file. You can have a look at them:</p>
 <div class="sourceCode" id="cb121"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb121-1"><a href="10-GWAS.html#cb121-1" tabindex="-1"></a><span class="fu">zless</span> <span class="at">-S</span> fha.bbgeno.gz</span></code></pre></div>
-<p><img src="figures/gwas_genotypes.png" width="100%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/gwas_genotypes.png" style="width:1000px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>The first column is the SNP ID, second one is major/reference allele and the third one is the minor/alternate allele. Having major and minor or reference and alternate alleles depends on how you called variants. This does not matter for downstream analyses with <code>GEMMA</code>, but should be kept in mind when interpreting the results. The rest of the columns are the mean genotypes for all the individuals (one for each).</p>
 <p>The other file is simply to keep track of the order of the individuals in the genotype file:</p>
 <div class="sourceCode" id="cb122"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb122-1"><a href="10-GWAS.html#cb122-1" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> fha.bbgeno.ids.txt</span></code></pre></div>
-<p><img src="figures/gwas_ids.png" width="20%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/gwas_ids.png" style="width:200px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 </div>
 <div id="running-gemma-to-fit-a-bayesian-sparse-linear-mixed-model-bslmm" class="section level2 hasAnchor" number="10.3">
 <h2><span class="header-section-number">10.3</span> Running GEMMA to fit a Bayesian sparse linear mixed model (BSLMM)<a href="10-GWAS.html#running-gemma-to-fit-a-bayesian-sparse-linear-mixed-model-bslmm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -344,18 +362,26 @@ p ^{2}; p(aa) =
 <span id="cb123-14"><a href="10-GWAS.html#cb123-14" tabindex="-1"></a><span class="ex">gemma</span> <span class="at">-h</span> 3</span></code></pre></div>
 <p><code>GEMMA</code> uses a relatedness matrix to account for any population structure in the data that may affect results. The easiest way to obtain such matrix is using <code>GEMMA</code> itself. We are going to use the submission script <code>gemma_relmatrix.sh</code>. Let’s have a look at the script:</p>
 <div class="sourceCode" id="cb124"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb124-1"><a href="10-GWAS.html#cb124-1" tabindex="-1"></a><span class="fu">less</span> scripts/gemma_relmatrix.sh</span></code></pre></div>
-<p><img src="figures/gemma_relmatrix.png" width="100%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/gemma_relmatrix.png" style="width:1000px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>Now let’s run the script (it should take just a few minutes):</p>
 <div class="sourceCode" id="cb125"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb125-1"><a href="10-GWAS.html#cb125-1" tabindex="-1"></a><span class="fu">chmod</span> +x scripts/gemma_relmatrix.sh</span>
 <span id="cb125-2"><a href="10-GWAS.html#cb125-2" tabindex="-1"></a><span class="ex">scripts/gemma_relmatrix.sh</span></span></code></pre></div>
 <p>When finished, it should have two files in the newly created output directory: relmatrix.log.txt, a log file, and relmatrix.cXX.txt, the actual relatedness matrix. If you have a look at them, they should look similar to these:</p>
 <div class="sourceCode" id="cb126"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb126-1"><a href="10-GWAS.html#cb126-1" tabindex="-1"></a><span class="fu">less</span> output/relmatrix.log.txt</span></code></pre></div>
-<p><img src="figures/gwas_rel_log.png" width="100%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/gwas_rel_log.png" style="width:1000px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <div class="sourceCode" id="cb127"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb127-1"><a href="10-GWAS.html#cb127-1" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> output/relmatrix.cXX.txt</span></code></pre></div>
-<p><img src="figures/relmatrix.png" width="100%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/relmatrix.png" style="width:1000px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>Now we are going to run <code>GEMMA</code> to fit a BSLMM model. Since this will take a long time using the teaching cluster, we are not going to submit it now. The script has been designed to run as batch job <code>gemma_bslmm.sh</code>. <code>GEMMA</code> is run using the relatedness matrix we estimated before, using the BSLMM model with the continuous phenotypes and excluding variants with a minor allele frequency of less than 1%. We will run a MCMC chain for 1,000,000 steps, after an initial burn-in of 250,000, saving every 100th step, so that we will end up with 10,000 samples to approximate the posterior distribution of the parameters. Let’s have a look :</p>
 <div class="sourceCode" id="cb128"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb128-1"><a href="10-GWAS.html#cb128-1" tabindex="-1"></a><span class="fu">less</span> scripts/gemma_bslmm.sh</span></code></pre></div>
-<p><img src="figures/gemma_script.png" width="100%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/gemma_script.png" style="width:1000px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>Do not run this now. However, if you were to submit the script you would do so using the following:</p>
 <blockquote>
 <p>scripts/gemma_bslmm.sh</p>
@@ -364,7 +390,9 @@ p ^{2}; p(aa) =
 <div class="sourceCode" id="cb129"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb129-1"><a href="10-GWAS.html#cb129-1" tabindex="-1"></a><span class="fu">cp</span>  results/output/bslmm<span class="pp">*</span> output/</span>
 <span id="cb129-2"><a href="10-GWAS.html#cb129-2" tabindex="-1"></a></span>
 <span id="cb129-3"><a href="10-GWAS.html#cb129-3" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> output</span></code></pre></div>
-<p><img src="figures/list_files.png" width="70%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/list_files.png" style="width:700px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>The new files generated are:</p>
 <ul>
 <li><p>bslmm.bv.txt -&gt; posterior samples of breeding values (~estimated random effects)</p></li>
@@ -375,10 +403,14 @@ p ^{2}; p(aa) =
 </ul>
 <p>Let’s have a look at the log. Notice the number of individuals with both genotypic and phenotypic data is 546 out of 602 and the number of SNPs was reduced from 518,232 to 346,660 after excluding SNPs missing genotypes for over 5% individuals (default threshold) and rare variants (minor allele frequency of less than 1%):</p>
 <div class="sourceCode" id="cb130"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb130-1"><a href="10-GWAS.html#cb130-1" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> output/bslmm.log.txt</span></code></pre></div>
-<p><img src="figures/bslmm_log.png" width="100%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/bslmm_log.png" style="width:1000px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>the hyperparameters:</p>
 <div class="sourceCode" id="cb131"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb131-1"><a href="10-GWAS.html#cb131-1" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> output/bslmm.hyp.txt</span></code></pre></div>
-<p><img src="figures/hyp.png" width="100%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/hyp.png" style="width:1000px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <ul>
 <li>h - approximation to PVE: proportion of phenotypic variance explained by loci</li>
 <li>pve - proportion of phenotypic variance explained by the genotypes</li>
@@ -389,7 +421,9 @@ p ^{2}; p(aa) =
 </ul>
 <p>and the parameters (notice we didn’t specify chromosomes (chr) or positions (pos) and therefore there are only SNP IDs (rs column):</p>
 <div class="sourceCode" id="cb132"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb132-1"><a href="10-GWAS.html#cb132-1" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> output/bslmm.param.txt</span></code></pre></div>
-<p><img src="figures/param.png" width="100%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/param.png" style="width:1000px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>For more information please see the <code>GEMMA</code> <a href="http://www.xzlab.org/software/GEMMAmanual.pdf">manual</a></p>
 </div>
 <div id="analysing-gemma-bslmm-output" class="section level2 hasAnchor" number="10.4">
@@ -514,7 +548,9 @@ p ^{2}; p(aa) =
 <span id="cb136-31"><a href="10-GWAS.html#cb136-31" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
 <span id="cb136-32"><a href="10-GWAS.html#cb136-32" tabindex="-1"></a><span class="co"># ==============================================================================</span></span></code></pre></div>
 <p>Ideally, the MCMC traces should look like a caterpillar and distributions should be generally unimodal, indicating that mixing was good. Also it is highly recommended to run <code>GEMMA</code> multiple times (at least 3) and compare both the traces and the posterior distributions of the hyperparameters obtained from different runs and check that all are converging into the same values. However, we will not do this in this practical for time reasons. For instance, PVE should look like this:</p>
-<p><img src="figures/pve.png" width="80%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/pve.png" style="width:800px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
 <p>We can now look at the parameter estimates to see if there are any SNPs that are strongly and consistently associated with the trait.</p>
 <p>We will load a library to help speed up the loading of large tables and we will then load the parameter estimates:</p>
 <div class="sourceCode" id="cb137"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb137-1"><a href="10-GWAS.html#cb137-1" tabindex="-1"></a><span class="co"># library to speed up loading of big tables</span></span>
@@ -928,7 +964,9 @@ p ^{2}; p(aa) =
 <span id="cb141-84"><a href="10-GWAS.html#cb141-84" tabindex="-1"></a></span>
 <span id="cb141-85"><a href="10-GWAS.html#cb141-85" tabindex="-1"></a><span class="co"># ==============================================================================</span></span></code></pre></div>
 <p>The PIP plot shows there are three large effect size SNPs strongly associated with colour pattern in two non-contiguous scaffolds that belong to linkage group 8:</p>
-<p><img src="figures/pip_plot.png" width="80%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/pip_plot.png" style="width:800px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
 <p>The code to produce these plots is contained in two <code>R</code> scripts. If you were running these on your own data the scripts could be run in batch mode by executing: <code>Rscript gemma_hyperparam.R</code>. We will provide the scripts in the materials we send around after the course.</p>
 
 </div>

@@ -23,7 +23,7 @@
 <meta name="author" content="Helen Hipperson, Katy Maher, Victor Soria-Carrasco, Graeme Fox" />
 
 
-<meta name="date" content="2023-11-22" />
+<meta name="date" content="2024-03-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li 
+  class="toc-logo">
+  <a 
+    href="https://neof.org.uk/" 
+    target="blank"><img src="figures/neof_bordered_small.png">
+  </a>
+</li>
 <li><a>Population Genomics</a></li>
 
 <li class="divider"></li>
@@ -267,7 +273,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="selection" class="section level1 hasAnchor" number="9">
 <h1><span class="header-section-number">Chapter 9</span> Delimitation of contiguous regions of differentiation using Hidden Markov Models (HMM)<a href="09-Detecting_selection.html#selection" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>The aim of this chapter is to estimate differentiation (i.e. F<sub>ST</sub>) between a pair of populations and identify contiguous regions of accentuated differentiation across the genome using a Hidden Markov Model (HMM) approach. We are going to switch datasets and use whole genome data of a pair of parapatric populations of <em>Timema cristinae</em> stick insects that live on different host plants and experience different selective pressures. The HVA population was sampled from Adenostoma, where insects with a white strip are favoured, whereas the HVC population was sampled from Ceanothus, where green insects have an advantage. This data belongs to larger dataset of four population pairs used in <a href="https://science.sciencemag.org/content/344/6185/738">Soria-Carrasco <em>et al.</em> 2014</a>. In that work, an approach similar to that of <a href="https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-13-107">Hofer <em>et al</em>. 2012</a> was followed to investigate parallel evolution by identifying unique and shared regions of accentuated differentiation in four pairs of natural populations.</p>
-<p><img src="figures/timema.png" width="100%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/timema.png" style="width:1000px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
 <p><strong>Resources</strong></p>
 <ul>
 <li><a href="https://genome.cshlp.org/content/23/9/1514.full">Bhatia <em>et al</em>. 2013</a> - Excellent paper about F<sub>ST</sub> estimation and interpretation.</li>
@@ -284,7 +292,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">9.2</span> Data formatting<a href="09-Detecting_selection.html#data-formatting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now let’s have a look at the data. You should have the following input files:</p>
 <div class="sourceCode" id="cb77"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb77-1"><a href="09-Detecting_selection.html#cb77-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div>
-<p><img src="figures/data.png" width="80%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/data.png" style="width:800px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
 <p>There is a vcf file containing single nucleotide polymorphisms (SNPs) from whole genome sequences of 20 individuals for each population (HVA and HVC). vcf is a very popular format for genetic variants, you can find more info <a href="https://www.internationalgenome.org/wiki/Analysis/vcf4.0/">here</a>. You can have a look at the file content with the following commands:</p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb78-1"><a href="09-Detecting_selection.html#cb78-1" tabindex="-1"></a><span class="fu">zless</span> <span class="at">-S</span> data/timemaHVA.vcf.gz</span>
 <span id="cb78-2"><a href="09-Detecting_selection.html#cb78-2" tabindex="-1"></a><span class="co"># or with bcftools</span></span>
@@ -297,7 +307,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </blockquote>
 <p>To speed things up by processing the files in the cluster in parallel in different nodes, you can use <a href="https://docs.hpc.shef.ac.uk/en/latest/parallel/JobArray.html">SGE array job</a> that calls the Perl script for each file. Let’s have a look at the bcf2gl.sh script.</p>
 <div class="sourceCode" id="cb79"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb79-1"><a href="09-Detecting_selection.html#cb79-1" tabindex="-1"></a><span class="fu">less</span> scripts/bcf2gl.sh</span></code></pre></div>
-<p><img src="figures/bcf2gl.png" width="80%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/bcf2gl.png" style="width:800px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>Do not run the following command as it will take a long time to run. If you were to run the script you could type:</p>
 <blockquote>
 <p>scripts/bcf2gl.sh</p>
@@ -305,21 +317,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>As this will take a while to run, we have provided the output files in the data folder.</p>
 <p>Output .gl files should look like this:</p>
 <div class="sourceCode" id="cb80"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb80-1"><a href="09-Detecting_selection.html#cb80-1" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> data/timemaHVA.gl</span></code></pre></div>
-<p><img src="figures/gl.png" width="80%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/gl.png" style="width:800px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>The first line shows the number of samples and the number of SNPs, the second line show the samples IDs, and the third line specifies what samples will be used for analyses. The lines below represent a SNP per line. The first field is the ID (scaffold:position in this case) and it is followed by the phred scaled genotype likelihoods for the three possible genotypes (all variants are biallelic) for each individual. Therefore there are 3 x number of samples fields genotype likelihoods on each line.</p>
 </div>
 <div id="allele-frequency-estimation" class="section level2 hasAnchor" number="9.3">
 <h2><span class="header-section-number">9.3</span> Allele frequency estimation<a href="09-Detecting_selection.html#allele-frequency-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We will infer allele frequencies from genotype likelihoods by maximum likelihood, using an implementation of the iterative soft expectation-maximization algorithm (EM) described in <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3198575/">Li 2011</a> and also used in bcftools. This algorithm has been implemented in the program <code>estpEM</code>, with code kindly provided by <a href="https://gompertlab.com">Zach Gompert, Utah State University</a>. As before, this script is designed to use <code>SGE array</code> to parallelize jobs. In this case it will run <code>estpEM</code> to estimate allele frequencies from genotype likelihoods. You can have a look at the script:</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb81-1"><a href="09-Detecting_selection.html#cb81-1" tabindex="-1"></a><span class="fu">less</span> scripts/alfreq.sh</span></code></pre></div>
-<p><img src="figures/alfreq.png" width="80%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/alfreq.png" style="width:800px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>Again we will not run this now as it would take too long but if you were to run it on your own data you could do so like this:</p>
 <blockquote>
 <p>scripts/alfreq.sh</p>
 </blockquote>
 <p>You can check an example output file. It should look something like this:</p>
 <div class="sourceCode" id="cb82"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb82-1"><a href="09-Detecting_selection.html#cb82-1" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> results/timemaHVA.alfreq.txt</span></code></pre></div>
-<p><img src="figures/alfreq_results.png" width="50%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/alfreq_results.png" style="width:500px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>The columns are: locus, allele frequency from counts, and allele frequency inferred by maximum likelihood. Now we are going to merge the results from both populations into a single file:</p>
 <div class="sourceCode" id="cb83"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb83-1"><a href="09-Detecting_selection.html#cb83-1" tabindex="-1"></a><span class="co"># create header</span></span>
 <span id="cb83-2"><a href="09-Detecting_selection.html#cb83-2" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">&quot;locus\tafHVA\tafHVC&quot;</span> <span class="op">&gt;</span> timemaHVAxHVC.alfreq.txt</span>
@@ -331,7 +349,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb83-8"><a href="09-Detecting_selection.html#cb83-8" tabindex="-1"></a></span>
 <span id="cb83-9"><a href="09-Detecting_selection.html#cb83-9" tabindex="-1"></a><span class="co"># show file</span></span>
 <span id="cb83-10"><a href="09-Detecting_selection.html#cb83-10" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> timemaHVAxHVC.alfreq.txt</span></code></pre></div>
-<p><img src="figures/al_merge.png" width="50%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/al_merge.png" style="width:500px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 </div>
 <div id="fst-estimation" class="section level2 hasAnchor" number="9.4">
 <h2><span class="header-section-number">9.4</span> F<sub>ST</sub> estimation<a href="09-Detecting_selection.html#fst-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -359,9 +379,13 @@ F ^{Hudson}_{ST} =
 <span id="cb84-8"><a href="09-Detecting_selection.html#cb84-8" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;/pub14/tea/nsc206/NEOF/popgenomics/popgenfunctions/&quot;</span>, <span class="at">repos=</span><span class="cn">NULL</span>)</span>
 <span id="cb84-9"><a href="09-Detecting_selection.html#cb84-9" tabindex="-1"></a><span class="fu">library</span>(popgenfunctions)</span></code></pre></div>
 <p>You will likely get a message like the one below if you are installing the library for the first time.</p>
-<p><img src="figures/Rlib1.png" width="75%" style="display: block; margin: auto auto auto 0;" /></p>
+<center>
+<img src="figures/Rlib1.png" style="width:750px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>Type <code>y</code> and press enter. You will likely then see this message:</p>
-<p><img src="figures/Rlib2.png" width="50%" style="display: block; margin: auto auto auto 0;" /></p>
+<center>
+<img src="figures/Rlib2.png" style="width:400px; border-radius:5px; border:5px solid #333333; background:null" />
+</center>
 <p>Type <code>y</code> again and press enter. Lastly, when this has installed load the package:</p>
 <div class="sourceCode" id="cb85"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb85-1"><a href="09-Detecting_selection.html#cb85-1" tabindex="-1"></a><span class="co"># load a library of functions for population genetics calculations</span></span>
 <span id="cb85-2"><a href="09-Detecting_selection.html#cb85-2" tabindex="-1"></a><span class="fu">library</span>(popgenfunctions)</span></code></pre></div>
@@ -405,7 +429,9 @@ F ^{Hudson}_{ST} =
 <p>And plot the F<sub>ST</sub> histogram:</p>
 <div class="sourceCode" id="cb90"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb90-1"><a href="09-Detecting_selection.html#cb90-1" tabindex="-1"></a><span class="co"># plot FST histogram</span></span>
 <span id="cb90-2"><a href="09-Detecting_selection.html#cb90-2" tabindex="-1"></a><span class="fu">hist</span>(fst.HVAxHVC<span class="sc">$</span>fst, <span class="at">breaks=</span><span class="dv">100</span>)</span></code></pre></div>
-<p><img src="figures/timemaHVAxHVC.fst.png" width="100%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/timemaHVAxHVC.fst.png" style="width:1000px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
 <p>Now genome-wide F<sub>ST</sub> statistics are calculated as “ratio of averages” (i.e. averaging the variance components - numerator and denominator - separately), as suggested in <a href="https://genome.cshlp.org/content/23/9/1514.full">Bhatia <em>et al.</em> 2013</a></p>
 <div class="sourceCode" id="cb91"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb91-1"><a href="09-Detecting_selection.html#cb91-1" tabindex="-1"></a><span class="co"># Genome-wide FST statistics</span></span>
 <span id="cb91-2"><a href="09-Detecting_selection.html#cb91-2" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span>
@@ -650,7 +676,9 @@ F ^{Hudson}_{ST} =
 <span id="cb108-17"><a href="09-Detecting_selection.html#cb108-17" tabindex="-1"></a>       <span class="at">pch=</span><span class="dv">16</span>, <span class="at">col=</span>colours, <span class="at">title=</span><span class="st">&quot;differentiation&quot;</span>, <span class="at">bty=</span><span class="st">&quot;n&quot;</span>, <span class="at">cex=</span><span class="dv">1</span>)</span>
 <span id="cb108-18"><a href="09-Detecting_selection.html#cb108-18" tabindex="-1"></a></span>
 <span id="cb108-19"><a href="09-Detecting_selection.html#cb108-19" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
-<p><img src="figures/fst_hmm_lg01.png" width="100%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/fst_hmm_lg01.png" style="width:1000px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
 <p>We have obtained the size of the regions in number of SNPs so far, let’s get the actual size in base pairs. First, we use a function to get the size of regions in bp given their coordinates (lb=lower boundaries, ub=upper boundaries) and some information about the length and order of the scaffolds in the linkage groups. This has an extra complication because of the particularities of the <em>T. cristinae</em> draft genome, where scaffolds were assigned to linkage groups in a particular order using additional genetic information from crosses. Actually, the values obtained here are only approximations, because although the order of the scaffolds in a linkage group is known, the distance among them (i.e. the number of bp) is not.</p>
 <!-- ```{R eval=FALSE} -->
 <!-- # function to get size of regions -->
@@ -739,7 +767,9 @@ F ^{Hudson}_{ST} =
 <span id="cb113-12"><a href="09-Detecting_selection.html#cb113-12" tabindex="-1"></a>        <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">300</span>), <span class="at">xlab=</span><span class="st">&quot;size (Kbp)&quot;</span>, <span class="at">breaks=</span><span class="dv">50</span>, <span class="at">cex=</span><span class="dv">4</span>, </span>
 <span id="cb113-13"><a href="09-Detecting_selection.html#cb113-13" tabindex="-1"></a>        <span class="at">cex.axis=</span><span class="dv">1</span>, <span class="at">cex.lab=</span><span class="dv">1</span>, <span class="at">cex.main=</span><span class="dv">1</span>)</span>
 <span id="cb113-14"><a href="09-Detecting_selection.html#cb113-14" tabindex="-1"></a><span class="co"># ------------------------------------------------------------------------------</span></span></code></pre></div>
-<p><img src="figures/fst_hmm_lg01_dif_regions_sizes.png" width="100%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/fst_hmm_lg01_dif_regions_sizes.png" style="width:1000px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
 
 </div>
 </div>

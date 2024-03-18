@@ -23,7 +23,7 @@
 <meta name="author" content="Helen Hipperson, Katy Maher, Victor Soria-Carrasco, Graeme Fox" />
 
 
-<meta name="date" content="2023-11-22" />
+<meta name="date" content="2024-03-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li 
+  class="toc-logo">
+  <a 
+    href="https://neof.org.uk/" 
+    target="blank"><img src="figures/neof_bordered_small.png">
+  </a>
+</li>
 <li><a>Population Genomics</a></li>
 
 <li class="divider"></li>
@@ -266,14 +272,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="SNPcalling" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">Chapter 6</span> SNP and genotype calling using SAMtools and BCFtools<a href="06-SNPs.html#SNPcalling" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/snp.png" width="30%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/snp.png" style="width:300px" />
+</center>
 <p>BCFtools is a very popular program to call SNPs and genotypes (and also to manipulate and filter vcf/bcf files, as we will see afterwards). SNP calling is a relatively intensive process, so to speed things up we will be restricting variant calling to one scaffold from the killer whale genome (NW_004438415.1). We will call SNPs for three samples (SRR8861574, SRR8861575 and SRR8861576). The alignments have been provided for you in '.bam' format - this is a binary, compressed version of a sam file.</p>
 <p>First navigate to the 'aligned' directory:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb22-1"><a href="06-SNPs.html#cb22-1" tabindex="-1"></a><span class="bu">cd</span> ~/popgenomics/data/aligned/</span></code></pre></div>
 <p>Check that you have bam files for the three samples and their corresponding index files using <code>ls</code>.</p>
 <div id="file-preparation" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> File preparation<a href="06-SNPs.html#file-preparation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/index%20-%20Copy.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/index%20-%20Copy.png" style="width:150px" />
+</center>
 <p>Before we start SNP calling, we will copy over the genome assembly file and index it using <code>samtools</code>:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb23-1"><a href="06-SNPs.html#cb23-1" tabindex="-1"></a><span class="fu">cp</span> /pub14/tea/nsc206/NEOF/popgenomics/genome/GCF_000331955.2_Oorc_1.1_genomic.fna .</span>
 <span id="cb23-2"><a href="06-SNPs.html#cb23-2" tabindex="-1"></a></span>
@@ -285,7 +295,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="variant-calling" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Variant calling<a href="06-SNPs.html#variant-calling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/calling.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/calling.png" style="width:150px" />
+</center>
 <p>We will use BCFtools <code>mpileup</code> to produce genotype likelihoods for the three samples/BAM files, and pipe this output to BCFtools <code>call</code> to generate a file of genetic variants.</p>
 <p>Here is the BCFtools command:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb25-1"><a href="06-SNPs.html#cb25-1" tabindex="-1"></a><span class="ex">bcftools</span> mpileup <span class="at">-Ou</span> <span class="dt">\</span></span>
@@ -319,7 +331,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>One of the most popular text-file formats for storing genetic variation information is the Variant Call Format (VCF). There are different versions of the format, but the core elements are the same. You can find a full description of the latest iteration <a href="https://samtools.github.io/hts-specs/VCFv4.3.pdf">here</a>. Due to the large amount of data usually involved, files tend to be stored compressed as a BCF file. BCF is designed to be much more efficient to process and store large amounts of data. The practical downside is that the contents can only be accessed with <code>bcftools view</code>.</p>
 <p>The VCF format is composed of meta-information lines (prefixed wih ##), a header line (prefixed with #), and data lines each containing information about a position in the genome and genotype information on samples for each position (text fields separated by tabs). There are 8 fixed field lines, usually followed by an additional FORMAT field and an arbitrary number of sample fields when genotypes are included.</p>
 <p>Description of VCF fields</p>
-<p><img src="figures/vcf.png" width="70%" style="display: block; margin: auto auto auto 0;" /></p>
+<p><left>
+<img src="figures/vcf.png" style="width:700px; border-radius:15px; border:5px solid #333333; background:null" />
+</left></p>
 <p>Some notes about genotype fields:</p>
 <p>GT: Allele values are 0 for the reference and 1+ for alternate alleles. Alleles are separated with / if unphased and with | if phased. There are as many alleles separated by / or | as the ploidy. A . is used for missing data, i.e. when a genotype could not be called. More information on phasing is provided in the Appendix.</p>
 <p>GL or PL: Genotype likelihoods as floating-point log10-scaled or phred-scaled format. A diploid biallelic site has three values: homozygote for reference, heterozygote, and homozygote for alternate. Triallelic sites have 6 values: homozygote for reference, heterozygote of reference and alternate allele 1, homozygote for alternate allele 1, heterozygote of reference and alternate allele 2, heterozygote of alternate alleles 1 and 2, and homozygote for alternate allele 2.</p>
@@ -332,12 +346,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb27-2"><a href="06-SNPs.html#cb27-2" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Are all of the variants SNPs or are there also INDELs in the file?
-<div id="radio_QXQDFDRRCW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_QXQDFDRRCW" value=""></input> <span>Only SNPs</span></label><label><input type="radio" autocomplete="off" name="radio_QXQDFDRRCW" value=""></input> <span>A good mix of SNPs and indels</span></label><label><input type="radio" autocomplete="off" name="radio_QXQDFDRRCW" value="answer"></input> <span>A few indels</span></label>
+<div id="radio_WXUIENXPZX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WXUIENXPZX" value=""></input> <span>Only SNPs</span></label><label><input type="radio" autocomplete="off" name="radio_WXUIENXPZX" value=""></input> <span>A good mix of SNPs and indels</span></label><label><input type="radio" autocomplete="off" name="radio_WXUIENXPZX" value="answer"></input> <span>A few indels</span></label>
 </div></li>
 <li>Are the variant quality scores (QUAL field) all high (&gt; 20)?
-<div id="radio_WTLJBPHBON" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WTLJBPHBON" value=""></input> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_WTLJBPHBON" value="answer"></input> <span>No</span></label>
+<div id="radio_WZPEAZDUYE" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WZPEAZDUYE" value=""></input> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_WZPEAZDUYE" value="answer"></input> <span>No</span></label>
 </div></li>
 </ol>
 <p>Information in the BCF file can be used to filter to retain, for example, only biallelic SNPs, or to filter out variants with a low quality score or read depth.</p>
@@ -349,7 +363,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="variant-filtering" class="section level2 hasAnchor" number="6.3">
 <h2><span class="header-section-number">6.3</span> Variant filtering<a href="06-SNPs.html#variant-filtering" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/filter.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/filter.png" style="width:150px" />
+</center>
 <p>The number of variants can be counted using bcftools <code>view -H</code> and <code>wc</code>, but it includes all kinds of variants. To check particular ones, we need to use the flags <code>-v/-V</code> (or <code>--types/--exclude-types</code>) to include or exclude certain variant:</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb30-1"><a href="06-SNPs.html#cb30-1" tabindex="-1"></a><span class="co"># all variants</span></span>
 <span id="cb30-2"><a href="06-SNPs.html#cb30-2" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
@@ -363,7 +379,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><code>-M 2</code> is the bcftools command that means “-M, –max-alleles INT: print sites with at most INT alleles listed in REF and ALT columns”. So here we are asking for all lines where there at most 2 REF and ALT alleles in total.</p>
 <div id="extracting-information" class="section level3 hasAnchor" number="6.3.1">
 <h3><span class="header-section-number">6.3.1</span> Extracting information<a href="06-SNPs.html#extracting-information" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/exctractor.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/exctractor.png" style="width:150px" />
+</center>
 <p>Partial information can be extracted using <code>bcftools query</code>. In the example above, we saw how to get the list of samples using the <code>-l</code> option, but it can also be used to extract any fields using the <code>-f</code> option. For example, you can simply extract the list of positions with:</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb32-1"><a href="06-SNPs.html#cb32-1" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">&#39;%POS\n&#39;</span> orca_3samp_1scaf.bcf <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
 <p>Or combine multiple fields in the output, for example, scaffold/chromosome, position, reference and alternate alleles:</p>
@@ -396,7 +414,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="subsetting-files" class="section level3 hasAnchor" number="6.3.2">
 <h3><span class="header-section-number">6.3.2</span> Subsetting files<a href="06-SNPs.html#subsetting-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/subsample.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/subsample.png" style="width:150px; border-radius:15px; border:5px solid #333333; background:white" />
+</center>
 <p>We can subset SNPs within particular regions. For example, we can extract all the SNPs within a region on a particular chromosome/scaffold:</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb38-1"><a href="06-SNPs.html#cb38-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf.bcf NW_004438415.1:50000-100000 <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
 <span id="cb38-2"><a href="06-SNPs.html#cb38-2" tabindex="-1"></a></span>
@@ -433,8 +453,8 @@ Here are some examples:</p>
 <span id="cb44-2"><a href="06-SNPs.html#cb44-2" tabindex="-1"></a><span class="co"># You can see this is quite a stringent filter for this subset of data:</span></span>
 <span id="cb44-3"><a href="06-SNPs.html#cb44-3" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> orca_3samp_1scaf_snps.DP10.bcf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
 How many of the 267 SNPs have a sequencing depth of 10 or more reads?
-<div id="radio_JARHOIBAIA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_JARHOIBAIA" value="answer"></input> <span>2</span></label><label><input type="radio" autocomplete="off" name="radio_JARHOIBAIA" value=""></input> <span>3</span></label><label><input type="radio" autocomplete="off" name="radio_JARHOIBAIA" value=""></input> <span>8</span></label><label><input type="radio" autocomplete="off" name="radio_JARHOIBAIA" value=""></input> <span>29</span></label>
+<div id="radio_OCAQTMUJEK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OCAQTMUJEK" value="answer"></input> <span>2</span></label><label><input type="radio" autocomplete="off" name="radio_OCAQTMUJEK" value=""></input> <span>3</span></label><label><input type="radio" autocomplete="off" name="radio_OCAQTMUJEK" value=""></input> <span>8</span></label><label><input type="radio" autocomplete="off" name="radio_OCAQTMUJEK" value=""></input> <span>29</span></label>
 </div>
 <p>An important note here is to be aware that if the file is further processed so that only part of the individuals are used, the fields in INFO may not be updated and it would be then unreliable to filter out using any information from that field.</p>
 <p><strong>Mapping quality</strong></p>
@@ -450,22 +470,22 @@ How many of the 267 SNPs have a sequencing depth of 10 or more reads?
 <p>For population genetic analyses, it is frequently advised to remove variants below a certain allele frequency, as these ones are difficult to tell apart from sequencing errors. For example, to exclude all SNPs with a minor allele frequency (MAF) below 5% we would run:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb48-1"><a href="06-SNPs.html#cb48-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;MAF&lt;0.05&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.MAF005.bcf</span></code></pre></div>
 How many SNPs have a minor allele frequency less than 5% (i.e. 0.05)?
-<div id="radio_QRPNUNNUSW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_QRPNUNNUSW" value=""></input> <span>8</span></label><label><input type="radio" autocomplete="off" name="radio_QRPNUNNUSW" value=""></input> <span>29</span></label><label><input type="radio" autocomplete="off" name="radio_QRPNUNNUSW" value=""></input> <span>257</span></label><label><input type="radio" autocomplete="off" name="radio_QRPNUNNUSW" value="answer"></input> <span>259</span></label>
+<div id="radio_BLNQGWKWLH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BLNQGWKWLH" value=""></input> <span>8</span></label><label><input type="radio" autocomplete="off" name="radio_BLNQGWKWLH" value=""></input> <span>29</span></label><label><input type="radio" autocomplete="off" name="radio_BLNQGWKWLH" value=""></input> <span>257</span></label><label><input type="radio" autocomplete="off" name="radio_BLNQGWKWLH" value="answer"></input> <span>259</span></label>
 </div>
 <p><strong>Sample coverage</strong></p>
 <p>Another typical situation is to want to exclude all SNPs for which only a small fracion of all the individuals have sequence data. That requires using the total number of alleles in the called genotypes (AN). In the case of a diploid species, this can be used to filter SNPs by number of individuals genotyped. For example, we can remove all SNPs genotyped for less than 3 individuals:</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb49-1"><a href="06-SNPs.html#cb49-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;AN/2&lt;3&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.SAMP3.bcf</span></code></pre></div>
 How many SNPs have been called and genotyped all three of the samples/individuals?
-<div id="radio_KADDCOKWVC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_KADDCOKWVC" value=""></input> <span>3</span></label><label><input type="radio" autocomplete="off" name="radio_KADDCOKWVC" value=""></input> <span>8</span></label><label><input type="radio" autocomplete="off" name="radio_KADDCOKWVC" value="answer"></input> <span>10</span></label><label><input type="radio" autocomplete="off" name="radio_KADDCOKWVC" value=""></input> <span>29</span></label>
+<div id="radio_PDUNOMVMYD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PDUNOMVMYD" value=""></input> <span>3</span></label><label><input type="radio" autocomplete="off" name="radio_PDUNOMVMYD" value=""></input> <span>8</span></label><label><input type="radio" autocomplete="off" name="radio_PDUNOMVMYD" value="answer"></input> <span>10</span></label><label><input type="radio" autocomplete="off" name="radio_PDUNOMVMYD" value=""></input> <span>29</span></label>
 </div>
 <p><strong>Genotype-based filtering</strong></p>
 <p>Filtering using the genotype fields can allow for some more precise filtering. For example, in cases of high depth heterogeneity among samples, it may be better to filter out by median genotype depth than by total depth across all samples. An example removing all SNPs where the mean genotype depth is below 3:</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb50-1"><a href="06-SNPs.html#cb50-1" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-e</span> <span class="st">&#39;AVG(FMT/DP)&lt;3&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.MEANGTDP3.bcf</span></code></pre></div>
 How many SNPs have a mean genotyping depth of 3 or more?
-<div id="radio_WWFXOQAHMN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WWFXOQAHMN" value="answer"></input> <span>3</span></label><label><input type="radio" autocomplete="off" name="radio_WWFXOQAHMN" value=""></input> <span>8</span></label><label><input type="radio" autocomplete="off" name="radio_WWFXOQAHMN" value=""></input> <span>10</span></label><label><input type="radio" autocomplete="off" name="radio_WWFXOQAHMN" value=""></input> <span>29</span></label>
+<div id="radio_UUWQGZZMWX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UUWQGZZMWX" value="answer"></input> <span>3</span></label><label><input type="radio" autocomplete="off" name="radio_UUWQGZZMWX" value=""></input> <span>8</span></label><label><input type="radio" autocomplete="off" name="radio_UUWQGZZMWX" value=""></input> <span>10</span></label><label><input type="radio" autocomplete="off" name="radio_UUWQGZZMWX" value=""></input> <span>29</span></label>
 </div>
 <p>Sometimes it is reasonable to ignore genotype calls based on few reads. The following command remove all genotype calls (i.e. genotypes are substituted by ./.) informed by less than 5 reads:</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb51-1"><a href="06-SNPs.html#cb51-1" tabindex="-1"></a><span class="ex">bcftools</span> filter <span class="at">-S</span> . <span class="at">-e</span> <span class="st">&#39;FMT/DP&lt;5&#39;</span> <span class="at">-O</span> b orca_3samp_1scaf_snps.bcf <span class="op">&gt;</span> orca_3samp_1scaf_snps.NOGTDP5.bcf</span></code></pre></div>
