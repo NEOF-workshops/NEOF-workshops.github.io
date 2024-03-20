@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2023-11-22" />
+<meta name="date" content="2024-03-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_bordered_small.png"></a></li>
 <li><a>Long read QC</a></li>
 
 <li class="divider"></li>
@@ -269,7 +269,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="ccschap" class="section level1 hasAnchor" number="14">
 <h1><span class="header-section-number">Chapter 14</span> Circular Consensus Sequences<a href="14-CCS.html#ccschap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/ccs.png" width="55%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/ccs.png" style="width:600px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
 <p>We will now look at some long amplicon sequencing data. These data were generated from ~4 kb PCR amplicons of a mammalian gene region.</p>
 <p>For this section we will start with the subreads and carry out the following steps:</p>
 <ol style="list-style-type: decimal">
@@ -281,8 +283,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb33"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb33-1"><a href="14-CCS.html#cb33-1" tabindex="-1"></a><span class="bu">cd</span> ~/QC_workshop/PB_QC/data/CCS</span></code></pre></div>
 <div id="qc-the-subreads" class="section level2 hasAnchor" number="14.1">
 <h2><span class="header-section-number">14.1</span> QC the subreads<a href="14-CCS.html#qc-the-subreads" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/qc_inspection.png" width="15%" style="display: block; margin: auto;" /></p>
-<p>OUr current directory contains one file of subreads from the amplicons sequencing run, named 'Sample4.subreads.bam'. Even though we just have one file we want to QC, SequelTools still requires a fofn to run:</p>
+<center>
+<img src="figures/qc_inspection.png" style="width:200px" />
+</center>
+<p>Our current directory contains one file of subreads from the amplicons sequencing run, named 'Sample4.subreads.bam'. Even though we just have one file we want to QC, SequelTools still requires a fofn to run:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb34-1"><a href="14-CCS.html#cb34-1" tabindex="-1"></a><span class="fu">find</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="at">-name</span> <span class="st">&quot;*subreads.bam&quot;</span>  <span class="op">&gt;</span> subreads.txt</span></code></pre></div>
 <p>With our file of file names (.fofn) created we can run <code>SequelTools</code> for quality checking.</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb35-1"><a href="14-CCS.html#cb35-1" tabindex="-1"></a><span class="ex">SequelTools.sh</span> <span class="at">-t</span> Q <span class="at">-p</span> a <span class="at">-u</span> subreads.txt <span class="at">-o</span> S4QC</span></code></pre></div>
@@ -292,7 +296,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="ccs-generation" class="section level2 hasAnchor" number="14.2">
 <h2><span class="header-section-number">14.2</span> CCS generation<a href="14-CCS.html#ccs-generation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/production.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/production.png" style="width:200px" />
+</center>
 <p>To generate CCS reads we will use the <code>ccs</code> tool from the <code>smrttools</code> package. This will also act as a form of filtering.</p>
 <p>The full command to generate CCS reads is:</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb37-1"><a href="14-CCS.html#cb37-1" tabindex="-1"></a><span class="ex">ccs</span> <span class="at">--minLength</span> 3500 <span class="at">--minPasses</span> 7 <span class="at">-j</span> 1 Sample4.subreads.bam S4_ccs.bam</span></code></pre></div>
@@ -317,22 +323,26 @@ Even though this is a heavily downsized dataset this command still takes ~20 min
 <span id="cb38-2"><a href="14-CCS.html#cb38-2" tabindex="-1"></a><span class="fu">less</span> ccs_report.txt</span></code></pre></div>
 <div id="ccs-mcqs" class="section level3 hasAnchor" number="14.2.1">
 <h3><span class="header-section-number">14.2.1</span> CCS MCQs<a href="14-CCS.html#ccs-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/question_bubble_black.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/question_bubble_black.png" style="width:150px" />
+</center>
 <ol style="list-style-type: decimal">
 <li>What percentage of the subreads generated a CCS?
-<div id="radio_ICLZREAJFX" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ICLZREAJFX" value=""></input> <span><strong>0%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ICLZREAJFX" value="answer"></input> <span><strong>29.16%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ICLZREAJFX" value=""></input> <span><strong>70.62%</strong></span></label>
+<div id="radio_VCPLBSKWTL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VCPLBSKWTL" value=""></input> <span><strong>0%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VCPLBSKWTL" value="answer"></input> <span><strong>29.16%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VCPLBSKWTL" value=""></input> <span><strong>70.62%</strong></span></label>
 </div></li>
 <li>What was the main reason for failure of CCS generation?
-<div id="radio_YCIMBGIBYE" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YCIMBGIBYE" value="answer"></input> <span><strong>No usable subreads</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YCIMBGIBYE" value=""></input> <span><strong>Insert size too long or small</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YCIMBGIBYE" value=""></input> <span><strong>CCS did not converge</strong></span></label>
+<div id="radio_PNMWAQGBRG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PNMWAQGBRG" value="answer"></input> <span><strong>No usable subreads</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PNMWAQGBRG" value=""></input> <span><strong>Insert size too long or small</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PNMWAQGBRG" value=""></input> <span><strong>CCS did not converge</strong></span></label>
 </div></li>
 </ol>
 </div>
 </div>
 <div id="rabbitqcplus-1" class="section level2 hasAnchor" number="14.3">
 <h2><span class="header-section-number">14.3</span> RabbitQCPlus<a href="14-CCS.html#rabbitqcplus-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/RabbitQCPlus.png" width="50%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/RabbitQCPlus.png" style="width:500px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
 <p>Lastly, let's perform a quality check on the 'ccs.bam' file to assess the lengths of the ccs reads. <code>SequelTools</code> only works with the raw subread BAM files, so we will use an alternative program - <code>RabbitQC.</code> However, this program needs a fastq file as input so we will first generate that using the <code>bam2fastq</code> tool from smrttools.</p>
 <p>Thankfully an index file <code>.pbi</code> was already created when we generated the ccs bam file. We therefore don't need to create this.</p>
 <p>The <code>bam2fastq</code> command requires an output file prefix name, specified by <code>-o</code>, and the name of the BAM file we want to convert. We'll also include the option <code>-u</code> to give an uncompressed fastq output.</p>
@@ -353,7 +363,9 @@ Even though this is a heavily downsized dataset this command still takes ~20 min
 </div>
 <div id="final-summary" class="section level2 hasAnchor" number="14.4">
 <h2><span class="header-section-number">14.4</span> Final summary<a href="14-CCS.html#final-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/sum_black.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/sum_black.png" style="width:150px" />
+</center>
 <p>That is the end of this book. You have learnt how to QC ONT &amp; PacBio data. Of course there are various other tools out there and the field is always advancing so we suggest you also have a look what is out there.</p>
 <p>Thanks for reading.</p>
 

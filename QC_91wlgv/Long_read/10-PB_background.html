@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2023-11-22" />
+<meta name="date" content="2024-03-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_bordered_small.png"></a></li>
 <li><a>Long read QC</a></li>
 
 <li class="divider"></li>
@@ -269,11 +269,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="pb" class="section level1 hasAnchor" number="10">
 <h1><span class="header-section-number">Chapter 10</span> PacBio Background<a href="10-PB_background.html#pb" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/logo_PacBio_web_RGB-1.png" width="40%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/logo_PacBio_web_RGB-1.png" style="width:400px; border-radius:15px; border:5px solid #333333; background:white" />
+</center>
 <p>In this section we will quality check PacBio sequencing raw data (BAM files), perform a filter to retain only the longest reads and output the data in fastq format.</p>
 <div id="file-formats" class="section level2 hasAnchor" number="10.1">
 <h2><span class="header-section-number">10.1</span> File formats<a href="10-PB_background.html#file-formats" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/files.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/files.png" style="width:150px" />
+</center>
 <p>Sequence data from PacBio are output as subreads in unaligned BAM format. (Further explanation of the BAM format is in section 3.1.3).</p>
 <p>The figure below shows a schematic of a circular DNA molecule of a PacBio library with the colours representing:</p>
 <ul>
@@ -281,11 +285,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Red, B = Barcodes, optional single (Left or Right) or double (Left &amp; Right) for multiplexing samples</li>
 <li>Green, A = Adapter, SMRTbell adapters with a double-stranded stem and single-stranded hairpin loop.</li>
 </ul>
-<p><img src="figures/smrtbell.png" width="90%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/smrtbell.png" style="width:900px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
 <p>Sequencing follows the direction of the arrows and continues around until either the end of the sequencing run or if the DNA polymerase fails.</p>
 <p>PacBio sequencing takes place in Zero-Mode Waveguides (ZMWs) on a sequencing cell. These are tiny holes where a DNA polymerase binds a single molecule of DNA for sequencing, and each DNA base is detected when a labelled nucleotide is incorporated and fluoresces when excited by light.</p>
 <p>A ZMW read consists of the data collected from a single ZMW, with the HQ (high quality) region recorded when just a single molecule of DNA is present in the ZMW.</p>
-<p><img src="figures/zmw.png" width="90%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/zmw.png" style="width:900px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
 <p>This schematic shows the structure of a ZMW read in linear format. Insert DNA subreads are interspersed with the barcode and adapter sequence of the SMRTbell library.
 For more information see: <a href="https://pacbiofileformats.readthedocs.io/en/10.0/Primer.html" class="uri">https://pacbiofileformats.readthedocs.io/en/10.0/Primer.html</a></p>
 <p><strong>subreads.bam file</strong></p>
@@ -296,7 +304,9 @@ For more information see: <a href="https://pacbiofileformats.readthedocs.io/en/1
 </div>
 <div id="clr-ccs" class="section level2 hasAnchor" number="10.2">
 <h2><span class="header-section-number">10.2</span> CLR &amp; CCS<a href="10-PB_background.html#clr-ccs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/clr_and_ccs.png" width="80%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/clr_and_ccs.png" style="width:800px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
 <p>PacBio data can be generated in two ways depending on the goal of the experiment.</p>
 <ul>
 <li><p><strong>Continuous Long Reads (CLR)</strong> the aim is to produce sequence reads as long as possible, such as for genome assembly, sequencing through long repeat regions or finding other large structural variants. CLR runs usually generate one subread (i.e. there would be just one or one and a bit of the grey insert regions shown above) and sequences have an error rate of ~ 10-15%.</p></li>
@@ -306,7 +316,9 @@ For more information see: <a href="https://pacbiofileformats.readthedocs.io/en/1
 </div>
 <div id="tools" class="section level2 hasAnchor" number="10.3">
 <h2><span class="header-section-number">10.3</span> Tools<a href="10-PB_background.html#tools" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/toolbox.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/toolbox.png" style="width:200px" />
+</center>
 <div id="sequeltools" class="section level3 hasAnchor" number="10.3.1">
 <h3><span class="header-section-number">10.3.1</span> SequelTools<a href="10-PB_background.html#sequeltools" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><a href="https://github.com/ISUgenomics/SequelTools" class="uri">https://github.com/ISUgenomics/SequelTools</a></p>
