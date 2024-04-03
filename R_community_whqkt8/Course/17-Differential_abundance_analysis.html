@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 17 Differential abundance (DA) analysis | R community analysis</title>
   <meta name="description" content="NEOF book for the R community analysis workflow" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 17 Differential abundance (DA) analysis | R community analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-02-12" />
+<meta name="date" content="2024-04-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -182,7 +182,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="05-Jupyter.html"><a href="05-Jupyter.html#saving-the-file"><i class="fa fa-check"></i><b>5.6</b> Saving the file</a></li>
 <li class="chapter" data-level="5.7" data-path="05-Jupyter.html"><a href="05-Jupyter.html#title-cells-with-markdown"><i class="fa fa-check"></i><b>5.7</b> Title cells with markdown</a></li>
 <li class="chapter" data-level="5.8" data-path="05-Jupyter.html"><a href="05-Jupyter.html#close-the-notebook"><i class="fa fa-check"></i><b>5.8</b> Close the notebook</a></li>
-<li class="chapter" data-level="5.9" data-path="05-Jupyter.html"><a href="05-Jupyter.html#video-tutorial"><i class="fa fa-check"></i><b>5.9</b> Video tutorial</a></li>
+<li class="chapter" data-level="5.9" data-path="05-Jupyter.html"><a href="05-Jupyter.html#jup_vid_tut"><i class="fa fa-check"></i><b>5.9</b> Video tutorial</a></li>
 </ul></li>
 <li class="part"><span><b>Data preparation</b></span></li>
 <li class="chapter" data-level="6" data-path="06-Preprocess_part.html"><a href="06-Preprocess_part.html"><i class="fa fa-check"></i><b>6</b> Data prep intro</a></li>
@@ -395,22 +395,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="DA_chap" class="section level1 hasAnchor" number="17">
 <h1><span class="header-section-number">Chapter 17</span> Differential abundance (DA) analysis<a href="17-Differential_abundance_analysis.html#DA_chap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/difference.png" width="200px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/difference.png" style="width:200px" />
+</center>
 <p>We are going to carry out differential abundance analysis with <a href="https://www.nature.com/articles/s41467-020-17041-7">ANCOM-BC (Analysis of compositions of microbiomes with bias correction)</a>.
 This is an improvement of the original ANCOM method but with added bias correction.
 This bias correction aims to account for the bias caused by the difference in sampling/depth across the samples.</p>
 <p>Differential abundance analysis aims to detect features (ASVs, taxa, etc.) that have different abundances between groups.
 This can be used to detect organisms in high abundance in diseased states versus healthy states.
-This helps determine what are the disease causing organisms.
+This helps to determine the disease causing organisms.
 However, it may also detect organisms that are able to survive in the environment rather than those that cause the difference in environment.</p>
 <p>This will be shown in our data.
 Organisms in higher abundance in the media samples compared to the environmental samples are most likely caused by selection pressures the media introduces.
 To keep our data manageable in a workshop we will look at the class abundances.
 If a class is detected to have higher abundance in media compared to the environmental group, we can say the class is a biomarker of the media compared to the environmental sample.
-Additionally, we will be able to detect class that have been depleted in the media samples versus the environmental sample.</p>
+Additionally, we will be able to detect classes that have been depleted in the media samples versus the environmental sample.</p>
 <div id="da-setup" class="section level2 hasAnchor" number="17.1">
 <h2><span class="header-section-number">17.1</span> DA: setup<a href="17-Differential_abundance_analysis.html#da-setup" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/packages_1.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/packages_1.png" style="width:200px" />
+</center>
 <p>We will use a new notebook called <strong>"7-differential_abundance.ipynb"</strong>.
 Add the following to the top of this new notebook to load the required libraries/packages and data.</p>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb104-1"><a href="17-Differential_abundance_analysis.html#cb104-1" tabindex="-1"></a><span class="co">#Packages</span></span>
@@ -431,7 +435,9 @@ As bioinformaticians we are more interested in the output rather than the method
 </div>
 <div id="da-preprocess" class="section level2 hasAnchor" number="17.2">
 <h2><span class="header-section-number">17.2</span> DA: Preprocess<a href="17-Differential_abundance_analysis.html#da-preprocess" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/water_surface.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/water_surface.png" style="width:200px" />
+</center>
 <p>When carrying out ANCOM analysis you need to specify the reference group for the groupings you use.
 The reference group will be the 1st level of the factor.
 Therefore we will check our level orders for our media and site metadata categories.</p>
@@ -458,7 +464,9 @@ We'll therefore change the order with the <code>factor()</code> function and <co
 </div>
 <div id="da-ancom-bc-analysis" class="section level2 hasAnchor" number="17.3">
 <h2><span class="header-section-number">17.3</span> DA: ANCOM-BC analysis<a href="17-Differential_abundance_analysis.html#da-ancom-bc-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/play_blue.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/play_blue.png" style="width:200px" />
+</center>
 <p>Now that we have our data the way we would like it we can carry out the ANCOM analysis.
 We'll use the function <code>ANCOMBC::ancombc2()</code> for our ANCOM-BC analysis.</p>
 <p><strong>Note:</strong> This command will take a few minutes to run.</p>
@@ -471,7 +479,9 @@ We'll use the function <code>ANCOMBC::ancombc2()</code> for our ANCOM-BC analysi
 <span id="cb108-2"><a href="17-Differential_abundance_analysis.html#cb108-2" tabindex="-1"></a><span class="fu">save</span>(ancom_class_out, <span class="at">file =</span> <span class="st">&quot;ANCOMBC2_class_analysis.RData&quot;</span>)</span></code></pre></div>
 <div id="ancombc2-options" class="section level3 hasAnchor" number="17.3.1">
 <h3><span class="header-section-number">17.3.1</span> ANCOMBC2 options<a href="17-Differential_abundance_analysis.html#ancombc2-options" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/parameter_blue.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_blue.png" style="width:200px" />
+</center>
 <p>The options we use in the function are:</p>
 <ul>
 <li><code>data =</code>: The data to be analysed. This can be provided in various types of objects including the <code>phyloseq</code> object.</li>
@@ -485,7 +495,9 @@ Please see the package <a href="https://bioc.ism.ac.jp/packages/devel/bioc/manua
 </div>
 <div id="da-ancom-bc-results" class="section level2 hasAnchor" number="17.4">
 <h2><span class="header-section-number">17.4</span> DA: ANCOM-BC results<a href="17-Differential_abundance_analysis.html#da-ancom-bc-results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/output_file_blue.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/output_file_blue.png" style="width:200px" />
+</center>
 <p>There is a lot of information in <code>ancom_class_out</code>.
 Therefore, lets extract the results we want to look at and then remove the large object.</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb109-1"><a href="17-Differential_abundance_analysis.html#cb109-1" tabindex="-1"></a><span class="co">#Output of analysis compared to reference groups</span></span>
@@ -533,7 +545,9 @@ However, there is a good amount of biomarkers for the three different medias com
 </div>
 <div id="da-create-signifcant-lfc-long-data-frame" class="section level2 hasAnchor" number="17.5">
 <h2><span class="header-section-number">17.5</span> DA: Create signifcant LFC long data frame<a href="17-Differential_abundance_analysis.html#da-create-signifcant-lfc-long-data-frame" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/portrait.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/portrait.png" style="width:200px" />
+</center>
 <p>The results table is good but let's make a heatmap showing the LFCs (Log fold changes) of the significant biomarkers. First, we need to do some preprecessing.</p>
 <p>Remove columns unrelated to the media comparisons.</p>
 <div class="sourceCode" id="cb112"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb112-1"><a href="17-Differential_abundance_analysis.html#cb112-1" tabindex="-1"></a><span class="co">#Extract the taxon column and the media columns from the results</span></span>
@@ -545,7 +559,7 @@ However, there is a good amount of biomarkers for the three different medias com
 <span id="cb112-7"><a href="17-Differential_abundance_analysis.html#cb112-7" tabindex="-1"></a><span class="co">#Create new df with only taxon and media columns</span></span>
 <span id="cb112-8"><a href="17-Differential_abundance_analysis.html#cb112-8" tabindex="-1"></a>res_ancom_class_media <span class="ot">&lt;-</span> res_ancom_class[,media_colnames]</span>
 <span id="cb112-9"><a href="17-Differential_abundance_analysis.html#cb112-9" tabindex="-1"></a><span class="fu">head</span>(res_ancom_class_media)</span></code></pre></div>
-<p>Because we had comparisons with more that 1 grouping (media &amp; site) we might have rows with no significnat results.
+<p>Because we had comparisons with more that 1 grouping (media &amp; site) we might have rows with no significant results.
 We will therefore remove these rows.</p>
 <p><strong>Note:</strong> The next 2 code sections use the packages <code>dplyr</code> &amp; <code>tidyr</code> along with piping <code>%&gt;%</code>.
 This is used as it would be very difficult to do these steps in base R and they are the code provided in the <a href="https://bioconductor.org/packages/release/bioc/vignettes/ANCOMBC/inst/doc/ANCOMBC2.html"><code>ANCOMBC2</code> tutorial</a>.
@@ -577,7 +591,7 @@ If you do not fully understand the code that is fine.
 As long as you can edit it to work with your own future code.</p>
 <div class="sourceCode" id="cb114"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb114-1"><a href="17-Differential_abundance_analysis.html#cb114-1" tabindex="-1"></a><span class="co">#Create edited long df to plot significant log fold changes on heatmap</span></span>
 <span id="cb114-2"><a href="17-Differential_abundance_analysis.html#cb114-2" tabindex="-1"></a>res_ancom_class_media_sig_lfc_fig <span class="ot">&lt;-</span> res_ancom_class_media_sig <span class="sc">%&gt;%</span></span>
-<span id="cb114-3"><a href="17-Differential_abundance_analysis.html#cb114-3" tabindex="-1"></a>  <span class="co">#Change log change values to 0 if diff is false</span></span>
+<span id="cb114-3"><a href="17-Differential_abundance_analysis.html#cb114-3" tabindex="-1"></a>  <span class="co">#Change log fold change values to 0 if diff is false</span></span>
 <span id="cb114-4"><a href="17-Differential_abundance_analysis.html#cb114-4" tabindex="-1"></a>  <span class="co">#test: Is diff TRUE?</span></span>
 <span id="cb114-5"><a href="17-Differential_abundance_analysis.html#cb114-5" tabindex="-1"></a>  <span class="co">#yes: Set LFC to original value (e.g. lfc_mediaCVP)</span></span>
 <span id="cb114-6"><a href="17-Differential_abundance_analysis.html#cb114-6" tabindex="-1"></a>  <span class="co">#no: Set LFC to 0</span></span>
@@ -587,7 +601,7 @@ As long as you can edit it to work with your own future code.</p>
 <span id="cb114-10"><a href="17-Differential_abundance_analysis.html#cb114-10" tabindex="-1"></a>                                      <span class="at">yes =</span> lfc_mediaKBC, <span class="at">no =</span> <span class="dv">0</span>),</span>
 <span id="cb114-11"><a href="17-Differential_abundance_analysis.html#cb114-11" tabindex="-1"></a>                <span class="at">lfc_mediaTSA =</span> <span class="fu">ifelse</span>(<span class="at">test =</span> diff_mediaTSA <span class="sc">==</span> <span class="cn">TRUE</span>,</span>
 <span id="cb114-12"><a href="17-Differential_abundance_analysis.html#cb114-12" tabindex="-1"></a>                                      <span class="at">yes =</span> lfc_mediaTSA, <span class="at">no =</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb114-13"><a href="17-Differential_abundance_analysis.html#cb114-13" tabindex="-1"></a>  <span class="co">#Only retain taxon and log fold changes columns</span></span>
+<span id="cb114-13"><a href="17-Differential_abundance_analysis.html#cb114-13" tabindex="-1"></a>  <span class="co">#Only retain taxon and log fold change columns</span></span>
 <span id="cb114-14"><a href="17-Differential_abundance_analysis.html#cb114-14" tabindex="-1"></a>  <span class="co">#Additionally, change column names and round LFC values to 2 decimal places</span></span>
 <span id="cb114-15"><a href="17-Differential_abundance_analysis.html#cb114-15" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">transmute</span>(taxon,</span>
 <span id="cb114-16"><a href="17-Differential_abundance_analysis.html#cb114-16" tabindex="-1"></a>                   <span class="at">CVP =</span> <span class="fu">round</span>(lfc_mediaCVP,<span class="dv">2</span>),</span>
@@ -604,7 +618,9 @@ As long as you can edit it to work with your own future code.</p>
 </div>
 <div id="da-biomarker-lfc-heatmap" class="section level2 hasAnchor" number="17.6">
 <h2><span class="header-section-number">17.6</span> DA: Biomarker LFC heatmap<a href="17-Differential_abundance_analysis.html#da-biomarker-lfc-heatmap" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/tiles.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/tiles.png" style="width:200px" />
+</center>
 <p>We now have a long data frame with the significant LFC values.
 We can use this to create a heatmap.</p>
 <p>There are some specific functions and packages for R that can produce heatmaps.
@@ -660,16 +676,16 @@ We will use 0 as the midpoint so we can easily differentiate between higher and 
 Any 0 values are non-significant results we turned to 0 when we created the long data frame.</p>
 <ul>
 <li>Are there more biomarkers in higher abundance in ENV rather than the comparison media (i.e blue/negative results)?
-<div id="radio_NWFQOIALEC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_NWFQOIALEC" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NWFQOIALEC" value=""></input> <span><strong>No</strong></span></label>
+<div id="radio_NNTUPRFZSU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NNTUPRFZSU" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NNTUPRFZSU" value=""></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>Which biomarker has the highest positive values?
-<div id="radio_WSFDPWVCBW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WSFDPWVCBW" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WSFDPWVCBW" value="answer"></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WSFDPWVCBW" value=""></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
+<div id="radio_UJUJIXZTXY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UJUJIXZTXY" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UJUJIXZTXY" value="answer"></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UJUJIXZTXY" value=""></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
 </div></li>
 <li>Which biomarker has the lowest value?
-<div id="radio_DEUNERQMJW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DEUNERQMJW" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DEUNERQMJW" value=""></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DEUNERQMJW" value="answer"></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
+<div id="radio_TJGITKTQSS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TJGITKTQSS" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TJGITKTQSS" value=""></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TJGITKTQSS" value="answer"></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
 </div></li>
 </ul>
 <p>From these results we can see that there are a lot of biomarkers with low abundances in the comparison media samples.
@@ -683,7 +699,9 @@ They appear to select for a few bacterial classes and select against a lot of ba
 </div>
 <div id="da-matching-bar-plot" class="section level2 hasAnchor" number="17.7">
 <h2><span class="header-section-number">17.7</span> DA: matching bar plot<a href="17-Differential_abundance_analysis.html#da-matching-bar-plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/bar_chart.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/bar_chart.png" style="width:200px; border-radius:15px; background:white" />
+</center>
 <p>Using code from the <a href="11-Taxa_plots.html#chaptaxaplots">taxa plots chapter</a> we'll make a quick class based taxa plot.
 We will use the relative abundances for this.</p>
 <div class="sourceCode" id="cb118"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb118-1"><a href="17-Differential_abundance_analysis.html#cb118-1" tabindex="-1"></a><span class="co">#Quick class based relative abundance heatmap</span></span>
@@ -701,13 +719,15 @@ We will use the relative abundances for this.</p>
 <span id="cb118-13"><a href="17-Differential_abundance_analysis.html#cb118-13" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
 <span id="cb118-14"><a href="17-Differential_abundance_analysis.html#cb118-14" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./class_relabund_heatmap.png&quot;</span>)</span></code></pre></div>
 <p>With this plot we can clearly see that there are many classess with abundances in the ENV samples that have very little in the media samples.
-Most the the relative abundances of the media samples consist of Gammaproteobacteria.
+Most of the relative abundances of the media samples consist of Gammaproteobacteria.
 The TSA and KBC samples also have a high abundance of Bacilli.
 Overall, this is a nice visual confirmation of our ANCOM results.</p>
 </div>
 <div id="da-summary" class="section level2 hasAnchor" number="17.8">
 <h2><span class="header-section-number">17.8</span> DA: summary<a href="17-Differential_abundance_analysis.html#da-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/sum_blue.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/sum_blue.png" style="width:200px" />
+</center>
 <p>We have used ANCOMBC to detect biomarkers in the media samples compared to the ENV samples.
 This showed most biomarkers were caused by depletion of many classes and selection of a few classes by the media.</p>
 <p>You could carry out more analysis in your future research in various ways:</p>

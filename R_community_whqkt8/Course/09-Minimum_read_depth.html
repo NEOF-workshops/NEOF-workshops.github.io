@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 Minimum read depth | R community analysis</title>
   <meta name="description" content="NEOF book for the R community analysis workflow" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 Minimum read depth | R community analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-02-12" />
+<meta name="date" content="2024-04-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -182,7 +182,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="05-Jupyter.html"><a href="05-Jupyter.html#saving-the-file"><i class="fa fa-check"></i><b>5.6</b> Saving the file</a></li>
 <li class="chapter" data-level="5.7" data-path="05-Jupyter.html"><a href="05-Jupyter.html#title-cells-with-markdown"><i class="fa fa-check"></i><b>5.7</b> Title cells with markdown</a></li>
 <li class="chapter" data-level="5.8" data-path="05-Jupyter.html"><a href="05-Jupyter.html#close-the-notebook"><i class="fa fa-check"></i><b>5.8</b> Close the notebook</a></li>
-<li class="chapter" data-level="5.9" data-path="05-Jupyter.html"><a href="05-Jupyter.html#video-tutorial"><i class="fa fa-check"></i><b>5.9</b> Video tutorial</a></li>
+<li class="chapter" data-level="5.9" data-path="05-Jupyter.html"><a href="05-Jupyter.html#jup_vid_tut"><i class="fa fa-check"></i><b>5.9</b> Video tutorial</a></li>
 </ul></li>
 <li class="part"><span><b>Data preparation</b></span></li>
 <li class="chapter" data-level="6" data-path="06-Preprocess_part.html"><a href="06-Preprocess_part.html"><i class="fa fa-check"></i><b>6</b> Data prep intro</a></li>
@@ -395,7 +395,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="mindepthchap" class="section level1 hasAnchor" number="9">
 <h1><span class="header-section-number">Chapter 9</span> Minimum read depth<a href="09-Minimum_read_depth.html#mindepthchap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/depth_diver.png" width="200px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/depth_diver.png" style="width:200px" />
+</center>
 <p>It is good to remove samples with a very low read depth (number of sequencing reads).
 But determining an appropriate minimum read depth is not trivial.
 This value will vary from study to study.
@@ -411,7 +413,9 @@ This is the general consensus for <strong>human microbiome</strong> data.</p>
 </ul>
 <div id="considerations" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Considerations<a href="09-Minimum_read_depth.html#considerations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/consider.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/consider.png" style="width:200px; border-radius:5px; background:white" />
+</center>
 <p>There are 3 main considerations to take into account when choosing an appropriate depth for your dataset.</p>
 <ul>
 <li><strong>The biodiversity of your samples.</strong>
@@ -429,7 +433,7 @@ This is the general consensus for <strong>human microbiome</strong> data.</p>
 <li><strong>Read depth of sample groups.</strong>
 <ul>
 <li>It may be possible that a few samples have a much lower depth than the rest. It may be a good idea to remove them.</li>
-<li>However, these may all come from the same sample group and so you have lost all information of one group.</li>
+<li>However, these may all come from the same sample group and so you will lose all information of one group.</li>
 <li>For instance, you may be comparing different geological surfaces and your rock samples have much lower read depths than the various soil samples.</li>
 <li>For comparisons including the lower depth sample group (e.g. rock samples) you will need to retain the lower depth samples.</li>
 </ul></li>
@@ -438,30 +442,38 @@ This is the general consensus for <strong>human microbiome</strong> data.</p>
 </div>
 <div id="minimum-read-depth-section-title" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> Minimum read depth section title<a href="09-Minimum_read_depth.html#minimum-read-depth-section-title" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/header_l2.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/header_l2.png" style="width:200px; border-radius:5px; border: 5px solid white; background:white" />
+</center>
 <p>In the next section of our <code>jupyter-notebook</code> we will investigate what the minimum read depth should be and remove samples with a lower depth.</p>
 <p>Create a new <strong>"Markdown"</strong> <strong>cell</strong> and add the following 2nd level header.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb27-1"><a href="09-Minimum_read_depth.html#cb27-1" tabindex="-1"></a><span class="do">## Minimum read depth</span></span></code></pre></div>
 </div>
 <div id="read-depth-vector-and-histogram" class="section level2 hasAnchor" number="9.3">
 <h2><span class="header-section-number">9.3</span> Read depth vector and histogram<a href="09-Minimum_read_depth.html#read-depth-vector-and-histogram" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/histogram.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/histogram.png" style="width:200px" />
+</center>
 <p>We have already created a vector and histogram of the read depths across our samples. Scroll up your notebook to view these and answer the following MCQ:</p>
 <ul>
 <li>What is the approximate read depth range of our dataset?
-<div id="radio_XQZCLLGJEK" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XQZCLLGJEK" value=""></input> <span><strong>1-8</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XQZCLLGJEK" value="answer"></input> <span><strong>10,000-18,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XQZCLLGJEK" value=""></input> <span><strong>20,000+</strong></span></label>
+<div id="radio_CJHDHEOBHK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CJHDHEOBHK" value=""></input> <span><strong>1-8</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CJHDHEOBHK" value="answer"></input> <span><strong>10,000-18,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CJHDHEOBHK" value=""></input> <span><strong>20,000+</strong></span></label>
 </div></li>
 </ul>
 <p>This is a good first step but what if we want to know how the read depths vary between sample groups?</p>
 </div>
 <div id="depth-boxplots" class="section level2 hasAnchor" number="9.4">
 <h2><span class="header-section-number">9.4</span> Sample depth boxplot<a href="09-Minimum_read_depth.html#depth-boxplots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/boxplot.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/boxplot.png" style="width:200px; border-radius:15px; background:white" />
+</center>
 <p>We are going to use <code>ggplot2</code> to create a couple boxplots to show the sequencing depth ranges of the different sample groups (Site &amp; Media).</p>
 <div id="creating-a-data-frame-for-boxplots" class="section level3 hasAnchor" number="9.4.1">
 <h3><span class="header-section-number">9.4.1</span> Creating a data frame for boxplots<a href="09-Minimum_read_depth.html#creating-a-data-frame-for-boxplots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/metadata.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/metadata.png" style="width:200px" />
+</center>
 <p>First, we need to create an object containing our sample names, site &amp; media information, and the depth.
 We will use this object to produce our boxplots.
 Thankfully the metadata in our <code>phyloseq</code> object contains all this information except the depth.</p>
@@ -496,7 +508,9 @@ However, before adding it we want to check if it has the same order of samples a
 </div>
 <div id="ggplot2-boxplot" class="section level3 hasAnchor" number="9.4.2">
 <h3><span class="header-section-number">9.4.2</span> ggplot2 boxplot<a href="09-Minimum_read_depth.html#ggplot2-boxplot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/boxplots_groups.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/boxplots_groups.png" style="width:200px; border-radius:15px; background:white" />
+</center>
 <p>We are going to create 2 boxplots with <code>ggplot2</code>.
 We won't go into too much detail on how the code works here, instead learning more later in this book.</p>
 <p>The code below creates a <code>ggplot2</code> boxplot. We carry this out with 2 functions:</p>
@@ -516,11 +530,13 @@ We won't go into too much detail on how the code works here, instead learning mo
 <span id="cb31-4"><a href="09-Minimum_read_depth.html#cb31-4" tabindex="-1"></a><span class="co">#Create ggplot2 boxplot of depth by site</span></span>
 <span id="cb31-5"><a href="09-Minimum_read_depth.html#cb31-5" tabindex="-1"></a>boxplot <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(abundance_metadf, <span class="fu">aes</span>(<span class="at">y=</span>depth, <span class="at">x=</span>site)) <span class="sc">+</span></span>
 <span id="cb31-6"><a href="09-Minimum_read_depth.html#cb31-6" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_boxplot</span>()</span></code></pre></div>
-<p>We have a saved <code>ggplot2</code> object but now we need to save it as a image file and display it.</p>
+<p>We have a saved <code>ggplot2</code> object but now we need to save it as an image file and display it.</p>
 </div>
 <div id="save-ggplot-as-png" class="section level3 hasAnchor" number="9.4.3">
 <h3><span class="header-section-number">9.4.3</span> Save ggplot as png<a href="09-Minimum_read_depth.html#save-ggplot-as-png" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/png_file.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/png_file.png" style="width:200px" />
+</center>
 <p>You can save a <code>ggplot</code> object as an image file with <code>ggsave()</code>.
 This allows you to select the size and resolution (<code>dpi</code>) of the image.
 This can then be displayed with <code>IRdisplay::display_png()</code>.</p>
@@ -531,14 +547,16 @@ This can then be displayed with <code>IRdisplay::display_png()</code>.</p>
 <span id="cb32-5"><a href="09-Minimum_read_depth.html#cb32-5" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./boxplot_x_site_y_depth.png&quot;</span>)</span></code></pre></div>
 <ul>
 <li>Which site has the highest median depth (middle line of boxplot)?
-<div id="radio_SIXCRMRAEW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SIXCRMRAEW" value="answer"></input> <span><strong>LD (Lower Durance)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SIXCRMRAEW" value=""></input> <span><strong>MD (Middle Durance)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SIXCRMRAEW" value=""></input> <span><strong>UD (Upper Durance</strong></span></label>
+<div id="radio_LFTELQWXNU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LFTELQWXNU" value="answer"></input> <span><strong>LD (Lower Durance)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LFTELQWXNU" value=""></input> <span><strong>MD (Middle Durance)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LFTELQWXNU" value=""></input> <span><strong>UD (Upper Durance</strong></span></label>
 </div></li>
 </ul>
 </div>
 <div id="media-by-depth-boxplot" class="section level3 hasAnchor" number="9.4.4">
 <h3><span class="header-section-number">9.4.4</span> Media by depth boxplot<a href="09-Minimum_read_depth.html#media-by-depth-boxplot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/petri.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/petri.png" style="width:200px" />
+</center>
 <p>We will use the same code to plot the depth by media.
 You can copy and paste the code changing all the instances of <strong>site</strong> to <strong>media</strong>.
 Carry this out in the same cell and run the code.</p>
@@ -552,8 +570,8 @@ Carry this out in the same cell and run the code.</p>
 <span id="cb33-8"><a href="09-Minimum_read_depth.html#cb33-8" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./boxplot_x_media_y_depth.png&quot;</span>)</span></code></pre></div>
 <ul>
 <li>Which media has the lowest median depth (middle line of boxplot)?
-<div id="radio_FREXYBTBSL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FREXYBTBSL" value="answer"></input> <span><strong>CVP</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FREXYBTBSL" value=""></input> <span><strong>ENV</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FREXYBTBSL" value=""></input> <span><strong>TSA</strong></span></label>
+<div id="radio_ZWKHGHFFGO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZWKHGHFFGO" value="answer"></input> <span><strong>CVP</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZWKHGHFFGO" value=""></input> <span><strong>ENV</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZWKHGHFFGO" value=""></input> <span><strong>TSA</strong></span></label>
 </div></li>
 </ul>
 <p>From the boxplots we can see there is no drastic difference between the depths of the different media groups. We will therefore continue and make some rarefaction curves to further assess the depth of our samples.</p>
@@ -562,7 +580,9 @@ Carry this out in the same cell and run the code.</p>
 </div>
 <div id="chap9rarefaction" class="section level2 hasAnchor" number="9.5">
 <h2><span class="header-section-number">9.5</span> Rarefaction curve<a href="09-Minimum_read_depth.html#chap9rarefaction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/rarefaction.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/rarefaction.png" style="width:200px" />
+</center>
 <p>Our read depths appear a bit low, each sample has &lt;20K reads.
 However, this might be fine for our dataset since we are using surface water samples rather than human gut microbiome samples.
 Let's see how our samples look with a rarefaction curve.</p>
@@ -574,7 +594,9 @@ It has a variety of functions but it uses normal R data frames rather than <code
 We will therefore only use it for rarefaction purposes.</p>
 <div id="asv-abundance-data-frame" class="section level3 hasAnchor" number="9.5.1">
 <h3><span class="header-section-number">9.5.1</span> ASV abundance data frame<a href="09-Minimum_read_depth.html#asv-abundance-data-frame" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/nice_table.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/nice_table.png" style="width:200px" />
+</center>
 <p>Before creating our rarefaction curve we will extract the ASV abundance table from the <code>phyloseq</code> object with <code>phyloseq</code>'s function <code>otu_table()</code>.
 We need to transpose (<code>t()</code>) the table so it is in the correct orientation for the rarefaction function.
 Additionally, we will ensure it is a data frame with the function <code>as.data.frame()</code>.</p>
@@ -585,7 +607,9 @@ Additionally, we will ensure it is a data frame with the function <code>as.data.
 </div>
 <div id="vegans-rarecurve" class="section level3 hasAnchor" number="9.5.2">
 <h3><span class="header-section-number">9.5.2</span> vegan's rarecurve<a href="09-Minimum_read_depth.html#vegans-rarecurve" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/vegan.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/vegan.png" style="width:200px" />
+</center>
 <p>With this data frame we can create a rarefaction curve with <code>vegan</code>'s <code>rarecurve()</code> function.</p>
 <p>Add the following code to the same cell and run it.</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb35-1"><a href="09-Minimum_read_depth.html#cb35-1" tabindex="-1"></a><span class="co">#Save as png</span></span>
@@ -603,7 +627,7 @@ Additionally, we will ensure it is a data frame with the function <code>as.data.
 <p><strong>Note</strong>: You will get a warning saying <code>"most observed count data have counts 1, but smallest count is 2"</code>. This can be ignored in this case.</p>
 <p>In essence, we are hoping that the majority of samples have plateaued.
 If the curves have flattened in relation to the y axis this indicates that most of the ASVs present in the sample have been captured.</p>
-<p>Our samples have plateau'd or have gentle slopes towards the end.
+<p>Our samples have plateaued or have gentle slopes towards the end.
 With this we can be happy to continue and not remove samples by a minimum read depth.</p>
 <p>If we saw some samples with steep curves and low depths we could carry out some more analysis with rarefaction.
 However, more rarefaction functions, analysis, and theories will be covered in the <a href="14-Rarefaction.html#rarefaction_chap">rarefaction chapter</a>.
@@ -612,10 +636,12 @@ You could use some of these at this point to help you determine your minimum rea
 </div>
 <div id="filtering-by-minimum-read-depth" class="section level2 hasAnchor" number="9.6">
 <h2><span class="header-section-number">9.6</span> Filtering by minimum read depth<a href="09-Minimum_read_depth.html#filtering-by-minimum-read-depth" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/water_filter.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/water_filter.png" style="width:200px" />
+</center>
 <p>What if you want to filter samples by a minimum read depth?</p>
 <p>You can use the <code>subset_samples()</code> function from <code>phyloseq()</code>.
-We will use our previously created vector containing read depths (<code>sample_depths</code>) to remove sample with less than 11k reads.
+We will use our previously created vector containing read depths (<code>sample_depths</code>) to remove sample with less than or equal to 11k reads.
 We have chosen this depth as an example to remove some samples.</p>
 <p>Write and run the below code in a new cell.
 It will create a new subsetted <code>phyloseq</code> object.</p>
@@ -657,16 +683,16 @@ Add the following in the same cell and then run the code in the cell.</p>
 <p>Try to write your own R code in a new cell to answer the following questions:</p>
 <ul>
 <li>What is the difference of the minimum number of reads between <code>pseq_min11K</code> and <code>pseq</code>?
-<div id="radio_OGEZKRIJVX" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_OGEZKRIJVX" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OGEZKRIJVX" value="answer"></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OGEZKRIJVX" value=""></input> <span><strong>42507</strong></span></label>
+<div id="radio_ZZDDUWLSEG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZZDDUWLSEG" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZZDDUWLSEG" value="answer"></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZZDDUWLSEG" value=""></input> <span><strong>42507</strong></span></label>
 </div></li>
 <li>How many samples were removed due to the read depth filtering?
-<div id="radio_ASRRSOMHAV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ASRRSOMHAV" value="answer"></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ASRRSOMHAV" value=""></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ASRRSOMHAV" value=""></input> <span><strong>42507</strong></span></label>
+<div id="radio_MHWGAYZBGT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MHWGAYZBGT" value="answer"></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MHWGAYZBGT" value=""></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MHWGAYZBGT" value=""></input> <span><strong>42507</strong></span></label>
 </div></li>
 <li>How many reads were removed by the minimum read filtering?
-<div id="radio_HGGWPTXBUI" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HGGWPTXBUI" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HGGWPTXBUI" value=""></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HGGWPTXBUI" value="answer"></input> <span><strong>42507</strong></span></label>
+<div id="radio_EJPTGEZAOG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EJPTGEZAOG" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EJPTGEZAOG" value=""></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EJPTGEZAOG" value="answer"></input> <span><strong>42507</strong></span></label>
 </div></li>
 </ul>
 <div class="webex-solution">
@@ -698,7 +724,9 @@ You can therefore remove the new <code>phyloseq</code> object in a new <strong>c
 </div>
 <div id="minmum-read-depth-summary" class="section level2 hasAnchor" number="9.7">
 <h2><span class="header-section-number">9.7</span> Minmum read depth: Summary<a href="09-Minimum_read_depth.html#minmum-read-depth-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/sum_blue.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/sum_blue.png" style="width:200px" />
+</center>
 <p>We have assessed the read depth in this chapter and decided to not remove any samples.
 This assessment included:</p>
 <ul>
