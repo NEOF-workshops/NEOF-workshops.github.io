@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 10 Optional Exercises | Eukaryote genome assembly</title>
   <meta name="description" content="NEOF book for the Eukaryote genome assembly workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 10 Optional Exercises | Eukaryote genome assembly" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Sujai Kumar &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2023-11-22" />
+<meta name="date" content="2024-04-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
 <li><a>Eukaryote genome assembly</a></li>
 
 <li class="divider"></li>
@@ -240,7 +240,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="optional" class="section level1 hasAnchor" number="10">
 <h1><span class="header-section-number">Chapter 10</span> Optional Exercises<a href="10-Optional_exercises.html#optional" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/exercise.png" width="18%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/exercise.png" style="width:200px" />
+</center>
 <div id="introduction-4" class="section level2 hasAnchor" number="10.1">
 <h2><span class="header-section-number">10.1</span> Introduction<a href="10-Optional_exercises.html#introduction-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Here is another PacBio Hifi + Illumina Hi-C dataset for you to practice on. This is a fungus, a type of budding yeast called <em>Metschnikowia zobellii</em></p>
@@ -249,220 +251,240 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="preassembly-1" class="section level2 hasAnchor" number="10.2">
 <h2><span class="header-section-number">10.2</span> Preassembly<a href="10-Optional_exercises.html#preassembly-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/magnify_glass_27AUG2020.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/magnify_glass_27AUG2020.png" style="width:200px" />
+</center>
 <p>Make sure you are in the <code>. useassembly</code> terminal window.</p>
-<pre><code>READACC=ERR9588941</code></pre>
-<pre><code>mkdir -p ~/$READACC/1-preassembly
-cd ~/$READACC/1-preassembly
-
-# link to the raw data files:
-ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9588941.fastq.gz
-ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9503460.1m.1.fq.gz
-ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9503460.1m.2.fq.gz
-
-seqkit stats $READACC.fastq.gz
-
-kmc -cs2000 -k21 ${READACC}.fastq.gz ${READACC}k21 .
-kmc_tools transform ${READACC}k21 histogram ${READACC}k21.histo
-
-# upload the .histo file in http://qb.cshl.edu/genomescope/genomescope2.0/</code></pre>
-<p><img src="figures/question_bubble.png" width="18%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb58-1"><a href="10-Optional_exercises.html#cb58-1" tabindex="-1"></a><span class="va">READACC</span><span class="op">=</span>ERR9588941</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb59-1"><a href="10-Optional_exercises.html#cb59-1" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/<span class="va">$READACC</span>/1-preassembly</span>
+<span id="cb59-2"><a href="10-Optional_exercises.html#cb59-2" tabindex="-1"></a><span class="bu">cd</span> ~/<span class="va">$READACC</span>/1-preassembly</span>
+<span id="cb59-3"><a href="10-Optional_exercises.html#cb59-3" tabindex="-1"></a></span>
+<span id="cb59-4"><a href="10-Optional_exercises.html#cb59-4" tabindex="-1"></a><span class="co"># link to the raw data files:</span></span>
+<span id="cb59-5"><a href="10-Optional_exercises.html#cb59-5" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9588941.fastq.gz</span>
+<span id="cb59-6"><a href="10-Optional_exercises.html#cb59-6" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9503460.1m.1.fq.gz</span>
+<span id="cb59-7"><a href="10-Optional_exercises.html#cb59-7" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9503460.1m.2.fq.gz</span>
+<span id="cb59-8"><a href="10-Optional_exercises.html#cb59-8" tabindex="-1"></a></span>
+<span id="cb59-9"><a href="10-Optional_exercises.html#cb59-9" tabindex="-1"></a><span class="ex">seqkit</span> stats <span class="va">$READACC</span>.fastq.gz</span>
+<span id="cb59-10"><a href="10-Optional_exercises.html#cb59-10" tabindex="-1"></a></span>
+<span id="cb59-11"><a href="10-Optional_exercises.html#cb59-11" tabindex="-1"></a><span class="ex">kmc</span> <span class="at">-cs2000</span> <span class="at">-k21</span> <span class="va">${READACC}</span>.fastq.gz <span class="va">${READACC}</span>k21 .</span>
+<span id="cb59-12"><a href="10-Optional_exercises.html#cb59-12" tabindex="-1"></a><span class="ex">kmc_tools</span> transform <span class="va">${READACC}</span>k21 histogram <span class="va">${READACC}</span>k21.histo</span>
+<span id="cb59-13"><a href="10-Optional_exercises.html#cb59-13" tabindex="-1"></a></span>
+<span id="cb59-14"><a href="10-Optional_exercises.html#cb59-14" tabindex="-1"></a><span class="co"># upload the .histo file in http://qb.cshl.edu/genomescope/genomescope2.0/</span></span></code></pre></div>
+<center>
+<img src="figures/question_bubble.png" style="width:200px" />
+</center>
 How many reads are in the ERR9588941.fastq.gz file?
-<div id="radio_ZOCVUTRDDO" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZOCVUTRDDO" value=""></input> <span><strong>61</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZOCVUTRDDO" value="answer"></input> <span><strong>121,002</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZOCVUTRDDO" value=""></input> <span><strong>1,411,251,333</strong></span></label>
+<div id="radio_AFWGBHCTUR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_AFWGBHCTUR" value=""></input> <span><strong>61</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AFWGBHCTUR" value="answer"></input> <span><strong>121,002</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AFWGBHCTUR" value=""></input> <span><strong>1,411,251,333</strong></span></label>
 </div>
 What is the average length of the reads are in the ERR9588941.fastq.gz file?
-<div id="radio_QRXCPJCLNP" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_QRXCPJCLNP" value=""></input> <span><strong>61</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QRXCPJCLNP" value="answer"></input> <span><strong>11,663</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QRXCPJCLNP" value=""></input> <span><strong>29,884</strong></span></label>
+<div id="radio_OORSQKJSTQ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OORSQKJSTQ" value=""></input> <span><strong>61</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OORSQKJSTQ" value="answer"></input> <span><strong>11,663</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OORSQKJSTQ" value=""></input> <span><strong>29,884</strong></span></label>
 </div>
 What is the estimated genome size in GenomeScope?
-<div id="radio_RZHERCZNOZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RZHERCZNOZ" value=""></input> <span><strong>21 Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RZHERCZNOZ" value="answer"></input> <span><strong>14.35 Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RZHERCZNOZ" value="answer"></input> <span><strong>13.18 Mb</strong></span></label>
+<div id="radio_GQQUNMBUYP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GQQUNMBUYP" value=""></input> <span><strong>21 Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GQQUNMBUYP" value="answer"></input> <span><strong>14.35 Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GQQUNMBUYP" value="answer"></input> <span><strong>13.18 Mb</strong></span></label>
 </div>
 <p>If you set <strong>Max k-mer coverage: 1000</strong> you will get a slightly different estimate than if you leave this as the default option in GenomeScope. With this data set we don't see the error with the very high coverage we had with the nematode in chapter 5, and setting the coverage limit doesn't affect the genome size estimation (and it is only an estimation) too much.</p>
 <p>How does this compare to the known size of the assembly for <em>Metschnikowia zobellii</em>? (You can look this up on NCBI!)</p>
 </div>
 <div id="assembly-1" class="section level2 hasAnchor" number="10.3">
 <h2><span class="header-section-number">10.3</span> Assembly<a href="10-Optional_exercises.html#assembly-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/string.png" width="15%" style="display: block; margin: auto;" /></p>
-<pre><code>mkdir -p ~/$READACC/2-assembly
-cd ~/$READACC/2-assembly
-
-seqtk sample ../1-preassembly/${READACC}.fastq.gz 0.10 | gzip -c &gt; ${READACC}.10p.fastq.gz
-
-hifiasm -l 0 -t 16 -o ${READACC}_hifiasm10pl0 ${READACC}.10p.fastq.gz
-# should take ~2 min
-# you can also try -l 3 and see the difference, remember to change the -o as well
-# take care with the file names. 
-# Here we have added the suffix `hifiasm` for the assembler, 
-# `10p` to indicate that we have used 10% of the data and 
-# `l0` to indicate we have set the `l` (lower case letter l) paramter to `0`.
-
-awk &#39;/^S/{print &quot;&gt;&quot;$2;print $3}&#39; ${READACC}_hifiasm10pl0.bp.p_ctg.gfa &gt; ${READACC}_hifiasm10pl0.bp.p_ctg.fa</code></pre>
+<center>
+<img src="figures/string.png" style="width:200px" />
+</center>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb60-1"><a href="10-Optional_exercises.html#cb60-1" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/<span class="va">$READACC</span>/2-assembly</span>
+<span id="cb60-2"><a href="10-Optional_exercises.html#cb60-2" tabindex="-1"></a><span class="bu">cd</span> ~/<span class="va">$READACC</span>/2-assembly</span>
+<span id="cb60-3"><a href="10-Optional_exercises.html#cb60-3" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="10-Optional_exercises.html#cb60-4" tabindex="-1"></a><span class="ex">seqtk</span> sample ../1-preassembly/<span class="va">${READACC}</span>.fastq.gz 0.10 <span class="kw">|</span> <span class="fu">gzip</span> <span class="at">-c</span> <span class="op">&gt;</span> <span class="va">${READACC}</span>.10p.fastq.gz</span>
+<span id="cb60-5"><a href="10-Optional_exercises.html#cb60-5" tabindex="-1"></a></span>
+<span id="cb60-6"><a href="10-Optional_exercises.html#cb60-6" tabindex="-1"></a><span class="ex">hifiasm</span> <span class="at">-l</span> 0 <span class="at">-t</span> 16 <span class="at">-o</span> <span class="va">${READACC}</span>_hifiasm10pl0 <span class="va">${READACC}</span>.10p.fastq.gz</span>
+<span id="cb60-7"><a href="10-Optional_exercises.html#cb60-7" tabindex="-1"></a><span class="co"># should take ~2 min</span></span>
+<span id="cb60-8"><a href="10-Optional_exercises.html#cb60-8" tabindex="-1"></a><span class="co"># you can also try -l 3 and see the difference, remember to change the -o as well</span></span>
+<span id="cb60-9"><a href="10-Optional_exercises.html#cb60-9" tabindex="-1"></a><span class="co"># take care with the file names. </span></span>
+<span id="cb60-10"><a href="10-Optional_exercises.html#cb60-10" tabindex="-1"></a><span class="co"># Here we have added the suffix `hifiasm` for the assembler, </span></span>
+<span id="cb60-11"><a href="10-Optional_exercises.html#cb60-11" tabindex="-1"></a><span class="co"># `10p` to indicate that we have used 10% of the data and </span></span>
+<span id="cb60-12"><a href="10-Optional_exercises.html#cb60-12" tabindex="-1"></a><span class="co"># `l0` to indicate we have set the `l` (lower case letter l) paramter to `0`.</span></span>
+<span id="cb60-13"><a href="10-Optional_exercises.html#cb60-13" tabindex="-1"></a></span>
+<span id="cb60-14"><a href="10-Optional_exercises.html#cb60-14" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;/^S/{print &quot;&gt;&quot;$2;print $3}&#39;</span> <span class="va">${READACC}</span>_hifiasm10pl0.bp.p_ctg.gfa <span class="op">&gt;</span> <span class="va">${READACC}</span>_hifiasm10pl0.bp.p_ctg.fa</span></code></pre></div>
 </div>
 <div id="assessment" class="section level2 hasAnchor" number="10.4">
 <h2><span class="header-section-number">10.4</span> Assessment<a href="10-Optional_exercises.html#assessment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/inspect.png" width="15%" style="display: block; margin: auto;" /></p>
-<pre><code>mkdir -p ~/$READACC/3-assessment
-cd ~/$READACC/3-assessment
-
-ln -s ../2-assembly/${READACC}_hifiasm10pl0.bp.p_ctg.fa
-
-seqkit stats -a *.fa</code></pre>
+<center>
+<img src="figures/inspect.png" style="width:200px" />
+</center>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb61-1"><a href="10-Optional_exercises.html#cb61-1" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/<span class="va">$READACC</span>/3-assessment</span>
+<span id="cb61-2"><a href="10-Optional_exercises.html#cb61-2" tabindex="-1"></a><span class="bu">cd</span> ~/<span class="va">$READACC</span>/3-assessment</span>
+<span id="cb61-3"><a href="10-Optional_exercises.html#cb61-3" tabindex="-1"></a></span>
+<span id="cb61-4"><a href="10-Optional_exercises.html#cb61-4" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> ../2-assembly/<span class="va">${READACC}</span>_hifiasm10pl0.bp.p_ctg.fa</span>
+<span id="cb61-5"><a href="10-Optional_exercises.html#cb61-5" tabindex="-1"></a></span>
+<span id="cb61-6"><a href="10-Optional_exercises.html#cb61-6" tabindex="-1"></a><span class="ex">seqkit</span> stats <span class="at">-a</span> <span class="pp">*</span>.fa</span></code></pre></div>
 <p>Move into your <code>. usetiara</code> terminal window.</p>
-<pre><code>READACC=ERR9588941
-
-cd ~/$READACC/3-assessment
-
-ASSEMBLY=${READACC}_hifiasm10pl0.bp.p_ctg.fa
-
-tiara -i $ASSEMBLY -o $ASSEMBLY.tiara -t 16 --pr --tf all</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb62-1"><a href="10-Optional_exercises.html#cb62-1" tabindex="-1"></a><span class="va">READACC</span><span class="op">=</span>ERR9588941</span>
+<span id="cb62-2"><a href="10-Optional_exercises.html#cb62-2" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="10-Optional_exercises.html#cb62-3" tabindex="-1"></a><span class="bu">cd</span> ~/<span class="va">$READACC</span>/3-assessment</span>
+<span id="cb62-4"><a href="10-Optional_exercises.html#cb62-4" tabindex="-1"></a></span>
+<span id="cb62-5"><a href="10-Optional_exercises.html#cb62-5" tabindex="-1"></a><span class="va">ASSEMBLY</span><span class="op">=</span><span class="va">${READACC}</span>_hifiasm10pl0.bp.p_ctg.fa</span>
+<span id="cb62-6"><a href="10-Optional_exercises.html#cb62-6" tabindex="-1"></a></span>
+<span id="cb62-7"><a href="10-Optional_exercises.html#cb62-7" tabindex="-1"></a><span class="ex">tiara</span> <span class="at">-i</span> <span class="va">$ASSEMBLY</span> <span class="at">-o</span> <span class="va">$ASSEMBLY</span>.tiara <span class="at">-t</span> 16 <span class="at">--pr</span> <span class="at">--tf</span> all</span></code></pre></div>
 <p>Move back into your <code>. useassembly</code> window.</p>
-<pre><code>ASSEMBLY=${READACC}_hifiasm10pl0.bp.p_ctg.fa
-
-seqkit stats -a *$ASSEMBLY
-
-# note large number of contigs
-
-busco \
--i ${ASSEMBLY} \
--l saccharomycetes_odb10 \
--m geno \
--o ${ASSEMBLY}_saccharomycetes_odb10 \
---cpu 16</code></pre>
-<p><img src="figures/question_bubble.png" width="18%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb63-1"><a href="10-Optional_exercises.html#cb63-1" tabindex="-1"></a><span class="va">ASSEMBLY</span><span class="op">=</span><span class="va">${READACC}</span>_hifiasm10pl0.bp.p_ctg.fa</span>
+<span id="cb63-2"><a href="10-Optional_exercises.html#cb63-2" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="10-Optional_exercises.html#cb63-3" tabindex="-1"></a><span class="ex">seqkit</span> stats <span class="at">-a</span> <span class="pp">*</span><span class="va">$ASSEMBLY</span></span>
+<span id="cb63-4"><a href="10-Optional_exercises.html#cb63-4" tabindex="-1"></a></span>
+<span id="cb63-5"><a href="10-Optional_exercises.html#cb63-5" tabindex="-1"></a><span class="co"># note large number of contigs</span></span>
+<span id="cb63-6"><a href="10-Optional_exercises.html#cb63-6" tabindex="-1"></a></span>
+<span id="cb63-7"><a href="10-Optional_exercises.html#cb63-7" tabindex="-1"></a><span class="ex">busco</span> <span class="dt">\</span></span>
+<span id="cb63-8"><a href="10-Optional_exercises.html#cb63-8" tabindex="-1"></a>-i <span class="va">${ASSEMBLY}</span> <span class="dt">\</span></span>
+<span id="cb63-9"><a href="10-Optional_exercises.html#cb63-9" tabindex="-1"></a>-l saccharomycetes_odb10 <span class="dt">\</span></span>
+<span id="cb63-10"><a href="10-Optional_exercises.html#cb63-10" tabindex="-1"></a>-m geno <span class="dt">\</span></span>
+<span id="cb63-11"><a href="10-Optional_exercises.html#cb63-11" tabindex="-1"></a>-o <span class="va">${ASSEMBLY}</span>_saccharomycetes_odb10 <span class="dt">\</span></span>
+<span id="cb63-12"><a href="10-Optional_exercises.html#cb63-12" tabindex="-1"></a>--cpu 16</span></code></pre></div>
+<center>
+<img src="figures/question_bubble.png" style="width:200px" />
+</center>
 How many contigs are in the ERR9588941_hifiasml0pl0.bp.p_ctg.fa assembly?
-<div id="radio_VWRWHHTRZV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_VWRWHHTRZV" value=""></input> <span><strong>1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VWRWHHTRZV" value=""></input> <span><strong>236</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VWRWHHTRZV" value="answer"></input> <span><strong>238</strong></span></label>
+<div id="radio_ZJPCZTRGVL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZJPCZTRGVL" value=""></input> <span><strong>1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZJPCZTRGVL" value=""></input> <span><strong>236</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZJPCZTRGVL" value="answer"></input> <span><strong>238</strong></span></label>
 </div>
 What is the N50 of the ERR9588941_hifiasml0pl0.bp.p_ctg.fa assembly?
-<div id="radio_TPDVGMIOXA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TPDVGMIOXA" value="answer"></input> <span><strong>149 Kb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TPDVGMIOXA" value=""></input> <span><strong>104 Kb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TPDVGMIOXA" value=""></input> <span><strong>14 Kb</strong></span></label>
+<div id="radio_KWVGNSVUZZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KWVGNSVUZZ" value="answer"></input> <span><strong>149 Kb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KWVGNSVUZZ" value=""></input> <span><strong>104 Kb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KWVGNSVUZZ" value=""></input> <span><strong>14 Kb</strong></span></label>
 </div>
 What is the percentage of complete and single-copy BUSCOs found?
-<div id="radio_XGYOSCFPBU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XGYOSCFPBU" value=""></input> <span><strong>96.6%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XGYOSCFPBU" value="answer"></input> <span><strong>32.8%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XGYOSCFPBU" value=""></input> <span><strong>63.8%</strong></span></label>
+<div id="radio_HDTCQBUHJS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HDTCQBUHJS" value=""></input> <span><strong>96.6%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HDTCQBUHJS" value="answer"></input> <span><strong>32.8%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HDTCQBUHJS" value=""></input> <span><strong>63.8%</strong></span></label>
 </div>
-<pre><code># purge_dups
-# no bacteria to remove, so keep them all
-
-ln -s ../1-preassembly/${READACC}.fastq.gz
-
-READS=${READACC}.fastq.gz
-CONTIGS=$ASSEMBLY
-CPU=16
-
-minimap2 -t $CPU -x map-hifi $CONTIGS $READS | gzip -c - &gt;${CONTIGS}.paf.gz
-
-pbcstat ${CONTIGS}.paf.gz
-calcuts PB.stat &gt; ${CONTIGS}_cutoffs 2&gt; ${CONTIGS}_calcults.log
-
-split_fa $CONTIGS &gt;${CONTIGS}.split
-minimap2 -t $CPU -xasm5 -DP ${CONTIGS}.split ${CONTIGS}.split | gzip -c - &gt;${CONTIGS}.split.self.paf.gz
-
-purge_dups -2 -T ${CONTIGS}_cutoffs -c PB.base.cov ${CONTIGS}.split.self.paf.gz \
-&gt;${CONTIGS}_dups.bed 2&gt;${CONTIGS}_purge_dups.log
-get_seqs -e ${CONTIGS}_dups.bed $CONTIGS
-mv purged.fa ${CONTIGS}_purged.fa
-mv hap.fa ${CONTIGS}_hap.fa
-
-seqkit stats ${CONTIGS} ${CONTIGS}_purged.fa ${CONTIGS}_hap.fa
-
-# this time a lot more sequence got purged, as this was a more heterozygous assembly, as we saw in genomescope</code></pre>
-<p><img src="figures/question_bubble.png" width="18%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb64-1"><a href="10-Optional_exercises.html#cb64-1" tabindex="-1"></a><span class="co"># purge_dups</span></span>
+<span id="cb64-2"><a href="10-Optional_exercises.html#cb64-2" tabindex="-1"></a><span class="co"># no bacteria to remove, so keep them all</span></span>
+<span id="cb64-3"><a href="10-Optional_exercises.html#cb64-3" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="10-Optional_exercises.html#cb64-4" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> ../1-preassembly/<span class="va">${READACC}</span>.fastq.gz</span>
+<span id="cb64-5"><a href="10-Optional_exercises.html#cb64-5" tabindex="-1"></a></span>
+<span id="cb64-6"><a href="10-Optional_exercises.html#cb64-6" tabindex="-1"></a><span class="va">READS</span><span class="op">=</span><span class="va">${READACC}</span>.fastq.gz</span>
+<span id="cb64-7"><a href="10-Optional_exercises.html#cb64-7" tabindex="-1"></a><span class="va">CONTIGS</span><span class="op">=</span><span class="va">$ASSEMBLY</span></span>
+<span id="cb64-8"><a href="10-Optional_exercises.html#cb64-8" tabindex="-1"></a><span class="va">CPU</span><span class="op">=</span>16</span>
+<span id="cb64-9"><a href="10-Optional_exercises.html#cb64-9" tabindex="-1"></a></span>
+<span id="cb64-10"><a href="10-Optional_exercises.html#cb64-10" tabindex="-1"></a><span class="ex">minimap2</span> <span class="at">-t</span> <span class="va">$CPU</span> <span class="at">-x</span> map-hifi <span class="va">$CONTIGS</span> <span class="va">$READS</span> <span class="kw">|</span> <span class="fu">gzip</span> <span class="at">-c</span> <span class="at">-</span> <span class="op">&gt;</span><span class="va">${CONTIGS}</span>.paf.gz</span>
+<span id="cb64-11"><a href="10-Optional_exercises.html#cb64-11" tabindex="-1"></a></span>
+<span id="cb64-12"><a href="10-Optional_exercises.html#cb64-12" tabindex="-1"></a><span class="ex">pbcstat</span> <span class="va">${CONTIGS}</span>.paf.gz</span>
+<span id="cb64-13"><a href="10-Optional_exercises.html#cb64-13" tabindex="-1"></a><span class="ex">calcuts</span> PB.stat <span class="op">&gt;</span> <span class="va">${CONTIGS}</span>_cutoffs <span class="dv">2</span><span class="op">&gt;</span> <span class="va">${CONTIGS}</span>_calcults.log</span>
+<span id="cb64-14"><a href="10-Optional_exercises.html#cb64-14" tabindex="-1"></a></span>
+<span id="cb64-15"><a href="10-Optional_exercises.html#cb64-15" tabindex="-1"></a><span class="ex">split_fa</span> <span class="va">$CONTIGS</span> <span class="op">&gt;</span><span class="va">${CONTIGS}</span>.split</span>
+<span id="cb64-16"><a href="10-Optional_exercises.html#cb64-16" tabindex="-1"></a><span class="ex">minimap2</span> <span class="at">-t</span> <span class="va">$CPU</span> <span class="at">-xasm5</span> <span class="at">-DP</span> <span class="va">${CONTIGS}</span>.split <span class="va">${CONTIGS}</span>.split <span class="kw">|</span> <span class="fu">gzip</span> <span class="at">-c</span> <span class="at">-</span> <span class="op">&gt;</span><span class="va">${CONTIGS}</span>.split.self.paf.gz</span>
+<span id="cb64-17"><a href="10-Optional_exercises.html#cb64-17" tabindex="-1"></a></span>
+<span id="cb64-18"><a href="10-Optional_exercises.html#cb64-18" tabindex="-1"></a><span class="ex">purge_dups</span> <span class="at">-2</span> <span class="at">-T</span> <span class="va">${CONTIGS}</span>_cutoffs <span class="at">-c</span> PB.base.cov <span class="va">${CONTIGS}</span>.split.self.paf.gz <span class="dt">\</span></span>
+<span id="cb64-19"><a href="10-Optional_exercises.html#cb64-19" tabindex="-1"></a><span class="op">&gt;</span><span class="va">${CONTIGS}</span>_dups.bed <span class="dv">2</span><span class="op">&gt;</span><span class="va">${CONTIGS}</span>_purge_dups.log</span>
+<span id="cb64-20"><a href="10-Optional_exercises.html#cb64-20" tabindex="-1"></a><span class="ex">get_seqs</span> <span class="at">-e</span> <span class="va">${CONTIGS}</span>_dups.bed <span class="va">$CONTIGS</span></span>
+<span id="cb64-21"><a href="10-Optional_exercises.html#cb64-21" tabindex="-1"></a><span class="fu">mv</span> purged.fa <span class="va">${CONTIGS}</span>_purged.fa</span>
+<span id="cb64-22"><a href="10-Optional_exercises.html#cb64-22" tabindex="-1"></a><span class="fu">mv</span> hap.fa <span class="va">${CONTIGS}</span>_hap.fa</span>
+<span id="cb64-23"><a href="10-Optional_exercises.html#cb64-23" tabindex="-1"></a></span>
+<span id="cb64-24"><a href="10-Optional_exercises.html#cb64-24" tabindex="-1"></a><span class="ex">seqkit</span> stats <span class="va">${CONTIGS}</span> <span class="va">${CONTIGS}</span>_purged.fa <span class="va">${CONTIGS}</span>_hap.fa</span>
+<span id="cb64-25"><a href="10-Optional_exercises.html#cb64-25" tabindex="-1"></a></span>
+<span id="cb64-26"><a href="10-Optional_exercises.html#cb64-26" tabindex="-1"></a><span class="co"># this time a lot more sequence got purged, as this was a more heterozygous assembly, as we saw in genomescope</span></span></code></pre></div>
+<center>
+<img src="figures/question_bubble.png" style="width:200px" />
+</center>
 How many contigs are in the ERR9588941_hifiasml0pl0.bp.p_ctg.fa_purged.fa assembly?
-<div id="radio_CZDMJMBLHL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_CZDMJMBLHL" value="answer"></input> <span><strong>103</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CZDMJMBLHL" value=""></input> <span><strong>175</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CZDMJMBLHL" value=""></input> <span><strong>238</strong></span></label>
+<div id="radio_SEOJTPVDPZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SEOJTPVDPZ" value="answer"></input> <span><strong>103</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SEOJTPVDPZ" value=""></input> <span><strong>175</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SEOJTPVDPZ" value=""></input> <span><strong>238</strong></span></label>
 </div>
 What is the size of the ERR9588941_hifiasml0pl0.bp.p_ctg.fa_purged.fa assembly?
-<div id="radio_DFXFOXZJIS" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DFXFOXZJIS" value=""></input> <span><strong>23.9 Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DFXFOXZJIS" value="answer"></input> <span><strong>13.6 Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DFXFOXZJIS" value=""></input> <span><strong>10.3 Mb</strong></span></label>
+<div id="radio_WEUBSPNVMP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WEUBSPNVMP" value=""></input> <span><strong>23.9 Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WEUBSPNVMP" value="answer"></input> <span><strong>13.6 Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WEUBSPNVMP" value=""></input> <span><strong>10.3 Mb</strong></span></label>
 </div>
 </div>
 <div id="mitochondrial-assembly" class="section level2 hasAnchor" number="10.5">
 <h2><span class="header-section-number">10.5</span> Mitochondrial Assembly<a href="10-Optional_exercises.html#mitochondrial-assembly" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/circlator.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/circlator.png" style="width:200px" />
+</center>
 <p>Use the identified mitochondrial contig from the <code>tiara</code> assessment.</p>
 <p>First move into your <code>. usemitohifi</code> terminal window.</p>
-<pre><code>READACC=ERR9588941
-
-mkdir -p ~/$READACC/4-mito
-cd ~/$READACC/4-mito
-
-cp ~/$READACC/3-assessment/mitochondrion_ERR9588941_hifiasm10pl0.bp.p_ctg.fa .
-
-# Find closely related mitogenome
-
-python /pub14/tea/nsc206/git_installs/MitoHiFi/findMitoReference.py \
---species &quot;Metschnikowia zobellii&quot; \
---outfolder ./ \
---min_length 16000
-
-# Run MitoHiFi
-
-python /pub14/tea/nsc206/git_installs/MitoHiFi/mitohifi.py \
--c mitochondrion_ERR9588941_hifiasm10pl0.bp.p_ctg.fa \
--f NC_057617.1.fasta -g NC_057617.1.gb \
--t 1 -o 3
-
-# Note we have used a different mitochondrial genetic code - 
-# check this on the NCBI taxonomy page for the study species.
-
-feh final_mitogenome.annotation.png</code></pre>
-<p><img src="figures/question_bubble.png" width="18%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb65-1"><a href="10-Optional_exercises.html#cb65-1" tabindex="-1"></a><span class="va">READACC</span><span class="op">=</span>ERR9588941</span>
+<span id="cb65-2"><a href="10-Optional_exercises.html#cb65-2" tabindex="-1"></a></span>
+<span id="cb65-3"><a href="10-Optional_exercises.html#cb65-3" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/<span class="va">$READACC</span>/4-mito</span>
+<span id="cb65-4"><a href="10-Optional_exercises.html#cb65-4" tabindex="-1"></a><span class="bu">cd</span> ~/<span class="va">$READACC</span>/4-mito</span>
+<span id="cb65-5"><a href="10-Optional_exercises.html#cb65-5" tabindex="-1"></a></span>
+<span id="cb65-6"><a href="10-Optional_exercises.html#cb65-6" tabindex="-1"></a><span class="fu">cp</span> ~/<span class="va">$READACC</span>/3-assessment/mitochondrion_ERR9588941_hifiasm10pl0.bp.p_ctg.fa .</span>
+<span id="cb65-7"><a href="10-Optional_exercises.html#cb65-7" tabindex="-1"></a></span>
+<span id="cb65-8"><a href="10-Optional_exercises.html#cb65-8" tabindex="-1"></a><span class="co"># Find closely related mitogenome</span></span>
+<span id="cb65-9"><a href="10-Optional_exercises.html#cb65-9" tabindex="-1"></a></span>
+<span id="cb65-10"><a href="10-Optional_exercises.html#cb65-10" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/MitoHiFi/findMitoReference.py <span class="dt">\</span></span>
+<span id="cb65-11"><a href="10-Optional_exercises.html#cb65-11" tabindex="-1"></a>--species <span class="st">&quot;Metschnikowia zobellii&quot;</span> <span class="dt">\</span></span>
+<span id="cb65-12"><a href="10-Optional_exercises.html#cb65-12" tabindex="-1"></a>--outfolder ./ <span class="dt">\</span></span>
+<span id="cb65-13"><a href="10-Optional_exercises.html#cb65-13" tabindex="-1"></a>--min_length 16000</span>
+<span id="cb65-14"><a href="10-Optional_exercises.html#cb65-14" tabindex="-1"></a></span>
+<span id="cb65-15"><a href="10-Optional_exercises.html#cb65-15" tabindex="-1"></a><span class="co"># Run MitoHiFi</span></span>
+<span id="cb65-16"><a href="10-Optional_exercises.html#cb65-16" tabindex="-1"></a></span>
+<span id="cb65-17"><a href="10-Optional_exercises.html#cb65-17" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/MitoHiFi/mitohifi.py <span class="dt">\</span></span>
+<span id="cb65-18"><a href="10-Optional_exercises.html#cb65-18" tabindex="-1"></a>-c mitochondrion_ERR9588941_hifiasm10pl0.bp.p_ctg.fa <span class="dt">\</span></span>
+<span id="cb65-19"><a href="10-Optional_exercises.html#cb65-19" tabindex="-1"></a>-f NC_057617.1.fasta <span class="at">-g</span> NC_057617.1.gb <span class="dt">\</span></span>
+<span id="cb65-20"><a href="10-Optional_exercises.html#cb65-20" tabindex="-1"></a>-t 1 <span class="at">-o</span> 3</span>
+<span id="cb65-21"><a href="10-Optional_exercises.html#cb65-21" tabindex="-1"></a></span>
+<span id="cb65-22"><a href="10-Optional_exercises.html#cb65-22" tabindex="-1"></a><span class="co"># Note we have used a different mitochondrial genetic code - </span></span>
+<span id="cb65-23"><a href="10-Optional_exercises.html#cb65-23" tabindex="-1"></a><span class="co"># check this on the NCBI taxonomy page for the study species.</span></span>
+<span id="cb65-24"><a href="10-Optional_exercises.html#cb65-24" tabindex="-1"></a></span>
+<span id="cb65-25"><a href="10-Optional_exercises.html#cb65-25" tabindex="-1"></a><span class="ex">feh</span> final_mitogenome.annotation.png</span></code></pre></div>
+<center>
+<img src="figures/question_bubble.png" style="width:200px" />
+</center>
 What is the size of the final mitogenome?
-<div id="radio_YDRBMXYYXF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YDRBMXYYXF" value=""></input> <span><strong>16 Kb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YDRBMXYYXF" value="answer"></input> <span><strong>51 Kb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YDRBMXYYXF" value=""></input> <span><strong>97 Kb</strong></span></label>
+<div id="radio_DSAVZUSSGM" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DSAVZUSSGM" value=""></input> <span><strong>16 Kb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DSAVZUSSGM" value="answer"></input> <span><strong>51 Kb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DSAVZUSSGM" value=""></input> <span><strong>97 Kb</strong></span></label>
 </div>
 How many genes are there?
-<div id="radio_PPGFBHBNPY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PPGFBHBNPY" value="answer"></input> <span><strong>39</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PPGFBHBNPY" value=""></input> <span><strong>40</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PPGFBHBNPY" value=""></input> <span><strong>41</strong></span></label>
+<div id="radio_FYPJTVLWJI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FYPJTVLWJI" value="answer"></input> <span><strong>39</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FYPJTVLWJI" value=""></input> <span><strong>40</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FYPJTVLWJI" value=""></input> <span><strong>41</strong></span></label>
 </div>
 <p>Yeast can have mitochondrial genomes up to 100 Kb.</p>
 </div>
 <div id="scaffolding-1" class="section level2 hasAnchor" number="10.6">
 <h2><span class="header-section-number">10.6</span> Scaffolding<a href="10-Optional_exercises.html#scaffolding-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/scaffold.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/scaffold.png" style="width:200px" />
+</center>
 <p>Move into your <code>. usehic</code> terminal window.</p>
-<pre><code>READACC=ERR9588941
-
-mkdir -p ~/$READACC/5-scaffolding
-cd ~/$READACC/5-scaffolding
-
-ln -s ../3-assessment/${READACC}_hifiasm10pl0.bp.p_ctg.fa_purged.fa
-ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9503460.1m.1.fq.gz
-ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9503460.1m.2.fq.gz
-
-REF=${READACC}_hifiasm10pl0.bp.p_ctg.fa_purged.fa
-FASTQ1=ERR9503460.1m.1.fq.gz
-FASTQ2=ERR9503460.1m.2.fq.gz
-PREFIX=purged1m
-CPU=16
-MEM=100G
-
-bwa index $REF
-samtools faidx $REF
-
-bwa mem -t $CPU $REF $FASTQ1 $FASTQ2 | samtools view -b - &gt; $PREFIX.bam
-
-yahs $REF $PREFIX.bam -o $PREFIX
-
-juicer pre ${PREFIX}.bin ${PREFIX}_scaffolds_final.agp $REF.fai \
-| sort -k2,2d -k6,6d --parallel=$CPU -S$MEM \
-| awk &#39;NF&#39; \
-&gt; ${PREFIX}_alignments_sorted.txt
-
-samtools faidx ${PREFIX}_scaffolds_final.fa
-
-cut -f1,2 ${PREFIX}_scaffolds_final.fa.fai &gt; \
-${PREFIX}_scaffolds_final.fa_chromosome_sizes.txt
-
-java -jar -Xmx$MEM /pub14/tea/nsc206/jars/juicebox/juicer_tools_2.15.08.jar pre --threads $CPU \
-${PREFIX}_alignments_sorted.txt ${PREFIX}.hic ${PREFIX}_scaffolds_final.fa_chromosome_sizes.txt
-
-java -jar /pub14/tea/nsc206/jars/juicebox/juicebox_2.15.08.jar</code></pre>
-<p>You should see something that looks like this:
-<img src="figures/juicer2.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb66-1"><a href="10-Optional_exercises.html#cb66-1" tabindex="-1"></a><span class="va">READACC</span><span class="op">=</span>ERR9588941</span>
+<span id="cb66-2"><a href="10-Optional_exercises.html#cb66-2" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="10-Optional_exercises.html#cb66-3" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/<span class="va">$READACC</span>/5-scaffolding</span>
+<span id="cb66-4"><a href="10-Optional_exercises.html#cb66-4" tabindex="-1"></a><span class="bu">cd</span> ~/<span class="va">$READACC</span>/5-scaffolding</span>
+<span id="cb66-5"><a href="10-Optional_exercises.html#cb66-5" tabindex="-1"></a></span>
+<span id="cb66-6"><a href="10-Optional_exercises.html#cb66-6" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> ../3-assessment/<span class="va">${READACC}</span>_hifiasm10pl0.bp.p_ctg.fa_purged.fa</span>
+<span id="cb66-7"><a href="10-Optional_exercises.html#cb66-7" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9503460.1m.1.fq.gz</span>
+<span id="cb66-8"><a href="10-Optional_exercises.html#cb66-8" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR9503460.1m.2.fq.gz</span>
+<span id="cb66-9"><a href="10-Optional_exercises.html#cb66-9" tabindex="-1"></a></span>
+<span id="cb66-10"><a href="10-Optional_exercises.html#cb66-10" tabindex="-1"></a><span class="va">REF</span><span class="op">=</span><span class="va">${READACC}</span>_hifiasm10pl0.bp.p_ctg.fa_purged.fa</span>
+<span id="cb66-11"><a href="10-Optional_exercises.html#cb66-11" tabindex="-1"></a><span class="va">FASTQ1</span><span class="op">=</span>ERR9503460.1m.1.fq.gz</span>
+<span id="cb66-12"><a href="10-Optional_exercises.html#cb66-12" tabindex="-1"></a><span class="va">FASTQ2</span><span class="op">=</span>ERR9503460.1m.2.fq.gz</span>
+<span id="cb66-13"><a href="10-Optional_exercises.html#cb66-13" tabindex="-1"></a><span class="va">PREFIX</span><span class="op">=</span>purged1m</span>
+<span id="cb66-14"><a href="10-Optional_exercises.html#cb66-14" tabindex="-1"></a><span class="va">CPU</span><span class="op">=</span>16</span>
+<span id="cb66-15"><a href="10-Optional_exercises.html#cb66-15" tabindex="-1"></a><span class="va">MEM</span><span class="op">=</span>100G</span>
+<span id="cb66-16"><a href="10-Optional_exercises.html#cb66-16" tabindex="-1"></a></span>
+<span id="cb66-17"><a href="10-Optional_exercises.html#cb66-17" tabindex="-1"></a><span class="ex">bwa</span> index <span class="va">$REF</span></span>
+<span id="cb66-18"><a href="10-Optional_exercises.html#cb66-18" tabindex="-1"></a><span class="ex">samtools</span> faidx <span class="va">$REF</span></span>
+<span id="cb66-19"><a href="10-Optional_exercises.html#cb66-19" tabindex="-1"></a></span>
+<span id="cb66-20"><a href="10-Optional_exercises.html#cb66-20" tabindex="-1"></a><span class="ex">bwa</span> mem <span class="at">-t</span> <span class="va">$CPU</span> <span class="va">$REF</span> <span class="va">$FASTQ1</span> <span class="va">$FASTQ2</span> <span class="kw">|</span> <span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-</span> <span class="op">&gt;</span> <span class="va">$PREFIX</span>.bam</span>
+<span id="cb66-21"><a href="10-Optional_exercises.html#cb66-21" tabindex="-1"></a></span>
+<span id="cb66-22"><a href="10-Optional_exercises.html#cb66-22" tabindex="-1"></a><span class="ex">yahs</span> <span class="va">$REF</span> <span class="va">$PREFIX</span>.bam <span class="at">-o</span> <span class="va">$PREFIX</span></span>
+<span id="cb66-23"><a href="10-Optional_exercises.html#cb66-23" tabindex="-1"></a></span>
+<span id="cb66-24"><a href="10-Optional_exercises.html#cb66-24" tabindex="-1"></a><span class="ex">juicer</span> pre <span class="va">${PREFIX}</span>.bin <span class="va">${PREFIX}</span>_scaffolds_final.agp <span class="va">$REF</span>.fai <span class="dt">\</span></span>
+<span id="cb66-25"><a href="10-Optional_exercises.html#cb66-25" tabindex="-1"></a><span class="kw">|</span> <span class="fu">sort</span> <span class="at">-k2,2d</span> <span class="at">-k6,6d</span> <span class="at">--parallel</span><span class="op">=</span><span class="va">$CPU</span> <span class="at">-S</span><span class="va">$MEM</span> <span class="dt">\</span></span>
+<span id="cb66-26"><a href="10-Optional_exercises.html#cb66-26" tabindex="-1"></a><span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;NF&#39;</span> <span class="dt">\</span></span>
+<span id="cb66-27"><a href="10-Optional_exercises.html#cb66-27" tabindex="-1"></a><span class="op">&gt;</span> <span class="va">${PREFIX}</span>_alignments_sorted.txt</span>
+<span id="cb66-28"><a href="10-Optional_exercises.html#cb66-28" tabindex="-1"></a></span>
+<span id="cb66-29"><a href="10-Optional_exercises.html#cb66-29" tabindex="-1"></a><span class="ex">samtools</span> faidx <span class="va">${PREFIX}</span>_scaffolds_final.fa</span>
+<span id="cb66-30"><a href="10-Optional_exercises.html#cb66-30" tabindex="-1"></a></span>
+<span id="cb66-31"><a href="10-Optional_exercises.html#cb66-31" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-f1,2</span> <span class="va">${PREFIX}</span>_scaffolds_final.fa.fai <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb66-32"><a href="10-Optional_exercises.html#cb66-32" tabindex="-1"></a><span class="va">${PREFIX}</span>_scaffolds_final.fa_chromosome_sizes.txt</span>
+<span id="cb66-33"><a href="10-Optional_exercises.html#cb66-33" tabindex="-1"></a></span>
+<span id="cb66-34"><a href="10-Optional_exercises.html#cb66-34" tabindex="-1"></a><span class="ex">java</span> <span class="at">-jar</span> <span class="at">-Xmx</span><span class="va">$MEM</span> /pub14/tea/nsc206/jars/juicebox/juicer_tools_2.15.08.jar pre <span class="at">--threads</span> <span class="va">$CPU</span> <span class="dt">\</span></span>
+<span id="cb66-35"><a href="10-Optional_exercises.html#cb66-35" tabindex="-1"></a><span class="va">${PREFIX}</span>_alignments_sorted.txt <span class="va">${PREFIX}</span>.hic <span class="va">${PREFIX}</span>_scaffolds_final.fa_chromosome_sizes.txt</span>
+<span id="cb66-36"><a href="10-Optional_exercises.html#cb66-36" tabindex="-1"></a></span>
+<span id="cb66-37"><a href="10-Optional_exercises.html#cb66-37" tabindex="-1"></a><span class="ex">java</span> <span class="at">-jar</span> /pub14/tea/nsc206/jars/juicebox/juicebox_2.15.08.jar</span></code></pre></div>
+You should see something that looks like this:
+<center>
+<img src="figures/juicer2.png" style="width:900px; border-radius:5px" />
+</center>
 
 </div>
 </div>

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Genome pre-assembly | Eukaryote genome assembly</title>
   <meta name="description" content="NEOF book for the Eukaryote genome assembly workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Genome pre-assembly | Eukaryote genome assembly" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Sujai Kumar &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2023-11-22" />
+<meta name="date" content="2024-04-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
 <li><a>Eukaryote genome assembly</a></li>
 
 <li class="divider"></li>
@@ -240,7 +240,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="preassembly" class="section level1 hasAnchor" number="5">
 <h1><span class="header-section-number">Chapter 5</span> Genome pre-assembly<a href="05-Pre_assembly.html#preassembly" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/magnify_glass_27AUG2020.png" width="20%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/magnify_glass_27AUG2020.png" style="width:200px" />
+</center>
 <div id="introduction-1" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Introduction<a href="05-Pre_assembly.html#introduction-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Assembling a eukaryotic genome using short reads used to be a time consuming process. One had to do a lot of QC checks to see if the reads had any quality issues or remaining adapters. With PacBio Hifi reads, the quality and length and adapters are not usually an issue as the PacBio HiFi platform has already done the circular consensus step so what you get is high quality long read data.</p>
@@ -248,33 +250,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="obtaining-the-read-data" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Obtaining the read data<a href="05-Pre_assembly.html#obtaining-the-read-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/Oscheius_dolichura.png" width="20%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/Oscheius_dolichura.png" style="width:200px" />
+</center>
 <p>We are going to assemble the genome of a nematode <em>Oscheius onirici</em> which we expect to be 60-100 million bases or Megabases (Mb) in size because other <em>Oscheius</em> species are approximately that size.</p>
 <p>First, we need to create a directory to put the data in and then change directory to it.</p>
-<pre><code>mkdir -p ~/eukaryote_assembly/1-preassembly
-cd ~/eukaryote_assembly/1-preassembly</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb4-1"><a href="05-Pre_assembly.html#cb4-1" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/eukaryote_assembly/1-preassembly</span>
+<span id="cb4-2"><a href="05-Pre_assembly.html#cb4-2" tabindex="-1"></a><span class="bu">cd</span> ~/eukaryote_assembly/1-preassembly</span></code></pre></div>
 <p>Now we can generate a symbolic link (i.e. shortcut) to the raw sequence data file, which will appear in the current directory:</p>
-<pre><code>ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR7979900.fastq</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb5-1"><a href="05-Pre_assembly.html#cb5-1" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc206/NEOF/Euk_assembly/data/ERR7979900.fastq</span></code></pre></div>
 <p>If you would like to know more about the <code>ln</code> command please check out this <a href="https://linuxize.com/post/how-to-create-symbolic-links-in-linux-using-the-ln-command/">guide</a>.</p>
 <p>Now, check the symbolic link is in your current directory:</p>
-<pre><code>ls</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb6-1"><a href="05-Pre_assembly.html#cb6-1" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
 <p>The file name should appear in blue. If it appears in red with a black background this indicates that the file has not been found. If you see this check the file path and name carefully for typos and try again.</p>
 <p>The file has one run of PacBio HiFi data for <em>Oscheius onirici</em>.</p>
 </div>
 <div id="counting-reads-and-bases" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Counting reads and bases<a href="05-Pre_assembly.html#counting-reads-and-bases" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/count.png" width="20%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/count.png" style="width:200px; background:white; border-radius:15px" />
+</center>
 <p>A simple QC step is to count how many reads and bases are in the raw data. To get an estimate of how much data is in this file we will use <a href="https://bioinf.shenwei.me/seqkit/"><code>seqkit</code></a>:</p>
-<pre><code>seqkit stats ERR7979900.fastq</code></pre>
-<p><img src="figures/seqkit_stats.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb7-1"><a href="05-Pre_assembly.html#cb7-1" tabindex="-1"></a><span class="ex">seqkit</span> stats ERR7979900.fastq</span></code></pre></div>
+<center>
+<img src="figures/seqkit_stats.png" style="width:1000px" />
+</center>
 <p>The output shows that there are almost 1 million sequences (num_seqs = 976,950) totalling 10,800 Mb of raw sequence data (sum_len = 10,801,040,319). This means that for a genome of size 60-100 Mb, we have at least 10,800 / 100 = 108X depth. The "X" can be read as "times" - i.e. the number of times we expect each base in the genome assembly to be covered by a raw sequence read. Some people also refer to sequencing depth as sequencing coverage. A good rule of thumb for PacBio HiFi sequencing is that we should have at least 30X sequencing depth for a good assembly, so a minimum of 108X depth is more than fine for our needs and we can proceed.</p>
 </div>
 <div id="counting-and-analysing-k-mers" class="section level2 hasAnchor" number="5.4">
 <h2><span class="header-section-number">5.4</span> Counting and analysing k-mers<a href="05-Pre_assembly.html#counting-and-analysing-k-mers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/k-mer_pic.png" width="60%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/k-mer_pic.png" style="width:600px" />
+</center>
 <p>Another QC step that can be run very fast is k-mer analysis. K-mers are short, overlapping sub-sequences of length k from a longer sequence. For example, here are all the 3-mers (i.e. k=3) from the read AACGATT: AAC ACG CGA GAT ATT</p>
 <p>There are many great reviews and tutorials on why k-mers work and how you can use them to analyse read sets and assemblies. But for now, we're going to use them in a simple way to estimate the size of the genome and it's heterozygosity. We will use the software <a href="https://github.com/refresh-bio/KMC"><code>kmc</code></a> to do this:</p>
-<pre><code>kmc -cs2000 -k21 ERR7979900.fastq ERR7979900k21 .</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb8-1"><a href="05-Pre_assembly.html#cb8-1" tabindex="-1"></a><span class="ex">kmc</span> <span class="at">-cs2000</span> <span class="at">-k21</span> ERR7979900.fastq ERR7979900k21 .</span></code></pre></div>
 <ul>
 <li><code>-cs&lt;value&gt;</code> - maximal value of a counter (default: 255). When you have ~108X depth (from just counting reads and bases), it is a good idea to bump this up to 2,000 or even 10,000</li>
 <li><code>-k&lt;len&gt;</code> - k-mer length (k from 1 to 256; default: 25). We picked k21 to match the default for GenomeScope which we will use in the next step. You can try different values like k25 or k31. Just remember to change the value in the GenomeScope input form as well. The end result should be roughly the same</li>
@@ -283,7 +293,7 @@ cd ~/eukaryote_assembly/1-preassembly</code></pre>
 </ul>
 <p>This step should take about 2-3 minutes to count all the k-mers and store them in kmc's own binary file formats with the <code>.kmc_suf</code> and <code>.kmc_pre</code> extensions.</p>
 <p>Now use the <code>kmc</code>'s <code>transform</code> tool to extract a k-mer frequency histogram:</p>
-<pre><code>kmc_tools transform ERR7979900k21 histogram ERR7979900k21.histo</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb9-1"><a href="05-Pre_assembly.html#cb9-1" tabindex="-1"></a><span class="ex">kmc_tools</span> transform ERR7979900k21 histogram ERR7979900k21.histo</span></code></pre></div>
 <ul>
 <li><code>transform</code> is the kmc_tools function</li>
 <li><code>ERR7979900k21</code> is the prefix of the input files</li>
@@ -298,24 +308,32 @@ This means your command line will be locked whilst the process is running.
 You will only be able to type a new command in the terminal once the <strong>foreground</strong> process is finished.</p>
 <p>This is normally wanted but not always, for example when you run a process like <code>firefox</code>.
 To run a process in the <strong>background</strong>, so you can type and run new commands, you can add the symbol <code>&amp;</code> to the end of a command.</p>
-<p><img src="figures/firefox.png" width="10%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/firefox.png" style="width:100px" />
+</center>
 <p>Using <code>firefox</code> open the GenomeScope web page and upload the <code>.histo</code> file:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb10-1"><a href="05-Pre_assembly.html#cb10-1" tabindex="-1"></a><span class="ex">firefox</span> http://qb.cshl.edu/genomescope/genomescope2.0/ <span class="kw">&amp;</span></span></code></pre></div>
 <p>To upload this file click in the box where it says "Click or drop .histo file here to upload", double-click on your "1-preassembly" directory and choose the <code>ERR7979900k21.hist</code> file. You can leave the rest of the fields as they are and then click <strong>Submit</strong>, the <strong>Continue</strong>. After a minute or two of processing the plots will appear in the browser.</p>
 <p>The first plot in the output should look like this:</p>
-<p><img src="figures/genomescope_plot1_bad.png" width="90%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/genomescope_plot1_bad.png" style="width:900px" />
+</center>
 <p>According to this plot, the length of the genome estimated from k-mers is <strong>len:258,425bp</strong> - which is way too small for a nematode genome that we expect to be around 60-100 Mb. Something has clearly gone wrong!</p>
 <p>The problem is that because there is so much data in our raw sequence file, the k-mer coverage on the x-axis goes all the way up to 3000, and GenomeScope automatically decided that the little peak near 2000X coverage (on the x axis) was the right peak for the genome assembly. The area under that peak was only ~258 kb so GenomeScope reported that, and it counted the real peak of the data around 100X on the x axis as low-frequency errors, shown in the orange curve.</p>
 <p>This may happen when you are analysing your own data as well. If this happens, we can force GenomeScope to disregard the high coverage k-mers (which are likely to be mitochondria or ribosomal RNA repeats) by setting <strong>Max k-mer coverage: 1000</strong> in this case.</p>
 <p>Open a NEW browser tab, type <a href="http://qb.cshl.edu/genomescope/genomescope2.0/" class="uri">http://qb.cshl.edu/genomescope/genomescope2.0/</a> into the address bar and upload the <code>ERR7979900k21.histo</code> file again. This time, set the <strong>Max k-mer coverage</strong> to 1000 and then click Submit and Continue.</p>
 <p>After a minute or two you should see a set of plots, and the first plot should look like this:</p>
-<p><img src="figures/genomescope_plot2_good.png" width="90%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/genomescope_plot2_good.png" style="width:900px" />
+</center>
 <p>This time the genome length estimate of <strong>len:95,828,752bp</strong> seems more in line with what we expect. GenomeScope also reports <strong>aa:99.6%</strong> i.e 99.6% of this dataset is homozygous and the plot itself is a single peak, which means that the two copies of each diploid chromosome are almost identical. If GenomeScope had reported a homozygosity % like <strong>aa:97%</strong> and shown two peaks, that would have meant a higher level of heterozygosity. Low heterozygosity in diploid or polyploid samples can aid the assembly process and so inbred lines or strains are often used when this is practical to do so. For most taxa, however, this is not possible and a higher level of heterozygosity would be expected.</p>
 <p>For more details, see <a href="https://www.nature.com/articles/s41467-020-14998-3">GenomeScope 2.0 and Smudgeplot for reference-free profiling of polyploid genomes</a></p>
 </div>
 <div id="summary" class="section level2 hasAnchor" number="5.5">
 <h2><span class="header-section-number">5.5</span> Summary<a href="05-Pre_assembly.html#summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/sum_black.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/sum_black.png" style="width:200px" />
+</center>
 <p>Counting reads and bases and k-mers in a set of read files can give you a good sense of whether your genome assembly is going to work, and whether you need to worry about low coverage, or highly erroneous k-mers, etc.</p>
 <p>The length of the genome assembly should be roughly what you expect the genome size to be. It may not be the exact size of your species of interest if the sample also includes DNA from other co-bionts such as contaminants or parasites or endosymbionts.</p>
 

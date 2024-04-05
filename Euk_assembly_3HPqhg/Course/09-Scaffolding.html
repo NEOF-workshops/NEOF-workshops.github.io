@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 Scaffolding using HiC | Eukaryote genome assembly</title>
   <meta name="description" content="NEOF book for the Eukaryote genome assembly workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 Scaffolding using HiC | Eukaryote genome assembly" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Sujai Kumar &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2023-11-22" />
+<meta name="date" content="2024-04-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
 <li><a>Eukaryote genome assembly</a></li>
 
 <li class="divider"></li>
@@ -240,7 +240,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="scaffolding" class="section level1 hasAnchor" number="9">
 <h1><span class="header-section-number">Chapter 9</span> Scaffolding using HiC<a href="09-Scaffolding.html#scaffolding" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/scaffold.png" width="18%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/scaffold.png" style="width:200px" />
+</center>
 <div id="introduction-3" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Introduction<a href="09-Scaffolding.html#introduction-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In the section on genome assessment, we separated the high-probability bacteria contigs from the eukarya contigs, and then ran <code>purge_dups</code> on the eukarya contigs. We were left with a very high contiguity nematode genome assembly.</p>
@@ -248,69 +250,79 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="set-up-1" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> Set up<a href="09-Scaffolding.html#set-up-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/setup_3.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/setup_3.png" style="width:200px" />
+</center>
 <p>Open a new terminal and load the Hi-C environment:</p>
-<pre><code>. usehic</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb48-1"><a href="09-Scaffolding.html#cb48-1" tabindex="-1"></a><span class="bu">.</span> usehic</span></code></pre></div>
 <p>Create a new directory, change into it, and link to the files we need:</p>
-<pre><code>mkdir -p ~/eukaryote_assembly/5-scaffolding
-cd ~/eukaryote_assembly/5-scaffolding</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb49-1"><a href="09-Scaffolding.html#cb49-1" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/eukaryote_assembly/5-scaffolding</span>
+<span id="cb49-2"><a href="09-Scaffolding.html#cb49-2" tabindex="-1"></a><span class="bu">cd</span> ~/eukaryote_assembly/5-scaffolding</span></code></pre></div>
 <p>Link to the purged eukaryote-only contigs:</p>
-<pre><code>ln -s ~/eukaryote_assembly/3-assessment/purge_dups/eukarya_ERR7979900_hifiasm.bp.p_ctg.fa_purged.fa</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb50-1"><a href="09-Scaffolding.html#cb50-1" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> ~/eukaryote_assembly/3-assessment/purge_dups/eukarya_ERR7979900_hifiasm.bp.p_ctg.fa_purged.fa</span></code></pre></div>
 <p>Link to the paired Hi-C reads. The original files were downloaded from <a href="https://www.ebi.ac.uk/ena/browser/view/ERR5967937" class="uri">https://www.ebi.ac.uk/ena/browser/view/ERR5967937</a> but were very large and would have taken too long for this exercise, so we sampled the first 10 million reads:</p>
-<pre><code>ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/test10m1.fq.gz
-ln -s /pub14/tea/nsc206/NEOF/Euk_assembly/data/test10m2.fq.gz</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb51-1"><a href="09-Scaffolding.html#cb51-1" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc206/NEOF/Euk_assembly/data/test10m1.fq.gz</span>
+<span id="cb51-2"><a href="09-Scaffolding.html#cb51-2" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc206/NEOF/Euk_assembly/data/test10m2.fq.gz</span></code></pre></div>
 </div>
 <div id="map-the-hi-c-reads-to-the-genome-assembly" class="section level2 hasAnchor" number="9.3">
 <h2><span class="header-section-number">9.3</span> Map the Hi-C reads to the genome assembly<a href="09-Scaffolding.html#map-the-hi-c-reads-to-the-genome-assembly" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/alignment.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/alignment.png" style="width:200px" />
+</center>
 <p>As in the previous steps, we're going to use BASH variables so that in future you can just copy the commands:</p>
-<pre><code>REF=eukarya_ERR7979900_hifiasm.bp.p_ctg.fa_purged.fa
-FASTQ1=test10m1.fq.gz
-FASTQ2=test10m2.fq.gz
-PREFIX=purged10m
-CPU=16
-MEM=100G</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb52-1"><a href="09-Scaffolding.html#cb52-1" tabindex="-1"></a><span class="va">REF</span><span class="op">=</span>eukarya_ERR7979900_hifiasm.bp.p_ctg.fa_purged.fa</span>
+<span id="cb52-2"><a href="09-Scaffolding.html#cb52-2" tabindex="-1"></a><span class="va">FASTQ1</span><span class="op">=</span>test10m1.fq.gz</span>
+<span id="cb52-3"><a href="09-Scaffolding.html#cb52-3" tabindex="-1"></a><span class="va">FASTQ2</span><span class="op">=</span>test10m2.fq.gz</span>
+<span id="cb52-4"><a href="09-Scaffolding.html#cb52-4" tabindex="-1"></a><span class="va">PREFIX</span><span class="op">=</span>purged10m</span>
+<span id="cb52-5"><a href="09-Scaffolding.html#cb52-5" tabindex="-1"></a><span class="va">CPU</span><span class="op">=</span>16</span>
+<span id="cb52-6"><a href="09-Scaffolding.html#cb52-6" tabindex="-1"></a><span class="va">MEM</span><span class="op">=</span>100G</span></code></pre></div>
 <p>Index the reference and map the reads. The <code>bwa index</code> command will take a minute or so to run. Make sure to wait for it to finish before entering the second and third commands:</p>
-<pre><code>bwa index $REF
-
-samtools faidx $REF
-
-bwa mem -t $CPU $REF $FASTQ1 $FASTQ2 | \
-samtools view -b - &gt; $PREFIX.bam</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb53-1"><a href="09-Scaffolding.html#cb53-1" tabindex="-1"></a><span class="ex">bwa</span> index <span class="va">$REF</span></span>
+<span id="cb53-2"><a href="09-Scaffolding.html#cb53-2" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="09-Scaffolding.html#cb53-3" tabindex="-1"></a><span class="ex">samtools</span> faidx <span class="va">$REF</span></span>
+<span id="cb53-4"><a href="09-Scaffolding.html#cb53-4" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="09-Scaffolding.html#cb53-5" tabindex="-1"></a><span class="ex">bwa</span> mem <span class="at">-t</span> <span class="va">$CPU</span> <span class="va">$REF</span> <span class="va">$FASTQ1</span> <span class="va">$FASTQ2</span> <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb53-6"><a href="09-Scaffolding.html#cb53-6" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-</span> <span class="op">&gt;</span> <span class="va">$PREFIX</span>.bam</span></code></pre></div>
 <p>This will take a few minutes to run. When it's finished run the actual scaffolding step using <a href="https://github.com/c-zhou/yahss"><code>YAHS</code></a> (Yet Another Hi-C Scaffolder)</p>
-<pre><code>yahs $REF $PREFIX.bam -o $PREFIX</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb54-1"><a href="09-Scaffolding.html#cb54-1" tabindex="-1"></a><span class="ex">yahs</span> <span class="va">$REF</span> <span class="va">$PREFIX</span>.bam <span class="at">-o</span> <span class="va">$PREFIX</span></span></code></pre></div>
 </div>
 <div id="visualise-the-scaffolding-data-in-juicer" class="section level2 hasAnchor" number="9.4">
 <h2><span class="header-section-number">9.4</span> Visualise the scaffolding data in Juicer<a href="09-Scaffolding.html#visualise-the-scaffolding-data-in-juicer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/hand_juicer.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/hand_juicer.png" style="width:200px" />
+</center>
 <p><code>Juicer</code> and <code>Juicebox</code> are tools that allow you to visualise scaffolds and manipulate them.</p>
 <p>These <code>yahs</code> scripts create a file ready for <code>juicer</code>:</p>
-<pre><code>juicer pre ${PREFIX}.bin ${PREFIX}_scaffolds_final.agp $REF.fai | \
-sort -k2,2d -k6,6d --parallel=$CPU -S$MEM | \
-awk &#39;NF&#39; &gt; \
-${PREFIX}_alignments_sorted.txt
-
-samtools faidx ${PREFIX}_scaffolds_final.fa
-
-cut -f1,2 ${PREFIX}_scaffolds_final.fa.fai &gt; \
-${PREFIX}_scaffolds_final.fa_chromosome_sizes.txt</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb55-1"><a href="09-Scaffolding.html#cb55-1" tabindex="-1"></a><span class="ex">juicer</span> pre <span class="va">${PREFIX}</span>.bin <span class="va">${PREFIX}</span>_scaffolds_final.agp <span class="va">$REF</span>.fai <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb55-2"><a href="09-Scaffolding.html#cb55-2" tabindex="-1"></a><span class="fu">sort</span> <span class="at">-k2,2d</span> <span class="at">-k6,6d</span> <span class="at">--parallel</span><span class="op">=</span><span class="va">$CPU</span> <span class="at">-S</span><span class="va">$MEM</span> <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb55-3"><a href="09-Scaffolding.html#cb55-3" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;NF&#39;</span> <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb55-4"><a href="09-Scaffolding.html#cb55-4" tabindex="-1"></a><span class="va">${PREFIX}</span>_alignments_sorted.txt</span>
+<span id="cb55-5"><a href="09-Scaffolding.html#cb55-5" tabindex="-1"></a></span>
+<span id="cb55-6"><a href="09-Scaffolding.html#cb55-6" tabindex="-1"></a><span class="ex">samtools</span> faidx <span class="va">${PREFIX}</span>_scaffolds_final.fa</span>
+<span id="cb55-7"><a href="09-Scaffolding.html#cb55-7" tabindex="-1"></a></span>
+<span id="cb55-8"><a href="09-Scaffolding.html#cb55-8" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-f1,2</span> <span class="va">${PREFIX}</span>_scaffolds_final.fa.fai <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb55-9"><a href="09-Scaffolding.html#cb55-9" tabindex="-1"></a><span class="va">${PREFIX}</span>_scaffolds_final.fa_chromosome_sizes.txt</span></code></pre></div>
 <p>Now run <code>juicer_tools</code> to create a file that can be seen in <code>Juicebox</code>:</p>
-<pre><code>java -jar -Xmx$MEM /pub14/tea/nsc206/jars/juicebox/juicer_tools_2.15.08.jar \
-pre --threads $CPU \
-${PREFIX}_alignments_sorted.txt \
-${PREFIX}.hic \
-${PREFIX}_scaffolds_final.fa_chromosome_sizes.txt</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb56-1"><a href="09-Scaffolding.html#cb56-1" tabindex="-1"></a><span class="ex">java</span> <span class="at">-jar</span> <span class="at">-Xmx</span><span class="va">$MEM</span> /pub14/tea/nsc206/jars/juicebox/juicer_tools_2.15.08.jar <span class="dt">\</span></span>
+<span id="cb56-2"><a href="09-Scaffolding.html#cb56-2" tabindex="-1"></a>pre <span class="at">--threads</span> <span class="va">$CPU</span> <span class="dt">\</span></span>
+<span id="cb56-3"><a href="09-Scaffolding.html#cb56-3" tabindex="-1"></a><span class="va">${PREFIX}</span>_alignments_sorted.txt <span class="dt">\</span></span>
+<span id="cb56-4"><a href="09-Scaffolding.html#cb56-4" tabindex="-1"></a><span class="va">${PREFIX}</span>.hic <span class="dt">\</span></span>
+<span id="cb56-5"><a href="09-Scaffolding.html#cb56-5" tabindex="-1"></a><span class="va">${PREFIX}</span>_scaffolds_final.fa_chromosome_sizes.txt</span></code></pre></div>
 <p>This step takes ~10 minutes to run.
 When it's finished launch <code>juicebox</code>:</p>
-<pre><code>java -jar /pub14/tea/nsc206/jars/juicebox/juicebox_2.15.08.jar</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb57-1"><a href="09-Scaffolding.html#cb57-1" tabindex="-1"></a><span class="ex">java</span> <span class="at">-jar</span> /pub14/tea/nsc206/jars/juicebox/juicebox_2.15.08.jar</span></code></pre></div>
 <p>Go to the top menu File -&gt; Open, click on 'Local', navigate to the your <code>~/eukaryote_assembly/5-scaffolding</code> directory and load purged10m.hic</p>
-<p>You should see something that looks like this:
-<img src="figures/juicer.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>You should see something that looks like this:</p>
+<center>
+<img src="figures/juicer.png" style="width:900px; border-radius:5px" />
+</center>
 <p>This figure clearly shows that there are 6 major scaffolds, and we know that <em>Oscheius onirici</em> has 6 chromosomes.</p>
 </div>
 <div id="summary-3" class="section level2 hasAnchor" number="9.5">
 <h2><span class="header-section-number">9.5</span> Summary<a href="09-Scaffolding.html#summary-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/sum_orange.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/sum_orange.png" style="width:200px" />
+</center>
 <p>Not all examples will work as well as this. But with high quality PacBio Hifi data, and high quality Illumina Hi-C data - and tools like <code>Hifiasm</code> and <code>YAHS</code>, we can often get a reference quality chromosomal level assembly.</p>
 
 </div>
