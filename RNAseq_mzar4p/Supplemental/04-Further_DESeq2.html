@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2023-11-22" />
+<meta name="date" content="2024-04-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
 <li><a>RNA-seq</a></li>
 
 <li class="divider"></li>
@@ -193,11 +193,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 4</span> Further analysis with DESeq2<a href="04-Further_DESeq2.html#DESeq2continued" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="control-for-sex-of-fly" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Control for sex of fly<a href="04-Further_DESeq2.html#control-for-sex-of-fly" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/Dros_no_sex.png" width="40%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/Dros_no_sex.png" style="width:400px; border-radius:15px" />
+</center>
 <p>Here we will briefly cover a couple of slightly more complex models and how you would code them and extract the results. In our first model we looked at a single term (sex).</p>
 <p>For the second model, we may be primarily interested in the selection regime of the lines of flies. But, given that there are big differences due to sex of fly, we might want to control for this. We can fit a model of the form expression = sex + regime.</p>
 <p>Make sure you are in the ‘Practical_two’ directory, have the ‘usernaseq’ environment activated, open a new Jupyter notebook called <strong>“Suppl03-Further_DESeq2”</strong> and read in the count data and the meta data for the experiment into a new code cell.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="04-Further_DESeq2.html#cb18-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;DESeq2&quot;</span>)</span>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb18-1"><a href="04-Further_DESeq2.html#cb18-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;DESeq2&quot;</span>)</span>
 <span id="cb18-2"><a href="04-Further_DESeq2.html#cb18-2" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="04-Further_DESeq2.html#cb18-3" tabindex="-1"></a>counts<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;genecount.set1.tsv&quot;</span>, <span class="at">header=</span>T, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
 <span id="cb18-4"><a href="04-Further_DESeq2.html#cb18-4" tabindex="-1"></a>coldata<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;design.set1.tsv&quot;</span>, <span class="at">header=</span>T, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
@@ -206,30 +208,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb18-7"><a href="04-Further_DESeq2.html#cb18-7" tabindex="-1"></a>coldata<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(coldata<span class="sc">$</span>sex)</span>
 <span id="cb18-8"><a href="04-Further_DESeq2.html#cb18-8" tabindex="-1"></a>coldata<span class="sc">$</span>regime <span class="ot">&lt;-</span> <span class="fu">factor</span>(coldata<span class="sc">$</span>regime)</span></code></pre></div>
 <p>We can now create the DESeq data set for the additive model. As the variable of interest in this case is the “regime”, we put it at the end of the formula and control for the factor “sex”.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="04-Further_DESeq2.html#cb19-1" tabindex="-1"></a>dds2 <span class="ot">&lt;-</span> <span class="fu">DESeqDataSetFromMatrix</span>(<span class="at">countData =</span> counts,</span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb19-1"><a href="04-Further_DESeq2.html#cb19-1" tabindex="-1"></a>dds2 <span class="ot">&lt;-</span> <span class="fu">DESeqDataSetFromMatrix</span>(<span class="at">countData =</span> counts,</span>
 <span id="cb19-2"><a href="04-Further_DESeq2.html#cb19-2" tabindex="-1"></a>                              <span class="at">colData =</span> coldata,</span>
 <span id="cb19-3"><a href="04-Further_DESeq2.html#cb19-3" tabindex="-1"></a>                              <span class="at">design=</span> <span class="sc">~</span> sex <span class="sc">+</span> regime)</span></code></pre></div>
 <p>As before remove lowly expressed genes and run the differential expression analysis.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="04-Further_DESeq2.html#cb20-1" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">counts</span>(dds2)) <span class="sc">&gt;=</span> <span class="dv">10</span></span>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb20-1"><a href="04-Further_DESeq2.html#cb20-1" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">counts</span>(dds2)) <span class="sc">&gt;=</span> <span class="dv">10</span></span>
 <span id="cb20-2"><a href="04-Further_DESeq2.html#cb20-2" tabindex="-1"></a>dds2<span class="ot">&lt;-</span> dds2[keep,]</span>
 <span id="cb20-3"><a href="04-Further_DESeq2.html#cb20-3" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="04-Further_DESeq2.html#cb20-4" tabindex="-1"></a>dds2 <span class="ot">&lt;-</span> <span class="fu">DESeq</span>(dds2)</span></code></pre></div>
 <p>We are now ready to extract our results from the analysis we have run. First we will compare the evolved (monogamous) regime against the baseline population (the order that we specify the contrast here is important, with B being the reference).</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="04-Further_DESeq2.html#cb21-1" tabindex="-1"></a>resEB<span class="ot">&lt;-</span><span class="fu">results</span>(dds2, <span class="at">contrast=</span><span class="fu">c</span>(<span class="st">&quot;regime&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;B&quot;</span>))</span>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb21-1"><a href="04-Further_DESeq2.html#cb21-1" tabindex="-1"></a>resEB<span class="ot">&lt;-</span><span class="fu">results</span>(dds2, <span class="at">contrast=</span><span class="fu">c</span>(<span class="st">&quot;regime&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;B&quot;</span>))</span>
 <span id="cb21-2"><a href="04-Further_DESeq2.html#cb21-2" tabindex="-1"></a><span class="fu">head</span>(resEB)</span>
 <span id="cb21-3"><a href="04-Further_DESeq2.html#cb21-3" tabindex="-1"></a><span class="fu">summary</span>(resEB)</span></code></pre></div>
 <p>Positive fold changes in gene expression in our results mean that expression was higher for these genes in the evolved line compared to the baseline.</p>
 <p>We can do the same again but compare the multiply mated regime against the baseline:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="04-Further_DESeq2.html#cb22-1" tabindex="-1"></a>resMB<span class="ot">&lt;-</span><span class="fu">results</span>(dds2, <span class="at">contrast=</span><span class="fu">c</span>(<span class="st">&quot;regime&quot;</span>, <span class="st">&quot;M&quot;</span>,<span class="st">&quot;B&quot;</span>))</span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb22-1"><a href="04-Further_DESeq2.html#cb22-1" tabindex="-1"></a>resMB<span class="ot">&lt;-</span><span class="fu">results</span>(dds2, <span class="at">contrast=</span><span class="fu">c</span>(<span class="st">&quot;regime&quot;</span>, <span class="st">&quot;M&quot;</span>,<span class="st">&quot;B&quot;</span>))</span>
 <span id="cb22-2"><a href="04-Further_DESeq2.html#cb22-2" tabindex="-1"></a><span class="fu">head</span>(resMB)</span>
 <span id="cb22-3"><a href="04-Further_DESeq2.html#cb22-3" tabindex="-1"></a><span class="fu">summary</span>(resMB)</span></code></pre></div>
 </div>
 <div id="fit-with-multiple-groups" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> Fit with multiple groups<a href="04-Further_DESeq2.html#fit-with-multiple-groups" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/Dros_3_regimes.png" width="40%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/Dros_3_regimes.png" style="width:400px; border-radius:15px" />
+</center>
 <p>The last model we will show is how to fit a model with multiple groups. In the fly example here, it might be the case that a gene is differentially expressed between regimes M and E, but only in one sex of fly. This is an experiment on sexual selection, so it’s reasonable that selection might act on different genes in the males and the females.</p>
 <p>Interaction terms can be added to the design formula, but it can be much simpler to combine the factors of interest into a single factor with all combinations of the original factors. We can then change the design formula to include just this factor. We have done this for the “group” factor in our metadata. For example, BFCH is a female fly from regime B and we can compare the other all other groups (e.g. male-B, female-E, male-E, female-M &amp; male-M) against each other.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="04-Further_DESeq2.html#cb23-1" tabindex="-1"></a><span class="co"># Make sure the metadata column group is set up as a factor</span></span>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb23-1"><a href="04-Further_DESeq2.html#cb23-1" tabindex="-1"></a><span class="co"># Make sure the metadata column group is set up as a factor</span></span>
 <span id="cb23-2"><a href="04-Further_DESeq2.html#cb23-2" tabindex="-1"></a>coldata<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(coldata<span class="sc">$</span>group)</span>
 <span id="cb23-3"><a href="04-Further_DESeq2.html#cb23-3" tabindex="-1"></a></span>
 <span id="cb23-4"><a href="04-Further_DESeq2.html#cb23-4" tabindex="-1"></a><span class="co"># Set the new model</span></span>
@@ -237,17 +241,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb23-6"><a href="04-Further_DESeq2.html#cb23-6" tabindex="-1"></a>                              <span class="at">colData =</span> coldata,</span>
 <span id="cb23-7"><a href="04-Further_DESeq2.html#cb23-7" tabindex="-1"></a>                              <span class="at">design=</span> <span class="sc">~</span> group)</span></code></pre></div>
 <p>Filter and run the analysis as before.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="04-Further_DESeq2.html#cb24-1" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">counts</span>(dds3)) <span class="sc">&gt;=</span> <span class="dv">10</span></span>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb24-1"><a href="04-Further_DESeq2.html#cb24-1" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">counts</span>(dds3)) <span class="sc">&gt;=</span> <span class="dv">10</span></span>
 <span id="cb24-2"><a href="04-Further_DESeq2.html#cb24-2" tabindex="-1"></a>dds3<span class="ot">&lt;-</span> dds3[keep,]</span>
 <span id="cb24-3"><a href="04-Further_DESeq2.html#cb24-3" tabindex="-1"></a></span>
 <span id="cb24-4"><a href="04-Further_DESeq2.html#cb24-4" tabindex="-1"></a>dds3 <span class="ot">&lt;-</span> <span class="fu">DESeq</span>(dds3)</span></code></pre></div>
 <p>We can now extract the results of interest as we did in the previous example. Let’s look at the regime M vs E contrast, first in females:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="04-Further_DESeq2.html#cb25-1" tabindex="-1"></a>resMFvsEF<span class="ot">&lt;-</span><span class="fu">results</span>(dds3, <span class="at">contrast=</span><span class="fu">c</span>(<span class="st">&quot;group&quot;</span>, <span class="st">&quot;MFCH&quot;</span>, <span class="st">&quot;EFCH&quot;</span>))</span>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb25-1"><a href="04-Further_DESeq2.html#cb25-1" tabindex="-1"></a>resMFvsEF<span class="ot">&lt;-</span><span class="fu">results</span>(dds3, <span class="at">contrast=</span><span class="fu">c</span>(<span class="st">&quot;group&quot;</span>, <span class="st">&quot;MFCH&quot;</span>, <span class="st">&quot;EFCH&quot;</span>))</span>
 <span id="cb25-2"><a href="04-Further_DESeq2.html#cb25-2" tabindex="-1"></a><span class="fu">head</span>(resMFvsEF)</span>
 <span id="cb25-3"><a href="04-Further_DESeq2.html#cb25-3" tabindex="-1"></a><span class="fu">summary</span>(resMFvsEF)</span></code></pre></div>
 <p>In this case positive expression changes mean that gene expression was higher in multiply mated females compared to evolved (monogamous) females.</p>
 <p>And then in males:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="04-Further_DESeq2.html#cb26-1" tabindex="-1"></a>resMMvsEM<span class="ot">&lt;-</span><span class="fu">results</span>(dds3, <span class="at">contrast=</span><span class="fu">c</span>(<span class="st">&quot;group&quot;</span>, <span class="st">&quot;MMCH&quot;</span>, <span class="st">&quot;EMCH&quot;</span>))</span>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb26-1"><a href="04-Further_DESeq2.html#cb26-1" tabindex="-1"></a>resMMvsEM<span class="ot">&lt;-</span><span class="fu">results</span>(dds3, <span class="at">contrast=</span><span class="fu">c</span>(<span class="st">&quot;group&quot;</span>, <span class="st">&quot;MMCH&quot;</span>, <span class="st">&quot;EMCH&quot;</span>))</span>
 <span id="cb26-2"><a href="04-Further_DESeq2.html#cb26-2" tabindex="-1"></a><span class="fu">head</span>(resMMvsEM)</span>
 <span id="cb26-3"><a href="04-Further_DESeq2.html#cb26-3" tabindex="-1"></a><span class="fu">summary</span>(resMMvsEM)</span></code></pre></div>
 <p>For more information on model design and set up see the DESeq2 <a href="https://www.bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#interactions">vignette</a>.</p>

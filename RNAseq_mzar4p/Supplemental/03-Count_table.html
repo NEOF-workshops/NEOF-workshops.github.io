@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2023-11-22" />
+<meta name="date" content="2024-04-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
 <li><a>RNA-seq</a></li>
 
 <li class="divider"></li>
@@ -191,14 +191,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="countmatrix" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Making a count table from HTSeq output files<a href="03-Count_table.html#countmatrix" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/count.png" width="20%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/count.png" style="width:200px; border-radius:15px" />
+</center>
 <p>Many of the software packages used for the analysis of RNA-Seq datasets will accept a table of count data. We can make such a table from our individual htseq-count outputs with a few lines of simple code in R. Open a new Jupyter notebook and name it <strong>“Suppl02-Count_table”</strong>.</p>
 <p>We will first set the working directory to the location where the htseq files are located.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="03-Count_table.html#cb10-1" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;~/rnaseq/Practical_one/htseq&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb10-1"><a href="03-Count_table.html#cb10-1" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;~/rnaseq/Practical_one/htseq&quot;</span>)</span></code></pre></div>
 <p>Next we will create a list of htseq file names from the files located in this directory by using the <code>list.files</code> function to list files with the extension <code>.htseq</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="03-Count_table.html#cb11-1" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern=</span><span class="st">&quot;*genecount.htseq&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb11-1"><a href="03-Count_table.html#cb11-1" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern=</span><span class="st">&quot;*genecount.htseq&quot;</span>)</span></code></pre></div>
 <p>To create the count table we will first create a blank object in R we will call <code>counts</code>. This will be used to store the data from the htseq data we will read in. After this we can use a loop which will read in the first htseq file from the list we made. It will then add the second column of this file (which contains the count data) to the <code>counts</code> object and then rename the row names using the gene names found in the htseq file in first column. The loop will then restart, this time using the second file in the list and add the data from this file, and so on.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="03-Count_table.html#cb12-1" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">c</span>() <span class="co"># create blank object called counts</span></span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb12-1"><a href="03-Count_table.html#cb12-1" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">c</span>() <span class="co"># create blank object called counts</span></span>
 <span id="cb12-2"><a href="03-Count_table.html#cb12-2" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="03-Count_table.html#cb12-3" tabindex="-1"></a><span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(files)){ <span class="co"># loop through the &#39;files&#39; list</span></span>
 <span id="cb12-4"><a href="03-Count_table.html#cb12-4" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file=</span>files[i], <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span>F) <span class="co"># read in the htseq file</span></span>
@@ -207,19 +209,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-7"><a href="03-Count_table.html#cb12-7" tabindex="-1"></a>  <span class="co"># name the row names as gene names taken from the first htseq column</span></span>
 <span id="cb12-8"><a href="03-Count_table.html#cb12-8" tabindex="-1"></a>}</span></code></pre></div>
 <p>To look at the start of the data frame we have created type</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="03-Count_table.html#cb13-1" tabindex="-1"></a><span class="fu">head</span>(counts)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb13-1"><a href="03-Count_table.html#cb13-1" tabindex="-1"></a><span class="fu">head</span>(counts)</span></code></pre></div>
 <p>As you can see we now have a data frame where the row names are labelled with the Gene IDs and each column has the count data from a sample. However, we are missing the sample names for each column. We will add them using the following command, which will set the column names based on the input file names but removing the end of the file name (so we only keep the sample name).</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="03-Count_table.html#cb14-1" tabindex="-1"></a><span class="fu">colnames</span>(counts) <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">&quot;_genecount.htseq&quot;</span>,<span class="st">&quot;&quot;</span>,files)</span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb14-1"><a href="03-Count_table.html#cb14-1" tabindex="-1"></a><span class="fu">colnames</span>(counts) <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">&quot;_genecount.htseq&quot;</span>,<span class="st">&quot;&quot;</span>,files)</span>
 <span id="cb14-2"><a href="03-Count_table.html#cb14-2" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="03-Count_table.html#cb14-3" tabindex="-1"></a><span class="fu">head</span>(counts)</span></code></pre></div>
 <p>Everything is now looking as we expect. However, <code>HTSeq-Count</code> adds extra information to the end of the output files which we do not want to include in our final table.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="03-Count_table.html#cb15-1" tabindex="-1"></a><span class="fu">tail</span>(counts)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb15-1"><a href="03-Count_table.html#cb15-1" tabindex="-1"></a><span class="fu">tail</span>(counts)</span></code></pre></div>
 <p>We will remove the last 5 rows from our data frame.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="03-Count_table.html#cb16-1" tabindex="-1"></a>counts<span class="ot">&lt;-</span><span class="fu">head</span>(counts, <span class="sc">-</span><span class="dv">5</span>)</span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb16-1"><a href="03-Count_table.html#cb16-1" tabindex="-1"></a>counts<span class="ot">&lt;-</span><span class="fu">head</span>(counts, <span class="sc">-</span><span class="dv">5</span>)</span>
 <span id="cb16-2"><a href="03-Count_table.html#cb16-2" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="03-Count_table.html#cb16-3" tabindex="-1"></a><span class="fu">tail</span>(counts)</span></code></pre></div>
 <p>We can now write this to a csv file by typing</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="03-Count_table.html#cb17-1" tabindex="-1"></a><span class="fu">write.csv</span>(counts, <span class="st">&quot;htseq_table_of_gene_counts.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb17-1"><a href="03-Count_table.html#cb17-1" tabindex="-1"></a><span class="fu">write.csv</span>(counts, <span class="st">&quot;htseq_table_of_gene_counts.csv&quot;</span>)</span></code></pre></div>
 <p>You can now close and halt your notebook.</p>
 
 </div>
