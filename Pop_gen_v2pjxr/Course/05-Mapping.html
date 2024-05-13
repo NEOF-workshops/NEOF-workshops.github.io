@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Mapping sequences to the reference genome using BWA | Population Genomics</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Mapping sequences to the reference genome using BWA | Population Genomics" />
   <meta property="og:type" content="book" />
@@ -20,10 +20,10 @@
   <meta name="twitter:description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
 
-<meta name="author" content="Helen Hipperson, Katy Maher, Victor Soria-Carrasco, Graeme Fox" />
+<meta name="author" content="Helen Hipperson, Katy Maher, Victor Soria-Carrasco, Graeme Fox, Gavin Gouws" />
 
 
-<meta name="date" content="2024-03-18" />
+<meta name="date" content="2024-05-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,8 +54,6 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
-<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -214,7 +212,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#admixture-plots"><i class="fa fa-check"></i><b>7.3</b> Admixture plots</a></li>
 <li class="chapter" data-level="7.4" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#pca"><i class="fa fa-check"></i><b>7.4</b> PCA</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="08-Summary_stats.html"><a href="08-Summary_stats.html"><i class="fa fa-check"></i><b>8</b> Calculating population summary statistics using PopGenome</a>
+<li class="chapter" data-level="8" data-path="08-Summary_stats.html"><a href="08-Summary_stats.html"><i class="fa fa-check"></i><b>8</b> Calculating population summary statistics using VCFtools</a>
 <ul>
 <li class="chapter" data-level="8.1" data-path="08-Summary_stats.html"><a href="08-Summary_stats.html#getting-started"><i class="fa fa-check"></i><b>8.1</b> Getting started</a></li>
 </ul></li>
@@ -324,12 +322,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb20"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb20-1"><a href="05-Mapping.html#cb20-1" tabindex="-1"></a><span class="ex">samtools</span> flagstat SRR8861574_paired.bam</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>How many reads have mapped?
-<div id="radio_DCFKIQNLVT" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DCFKIQNLVT" value=""></input> <span>710696</span></label><label><input type="radio" autocomplete="off" name="radio_DCFKIQNLVT" value=""></input> <span>710142</span></label><label><input type="radio" autocomplete="off" name="radio_DCFKIQNLVT" value="answer"></input> <span>705371</span></label><label><input type="radio" autocomplete="off" name="radio_DCFKIQNLVT" value=""></input> <span>687024</span></label>
+<div id="radio_OVJBOUKCAX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OVJBOUKCAX" value=""></input> <span>710696</span></label><label><input type="radio" autocomplete="off" name="radio_OVJBOUKCAX" value=""></input> <span>710142</span></label><label><input type="radio" autocomplete="off" name="radio_OVJBOUKCAX" value="answer"></input> <span>705371</span></label><label><input type="radio" autocomplete="off" name="radio_OVJBOUKCAX" value=""></input> <span>687024</span></label>
 </div></li>
 <li>What percentage of reads have mapped?
-<div id="radio_ZNIEFEEMLD" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZNIEFEEMLD" value=""></input> <span>90.32</span></label><label><input type="radio" autocomplete="off" name="radio_ZNIEFEEMLD" value=""></input> <span>96.74</span></label><label><input type="radio" autocomplete="off" name="radio_ZNIEFEEMLD" value="answer"></input> <span>99.25</span></label><label><input type="radio" autocomplete="off" name="radio_ZNIEFEEMLD" value=""></input> <span>100</span></label>
+<div id="radio_ZRTEFVMVZV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZRTEFVMVZV" value=""></input> <span>90.32</span></label><label><input type="radio" autocomplete="off" name="radio_ZRTEFVMVZV" value=""></input> <span>96.74</span></label><label><input type="radio" autocomplete="off" name="radio_ZRTEFVMVZV" value="answer"></input> <span>99.25</span></label><label><input type="radio" autocomplete="off" name="radio_ZRTEFVMVZV" value=""></input> <span>100</span></label>
 </div></li>
 </ol>
 <p>This information is a summary of the <code>FLAG</code> values - the second field in the sam/bam file. These values can be used if you want to extract or exclude a specific set of reads for downstream analysis. For example, to exclude unmapped reads from our alignment file we can run:</p>
@@ -342,12 +340,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Run <code>flagstat</code> on the bam file from which we have excluded the unmapped reads.</p>
 <ol style="list-style-type: decimal">
 <li>How many reads are in the filtered file (compare this to the unfiltered file)?
-<div id="radio_SOOADRCTTS" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SOOADRCTTS" value=""></input> <span>710696</span></label><label><input type="radio" autocomplete="off" name="radio_SOOADRCTTS" value="answer"></input> <span>705371</span></label><label><input type="radio" autocomplete="off" name="radio_SOOADRCTTS" value=""></input> <span>704817</span></label><label><input type="radio" autocomplete="off" name="radio_SOOADRCTTS" value=""></input> <span>687024</span></label>
+<div id="radio_DCJIQFSWQU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DCJIQFSWQU" value=""></input> <span>710696</span></label><label><input type="radio" autocomplete="off" name="radio_DCJIQFSWQU" value="answer"></input> <span>705371</span></label><label><input type="radio" autocomplete="off" name="radio_DCJIQFSWQU" value=""></input> <span>704817</span></label><label><input type="radio" autocomplete="off" name="radio_DCJIQFSWQU" value=""></input> <span>687024</span></label>
 </div></li>
 <li>What proportion of the reads in this file are now mapped (compare this to the unfiltered file)?
-<div id="radio_LCYGESZXSW" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_LCYGESZXSW" value=""></input> <span>90.32</span></label><label><input type="radio" autocomplete="off" name="radio_LCYGESZXSW" value=""></input> <span>96.74</span></label><label><input type="radio" autocomplete="off" name="radio_LCYGESZXSW" value=""></input> <span>99.25</span></label><label><input type="radio" autocomplete="off" name="radio_LCYGESZXSW" value="answer"></input> <span>100</span></label>
+<div id="radio_TTPNMHUOYX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TTPNMHUOYX" value=""></input> <span>90.32</span></label><label><input type="radio" autocomplete="off" name="radio_TTPNMHUOYX" value=""></input> <span>96.74</span></label><label><input type="radio" autocomplete="off" name="radio_TTPNMHUOYX" value=""></input> <span>99.25</span></label><label><input type="radio" autocomplete="off" name="radio_TTPNMHUOYX" value="answer"></input> <span>100</span></label>
 </div></li>
 </ol>
 <p>In the next step, we will use alignment files from several samples to detect genetic variation.</p>
