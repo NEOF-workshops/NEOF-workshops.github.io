@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Aligning Illumina transcriptome data to a reference genome | RNA-seq gene expression and pathway analysis</title>
   <meta name="description" content="NEOF book for the RNA-seq gene expression and pathway analysis workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Aligning Illumina transcriptome data to a reference genome | RNA-seq gene expression and pathway analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2024-04-15" />
+<meta name="date" content="2024-05-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -60,7 +60,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -280,7 +280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The options used are:</p>
 <p><code>-x</code> The index filename prefix</p>
 <p><code>-1</code> Path to forward paired-end reads to use for aligning</p>
-<p><code>-2</code> Path to reverse paired-end reads to use for aligning.</p>
+<p><code>-2</code> Path to reverse paired-end reads to use for aligning</p>
 <p><code>-p</code> Use this many threads to align reads. The default is 1</p>
 <p><code>-q</code> Reads are FASTQ files. FASTQ files usually have extension .fq or .fastq. FASTQ is the default format</p>
 <p><code>--met-file path</code> Write hisat2 metrics to file. Having alignment metrics can be useful for debugging certain problems, especially performance issues. See also: --met. Default: metrics disabled.</p>
@@ -309,8 +309,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We can use the Samtools command <code>flagstat</code> to find information on how the reads mapped:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb21-1"><a href="05-Aligning.html#cb21-1" tabindex="-1"></a><span class="ex">samtools</span> flagstat aligned/17_slice.sorted.bam</span></code></pre></div>
 How many reads have mapped?
-<div id="radio_SEECITWDLJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SEECITWDLJ" value=""></input> <span>5,734</span></label><label><input type="radio" autocomplete="off" name="radio_SEECITWDLJ" value=""></input> <span>824,268</span></label><label><input type="radio" autocomplete="off" name="radio_SEECITWDLJ" value="answer"></input> <span>762,382</span></label><label><input type="radio" autocomplete="off" name="radio_SEECITWDLJ" value=""></input> <span>700,842</span></label>
+<div id="radio_DPNJQCSXIJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DPNJQCSXIJ" value=""></input> <span>5,734</span></label><label><input type="radio" autocomplete="off" name="radio_DPNJQCSXIJ" value=""></input> <span>824,268</span></label><label><input type="radio" autocomplete="off" name="radio_DPNJQCSXIJ" value="answer"></input> <span>762,382</span></label><label><input type="radio" autocomplete="off" name="radio_DPNJQCSXIJ" value=""></input> <span>700,842</span></label>
 </div>
 <p>This information is a summary of the 'FLAG' values - the second field in the sam/bam file. These values can be used if you want to extract or exclude a specific set of reads for downstream analysis.
 Here we will run a command that will keep only high quality, unique alignments and discard unmapped reads and unmapped mates.</p>
@@ -328,12 +328,12 @@ Here we will run a command that will keep only high quality, unique alignments a
 <p>Run flagstat on the bam file from which we have excluded unmapped reads.</p>
 <ol style="list-style-type: decimal">
 <li>How many reads are in the cleaned file in total?
-<div id="radio_NYFMYLBVWD" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_NYFMYLBVWD" value="answer"></input> <span>690,248</span></label><label><input type="radio" autocomplete="off" name="radio_NYFMYLBVWD" value=""></input> <span>824,268</span></label><label><input type="radio" autocomplete="off" name="radio_NYFMYLBVWD" value=""></input> <span>700,842</span></label><label><input type="radio" autocomplete="off" name="radio_NYFMYLBVWD" value=""></input> <span>345,124</span></label>
+<div id="radio_FFOLNWEQRC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FFOLNWEQRC" value="answer"></input> <span>690,248</span></label><label><input type="radio" autocomplete="off" name="radio_FFOLNWEQRC" value=""></input> <span>824,268</span></label><label><input type="radio" autocomplete="off" name="radio_FFOLNWEQRC" value=""></input> <span>700,842</span></label><label><input type="radio" autocomplete="off" name="radio_FFOLNWEQRC" value=""></input> <span>345,124</span></label>
 </div></li>
 <li>What proportion of the reads in this file are now mapped?
-<div id="radio_WWWWWQZGRT" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WWWWWQZGRT" value=""></input> <span>0%</span></label><label><input type="radio" autocomplete="off" name="radio_WWWWWQZGRT" value=""></input> <span>84%</span></label><label><input type="radio" autocomplete="off" name="radio_WWWWWQZGRT" value=""></input> <span>98%</span></label><label><input type="radio" autocomplete="off" name="radio_WWWWWQZGRT" value="answer"></input> <span>100%</span></label>
+<div id="radio_BMUMTKMYSA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BMUMTKMYSA" value=""></input> <span>0%</span></label><label><input type="radio" autocomplete="off" name="radio_BMUMTKMYSA" value=""></input> <span>84%</span></label><label><input type="radio" autocomplete="off" name="radio_BMUMTKMYSA" value=""></input> <span>98%</span></label><label><input type="radio" autocomplete="off" name="radio_BMUMTKMYSA" value="answer"></input> <span>100%</span></label>
 </div></li>
 </ol>
 </div>
@@ -374,11 +374,11 @@ Here we will run a command that will keep only high quality, unique alignments a
 <li>Select ‘Expanded’.</li>
 </ol>
 <p>Now type Chr2:1,014,346-1,015,966 into the white box with ‘Go’ next to it.</p>
-You should now be looking at gene FBgn0072602:
+You should now be looking at gene FBgn0072602 (you may see something slightly different to the below):
 <center>
 <img src="figures/igv.png" style="width:1000px; border-radius:5px" />
 </center>
-<p>Mapped reads are shown as fat grey arrows. Some of these are split across an intron. The blue track at the bottom shows the FlyBase gene annotations.</p>
+<p>Mapped reads are shown as thick grey arrows. Some of these are split across an intron. The blue track at the bottom shows the FlyBase gene annotations.</p>
 <p>You can move to different parts of the genome and you may see that some reads map well to the gene models and some don’t. The latter will be due to a combination of 5’ and 3’-UTRs (which are not part of the gene annotations), reads transcribed from non-coding DNA, transposons, or from regions where the gene prediction program used to generate the models has missed a gene. The RNA-seq data here can be used to refine gene models, but that’s beyond the scope of this practical.</p>
 
 </div>

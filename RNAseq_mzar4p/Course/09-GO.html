@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 Gene Ontology enrichment analysis | RNA-seq gene expression and pathway analysis</title>
   <meta name="description" content="NEOF book for the RNA-seq gene expression and pathway analysis workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 Gene Ontology enrichment analysis | RNA-seq gene expression and pathway analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2024-04-15" />
+<meta name="date" content="2024-05-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -60,7 +60,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -251,7 +251,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <center>
 <img src="figures/go-logo.large.png" style="width:400px; border-radius:15px; background:white" />
 </center>
-<p>Gene Ontology (GO) is a method off classifying gene function in a structured way and is split into three subgroupings: "biological process (e.g., signal transduction), molecular function (e.g., ATPase activity) and cellular component (e.g., ribosome)". Genes are associated with particular GO terms via GO annotations and each gene can have multiple annotations associated with it. You can obtain GO annotations from the Gene Ontology website, from species-specific databases, or they can be annotated to a reference gennome using software such as blast2GO.</p>
+<p>Gene Ontology (GO) is a method of classifying gene function in a structured way and is split into three subgroupings:</p>
+<ul>
+<li><strong>Biological process:</strong> e.g. signal transduction</li>
+<li><strong>Molecular function:</strong> e.g. ATPase activity</li>
+<li><strong>Cellular component:</strong> e.g. ribosome</li>
+</ul>
+<p>Genes are associated with particular GO terms via GO annotations and each gene can have multiple annotations associated with it. You can obtain GO annotations from the Gene Ontology website, from species-specific databases, or they can be annotated to a reference gennome using software such as blast2GO.</p>
 <p>GO enrichment analysis finds which GO terms are over-represented (or under-represented) using annotations for a set of genes (in this case genes which are significantly differentially expressed between males and females).</p>
 <p>We will perform GO enrichment analysis using the topGO package in R. We strongly recommend reading through the topGO <a href="https://bioconductor.org/packages/release/bioc/vignettes/topGO/inst/doc/topGO.pdf">manual</a> when you come to analyse your own data.</p>
 <p>First create a new notebook called <strong>"Chp08-GO_enrichment"</strong>.</p>
@@ -287,12 +293,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb63-6"><a href="09-GO.html#cb63-6" tabindex="-1"></a>              <span class="at">annot =</span> annFUN.gene2GO, </span>
 <span id="cb63-7"><a href="09-GO.html#cb63-7" tabindex="-1"></a>              <span class="at">gene2GO =</span> geneID2GO)</span></code></pre></div>
 <ul>
-<li>ontology = specifies which ontology to use (biological processes, cellular components or molecular function)</li>
-<li>allGenes = a list of all genes which we tested in our DGE analysis with their associated adjusted p-values</li>
-<li>geneSel = select genes using the topDiffGenes function (genes with a adjusted p-value &lt; 0.01) to use as our set of genes of interest</li>
-<li>nodeSize = remove any annotated GO terms which have less than X number of genes associated with them (in this case 10)</li>
-<li>annot = annFUN.gene2GO function is used to extract the gene-to-GO mappings from the geneID2GO object</li>
-<li>gene2GO = our list of genes and their associated GOs</li>
+<li><strong>ontology =</strong> specifies which ontology to use (biological processes, cellular components or molecular function)</li>
+<li><strong>allGenes =</strong> a list of all genes which we tested in our DGE analysis with their associated adjusted p-values</li>
+<li><strong>geneSel =</strong> select genes using the topDiffGenes function (genes with a adjusted p-value &lt; 0.01) to use as our set of genes of interest</li>
+<li><strong>nodeSize =</strong> remove any annotated GO terms which have less than X number of genes associated with them (in this case 10)</li>
+<li><strong>annot =</strong> annFUN.gene2GO function is used to extract the gene-to-GO mappings from the geneID2GO object</li>
+<li><strong>gene2GO =</strong> our list of genes and their associated GOs</li>
 </ul>
 <p>If you check the topGOdata object we can see a summary of the data we added.</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb64-1"><a href="09-GO.html#cb64-1" tabindex="-1"></a>sampleGOdata</span></code></pre></div>
@@ -300,7 +306,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb65"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb65-1"><a href="09-GO.html#cb65-1" tabindex="-1"></a>resultFisher <span class="ot">&lt;-</span> <span class="fu">runTest</span>(sampleGOdata, <span class="at">algorithm =</span> <span class="st">&quot;classic&quot;</span>, <span class="at">statistic =</span> <span class="st">&quot;fisher&quot;</span>)</span>
 <span id="cb65-2"><a href="09-GO.html#cb65-2" tabindex="-1"></a></span>
 <span id="cb65-3"><a href="09-GO.html#cb65-3" tabindex="-1"></a>resultFisher</span></code></pre></div>
-<p>The enrichment analysis has identified 63 significantly enriched GO categories (p &lt; 0.01).</p>
+<p>The enrichment analysis has identified 65 significantly enriched GO categories (p &lt; 0.01).</p>
 <p>We can then pull out the most significant GO terms from the results and the corresponding p-values using the function GenTable. In this case we will print the top 10 GO categories.</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb66-1"><a href="09-GO.html#cb66-1" tabindex="-1"></a>allRes <span class="ot">&lt;-</span> <span class="fu">GenTable</span>(sampleGOdata, <span class="at">classicFisher =</span> resultFisher,</span>
 <span id="cb66-2"><a href="09-GO.html#cb66-2" tabindex="-1"></a>                                       <span class="at">orderBy =</span> <span class="st">&quot;classicFisher&quot;</span>, <span class="at">topNodes =</span> <span class="dv">10</span>)</span>
