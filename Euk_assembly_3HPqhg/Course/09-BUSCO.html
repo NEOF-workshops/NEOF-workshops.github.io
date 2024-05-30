@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Eukaryote genome assembly</title>
+  <title>Chapter 9 BUSCO | Eukaryote genome assembly</title>
   <meta name="description" content="NEOF book for the Eukaryote genome assembly workshop" />
   <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Eukaryote genome assembly" />
+  <meta property="og:title" content="Chapter 9 BUSCO | Eukaryote genome assembly" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Eukaryote genome assembly workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Eukaryote genome assembly" />
+  <meta name="twitter:title" content="Chapter 9 BUSCO | Eukaryote genome assembly" />
   
   <meta name="twitter:description" content="NEOF book for the Eukaryote genome assembly workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-
-<link rel="next" href="02-Cluster_Introduction.html"/>
+<link rel="prev" href="08-Contamination_check.html"/>
+<link rel="next" href="10-Purge_duplicates.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -243,112 +243,132 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Eukaryote genome assembly</h1>
-<p class="author"><em>Sujai Kumar &amp; Helen Hipperson</em></p>
-<p class="date"><em>2024-05-30</em></p>
+<div id="busco" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> BUSCO<a href="09-BUSCO.html#busco" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<center>
+<img src="figures/universe.png" style="width:200px; background:white; border-radius:15px" />
+</center>
+<p><code>BUSCO</code> stands for Benchmarking Universal Single-Copy Orthologs. The tool is used to estimate the completeness of genome assemblies by determining how many BUSCOs are present.</p>
+<p>BUSCOs are genes that are:</p>
+<ul>
+<li><strong>Universal</strong>: The genes are present in all organisms of a specific lineage.</li>
+<li><strong>Single-Copy</strong>: The genes are only found as one copy.</li>
+</ul>
+<div id="busco-lineages" class="section level3 hasAnchor" number="9.0.1">
+<h3><span class="header-section-number">9.0.1</span> BUSCO lineages<a href="09-BUSCO.html#busco-lineages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<center>
+<img src="figures/phylo_tree.png" style="width:200px" />
+</center>
+<p><code>BUSCO</code> has many different lineage datasets. These are datasets of the different groups of BUSCOs found in various different lineages. Carry out the below command to see all these different datasets.
+First make sure that you are make in the <code>. useassembly</code> terminal window.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb26-1"><a href="09-BUSCO.html#cb26-1" tabindex="-1"></a><span class="ex">busco</span> <span class="at">--list-datasets</span> <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<p>You will notice that the lineage datasets are at various taxonomic levels going from high-level kingdoms (bacteria, archaea, &amp; eukaryota) down to lower-level taxon lineages (primates, insecta, saccharomycetes etc). It is always good to be as specific as you can to your organism's lineage. A more specific lineage will have more BUSCOs than a more generic one.</p>
+<p><strong>Note</strong>: All datasets end with <code>_odb10</code> which stands for <a href="https://www.orthodb.org/">OrthoDB version 10</a>.</p>
+<p>Looking through the choices (and using the <a href="https://www.ncbi.nlm.nih.gov/taxonomy">NCBI taxonomy website</a>) what lineage dataset would you use for the following genera?</p>
+<ol style="list-style-type: decimal">
+<li><strong>Heliconius</strong> (Taxonomy ID: 33416)
+<div id="radio_VYUQAYBPTN" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VYUQAYBPTN" value="answer"></input> <span>lepidoptera_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_VYUQAYBPTN" value=""></input> <span>diptera_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_VYUQAYBPTN" value=""></input> <span>arthropoda_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_VYUQAYBPTN" value=""></input> <span>eukaryota_odb10</span></label>
+</div></li>
+<li><strong>Saccharomyces</strong> (Taxonomy ID: 4930)
+<div id="radio_ZLLAQKEZYM" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZLLAQKEZYM" value=""></input> <span>eukaryota_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_ZLLAQKEZYM" value="answer"></input> <span>saccharomycetes_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_ZLLAQKEZYM" value=""></input> <span>bacteria_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_ZLLAQKEZYM" value=""></input> <span>fungi_odb10</span></label>
+</div></li>
+<li><strong>Oscheius</strong> (Taxonomy ID: 42476)
+<div id="radio_WAAUWIPIFB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WAAUWIPIFB" value=""></input> <span>insecta_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_WAAUWIPIFB" value=""></input> <span>metazoa_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_WAAUWIPIFB" value="answer"></input> <span>nematoda_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_WAAUWIPIFB" value=""></input> <span>eukaryota_odb10</span></label>
+</div></li>
+<li><strong>Neoparamoeba</strong> (Taxonomy ID: 1641714)
+<div id="radio_KAXYBKQLAS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KAXYBKQLAS" value=""></input> <span>alveolata_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_KAXYBKQLAS" value=""></input> <span>coccidia_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_KAXYBKQLAS" value=""></input> <span>plasmodium_odb10</span></label><label><input type="radio" autocomplete="off" name="radio_KAXYBKQLAS" value="answer"></input> <span>eukaryota_odb10</span></label>
+</div></li>
+</ol>
+<div class="webex-solution">
+<button>
+Click to reveal links to NCBI taxonomies
+</button>
+<ol style="list-style-type: decimal">
+<li><a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=33416"><strong>Heliconius</strong> (Taxonomy ID: 33416)</a></li>
+<li><a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=4930"><strong>Saccharomyces</strong> (Taxonomy ID: 4930)</a></li>
+<li><a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=42476"><strong>Oscheius</strong> (Taxonomy ID: 42476)</a></li>
+<li><a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1641714"><strong>Neoparamoeba</strong> (Taxonomy ID: 1641714)</a></li>
+</ol>
 </div>
+</div>
+<div id="run-busco" class="section level3 hasAnchor" number="9.0.2">
+<h3><span class="header-section-number">9.0.2</span> Run BUSCO<a href="09-BUSCO.html#run-busco" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/NEOF.png" style="width:300px; border-radius:15px" />
+<img src="figures/enter_key.png" style="width:200px" />
 </center>
-
-
-
-<div id="introduction" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Introduction<a href="01-Eukaryote_genome_assembly.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>For our <em>Oscheius onerici</em> example, we will choose the <code>nematoda_odb10</code> as our lineage dataset. With that we can run <code>BUSCO</code> on our genome assembly.</p>
+<p><strong>Note</strong>: The parameters <code>-i</code>, <code>-l</code>, <code>-m</code>, &amp; <code>-o</code> are all letters.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb27-1"><a href="09-BUSCO.html#cb27-1" tabindex="-1"></a><span class="ex">busco</span> <span class="dt">\</span></span>
+<span id="cb27-2"><a href="09-BUSCO.html#cb27-2" tabindex="-1"></a>-i <span class="va">$ASSEMBLY</span> <span class="dt">\</span></span>
+<span id="cb27-3"><a href="09-BUSCO.html#cb27-3" tabindex="-1"></a>-l nematoda_odb10 <span class="dt">\</span></span>
+<span id="cb27-4"><a href="09-BUSCO.html#cb27-4" tabindex="-1"></a>-m geno <span class="dt">\</span></span>
+<span id="cb27-5"><a href="09-BUSCO.html#cb27-5" tabindex="-1"></a>-o <span class="va">${ASSEMBLY}</span>_nematoda_odb10 <span class="dt">\</span></span>
+<span id="cb27-6"><a href="09-BUSCO.html#cb27-6" tabindex="-1"></a>--cpu 16</span></code></pre></div>
+<p><strong>Parameter choice</strong></p>
+<ul>
+<li><code>-i</code> : The input genome assembly in fasta format.</li>
+<li><code>-l</code> : The lineage dataset to be used. This has to end with the <code>_odb10</code> part. This will download the dataset (if it does not exist) into a directory called <code>busco_downloads</code> in the current directory. The directory will be created if it doesn't exist.</li>
+<li><code>-m</code> : The assessment mode.
+<ul>
+<li><code>geno</code> = genome assemblies (DNA)</li>
+<li><code>tran</code> = transcriptome assemblies (DNA)</li>
+<li><code>prot</code> = annotated gene sets (protein)</li>
+</ul></li>
+<li><code>-o</code> : The run name. Output folders and files will be labelled with this name.</li>
+<li><code>--cpu</code> : The number of cpu threads to use</li>
+</ul>
+<p>This command should take ~10 minutes to run.</p>
+</div>
+<div id="busco-output" class="section level3 hasAnchor" number="9.0.3">
+<h3><span class="header-section-number">9.0.3</span> BUSCO output<a href="09-BUSCO.html#busco-output" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/string.png" style="width:200px" />
+<img src="figures/output.png" style="width:200px; background:white; border-radius:15px" />
 </center>
-<p>This practical session will run you through an example of eukaryote genome assembly using PacBio HiFi data. The aim of this practical is to produce a genome assembly of the nematode (roundworm) <em>Oscheius onirici</em>, scaffold it, and produce a report with the assembly's stats. Read QC will be skipped as this has been covered in a previous NEOF workshop. We are using data from a species of nematode as an example to work through as the genome is small and the assembly steps will work quickly enough for you to perform them in this workshop. However, the workflow we are using can be applied to any eukaryotic organism.</p>
-<p>Commands are in the following font, colour, and box. They should be run in the command line.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb1-1"><a href="01-Eukaryote_genome_assembly.html#cb1-1" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;This is a command example&quot;</span> </span></code></pre></div>
-<div id="table-of-contents" class="section level2 unnumbered hasAnchor">
-<h2>Table of contents<a href="01-Eukaryote_genome_assembly.html#table-of-contents" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<tbody>
-<tr>
-<td style="text-align:center;">
-<a href="02-Cluster_Introduction.html#cluster"><strong>Cluster</strong></a>
-</td>
-<td style="text-align:center;">
-<a href="03-Start.html#setup"><strong>Setup</strong></a>
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-<a href="02-Cluster_Introduction.html#cluster"><img src="figures/cluster.png" height="150" /></a>
-</td>
-<td style="text-align:center;">
-<a href="03-Start.html#setup"><img src="figures/start.png" height="150" /></a>
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-<a href="04-Overview.html#overview"><strong>Overview</strong></a>
-</td>
-<td style="text-align:center;">
-<a href="05-Pre_assembly.html#preassembly"><strong>Genome pre-assembly</strong></a>
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-<a href="04-Overview.html#overview"><img src="figures/overview.png" height="150" /></a>
-</td>
-<td style="text-align:center;">
-<a href="05-Pre_assembly.html#preassembly"><img src="figures/magnify_glass_27AUG2020.png" height="150" /></a>
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-<a href="06-Assembly.html#assembly"><strong>Genome assembly</strong></a>
-</td>
-<td style="text-align:center;">
-<a href="07-Genome_assessment.html#genomeassemblyassessment"><strong>Assembly assessment</strong></a>
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-<a href="06-Assembly.html#assembly"><img src="figures/string.png" height="150" /></a>
-</td>
-<td style="text-align:center;">
-<a href="07-Genome_assessment.html#genomeassemblyassessment"><img src="figures/inspect.png" height="150" /></a>
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-<a href="12-Mitochondrial_assembly.html#mito_ass"><strong>Mitochondrial assembly</strong></a>
-</td>
-<td style="text-align:center;">
-<a href="13-Scaffolding.html#scaffolding"><strong>Scaffolding with HiC</strong></a>
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-<a href="12-Mitochondrial_assembly.html#mito_ass"><img src="figures/circlator.png" height="150" /></a>
-</td>
-<td style="text-align:center;">
-<a href="13-Scaffolding.html#scaffolding"><img src="figures/scaffold.png" height="150" /></a>
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-<a href="14-Optional_exercises.html#optional"><strong>Optional exercises</strong></a>
-</td>
-<td style="text-align:center;">
-<a href="15-Conclusion.html#conclusion"><strong>Conclusion</strong></a>
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-<a href="14-Optional_exercises.html#optional"><img src="figures/exercise.png" height="150" /></a>
-</td>
-<td style="text-align:center;">
-<a href="15-Conclusion.html#conclusion"><img src="figures/final_report.png" height="150" /></a>
-</td>
-</tr>
-</tbody>
-</table>
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+<p>There are many output files in the directory <code>ERR7979900_hifiasm.bp.p_ctg.fa_nematoda_odb10</code>. A full list of the output can be found in the following link: <a href="https://busco.ezlab.org/busco_userguide.html#outputs" class="uri">https://busco.ezlab.org/busco_userguide.html#outputs</a></p>
+<p>I ignore the majority of the output files most of the time, instead only looking at the short summary file.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb28-1"><a href="09-BUSCO.html#cb28-1" tabindex="-1"></a><span class="fu">less</span> ERR7979900_hifiasm.bp.p_ctg.fa_nematoda_odb10/short_summary.specific.nematoda_odb10.ERR7979900_hifiasm.bp.p_ctg.fa_nematoda_odb10.txt</span></code></pre></div>
+<p>This provides us with 6 values. These values are presented in terms of percentage (along the top line of the Results) and total numbers (the next 6 lines). The values represent:</p>
+<ul>
+<li><strong>Complete BUSCOs</strong> : The number of complete BUSCOs discovered. The closer this value is to 100% the better. This number is the sum of the next two values.</li>
+<li><strong>Complete and single-copy BUSCOs</strong>: The number of BUSCOs found as complete and single-copy. The closer this number is to 100% the better. A good assembly will generally be &gt;90%.</li>
+<li><strong>Complete and duplicated BUSCOs</strong>: Complete BUSCOs that have been found two or more times within the assembly. This indicates there are duplicated areas of the genome. Preferably we would like this number to be low.</li>
+<li><strong>Fragmented BUSCOs</strong>: This could indicate that there are genes that are only partially present within the genome. This could be due to misassembly.</li>
+<li><strong>Missing BUSCOs</strong>: These are BUSCOs that could not be found in the genome assembly. This could indicate that parts of the genome are missing in the assembly.</li>
+<li><strong>Total BUSCO groups searched</strong>: This represents the total number of BUSCOs within the lineage dataset used for analysis.</li>
+</ul>
+<p>For more info on interpreting the results please see the following link: <a href="https://busco.ezlab.org/busco_userguide.html#interpreting-the-results" class="uri">https://busco.ezlab.org/busco_userguide.html#interpreting-the-results</a></p>
+</div>
+<div id="busco-questions" class="section level3 hasAnchor" number="9.0.4">
+<h3><span class="header-section-number">9.0.4</span> BUSCO questions<a href="09-BUSCO.html#busco-questions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<center>
+<img src="figures/question_bubble_blue.png" style="width:200px" />
+</center>
+<p>Answer the below MCQs based on the results in your short summary file.</p>
+<ol style="list-style-type: decimal">
+<li>Ignoring "total BUSCO groups searched", which value is the highest?
+<div id="radio_ANDWMPFUXF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ANDWMPFUXF" value="answer"></input> <span>Complete BUSCOs (C)</span></label><label><input type="radio" autocomplete="off" name="radio_ANDWMPFUXF" value=""></input> <span>Fragmented BUSCOs (F)</span></label><label><input type="radio" autocomplete="off" name="radio_ANDWMPFUXF" value=""></input> <span>Missing BUSCOs (M)</span></label>
+</div></li>
+<li>What is the sum of fragmented and missing BUSCOs?
+<div id="radio_QAJJNRWHGE" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QAJJNRWHGE" value=""></input> <span>1</span></label><label><input type="radio" autocomplete="off" name="radio_QAJJNRWHGE" value=""></input> <span>151</span></label><label><input type="radio" autocomplete="off" name="radio_QAJJNRWHGE" value="answer"></input> <span>616</span></label>
+</div></li>
+<li>Which value would you want to be highest for a complete non-duplicated assembly?
+<div id="radio_YZQASBVKCY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YZQASBVKCY" value="answer"></input> <span>Complete and single-copy BUSCOs (S)</span></label><label><input type="radio" autocomplete="off" name="radio_YZQASBVKCY" value=""></input> <span>Complete and duplicated BUSCOs (D)</span></label><label><input type="radio" autocomplete="off" name="radio_YZQASBVKCY" value=""></input> <span>Fragmented BUSCOs (F)</span></label><label><input type="radio" autocomplete="off" name="radio_YZQASBVKCY" value=""></input> <span>Missing BUSCOs (M)</span></label>
+</div></li>
+</ol>
+</div>
+<div id="busco-summary" class="section level3 hasAnchor" number="9.0.5">
+<h3><span class="header-section-number">9.0.5</span> BUSCO summary<a href="09-BUSCO.html#busco-summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<center>
+<img src="figures/sum_blue.png" style="width:200px" />
+</center>
+<p>The <code>BUSCO</code> stats are OK for this assembly. There are more fragmented and missing BUSCOs than we would like. We'll try to improve this with scaffolding. Even though the BUSCO gene sets are meant to be universal (i.e., applicable to all species within a busco lineage), we have found that some clades are never more than 80-85% complete even when the full chromosomal-level genome assembly is available.</p>
 
 </div>
 </div>
@@ -563,8 +583,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-
-<a href="02-Cluster_Introduction.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="08-Contamination_check.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="10-Purge_duplicates.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
