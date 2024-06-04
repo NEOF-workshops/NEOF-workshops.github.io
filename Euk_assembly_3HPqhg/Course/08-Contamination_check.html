@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Check for contamination | Eukaryote genome assembly</title>
   <meta name="description" content="NEOF book for the Eukaryote genome assembly workshop" />
-  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Check for contamination | Eukaryote genome assembly" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Sujai Kumar &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2024-05-30" />
+<meta name="date" content="2024-06-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -60,7 +60,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -296,23 +296,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>*$ASSEMBLY</code> will list all files that begin with the wildcard <code>*</code> (0 or more characters) and end with <code>$ASSEMBLY</code>, in this case all files that end with ERR7979900_hifiasm.bp.p_ctg.fa:</li>
 </ul>
 <p>The output should look like this:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb24-1"><a href="08-Contamination_check.html#cb24-1" tabindex="-1"></a><span class="fu">file</span>                                          format  type  num_seqs      sum_len  min_len      avg_len     max_len</span>
-<span id="cb24-2"><a href="08-Contamination_check.html#cb24-2" tabindex="-1"></a><span class="ex">ERR7979900_hifiasm.bp.p_ctg.fa</span>                FASTA   DNA        548  122,586,855    6,222    223,698.7  13,381,880</span>
-<span id="cb24-3"><a href="08-Contamination_check.html#cb24-3" tabindex="-1"></a><span class="ex">bacteria_ERR7979900_hifiasm.bp.p_ctg.fa</span>       FASTA   DNA        493   56,346,101    6,222    114,292.3   5,147,866</span>
-<span id="cb24-4"><a href="08-Contamination_check.html#cb24-4" tabindex="-1"></a><span class="ex">eukarya_ERR7979900_hifiasm.bp.p_ctg.fa</span>        FASTA   DNA         38   65,597,190   10,925  1,726,241.8  13,381,880</span>
-<span id="cb24-5"><a href="08-Contamination_check.html#cb24-5" tabindex="-1"></a><span class="ex">plastid_ERR7979900_hifiasm.bp.p_ctg.fa</span>        FASTA   DNA          1       16,568   16,568       16,568      16,568</span>
-<span id="cb24-6"><a href="08-Contamination_check.html#cb24-6" tabindex="-1"></a><span class="ex">unknown_ERR7979900_hifiasm.bp.p_ctg.fa</span>        FASTA   DNA         16      627,026   23,742     39,189.1      77,760</span></code></pre></div>
-<p>Based on this table, most of the assembly by number (493 out of 548 sequences), and almost half by span (56 Mb out of 122 Mb) is actually bacterial in origin.</p>
+<center>
+<img src="figures/tiara_stats.png" style="width:1500px" />
+</center>
+<p>Based on this table, most of the assembly by number (490 out of 548 sequences), and almost half by span (56 Mb out of 122 Mb) is actually bacterial in origin.</p>
 <ol style="list-style-type: decimal">
 <li>The default threshold for assigning a sequence to one of the above classes is 0.65. If you change that to 0.9 (Hint: use the <code>-p</code> option in <code>tiara</code>), what is the span of eukaryotic sequences?
-<div id="radio_SGCBIFEYDG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SGCBIFEYDG" value=""></input> <span>55 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_SGCBIFEYDG" value="answer"></input> <span>65 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_SGCBIFEYDG" value=""></input> <span>75 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_SGCBIFEYDG" value=""></input> <span>85 Mb</span></label>
+<div id="radio_OTHCZCOCJL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OTHCZCOCJL" value=""></input> <span>55 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_OTHCZCOCJL" value="answer"></input> <span>65 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_OTHCZCOCJL" value=""></input> <span>75 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_OTHCZCOCJL" value=""></input> <span>85 Mb</span></label>
 </div></li>
 </ol>
 <p>In this case, <code>Tiara</code> has done a very good job of separating the eukaryotic nematode sequences from the rest, because we know that the <em>Oscheius onirici</em> genome is 65 Mb in size.</p>
 <p>However, the 16 kb sequence labelled plastid is odd as only plants should have plastids. We can check this sequence by Blasting it. Using <code>firefox</code>, load the BLAST webpage and upload the plastid fasta file.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb25-1"><a href="08-Contamination_check.html#cb25-1" tabindex="-1"></a><span class="ex">firefox</span> https://blast.ncbi.nlm.nih.gov/Blast.cgi<span class="pp">?</span>PROGRAM=blastn <span class="kw">&amp;</span></span></code></pre></div>
-<p>Click on <code>Nucleotide BLAST</code> &gt; <code>Browse</code> next to where it says 'upload file' and choose the plastid assembly file.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb24-1"><a href="08-Contamination_check.html#cb24-1" tabindex="-1"></a><span class="ex">firefox</span> https://blast.ncbi.nlm.nih.gov/Blast.cgi<span class="pp">?</span>PROGRAM=blastn <span class="kw">&amp;</span></span></code></pre></div>
+<p>Click on <code>Nucleotide BLAST</code> &gt; <code>Browse</code> next to where it says 'upload file'. It may take a little while for the “File Upload” pop-up to appear. When it does, choose the plastid assembly file.</p>
 <p>Under 'Organism' enter 'Oscheius (taxid:42476)' and run a megablast search.</p>
 <center>
 <img src="figures/blast_search.png" style="width:900px; border-radius:5px" />

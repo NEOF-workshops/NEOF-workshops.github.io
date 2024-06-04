@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 10 Purging duplications | Eukaryote genome assembly</title>
   <meta name="description" content="NEOF book for the Eukaryote genome assembly workshop" />
-  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 10 Purging duplications | Eukaryote genome assembly" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Sujai Kumar &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2024-05-30" />
+<meta name="date" content="2024-06-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -60,7 +60,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -253,40 +253,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The GenomeScope plot for our workshop example species <em>Oscheius onirici</em> didn't indicate much heterozygosity, so it is very likely that <code>purge_dups</code> will not find many extra contigs to remove.</p>
 <p>For this part of the workshop, we will use only the eukarya part of the genome assembly as identified by <code>Tiara</code>.</p>
 <p>First make a sub-folder for <code>purge_dups</code> and change into it:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb29-1"><a href="10-Purge_duplicates.html#cb29-1" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/eukaryote_assembly/3-assessment/purge_dups</span>
-<span id="cb29-2"><a href="10-Purge_duplicates.html#cb29-2" tabindex="-1"></a><span class="bu">cd</span> ~/eukaryote_assembly/3-assessment/purge_dups</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb28-1"><a href="10-Purge_duplicates.html#cb28-1" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/eukaryote_assembly/3-assessment/purge_dups</span>
+<span id="cb28-2"><a href="10-Purge_duplicates.html#cb28-2" tabindex="-1"></a><span class="bu">cd</span> ~/eukaryote_assembly/3-assessment/purge_dups</span></code></pre></div>
 <p>Now make a symlink to the eukarya_ part of the assembly, and to the reads from the assembly directory:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb30-1"><a href="10-Purge_duplicates.html#cb30-1" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> ~/eukaryote_assembly/3-assessment/eukarya_ERR7979900_hifiasm.bp.p_ctg.fa</span>
-<span id="cb30-2"><a href="10-Purge_duplicates.html#cb30-2" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> ~/eukaryote_assembly/1-preassembly/ERR7979900.fastq</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb29-1"><a href="10-Purge_duplicates.html#cb29-1" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> ~/eukaryote_assembly/3-assessment/eukarya_ERR7979900_hifiasm.bp.p_ctg.fa</span>
+<span id="cb29-2"><a href="10-Purge_duplicates.html#cb29-2" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> ~/eukaryote_assembly/1-preassembly/ERR7979900.fastq</span></code></pre></div>
 <p>From now on, we're going to use bash variables extensively, so that you just have to change the names of the files in the variables at the start, and then you can reuse the commands that follow on your own data in future:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb31-1"><a href="10-Purge_duplicates.html#cb31-1" tabindex="-1"></a><span class="va">READS</span><span class="op">=</span>ERR7979900.fastq</span>
-<span id="cb31-2"><a href="10-Purge_duplicates.html#cb31-2" tabindex="-1"></a><span class="va">CONTIGS</span><span class="op">=</span>eukarya_ERR7979900_hifiasm.bp.p_ctg.fa</span>
-<span id="cb31-3"><a href="10-Purge_duplicates.html#cb31-3" tabindex="-1"></a><span class="va">CPU</span><span class="op">=</span>16</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb30-1"><a href="10-Purge_duplicates.html#cb30-1" tabindex="-1"></a><span class="va">READS</span><span class="op">=</span>ERR7979900.fastq</span>
+<span id="cb30-2"><a href="10-Purge_duplicates.html#cb30-2" tabindex="-1"></a><span class="va">CONTIGS</span><span class="op">=</span>eukarya_ERR7979900_hifiasm.bp.p_ctg.fa</span>
+<span id="cb30-3"><a href="10-Purge_duplicates.html#cb30-3" tabindex="-1"></a><span class="va">CPU</span><span class="op">=</span>16</span></code></pre></div>
 <div id="mapping" class="section level4 unnumbered hasAnchor">
 <h4>Mapping<a href="10-Purge_duplicates.html#mapping" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Map the reads to the assembly (this step will take the longest, ~2 minutes)</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb32-1"><a href="10-Purge_duplicates.html#cb32-1" tabindex="-1"></a><span class="ex">minimap2</span> <span class="at">-t</span> <span class="va">$CPU</span> <span class="at">-x</span> map-hifi <span class="va">$CONTIGS</span> <span class="va">$READS</span> <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb32-2"><a href="10-Purge_duplicates.html#cb32-2" tabindex="-1"></a><span class="fu">gzip</span> <span class="at">-c</span> <span class="at">-</span> <span class="op">&gt;</span> <span class="va">${CONTIGS}</span>.paf.gz</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb31-1"><a href="10-Purge_duplicates.html#cb31-1" tabindex="-1"></a><span class="ex">minimap2</span> <span class="at">-t</span> <span class="va">$CPU</span> <span class="at">-x</span> map-hifi <span class="va">$CONTIGS</span> <span class="va">$READS</span> <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb31-2"><a href="10-Purge_duplicates.html#cb31-2" tabindex="-1"></a><span class="fu">gzip</span> <span class="at">-c</span> <span class="at">-</span> <span class="op">&gt;</span> <span class="va">${CONTIGS}</span>.paf.gz</span></code></pre></div>
 </div>
 <div id="calculate-read-depth-and-cutoffs" class="section level4 unnumbered hasAnchor">
 <h4>Calculate read depth and cutoffs<a href="10-Purge_duplicates.html#calculate-read-depth-and-cutoffs" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The first step below (<code>pbcstat</code>) calculates the read depth statistics.</p>
 <p>The second step uses the read depth information to decide cutoffs.
 If the majority of the contigs are around 20-25 read depth, then a contig with read depth between 10-12 might be a duplicated contig representing the alternate heterozygous part of the assembly.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb33-1"><a href="10-Purge_duplicates.html#cb33-1" tabindex="-1"></a><span class="ex">pbcstat</span> <span class="va">${CONTIGS}</span>.paf.gz</span>
-<span id="cb33-2"><a href="10-Purge_duplicates.html#cb33-2" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="10-Purge_duplicates.html#cb33-3" tabindex="-1"></a><span class="ex">calcuts</span> PB.stat <span class="op">&gt;</span> <span class="va">${CONTIGS}</span>_cutoffs 2 <span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb33-4"><a href="10-Purge_duplicates.html#cb33-4" tabindex="-1"></a><span class="va">${CONTIGS}</span>_calcults.log</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb32-1"><a href="10-Purge_duplicates.html#cb32-1" tabindex="-1"></a><span class="ex">pbcstat</span> <span class="va">${CONTIGS}</span>.paf.gz</span>
+<span id="cb32-2"><a href="10-Purge_duplicates.html#cb32-2" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="10-Purge_duplicates.html#cb32-3" tabindex="-1"></a><span class="ex">calcuts</span> PB.stat <span class="op">&gt;</span> <span class="va">${CONTIGS}</span>_cutoffs <span class="dv">2</span><span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb32-4"><a href="10-Purge_duplicates.html#cb32-4" tabindex="-1"></a><span class="va">${CONTIGS}</span>_calcults.log</span></code></pre></div>
 </div>
 <div id="split-assembly-self-alignment" class="section level4 unnumbered hasAnchor">
 <h4>Split assembly &amp; self alignment<a href="10-Purge_duplicates.html#split-assembly-self-alignment" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>This step is necessary to see which contigs are almost identical to other contigs.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb34-1"><a href="10-Purge_duplicates.html#cb34-1" tabindex="-1"></a><span class="ex">split_fa</span> <span class="va">$CONTIGS</span> <span class="op">&gt;</span> <span class="va">${CONTIGS}</span>.split</span>
-<span id="cb34-2"><a href="10-Purge_duplicates.html#cb34-2" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="10-Purge_duplicates.html#cb34-3" tabindex="-1"></a><span class="ex">minimap2</span> <span class="at">-t</span> <span class="va">$CPU</span> <span class="at">-xasm5</span> <span class="dt">\</span></span>
-<span id="cb34-4"><a href="10-Purge_duplicates.html#cb34-4" tabindex="-1"></a>-DP <span class="va">${CONTIGS}</span>.split <span class="dt">\</span></span>
-<span id="cb34-5"><a href="10-Purge_duplicates.html#cb34-5" tabindex="-1"></a><span class="va">${CONTIGS}</span>.split <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb34-6"><a href="10-Purge_duplicates.html#cb34-6" tabindex="-1"></a><span class="fu">gzip</span> <span class="at">-c</span> <span class="at">-</span> <span class="op">&gt;</span> <span class="va">${CONTIGS}</span>.split.self.paf.gz</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb33-1"><a href="10-Purge_duplicates.html#cb33-1" tabindex="-1"></a><span class="ex">split_fa</span> <span class="va">$CONTIGS</span> <span class="op">&gt;</span> <span class="va">${CONTIGS}</span>.split</span>
+<span id="cb33-2"><a href="10-Purge_duplicates.html#cb33-2" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="10-Purge_duplicates.html#cb33-3" tabindex="-1"></a><span class="ex">minimap2</span> <span class="at">-t</span> <span class="va">$CPU</span> <span class="at">-xasm5</span> <span class="dt">\</span></span>
+<span id="cb33-4"><a href="10-Purge_duplicates.html#cb33-4" tabindex="-1"></a>-DP <span class="va">${CONTIGS}</span>.split <span class="dt">\</span></span>
+<span id="cb33-5"><a href="10-Purge_duplicates.html#cb33-5" tabindex="-1"></a><span class="va">${CONTIGS}</span>.split <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb33-6"><a href="10-Purge_duplicates.html#cb33-6" tabindex="-1"></a><span class="fu">gzip</span> <span class="at">-c</span> <span class="at">-</span> <span class="op">&gt;</span> <span class="va">${CONTIGS}</span>.split.self.paf.gz</span></code></pre></div>
 </div>
 <div id="purge-haplotigs" class="section level4 unnumbered hasAnchor">
 <h4>Purge haplotigs<a href="10-Purge_duplicates.html#purge-haplotigs" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -294,29 +294,28 @@ If the majority of the contigs are around 20-25 read depth, then a contig with r
 This is the final step where purge_dups uses three pieces of information: the cutoffs file, the coverage (or read depth file), and the information about which contigs are almost identical to others.
 If a contig is lower than the cutoff, and is almost identical to another contig, then it is marked as a haplotig.
 The output of this step is <code>hap.fa</code> - the file with alternate haplotigs, and <code>purged.fa</code> - the file with haplotigs removed (i.e., purged).</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb35-1"><a href="10-Purge_duplicates.html#cb35-1" tabindex="-1"></a><span class="ex">purge_dups</span> <span class="at">-2</span> <span class="at">-T</span> <span class="va">${CONTIGS}</span>_cutoffs <span class="dt">\</span></span>
-<span id="cb35-2"><a href="10-Purge_duplicates.html#cb35-2" tabindex="-1"></a>-c PB.base.cov <span class="dt">\</span></span>
-<span id="cb35-3"><a href="10-Purge_duplicates.html#cb35-3" tabindex="-1"></a><span class="va">${CONTIGS}</span>.split.self.paf.gz <span class="op">&gt;</span><span class="va">${CONTIGS}</span>_dups.bed <span class="dt">\</span></span>
-<span id="cb35-4"><a href="10-Purge_duplicates.html#cb35-4" tabindex="-1"></a>2 <span class="op">&gt;</span> <span class="va">${CONTIGS}</span>_purge_dups.log</span>
-<span id="cb35-5"><a href="10-Purge_duplicates.html#cb35-5" tabindex="-1"></a></span>
-<span id="cb35-6"><a href="10-Purge_duplicates.html#cb35-6" tabindex="-1"></a><span class="ex">get_seqs</span> <span class="at">-e</span> <span class="va">${CONTIGS}</span>_dups.bed <span class="va">$CONTIGS</span></span>
-<span id="cb35-7"><a href="10-Purge_duplicates.html#cb35-7" tabindex="-1"></a></span>
-<span id="cb35-8"><a href="10-Purge_duplicates.html#cb35-8" tabindex="-1"></a><span class="fu">mv</span> purged.fa <span class="va">${CONTIGS}</span>_purged.fa</span>
-<span id="cb35-9"><a href="10-Purge_duplicates.html#cb35-9" tabindex="-1"></a></span>
-<span id="cb35-10"><a href="10-Purge_duplicates.html#cb35-10" tabindex="-1"></a><span class="fu">mv</span> hap.fa <span class="va">${CONTIGS}</span>_hap.fa</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb34-1"><a href="10-Purge_duplicates.html#cb34-1" tabindex="-1"></a><span class="ex">purge_dups</span> <span class="at">-2</span> <span class="at">-T</span> <span class="va">${CONTIGS}</span>_cutoffs <span class="dt">\</span></span>
+<span id="cb34-2"><a href="10-Purge_duplicates.html#cb34-2" tabindex="-1"></a>-c PB.base.cov <span class="dt">\</span></span>
+<span id="cb34-3"><a href="10-Purge_duplicates.html#cb34-3" tabindex="-1"></a><span class="va">${CONTIGS}</span>.split.self.paf.gz <span class="op">&gt;</span><span class="va">${CONTIGS}</span>_dups.bed <span class="dt">\</span></span>
+<span id="cb34-4"><a href="10-Purge_duplicates.html#cb34-4" tabindex="-1"></a>2<span class="op">&gt;</span> <span class="va">${CONTIGS}</span>_purge_dups.log</span>
+<span id="cb34-5"><a href="10-Purge_duplicates.html#cb34-5" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="10-Purge_duplicates.html#cb34-6" tabindex="-1"></a><span class="ex">get_seqs</span> <span class="at">-e</span> <span class="va">${CONTIGS}</span>_dups.bed <span class="va">$CONTIGS</span></span>
+<span id="cb34-7"><a href="10-Purge_duplicates.html#cb34-7" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="10-Purge_duplicates.html#cb34-8" tabindex="-1"></a><span class="fu">mv</span> purged.fa <span class="va">${CONTIGS}</span>_purged.fa</span>
+<span id="cb34-9"><a href="10-Purge_duplicates.html#cb34-9" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="10-Purge_duplicates.html#cb34-10" tabindex="-1"></a><span class="fu">mv</span> hap.fa <span class="va">${CONTIGS}</span>_hap.fa</span></code></pre></div>
 </div>
 <div id="output" class="section level4 unnumbered hasAnchor">
 <h4>Output<a href="10-Purge_duplicates.html#output" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Let's take a look at the stats of the two files created:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb36-1"><a href="10-Purge_duplicates.html#cb36-1" tabindex="-1"></a><span class="ex">seqkit</span> stats <span class="va">${CONTIGS}</span> <span class="dt">\</span></span>
-<span id="cb36-2"><a href="10-Purge_duplicates.html#cb36-2" tabindex="-1"></a><span class="va">${CONTIGS}</span>_purged.fa <span class="dt">\</span></span>
-<span id="cb36-3"><a href="10-Purge_duplicates.html#cb36-3" tabindex="-1"></a><span class="va">${CONTIGS}</span>_hap.fa</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb35-1"><a href="10-Purge_duplicates.html#cb35-1" tabindex="-1"></a><span class="ex">seqkit</span> stats <span class="va">${CONTIGS}</span> <span class="dt">\</span></span>
+<span id="cb35-2"><a href="10-Purge_duplicates.html#cb35-2" tabindex="-1"></a><span class="va">${CONTIGS}</span>_purged.fa <span class="dt">\</span></span>
+<span id="cb35-3"><a href="10-Purge_duplicates.html#cb35-3" tabindex="-1"></a><span class="va">${CONTIGS}</span>_hap.fa</span></code></pre></div>
 <p>The output should look something like this:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb37-1"><a href="10-Purge_duplicates.html#cb37-1" tabindex="-1"></a><span class="fu">file</span>                                              format  type  num_seqs     sum_len  min_len      avg_len     max_len</span>
-<span id="cb37-2"><a href="10-Purge_duplicates.html#cb37-2" tabindex="-1"></a><span class="ex">eukarya_ERR7979900_hifiasm.bp.p_ctg.fa</span>            FASTA   DNA         38  65,597,190   10,925  1,726,241.8  13,381,880</span>
-<span id="cb37-3"><a href="10-Purge_duplicates.html#cb37-3" tabindex="-1"></a><span class="ex">eukarya_ERR7979900_hifiasm.bp.p_ctg.fa_purged.fa</span>  FASTA   DNA         12  64,693,209   19,183  5,391,100.8  13,381,880</span>
-<span id="cb37-4"><a href="10-Purge_duplicates.html#cb37-4" tabindex="-1"></a><span class="ex">eukarya_ERR7979900_hifiasm.bp.p_ctg.fa_hap.fa</span>     FASTA   DNA         27     903,981   10,925     33,480.8      64,403</span></code></pre></div>
-<p>As we suspected, only a small span (903,981 bp) was removed from the assembly, indicating this was a mostly homozygous assembly with almost no alternate haplotigs.</p>
+<center>
+<img src="figures/pd_stats.png" style="width:1800px" />
+</center>
+<p>As we suspected, only a small span (226,413 bp) was removed from the assembly, indicating this was a mostly homozygous assembly with almost no alternate haplotigs.</p>
 
 </div>
 </div>
