@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2024-06-10" />
+<meta name="date" content="2024-06-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -129,6 +129,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
 </head>
 
 <body>
@@ -160,6 +161,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="04-Multiple_samples_loops.html"><a href="04-Multiple_samples_loops.html#simple-loop-example"><i class="fa fa-check"></i><b>4.1</b> Simple loop example</a></li>
 <li class="chapter" data-level="4.2" data-path="04-Multiple_samples_loops.html"><a href="04-Multiple_samples_loops.html#trimmomatic-loop-example"><i class="fa fa-check"></i><b>4.2</b> Trimmomatic loop example</a></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="05-WGCNA.html"><a href="05-WGCNA.html"><i class="fa fa-check"></i><b>5</b> Gene Co-expression Network Analysis with WGCNA</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-WGCNA.html"><a href="05-WGCNA.html#introduction-to-wgcna"><i class="fa fa-check"></i><b>5.1</b> Introduction to WGCNA</a></li>
+<li class="chapter" data-level="5.2" data-path="05-WGCNA.html"><a href="05-WGCNA.html#set-up"><i class="fa fa-check"></i><b>5.2</b> Set up</a></li>
+<li class="chapter" data-level="5.3" data-path="05-WGCNA.html"><a href="05-WGCNA.html#checking-hierarchical-clustering"><i class="fa fa-check"></i><b>5.3</b> Checking hierarchical clustering</a></li>
+<li class="chapter" data-level="5.4" data-path="05-WGCNA.html"><a href="05-WGCNA.html#network-construction"><i class="fa fa-check"></i><b>5.4</b> Network construction</a></li>
+<li class="chapter" data-level="5.5" data-path="05-WGCNA.html"><a href="05-WGCNA.html#module-detection"><i class="fa fa-check"></i><b>5.5</b> Module detection</a></li>
+<li class="chapter" data-level="5.6" data-path="05-WGCNA.html"><a href="05-WGCNA.html#module-treatment-correlation"><i class="fa fa-check"></i><b>5.6</b> Module-treatment correlation</a></li>
+<li class="chapter" data-level="5.7" data-path="05-WGCNA.html"><a href="05-WGCNA.html#network-plots-and-hub-genes"><i class="fa fa-check"></i><b>5.7</b> Network plots and hub genes</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -189,7 +200,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </center>
 <p>Here we will briefly cover a couple of slightly more complex models and how you would code them and extract the results. In our first model we looked at a single term (sex).</p>
 <p>For the second model, we may be primarily interested in the selection regime of the lines of flies. But, given that there are big differences due to sex of fly, we might want to control for this. We can fit a model of the form expression = sex + regime.</p>
-<p>Make sure you are in the ‘Practical_two’ directory, have the ‘usernaseq’ environment activated, open a new Jupyter notebook called <strong>“Suppl03-Further_DESeq2”</strong> and read in the count data and the meta data for the experiment into a new code cell.</p>
+<p>Make sure you are in the 'Practical_two' directory, have the 'usernaseq' environment activated, open a new Jupyter notebook called <strong>"Suppl03-Further_DESeq2"</strong> and read in the count data and the meta data for the experiment into a new code cell.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb10-1"><a href="03-Further_DESeq2.html#cb10-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;DESeq2&quot;</span>)</span>
 <span id="cb10-2"><a href="03-Further_DESeq2.html#cb10-2" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="03-Further_DESeq2.html#cb10-3" tabindex="-1"></a>counts<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;genecount.set1.tsv&quot;</span>, <span class="at">header=</span>T, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
@@ -198,7 +209,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-6"><a href="03-Further_DESeq2.html#cb10-6" tabindex="-1"></a><span class="co"># Make sure the metadata columns sex and regime are read as factors</span></span>
 <span id="cb10-7"><a href="03-Further_DESeq2.html#cb10-7" tabindex="-1"></a>coldata<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(coldata<span class="sc">$</span>sex)</span>
 <span id="cb10-8"><a href="03-Further_DESeq2.html#cb10-8" tabindex="-1"></a>coldata<span class="sc">$</span>regime <span class="ot">&lt;-</span> <span class="fu">factor</span>(coldata<span class="sc">$</span>regime)</span></code></pre></div>
-<p>We can now create the DESeq data set for the additive model. As the variable of interest in this case is the “regime”, we put it at the end of the formula and control for the factor “sex”.</p>
+<p>We can now create the DESeq data set for the additive model. As the variable of interest in this case is the "regime", we put it at the end of the formula and control for the factor "sex".</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb11-1"><a href="03-Further_DESeq2.html#cb11-1" tabindex="-1"></a>dds2 <span class="ot">&lt;-</span> <span class="fu">DESeqDataSetFromMatrix</span>(<span class="at">countData =</span> counts,</span>
 <span id="cb11-2"><a href="03-Further_DESeq2.html#cb11-2" tabindex="-1"></a>                              <span class="at">colData =</span> coldata,</span>
 <span id="cb11-3"><a href="03-Further_DESeq2.html#cb11-3" tabindex="-1"></a>                              <span class="at">design=</span> <span class="sc">~</span> sex <span class="sc">+</span> regime)</span></code></pre></div>
@@ -222,8 +233,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <center>
 <img src="figures/Dros_3_regimes.png" style="width:400px; border-radius:15px" />
 </center>
-<p>The last model we will show is how to fit a model with multiple groups. In the fly example here, it might be the case that a gene is differentially expressed between regimes M and E, but only in one sex of fly. This is an experiment on sexual selection, so it’s reasonable that selection might act on different genes in the males and the females.</p>
-<p>Interaction terms can be added to the design formula, but it can be much simpler to combine the factors of interest into a single factor with all combinations of the original factors. We can then change the design formula to include just this factor. We have done this for the “group” factor in our metadata. For example, BFCH is a female fly from regime B and we can compare the other all other groups (e.g. male-B, female-E, male-E, female-M &amp; male-M) against each other.</p>
+<p>The last model we will show is how to fit a model with multiple groups. In the fly example here, it might be the case that a gene is differentially expressed between regimes M and E, but only in one sex of fly. This is an experiment on sexual selection, so it's reasonable that selection might act on different genes in the males and the females.</p>
+<p>Interaction terms can be added to the design formula, but it can be much simpler to combine the factors of interest into a single factor with all combinations of the original factors. We can then change the design formula to include just this factor. We have done this for the "group" factor in our metadata. For example, BFCH is a female fly from regime B and we can compare the other all other groups (e.g. male-B, female-E, male-E, female-M &amp; male-M) against each other.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb15-1"><a href="03-Further_DESeq2.html#cb15-1" tabindex="-1"></a><span class="co"># Make sure the metadata column group is set up as a factor</span></span>
 <span id="cb15-2"><a href="03-Further_DESeq2.html#cb15-2" tabindex="-1"></a>coldata<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(coldata<span class="sc">$</span>group)</span>
 <span id="cb15-3"><a href="03-Further_DESeq2.html#cb15-3" tabindex="-1"></a></span>
@@ -236,7 +247,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb16-2"><a href="03-Further_DESeq2.html#cb16-2" tabindex="-1"></a>dds3<span class="ot">&lt;-</span> dds3[keep,]</span>
 <span id="cb16-3"><a href="03-Further_DESeq2.html#cb16-3" tabindex="-1"></a></span>
 <span id="cb16-4"><a href="03-Further_DESeq2.html#cb16-4" tabindex="-1"></a>dds3 <span class="ot">&lt;-</span> <span class="fu">DESeq</span>(dds3)</span></code></pre></div>
-<p>We can now extract the results of interest as we did in the previous example. Let’s look at the regime M vs E contrast, first in females:</p>
+<p>We can now extract the results of interest as we did in the previous example. Let's look at the regime M vs E contrast, first in females:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb17-1"><a href="03-Further_DESeq2.html#cb17-1" tabindex="-1"></a>resMFvsEF<span class="ot">&lt;-</span><span class="fu">results</span>(dds3, <span class="at">contrast=</span><span class="fu">c</span>(<span class="st">&quot;group&quot;</span>, <span class="st">&quot;MFCH&quot;</span>, <span class="st">&quot;EFCH&quot;</span>))</span>
 <span id="cb17-2"><a href="03-Further_DESeq2.html#cb17-2" tabindex="-1"></a><span class="fu">head</span>(resMFvsEF)</span>
 <span id="cb17-3"><a href="03-Further_DESeq2.html#cb17-3" tabindex="-1"></a><span class="fu">summary</span>(resMFvsEF)</span></code></pre></div>
@@ -249,6 +260,212 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </div>
 </div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
             </section>
 
           </div>
