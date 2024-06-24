@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2024-06-20" />
+<meta name="date" content="2024-06-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -275,8 +275,8 @@ This time we will filter out genes with less than 100 reads across all samples. 
 </center>
 <p>As we can see, there are no outliers in the data set which is good! The replicates cluster together for some of our treatment groups, although for others the clustering is less clear.</p>
 Which treatment group shows the strongest clustering of replicate samples (ignoring difference between the sexes)?
-<div id="radio_ZMSECJDVAN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZMSECJDVAN" value="answer"></input> <span>B - Baseline</span></label><label><input type="radio" autocomplete="off" name="radio_ZMSECJDVAN" value=""></input> <span>E - Evolved monogamy</span></label><label><input type="radio" autocomplete="off" name="radio_ZMSECJDVAN" value=""></input> <span>M - Multiple mates</span></label>
+<div id="radio_QKFQACTMWE" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QKFQACTMWE" value="answer"></input> <span>B - Baseline</span></label><label><input type="radio" autocomplete="off" name="radio_QKFQACTMWE" value=""></input> <span>E - Evolved monogamy</span></label><label><input type="radio" autocomplete="off" name="radio_QKFQACTMWE" value=""></input> <span>M - Multiple mates</span></label>
 </div>
 <p>However, the fact that the replicates do not cluster together may not be that unusual in a comparison where the treatments are relatively slight (we would expect to see stronger clustering when comparing different tissues or development stages for example).</p>
 </div>
@@ -351,8 +351,8 @@ Which treatment group shows the strongest clustering of replicate samples (ignor
 <span id="cb31-12"><a href="05-WGCNA.html#cb31-12" tabindex="-1"></a><span class="co"># show modules</span></span>
 <span id="cb31-13"><a href="05-WGCNA.html#cb31-13" tabindex="-1"></a><span class="fu">table</span>(dynamicMods)</span></code></pre></div>
 Excluding the '0', how many modules have been detected by the hierarchical clustering?
-<div id="radio_XLSYCJVDVV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XLSYCJVDVV" value=""></input> <span>15</span></label><label><input type="radio" autocomplete="off" name="radio_XLSYCJVDVV" value="answer"></input> <span>24</span></label><label><input type="radio" autocomplete="off" name="radio_XLSYCJVDVV" value=""></input> <span>31</span></label>
+<div id="radio_WFDNBUIJEF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WFDNBUIJEF" value=""></input> <span>15</span></label><label><input type="radio" autocomplete="off" name="radio_WFDNBUIJEF" value="answer"></input> <span>24</span></label><label><input type="radio" autocomplete="off" name="radio_WFDNBUIJEF" value=""></input> <span>31</span></label>
 </div>
 <p>You should be able to see that the modules contain between 74 and 1697 genes. The number of modules depends on the dataset - because the differences between treatments in this experiment are fairly subtle, it is likely to have a relatively high number of modules, while an experiment with greater differences between treatments may have fewer but more distinct modules. We can assess module similarity by comparing the gene expression in each of the modules using module eignegenes (the first principal component of the expression matrix).</p>
 <p>But first, it's time to get colourful. Rather than using numbers to label modules, WGCNA uses colours. This is not only for aesthetic reasons, but makes it easier to keep a track of how different modules relate to one another and to treatments or phenotypes.</p>
@@ -446,8 +446,8 @@ Excluding the '0', how many modules have been detected by the hierarchical clust
 </center>
 <p>The heatmap shows that some of the module eigengenes have quite high correlations with our treatment groups. The best correlation is the blue module, which strongly positively correlates with the baseline male group (r = 0.75, p = 0.00002). However, we would probably be more interested in knowing the modules that correlate with the experimental treatment groups.</p>
 What module eigengene shows the strongest correlation in any of the M (multiple matings) or E (Evolved monogamy) treatment groups?
-<div id="radio_CNQJMHREUZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_CNQJMHREUZ" value=""></input> <span>salmon</span></label><label><input type="radio" autocomplete="off" name="radio_CNQJMHREUZ" value="answer"></input> <span>greenyellow</span></label><label><input type="radio" autocomplete="off" name="radio_CNQJMHREUZ" value=""></input> <span>lightcyan</span></label>
+<div id="radio_JYFIQLKCQE" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JYFIQLKCQE" value=""></input> <span>salmon</span></label><label><input type="radio" autocomplete="off" name="radio_JYFIQLKCQE" value="answer"></input> <span>greenyellow</span></label><label><input type="radio" autocomplete="off" name="radio_JYFIQLKCQE" value=""></input> <span>lightcyan</span></label>
 </div>
 <p>One module that shows an interesting pattern of co-expression is the lightyellow module, which shows a negative correlation with the evolved monogamy male group (r = -0.51, p = 0.01), but also a positive correlation with the the multiple mated male group (r = 0.41, p = 0.04). We are going to use this module as an example for the final stage of this network analysis - plotting a network graph.</p>
 </div>
@@ -456,79 +456,103 @@ What module eigengene shows the strongest correlation in any of the M (multiple 
 <center>
 <img src="figures/spiderweb.png" style="width:200px" />
 </center>
-<p>First of all we are going to extract the TOM dissimilarity information for genes in the lightyellow module as an input for our network plot.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb38-1"><a href="05-WGCNA.html#cb38-1" tabindex="-1"></a><span class="co"># Select a module of interest</span></span>
-<span id="cb38-2"><a href="05-WGCNA.html#cb38-2" tabindex="-1"></a>modules <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;lightyellow&quot;</span>)</span>
+<p>WGCNA uses the concept of module membership (MM) to identify hub genes. Module membership is effectively the correlation between a given gene's gene expression profile and the module eigengene (a value between -1 and 1). High MM scores are close to -1 or 1, while low MM scores are close to 0. For each gene, the MM (and it's p value) are calculated for all the modules, but it will have the highest MM for the module to which it was assigned during the clustering analysis.</p>
+<p>Higher module membership is associated with intramodular connectivity, and thus can be used as a metric for identifying hub genes within a module. We are going to create a data frame of all MM scores and their p values for all genes and all modules, which we can query in the following steps.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb38-1"><a href="05-WGCNA.html#cb38-1" tabindex="-1"></a><span class="co"># names (colors) of the modules</span></span>
+<span id="cb38-2"><a href="05-WGCNA.html#cb38-2" tabindex="-1"></a>modNames <span class="ot">&lt;-</span> <span class="fu">substring</span>(<span class="fu">names</span>(MEs), <span class="dv">3</span>)</span>
 <span id="cb38-3"><a href="05-WGCNA.html#cb38-3" tabindex="-1"></a></span>
-<span id="cb38-4"><a href="05-WGCNA.html#cb38-4" tabindex="-1"></a><span class="co"># Obtain the genes that are in that module</span></span>
-<span id="cb38-5"><a href="05-WGCNA.html#cb38-5" tabindex="-1"></a>inModule <span class="ot">&lt;-</span> <span class="fu">is.finite</span>(<span class="fu">match</span>(mergedCols, modules))</span>
-<span id="cb38-6"><a href="05-WGCNA.html#cb38-6" tabindex="-1"></a>modGenes <span class="ot">&lt;-</span> <span class="fu">colnames</span>(ncount)[inModule]</span>
+<span id="cb38-4"><a href="05-WGCNA.html#cb38-4" tabindex="-1"></a><span class="co"># Caluclate gene module membership and p value</span></span>
+<span id="cb38-5"><a href="05-WGCNA.html#cb38-5" tabindex="-1"></a>geneModMem <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">cor</span>(ncount, MEs, <span class="at">use =</span> <span class="st">&quot;p&quot;</span>))</span>
+<span id="cb38-6"><a href="05-WGCNA.html#cb38-6" tabindex="-1"></a>MMPvalue <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">corPvalueStudent</span>(<span class="fu">as.matrix</span>(geneModMem), nSamples))</span>
 <span id="cb38-7"><a href="05-WGCNA.html#cb38-7" tabindex="-1"></a></span>
-<span id="cb38-8"><a href="05-WGCNA.html#cb38-8" tabindex="-1"></a><span class="co"># How many genes are in the module?</span></span>
-<span id="cb38-9"><a href="05-WGCNA.html#cb38-9" tabindex="-1"></a><span class="fu">length</span>(modGenes)</span>
-<span id="cb38-10"><a href="05-WGCNA.html#cb38-10" tabindex="-1"></a></span>
-<span id="cb38-11"><a href="05-WGCNA.html#cb38-11" tabindex="-1"></a><span class="co"># Select the TOM values for these genes</span></span>
-<span id="cb38-12"><a href="05-WGCNA.html#cb38-12" tabindex="-1"></a>modTOM <span class="ot">&lt;-</span> TOM[inModule, inModule]</span>
-<span id="cb38-13"><a href="05-WGCNA.html#cb38-13" tabindex="-1"></a><span class="fu">dimnames</span>(modTOM) <span class="ot">&lt;-</span> <span class="fu">list</span>(modGenes, modGenes)</span></code></pre></div>
+<span id="cb38-8"><a href="05-WGCNA.html#cb38-8" tabindex="-1"></a><span class="co"># Rename columns of these data frames</span></span>
+<span id="cb38-9"><a href="05-WGCNA.html#cb38-9" tabindex="-1"></a><span class="fu">names</span>(geneModMem) <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;MM&quot;</span>, modNames, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb38-10"><a href="05-WGCNA.html#cb38-10" tabindex="-1"></a><span class="fu">names</span>(MMPvalue) <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;p.MM&quot;</span>, modNames, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb38-11"><a href="05-WGCNA.html#cb38-11" tabindex="-1"></a></span>
+<span id="cb38-12"><a href="05-WGCNA.html#cb38-12" tabindex="-1"></a><span class="co"># merge data frames</span></span>
+<span id="cb38-13"><a href="05-WGCNA.html#cb38-13" tabindex="-1"></a>MMdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">merge</span>(<span class="at">x =</span> geneModMem, <span class="at">y =</span> MMPvalue, <span class="at">by =</span> <span class="st">&quot;row.names&quot;</span>), <span class="at">row.names =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>Now we are going to specify the module that we are interested in, select the top n genes for that module according to their module membership scores, and then extract the TOM dissimilarity information for these genes, which can be used as an input for our network plot.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb39-1"><a href="05-WGCNA.html#cb39-1" tabindex="-1"></a><span class="co"># Select a module of interest</span></span>
+<span id="cb39-2"><a href="05-WGCNA.html#cb39-2" tabindex="-1"></a>modules <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;lightyellow&quot;</span>)</span>
+<span id="cb39-3"><a href="05-WGCNA.html#cb39-3" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="05-WGCNA.html#cb39-4" tabindex="-1"></a><span class="co"># Obtain the genes that are in that module</span></span>
+<span id="cb39-5"><a href="05-WGCNA.html#cb39-5" tabindex="-1"></a>inModuleCol <span class="ot">&lt;-</span> <span class="fu">is.finite</span>(<span class="fu">match</span>(mergedColors, modules))</span>
+<span id="cb39-6"><a href="05-WGCNA.html#cb39-6" tabindex="-1"></a>modGenes <span class="ot">&lt;-</span> <span class="fu">colnames</span>(ncount)[inModuleCol]</span>
+<span id="cb39-7"><a href="05-WGCNA.html#cb39-7" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="05-WGCNA.html#cb39-8" tabindex="-1"></a><span class="co"># how many genes are in the module?</span></span>
+<span id="cb39-9"><a href="05-WGCNA.html#cb39-9" tabindex="-1"></a><span class="fu">length</span>(modGenes)</span>
+<span id="cb39-10"><a href="05-WGCNA.html#cb39-10" tabindex="-1"></a></span>
+<span id="cb39-11"><a href="05-WGCNA.html#cb39-11" tabindex="-1"></a><span class="co"># select module membership values for the module of interest</span></span>
+<span id="cb39-12"><a href="05-WGCNA.html#cb39-12" tabindex="-1"></a>modMMdata <span class="ot">&lt;-</span> MMdata[<span class="fu">rownames</span>(MMdata) <span class="sc">%in%</span> modGenes,</span>
+<span id="cb39-13"><a href="05-WGCNA.html#cb39-13" tabindex="-1"></a>                    <span class="fu">c</span>(<span class="fu">paste</span>(<span class="st">&quot;MM&quot;</span>, modules, <span class="at">sep=</span><span class="st">&quot;&quot;</span>),<span class="fu">paste</span>(<span class="st">&quot;p.MM&quot;</span>, modules, <span class="at">sep=</span><span class="st">&quot;&quot;</span>))]</span>
+<span id="cb39-14"><a href="05-WGCNA.html#cb39-14" tabindex="-1"></a></span>
+<span id="cb39-15"><a href="05-WGCNA.html#cb39-15" tabindex="-1"></a><span class="co"># How many genes do we want to include? 20 may be a a good number</span></span>
+<span id="cb39-16"><a href="05-WGCNA.html#cb39-16" tabindex="-1"></a>nnode <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb39-17"><a href="05-WGCNA.html#cb39-17" tabindex="-1"></a></span>
+<span id="cb39-18"><a href="05-WGCNA.html#cb39-18" tabindex="-1"></a><span class="co"># For our chosen module, select the top genes ordered by module membership. </span></span>
+<span id="cb39-19"><a href="05-WGCNA.html#cb39-19" tabindex="-1"></a><span class="co"># Notice that we use &#39;abs&#39; to choose genes with high or low values </span></span>
+<span id="cb39-20"><a href="05-WGCNA.html#cb39-20" tabindex="-1"></a><span class="co">#(module membership is scored between -1 and 1).</span></span>
+<span id="cb39-21"><a href="05-WGCNA.html#cb39-21" tabindex="-1"></a>topnode <span class="ot">&lt;-</span> modMMdata[<span class="fu">order</span>(</span>
+<span id="cb39-22"><a href="05-WGCNA.html#cb39-22" tabindex="-1"></a>  <span class="sc">-</span><span class="fu">abs</span>(modMMdata[,<span class="fu">paste</span>(<span class="st">&quot;MM&quot;</span>, modules, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)])</span>
+<span id="cb39-23"><a href="05-WGCNA.html#cb39-23" tabindex="-1"></a>  ),][<span class="dv">1</span><span class="sc">:</span>nnode,]</span>
+<span id="cb39-24"><a href="05-WGCNA.html#cb39-24" tabindex="-1"></a></span>
+<span id="cb39-25"><a href="05-WGCNA.html#cb39-25" tabindex="-1"></a><span class="co"># Select the TOM values for these genes</span></span>
+<span id="cb39-26"><a href="05-WGCNA.html#cb39-26" tabindex="-1"></a>topnodeGenes <span class="ot">&lt;-</span> <span class="fu">rownames</span>(topnode)</span>
+<span id="cb39-27"><a href="05-WGCNA.html#cb39-27" tabindex="-1"></a>inModuleGene <span class="ot">&lt;-</span> <span class="fu">colnames</span>(ncount) <span class="sc">%in%</span> topnodeGenes</span>
+<span id="cb39-28"><a href="05-WGCNA.html#cb39-28" tabindex="-1"></a>modTOM <span class="ot">&lt;-</span> TOM[inModuleGene, inModuleGene]</span>
+<span id="cb39-29"><a href="05-WGCNA.html#cb39-29" tabindex="-1"></a><span class="fu">dimnames</span>(modTOM) <span class="ot">&lt;-</span> <span class="fu">list</span>(topnodeGenes, topnodeGenes)</span></code></pre></div>
 How many genes does the lightyellow module contain?
-<div id="radio_CKLXWFHPOH" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_CKLXWFHPOH" value="answer"></input> <span>681</span></label><label><input type="radio" autocomplete="off" name="radio_CKLXWFHPOH" value=""></input> <span>912</span></label><label><input type="radio" autocomplete="off" name="radio_CKLXWFHPOH" value=""></input> <span>1337</span></label>
+<div id="radio_UUZBWJIZPX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UUZBWJIZPX" value="answer"></input> <span>681</span></label><label><input type="radio" autocomplete="off" name="radio_UUZBWJIZPX" value=""></input> <span>912</span></label><label><input type="radio" autocomplete="off" name="radio_UUZBWJIZPX" value=""></input> <span>1337</span></label>
 </div>
-<p>Now we are going to visualise the connections between the nodes using the igraph package in R. In igraph nodes are referred to as vertices, and connections are referred to as edges. These terms are commonly used in network analysis and are synonymous. If we were to plot all the genes in the module it would lead to a rather crowded network graph. Network analysis is particularly useful for identifying hub nodes (vertices) with many, strong connections (edges). To make the figure easier to interpret we can exclude connections that have relatively low weights, and then exclude nodes that are floating (those which have no connections after filtering by weight).</p>
-<p>Deciding the threshold for filtering is generally a case of trail and error, and will depend on the size of the module, how many genes you want to display, and the topology of the module (does it have many hub genes or relatively few, and are the weights). In our case we are going to use a filter set to 0.15.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb39-1"><a href="05-WGCNA.html#cb39-1" tabindex="-1"></a><span class="co"># build the graph object</span></span>
-<span id="cb39-2"><a href="05-WGCNA.html#cb39-2" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(modTOM, </span>
-<span id="cb39-3"><a href="05-WGCNA.html#cb39-3" tabindex="-1"></a>                                   <span class="at">mode =</span> <span class="st">&quot;upper&quot;</span>, </span>
-<span id="cb39-4"><a href="05-WGCNA.html#cb39-4" tabindex="-1"></a>                                   <span class="at">weighted =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb39-5"><a href="05-WGCNA.html#cb39-5" tabindex="-1"></a>                                   <span class="at">diag =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb39-6"><a href="05-WGCNA.html#cb39-6" tabindex="-1"></a></span>
-<span id="cb39-7"><a href="05-WGCNA.html#cb39-7" tabindex="-1"></a><span class="co"># delete edges with a low weight (&lt;0.05)</span></span>
-<span id="cb39-8"><a href="05-WGCNA.html#cb39-8" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">delete_edges</span>(net, <span class="fu">which</span>(<span class="fu">E</span>(net)<span class="sc">$</span>weight <span class="sc">&lt;</span><span class="fl">0.05</span>))</span>
-<span id="cb39-9"><a href="05-WGCNA.html#cb39-9" tabindex="-1"></a></span>
-<span id="cb39-10"><a href="05-WGCNA.html#cb39-10" tabindex="-1"></a><span class="co"># delete floating nodes</span></span>
-<span id="cb39-11"><a href="05-WGCNA.html#cb39-11" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">delete_vertices</span>(net, <span class="fu">which</span>(<span class="fu">degree</span>(net)<span class="sc">==</span><span class="dv">0</span>))</span>
-<span id="cb39-12"><a href="05-WGCNA.html#cb39-12" tabindex="-1"></a></span>
-<span id="cb39-13"><a href="05-WGCNA.html#cb39-13" tabindex="-1"></a><span class="co"># adjust graphics parameters</span></span>
-<span id="cb39-14"><a href="05-WGCNA.html#cb39-14" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">6</span>, <span class="at">repr.plot.height =</span> <span class="dv">6</span>)</span>
-<span id="cb39-15"><a href="05-WGCNA.html#cb39-15" tabindex="-1"></a></span>
-<span id="cb39-16"><a href="05-WGCNA.html#cb39-16" tabindex="-1"></a><span class="co"># plot the module network</span></span>
-<span id="cb39-17"><a href="05-WGCNA.html#cb39-17" tabindex="-1"></a><span class="fu">plot</span>(net,</span>
-<span id="cb39-18"><a href="05-WGCNA.html#cb39-18" tabindex="-1"></a>     <span class="at">vertex.size =</span> <span class="dv">8</span>, </span>
-<span id="cb39-19"><a href="05-WGCNA.html#cb39-19" tabindex="-1"></a>     <span class="at">vertex.label.cex =</span> <span class="fl">0.8</span>,</span>
-<span id="cb39-20"><a href="05-WGCNA.html#cb39-20" tabindex="-1"></a>     <span class="at">edge.color =</span> <span class="st">&quot;grey85&quot;</span>)</span></code></pre></div>
-<center>
-<img src="figures/LY_network_v1.png" style="width:600px; border-radius:15px" />
-</center>
-<p>This reveals a network of 20 genes with varying degrees of connectivity. However there is a clear contenders for the module hub gene.</p>
-Which gene is the strongest candidate for the module hub gene (i.e. which has the most connections)?
-<div id="radio_BXRDUROKJR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_BXRDUROKJR" value=""></input> <span>FBgn0078565</span></label><label><input type="radio" autocomplete="off" name="radio_BXRDUROKJR" value=""></input> <span>FBgn0072122</span></label><label><input type="radio" autocomplete="off" name="radio_BXRDUROKJR" value="answer"></input> <span>FBgn0250089</span></label>
-</div>
-<p>This shows us some clear structure to our module co-expression network, but without having functional information about the hub genes and those genes they interact with, it's not very informative. The final steps of the analysis are to load some functional annotation information and look at the functions of our most connected genes.</p>
-<p>The functional information here was obtained by submitting a list of gene symbols for <em>Drosophila pseudoobscura</em> to the <a href="https://www.uniprot.org/id-mapping">Uniprot Knowledge Base</a>.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb40-1"><a href="05-WGCNA.html#cb40-1" tabindex="-1"></a><span class="co"># extract the number of connections for each node from the network</span></span>
-<span id="cb40-2"><a href="05-WGCNA.html#cb40-2" tabindex="-1"></a>conn <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">N_edges =</span> <span class="fu">degree</span>(net, <span class="at">mode =</span> <span class="st">&quot;in&quot;</span>))</span>
-<span id="cb40-3"><a href="05-WGCNA.html#cb40-3" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="05-WGCNA.html#cb40-4" tabindex="-1"></a><span class="co"># read in uniprot/uniref100 annotations</span></span>
-<span id="cb40-5"><a href="05-WGCNA.html#cb40-5" tabindex="-1"></a>annot <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;updated_annot.tsv&quot;</span>,<span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,<span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>, <span class="at">quote =</span> <span class="st">&quot;&quot;</span>, <span class="at">header =</span> T)</span>
+<p>Now we are going to visualise the connections between the nodes using the igraph package in R. In igraph nodes are referred to as vertices, and connections are referred to as edges. These terms are commonly used in network analysis and are synonymous. Although we have limited the network to only 20 genes, it is likely to retain a high number of edges (connections). To make it a little easier to interpret we can exclude some of the connections with low weights, as well as excluding nodes that are floating (those which have no connections after filtering by weight).</p>
+<p>Deciding the threshold for filtering is generally a case of trial and error, and will depend on how many genes you have selected to display and the topology of the module (e.g. does it have many hub genes or relatively few). In our case we are going to use a filter set to 0.1.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb40-1"><a href="05-WGCNA.html#cb40-1" tabindex="-1"></a><span class="co"># build the graph object</span></span>
+<span id="cb40-2"><a href="05-WGCNA.html#cb40-2" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(modTOM, </span>
+<span id="cb40-3"><a href="05-WGCNA.html#cb40-3" tabindex="-1"></a>                                   <span class="at">mode =</span> <span class="st">&quot;upper&quot;</span>, </span>
+<span id="cb40-4"><a href="05-WGCNA.html#cb40-4" tabindex="-1"></a>                                   <span class="at">weighted =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb40-5"><a href="05-WGCNA.html#cb40-5" tabindex="-1"></a>                                   <span class="at">diag =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb40-6"><a href="05-WGCNA.html#cb40-6" tabindex="-1"></a></span>
-<span id="cb40-7"><a href="05-WGCNA.html#cb40-7" tabindex="-1"></a><span class="co">#display annotations for nodes of interest</span></span>
-<span id="cb40-8"><a href="05-WGCNA.html#cb40-8" tabindex="-1"></a>NOI <span class="ot">&lt;-</span> <span class="fu">merge</span>(conn, annot, <span class="at">by.x =</span> <span class="dv">0</span>, <span class="at">by.y =</span> <span class="st">&quot;FBgn&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb40-7"><a href="05-WGCNA.html#cb40-7" tabindex="-1"></a><span class="co"># delete edges with a low weight ( &lt; 0.1)</span></span>
+<span id="cb40-8"><a href="05-WGCNA.html#cb40-8" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">delete_edges</span>(net, <span class="fu">which</span>(<span class="fu">E</span>(net)<span class="sc">$</span>weight <span class="sc">&lt;</span> <span class="fl">0.1</span>))</span>
 <span id="cb40-9"><a href="05-WGCNA.html#cb40-9" tabindex="-1"></a></span>
-<span id="cb40-10"><a href="05-WGCNA.html#cb40-10" tabindex="-1"></a><span class="co">#display the top connected genes and their predicted protein names</span></span>
-<span id="cb40-11"><a href="05-WGCNA.html#cb40-11" tabindex="-1"></a><span class="fu">head</span>(NOI[<span class="fu">order</span>(<span class="sc">-</span>NOI<span class="sc">$</span>N_edges),])</span></code></pre></div>
-What is the protein name of the most highly connected gene?
-<div id="radio_WITDJRNNXR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WITDJRNNXR" value="answer"></input> <span>Calcium-dependent secretion activator isform X8</span></label><label><input type="radio" autocomplete="off" name="radio_WITDJRNNXR" value=""></input> <span>FERM domain-containing protein 8</span></label><label><input type="radio" autocomplete="off" name="radio_WITDJRNNXR" value=""></input> <span>Cation-transporting ATPase</span></label>
-</div>
-<p>We can see that the most highly connected gene is a fatty-acid binding protein, and that there are some other interesting hub genes related to translation initiation and programmed cell death.</p>
-<p>We can also plot the functional information directly onto the network graph with a small modification to our code.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb41-1"><a href="05-WGCNA.html#cb41-1" tabindex="-1"></a><span class="co"># Take the protein names that match the gene names in this module</span></span>
-<span id="cb41-2"><a href="05-WGCNA.html#cb41-2" tabindex="-1"></a>modProts <span class="ot">&lt;-</span> annot<span class="sc">$</span>Protein_names[<span class="fu">match</span>(modGenes, annot<span class="sc">$</span>FBgn)]</span>
+<span id="cb40-10"><a href="05-WGCNA.html#cb40-10" tabindex="-1"></a><span class="co"># delete floating nodes</span></span>
+<span id="cb40-11"><a href="05-WGCNA.html#cb40-11" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">delete_vertices</span>(net, <span class="fu">which</span>(<span class="fu">degree</span>(net)<span class="sc">==</span><span class="dv">0</span>))</span>
+<span id="cb40-12"><a href="05-WGCNA.html#cb40-12" tabindex="-1"></a></span>
+<span id="cb40-13"><a href="05-WGCNA.html#cb40-13" tabindex="-1"></a><span class="co"># adjust graphics parameters</span></span>
+<span id="cb40-14"><a href="05-WGCNA.html#cb40-14" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repr.plot.width=</span><span class="dv">6</span>, <span class="at">repr.plot.height =</span> <span class="dv">6</span>)</span>
+<span id="cb40-15"><a href="05-WGCNA.html#cb40-15" tabindex="-1"></a></span>
+<span id="cb40-16"><a href="05-WGCNA.html#cb40-16" tabindex="-1"></a><span class="co"># plot the module network</span></span>
+<span id="cb40-17"><a href="05-WGCNA.html#cb40-17" tabindex="-1"></a><span class="fu">plot</span>(net,</span>
+<span id="cb40-18"><a href="05-WGCNA.html#cb40-18" tabindex="-1"></a>     <span class="at">vertex.size =</span> <span class="dv">8</span>, </span>
+<span id="cb40-19"><a href="05-WGCNA.html#cb40-19" tabindex="-1"></a>     <span class="at">vertex.label.cex =</span> <span class="fl">0.8</span>,</span>
+<span id="cb40-20"><a href="05-WGCNA.html#cb40-20" tabindex="-1"></a>     <span class="at">edge.color =</span> <span class="st">&quot;grey85&quot;</span>)</span></code></pre></div>
+<center>
+<img src="figures/LY_network_v4.png" style="width:600px; border-radius:15px" />
+</center>
+<p>This gives us a network plot of 20 fairly well connected genes. If some of the gene names overlap, try rerunning the the code. You can also view a larger version of the image by right clicking on the figure and selection "Open image in new tab". You can also dissociate the network by increasing the number for <code>delete_edges</code> (for example from 0.1 to 0.12).</p>
+<p>Now we have our network plot, the final steps of the analysis are to inspect the module membership information and identify which are the best candidates for hub genes, and to load some functional annotation information about these genes.</p>
+<p>The functional information here was obtained by submitting a list of gene symbols for <em>Drosophila pseudoobscura</em> to the <a href="https://www.uniprot.org/id-mapping">Uniprot Knowledge Base</a>.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb41-1"><a href="05-WGCNA.html#cb41-1" tabindex="-1"></a><span class="co"># read in uniprot annotations</span></span>
+<span id="cb41-2"><a href="05-WGCNA.html#cb41-2" tabindex="-1"></a>annot <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">&quot;updated_annot.tsv&quot;</span>,<span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,<span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>, <span class="at">quote =</span> <span class="st">&quot;&quot;</span>, <span class="at">header =</span> T)</span>
 <span id="cb41-3"><a href="05-WGCNA.html#cb41-3" tabindex="-1"></a></span>
-<span id="cb41-4"><a href="05-WGCNA.html#cb41-4" tabindex="-1"></a><span class="co"># Update the modTOM object</span></span>
-<span id="cb41-5"><a href="05-WGCNA.html#cb41-5" tabindex="-1"></a><span class="fu">dimnames</span>(modTOM) <span class="ot">&lt;-</span> <span class="fu">list</span>(modProts, modProts)</span></code></pre></div>
-<p>If you rerun the 5 lines of code from <code>#build the graph object</code> up to and including <code>#plot the module network</code> you'll see that it now displays the proteins names directly on the network graph. Unfortunately the names of our proteins are rather long, which makes the figure a little messy. However, if your annotations are shorter then this can be a convenient way of displaying the functions of the hub genes in your network figures. The full list of genes within the module could also be exported for <a href="https://neof-workshops.github.io/RNAseq_mzar4p/Course/16-GO.html">Gene Ontology enrichment analysis</a>.</p>
+<span id="cb41-4"><a href="05-WGCNA.html#cb41-4" tabindex="-1"></a><span class="co"># create a data frame with annotation and module membership information</span></span>
+<span id="cb41-5"><a href="05-WGCNA.html#cb41-5" tabindex="-1"></a>hubs<span class="ot">&lt;-</span><span class="fu">merge</span>(topnode, annot, <span class="at">by.x =</span> <span class="dv">0</span>, <span class="at">by.y =</span> <span class="st">&quot;FBgn&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb41-6"><a href="05-WGCNA.html#cb41-6" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="05-WGCNA.html#cb41-7" tabindex="-1"></a><span class="co"># display the top 10 genes by module membership</span></span>
+<span id="cb41-8"><a href="05-WGCNA.html#cb41-8" tabindex="-1"></a><span class="fu">head</span>(hubs[<span class="fu">order</span>(<span class="sc">-</span>hubs[,<span class="fu">paste</span>(<span class="st">&quot;MM&quot;</span>, modules, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]),], <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+What is the protein name of the gene with the highest module membership score?
+<div id="radio_BSIEUFCMUR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BSIEUFCMUR" value=""></input> <span>NPC intracellular cholesterol transporter 1</span></label><label><input type="radio" autocomplete="off" name="radio_BSIEUFCMUR" value="answer"></input> <span>Nicalin</span></label><label><input type="radio" autocomplete="off" name="radio_BSIEUFCMUR" value=""></input> <span>Adapter molecule Crk</span></label>
+</div>
+<p>You will notice that the gene with the highest module membership score does not appear to sit at the centre of our network. Because we have limited ourselves to plotting only the top 20 genes, we are excluding a lot of information about genes in this module with more moderate MM scores. It is likely that the gene with the highest MM score is somewhat connected to a larger number of genes overall within the module, even if some of the other genes in the top 20 seem to be better connected among themselves. However, all these genes have very high scores, and could represent interesting candidates for further investigation.</p>
+<p>We can also plot the functional information directly onto the network graph with a small modification to our code.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb42-1"><a href="05-WGCNA.html#cb42-1" tabindex="-1"></a><span class="co"># Take the protein names that match the gene names in this module</span></span>
+<span id="cb42-2"><a href="05-WGCNA.html#cb42-2" tabindex="-1"></a>modProts <span class="ot">&lt;-</span> annot<span class="sc">$</span>Protein_names[<span class="fu">match</span>(modGenes, annot<span class="sc">$</span>FBgn)]</span>
+<span id="cb42-3"><a href="05-WGCNA.html#cb42-3" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="05-WGCNA.html#cb42-4" tabindex="-1"></a><span class="co"># Update the modTOM object</span></span>
+<span id="cb42-5"><a href="05-WGCNA.html#cb42-5" tabindex="-1"></a><span class="fu">dimnames</span>(modTOM) <span class="ot">&lt;-</span> <span class="fu">list</span>(modProts, modProts)</span></code></pre></div>
+<p>Copy the 5 lines of code from <code>#build the graph object</code> up to and including <code>#plot the module network</code> and paste it into a new cell. When you run this code you'll see that it now displays the proteins names directly on the network graph. Unfortunately the names of our proteins are rather long, which makes the figure a little messy. However, if your annotations are shorter, then this can be a convenient way of displaying the functions of the hub genes in your network figures. The full list of genes within the module could also be exported for <a href="https://neof-workshops.github.io/RNAseq_mzar4p/Course/16-GO.html">Gene Ontology enrichment analysis</a>.</p>
 <p>When it comes to plotting network figures, igraph provides a nice first approach to visualise the results. Within R, the <a href="https://briatte.github.io/ggnet/">ggnet2</a> package provides options to fine tune their appearance. Output files from WGCNA can also be exported with the <code>exportNetworkToCytoscape()</code> function and visualised with <a href="https://cytoscape.org/">Cytoscape</a> software, an open-source desktop app that provides a greater level of control in plotting networks.</p>
 <p>Once you have done this you can close and halt your workbook.</p>
 
