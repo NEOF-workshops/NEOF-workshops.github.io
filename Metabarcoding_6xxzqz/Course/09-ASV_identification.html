@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher and Helen Hipperson" />
 
 
-<meta name="date" content="2024-07-17" />
+<meta name="date" content="2024-07-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -189,7 +189,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1.8" data-path="05-Loading_data.html"><a href="05-Loading_data.html#close-the-notebook"><i class="fa fa-check"></i><b>5.1.8</b> Close the notebook</a></li>
 <li class="chapter" data-level="5.1.9" data-path="05-Loading_data.html"><a href="05-Loading_data.html#video-tutorial"><i class="fa fa-check"></i><b>5.1.9</b> Video tutorial</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="05-Loading_data.html"><a href="05-Loading_data.html#r-1"><i class="fa fa-check"></i><b>5.2</b> R</a></li>
+<li class="chapter" data-level="5.2" data-path="05-Loading_data.html"><a href="05-Loading_data.html#workshop-notebook"><i class="fa fa-check"></i><b>5.2</b> Workshop notebook</a></li>
 <li class="chapter" data-level="5.3" data-path="05-Loading_data.html"><a href="05-Loading_data.html#loading-dada2"><i class="fa fa-check"></i><b>5.3</b> Loading DADA2</a></li>
 <li class="chapter" data-level="5.4" data-path="05-Loading_data.html"><a href="05-Loading_data.html#loading-our-data"><i class="fa fa-check"></i><b>5.4</b> Loading our data</a>
 <ul>
@@ -286,7 +286,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="figures/clusters.png" width="200px" style="display: block; margin: auto;" /></p>
 <div id="generate-an-error-model" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Generate an error model<a href="09-ASV_identification.html#generate-an-error-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/error_model.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/error_model.png" style="width:150px; border-radius:15px; background:white" />
+</center>
 <p>First we need to model the error rates of our dataset using both the forward and reverse reads. Each dataset will have a specific error-signature with errors introduced by PCR amplification and sequencing.</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb37-1"><a href="09-ASV_identification.html#cb37-1" tabindex="-1"></a>errF <span class="ot">&lt;-</span> <span class="fu">learnErrors</span>(filtFs, <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb37-2"><a href="09-ASV_identification.html#cb37-2" tabindex="-1"></a>errR <span class="ot">&lt;-</span> <span class="fu">learnErrors</span>(filtRs, <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
@@ -312,7 +314,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="dereplication" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> Dereplication<a href="09-ASV_identification.html#dereplication" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/dereplicate.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/dereplicate.png" style="width:150px; border-radius:15px; background:white" />
+</center>
 <p>The next step is to dereplicate identical reads. This is a common step in many workflows used for processing amplicons. This saves time and processing power as indentical reads are collapsed together. For example instead of processing 100 identical sequences, only one is processed but the original number (i.e. 100) is associated with it.</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb39-1"><a href="09-ASV_identification.html#cb39-1" tabindex="-1"></a>exists <span class="ot">&lt;-</span> <span class="fu">file.exists</span>(filtFs) </span>
 <span id="cb39-2"><a href="09-ASV_identification.html#cb39-2" tabindex="-1"></a><span class="co"># check that all the samples are still present after filtering</span></span>
@@ -324,7 +328,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="inferrence-of-asvs" class="section level2 hasAnchor" number="9.3">
 <h2><span class="header-section-number">9.3</span> Inferrence of ASVs<a href="09-ASV_identification.html#inferrence-of-asvs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/inference.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/inference.png" style="width:150px; border-radius:15px; background:white" />
+</center>
 <p>Now we are ready to infer the ASVs in our dataset. To do this DADA2 uses the error models created above to infer the true sample composition (follow <a href="https://www.nature.com/articles/nmeth.3869#methods">this link</a> for more details).</p>
 <p>Here we will run the inference algorithm on single samples to save time but it is also possible to run samples together in pseudo-pools to increase the ability to identify ASVs of low abundance. Low abundance ASVs in a sample may be filtered out when run separately but if they are found in higher numbers in another sample then the chance of that ASV being real increases. Pseudo-pooling increases the chances of these "real" low abundance ASVs being retained within samples. Whether or not to use the pseudo-pooling option will depend on your dataset and experimental design (see <a href="https://benjjneb.github.io/dada2/pseudo.html#Pseudo-pooling" class="uri">https://benjjneb.github.io/dada2/pseudo.html#Pseudo-pooling</a> for more information).</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb40-1"><a href="09-ASV_identification.html#cb40-1" tabindex="-1"></a>dadaFs <span class="ot">&lt;-</span> <span class="fu">dada</span>(derepFs, <span class="at">err =</span> errF, <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span>
@@ -333,7 +339,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="merging-paired-end-reads" class="section level2 hasAnchor" number="9.4">
 <h2><span class="header-section-number">9.4</span> Merging paired end reads<a href="09-ASV_identification.html#merging-paired-end-reads" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/merge.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/merge.png" style="width:150px; border-radius:15px; background:white" />
+</center>
 <p>Up until now we have carried out all filtering, error correction and inference on the forward and reverse reads separately. It is now time to merge the two files. By default the minimum overlap allowed between the two samples is 12 bp.</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb41-1"><a href="09-ASV_identification.html#cb41-1" tabindex="-1"></a>mergers <span class="ot">&lt;-</span> <span class="fu">mergePairs</span>(dadaFs, derepFs, dadaRs, derepRs, <span class="at">verbose=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
@@ -349,7 +357,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">9.6</span> Chimera detection and removal<a href="09-ASV_identification.html#chimera-detection-and-removal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="figures/chimera.png" width="150px" style="display: block; margin: auto;" /></p>
 <p>The last step in generating our ASV matrix is to detect and remove any chimeric sequences.</p>
-<p>Chimeric sequences are formed when two or more biological sequences joined together. This is fairly common in amplicon sequencing. DADA2 uses a method whereby it combines the left and right segments of abundant reads and compares these with lower abundant sequences. Any low abundant sequences that match are removed.</p>
+<p>Chimeric sequences are formed when two or more biological sequences are joined together. This is fairly common in amplicon sequencing. DADA2 uses a method whereby it combines the left and right segments of abundant reads and compares these with lower abundant sequences. Any low abundant sequences that match are removed.</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb43-1"><a href="09-ASV_identification.html#cb43-1" tabindex="-1"></a>seqtab.nochim <span class="ot">&lt;-</span> <span class="fu">removeBimeraDenovo</span>(seqtab, <span class="at">method=</span><span class="st">&quot;consensus&quot;</span>, </span>
 <span id="cb43-2"><a href="09-ASV_identification.html#cb43-2" tabindex="-1"></a>                                    <span class="at">multithread=</span><span class="cn">TRUE</span>, <span class="at">verbose=</span><span class="cn">TRUE</span>)</span>
 <span id="cb43-3"><a href="09-ASV_identification.html#cb43-3" tabindex="-1"></a></span>
@@ -360,7 +368,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In these data ~ 17% of the merged sequence reads were identified as chimeric.</p>
 <p>Check the range of ASV lengths:</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb45-1"><a href="09-ASV_identification.html#cb45-1" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">nchar</span>(<span class="fu">getSequences</span>(seqtab.nochim)))</span></code></pre></div>
-<p>Sequences that are much longer or shorter than the expected amplicon length could be the result of non-specific priming, and can be removed from your sequence table (e.g. <code>seqtab.len &lt;- seqtab[,nchar(colnames(seqtab)) %in% 150:180]</code>). This is analogous to “cutting a band” in-silico to get amplicons of the targeted length, e.g. the above command would remove amplicons between 150 bp and 180 bp. This is dependent on the amplicon and you should only remove these if you do not expect any length variation, or after further investigation of what these short or long sequences are. For this example we will proceed without any amplicon length filtering.</p>
+<p>Sequences that are much longer or shorter than the expected amplicon length could be the result of non-specific priming, and can be removed from your sequence table (e.g. <code>seqtab.len &lt;- seqtab[,nchar(colnames(seqtab)) %in% 150:180]</code>). This is analogous to “cutting a band” in-silico to get amplicons of the targeted length, e.g. the above command would retain amplicons between 150 bp and 180 bp and remove others. This is dependent on the amplicon and you should only remove these if you do not expect any length variation, or after further investigation of what these short or long sequences are. For this example we will proceed without any amplicon length filtering.</p>
 </div>
 <div id="sequence-tracking-sanity-check" class="section level2 hasAnchor" number="9.7">
 <h2><span class="header-section-number">9.7</span> Sequence tracking sanity check<a href="09-ASV_identification.html#sequence-tracking-sanity-check" class="anchor-section" aria-label="Anchor link to header"></a></h2>
