@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-03-19" />
+<meta name="date" content="2024-08-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_bordered_small.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_rounded_corners.png" width="250"></a></li>
 <li><a>Intro to Linux</a></li>
 
 <li class="divider"></li>
@@ -279,14 +279,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </center>
 <p>We have covered a small amount of Linux coding. This should be sufficient to carry out our future workshops but if you were to continue in bioinformatics we would recommend learning more advanced methods.</p>
 <p>Below are some short sections to introduce you to some more advanced linux coding techniques. These give you a quick overview and some examples. This will hopefully put you in a good position to allow you to to learn these techniques in more depth outside of this workshop.</p>
-<p>The following sections will all be run with the files in the directory <strong>"~/Linux/advanced_practice/"</strong>. Therefore ensure you are in this directory before running the below examples. This contains fastq and txt files for 20 samples. Each sample contains a fastq file and txt file for uncorrected and corrected reads. These fastq files are single end (i.e. there is no reverse/R2 reads).</p>
+<p>The following sections will all be run with the files in the directory <strong>"~/Linux/advanced_practice/"</strong>. Therefore ensure you are in this directory before running the below examples. This contains fastq and txt files for 20 samples. Each sample contains a fastq file and a txt file for uncorrected and corrected reads. These fastq files are single end (i.e. there are no reverse/R2 reads).</p>
 <div id="wildcard-characters" class="section level2 hasAnchor" number="12.1">
 <h2><span class="header-section-number">12.1</span> Wildcard characters<a href="12-Advanced_linux_practice.html#wildcard-characters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
 <img src="figures/wildcard.png" style="width:200px" />
 </center>
-<p>These are characters that can be used to represent a variety of other characters. This can be useful for deleting many files, searching for files with specific patterns in their names and more!</p>
-<p>Be very careful when using wildcard character with the command <strong>rm</strong>.</p>
+<p>These are characters that can be used to represent a variety of other characters. This can be useful for deleting many files, searching for files with specific patterns in their names and more.</p>
+<p>Be very careful when using wildcard character with the command <code>rm</code>.</p>
 <p>Three basic and useful wildcards include:</p>
 <ul>
 <li><code>*</code> - This represents zero or more characters<br />
@@ -406,7 +406,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Below are various examples of regular expressions in action.</p>
 <p>Look at the contents of <strong>metadata.txt</strong></p>
 <div class="sourceCode" id="cb84"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb84-1"><a href="12-Advanced_linux_practice.html#cb84-1" tabindex="-1"></a><span class="fu">cat</span> metadata.txt</span></code></pre></div>
-<p>!Print out the lines for the Healthy patients</p>
+<p>Print out the lines for the Healthy patients</p>
 <div class="sourceCode" id="cb85"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb85-1"><a href="12-Advanced_linux_practice.html#cb85-1" tabindex="-1"></a><span class="fu">cat</span> metadata.txt <span class="kw">|</span> <span class="fu">grep</span> “HEALTHY”</span></code></pre></div>
 <p>Print out the lines for the IBD patients from Craigavon and Belfast. In the below command <code>\</code> is used to allow <code>|</code> to be used as an <strong>or</strong> operator instead of acting as a string to match.</p>
 <div class="sourceCode" id="cb86"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb86-1"><a href="12-Advanced_linux_practice.html#cb86-1" tabindex="-1"></a><span class="fu">cat</span> metadata.txt <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;IBD&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;BELFAST\|CRAIGAVON&quot;</span></span></code></pre></div>
@@ -420,7 +420,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb90"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb90-1"><a href="12-Advanced_linux_practice.html#cb90-1" tabindex="-1"></a><span class="fu">cat</span> <span class="pp">*</span>fastq <span class="kw">|</span> <span class="fu">grep</span> “^<span class="pp">[^</span><span class="ss">@</span><span class="pp">]</span>.<span class="pp">*</span>TAG”</span></code></pre></div>
 <p>Print to screen every line within the file <strong>sample_3_AAAG_corrected.fastq</strong> that has a possible Threonine codon in the forward direction.</p>
 <div class="sourceCode" id="cb91"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb91-1"><a href="12-Advanced_linux_practice.html#cb91-1" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;^[^@].*AC[ACTG]&quot;</span> sample_3_AAAG_corrected.fastq</span></code></pre></div>
-<p>In the above example fastq quality lines are also extracted as some of them also contain the pattern we are searching for. To get around this we can pipe. First grep the fastq quality header (i.e. +), as no other line only contains “+”, and the line before it. Then we can remove lines with only a plus with an invert grep. Finally we can grep for the threonine pattern using only the sequence lines. Let us build this up step by step.</p>
+<p>In the above example fastq quality lines are also extracted as some of them also contain the pattern we are searching for. To get around this we can pipe. First <code>grep</code> the fastq quality header (i.e. +), as no other line only contains “+”, and the line before it. Then we can remove lines with a plus with an invert <code>grep</code>. Finally we can <code>grep</code> for the threonine pattern using only the sequence lines. Let us build this up step by step.</p>
 <p>Print to screen the fastq quality header plus the one line preceding each (i.e. Sequence line) for file <strong>sample_3_AAAG_corrected.fastq.</strong></p>
 <div class="sourceCode" id="cb92"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb92-1"><a href="12-Advanced_linux_practice.html#cb92-1" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-B</span> 1 “^+$” sample_3_AAAG_corrected.fastq</span></code></pre></div>
 <p>Now pipe this output so it removes the lines with “+” (fastq quality headers) and “--” (separators of each <code>grep</code> match provided by grep because of the -B 1 option).</p>
@@ -480,52 +480,52 @@ Print <strong>metadata.txt</strong> to screen and then change the “P” in “
 <p>Please attempt to answer the below Multiple-Choice Questions to reinforce what you have learnt in this chapter.</p>
 <ol style="list-style-type: decimal">
 <li>Which symbol is used to pipe the output of one command to the input of another?
-<div id="radio_OPNTKYIACF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_OPNTKYIACF" value=""></input> <span><strong><code>&gt;</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_OPNTKYIACF" value="answer"></input> <span><strong><code>|</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_OPNTKYIACF" value=""></input> <span><strong><code>sed</code></strong></span></label>
+<div id="radio_GMYHVPZHKH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GMYHVPZHKH" value=""></input> <span><strong><code>&gt;</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_GMYHVPZHKH" value="answer"></input> <span><strong><code>|</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_GMYHVPZHKH" value=""></input> <span><strong><code>sed</code></strong></span></label>
 </div></li>
 <li>What command can be used to substitute text with other text?
-<div id="radio_NRBDASPSWR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_NRBDASPSWR" value=""></input> <span><strong><code>&gt;</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_NRBDASPSWR" value=""></input> <span><strong><code>|</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_NRBDASPSWR" value="answer"></input> <span><strong><code>sed</code></strong></span></label>
+<div id="radio_AVBWTGTLWX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_AVBWTGTLWX" value=""></input> <span><strong><code>&gt;</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_AVBWTGTLWX" value=""></input> <span><strong><code>|</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_AVBWTGTLWX" value="answer"></input> <span><strong><code>sed</code></strong></span></label>
 </div></li>
 <li>Which symbol is used to redirect the output of a command to a file?
-<div id="radio_TDZJYMDRAC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TDZJYMDRAC" value="answer"></input> <span><strong><code>&gt;</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_TDZJYMDRAC" value=""></input> <span><strong><code>|</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_TDZJYMDRAC" value=""></input> <span><strong><code>sed</code></strong></span></label>
+<div id="radio_FYZTKNOSRO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FYZTKNOSRO" value="answer"></input> <span><strong><code>&gt;</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_FYZTKNOSRO" value=""></input> <span><strong><code>|</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_FYZTKNOSRO" value=""></input> <span><strong><code>sed</code></strong></span></label>
 </div></li>
 <li>Which wildcard represents a single character?
-<div id="radio_FZACSBAHZI" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FZACSBAHZI" value=""></input> <span><strong><code>*</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_FZACSBAHZI" value=""></input> <span><strong><code>[]</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_FZACSBAHZI" value="answer"></input> <span><strong><code>?</code></strong></span></label>
+<div id="radio_DHCEMEELHL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DHCEMEELHL" value=""></input> <span><strong><code>*</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_DHCEMEELHL" value=""></input> <span><strong><code>[]</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_DHCEMEELHL" value="answer"></input> <span><strong><code>?</code></strong></span></label>
 </div></li>
 <li>Which wildcard represents zero or more characters?
-<div id="radio_KROAPWAGXS" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_KROAPWAGXS" value="answer"></input> <span><strong><code>*</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_KROAPWAGXS" value=""></input> <span><strong><code>[]</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_KROAPWAGXS" value=""></input> <span><strong><code>?</code></strong></span></label>
+<div id="radio_KBOSUUWNXX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KBOSUUWNXX" value="answer"></input> <span><strong><code>*</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_KBOSUUWNXX" value=""></input> <span><strong><code>[]</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_KBOSUUWNXX" value=""></input> <span><strong><code>?</code></strong></span></label>
 </div></li>
 <li>Which wildcard represents a range of characters?
-<div id="radio_HAEVREAVCZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HAEVREAVCZ" value=""></input> <span><strong><code>*</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_HAEVREAVCZ" value="answer"></input> <span><strong><code>[]</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_HAEVREAVCZ" value=""></input> <span><strong><code>?</code></strong></span></label>
+<div id="radio_MDHGOVCIJC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MDHGOVCIJC" value=""></input> <span><strong><code>*</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_MDHGOVCIJC" value="answer"></input> <span><strong><code>[]</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_MDHGOVCIJC" value=""></input> <span><strong><code>?</code></strong></span></label>
 </div></li>
 <li>Which regular expression indicates that the preceding character matches 1 or 0 times?
-<div id="radio_YCOMNSPITI" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YCOMNSPITI" value=""></input> <span><strong><code>.</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_YCOMNSPITI" value="answer"></input> <span><strong><code>?</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_YCOMNSPITI" value=""></input> <span><strong><code>*</code></strong></span></label>
+<div id="radio_LGRZWHJDJI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LGRZWHJDJI" value=""></input> <span><strong><code>.</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_LGRZWHJDJI" value="answer"></input> <span><strong><code>?</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_LGRZWHJDJI" value=""></input> <span><strong><code>*</code></strong></span></label>
 </div></li>
 <li>Which regular expression represents a single character?
-<div id="radio_DSJIMGLIDM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DSJIMGLIDM" value="answer"></input> <span><strong><code>.</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_DSJIMGLIDM" value=""></input> <span><strong><code>?</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_DSJIMGLIDM" value=""></input> <span><strong><code>*</code></strong></span></label>
+<div id="radio_GWSJYYMTJK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GWSJYYMTJK" value="answer"></input> <span><strong><code>.</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_GWSJYYMTJK" value=""></input> <span><strong><code>?</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_GWSJYYMTJK" value=""></input> <span><strong><code>*</code></strong></span></label>
 </div></li>
 <li>Which regular expression indicates that the preceding character matches zero or more times?
-<div id="radio_YRYZQMHDWQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YRYZQMHDWQ" value=""></input> <span><strong><code>.</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_YRYZQMHDWQ" value=""></input> <span><strong><code>?</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_YRYZQMHDWQ" value="answer"></input> <span><strong><code>*</code></strong></span></label>
+<div id="radio_SCBXVWLZWR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SCBXVWLZWR" value=""></input> <span><strong><code>.</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_SCBXVWLZWR" value=""></input> <span><strong><code>?</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_SCBXVWLZWR" value="answer"></input> <span><strong><code>*</code></strong></span></label>
 </div></li>
 <li>Which regular expression matches the end of the line?
-<div id="radio_WPCWEFVIPN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WPCWEFVIPN" value=""></input> <span><strong><code>|</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_WPCWEFVIPN" value=""></input> <span><strong><code>^</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_WPCWEFVIPN" value="answer"></input> <span><strong><code>$</code></strong></span></label>
+<div id="radio_ZMDFCNUIHJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZMDFCNUIHJ" value=""></input> <span><strong><code>|</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZMDFCNUIHJ" value=""></input> <span><strong><code>^</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZMDFCNUIHJ" value="answer"></input> <span><strong><code>$</code></strong></span></label>
 </div></li>
 <li>Which regular expression is a logical OR operator?
-<div id="radio_ZTRGMMFHDL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZTRGMMFHDL" value="answer"></input> <span><strong><code>|</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZTRGMMFHDL" value=""></input> <span><strong><code>^</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZTRGMMFHDL" value=""></input> <span><strong><code>$</code></strong></span></label>
+<div id="radio_KRMSINLULG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KRMSINLULG" value="answer"></input> <span><strong><code>|</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_KRMSINLULG" value=""></input> <span><strong><code>^</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_KRMSINLULG" value=""></input> <span><strong><code>$</code></strong></span></label>
 </div></li>
 <li>Which regular expression matches the start of the line?
-<div id="radio_QCGMUYOSYQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_QCGMUYOSYQ" value=""></input> <span><strong><code>|</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_QCGMUYOSYQ" value="answer"></input> <span><strong><code>^</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_QCGMUYOSYQ" value=""></input> <span><strong><code>$</code></strong></span></label>
+<div id="radio_OHDZXHMIFF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OHDZXHMIFF" value=""></input> <span><strong><code>|</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_OHDZXHMIFF" value="answer"></input> <span><strong><code>^</code></strong></span></label><label><input type="radio" autocomplete="off" name="radio_OHDZXHMIFF" value=""></input> <span><strong><code>$</code></strong></span></label>
 </div></li>
 </ol>
 
