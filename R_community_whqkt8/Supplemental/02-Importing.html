@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Importing | R community analysis supplemental</title>
   <meta name="description" content="NEOF book for the R community analysis supplemental" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Importing | R community analysis supplemental" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-08-28" />
+<meta name="date" content="2024-09-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,11 +56,12 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
-<script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.10.2/plotly.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
 <link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
 <script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
@@ -149,8 +150,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_rounded_corners.png" width="250"></a></li>
-<li><a>R community analysis supplemental</a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img 
+src="figures/neof_rounded_corners_300ppi.png" 
+width=250px></a></li>
+<li><a>R community analysis</a></li>
 
 <li class="divider"></li>
 <li class="part"><span><b>Intro</b></span></li>
@@ -233,7 +236,7 @@ We can copy over the output made during the NEOF Shotgun metagenomics workshop.<
 Instead we need to convert them to a single collated biom file with <code>kraken-biom</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb3-1"><a href="02-Importing.html#cb3-1" tabindex="-1"></a><span class="ex">kraken-biom</span> <span class="pp">*</span>breport2 <span class="at">-o</span> KW.biom </span></code></pre></div>
 <p><a href="https://biom-format.org/"><strong>Biom</strong></a> files are not human readable.
-Therefore to check the file is correct we can create a tsv (tab seperated value) file to inspect.</p>
+Therefore to check the file is correct we can create a tsv (tab separated value) file to inspect.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb4-1"><a href="02-Importing.html#cb4-1" tabindex="-1"></a><span class="co">#Create tsv file</span></span>
 <span id="cb4-2"><a href="02-Importing.html#cb4-2" tabindex="-1"></a><span class="ex">biom</span> convert <span class="at">-i</span> KW.biom <span class="at">-o</span> KW.tsv <span class="at">--header-key</span> taxonomy <span class="at">--to-tsv</span></span>
 <span id="cb4-3"><a href="02-Importing.html#cb4-3" tabindex="-1"></a><span class="co">#inspect tsv file</span></span>
@@ -248,7 +251,7 @@ You'll also have the taxonomy lineage as the last column because we added in <co
 </center>
 <p>Now we are ready to carry out some R analysis.</p>
 <p>Open up <code>jupyter-notebook</code> and create a new <code>R</code> notebook called "Bracken_phyloseq_creation".</p>
-<p>At the top of the notebook create a cell to load the libaries we'll need.</p>
+<p>At the top of the notebook create a cell to load the libraries we'll need.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb5-1"><a href="02-Importing.html#cb5-1" tabindex="-1"></a><span class="co">#Libraries</span></span>
 <span id="cb5-2"><a href="02-Importing.html#cb5-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
 <span id="cb5-3"><a href="02-Importing.html#cb5-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span></code></pre></div>
@@ -266,7 +269,7 @@ You'll also have the taxonomy lineage as the last column because we added in <co
 <center>
 <img src="figures/samples.png" style="width:100px" />
 </center>
-<p>Next we need to import the samples data.
+<p>Next we need to import the sample data.
 We have a tab delimited file we will read into R as a <strong>data frame</strong>.
 Then we can assign the sample data of <code>pseq</code> to the <strong>data frame</strong>.
 As long as the row names contain the same sample names, like in the biom file, it should work correctly.</p>
