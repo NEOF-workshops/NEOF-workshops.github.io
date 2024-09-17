@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2023-11-24" />
+<meta name="date" content="2024-08-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_rounded_corners.png" width="250"></a></li>
 <li><a>R primer for omics</a></li>
 
 <li class="divider"></li>
@@ -415,22 +415,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="basicstats" class="section level1 hasAnchor" number="17">
 <h1><span class="header-section-number">Chapter 17</span> Basic stats<a href="17-Basic_stats.html#basicstats" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/basic_stats.png" width="20%" style="display: block; margin: auto;" /></p>
-<p>This week we'll learn how to carry out some basic stats. This will involve linear regressions and some t-tests.</p>
+<center>
+<img src="figures/basic_stats.png" style="width:200px" />
+</center>
+<p>In this chpater we'll learn how to carry out some basic stats. This will involve linear regressions and some t-tests.</p>
 <p>Create and use the directory "Chapter_17-18" as the working directory for this chapter. Additionally create a new script called "Stats.R" for this chapter.</p>
 <p>Before we continue just a reminder about <a href="02-Foundations.html#annotations">annotations</a> and <a href="04-R_objects.html#codesections">code sections</a>.</p>
 <div id="linear-regression" class="section level2 hasAnchor" number="17.1">
 <h2><span class="header-section-number">17.1</span> Linear regression<a href="17-Basic_stats.html#linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/linear_regression.png" width="20%" style="display: block; margin: auto;" />
-Linear regression is a method to model the relationship between two <strong>numeric vectors</strong>. Ultimately we want to produce the predictive equation:</p>
+<center>
+<img src="figures/linear_regression.png" style="width:200px; background:white; border-radius:15px" />
+</center>
+<p>Linear regression is a method to model the relationship between two <strong>numeric vectors</strong>. Ultimately we want to produce the predictive equation:</p>
 <p><span class="math display">\[
 y = mx + c
 \]</span></p>
 <p>Where <em>m</em> is equal to the gradient and <em>c</em> is equal to the intercept. With this we can predict the value of <em>y</em> if we know the value of <em>x</em> and vice versa.</p>
 <div id="fish-market-dataset" class="section level3 hasAnchor" number="17.1.1">
 <h3><span class="header-section-number">17.1.1</span> Fish market dataset<a href="17-Basic_stats.html#fish-market-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/bream.png" width="30%" style="display: block; margin: auto;" />
-Before getting to the analysis we need to read in the data. For this chapter we will be looking at the file <a href="https://neof-workshops.github.io/R_j4c0xh/downloads/Fish.csv">Fish.csv</a> which contains information of 7 common fish species sold in Fish markets (Source: <a href="https://www.kaggle.com/aungpyaeap/fish-market" class="uri">https://www.kaggle.com/aungpyaeap/fish-market</a>).</p>
+<center>
+<img src="figures/bream.png" style="width:300px" />
+</center>
+<p>Before getting to the analysis we need to read in the data. For this chapter we will be looking at the file <a href="https://neof-workshops.github.io/R_j4c0xh/downloads/Fish.csv">Fish.csv</a> which contains information of 7 common fish species sold in Fish markets (Source: <a href="https://www.kaggle.com/aungpyaeap/fish-market" class="uri">https://www.kaggle.com/aungpyaeap/fish-market</a>).</p>
 <p>The columns for the data are:</p>
 <ul>
 <li><strong>Species</strong>: Species of fish ("Bream", "Roach", "Whitefish",
@@ -455,8 +461,10 @@ Before getting to the analysis we need to read in the data. For this chapter we 
 </div>
 <div id="scatterplot-1" class="section level3 hasAnchor" number="17.1.2">
 <h3><span class="header-section-number">17.1.2</span> Scatterplot<a href="17-Basic_stats.html#scatterplot-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/Scatterplot_2.png" width="20%" style="display: block; margin: auto;" />
-Before we carry out the linear regression we'll create a scatterplot of the two <strong>vectors</strong> we want to compare. For the first instance we will compare <strong>Height</strong> to <strong>Length1</strong> (vertical length).</p>
+<center>
+<img src="figures/Scatterplot_2.png" style="width:200px; background:white; border-radius:5px" />
+</center>
+<p>Before we carry out the linear regression we'll create a scatterplot of the two <strong>vectors</strong> we want to compare. For the first instance we will compare <strong>Height</strong> to <strong>Length1</strong> (vertical length).</p>
 <p>In fact before we do, let's change the column name "Length1" to "v_length" so it is a bit more intuitive for us. Whilst we are at it we'll change the other length column names.</p>
 <div class="sourceCode" id="cb169"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb169-1"><a href="17-Basic_stats.html#cb169-1" tabindex="-1"></a><span class="fu">colnames</span>(bream_df)[<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;v_length&quot;</span>, <span class="st">&quot;d_length&quot;</span>, <span class="st">&quot;c_length&quot;</span>)</span></code></pre></div>
 <p>Time to quickly plot "v_length" (x) against "Weight" (y):</p>
@@ -465,8 +473,10 @@ Before we carry out the linear regression we'll create a scatterplot of the two 
 </div>
 <div id="linear-model" class="section level3 hasAnchor" number="17.1.3">
 <h3><span class="header-section-number">17.1.3</span> Linear model<a href="17-Basic_stats.html#linear-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/lm.png" width="20%" style="display: block; margin: auto;" />
-We can fit a linear model with the <strong>function</strong> <code>lm()</code>. We simply provide the column names as a formula ( <code>y_column_name ~ x_column_name</code> ) similar to the <code>boxplot()</code> <strong>function</strong>.</p>
+<center>
+<img src="figures/lm.png" style="width:200px" />
+</center>
+<p>We can fit a linear model with the <strong>function</strong> <code>lm()</code>. We simply provide the column names as a formula ( <code>y_column_name ~ x_column_name</code> ) similar to the <code>boxplot()</code> <strong>function</strong>.</p>
 <div class="sourceCode" id="cb171"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb171-1"><a href="17-Basic_stats.html#cb171-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Weight<span class="sc">~</span>v_length, <span class="at">data=</span>bream_df)</span></code></pre></div>
 <p>We can now add the linear model as a line to our plot with the <strong>function</strong> <code>abline()</code></p>
 <div class="sourceCode" id="cb172"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb172-1"><a href="17-Basic_stats.html#cb172-1" tabindex="-1"></a><span class="fu">abline</span>(fit)</span></code></pre></div>
@@ -498,8 +508,10 @@ We can fit a linear model with the <strong>function</strong> <code>lm()</code>. 
 </div>
 <div id="t-test" class="section level2 hasAnchor" number="17.2">
 <h2><span class="header-section-number">17.2</span> t-test<a href="17-Basic_stats.html#t-test" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/scale.png" width="20%" style="display: block; margin: auto;" />
-A t-test can be used to determine if there is a significant difference between the means of two groups.</p>
+<center>
+<img src="figures/scale.png" style="width:200px" />
+</center>
+<p>A t-test can be used to determine if there is a significant difference between the means of two groups.</p>
 <p>In this example we will compare the weights of the fish Bream, Parkki, and Roach. Therefore let's subset our <strong>data frame</strong> so we have three <strong>data frames</strong>, one for each species.</p>
 <p>We already have a "bream_df" so we only need to make one for Parkki and one for Roach. Before we do we'll change the column names for "fish_df" like we did for "bream_df"</p>
 <div class="sourceCode" id="cb178"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb178-1"><a href="17-Basic_stats.html#cb178-1" tabindex="-1"></a><span class="fu">colnames</span>(fish_df)[<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;v_length&quot;</span>, <span class="st">&quot;d_length&quot;</span>, <span class="st">&quot;c_length&quot;</span>)</span>
@@ -507,8 +519,10 @@ A t-test can be used to determine if there is a significant difference between t
 <span id="cb178-3"><a href="17-Basic_stats.html#cb178-3" tabindex="-1"></a>roach_df <span class="ot">&lt;-</span> fish_df[fish_df<span class="sc">$</span>Species <span class="sc">==</span> <span class="st">&quot;Roach&quot;</span>,]</span></code></pre></div>
 <div id="boxplot-1" class="section level3 hasAnchor" number="17.2.1">
 <h3><span class="header-section-number">17.2.1</span> Boxplot<a href="17-Basic_stats.html#boxplot-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/boxplot.png" width="20%" style="display: block; margin: auto;" />
-Before carrying out a t-test it can be useful to visualise the difference between groups with a boxplot.</p>
+<center>
+<img src="figures/boxplot.png" style="width:200px; background:white; border-radius:15px" />
+</center>
+<p>Before carrying out a t-test it can be useful to visualise the difference between groups with a boxplot.</p>
 <p>Before we do this we need to combine the three <strong>data frames</strong> into one. This can be done by binding the rows with <code>rbind()</code>. This will combine two provided <strong>data frames</strong> which contain the same number of columns with the same column names.</p>
 <div class="sourceCode" id="cb179"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb179-1"><a href="17-Basic_stats.html#cb179-1" tabindex="-1"></a><span class="co">#Combine bream_df and parkki_df</span></span>
 <span id="cb179-2"><a href="17-Basic_stats.html#cb179-2" tabindex="-1"></a>fish_subset_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(bream_df, parkki_df)</span>
@@ -521,9 +535,11 @@ Before carrying out a t-test it can be useful to visualise the difference betwee
 </div>
 <div id="t-test-comparison" class="section level3 hasAnchor" number="17.2.2">
 <h3><span class="header-section-number">17.2.2</span> t-test comparison<a href="17-Basic_stats.html#t-test-comparison" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/five_percent.png" width="15%" style="display: block; margin: auto;" />
-Let us see if what we see visually is also visible statistically.</p>
-<p>We can carry out a t-test with the <strong>function</strong> <code>t.test()</code>. Simply provide the <strong>function</strong> with the two <strong>numerical vectors</strong> you would like to compare.</p>
+<center>
+<img src="figures/five_percent.png" style="width:200px" />
+</center>
+<p>Will statistical analysis backup our visual findings?</p>
+<p>We can carry out a t-test with the <strong>function</strong> <code>t.test()</code>. For this we need to provide the <strong>function</strong> with the two <strong>numerical vectors</strong> we'd like to compare.</p>
 <div class="sourceCode" id="cb181"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb181-1"><a href="17-Basic_stats.html#cb181-1" tabindex="-1"></a>bream_parkki_ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(bream_df<span class="sc">$</span>Weight, parkki_df<span class="sc">$</span>Weight)</span>
 <span id="cb181-2"><a href="17-Basic_stats.html#cb181-2" tabindex="-1"></a>bream_roach_ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(bream_df<span class="sc">$</span>Weight, roach_df<span class="sc">$</span>Weight)</span>
 <span id="cb181-3"><a href="17-Basic_stats.html#cb181-3" tabindex="-1"></a>parkki_roach_ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(parkki_df<span class="sc">$</span>Weight, roach_df<span class="sc">$</span>Weight)</span></code></pre></div>
@@ -553,7 +569,9 @@ Let us see if what we see visually is also visible statistically.</p>
 </div>
 <div id="some-more-useful-functions" class="section level2 hasAnchor" number="17.3">
 <h2><span class="header-section-number">17.3</span> Some more useful functions<a href="17-Basic_stats.html#some-more-useful-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/r_toolbox.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/r_toolbox.png" style="width:200px; background:white; border-radius:15px" />
+</center>
 <div id="summary" class="section level3 hasAnchor" number="17.3.1">
 <h3><span class="header-section-number">17.3.1</span> Summary<a href="17-Basic_stats.html#summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <strong>function</strong> <code>summary()</code> can give you some quick summary information for each column of a <strong>data frame</strong>.</p>
@@ -576,8 +594,10 @@ Let us see if what we see visually is also visible statistically.</p>
 </div>
 <div id="table" class="section level3 hasAnchor" number="17.3.2">
 <h3><span class="header-section-number">17.3.2</span> Table<a href="17-Basic_stats.html#table" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/table_ikea.png" width="20%" style="display: block; margin: auto;" />
-The <code>table()</code> <strong>function</strong> will provide a <strong>vector</strong> containing the number of instances for each <strong>level</strong> in a <strong>factor</strong>. This is pretty much what <code>summary()</code> did to a <strong>factor</strong>.</p>
+<center>
+<img src="figures/table_ikea.png" style="width:200px" />
+</center>
+<p>The <code>table()</code> <strong>function</strong> will provide a <strong>vector</strong> containing the number of instances for each <strong>level</strong> in a <strong>factor</strong>. This is pretty much what <code>summary()</code> did to a <strong>factor</strong>.</p>
 <p>However, unlike <code>summary()</code> it will also do this for <strong>characters</strong> and <strong>numerics</strong>.</p>
 <p><strong>Note</strong>: Remember to use the <strong>"Help"</strong> pane if you are not sure what a <strong>function</strong> does.</p>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb188-1"><a href="17-Basic_stats.html#cb188-1" tabindex="-1"></a><span class="co">#Table command for columns from fish_df</span></span>
@@ -615,8 +635,10 @@ The <code>table()</code> <strong>function</strong> will provide a <strong>vector
 </div>
 <div id="further-resources" class="section level2 hasAnchor" number="17.4">
 <h2><span class="header-section-number">17.4</span> Further resources<a href="17-Basic_stats.html#further-resources" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/resources.png" width="20%" style="display: block; margin: auto;" />
-Below are some further resources you can check that will help if you want to do some other plots and figures.</p>
+<center>
+<img src="figures/resources.png" style="width:200px" />
+</center>
+<p>Below are some further resources you can check that will help if you want to do some other plots and figures.</p>
 <p><strong>Quick-R</strong>: <a href="https://www.statmethods.net/index.html" class="uri">https://www.statmethods.net/index.html</a></p>
 <p><strong>R Cookbook</strong>: <a href="https://rc2e.com/" class="uri">https://rc2e.com/</a></p>
 

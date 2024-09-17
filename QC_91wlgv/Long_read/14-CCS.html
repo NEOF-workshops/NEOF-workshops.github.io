@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 14 Circular Consensus Sequences | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 14 Circular Consensus Sequences | Long read Quality Control" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2024-03-20" />
+<meta name="date" content="2024-09-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_bordered_small.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank">
+<img src="figures/neof_rounded_corners_300ppi.png" width=250px></a></li>
 <li><a>Long read QC</a></li>
 
 <li class="divider"></li>
@@ -159,10 +160,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="3.1" data-path="03-ONT_background.html"><a href="03-ONT_background.html#ont_file_formats"><i class="fa fa-check"></i><b>3.1</b> File formats</a>
 <ul>
-<li class="chapter" data-level="3.1.1" data-path="03-ONT_background.html"><a href="03-ONT_background.html#fast5"><i class="fa fa-check"></i><b>3.1.1</b> Fast5</a></li>
-<li class="chapter" data-level="3.1.2" data-path="03-ONT_background.html"><a href="03-ONT_background.html#summary-file"><i class="fa fa-check"></i><b>3.1.2</b> Summary file</a></li>
-<li class="chapter" data-level="3.1.3" data-path="03-ONT_background.html"><a href="03-ONT_background.html#bam-file"><i class="fa fa-check"></i><b>3.1.3</b> BAM file</a></li>
-<li class="chapter" data-level="3.1.4" data-path="03-ONT_background.html"><a href="03-ONT_background.html#fastq-file"><i class="fa fa-check"></i><b>3.1.4</b> fastq file</a></li>
+<li class="chapter" data-level="3.1.1" data-path="03-ONT_background.html"><a href="03-ONT_background.html#pod5"><i class="fa fa-check"></i><b>3.1.1</b> POD5</a></li>
+<li class="chapter" data-level="3.1.2" data-path="03-ONT_background.html"><a href="03-ONT_background.html#fast5"><i class="fa fa-check"></i><b>3.1.2</b> Fast5</a></li>
+<li class="chapter" data-level="3.1.3" data-path="03-ONT_background.html"><a href="03-ONT_background.html#summary-file"><i class="fa fa-check"></i><b>3.1.3</b> Summary file</a></li>
+<li class="chapter" data-level="3.1.4" data-path="03-ONT_background.html"><a href="03-ONT_background.html#bam-file"><i class="fa fa-check"></i><b>3.1.4</b> BAM file</a></li>
+<li class="chapter" data-level="3.1.5" data-path="03-ONT_background.html"><a href="03-ONT_background.html#fastq-file"><i class="fa fa-check"></i><b>3.1.5</b> fastq file</a></li>
 </ul></li>
 <li class="chapter" data-level="3.2" data-path="03-ONT_background.html"><a href="03-ONT_background.html#ont_basecalling"><i class="fa fa-check"></i><b>3.2</b> Basecalling</a></li>
 </ul></li>
@@ -270,7 +272,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="ccschap" class="section level1 hasAnchor" number="14">
 <h1><span class="header-section-number">Chapter 14</span> Circular Consensus Sequences<a href="14-CCS.html#ccschap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/ccs.png" style="width:600px; border-radius:15px; border:5px solid #333333; background:null" />
+<img src="figures/ccs.png" style="width:600px; border-radius:15px; background:null" />
 </center>
 <p>We will now look at some long amplicon sequencing data. These data were generated from ~4 kb PCR amplicons of a mammalian gene region.</p>
 <p>For this section we will start with the subreads and carry out the following steps:</p>
@@ -284,7 +286,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="qc-the-subreads" class="section level2 hasAnchor" number="14.1">
 <h2><span class="header-section-number">14.1</span> QC the subreads<a href="14-CCS.html#qc-the-subreads" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/qc_inspection.png" style="width:200px" />
+<img src="figures/qc_inspection.png" style="width:200px; background: white; border-radius:15px" />
 </center>
 <p>Our current directory contains one file of subreads from the amplicons sequencing run, named 'Sample4.subreads.bam'. Even though we just have one file we want to QC, SequelTools still requires a fofn to run:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb34-1"><a href="14-CCS.html#cb34-1" tabindex="-1"></a><span class="fu">find</span> <span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span> <span class="at">-name</span> <span class="st">&quot;*subreads.bam&quot;</span>  <span class="op">&gt;</span> subreads.txt</span></code></pre></div>
@@ -324,16 +326,16 @@ Even though this is a heavily downsized dataset this command still takes ~20 min
 <div id="ccs-mcqs" class="section level3 hasAnchor" number="14.2.1">
 <h3><span class="header-section-number">14.2.1</span> CCS MCQs<a href="14-CCS.html#ccs-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/question_bubble_black.png" style="width:150px" />
+<img src="figures/question_bubble_black.png" style="width:150px; background:white; border-radius:15px; border:5px white solid" />
 </center>
 <ol style="list-style-type: decimal">
 <li>What percentage of the subreads generated a CCS?
-<div id="radio_VCPLBSKWTL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_VCPLBSKWTL" value=""></input> <span><strong>0%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VCPLBSKWTL" value="answer"></input> <span><strong>29.16%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VCPLBSKWTL" value=""></input> <span><strong>70.62%</strong></span></label>
+<div id="radio_KDZMUVVRXS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KDZMUVVRXS" value=""></input> <span><strong>0%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KDZMUVVRXS" value="answer"></input> <span><strong>29.16%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KDZMUVVRXS" value=""></input> <span><strong>70.62%</strong></span></label>
 </div></li>
 <li>What was the main reason for failure of CCS generation?
-<div id="radio_PNMWAQGBRG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PNMWAQGBRG" value="answer"></input> <span><strong>No usable subreads</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PNMWAQGBRG" value=""></input> <span><strong>Insert size too long or small</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PNMWAQGBRG" value=""></input> <span><strong>CCS did not converge</strong></span></label>
+<div id="radio_OLMGZWRUGD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OLMGZWRUGD" value="answer"></input> <span><strong>No usable subreads</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OLMGZWRUGD" value=""></input> <span><strong>Insert size too long or small</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OLMGZWRUGD" value=""></input> <span><strong>CCS did not converge</strong></span></label>
 </div></li>
 </ol>
 </div>
@@ -341,7 +343,7 @@ Even though this is a heavily downsized dataset this command still takes ~20 min
 <div id="rabbitqcplus-1" class="section level2 hasAnchor" number="14.3">
 <h2><span class="header-section-number">14.3</span> RabbitQCPlus<a href="14-CCS.html#rabbitqcplus-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/RabbitQCPlus.png" style="width:500px; border-radius:15px; border:5px solid #333333; background:null" />
+<img src="figures/RabbitQCPlus.png" style="width:500px; border-radius:15px; background:null" />
 </center>
 <p>Lastly, let's perform a quality check on the 'ccs.bam' file to assess the lengths of the ccs reads. <code>SequelTools</code> only works with the raw subread BAM files, so we will use an alternative program - <code>RabbitQC.</code> However, this program needs a fastq file as input so we will first generate that using the <code>bam2fastq</code> tool from smrttools.</p>
 <p>Thankfully an index file <code>.pbi</code> was already created when we generated the ccs bam file. We therefore don't need to create this.</p>
@@ -364,7 +366,7 @@ Even though this is a heavily downsized dataset this command still takes ~20 min
 <div id="final-summary" class="section level2 hasAnchor" number="14.4">
 <h2><span class="header-section-number">14.4</span> Final summary<a href="14-CCS.html#final-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/sum_black.png" style="width:150px" />
+<img src="figures/sum_black.png" style="width:150px; background: white; border-radius:5px" />
 </center>
 <p>That is the end of this book. You have learnt how to QC ONT &amp; PacBio data. Of course there are various other tools out there and the field is always advancing so we suggest you also have a look what is out there.</p>
 <p>Thanks for reading.</p>
