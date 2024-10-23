@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Host removal | Shotgun Metagenomics</title>
   <meta name="description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Host removal | Shotgun Metagenomics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Sam Haldenby and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-03-13" />
+<meta name="date" content="2024-10-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,6 +52,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -138,7 +142,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank">
+<img src="figures/neof_rounded_corners_300ppi.png" width=250px></a></li>
 <li><a>Shotgun Metagenomics</a></li>
 
 <li class="divider"></li>
@@ -322,7 +327,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="hostremoval" class="section level1 hasAnchor" number="7">
 <h1><span class="header-section-number">Chapter 7</span> Host removal<a href="07-Host_removal.html#hostremoval" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/bowtie2.png" width="300px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/bowtie2.png" style="width:300px" />
+</center>
 <p>It is good practice to remove any host sequences from your data before further analysis. A good method for this is to align/map your reads to a reference of your host genome and remove the mapped sequences (i.e sequences we believe to belong to the host).</p>
 <p>If there is no host genome available before you start your sample collections and sequencing it may be a good idea to attempt to sequence and assemble the host genome. We would recommend long read technologies for single genome assembly projects.</p>
 <p>This chapter contains a small example on how to carry out host removal. It uses only a section of a human (host of our samples) reference genome assembly. In real life you should use the entire reference.</p>
@@ -330,20 +337,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb17"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb17-1"><a href="07-Host_removal.html#cb17-1" tabindex="-1"></a><span class="fu">cp</span> /pub14/tea/nsc206/NEOF/Shotgun_metagenomics/GRCh38_slice.fasta .</span></code></pre></div>
 <div id="index-reference" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Index reference<a href="07-Host_removal.html#index-reference" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/index.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/index.png" style="width:150px" />
+</center>
 <p>We will will use the <code>Bowtie2</code> aligner for mapping/aligning. Prior to alignment/mapping we need to index our reference.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb18-1"><a href="07-Host_removal.html#cb18-1" tabindex="-1"></a><span class="ex">bowtie2-build</span> GRCh38_slice.fasta GRCh38_slice.fasta</span></code></pre></div>
 <p>If you use <code>ls</code> you will now see a bunch of files starting with <code>GRCh38_slice.fasta</code> and ending with various suffixes that contain <code>bt2</code>. These are the index files which allow us to use the reference with <code>Bowtie2</code>.</p>
 </div>
 <div id="alignment" class="section level2 hasAnchor" number="7.2">
 <h2><span class="header-section-number">7.2</span> Alignment<a href="07-Host_removal.html#alignment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/alignment.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/alignment.png" style="width:200px; background: white; border-radius:5px; border: white 5px solid" />
+</center>
 <p>With the indexed reference we will align the K1 reads to the reference. This creates a BAM file that contains alignment and read information (<code>K1_mapped.bam</code>).</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb19-1"><a href="07-Host_removal.html#cb19-1" tabindex="-1"></a><span class="ex">bowtie2</span> <span class="at">-x</span> GRCh38_slice.fasta <span class="at">-1</span> K1_R1.fq.gz <span class="at">-2</span> K1_R2.fq.gz <span class="dt">\</span></span>
 <span id="cb19-2"><a href="07-Host_removal.html#cb19-2" tabindex="-1"></a>-p12 <span class="dv">2</span><span class="op">&gt;</span> K1_bowtie2_out.log <span class="kw">|</span> <span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-S</span> <span class="at">-h</span> <span class="op">&gt;</span> K1_mapped.bam</span></code></pre></div>
 <div id="parameters" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="07-Host_removal.html#parameters" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_black.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_black.png" style="width:100px; background: white; border-radius:5px; border:white 5px solid" />
+</center>
 <p>This command is split into two commands. The first is <code>bowtie2</code> that creates the alignment. The parameters for the command are:</p>
 <ul>
 <li><strong><code>-x</code></strong>: Indexed reference the reads will be aligned to.</li>
@@ -371,12 +384,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="unmapped-read-extraction" class="section level2 hasAnchor" number="7.3">
 <h2><span class="header-section-number">7.3</span> Unmapped read extraction<a href="07-Host_removal.html#unmapped-read-extraction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/exctractor.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/exctractor.png" style="width:150px; border-radius:5px; background: white" />
+</center>
 <p>Next step is to extract the reads that did not map to the host reference from the <code>K1_mapped.bam</code> file with the <code>samtools fastq</code> command (unmapped reads).</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb20-1"><a href="07-Host_removal.html#cb20-1" tabindex="-1"></a><span class="ex">samtools</span> fastq <span class="at">-f</span> 4 <span class="at">-1</span> K1_R1.u.fastq <span class="at">-2</span> K1_R2.u.fastq K1_mapped.bam</span></code></pre></div>
 <div id="parameters-1" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="07-Host_removal.html#parameters-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_green.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_green.png" style="width:100px" />
+</center>
 <ul>
 <li><strong><code>-f</code></strong>: Output reads that only include the SAM flag.
 <ul>
@@ -392,14 +409,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="re-pair" class="section level2 hasAnchor" number="7.4">
 <h2><span class="header-section-number">7.4</span> Re-pair<a href="07-Host_removal.html#re-pair" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/repair.png" width="300px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/repair.png" style="width:300px; background:white; border-radius:5px" />
+</center>
 <p>The below <code>BBTools</code> command will re-pair the reads by removing reads with a missing pair. The command ensures the order of the reads are identical in the 2 output paired files.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb21-1"><a href="07-Host_removal.html#cb21-1" tabindex="-1"></a><span class="ex">repair.sh</span> in1=K1_R1.u.fastq in2=K1_R2.u.fastq <span class="dt">\</span></span>
 <span id="cb21-2"><a href="07-Host_removal.html#cb21-2" tabindex="-1"></a>out1=K1_R1.final.fastq out2=K1_R2.final.fastq <span class="dt">\</span></span>
 <span id="cb21-3"><a href="07-Host_removal.html#cb21-3" tabindex="-1"></a>outs=singletons.fastq</span></code></pre></div>
 <div id="parameters-2" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="07-Host_removal.html#parameters-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_blue.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_blue.png" style="width:100px" />
+</center>
 <ul>
 <li><strong><code>in1=</code></strong>: The input R1 fastq file of unmapped unpaired reads.</li>
 <li><strong><code>in2=</code></strong>: The input R2 fastq file of unmapped unpaired reads.</li>
@@ -414,7 +435,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="host-removal-summary" class="section level2 hasAnchor" number="7.5">
 <h2><span class="header-section-number">7.5</span> Host removal summary<a href="07-Host_removal.html#host-removal-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/sum_blue.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/sum_blue.png" style="width:100px" />
+</center>
 <p>We have run through quality control including host removal for our K1 sample. As our data has pretty much no human data we will skip this step for the other samples and use the trimmed data for the downstream analysis.</p>
 <p>In a real analysis project you would use a whole genome reference for your host. However, that would have taken too long for this practical. The most current Human reference (when this was written) is GRCh38. We used a random 10kb section to align our reads to.</p>
 <p>For more resources on the Human reference please see: <a href="https://www.ncbi.nlm.nih.gov/genome/guide/human/" class="uri">https://www.ncbi.nlm.nih.gov/genome/guide/human/</a></p>

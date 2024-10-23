@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 14 Metagenome assembly | Shotgun Metagenomics</title>
   <meta name="description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 14 Metagenome assembly | Shotgun Metagenomics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Sam Haldenby and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-03-13" />
+<meta name="date" content="2024-10-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,6 +52,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -138,7 +142,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank">
+<img src="figures/neof_rounded_corners_300ppi.png" width=250px></a></li>
 <li><a>Shotgun Metagenomics</a></li>
 
 <li class="divider"></li>
@@ -322,7 +327,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="metagenomeassembly" class="section level1 hasAnchor" number="14">
 <h1><span class="header-section-number">Chapter 14</span> Metagenome assembly<a href="14-Metagenome_assembly.html#metagenomeassembly" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/jigsaw.png" width="300px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/jigsaw.png" style="width:300px" />
+</center>
 <p>So far we have directly analysed the read data itself which is perfectly fine for taxonomic profiling and for certain methods of functional profiling. However, Illumina reads are generally short and therefore can not provide us with much data on larger constructs that are in the metagenomic samples, e.g. genes. While it is possible to predict from which gene a sequence read might originate, the short nature of the query can sometimes lead to ambiguous results.</p>
 <p>Additionally, depending on the application it can become computationally intensive to analyse large numbers of reads. Here, we are only using samples with 1 million reads. Some metagenome samples consist of 50-100 million+ read pairs. If such a sample belonged to a set of 100 samples, that would be up to 10 billion read pairs, or 2 trillion bases of sequence data, with many of these being redundant.</p>
 <p>For this reason, it is sometimes advantageous to assemble the reads into contigs, using a meta-genome assembler. This has the dual effect of:</p>
@@ -333,30 +340,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Here, we will carry out a couple of assemblies on our dataset.</p>
 <div id="metagenome-assembly-mamba" class="section level2 hasAnchor" number="14.1">
 <h2><span class="header-section-number">14.1</span> Metagenome assembly: Mamba<a href="14-Metagenome_assembly.html#metagenome-assembly-mamba" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/mamba_logo.png" width="200px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/mamba_logo.png" style="width:200px; border-radius:5px" />
+</center>
 <p>We will use the <code>shotgun_meta</code> conda environment so use a terminal where this is activated or open a new one and run <code>. useshotgun</code>.</p>
 </div>
 <div id="a-primer-on-short-read-assembly" class="section level2 hasAnchor" number="14.2">
 <h2><span class="header-section-number">14.2</span> A primer on short read assembly<a href="14-Metagenome_assembly.html#a-primer-on-short-read-assembly" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/dna_laptop.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/dna_laptop.png" style="width:150px" />
+</center>
 <p>Illumina reads are too short and numerous to use traditional overlap-layout-consensus assemblers as such an approach would be far too computationally intensive. Instead, we use De Bruijn graph based assemblers. Briefly, these operate as follows:</p>
 <ol style="list-style-type: decimal">
 <li>All reads are broken down into k-length overlapping fragments (k-mers). e.g. if we choose a k-mer size of 5 bp, the following two sequences (blue) would be broken down into the k-mers below them (red):</li>
 </ol>
 <center>
-<img src="figures/reads_aligned.png" style="border-radius: 10px; width: 400px; border: 5px solid #333333" />
+<img src="figures/reads_aligned.png" style="border-radius: 10px; width: 400px" />
 </center>
 <ol start="2" style="list-style-type: decimal">
 <li>All k-mers are linked to other k-mers which match with a k-1 length overlap (i.e. that overlap by all but one base):</li>
 </ol>
 <center>
-<img src="figures/graph_simple.png" style="border-radius: 10px; width: 800px; border: 5px solid #333333" />
+<img src="figures/graph_simple.png" style="border-radius: 10px; width: 800px" />
 </center>
 <ol start="3" style="list-style-type: decimal">
 <li>Paths are routed through the graph and longer contigs are generated:</li>
 </ol>
 <center>
-<img src="figures/graph_complex.png" style="border-radius: 10px; width: 800px; border: 5px solid #333333" />
+<img src="figures/graph_complex.png" style="border-radius: 10px; width: 800px" />
 </center>
 <p>The example here is a vast oversimplification of the complexity of a De Bruijn graph (i.e. there are no branches!). Routing through the graph is never as simple as this as some k-mers will lead to multiple k-mers, which can result in the break point of a contig. This is especially true for complex metagenomic data.</p>
 <p>Generally speaking, the shorter the k-mer, the more branches there will be, the trickier the graph is to resolve, so the resulting contigs are smaller. Assemblers usually perform better with longer k-mer lengths but even then there might not be enough depth of sequencing to generate all k-mers that form overlaps, therefore leading to break points. Finding the right k-mer size usually involves testing several.</p>

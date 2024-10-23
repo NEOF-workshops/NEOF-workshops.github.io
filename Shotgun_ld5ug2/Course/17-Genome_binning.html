@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 17 Genome binning | Shotgun Metagenomics</title>
   <meta name="description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 17 Genome binning | Shotgun Metagenomics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Sam Haldenby and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-03-13" />
+<meta name="date" content="2024-10-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,6 +52,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -138,7 +142,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank">
+<img src="figures/neof_rounded_corners_300ppi.png" width=250px></a></li>
 <li><a>Shotgun Metagenomics</a></li>
 
 <li class="divider"></li>
@@ -322,7 +327,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="binning" class="section level1 hasAnchor" number="17">
 <h1><span class="header-section-number">Chapter 17</span> Genome binning<a href="17-Genome_binning.html#binning" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/yarn_binning.png" width="400px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/yarn_binning.png" style="width:400px" />
+</center>
 <p>A metagenome assembly consists of contigs from many different genomes. At this stage we don't know which contigs are from which species. We could try to taxonomically classify each contig but there are 2 problems with this approach:</p>
 <ol style="list-style-type: decimal">
 <li>Some contigs may be misclassified which can lead to multiple contigs from the same genome/organism being classified as various taxa.</li>
@@ -338,7 +345,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>It is recommended to ensure you do not have a poor quality metagenome assembly. Binning requires contigs of good length and good coverage. Extremely low coverage and very short contigs will be excluded from binning.</p>
 <div id="metabat2" class="section level2 hasAnchor" number="17.1">
 <h2><span class="header-section-number">17.1</span> MetaBAT2<a href="17-Genome_binning.html#metabat2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/bat.png" width="200px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/bat.png" style="width:200px" />
+</center>
 <p>We will use <code>MetaBAT2</code> for our genome binning. It has three major upsides that makes it very popular:</p>
 <ol style="list-style-type: decimal">
 <li>It has very reliable default parameters meaning virtually no parameter optimisation is required.</li>
@@ -352,7 +361,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb68-4"><a href="17-Genome_binning.html#cb68-4" tabindex="-1"></a><span class="bu">cd</span> ~/7-Binning/K1</span></code></pre></div>
 <div id="metabat2-depth-calculation" class="section level3 hasAnchor" number="17.1.1">
 <h3><span class="header-section-number">17.1.1</span> MetaBAT2: depth calculation<a href="17-Genome_binning.html#metabat2-depth-calculation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/submarine.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/submarine.png" style="width:100px" />
+</center>
 <p>To carry out effective genome binning <code>MetaBAT2</code> uses coverage information of the contigs. To calculate depth we need to align the reads to the metagenome assembly.</p>
 <p>For the alignment we will use <code>bwa</code>. We need to index our assembly file prior to alignment.</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb69-1"><a href="17-Genome_binning.html#cb69-1" tabindex="-1"></a><span class="ex">bwa</span> index ~/6-Assembly/K1/final.contigs.fa</span></code></pre></div>
@@ -395,7 +406,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="metabat2-run" class="section level3 hasAnchor" number="17.1.2">
 <h3><span class="header-section-number">17.1.2</span> MetaBAT2: run<a href="17-Genome_binning.html#metabat2-run" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/play_orange.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/play_orange.png" style="width:100px" />
+</center>
 <p>With our assembly and its depth information we can run <code>MetaBAT2</code> for binning.</p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb78-1"><a href="17-Genome_binning.html#cb78-1" tabindex="-1"></a><span class="co">#make a diretcory for the bins</span></span>
 <span id="cb78-2"><a href="17-Genome_binning.html#cb78-2" tabindex="-1"></a><span class="fu">mkdir</span> bins</span>
@@ -407,7 +420,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb78-8"><a href="17-Genome_binning.html#cb78-8" tabindex="-1"></a>--minContig 1500</span></code></pre></div>
 <div id="parameters-9" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="17-Genome_binning.html#parameters-9" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_orange.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_orange.png" style="width:100px" />
+</center>
 <ul>
 <li><code>--inFile</code>: Input metagenome assembly fasta file.</li>
 <li><code>--outFile</code>: Prefix of output files.</li>
@@ -422,14 +437,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="metabat2-output" class="section level3 hasAnchor" number="17.1.3">
 <h3><span class="header-section-number">17.1.3</span> MetaBAT2: output<a href="17-Genome_binning.html#metabat2-output" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/output_file_orange.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/output_file_orange.png" style="width:100px" />
+</center>
 <p>List the contents of the output directory and you'll see there is 1 fasta file with the prefix of <code>K1</code>. This is a bin that will hopefully contain 1 MAG (Metagenome-Assembled Genome). In your future analysis you may get many bins, each hopefully only having one MAG.</p>
 <div class="sourceCode" id="cb79"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb79-1"><a href="17-Genome_binning.html#cb79-1" tabindex="-1"></a><span class="fu">ls</span> bins</span></code></pre></div>
 </div>
 </div>
 <div id="checkm" class="section level2 hasAnchor" number="17.2">
 <h2><span class="header-section-number">17.2</span> CheckM<a href="17-Genome_binning.html#checkm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/CheckM.png" width="400px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/CheckM.png" style="width:400px" />
+</center>
 <p><code>CheckM</code> is a useful tool to assess the quality of assembled bacterial and archaeal genomes. This can be used on assemblies produced from single cell, single isolate, or metagenome data. Additionally, it can be used to identify bins that are likely candidates for merging. This occurs when one genome has been separated into different bins.</p>
 <p>An important part of CheckM is the ubiquitous and single-copy genes it utilises. It has sets of these genes for different phylogenetic lineages. With these it can determine:</p>
 <ul>
@@ -454,7 +473,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="checkm-mamba" class="section level3 hasAnchor" number="17.2.1">
 <h3><span class="header-section-number">17.2.1</span> CheckM: Mamba<a href="17-Genome_binning.html#checkm-mamba" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/mamba_logo.png" style="width: 200px" />
+<img src="figures/mamba_logo.png" style="width: 200px; border-radius: 5px" />
 </center>
 <p>Due to program version conflicts we will use the <code>checkm</code> conda environment for this section.</p>
 <p>Open a new terminal and activate the <code>checkm</code> environment.</p>
@@ -464,7 +483,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="checkm-run" class="section level3 hasAnchor" number="17.2.2">
 <h3><span class="header-section-number">17.2.2</span> CheckM: run<a href="17-Genome_binning.html#checkm-run" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/play_black.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/play_black.png" style="width:100px" />
+</center>
 <p><code>CheckM</code> has many different commands. We will use one of the common workflows it provides called <code>lineage_wf</code>. This carries out five of its commands in a workflow (i.e. the next step uses output from the previous step).</p>
 <ol style="list-style-type: decimal">
 <li><code>tree</code> - Places bins in the reference genome tree. This reference tree comes with <code>CheckM</code>.</li>
@@ -480,7 +501,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb82-4"><a href="17-Genome_binning.html#cb82-4" tabindex="-1"></a>bins/ checkm_output</span></code></pre></div>
 <div id="parameters-10" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="17-Genome_binning.html#parameters-10" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_black.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_black.png" style="width:100px" />
+</center>
 <ul>
 <li><code>--tab_table</code> : Prints results to a tab separated table.</li>
 <li><code>-f</code> : File name to print result to (if not specified results will go to stdout).</li>
@@ -495,7 +518,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="checkm-output" class="section level3 hasAnchor" number="17.2.3">
 <h3><span class="header-section-number">17.2.3</span> CheckM: output<a href="17-Genome_binning.html#checkm-output" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/output_file_black.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/output_file_black.png" style="width:100px" />
+</center>
 <p>As we have only used a subset of data the results are not very good. We'll therefore look at premade results.
 These premade results were produced using the entire K1 dataset.
 First you will need to copy them.</p>
@@ -596,7 +621,9 @@ Where:</p>
 </div>
 <div id="checkm-mcqs" class="section level3 hasAnchor" number="17.2.5">
 <h3><span class="header-section-number">17.2.5</span> CheckM: MCQs<a href="17-Genome_binning.html#checkm-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/question_bubble_blue.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/question_bubble_blue.png" style="width:100px" />
+</center>
 <p>Viewing the file "MAGS_checkm_quality.csv" attempt the below questions.</p>
 <p><strong>Tip</strong>: You can use the <code>cut</code> command to look at specific columns. For example:</p>
 <div class="sourceCode" id="cb92"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb92-1"><a href="17-Genome_binning.html#cb92-1" tabindex="-1"></a><span class="co">#look at the &quot;Bin Id&quot; and &quot;Quality&quot;</span></span>
@@ -604,47 +631,49 @@ Where:</p>
 <span id="cb92-3"><a href="17-Genome_binning.html#cb92-3" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d</span> <span class="st">&quot;,&quot;</span> <span class="at">-f</span> 1,15 MAGS_checkm_quality.csv <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&quot;,&quot;</span> <span class="st">&quot;\t&quot;</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>What lineage was assigned to bin <strong>K1.1</strong>?
-<div id="radio_SVCTWUSECR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SVCTWUSECR" value=""></input> <span><strong>root (UID1)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SVCTWUSECR" value="answer"></input> <span><strong>k_Bacteria (UID203)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SVCTWUSECR" value=""></input> <span><strong>o_Lachnospiraceae (UID1286)</strong></span></label>
+<div id="radio_YUNDPJYTQA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YUNDPJYTQA" value=""></input> <span><strong>root (UID1)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YUNDPJYTQA" value="answer"></input> <span><strong>k_Bacteria (UID203)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YUNDPJYTQA" value=""></input> <span><strong>o_Lachnospiraceae (UID1286)</strong></span></label>
 </div></li>
 <li>What lineage was assigned to bin <strong>K1.22</strong>?
-<div id="radio_WTKVNBSHCU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WTKVNBSHCU" value=""></input> <span><strong>root (UID1)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WTKVNBSHCU" value=""></input> <span><strong>k_Bacteria (UID203)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WTKVNBSHCU" value="answer"></input> <span><strong>o_Lachnospiraceae (UID1286)</strong></span></label>
+<div id="radio_FWZUBTLSAH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FWZUBTLSAH" value=""></input> <span><strong>root (UID1)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FWZUBTLSAH" value=""></input> <span><strong>k_Bacteria (UID203)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FWZUBTLSAH" value="answer"></input> <span><strong>o_Lachnospiraceae (UID1286)</strong></span></label>
 </div></li>
 <li>What lineage was assigned to bin <strong>K1.8</strong>?
-<div id="radio_ISVOBABBRC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ISVOBABBRC" value="answer"></input> <span><strong>root (UID1)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ISVOBABBRC" value=""></input> <span><strong>k_Bacteria (UID203)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ISVOBABBRC" value=""></input> <span><strong>o_Lachnospiraceae (UID1286)</strong></span></label>
+<div id="radio_DFZPLASBTE" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DFZPLASBTE" value="answer"></input> <span><strong>root (UID1)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DFZPLASBTE" value=""></input> <span><strong>k_Bacteria (UID203)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DFZPLASBTE" value=""></input> <span><strong>o_Lachnospiraceae (UID1286)</strong></span></label>
 </div></li>
 <li>What is the quality value of K1.1?
-<div id="radio_AKOFVLJIET" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_AKOFVLJIET" value=""></input> <span><strong>4.17</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AKOFVLJIET" value="answer"></input> <span><strong>33.62</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AKOFVLJIET" value=""></input> <span><strong>172</strong></span></label>
+<div id="radio_KGWGPCMRBL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KGWGPCMRBL" value=""></input> <span><strong>4.17</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KGWGPCMRBL" value="answer"></input> <span><strong>33.62</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KGWGPCMRBL" value=""></input> <span><strong>172</strong></span></label>
 </div></li>
 <li>What is the completeness value of <strong>K1.27</strong>?
-<div id="radio_HUDPMVXRXZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HUDPMVXRXZ" value="answer"></input> <span><strong>4.17</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HUDPMVXRXZ" value=""></input> <span><strong>33.62</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HUDPMVXRXZ" value=""></input> <span><strong>172</strong></span></label>
+<div id="radio_SQXKIOZCRR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SQXKIOZCRR" value="answer"></input> <span><strong>4.17</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SQXKIOZCRR" value=""></input> <span><strong>33.62</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SQXKIOZCRR" value=""></input> <span><strong>172</strong></span></label>
 </div></li>
 <li>How many genomes are within the <strong>K1.12</strong> bin?
-<div id="radio_YLKMEEYJCT" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YLKMEEYJCT" value=""></input> <span><strong>4.17</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YLKMEEYJCT" value=""></input> <span><strong>33.62</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YLKMEEYJCT" value="answer"></input> <span><strong>172</strong></span></label>
+<div id="radio_VFAUQHILCV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VFAUQHILCV" value=""></input> <span><strong>4.17</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VFAUQHILCV" value=""></input> <span><strong>33.62</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VFAUQHILCV" value="answer"></input> <span><strong>172</strong></span></label>
 </div></li>
 <li>Which bin has the highest quality value (96.38%)?
-<div id="radio_VACMBBVLAB" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_VACMBBVLAB" value=""></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VACMBBVLAB" value=""></input> <span><strong>K1.21</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VACMBBVLAB" value="answer"></input> <span><strong>K1.22</strong></span></label>
+<div id="radio_YABTSXYHMT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YABTSXYHMT" value=""></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YABTSXYHMT" value=""></input> <span><strong>K1.21</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YABTSXYHMT" value="answer"></input> <span><strong>K1.22</strong></span></label>
 </div></li>
 <li>Which bin has the lowest quality value (-300.67%)?
-<div id="radio_BKZBKTHATK" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_BKZBKTHATK" value="answer"></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BKZBKTHATK" value=""></input> <span><strong>K1.21</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BKZBKTHATK" value=""></input> <span><strong>K1.22</strong></span></label>
+<div id="radio_ZHLEOJBCPC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZHLEOJBCPC" value="answer"></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZHLEOJBCPC" value=""></input> <span><strong>K1.21</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZHLEOJBCPC" value=""></input> <span><strong>K1.22</strong></span></label>
 </div></li>
 <li>Which bin has the highest completeness value (98.27%)?
-<div id="radio_DGOAWEQRIH" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DGOAWEQRIH" value=""></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DGOAWEQRIH" value="answer"></input> <span><strong>K1.21</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DGOAWEQRIH" value=""></input> <span><strong>K1.22</strong></span></label>
+<div id="radio_UGIZUSBIMB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UGIZUSBIMB" value=""></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UGIZUSBIMB" value="answer"></input> <span><strong>K1.21</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UGIZUSBIMB" value=""></input> <span><strong>K1.22</strong></span></label>
 </div></li>
 </ol>
 </div>
 </div>
 <div id="binning-summary" class="section level2 hasAnchor" number="17.3">
 <h2><span class="header-section-number">17.3</span> Binning summary<a href="17-Genome_binning.html#binning-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/sum_black.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/sum_black.png" style="width:100px" />
+</center>
 <p>It is always useful to know the quality of your bins so you know which are more reliable than others. With that information you can be more or less certain when concluding your findings.</p>
 <p>We have some good quality bins. However, the best bins would only have one genome. Ultimately binning is trying to separate all the genomes from each other. A better metagenome assembly would most likely have led to better binning.</p>
 

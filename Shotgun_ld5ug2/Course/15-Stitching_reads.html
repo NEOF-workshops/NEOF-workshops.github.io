@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 15 Stitching read pairs | Shotgun Metagenomics</title>
   <meta name="description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 15 Stitching read pairs | Shotgun Metagenomics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Sam Haldenby and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-03-13" />
+<meta name="date" content="2024-10-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,6 +52,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -138,7 +142,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank">
+<img src="figures/neof_rounded_corners_300ppi.png" width=250px></a></li>
 <li><a>Shotgun Metagenomics</a></li>
 
 <li class="divider"></li>
@@ -322,19 +327,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="stitching-read-pairs" class="section level1 hasAnchor" number="15">
 <h1><span class="header-section-number">Chapter 15</span> Stitching read pairs<a href="15-Stitching_reads.html#stitching-read-pairs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/stitch.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/stitch.png" style="width:150px" />
+</center>
 <p>Longer k-mers generally perform better for assemblies. However, our maximum read length is 100 bp so we are limited to a maximum k-mer length of 99 bp. Thankfully we can get even longer k-mers if we stitch our read pairs together.</p>
 <p><strong>Note</strong>: This method will not work if your reads have no overlap. If you are not sure if your reads have overlap ask the team who sequenced them.</p>
 <p>A read pair consists of two sequences read from each end of a fragment of DNA (or RNA). If the two sequences meet and overlap in the middle of the fragment, there will be a region of homology. We can use this to merge the two reads together (See next image).</p>
 <p>First, we obtain our forward and reverse reads, derived from different ends of the same fragment. Second, we look for sufficient overlap between the 3' ends of our sequences. Third, if there is sufficient overlap, we combine, or stitch, the two reads together to form one long sequence.</p>
 <center>
-<img src="figures/merging_paired_reads.png" style="width: 400px; border-radius: 15px; border: 5px solid #333333; background-color: white" />
+<img src="figures/merging_paired_reads.png" style="width: 400px; border-radius: 15px; border: 5px solid white; background-color: white" />
 </center>
 <p>Once we have longer stitched reads, we can increase the k-mer length for our assembly.</p>
 <p>There are a number of pieces of software that can be used to stitch reads (e.g. <code>Pear</code>, <code>Pandaseq</code>) but today we will use one called <code>FLASH</code>:</p>
 <div id="flash-run" class="section level2 hasAnchor" number="15.1">
 <h2><span class="header-section-number">15.1</span> FLASH: run<a href="15-Stitching_reads.html#flash-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/play_red.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/play_red.png" style="width:100px" />
+</center>
 <p>Make a new output directory for the stitched reads and run <code>FLASH</code>:</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb59-1"><a href="15-Stitching_reads.html#cb59-1" tabindex="-1"></a><span class="co">#Change directory to home</span></span>
 <span id="cb59-2"><a href="15-Stitching_reads.html#cb59-2" tabindex="-1"></a><span class="bu">cd</span> ~</span>
@@ -346,7 +355,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb59-8"><a href="15-Stitching_reads.html#cb59-8" tabindex="-1"></a>../2-Trimmed/K1_R1.fq.gz ../2-Trimmed/K1_R2.fq.gz</span></code></pre></div>
 <div id="parameters-7" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="15-Stitching_reads.html#parameters-7" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_red.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_red.png" style="width:100px" />
+</center>
 <ul>
 <li><code>-o</code>: Sets the prefix of the output files.</li>
 <li><code>-z</code>: The input is zipped.</li>
@@ -358,7 +369,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="flash-output" class="section level2 hasAnchor" number="15.2">
 <h2><span class="header-section-number">15.2</span> FLASH: Output<a href="15-Stitching_reads.html#flash-output" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/output_file_red.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/output_file_red.png" style="width:100px" />
+</center>
 <p>Once <code>FLASH</code> has finished running, it will display on screen how well the stitching process went, in this case a low amount of reads were combined. Have a look what files have been generated.</p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb60-1"><a href="15-Stitching_reads.html#cb60-1" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
 <p>We have three new fastq.gz files. One containing the stitched reads (<code>K1.extendedFrags.fastq.gz</code>) and two containing the reads from pairs that could not be combined (<code>K1.notCombined_1.fastq.gz</code> and <code>K1.notCombined_2.fastq.gz)</code>.</p>
@@ -368,15 +381,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="flash-mcqs" class="section level2 hasAnchor" number="15.3">
 <h2><span class="header-section-number">15.3</span> FLASH: MCQs<a href="15-Stitching_reads.html#flash-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/question_bubble_red.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/question_bubble_red.png" style="width:100px" />
+</center>
 <ol style="list-style-type: decimal">
 <li>What length has the highest proportion of stitched reads?
-<div id="radio_PZZVKSTZOJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PZZVKSTZOJ" value=""></input> <span><strong>101</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PZZVKSTZOJ" value=""></input> <span><strong>177</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PZZVKSTZOJ" value="answer"></input> <span><strong>188</strong></span></label>
+<div id="radio_TQSIANCWOK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TQSIANCWOK" value=""></input> <span><strong>101</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TQSIANCWOK" value=""></input> <span><strong>177</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TQSIANCWOK" value="answer"></input> <span><strong>188</strong></span></label>
 </div></li>
 <li>What length has the lowest proportion of stitched reads?
-<div id="radio_XATHBTLHPX" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XATHBTLHPX" value="answer"></input> <span><strong>101</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XATHBTLHPX" value=""></input> <span><strong>177</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XATHBTLHPX" value=""></input> <span><strong>188</strong></span></label>
+<div id="radio_TGHFIFZCQC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TGHFIFZCQC" value="answer"></input> <span><strong>101</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TGHFIFZCQC" value=""></input> <span><strong>177</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TGHFIFZCQC" value=""></input> <span><strong>188</strong></span></label>
 </div></li>
 </ol>
 

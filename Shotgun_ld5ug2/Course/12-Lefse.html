@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 12 LEfSe biomarker detection | Shotgun Metagenomics</title>
   <meta name="description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 12 LEfSe biomarker detection | Shotgun Metagenomics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Sam Haldenby and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-03-13" />
+<meta name="date" content="2024-10-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,6 +52,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -138,7 +142,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank">
+<img src="figures/neof_rounded_corners_300ppi.png" width=250px></a></li>
 <li><a>Shotgun Metagenomics</a></li>
 
 <li class="divider"></li>
@@ -322,12 +327,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="lefse-biomarker-detection" class="section level1 hasAnchor" number="12">
 <h1><span class="header-section-number">Chapter 12</span> LEfSe biomarker detection<a href="12-Lefse.html#lefse-biomarker-detection" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/lefse.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/lefse.png" style="width:150px" />
+</center>
 <p>We will use <code>LEfSe</code> (Linear discriminant analysis Effect Size) to determine which taxa can most likely explain the differences between the Western and Korean diet. <code>LEfSe</code> couples standard tests for statistical significance with additional tests encoding biological consistency and effect relevance. It can be used with other features such as organisms, clades, operational taxonomic units, genes, or functions.</p>
 <p>In essence it allows for the detection of biomarkers when comparing sample groups. In the <code>LEfSe</code> terminology the sample groups are called the class.</p>
 <div id="kraken2_lefse_metadata" class="section level2 hasAnchor" number="12.1">
 <h2><span class="header-section-number">12.1</span> LEfSe: add metadata<a href="12-Lefse.html#kraken2_lefse_metadata" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/header.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/header.png" style="width:100px; background:white;border-radius:5px" />
+</center>
 <p>We need to add metadata to our <code>Bracken</code> file to be ready for <code>LEfSe.</code> First we will copy the file so we have a backup in case we do anything wrong.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb34-1"><a href="12-Lefse.html#cb34-1" tabindex="-1"></a><span class="fu">cp</span> all_num.bracken all_num.lefse.bracken</span></code></pre></div>
 <p>Using your favourite text editor (e.g. <code>nano</code>, <code>vim</code>, etc.) add the following line to the top of your <code>all_num.lefse.bracken</code> file. The words are separated by tabs. If you are not sure how to carry out this task please ask a demonstrator.</p>
@@ -344,12 +353,16 @@ Issues with creating file?
 </div>
 <div id="lefse-format" class="section level2 hasAnchor" number="12.2">
 <h2><span class="header-section-number">12.2</span> LEfSe: format<a href="12-Lefse.html#lefse-format" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/lefse_format.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/lefse_format.png" style="width:100px;background:white;border-radius:5px" />
+</center>
 <p>We need to further format and preprocess our file with a <code>LEfSe</code> script.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb36-1"><a href="12-Lefse.html#cb36-1" tabindex="-1"></a><span class="ex">lefse_format_input.py</span> all_num.lefse.bracken all_num.lefse <span class="at">-c</span> 1 <span class="at">-u</span> 2 <span class="at">-o</span> 1000000</span></code></pre></div>
 <div id="parameters-5" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="12-Lefse.html#parameters-5" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_purple.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_purple.png" style="width:100px" />
+</center>
 <ul>
 <li><code>all_num.lefse.bracken</code> : Input <code>Bracken</code> file.</li>
 <li><code>all_num.lefse</code> : Output file formatted for the run_lefse command, which we will soon run.</li>
@@ -361,7 +374,9 @@ Issues with creating file?
 </div>
 <div id="lefse-run" class="section level2 hasAnchor" number="12.3">
 <h2><span class="header-section-number">12.3</span> LEfSe: run<a href="12-Lefse.html#lefse-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/play_purple.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/play_purple.png" style="width:100px" />
+</center>
 <p>Now to run <code>LEfSe.</code> All we need to do is run the command with the formatted input and provide an output file name.</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb37-1"><a href="12-Lefse.html#cb37-1" tabindex="-1"></a><span class="ex">lefse_run.py</span> all_num.lefse all_num.lefse.out</span></code></pre></div>
 <div id="output" class="section level4 unnumbered hasAnchor">
@@ -379,7 +394,9 @@ Issues with creating file?
 </div>
 <div id="lefse-visualisation" class="section level2 hasAnchor" number="12.4">
 <h2><span class="header-section-number">12.4</span> LEfSe: visualisation<a href="12-Lefse.html#lefse-visualisation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/bar_chart_horizontal.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/bar_chart_horizontal.png" style="width:100px; background:white;border-radius:5px" />
+</center>
 <p>Next we can visualise the output.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb38-1"><a href="12-Lefse.html#cb38-1" tabindex="-1"></a><span class="ex">lefse_plot_res.py</span> <span class="at">--dpi</span> 200 <span class="at">--format</span> png all_num.lefse.out biomarkers.png</span></code></pre></div>
 <ul>
@@ -393,43 +410,47 @@ Issues with creating file?
 </div>
 <div id="lefse-mcqs" class="section level2 hasAnchor" number="12.5">
 <h2><span class="header-section-number">12.5</span> LEfSe: MCQs<a href="12-Lefse.html#lefse-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/question_bubble_purple.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/question_bubble_purple.png" style="width:100px" />
+</center>
 <p>Interrogating the biomarkers.png plot and the all_num.lefse.out file, attempt the below MCQs.</p>
 <p><strong>Note</strong>: In this instance green bars represent biomarkers in higher abundance in the W samples whilst the red bars represent biomarkers in higher abundance in the K samples.</p>
 <ol style="list-style-type: decimal">
 <li>Which species biomarker causes the biggest effect in the <strong>W</strong> class?
-<div id="radio_APELQTFBDQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_APELQTFBDQ" value=""></input> <span><strong>Adlercreutziaequolifaciens</strong></span></label><label><input type="radio" autocomplete="off" name="radio_APELQTFBDQ" value="answer"></input> <span><strong>Alistipesshahhii</strong></span></label><label><input type="radio" autocomplete="off" name="radio_APELQTFBDQ" value=""></input> <span><strong>Methanosphaerastadtmanae</strong></span></label>
+<div id="radio_WVPMVIFXKQ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WVPMVIFXKQ" value=""></input> <span><strong>Adlercreutziaequolifaciens</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WVPMVIFXKQ" value="answer"></input> <span><strong>Alistipesshahhii</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WVPMVIFXKQ" value=""></input> <span><strong>Methanosphaerastadtmanae</strong></span></label>
 </div></li>
 <li>Which species biomarker causes the biggest effect in the <strong>K</strong> class?
-<div id="radio_KGPPDZEHEO" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_KGPPDZEHEO" value=""></input> <span><strong>Adlercreutziaequolifaciens</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KGPPDZEHEO" value=""></input> <span><strong>Alistipesshahhii</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KGPPDZEHEO" value="answer"></input> <span><strong>Methanosphaerastadtmanae</strong></span></label>
+<div id="radio_MZQLIBLSAR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MZQLIBLSAR" value=""></input> <span><strong>Adlercreutziaequolifaciens</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MZQLIBLSAR" value=""></input> <span><strong>Alistipesshahhii</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MZQLIBLSAR" value="answer"></input> <span><strong>Methanosphaerastadtmanae</strong></span></label>
 </div></li>
 <li>Which species biomarker (i.e. present in the plot) causes the lowest effect in the <strong>W</strong> class?
-<div id="radio_NFURERJCOY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_NFURERJCOY" value="answer"></input> <span><strong>Adlercreutziaequolifaciens</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NFURERJCOY" value=""></input> <span><strong>Alistipesshahhii</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NFURERJCOY" value=""></input> <span><strong>Methanosphaerastadtmanae</strong></span></label>
+<div id="radio_SYHTEKRRWU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SYHTEKRRWU" value="answer"></input> <span><strong>Adlercreutziaequolifaciens</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SYHTEKRRWU" value=""></input> <span><strong>Alistipesshahhii</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SYHTEKRRWU" value=""></input> <span><strong>Methanosphaerastadtmanae</strong></span></label>
 </div></li>
 <li>Which class has more biomarkers associated with it?
-<div id="radio_HGURBNWGDQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HGURBNWGDQ" value=""></input> <span><strong>Korean</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HGURBNWGDQ" value="answer"></input> <span><strong>Western</strong></span></label>
+<div id="radio_KURIOGMHWB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KURIOGMHWB" value=""></input> <span><strong>Korean</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KURIOGMHWB" value="answer"></input> <span><strong>Western</strong></span></label>
 </div></li>
 <li>What is the LEfSe p-value for <strong>Campylobactercoli</strong>?
-<div id="radio_ISLGIHIOBR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ISLGIHIOBR" value="answer"></input> <span><strong>0.0022136919545913936</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ISLGIHIOBR" value=""></input> <span><strong>3.0266165524513937</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ISLGIHIOBR" value=""></input> <span><strong>3.314396201978439</strong></span></label>
+<div id="radio_HPVXSTLFJO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HPVXSTLFJO" value="answer"></input> <span><strong>0.0022136919545913936</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HPVXSTLFJO" value=""></input> <span><strong>3.0266165524513937</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HPVXSTLFJO" value=""></input> <span><strong>3.314396201978439</strong></span></label>
 </div></li>
 <li>What is the Log of highest class average for <strong>Streptococcussuis</strong>?
-<div id="radio_EHXBWDXPTP" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_EHXBWDXPTP" value=""></input> <span><strong>0.0022136919545913936</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EHXBWDXPTP" value="answer"></input> <span><strong>3.0266165524513937</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EHXBWDXPTP" value=""></input> <span><strong>3.314396201978439</strong></span></label>
+<div id="radio_PMTMNFYCQY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PMTMNFYCQY" value=""></input> <span><strong>0.0022136919545913936</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PMTMNFYCQY" value="answer"></input> <span><strong>3.0266165524513937</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PMTMNFYCQY" value=""></input> <span><strong>3.314396201978439</strong></span></label>
 </div></li>
 <li>What is the LDA effect size for <strong>Bifidobacteriumlongum</strong>?
-<div id="radio_LMTJPSKGGT" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_LMTJPSKGGT" value=""></input> <span><strong>0.0022136919545913936</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LMTJPSKGGT" value=""></input> <span><strong>3.0266165524513937</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LMTJPSKGGT" value="answer"></input> <span><strong>3.314396201978439</strong></span></label>
+<div id="radio_KTVYXTNYFL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KTVYXTNYFL" value=""></input> <span><strong>0.0022136919545913936</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KTVYXTNYFL" value=""></input> <span><strong>3.0266165524513937</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KTVYXTNYFL" value="answer"></input> <span><strong>3.314396201978439</strong></span></label>
 </div></li>
 </ol>
 </div>
 <div id="kraken2-and-bracken-databases" class="section level2 hasAnchor" number="12.6">
 <h2><span class="header-section-number">12.6</span> Kraken2 and Bracken databases<a href="12-Lefse.html#kraken2-and-bracken-databases" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/database.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/database.png" style="width:150px" />
+</center>
 <p>In your own future analysis you will need to create your own <code>Kraken2</code> and <code>Bracken</code> databases. Please see the following links on information for this:</p>
 <ul>
 <li><code>Kraken2</code>
