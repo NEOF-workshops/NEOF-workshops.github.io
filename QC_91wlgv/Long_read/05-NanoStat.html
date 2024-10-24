@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 13 PacBio QC | Long read Quality Control</title>
+  <title>Chapter 5 NanoStat | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
   <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 13 PacBio QC | Long read Quality Control" />
+  <meta property="og:title" content="Chapter 5 NanoStat | Long read Quality Control" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Long read quality control workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 13 PacBio QC | Long read Quality Control" />
+  <meta name="twitter:title" content="Chapter 5 NanoStat | Long read Quality Control" />
   
   <meta name="twitter:description" content="NEOF book for the Long read quality control workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-<link rel="prev" href="12-PB_filtering.html"/>
-<link rel="next" href="14-Appendix.html"/>
+<link rel="prev" href="04-ONT_setup.html"/>
+<link rel="next" href="06-Porechop.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -259,48 +259,115 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="pbqcchap" class="section level1 hasAnchor" number="13">
-<h1><span class="header-section-number">Chapter 13</span> PacBio QC<a href="13-PB_QC.html#pbqcchap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="nanostat" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> NanoStat<a href="05-NanoStat.html#nanostat" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/ccs.png" style="width:600px; border-radius:15px; background:null" />
+<img src="figures/metrics.png" style="width:150px" />
 </center>
-<p>We will now look at some quality metrics of our filtered HiFi sequences.</p>
-<p>Before carrying out any specific commands first make sure you are in the relevant directory.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb25-1"><a href="13-PB_QC.html#cb25-1" tabindex="-1"></a><span class="bu">cd</span> ~/QC_workshop/PB_QC/data/hifi</span></code></pre></div>
-<div id="qc-the-subreads-with-rabbitqcplus" class="section level2 hasAnchor" number="13.1">
-<h2><span class="header-section-number">13.1</span> QC the subreads with RabbitQCPlus<a href="13-PB_QC.html#qc-the-subreads-with-rabbitqcplus" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The first step is to acquire stats for the sequences in our fastq file. We will use <code>NanoStat</code> (<a href="https://github.com/wdecoster/nanostat" class="uri">https://github.com/wdecoster/nanostat</a>).</p>
+<p><code>NanoStat</code> is one of the many tools contained in the <code>NanoPack</code> suite (<a href="https://github.com/wdecoster/nanopack" class="uri">https://github.com/wdecoster/nanopack</a>). We will also use the tools <code>NanoPlot</code> and <code>NanoFilt</code> downstream.</p>
+<div id="nanostat-run" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> NanoStat: run<a href="05-NanoStat.html#nanostat-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/RabbitQCPlus.png" style="width:500px; border-radius:15px; background:null" />
+<img src="figures/enter_key_black.png" style="width:150px; background: white; border-radius:15px" />
 </center>
-<p><code>RabbitQCPlus</code> generates QC information using a fastq file as input.</p>
-<p>Let's run <code>RabbitQC</code> on our filtered HiFi data:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb26-1"><a href="13-PB_QC.html#cb26-1" tabindex="-1"></a><span class="ex">RabbitQCPlus</span> <span class="at">-i</span> ERR13246467_qc.filt.fastq.gz <span class="at">-w</span> 1 –TGS</span></code></pre></div>
-<p><strong>Parameters</strong>:</p>
+<p>We want to have a tidy set of directories at the end of this analysis. It would be an untidy mess if we had all the output files in the current directory. We will therefore be making directories and subdirectories to send our output.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb6-1"><a href="05-NanoStat.html#cb6-1" tabindex="-1"></a><span class="fu">mkdir</span> nanostats</span></code></pre></div>
+<p>Finally we will now run <code>NanoStat.</code> The options used are:</p>
 <ul>
-<li><code>-i</code> to specify the input fastq file name</li>
-<li><code>-w</code> to specify the number of threads</li>
-<li><code>--TGS</code> to specifiy the data is Third Generation Sequencing data (ONT or PB)</li>
+<li><code>-n</code> : File name/path for the output.</li>
+<li><code>-t</code> : Number of threads the script can use.</li>
+<li><code>--fastq</code> : Input data is in fastq format. Other options that can be used are <code>--fasta</code>, <code>--summary</code>, and <code>--bam</code>.</li>
 </ul>
-<p>View the output using <code>firefox</code>.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb27-1"><a href="13-PB_QC.html#cb27-1" tabindex="-1"></a><span class="ex">firefox</span> ERR13246467_qc_RabbitQCPlus.html</span></code></pre></div>
-<p>The "Reads Length Distribution" shows ....</p>
-<p>The other plots show the % nucleotide frequencies (AGCT) and mean quality scores for the beginning and end of the reads.</p>
-<p>The mean quality plots unfortunately do not show anything because ...</p>
-<p>The main advantage of <code>RabbitQC</code> is that it is a very fast way to assess the processed read lengths.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb7-1"><a href="05-NanoStat.html#cb7-1" tabindex="-1"></a><span class="ex">NanoStat</span> <span class="at">-n</span> nanostats/Acinetobacter_nanostats.tsv <span class="dt">\</span></span>
+<span id="cb7-2"><a href="05-NanoStat.html#cb7-2" tabindex="-1"></a>-t 4 <span class="at">--fastq</span> ./data/Acinetobacter/Acinetobacter_genome_ONT.fastq</span></code></pre></div>
+<p>When the command has finished you can look at the output text file. In this case we will use the convenient <code>less</code> command.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb8-1"><a href="05-NanoStat.html#cb8-1" tabindex="-1"></a><span class="fu">less</span> nanostats/Acinetobacter_nanostats.tsv</span></code></pre></div>
 </div>
-<div id="final-summary" class="section level2 hasAnchor" number="13.2">
-<h2><span class="header-section-number">13.2</span> Final summary<a href="13-PB_QC.html#final-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="nanostat_output" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> NanoStat: output<a href="05-NanoStat.html#nanostat_output" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/sum_black.png" style="width:150px; background: white; border-radius:5px" />
+<img src="figures/output_file_black.png" style="width:150px" />
 </center>
-<p>That is the end of this book. You have learnt how to QC ONT &amp; PacBio data. Of course there are various other tools out there and the field is always advancing so we suggest you also have a look what is out there.</p>
-<p>Thanks for reading.</p>
+<p>The file contains four sections with informative headers. These are:</p>
+<ol style="list-style-type: decimal">
+<li><strong>General summary</strong>
+<ul>
+<li>A list of general summary metrics.</li>
+</ul></li>
+<li><strong>Number, percentage and megabases of reads above quality cutoffs</strong>
+<ul>
+<li>Based on the mean quality value of a read.</li>
+<li>The "&gt;Q10" line shows the number and % of reads with a mean quality above Q10. It also shows the total amount of megabases these reads contain.</li>
+</ul></li>
+<li><strong>Top 5 highest mean basecall quality scores and their read lengths</strong>
+<ul>
+<li>Shows the top 5 reads with the highest mean quality scores.</li>
+</ul></li>
+<li><strong>Top 5 longest reads and their mean basecall quality score</strong>
+<ul>
+<li>Shows the top 5 longest reads.</li>
+</ul></li>
+</ol>
+</div>
+<div id="nanostat-mcqs" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> NanoStat: MCQs<a href="05-NanoStat.html#nanostat-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/question_bubble_black.png" style="width:150px; background: white; border-radius:15px; border: 5px white solid" />
+</center>
+<p>With the output of <code>NanoStat</code> and the above info on the output please answer the following Multiple-choice questions.</p>
+<ol style="list-style-type: decimal">
+<li>What is the mean base quality for the read with the highest mean base quality?
+<div id="radio_JEODHKEVHJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JEODHKEVHJ" value=""></input> <span><strong>9.2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JEODHKEVHJ" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JEODHKEVHJ" value="answer"></input> <span><strong>12.3</strong></span></label>
+</div></li>
+<li>What is the mean base quality for the longest read?
+<div id="radio_KWHSVSXTHG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KWHSVSXTHG" value="answer"></input> <span><strong>9.2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KWHSVSXTHG" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KWHSVSXTHG" value=""></input> <span><strong>12.3</strong></span></label>
+</div></li>
+<li>What is the mean read quality for all the data?
+<div id="radio_JWTEQSVTMK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JWTEQSVTMK" value=""></input> <span><strong>9.2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JWTEQSVTMK" value="answer"></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JWTEQSVTMK" value=""></input> <span><strong>12.3</strong></span></label>
+</div></li>
+<li>What is the length of the read with the 2nd highest mean quality?
+<div id="radio_EHWOBHKCQK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EHWOBHKCQK" value="answer"></input> <span><strong>5,770</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EHWOBHKCQK" value=""></input> <span><strong>6,700.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EHWOBHKCQK" value=""></input> <span><strong>25,072</strong></span></label>
+</div></li>
+<li>What is the length of the 3rd longest read?
+<div id="radio_SPFBQYZPVC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SPFBQYZPVC" value=""></input> <span><strong>5,770</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SPFBQYZPVC" value=""></input> <span><strong>6,700.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SPFBQYZPVC" value="answer"></input> <span><strong>25,072</strong></span></label>
+</div></li>
+<li>What is the median read length of the data?
+<div id="radio_QPFDANWZTS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QPFDANWZTS" value=""></input> <span><strong>5,770</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QPFDANWZTS" value="answer"></input> <span><strong>6,700.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QPFDANWZTS" value=""></input> <span><strong>25,072</strong></span></label>
+</div></li>
+<li>To the nearest 0.1 Megabases (i.e. 100,000 bases), what is the total number of bases of the data?
+<div id="radio_GZCSQNETBC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GZCSQNETBC" value=""></input> <span><strong>0.0Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GZCSQNETBC" value=""></input> <span><strong>8.8Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GZCSQNETBC" value="answer"></input> <span><strong>14.1Mb</strong></span></label>
+</div></li>
+<li>How many Megabases are within reads with a quality cutoff of &gt;Q10?
+<div id="radio_KSWLHGPNEI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KSWLHGPNEI" value=""></input> <span><strong>0.0Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KSWLHGPNEI" value="answer"></input> <span><strong>8.8Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KSWLHGPNEI" value=""></input> <span><strong>14.1Mb</strong></span></label>
+</div></li>
+<li>How many Megabases are within reads with a quality cutoff of &gt;Q15?
+<div id="radio_CGQEEOZQOD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CGQEEOZQOD" value="answer"></input> <span><strong>0.0Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CGQEEOZQOD" value=""></input> <span><strong>8.8Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CGQEEOZQOD" value="answer"></input> <span><strong>14.1Mb</strong></span></label>
+</div></li>
+<li>To the nearest 0.1 Megabases (i.e. 100,000 bases), what is the total number of bases within reads with a mean quality of Q10 or less (you will need to do some mental maths)?
+<div id="radio_JJYJKBCHVH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JJYJKBCHVH" value="answer"></input> <span><strong>5.3Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JJYJKBCHVH" value=""></input> <span><strong>8.8Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JJYJKBCHVH" value="answer"></input> <span><strong>14.1Mb</strong></span></label>
+</div></li>
+</ol>
+</div>
+<div id="nanostat-summary" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> NanoStat: summary<a href="05-NanoStat.html#nanostat-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/sum_black.png" style="width:150px; background: white; border-radius:15px; border: white solid 5px" />
+</center>
+<p>We have carried out our first step of QC by quality checking the <strong>fastq</strong> file with <code>NanoStat</code>. Overall the data has good quality, for ONT data &gt;Q10 is good. However, there is some poor quality data so quality control will be needed.</p>
 
 </div>
 </div>
-
-
-
 <script>
 
 /* update total correct if #webex-total_correct exists */
@@ -512,8 +579,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-<a href="12-PB_filtering.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="14-Appendix.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="04-ONT_setup.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="06-Porechop.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
