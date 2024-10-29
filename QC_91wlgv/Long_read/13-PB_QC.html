@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 13 PacBio QC | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 13 PacBio QC | Long read Quality Control" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell, Helen Hipperson &amp; Ewan Harney" />
 
 
-<meta name="date" content="2024-10-28" />
+<meta name="date" content="2024-10-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -283,10 +283,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>View the output using <code>firefox</code>.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb27-1"><a href="13-PB_QC.html#cb27-1" tabindex="-1"></a><span class="ex">firefox</span> ERR13246467_qc.filt_RabbitQCPlus.html</span></code></pre></div>
-<p>The "Reads Length Distribution" shows ....</p>
-<p>The other plots show the % nucleotide frequencies (AGCT) and mean quality scores for the beginning and end of the reads.</p>
-<p>The mean quality plots unfortunately do not show anything because ...</p>
-<p>The main advantage of <code>RabbitQC</code> is that it is a very fast way to assess the processed read lengths.</p>
+<p>At the top of the html file are some summary tables followed by a histogram showing the distribution of read lengths in the fastq file (with a bin width of 10). You can zoom in on parts of the histogram by dragging the arrows along the bars at the bottom and to the right of the plot.</p>
+Which bin contains the greatest number of reads?
+<div id="radio_ZLPANXKEZY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZLPANXKEZY" value=""></input> <span><strong>7370</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZLPANXKEZY" value="answer"></input> <span><strong>10540</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZLPANXKEZY" value=""></input> <span><strong>11300</strong></span></label>
+</div>
+<p>Underneath the plot showing the distribution of read lengths are two quality plots showing the phred quality of head and tail bases (the first and last 100 bases in a read).</p>
+<p>Strangely these plots appear to be empty. However, try ‘mousing over’ the empty plot. What do you see? Does this give an idea as to why the plots might be empty? When you think you might have an answer, click on the button below:</p>
+<div class="webex-solution">
+<button>
+Why are the RabbitQCPlus plots empty?
+</button>
+<p>Quality scores for PacBio <a href="https://en.wikipedia.org/wiki/FASTQ_format">fastq</a> files follow the sanger convention, running from 0 and 93 (ASCII 33-126). Unfortunately, the output of RabbitQCPlus plots a figure where the y-axis is limited to display between 0 and 42. While this is fine for Illumina data, it means that we don’t see any results in the plots for PacBio data. Mousing over the plot can reveal the quality scores at each position. You should see that quality scores are mostly in the range of 83-86.</p>
+</div>
+<p>One solution to this problem is to use an alternative program to inspect quality. In <a href="https://neof-workshops.github.io/QC_91wlgv/Illumina/04-Good_quality_data.html">Chapter 4</a> of the Illumina QC bookdown you used a program called fastqc to inspect the quality of Illumina data. How might you use fastqc to inspect the quality of this PacBio hifi file? Have a go at this before checking the answer below.</p>
+<div class="webex-solution">
+<button>
+Inspecting PacBio data quality with fastqc
+</button>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb28-1"><a href="13-PB_QC.html#cb28-1" tabindex="-1"></a><span class="co">#Open a new terminal and activate the illuminaqc environment</span></span>
+<span id="cb28-2"><a href="13-PB_QC.html#cb28-2" tabindex="-1"></a>. useilluminaqc</span>
+<span id="cb28-3"><a href="13-PB_QC.html#cb28-3" tabindex="-1"></a><span class="co">#Navigate to the directory containing the hifi fastq file</span></span>
+<span id="cb28-4"><a href="13-PB_QC.html#cb28-4" tabindex="-1"></a>cd QC_workshop<span class="sc">/</span>PB_QC<span class="sc">/</span>data<span class="sc">/</span>hifi</span>
+<span id="cb28-5"><a href="13-PB_QC.html#cb28-5" tabindex="-1"></a><span class="co">#Create an output directory for the fastqc file</span></span>
+<span id="cb28-6"><a href="13-PB_QC.html#cb28-6" tabindex="-1"></a>mkdir fastqc_output</span>
+<span id="cb28-7"><a href="13-PB_QC.html#cb28-7" tabindex="-1"></a><span class="co">#Run fastqc</span></span>
+<span id="cb28-8"><a href="13-PB_QC.html#cb28-8" tabindex="-1"></a>fastqc <span class="sc">-</span>o fastqc_output<span class="sc">/</span> ERR13246467_qc.filt.fastq.gz</span>
+<span id="cb28-9"><a href="13-PB_QC.html#cb28-9" tabindex="-1"></a><span class="co">#View the file with firefox</span></span>
+<span id="cb28-10"><a href="13-PB_QC.html#cb28-10" tabindex="-1"></a>firefox fastqc_output<span class="sc">/</span>ERR13246467_qc.filt.fastqc.html</span></code></pre></div>
+</div>
+<p>You should now be able to view the fastqc quality plots for the PacBio hifi fastq file. RabbitQCPlus is considerably quicker and more efficient than fastqc at generating plots, which can be very useful when dealing with many and/or large files. If you want to do a quick inspection of summary tables, read length distribution and GC content, and don’t mind ‘mousing-over’ the quality plots, RabbitQCPlus is a useful tool. But if you want a more detailed visual output, consider using fastqc (either on the complete file, or on a subset of reads).</p>
 </div>
 <div id="final-summary" class="section level2 hasAnchor" number="13.2">
 <h2><span class="header-section-number">13.2</span> Final summary<a href="13-PB_QC.html#final-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>

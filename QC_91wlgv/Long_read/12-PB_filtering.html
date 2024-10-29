@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 12 PacBio filtering | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 12 PacBio filtering | Long read Quality Control" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell, Helen Hipperson &amp; Ewan Harney" />
 
 
-<meta name="date" content="2024-10-28" />
+<meta name="date" content="2024-10-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -289,9 +289,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><a href="https://github.com/sheinasim/HiFiAdapterFilt">HiFiAdapterFilt</a> blasts the reads against a database of PacBio adapter sequences and excludes reads if the match with an adapter is good enough (the default is a blast percent identity match of 97% and a minimum length of 44 bp). It creates a file with the suffix ‘.filt.fastq.gz’ with the adapters removed that can be used for QC and downstream analysis.</p>
 <p>Run HiFiAdapterFilt on the fastq file:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb23-1"><a href="12-PB_filtering.html#cb23-1" tabindex="-1"></a><span class="ex">hifiadapterfilt.sh</span> <span class="at">-p</span> ERR13246467_qc</span></code></pre></div>
-<p>The <code>-p</code> paramter sets the prefix of the file to be filtered.</p>
+<p>The <code>-p</code> parameter sets the prefix of the file to be filtered.</p>
 <p>Use <code>less</code> to inspect the results to check for adapter contamination:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb24-1"><a href="12-PB_filtering.html#cb24-1" tabindex="-1"></a><span class="fu">less</span> ERR13246467_qc.stats</span></code></pre></div>
+How many CCS reads are in the unfiltered dataset?
+<div id="radio_JCTVSNVFIZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JCTVSNVFIZ" value=""></input> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JCTVSNVFIZ" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JCTVSNVFIZ" value="answer"></input> <span><strong>13798</strong></span></label>
+</div>
+How many adapter contaminated reads were found?
+<div id="radio_MMWZFPTLAI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MMWZFPTLAI" value=""></input> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MMWZFPTLAI" value="answer"></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MMWZFPTLAI" value=""></input> <span><strong>13798</strong></span></label>
+</div>
+What percentage of CCS reads are retained (i.e. unfiltered)?
+<div id="radio_FWYDZKSTVY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FWYDZKSTVY" value="answer"></input> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FWYDZKSTVY" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FWYDZKSTVY" value=""></input> <span><strong>13798</strong></span></label>
+</div>
+<p>Very few reads were found to contain adapter sequences. This isn't entirely unexpected as the CCS algorithm on the instrument will filter out most of them. However, the authors of HiFiAdapterFilt found that &gt;95% of published HiFi datasets did contain some adapter sequences, so it is worthwile to check and remove these.</p>
 </div>
 <div id="pacbio-adapter-filtering-summary" class="section level2 hasAnchor" number="12.3">
 <h2><span class="header-section-number">12.3</span> PacBio adapter filtering: summary<a href="12-PB_filtering.html#pacbio-adapter-filtering-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
