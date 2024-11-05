@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>13 Modifying DNA Data | Python for Bioinformatics</title>
   <meta name="description" content="NEOF book for the Python for Bioinformatics workshop" />
-  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="13 Modifying DNA Data | Python for Bioinformatics" />
   <meta property="og:type" content="book" />
@@ -139,7 +139,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank">
+<img src="figures/neof_rounded_corners_300ppi.png" width=250px></a></li>
 <li><a>Python for Bioinformatics</a></li>
 
 <li class="divider"></li>
@@ -311,7 +312,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16.3" data-path="16-Fundamental_recap_exercise.html"><a href="16-Fundamental_recap_exercise.html#fre-challenge-3"><i class="fa fa-check"></i><b>16.3</b> FRE challenge 3</a></li>
 <li class="chapter" data-level="16.4" data-path="16-Fundamental_recap_exercise.html"><a href="16-Fundamental_recap_exercise.html#fre-challenge-4"><i class="fa fa-check"></i><b>16.4</b> FRE challenge 4</a></li>
 <li class="chapter" data-level="16.5" data-path="16-Fundamental_recap_exercise.html"><a href="16-Fundamental_recap_exercise.html#fre-challenge-5"><i class="fa fa-check"></i><b>16.5</b> FRE challenge 5</a></li>
-<li class="chapter" data-level="16.6" data-path="16-Fundamental_recap_exercise.html"><a href="16-Fundamental_recap_exercise.html#exercise-1-conclusion"><i class="fa fa-check"></i><b>16.6</b> Exercise 1 conclusion</a></li>
+<li class="chapter" data-level="16.6" data-path="16-Fundamental_recap_exercise.html"><a href="16-Fundamental_recap_exercise.html#fre-exercise-conclusion"><i class="fa fa-check"></i><b>16.6</b> FRE Exercise conclusion</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="17-National_animals_exercise.html"><a href="17-National_animals_exercise.html"><i class="fa fa-check"></i><b>17</b> National animals exercise</a>
 <ul>
@@ -384,42 +385,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="modify_dna_data" class="section level1 hasAnchor" number="13">
 <h1><span class="header-section-number">13</span> Modifying DNA Data<a href="13-DNA_conditions.html#modify_dna_data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/modify_dna.png" width="20%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/modify_dna.png" style="width:200px" />
+</center>
 <p>Suppose we want to filter raw sequence reads by some parameter.
 For example, we could:</p>
 <ul>
 <li>Remove reads of a certain length.</li>
 <li>Remove sections of a sequence such as PCR primers.</li>
 </ul>
-<p>In this chapter we will use our knowledge of <strong>loops</strong> and <strong>conditions</strong> to perform these tasks. Continue using <strong>"04-Practical_python"</strong> notebook.</p>
+<p>In this chapter we will use our knowledge of <strong>loops</strong> and <strong>conditions</strong> to perform these tasks. Continue using your <strong>"04-Practical_python"</strong> notebook.</p>
 <div id="length-filtering" class="section level2 hasAnchor" number="13.1">
 <h2><span class="header-section-number">13.1</span> Length filtering<a href="13-DNA_conditions.html#length-filtering" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/filter_2.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/filter_2.png" style="width:200px" />
+</center>
 <p>Using what we know, we will create code to remove/filter reads shorter than a specified read-length threshold from a FastQ file.</p>
 <p>Write, run, and try to understand the below code.</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb154-1"><a href="13-DNA_conditions.html#cb154-1" tabindex="-1"></a><span class="co">#Read in the fastq data</span></span>
-<span id="cb154-2"><a href="13-DNA_conditions.html#cb154-2" tabindex="-1"></a>R_undulata_data <span class="op">=</span> SeqIO.parse(wd <span class="op">+</span> <span class="st">&quot;/R_undulata_WGS.fastq&quot;</span>, <span class="st">&quot;fastq&quot;</span>)</span>
-<span id="cb154-3"><a href="13-DNA_conditions.html#cb154-3" tabindex="-1"></a></span>
-<span id="cb154-4"><a href="13-DNA_conditions.html#cb154-4" tabindex="-1"></a><span class="co">#Initialise an empty list to hold the records that we want to keep</span></span>
-<span id="cb154-5"><a href="13-DNA_conditions.html#cb154-5" tabindex="-1"></a>wanted_sequences <span class="op">=</span> []</span>
-<span id="cb154-6"><a href="13-DNA_conditions.html#cb154-6" tabindex="-1"></a></span>
-<span id="cb154-7"><a href="13-DNA_conditions.html#cb154-7" tabindex="-1"></a><span class="co">#Variable for choice of minimum length</span></span>
-<span id="cb154-8"><a href="13-DNA_conditions.html#cb154-8" tabindex="-1"></a><span class="co">#in this case we will choose 100</span></span>
-<span id="cb154-9"><a href="13-DNA_conditions.html#cb154-9" tabindex="-1"></a>min_len <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb154-10"><a href="13-DNA_conditions.html#cb154-10" tabindex="-1"></a></span>
-<span id="cb154-11"><a href="13-DNA_conditions.html#cb154-11" tabindex="-1"></a><span class="co">#Loop through the fastq records</span></span>
-<span id="cb154-12"><a href="13-DNA_conditions.html#cb154-12" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> R_undulata_data:</span>
-<span id="cb154-13"><a href="13-DNA_conditions.html#cb154-13" tabindex="-1"></a>  <span class="co">#If condition to determine if sequence length is greater or equal to minimum length</span></span>
-<span id="cb154-14"><a href="13-DNA_conditions.html#cb154-14" tabindex="-1"></a>  <span class="cf">if</span> <span class="bu">len</span>(record.seq) <span class="op">&gt;=</span> min_len:</span>
-<span id="cb154-15"><a href="13-DNA_conditions.html#cb154-15" tabindex="-1"></a>    <span class="co">#Add the record to the list of records that meet the minimum length threshold</span></span>
-<span id="cb154-16"><a href="13-DNA_conditions.html#cb154-16" tabindex="-1"></a>    wanted_sequences.append(record)</span>
-<span id="cb154-17"><a href="13-DNA_conditions.html#cb154-17" tabindex="-1"></a></span>
-<span id="cb154-18"><a href="13-DNA_conditions.html#cb154-18" tabindex="-1"></a><span class="co">#Print statement to show number of reads retained after length filtering</span></span>
-<span id="cb154-19"><a href="13-DNA_conditions.html#cb154-19" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Found &quot;</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">len</span>(wanted_sequences)) <span class="op">+</span> <span class="st">&quot; reads &gt;= &quot;</span> <span class="op">+</span> <span class="bu">str</span>(min_len) <span class="op">+</span> <span class="st">&quot;bp in length.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb153-1"><a href="13-DNA_conditions.html#cb153-1" tabindex="-1"></a><span class="co">#Read in the fastq data</span></span>
+<span id="cb153-2"><a href="13-DNA_conditions.html#cb153-2" tabindex="-1"></a>R_undulata_data <span class="op">=</span> SeqIO.parse(wd <span class="op">+</span> <span class="st">&quot;/R_undulata_WGS.fastq&quot;</span>, <span class="st">&quot;fastq&quot;</span>)</span>
+<span id="cb153-3"><a href="13-DNA_conditions.html#cb153-3" tabindex="-1"></a></span>
+<span id="cb153-4"><a href="13-DNA_conditions.html#cb153-4" tabindex="-1"></a><span class="co">#Initialise an empty list to hold the records that we want to keep</span></span>
+<span id="cb153-5"><a href="13-DNA_conditions.html#cb153-5" tabindex="-1"></a>wanted_sequences <span class="op">=</span> []</span>
+<span id="cb153-6"><a href="13-DNA_conditions.html#cb153-6" tabindex="-1"></a></span>
+<span id="cb153-7"><a href="13-DNA_conditions.html#cb153-7" tabindex="-1"></a><span class="co">#Variable for choice of minimum length</span></span>
+<span id="cb153-8"><a href="13-DNA_conditions.html#cb153-8" tabindex="-1"></a><span class="co">#in this case we will choose 100</span></span>
+<span id="cb153-9"><a href="13-DNA_conditions.html#cb153-9" tabindex="-1"></a>min_len <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb153-10"><a href="13-DNA_conditions.html#cb153-10" tabindex="-1"></a></span>
+<span id="cb153-11"><a href="13-DNA_conditions.html#cb153-11" tabindex="-1"></a><span class="co">#Loop through the fastq records</span></span>
+<span id="cb153-12"><a href="13-DNA_conditions.html#cb153-12" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> R_undulata_data:</span>
+<span id="cb153-13"><a href="13-DNA_conditions.html#cb153-13" tabindex="-1"></a>  <span class="co">#If condition to determine if sequence length is greater or equal to minimum length</span></span>
+<span id="cb153-14"><a href="13-DNA_conditions.html#cb153-14" tabindex="-1"></a>  <span class="cf">if</span> <span class="bu">len</span>(record.seq) <span class="op">&gt;=</span> min_len:</span>
+<span id="cb153-15"><a href="13-DNA_conditions.html#cb153-15" tabindex="-1"></a>    <span class="co">#Add the record to the list of records that meet the minimum length threshold</span></span>
+<span id="cb153-16"><a href="13-DNA_conditions.html#cb153-16" tabindex="-1"></a>    wanted_sequences.append(record)</span>
+<span id="cb153-17"><a href="13-DNA_conditions.html#cb153-17" tabindex="-1"></a></span>
+<span id="cb153-18"><a href="13-DNA_conditions.html#cb153-18" tabindex="-1"></a><span class="co">#Print statement to show number of reads retained after length filtering</span></span>
+<span id="cb153-19"><a href="13-DNA_conditions.html#cb153-19" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Found &quot;</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">len</span>(wanted_sequences)) <span class="op">+</span> <span class="st">&quot; reads &gt;= &quot;</span> <span class="op">+</span> <span class="bu">str</span>(min_len) <span class="op">+</span> <span class="st">&quot;bp in length.&quot;</span>)</span></code></pre></div>
 </div>
 <div id="remove-pcr-primers" class="section level2 hasAnchor" number="13.2">
 <h2><span class="header-section-number">13.2</span> Remove PCR primers<a href="13-DNA_conditions.html#remove-pcr-primers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/scissors_2.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/scissors_2.png" style="width:200px" />
+</center>
 <p>Often you may want to check your sequence file for PCR primers, and remove them when they are found.
 Using a <strong>for</strong> <strong>loop</strong> to move through the sequence file, we can check each DNA sequence read for the presence of a pre-defined primer sequence.
 If it is present, we'll remove it.</p>
@@ -430,18 +437,18 @@ It is very useful for checking for primer sequences in our data.</p>
 <p>For demonstration purposes we will first run code that will tell us the number of sequences which have the PCR sequence present.</p>
 <p><strong>Note</strong>: Below is the primer in triplet bases for ease of reading. Ensure you type it as one string with no spaces.</p>
 <p><strong>ACA CTG CTG ATC G</strong></p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb155-1"><a href="13-DNA_conditions.html#cb155-1" tabindex="-1"></a><span class="co">#Assign PCR sequence variable</span></span>
-<span id="cb155-2"><a href="13-DNA_conditions.html#cb155-2" tabindex="-1"></a>pcr_seq <span class="op">=</span> <span class="st">&quot;ACACTGCTGATCG&quot;</span></span>
-<span id="cb155-3"><a href="13-DNA_conditions.html#cb155-3" tabindex="-1"></a><span class="co">#Initialise variable to sum number of records with PCR primer present</span></span>
-<span id="cb155-4"><a href="13-DNA_conditions.html#cb155-4" tabindex="-1"></a>pcr_records <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb155-5"><a href="13-DNA_conditions.html#cb155-5" tabindex="-1"></a></span>
-<span id="cb155-6"><a href="13-DNA_conditions.html#cb155-6" tabindex="-1"></a><span class="co">#Loop through the sequence records</span></span>
-<span id="cb155-7"><a href="13-DNA_conditions.html#cb155-7" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> wanted_sequences:</span>
-<span id="cb155-8"><a href="13-DNA_conditions.html#cb155-8" tabindex="-1"></a>  <span class="co">#Check whether the sequence starts with the primer sequence</span></span>
-<span id="cb155-9"><a href="13-DNA_conditions.html#cb155-9" tabindex="-1"></a>  <span class="cf">if</span> record.seq.startswith(pcr_seq):</span>
-<span id="cb155-10"><a href="13-DNA_conditions.html#cb155-10" tabindex="-1"></a>    pcr_records <span class="op">=</span> pcr_records <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb155-11"><a href="13-DNA_conditions.html#cb155-11" tabindex="-1"></a></span>
-<span id="cb155-12"><a href="13-DNA_conditions.html#cb155-12" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Number of sequences with the PCR sequence present: &quot;</span> <span class="op">+</span> <span class="bu">str</span>(pcr_records))</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb154-1"><a href="13-DNA_conditions.html#cb154-1" tabindex="-1"></a><span class="co">#Assign PCR sequence variable</span></span>
+<span id="cb154-2"><a href="13-DNA_conditions.html#cb154-2" tabindex="-1"></a>pcr_seq <span class="op">=</span> <span class="st">&quot;ACACTGCTGATCG&quot;</span></span>
+<span id="cb154-3"><a href="13-DNA_conditions.html#cb154-3" tabindex="-1"></a><span class="co">#Initialise variable to sum number of records with PCR primer present</span></span>
+<span id="cb154-4"><a href="13-DNA_conditions.html#cb154-4" tabindex="-1"></a>pcr_records <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb154-5"><a href="13-DNA_conditions.html#cb154-5" tabindex="-1"></a></span>
+<span id="cb154-6"><a href="13-DNA_conditions.html#cb154-6" tabindex="-1"></a><span class="co">#Loop through the sequence records</span></span>
+<span id="cb154-7"><a href="13-DNA_conditions.html#cb154-7" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> wanted_sequences:</span>
+<span id="cb154-8"><a href="13-DNA_conditions.html#cb154-8" tabindex="-1"></a>  <span class="co">#Check whether the sequence starts with the primer sequence</span></span>
+<span id="cb154-9"><a href="13-DNA_conditions.html#cb154-9" tabindex="-1"></a>  <span class="cf">if</span> record.seq.startswith(pcr_seq):</span>
+<span id="cb154-10"><a href="13-DNA_conditions.html#cb154-10" tabindex="-1"></a>    pcr_records <span class="op">=</span> pcr_records <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb154-11"><a href="13-DNA_conditions.html#cb154-11" tabindex="-1"></a></span>
+<span id="cb154-12"><a href="13-DNA_conditions.html#cb154-12" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Number of sequences with the PCR sequence present: &quot;</span> <span class="op">+</span> <span class="bu">str</span>(pcr_records))</span></code></pre></div>
 <p>We have found that there are lots of sequences with the primer sequence present.
 Now that we have identified their presence, let's trim them off the start of the reads.</p>
 <p>Create and run the below code in a new <strong>cell</strong>.
@@ -454,32 +461,34 @@ This will contain records that have been:</p>
 <li>Note, we are also keeping the untrimmed sequences that did not contain the PCR sequence.</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb156"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb156-1"><a href="13-DNA_conditions.html#cb156-1" tabindex="-1"></a><span class="co">#Define a list to hold the trimmed sequences</span></span>
-<span id="cb156-2"><a href="13-DNA_conditions.html#cb156-2" tabindex="-1"></a>trimmed_sequences <span class="op">=</span> []</span>
-<span id="cb156-3"><a href="13-DNA_conditions.html#cb156-3" tabindex="-1"></a><span class="co">#Assign PCR sequence variable</span></span>
-<span id="cb156-4"><a href="13-DNA_conditions.html#cb156-4" tabindex="-1"></a>pcr_seq <span class="op">=</span> <span class="st">&quot;ACACTGCTGATCG&quot;</span></span>
-<span id="cb156-5"><a href="13-DNA_conditions.html#cb156-5" tabindex="-1"></a><span class="co">#Initialise variable to sum number of records with PCR primer present</span></span>
-<span id="cb156-6"><a href="13-DNA_conditions.html#cb156-6" tabindex="-1"></a>pcr_records <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb156-7"><a href="13-DNA_conditions.html#cb156-7" tabindex="-1"></a></span>
-<span id="cb156-8"><a href="13-DNA_conditions.html#cb156-8" tabindex="-1"></a><span class="co">#Loop through the sequence records</span></span>
-<span id="cb156-9"><a href="13-DNA_conditions.html#cb156-9" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> wanted_sequences:</span>
-<span id="cb156-10"><a href="13-DNA_conditions.html#cb156-10" tabindex="-1"></a>  <span class="co">#Check whether the sequence starts with the primer sequence</span></span>
-<span id="cb156-11"><a href="13-DNA_conditions.html#cb156-11" tabindex="-1"></a>  <span class="cf">if</span> record.seq.startswith(pcr_seq):</span>
-<span id="cb156-12"><a href="13-DNA_conditions.html#cb156-12" tabindex="-1"></a>    <span class="co">#Subset read from position 14 onwards and add to trimmed_sequences</span></span>
-<span id="cb156-13"><a href="13-DNA_conditions.html#cb156-13" tabindex="-1"></a>    <span class="co">#This will remove the first 13 bases, the PCR sequence</span></span>
-<span id="cb156-14"><a href="13-DNA_conditions.html#cb156-14" tabindex="-1"></a>    trimmed_sequences.append(record[<span class="dv">13</span>:])</span>
-<span id="cb156-15"><a href="13-DNA_conditions.html#cb156-15" tabindex="-1"></a>    pcr_records <span class="op">=</span> pcr_records <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb156-16"><a href="13-DNA_conditions.html#cb156-16" tabindex="-1"></a>  <span class="cf">else</span>:</span>
-<span id="cb156-17"><a href="13-DNA_conditions.html#cb156-17" tabindex="-1"></a>    <span class="co">#Add untrimmed sequence to trimmed_sequences</span></span>
-<span id="cb156-18"><a href="13-DNA_conditions.html#cb156-18" tabindex="-1"></a>    <span class="co">#this is because there is no PCR sequence present to trim off</span></span>
-<span id="cb156-19"><a href="13-DNA_conditions.html#cb156-19" tabindex="-1"></a>    trimmed_sequences.append(record)</span>
-<span id="cb156-20"><a href="13-DNA_conditions.html#cb156-20" tabindex="-1"></a></span>
-<span id="cb156-21"><a href="13-DNA_conditions.html#cb156-21" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Number of sequences with the PCR sequence removed: &quot;</span> <span class="op">+</span> <span class="bu">str</span>(pcr_records))</span>
-<span id="cb156-22"><a href="13-DNA_conditions.html#cb156-22" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Total number of filtered and trimmed reads: &quot;</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">len</span>(trimmed_sequences)))</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode python Rchunk"><code class="sourceCode python"><span id="cb155-1"><a href="13-DNA_conditions.html#cb155-1" tabindex="-1"></a><span class="co">#Define a list to hold the trimmed sequences</span></span>
+<span id="cb155-2"><a href="13-DNA_conditions.html#cb155-2" tabindex="-1"></a>trimmed_sequences <span class="op">=</span> []</span>
+<span id="cb155-3"><a href="13-DNA_conditions.html#cb155-3" tabindex="-1"></a><span class="co">#Assign PCR sequence variable</span></span>
+<span id="cb155-4"><a href="13-DNA_conditions.html#cb155-4" tabindex="-1"></a>pcr_seq <span class="op">=</span> <span class="st">&quot;ACACTGCTGATCG&quot;</span></span>
+<span id="cb155-5"><a href="13-DNA_conditions.html#cb155-5" tabindex="-1"></a><span class="co">#Initialise variable to sum number of records with PCR primer present</span></span>
+<span id="cb155-6"><a href="13-DNA_conditions.html#cb155-6" tabindex="-1"></a>pcr_records <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb155-7"><a href="13-DNA_conditions.html#cb155-7" tabindex="-1"></a></span>
+<span id="cb155-8"><a href="13-DNA_conditions.html#cb155-8" tabindex="-1"></a><span class="co">#Loop through the sequence records</span></span>
+<span id="cb155-9"><a href="13-DNA_conditions.html#cb155-9" tabindex="-1"></a><span class="cf">for</span> record <span class="kw">in</span> wanted_sequences:</span>
+<span id="cb155-10"><a href="13-DNA_conditions.html#cb155-10" tabindex="-1"></a>  <span class="co">#Check whether the sequence starts with the primer sequence</span></span>
+<span id="cb155-11"><a href="13-DNA_conditions.html#cb155-11" tabindex="-1"></a>  <span class="cf">if</span> record.seq.startswith(pcr_seq):</span>
+<span id="cb155-12"><a href="13-DNA_conditions.html#cb155-12" tabindex="-1"></a>    <span class="co">#Subset read from position 14 onwards and add to trimmed_sequences</span></span>
+<span id="cb155-13"><a href="13-DNA_conditions.html#cb155-13" tabindex="-1"></a>    <span class="co">#This will remove the first 13 bases, the PCR sequence</span></span>
+<span id="cb155-14"><a href="13-DNA_conditions.html#cb155-14" tabindex="-1"></a>    trimmed_sequences.append(record[<span class="dv">13</span>:])</span>
+<span id="cb155-15"><a href="13-DNA_conditions.html#cb155-15" tabindex="-1"></a>    pcr_records <span class="op">=</span> pcr_records <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb155-16"><a href="13-DNA_conditions.html#cb155-16" tabindex="-1"></a>  <span class="cf">else</span>:</span>
+<span id="cb155-17"><a href="13-DNA_conditions.html#cb155-17" tabindex="-1"></a>    <span class="co">#Add untrimmed sequence to trimmed_sequences</span></span>
+<span id="cb155-18"><a href="13-DNA_conditions.html#cb155-18" tabindex="-1"></a>    <span class="co">#this is because there is no PCR sequence present to trim off</span></span>
+<span id="cb155-19"><a href="13-DNA_conditions.html#cb155-19" tabindex="-1"></a>    trimmed_sequences.append(record)</span>
+<span id="cb155-20"><a href="13-DNA_conditions.html#cb155-20" tabindex="-1"></a></span>
+<span id="cb155-21"><a href="13-DNA_conditions.html#cb155-21" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Number of sequences with the PCR sequence removed: &quot;</span> <span class="op">+</span> <span class="bu">str</span>(pcr_records))</span>
+<span id="cb155-22"><a href="13-DNA_conditions.html#cb155-22" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Total number of filtered and trimmed reads: &quot;</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">len</span>(trimmed_sequences)))</span></code></pre></div>
 </div>
 <div id="modifying-dna-reflection" class="section level2 hasAnchor" number="13.3">
 <h2><span class="header-section-number">13.3</span> Modifying DNA reflection<a href="13-DNA_conditions.html#modifying-dna-reflection" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/reflection.png" width="15%" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/reflection.png" style="width:200px" />
+</center>
 <p>Outstanding! In this chapter we used your knowledge of reading FASTQ files, to:</p>
 <ul>
 <li>Loop through the data.</li>
