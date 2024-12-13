@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 16 Differential abundance analysis | Bacterial 16S metabarcoding</title>
   <meta name="description" content="NEOF book for the Bacterial 16S metabarcoding workshop" />
-  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 16 Differential abundance analysis | Bacterial 16S metabarcoding" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Luca Lenzi and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-02-01" />
+<meta name="date" content="2024-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_rounded_corners.png" width="250"></a></li>
 <li><a>Bacterial 16S metabarcoding</a></li>
 
 <li class="divider"></li>
@@ -345,14 +345,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="differential" class="section level1 hasAnchor" number="16">
 <h1><span class="header-section-number">Chapter 16</span> Differential abundance analysis<a href="16-Differential_abundance.html#differential" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/balance_scale.png" width="200px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/balance_scale.png" style="width:200px" />
+</center>
 <p>The <a href="https://www.nature.com/articles/s41467-020-17041-7">ANCOM-BC</a> method aims to identify differentially abundant taxa between sample groups. It is an improvement of the original ANCOM method but with added bias correction. This bias correction aims to account for the bias caused by the difference in sampling/depth across the samples.</p>
-<p>Differential abundance analysis aims to detect features (ASVs, taxa, etc.) that have different abundances between groups. This can be used to detect organisms in high abundance in diseased states versus healthy states. This helps determine what are the disease causing organisms. However, it may also detect organisms that are able to survive in the environment rather than those that cause the difference in environment.</p>
-<p>If you are still in 'dada2-diversity-34583' directory, please remember to move out:</p>
+<p>Differential abundance analysis aims to detect features (ASVs, taxa, etc.) that have different abundances between groups. An example of its use is to detect organisms in high abundance in diseased states versus healthy states. This helps determine what are the disease causing organisms. However, it may also detect organisms that are able to survive in the environment rather than those that cause the difference in environment.</p>
+<p>If you are still in 'dada2-diversity-34584' directory, please remember to move out:</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb31-1"><a href="16-Differential_abundance.html#cb31-1" tabindex="-1"></a><span class="bu">cd</span> ..</span></code></pre></div>
 <div id="taxa-collapse" class="section level2 hasAnchor" number="16.1">
 <h2><span class="header-section-number">16.1</span> Taxa collapse<a href="16-Differential_abundance.html#taxa-collapse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/collapse.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/collapse.png" style="width:150px" />
+</center>
 <p>First, we need to collapse the ASVs into taxa. This is done as seeing which ASVs are differentially abundant with no taxonomic information is not very useful. Let us choose Greengenes2 level 5 which equates to family.</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb32-1"><a href="16-Differential_abundance.html#cb32-1" tabindex="-1"></a><span class="ex">qiime</span> taxa collapse <span class="dt">\</span></span>
 <span id="cb32-2"><a href="16-Differential_abundance.html#cb32-2" tabindex="-1"></a>--i-table table-dada2.qza <span class="dt">\</span></span>
@@ -361,7 +365,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb32-5"><a href="16-Differential_abundance.html#cb32-5" tabindex="-1"></a>--o-collapsed-table table-l5.qza</span></code></pre></div>
 <div id="parameters-18" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="16-Differential_abundance.html#parameters-18" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_purple.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_purple.png" style="width:100px" />
+</center>
 <ul>
 <li><strong><code>--i-table</code></strong>: Input artifact containing the abundance table (non-rarefied) for the identified variants.</li>
 <li><strong><code>--i-taxonomy</code></strong>: Input artifact containing the taxonomic classifications of the ASVs.</li>
@@ -371,12 +377,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li><strong><code>--o-collapsed-table</code></strong>: Output artifact containing the abundance table for the specified taxa level.</li>
 </ul>
-<p><a href="https://docs.qiime2.org/2023.5/plugins/available/taxa/collapse/">QIIME2 docs on <code>qiime taxa collapse</code></a></p>
+<p><a href="https://docs.qiime2.org/2024.10/plugins/available/taxa/collapse/">QIIME2 docs on <code>qiime taxa collapse</code></a></p>
 </div>
 </div>
 <div id="ancom-bc-analysis" class="section level2 hasAnchor" number="16.2">
 <h2><span class="header-section-number">16.2</span> ANCOM-BC analysis<a href="16-Differential_abundance.html#ancom-bc-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/toilet_corridor.png" width="300px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/toilet_corridor.png" style="width:300px" />
+</center>
 <p>With our family based abundance table we can carry out ANCOM-BC to produce the differentials file.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb33-1"><a href="16-Differential_abundance.html#cb33-1" tabindex="-1"></a><span class="ex">qiime</span> composition ancombc <span class="dt">\</span></span>
 <span id="cb33-2"><a href="16-Differential_abundance.html#cb33-2" tabindex="-1"></a>--i-table table-l5.qza <span class="dt">\</span></span>
@@ -385,39 +393,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb33-5"><a href="16-Differential_abundance.html#cb33-5" tabindex="-1"></a>--o-differentials l5-ancombc-Location.qza</span></code></pre></div>
 <div id="parameters-19" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="16-Differential_abundance.html#parameters-19" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_blue.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_blue.png" style="width:100px" />
+</center>
 <ul>
 <li><strong><code>--i-table</code></strong>: Input artifact containing the abundance table (non-rarefied) we want to carry out ANCOM-BC on.</li>
 <li><strong><code>--m-metadata-file</code></strong>: <a href="05-Data.html#metadata.file.txt">Metadata file</a> for our samples.</li>
 <li><strong><code>--p-formula</code></strong>: A formula for how the microbial absolute abundances for each taxon depend on the variables within the <code>metadata</code>.
 <ul>
 <li>In this case we are specifying the metadata column, Location, within the metadata file to use for the statistical analysis. We will therefore see if there is any differentially abundant features between Corridor and Toilet.</li>
-<li>Multiple metadata columns and reference groups can be used with an example in the <a href="https://docs.qiime2.org/2023.5/plugins/available/composition/ancombc/">documentation</a>.</li>
+<li>Multiple metadata columns and reference groups can be used with an example in the <a href="https://docs.qiime2.org/2024.10/plugins/available/composition/ancombc/">documentation</a>.</li>
 </ul></li>
 <li><strong><code>--o-differentials</code></strong>: Output artifact containing the calculated differentials. This will be used to produce visualisation artifacts.</li>
 </ul>
-<p><a href="https://docs.qiime2.org/2023.5/plugins/available/composition/ancombc/">QIIME2 docs on <code>qiime composition ancombc</code></a></p>
+<p><a href="https://docs.qiime2.org/2024.10/plugins/available/composition/ancombc/">QIIME2 docs on <code>qiime composition ancombc</code></a></p>
 </div>
 </div>
 <div id="ancombc-tabulate" class="section level2 hasAnchor" number="16.3">
 <h2><span class="header-section-number">16.3</span> ANCOMBC tabulate<a href="16-Differential_abundance.html#ancombc-tabulate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/nice_table.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/nice_table.png" style="width:150px" />
+</center>
 <p>Next we can create a visualisation artifact containing tabular views of the ANCOM-BC output.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb34-1"><a href="16-Differential_abundance.html#cb34-1" tabindex="-1"></a><span class="ex">qiime</span> composition tabulate <span class="dt">\</span></span>
 <span id="cb34-2"><a href="16-Differential_abundance.html#cb34-2" tabindex="-1"></a>--i-data l5-ancombc-Location.qza <span class="dt">\</span></span>
 <span id="cb34-3"><a href="16-Differential_abundance.html#cb34-3" tabindex="-1"></a>--o-visualization l5-ancombc-Location.qzv</span></code></pre></div>
 <div id="parameters-20" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="16-Differential_abundance.html#parameters-20" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_green.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_green.png" style="width:100px" />
+</center>
 <ul>
 <li><strong><code>--i-data</code></strong>: Input artifact files containing the calculated differentials.</li>
 <li><strong><code>--o-visualization</code></strong>: The output artifact containing the tabular visualisations.</li>
 </ul>
-<p><a href="https://docs.qiime2.org/2023.5/plugins/available/composition/tabulate/">QIIME2 docs on <code>qiime composition tabulate</code></a></p>
+<p><a href="https://docs.qiime2.org/2024.10/plugins/available/composition/tabulate/">QIIME2 docs on <code>qiime composition tabulate</code></a></p>
 </div>
 <div id="ancombc-tabulate-visualise" class="section level3 hasAnchor" number="16.3.1">
 <h3><span class="header-section-number">16.3.1</span> ANCOMBC tabulate: visualise<a href="16-Differential_abundance.html#ancombc-tabulate-visualise" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/eye_green.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/eye_green.png" style="width:150px" />
+</center>
 <p>Load the resulting visualisation (<code>l5-ancombc-Location.qzv</code>) file in QIIME2 view.</p>
 <p>There are tabs for the tables of five different metrics. These tables have a column for:</p>
 <ul>
@@ -461,7 +477,9 @@ Change reference group to Toilet
 </div>
 <div id="ancombc-bar-plots" class="section level2 hasAnchor" number="16.4">
 <h2><span class="header-section-number">16.4</span> ANCOMBC bar plots<a href="16-Differential_abundance.html#ancombc-bar-plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/bar_chart_horizontal.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/bar_chart_horizontal.png" style="width:150px; background: white; border-radius:5px" />
+</center>
 <p>Next we can create a visualisation artifact containing bar plots of the ANCOM-BC output.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb36-1"><a href="16-Differential_abundance.html#cb36-1" tabindex="-1"></a><span class="ex">qiime</span> composition da-barplot <span class="dt">\</span></span>
 <span id="cb36-2"><a href="16-Differential_abundance.html#cb36-2" tabindex="-1"></a>--i-data l5-ancombc-Location.qza <span class="dt">\</span></span>
@@ -469,7 +487,9 @@ Change reference group to Toilet
 <span id="cb36-4"><a href="16-Differential_abundance.html#cb36-4" tabindex="-1"></a>--p-level-delimiter <span class="st">&quot;;&quot;</span></span></code></pre></div>
 <div id="parameters-21" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="16-Differential_abundance.html#parameters-21" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_red.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_red.png" style="width:100px" />
+</center>
 <ul>
 <li><strong><code>--i-data</code></strong>: Input artifact file containing the calculated differentials.</li>
 <li><strong><code>--o-visualization</code></strong>: The output artifact containing the bar plot visualisations.</li>
@@ -479,11 +499,13 @@ Change reference group to Toilet
 <li>You can check which delimiter is used in your <a href="10-Taxonomic_assignment.html#taxabar"><strong>"taxa-bar-plot.dada2.qzv" file</strong></a>.</li>
 </ul></li>
 </ul>
-<p><a href="https://docs.qiime2.org/2023.5/plugins/available/composition/da-barplot/">QIIME2 docs on <code>qiime composition da-barplot</code></a></p>
+<p><a href="https://docs.qiime2.org/2024.10/plugins/available/composition/da-barplot/">QIIME2 docs on <code>qiime composition da-barplot</code></a></p>
 </div>
 <div id="ancom-bc-bar-plots-visualise" class="section level3 hasAnchor" number="16.4.1">
 <h3><span class="header-section-number">16.4.1</span> ANCOM-BC bar plots: visualise<a href="16-Differential_abundance.html#ancom-bc-bar-plots-visualise" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><img src="figures/eye_red.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/eye_red.png" style="width:150px" />
+</center>
 <p>Load the resulting visualisation (<code>l5-ancombc-Location-barplot.qzv</code>) file in QIIME2 view.</p>
 <p>This contains one large bar plot. This displays the LFC values (x-axis) against the features found as differentially abundant (y-axis). The LFC bars also display their standard error as black lines.</p>
 <p><strong>Reminder</strong>: Just like in the tabular visualisation, positive values are in higher abundance in the comparison group (Toilet) compared to the reference group (Corridor). I.e. positive values are enriched in the comparison group compared to the reference group.</p>
@@ -492,20 +514,22 @@ Change reference group to Toilet
 </div>
 <div id="ancom-bc-mcqs" class="section level2 hasAnchor" number="16.5">
 <h2><span class="header-section-number">16.5</span> ANCOM-BC: MCQs<a href="16-Differential_abundance.html#ancom-bc-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/question_bubble_red.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/question_bubble_red.png" style="width:150px" />
+</center>
 <p>Attempt the below MCQs using the table and bar plot visualisation files.</p>
 <ol style="list-style-type: decimal">
 <li>Which family has the highest positive LFC value? I.e. The family with the highest enrichment in Toilet (comparison) compared to Corridor (reference).
-<div id="radio_SYAKEBUKZA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SYAKEBUKZA" value="answer"></input> <span><strong>Clostridiaceae_222000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SYAKEBUKZA" value=""></input> <span><strong>Gemellaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SYAKEBUKZA" value=""></input> <span><strong>Weeksellaceae</strong></span></label>
+<div id="radio_PHBKAWMQIN" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PHBKAWMQIN" value="answer"></input> <span><strong>Clostridiaceae_222000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PHBKAWMQIN" value=""></input> <span><strong>Gemellaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PHBKAWMQIN" value=""></input> <span><strong>Weeksellaceae</strong></span></label>
 </div></li>
 <li>Which family has the lowest negative LFC value? I.e. The family with the highest enrichment in Corridor (reference) compared to Toilet (comparison).
-<div id="radio_XJTOELUQDC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XJTOELUQDC" value=""></input> <span><strong>Clostridiaceae_222000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XJTOELUQDC" value=""></input> <span><strong>Gemellaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XJTOELUQDC" value="answer"></input> <span><strong>Weeksellaceae</strong></span></label>
+<div id="radio_FZQFJGCXTS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FZQFJGCXTS" value=""></input> <span><strong>Clostridiaceae_222000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FZQFJGCXTS" value=""></input> <span><strong>Gemellaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FZQFJGCXTS" value="answer"></input> <span><strong>Weeksellaceae</strong></span></label>
 </div></li>
-<li>Which family has a W statistic of -1.080713?
-<div id="radio_MFAYPZVZYP" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MFAYPZVZYP" value=""></input> <span><strong>Clostridiaceae_222000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MFAYPZVZYP" value="answer"></input> <span><strong>Gemellaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MFAYPZVZYP" value=""></input> <span><strong>Weeksellaceae</strong></span></label>
+<li>Which family has a W statistic of -1.119351?
+<div id="radio_JBWNGRDKIG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JBWNGRDKIG" value=""></input> <span><strong>Clostridiaceae_222000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JBWNGRDKIG" value="answer"></input> <span><strong>Gemellaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JBWNGRDKIG" value=""></input> <span><strong>Weeksellaceae</strong></span></label>
 </div></li>
 </ol>
 <p>Run ANCOM-BC analysis for genus level (level 6). You will have to start from the <code>qiime taxa collapse</code> command. You can press the up arrow key to go to previous commands and edit them. If you do this remember to change the input and output options. Try running these commands yourself before looking at the contents of the below box.</p>
@@ -537,16 +561,16 @@ L6 ANCOM commands
 </div>
 <ol start="4" style="list-style-type: decimal">
 <li>Which genus has the highest positive LFC value? I.e. The genus with the highest enrichment in Toilet (comparison) compared to Corridor (reference).
-<div id="radio_LFGKTWPLUR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_LFGKTWPLUR" value=""></input> <span><strong>Chryseobacterium_796703</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LFGKTWPLUR" value="answer"></input> <span><strong>Clostridium_T</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LFGKTWPLUR" value=""></input> <span><strong>Dialister</strong></span></label>
+<div id="radio_EBPNWZGTFC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EBPNWZGTFC" value=""></input> <span><strong>Microbacterium_A_383321</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EBPNWZGTFC" value="answer"></input> <span><strong>Clostridium_T</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EBPNWZGTFC" value=""></input> <span><strong>Dialister_37762</strong></span></label>
 </div></li>
-<li>Which genus has the lowest negative LFC value? I.e. The genus with the highest enrichment in Corridor (reference) compared to Toilet (comparison).
-<div id="radio_GJVHKMLYFP" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_GJVHKMLYFP" value="answer"></input> <span><strong>Chryseobacterium_796703</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GJVHKMLYFP" value=""></input> <span><strong>Clostridium_T</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GJVHKMLYFP" value=""></input> <span><strong>Dialister</strong></span></label>
+<li>Which genus has the 2nd lowest negative LFC value? I.e. The genus with the 2nd highest enrichment in Corridor (reference) compared to Toilet (comparison).
+<div id="radio_AZJZLMZIAX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_AZJZLMZIAX" value="answer"></input> <span><strong>Microbacterium_A_383321</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AZJZLMZIAX" value=""></input> <span><strong>Clostridium_T</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AZJZLMZIAX" value=""></input> <span><strong>Dialister_37762</strong></span></label>
 </div></li>
-<li>Which genus has a standard error of 0.582710?
-<div id="radio_HVEXWMGUHC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HVEXWMGUHC" value=""></input> <span><strong>Chryseobacterium_796703</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HVEXWMGUHC" value=""></input> <span><strong>Clostridium_T</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HVEXWMGUHC" value="answer"></input> <span><strong>Dialister</strong></span></label>
+<li>Which genus has a standard error of 0.581106?
+<div id="radio_NXJXMHYRVW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NXJXMHYRVW" value=""></input> <span><strong>Microbacterium_A_383321</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NXJXMHYRVW" value=""></input> <span><strong>Clostridium_T</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NXJXMHYRVW" value="answer"></input> <span><strong>Dialister_37762</strong></span></label>
 </div></li>
 </ol>
 <p>Run ANCOM analysis to compare the family abundances between the 2 places (Entrance vs MainBuilding). We have already collapsed the taxa. Therefore you can rerun the commands from the <code>qiime composition ancombc</code> step with changed options. Try running these commands yourself before looking at the contents of the below box.</p>
@@ -572,22 +596,24 @@ Family ANCOM analysis with Place metadata comman
 </div>
 <ol start="7" style="list-style-type: decimal">
 <li>Which family has the 3rd highest positive LFC value? I.e. The family with the third highest enrichment in Main building (comparison) compared to Entrance (reference).
-<div id="radio_HFTIMYDNNN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HFTIMYDNNN" value="answer"></input> <span><strong>Akkermansiaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HFTIMYDNNN" value=""></input> <span><strong>Pseudomonadaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HFTIMYDNNN" value=""></input> <span><strong>Rhodospirillaceae</strong></span></label>
+<div id="radio_HQYKJJGNPX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HQYKJJGNPX" value="answer"></input> <span><strong>Aristaeellaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HQYKJJGNPX" value=""></input> <span><strong>Pseudomonadaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HQYKJJGNPX" value=""></input> <span><strong>Rhodospirillaceae</strong></span></label>
 </div></li>
-<li>Which family has the lowest negative LFC value? I.e. The family with the highest enrichment in Entrance (reference) compared to Main building (comparison).
-<div id="radio_SBTKUUDVAP" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SBTKUUDVAP" value=""></input> <span><strong>Akkermansiaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SBTKUUDVAP" value="answer"></input> <span><strong>Pseudomonadaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SBTKUUDVAP" value=""></input> <span><strong>Rhodospirillaceae</strong></span></label>
+<li>Which family has the 2nd lowest negative LFC value? I.e. The family with the 2nd highest enrichment in Entrance (reference) compared to Main building (comparison).
+<div id="radio_NTLXYJSGIU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NTLXYJSGIU" value=""></input> <span><strong>Aristaeellaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NTLXYJSGIU" value="answer"></input> <span><strong>Pseudomonadaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NTLXYJSGIU" value=""></input> <span><strong>Rhodospirillaceae</strong></span></label>
 </div></li>
-<li>Which family has a LFC of -0.795598
-<div id="radio_PULOIGCLBO" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PULOIGCLBO" value=""></input> <span><strong>Akkermansiaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PULOIGCLBO" value=""></input> <span><strong>Pseudomonadaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PULOIGCLBO" value="answer"></input> <span><strong>Rhodospirillaceae</strong></span></label>
+<li>Which family has a LFC of -0.804614
+<div id="radio_IBNXWKWRJC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_IBNXWKWRJC" value=""></input> <span><strong>Aristaeellaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IBNXWKWRJC" value=""></input> <span><strong>Pseudomonadaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IBNXWKWRJC" value="answer"></input> <span><strong>Rhodospirillaceae</strong></span></label>
 </div></li>
 </ol>
 </div>
 <div id="ancom-bc-summary" class="section level2 hasAnchor" number="16.6">
 <h2><span class="header-section-number">16.6</span> ANCOM-BC: summary<a href="16-Differential_abundance.html#ancom-bc-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/sum_red.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/sum_red.png" style="width:150px" />
+</center>
 <p>We have detected biomarkers when comparing the 2 locations, Corridor and Toilet. This matches the fact we saw a statistical difference between the beta diversity distances of these two groups. The family <em>Clostridiaceae</em> was found to be in higher abundance in the Toilet samples. This makes biological sense as this family is known to exist within the human gastrointestinal tract.</p>
 <p>That is the last of the analysis. There is only one more chapter on future considerations.</p>
 

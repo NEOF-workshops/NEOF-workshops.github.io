@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 10 ASV taxonomic assignment | Bacterial 16S metabarcoding</title>
   <meta name="description" content="NEOF book for the Bacterial 16S metabarcoding workshop" />
-  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 10 ASV taxonomic assignment | Bacterial 16S metabarcoding" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Luca Lenzi and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-02-01" />
+<meta name="date" content="2024-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_bordered_small.png"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_rounded_corners.png" width="250"></a></li>
 <li><a>Bacterial 16S metabarcoding</a></li>
 
 <li class="divider"></li>
@@ -345,62 +345,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="taxa" class="section level1 hasAnchor" number="10">
 <h1><span class="header-section-number">Chapter 10</span> ASV taxonomic assignment<a href="10-Taxonomic_assignment.html#taxa" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/classification.png" width="200px" style="display: block; margin: auto;" /></p>
-<p>Now that we have defined the sequence variants in the samples, this chapter will show you how to carry out taxonomic classification using <a href="https://www.nature.com/articles/s41587-023-01845-1">Greengenes2</a>. More information on its use can be found in the following <code>QIIME2</code> forum post from one of the Greengenes2 developers: <a href="https://forum.qiime2.org/t/introducing-greengenes2-2022-10/25291" class="uri">https://forum.qiime2.org/t/introducing-greengenes2-2022-10/25291</a></p>
+<center>
+<img src="figures/classification.png" style="width:200px" />
+</center>
+<p>Now that we have defined the sequence variants in the samples, this chapter will show you how to carry out taxonomic classification using <a href="https://www.nature.com/articles/s41587-023-01845-1">Greengenes2</a>.</p>
+<p><strong>Links</strong></p>
+<ul>
+<li>Information on its use can be found in the following <code>QIIME2</code> forum post from one of the Greengenes2 developers: <a href="https://forum.qiime2.org/t/introducing-greengenes2-2022-10/25291" class="uri">https://forum.qiime2.org/t/introducing-greengenes2-2022-10/25291</a></li>
+<li>Announcement of Greengenes2 2024.9: <a href="https://forum.qiime2.org/t/greengenes2-2024-09/31606" class="uri">https://forum.qiime2.org/t/greengenes2-2024-09/31606</a></li>
+</ul>
 <div id="greengenes2-database" class="section level2 hasAnchor" number="10.1">
 <h2><span class="header-section-number">10.1</span> Greengenes2 database<a href="10-Taxonomic_assignment.html#greengenes2-database" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/green_jeans.png" width="150px" style="display: block; margin: auto;" /></p>
-<p>Greengenes2 is a database containing quality-controlled microbial sequence data. It consists of a single massive reference tree that contains taxonomic and sequence information. It was created by combining:</p>
+<center>
+<img src="figures/green_jeans.png" style="width:150px" />
+</center>
+<p>Greengenes2 is a database containing quality-controlled microbial sequence data. It consists of a single massive reference tree that contains taxonomic and sequence information. The current version (2024.9) was created by combining:</p>
 <ul>
-<li><strong>Web of Life 2 (WoL2)</strong>: A microbe base phylogenomic tree.
+<li><a href="https://gtdb.ecogenomic.org/">Genome Taxonomy DataBase (GTDB)</a>
 <ul>
-<li><strong>15,953</strong> bacterial and archaeal genomes.</li>
-<li>Accurate phylogenomic tree reconstructed by summarising <strong>380</strong> global marker genes.</li>
-<li>Produced by new workflow <a href="https://github.com/balabanmetin/uDance">uDance</a>.</li>
+<li>Release 220, 24th April 2024</li>
+<li><strong>596,859</strong> bacterial and archaeal genomes</li>
 </ul></li>
-<li><strong>16s rRNA sequences</strong> from different sources.
+<li><a href="https://imedea.uib-csic.es/mmg/ltp/">Living Tree Project (LTP)</a>
 <ul>
-<li><strong>18,356</strong> full-length 16S rRNA sequences from the <a href="https://www.nature.com/articles/s41587-020-0501-8">Living Tree Project (LTP)</a> January 2022 release.</li>
-<li><strong>1,725,274</strong> near-complete 16S rRNA genes from <a href="https://www.annualreviews.org/doi/10.1146/annurev-ecolsys-012121-095340">Karst et al 2021</a> and the <a href="https://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-16-S10-S1">Earth Microbiome Project 500 (EMP500)</a>.</li>
-<li>All full-length 16S rRNA sequences from <a href="https://gtdb.ecogenomic.org/stats/r207">GTDB r207</a>.</li>
-</ul></li>
-<li><strong>23,113,447</strong> short V4 16S rRNA ASVs denoised with Deblur v1.1.0 from <a href="https://qiita.ucsd.edu/">Qiita</a></li>
-<li>Mitochondria and chloroplast 16S rRNA from <a href="https://www.arb-silva.de/documentation/release-138/">SILVA v138</a> using <a href="https://github.com/yueyujiang/DEPP">deep-learning-enabled phylogenetic placement (DEPP)</a>.</li>
-</ul>
-<p>This produces a reference tree with the following traits:</p>
-<ul>
-<li>Genome-based relationships (WoL2) were fixed whilst relationships between full-length 16S rRNA sequences were inferred.</li>
-<li>Short fragments were then added independlty from each each with the genome and full-length 16S rRNA relationships fixed.</li>
-<li>The final tree covered <strong>21,074,442</strong> sequences from <strong>31</strong> different <a href="https://earthmicrobiome.org/protocols-and-standards/empo/">EMP Ontology 3 (EMPO3)</a> environments.</li>
-<li><strong>46.5%</strong> of species-level leaves were covered by a complete genome.</li>
-<li>Phylogenies are decorated with taxonomic labels.
-<ul>
-<li>Taxonomy was based on GTDB r207, combined with the LTP January 2022 release.</li>
-<li>Taxonomy is planned to be updated every 6 months with the latest versions of GTDB &amp; LTP.</li>
+<li>Release 08 2023</li>
+<li>Greengenes2 uses the full length 16S sequences from LTP</li>
+<li>Includes mitochondria and chloroplast</li>
 </ul></li>
 </ul>
-<p><a href="https://www.nature.com/articles/s41587-023-01845-1/figures/1">Greengenes phylogenetic tree</a>
-<img src="figures/greengenes2_phylogeny_tree.png" width="600px" style="display: block; margin: auto;" /></p>
-<p>Greengenes2 can be used on shotgun metagenomic data. This can allow you to effectively compare taxonomic data from 16S and Shotgun metagenomic datasets. <a href="https://forum.qiime2.org/t/introducing-greengenes2-2022-10/25291#if-you-have-shotgun-metagenomic-data-6">Tutorial on clasisifying shotgun metageonimc data with Greengenes2</a>.</p>
-<p>For your future analysis you can download the databases files from their <a href="http://ftp.microbio.me/greengenes_release/2022.10/">ftp site</a>. However it is also good to check <a href="http://ftp.microbio.me/greengenes_release/">this site page</a> to see if they have a more recent version when you are analysing your data.</p>
+<a href="https://www.nature.com/articles/s41587-023-01845-1/figures/1">Greengenes2 v2022.10 phylogenetic tree</a>
+<center>
+<img src="figures/greengenes2_phylogeny_tree.png" style="width:600px" />
+</center>
+<p>Greengenes2 can be used on shotgun metagenomic data. This can allow you to effectively compare taxonomic data from 16S and Shotgun metagenomic datasets. <a href="https://forum.qiime2.org/t/introducing-greengenes2-2022-10/25291#if-you-have-shotgun-metagenomic-data-6">Tutorial on classifying shotgun metageonimc data with Greengenes2</a>.</p>
+<p>For your future analysis you can download the databases files from their <a href="https://ftp.microbio.me/greengenes_release/2024.09/">ftp site</a>. However it is also good to check <a href="http://ftp.microbio.me/greengenes_release/">this site page</a> to see if they have a more recent version when you are analysing your data.</p>
 <div class="webex-solution">
 <button>
 Download database files in linux terminal
 </button>
 <p>You can download the 2 files you need for Greengenes2 taxonomic classification with the following commands.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb14-1"><a href="10-Taxonomic_assignment.html#cb14-1" tabindex="-1"></a><span class="fu">wget</span> http://ftp.microbio.me/greengenes_release/2022.10/2022.10.backbone.full-length.fna.qza</span>
-<span id="cb14-2"><a href="10-Taxonomic_assignment.html#cb14-2" tabindex="-1"></a><span class="fu">wget</span> http://ftp.microbio.me/greengenes_release/2022.10/2022.10.backbone.tax.qza</span></code></pre></div>
-<p>Remember to first check if 2022.10 is the most recent version before downloading and using it for your own research.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb14-1"><a href="10-Taxonomic_assignment.html#cb14-1" tabindex="-1"></a><span class="fu">wget</span> https://ftp.microbio.me/greengenes_release/2024.09/2024.09.backbone.full-length.fna.qza</span>
+<span id="cb14-2"><a href="10-Taxonomic_assignment.html#cb14-2" tabindex="-1"></a><span class="fu">wget</span> https://ftp.microbio.me/greengenes_release/2024.09/2024.09.backbone.tax.qza</span></code></pre></div>
+<p>Remember to first check if 2024.09 is the most recent version before downloading and using it for your own research.</p>
 </div>
 </div>
 <div id="extract-16s-region-of-interest" class="section level2 hasAnchor" number="10.2">
 <h2><span class="header-section-number">10.2</span> Extract 16s region of interest<a href="10-Taxonomic_assignment.html#extract-16s-region-of-interest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/scissor_cut.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/scissor_cut.png" style="width:150px" />
+</center>
 <p>A classifier training step is required to reach optimum assignment performance.</p>
 <p>Prior to training we will extract our 16S region of interest. This is carried out by using the amplicon primer sequences. These are the same we used for <a href="08-Trim_PCR_sequences.html#pcrtrim">removing the PCR primer</a>.</p>
 <p><strong>Note</strong>: Do not run the below command for this tutorial as it will take a long time. See <code>cp</code> command further down.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb15-1"><a href="10-Taxonomic_assignment.html#cb15-1" tabindex="-1"></a><span class="ex">qiime</span> feature-classifier extract-reads <span class="dt">\</span></span>
-<span id="cb15-2"><a href="10-Taxonomic_assignment.html#cb15-2" tabindex="-1"></a>--i-sequences /pub14/tea/nsc206/NEOF/16s_workshop/greengenes2/2022.10.backbone.full-length.fna.qza <span class="dt">\</span></span>
+<span id="cb15-2"><a href="10-Taxonomic_assignment.html#cb15-2" tabindex="-1"></a>--i-sequences /pub14/tea/nsc206/NEOF/16s_workshop/greengenes2/2024.09.backbone.full-length.fna.qza <span class="dt">\</span></span>
 <span id="cb15-3"><a href="10-Taxonomic_assignment.html#cb15-3" tabindex="-1"></a>--p-f-primer NNNNNGTGCCAGCMGCCGCGGTAA <span class="dt">\</span></span>
 <span id="cb15-4"><a href="10-Taxonomic_assignment.html#cb15-4" tabindex="-1"></a>--p-r-primer GGACTACHVGGGTWTCTAAT <span class="dt">\</span></span>
 <span id="cb15-5"><a href="10-Taxonomic_assignment.html#cb15-5" tabindex="-1"></a>--p-trunc-len 250 <span class="dt">\</span></span>
@@ -411,19 +409,21 @@ Download database files in linux terminal
 Silva 16S rRNA database
 </button>
 <p>Another popular 16S rRNA database is <a href="https://www.arb-silva.de/">Silva</a>.</p>
-<p>You can download the required files for taxonomic classification from <a href="https://docs.qiime2.org/2023.5/data-resources/#silva-16s-18s-rrna">here</a>.</p>
+<p>You can download the required files for taxonomic classification from <a href="https://docs.qiime2.org/2024.10/data-resources/#silva-16s-18s-rrna">here</a>.</p>
 </div>
 <div id="parameters-6" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="10-Taxonomic_assignment.html#parameters-6" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_red.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_red.png" style="width:100px" />
+</center>
 <ul>
 <li><strong><code>--i-sequences</code></strong>: Input artifact containing the feature sequence data.
 <ul>
 <li>In this case we are using the full length 16S rRNA sequences that are used within the Greenegenes2 phylogenomic tree.</li>
-<li>This was downloaded from <a href="http://ftp.microbio.me/greengenes_release/2022.10/2022.10.backbone.full-length.fna.qza" class="uri">http://ftp.microbio.me/greengenes_release/2022.10/2022.10.backbone.full-length.fna.qza</a>.</li>
+<li>This was downloaded from <a href="https://ftp.microbio.me/greengenes_release/2024.09/2024.09.backbone.full-length.fna.qza" class="uri">https://ftp.microbio.me/greengenes_release/2024.09/2024.09.backbone.full-length.fna.qza</a>.</li>
 </ul></li>
-<li><strong><code>--p-front-f</code></strong>: Sequence for the forward primer (<code>f</code>). The sequence is ligated to the 5 prime end (<code>front</code>), this is the normal.</li>
-<li><strong><code>--p-front-r</code></strong>: Sequence for the reverse primer (<code>r``). The sequence is ligated to the 5 prime end (</code>front`), this is the normal.</li>
+<li><strong><code>--p-front-f</code></strong>: Sequence for the forward primer (<code>f</code>). The sequence is ligated to the 5 prime end (<code>front</code>), this is normal.</li>
+<li><strong><code>--p-front-r</code></strong>: Sequence for the reverse primer (<code>r</code>). The sequence is ligated to the 5 prime end (<code>front</code>), this is normal.</li>
 <li><strong><code>--p-trunc-len</code></strong>: This cuts the forward and left reads we are creating to the specified truncation length.
 <ul>
 <li>We are using <code>250</code> as this was the initial length of our Illumina reads.</li>
@@ -431,7 +431,7 @@ Silva 16S rRNA database
 <li><strong><code>--o-reads</code></strong>: The output read artifact containing our extracted 16S region as paired reads. This is needed for classifier training.</li>
 <li><strong><code>--p-n-jobs</code></strong>: Number of separate processes to use.</li>
 </ul>
-<p><a href="https://docs.qiime2.org/2023.5/plugins/available/feature-classifier/extract-reads/">QIIME2 docs on <code>qiime feature-classifier extract-reads</code></a></p>
+<p><a href="https://docs.qiime2.org/2024.10/plugins/available/feature-classifier/extract-reads/">QIIME2 docs on <code>qiime feature-classifier extract-reads</code></a></p>
 </div>
 <div id="copy-premade-results" class="section level4 unnumbered hasAnchor">
 <h4>Copy premade results<a href="10-Taxonomic_assignment.html#copy-premade-results" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -441,7 +441,9 @@ Silva 16S rRNA database
 </div>
 <div id="classifier-training" class="section level2 hasAnchor" number="10.3">
 <h2><span class="header-section-number">10.3</span> Classifier training<a href="10-Taxonomic_assignment.html#classifier-training" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/train.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/train.png" style="width:150px" />
+</center>
 <p>Now we train the classifier on this set of extracted reads (approx. 25 mins).</p>
 <p>This uses Naive Bayes which is a very complicated algorithm. Thankfully we don't need to know how it works so we won't explain it here.</p>
 <p><strong>Note</strong>: You can run the code or copy a pre-made file.</p>
@@ -453,21 +455,25 @@ Silva 16S rRNA database
 <div class="sourceCode" id="cb18"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb18-1"><a href="10-Taxonomic_assignment.html#cb18-1" tabindex="-1"></a><span class="fu">cp</span> /pub14/tea/nsc206/NEOF/16s_workshop/greengenes2/gg2-v4.classifier.trained.qza .</span></code></pre></div>
 <div id="parameters-7" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="10-Taxonomic_assignment.html#parameters-7" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_green.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_green.png" style="width:100px" />
+</center>
 <ul>
 <li><strong><code>--i-reference-reads</code></strong>: Input artifact containing the extracted 16S region as paired reads.</li>
 <li><strong><code>--i-reference-taxonomy</code></strong>: Input artifact containing the taxonomy information of the features.
 <ul>
-<li>This was downloaded from: <a href="http://ftp.microbio.me/greengenes_release/2022.10/2022.10.backbone.tax.qza" class="uri">http://ftp.microbio.me/greengenes_release/2022.10/2022.10.backbone.tax.qza</a>.</li>
+<li>This was downloaded from: <a href="https://ftp.microbio.me/greengenes_release/2024.09/2024.09.backbone.tax.qza" class="uri">https://ftp.microbio.me/greengenes_release/2024.09/2024.09.backbone.tax.qza</a>.</li>
 </ul></li>
 <li><strong><code>--o-classifier</code></strong>: Output artifact containing the trained classifier. This will be used for feature (ASV) taxonomy classification.</li>
 </ul>
-<p><a href="https://docs.qiime2.org/2023.5/plugins/available/feature-classifier/fit-classifier-naive-bayes/">QIIME2 docs on <code>qiime feature-classifier fit-classifier-naive-bayes</code></a></p>
+<p><a href="https://docs.qiime2.org/2024.10/plugins/available/feature-classifier/fit-classifier-naive-bayes/">QIIME2 docs on <code>qiime feature-classifier fit-classifier-naive-bayes</code></a></p>
 </div>
 </div>
 <div id="taxonomy-assignment" class="section level2 hasAnchor" number="10.4">
 <h2><span class="header-section-number">10.4</span> Taxonomy assignment<a href="10-Taxonomic_assignment.html#taxonomy-assignment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/classification.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/classification.png" style="width:150px" />
+</center>
 <p>With our trained classifier we can assign taxonomic assignments to the ASV representative sequences.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb19-1"><a href="10-Taxonomic_assignment.html#cb19-1" tabindex="-1"></a><span class="ex">qiime</span> feature-classifier classify-sklearn <span class="dt">\</span></span>
 <span id="cb19-2"><a href="10-Taxonomic_assignment.html#cb19-2" tabindex="-1"></a>--i-classifier gg2-v4.classifier.trained.qza <span class="dt">\</span></span>
@@ -477,7 +483,9 @@ Silva 16S rRNA database
 <span id="cb19-6"><a href="10-Taxonomic_assignment.html#cb19-6" tabindex="-1"></a>--p-n-jobs 12</span></code></pre></div>
 <div id="parameters-8" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="10-Taxonomic_assignment.html#parameters-8" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_orange.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_orange.png" style="width:100px" />
+</center>
 <ul>
 <li><strong><code>--i-classifier</code></strong>: Input artifact containing the trained classifier.</li>
 <li><strong><code>--p-confidence</code></strong>: Confidence threshold for limiting taxonomic depth.
@@ -490,12 +498,14 @@ Silva 16S rRNA database
 <li><strong><code>--o-classification</code></strong>: Output artifact containing the taxonomic assignments of the features (ASVs).</li>
 <li><strong><code>--p-n-jobs</code></strong>: Number of separate processes to use.</li>
 </ul>
-<p><a href="https://docs.qiime2.org/2023.5/plugins/available/feature-classifier/classify-sklearn/">QIIME2 docs on <code>qiime feature-classifier classify-sklearn</code></a></p>
+<p><a href="https://docs.qiime2.org/2024.10/plugins/available/feature-classifier/classify-sklearn/">QIIME2 docs on <code>qiime feature-classifier classify-sklearn</code></a></p>
 </div>
 </div>
 <div id="taxabar" class="section level2 hasAnchor" number="10.5">
 <h2><span class="header-section-number">10.5</span> Taxonomy bar chart production<a href="10-Taxonomic_assignment.html#taxabar" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/bar_charts.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/bar_charts.png" style="width:150px" />
+</center>
 <p>Create a taxonomy-abundance bar-chart visualisation artifact:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb20-1"><a href="10-Taxonomic_assignment.html#cb20-1" tabindex="-1"></a><span class="ex">qiime</span> taxa barplot <span class="dt">\</span></span>
 <span id="cb20-2"><a href="10-Taxonomic_assignment.html#cb20-2" tabindex="-1"></a>--i-table table-dada2.qza <span class="dt">\</span></span>
@@ -504,7 +514,9 @@ Silva 16S rRNA database
 <span id="cb20-5"><a href="10-Taxonomic_assignment.html#cb20-5" tabindex="-1"></a>--o-visualization taxa-bar-plots.dada2.qzv</span></code></pre></div>
 <div id="parameters-9" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="10-Taxonomic_assignment.html#parameters-9" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p><img src="figures/parameter_blue.png" width="100px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/parameter_blue.png" style="width:100px" />
+</center>
 <ul>
 <li><strong><code>--i-table</code></strong>: Input artifact containing the ASV abundance table.</li>
 <li><strong><code>--i-taxonomy</code></strong>: Input artifact containing the taxonomic classifications of the ASVs.</li>
@@ -512,46 +524,50 @@ Silva 16S rRNA database
 <li><strong><code>--o-visualization</code></strong>: Output visualisation file containing an interactive taxonomy-abundance bar-chart.</li>
 </ul>
 <p>The visualisation consists of an interactive taxonomy bar chart. You can specify the taxonomic level to look at, as well as a few sorting and colouring options. Experiment with it and then continue to the MCQ section.</p>
-<p><a href="https://docs.qiime2.org/2023.5/plugins/available/taxa/barplot/">QIIME2 docs on <code>qiime taxa barplot</code></a></p>
+<p><a href="https://docs.qiime2.org/2024.10/plugins/available/taxa/barplot/">QIIME2 docs on <code>qiime taxa barplot</code></a></p>
 </div>
 </div>
 <div id="taxonomy-mcqs" class="section level2 hasAnchor" number="10.6">
 <h2><span class="header-section-number">10.6</span> Taxonomy: MCQs<a href="10-Taxonomic_assignment.html#taxonomy-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/question_bubble_blue.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/question_bubble_blue.png" style="width:150px" />
+</center>
 <p>Attempt the below MCQs.</p>
 <ol style="list-style-type: decimal">
 <li>At taxonomic level 5, what is the taxon with the highest relative abundance across all the samples? (Note: taxa are ordered form most to least abundant in the legend)
-<div id="radio_XQYKVJDEZX" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XQYKVJDEZX" value="answer"></input> <span><strong>Moraxellaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XQYKVJDEZX" value=""></input> <span><strong>Mycobacteriaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XQYKVJDEZX" value=""></input> <span><strong>Pseudomonadaceae</strong></span></label>
+<div id="radio_GHIHMIIPPR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GHIHMIIPPR" value="answer"></input> <span><strong>Moraxellaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GHIHMIIPPR" value=""></input> <span><strong>Mycobacteriaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GHIHMIIPPR" value=""></input> <span><strong>Pseudomonadaceae</strong></span></label>
 </div></li>
 <li>At taxonomic level 5, what is the most abundant taxon for sample 1TE?
-<div id="radio_JFATDVOQSO" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_JFATDVOQSO" value=""></input> <span><strong>Moraxellaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JFATDVOQSO" value="answer"></input> <span><strong>Mycobacteriaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JFATDVOQSO" value=""></input> <span><strong>Pseudomonadaceae</strong></span></label>
+<div id="radio_SQVWVHKQDY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SQVWVHKQDY" value=""></input> <span><strong>Moraxellaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SQVWVHKQDY" value="answer"></input> <span><strong>Mycobacteriaceae</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SQVWVHKQDY" value=""></input> <span><strong>Pseudomonadaceae</strong></span></label>
 </div></li>
 </ol>
 <p><strong>Note</strong>: The "Sort Samples By" drop down will be useful for the following questions. Additionally, switching the "Ascending" (low to high, right sample has the highest relative abundance) drop down to "Descending" may be useful.</p>
 <ol start="3" style="list-style-type: decimal">
-<li>Which sample has the highest relative abundance of the class Actinomycetia (Taxonomic level 3)?
-<div id="radio_NMFYXCFOCJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_NMFYXCFOCJ" value=""></input> <span><strong>1K2E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NMFYXCFOCJ" value="answer"></input> <span><strong>1TM</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NMFYXCFOCJ" value=""></input> <span><strong>3TM</strong></span></label>
+<li>Which sample has the highest relative abundance of the class Actinomycetes (Taxonomic level 3)?
+<div id="radio_WDGBLGSYYF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WDGBLGSYYF" value=""></input> <span><strong>1K2E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WDGBLGSYYF" value="answer"></input> <span><strong>1TM</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WDGBLGSYYF" value=""></input> <span><strong>3TM</strong></span></label>
 </div></li>
 <li>Which sample has the lowest relative abundance of the genus Corynebacterium (Taxonomic level 6)?
-<div id="radio_DVUBELCSMT" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DVUBELCSMT" value="answer"></input> <span><strong>1K2E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DVUBELCSMT" value=""></input> <span><strong>1TM</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DVUBELCSMT" value=""></input> <span><strong>3TM</strong></span></label>
+<div id="radio_JMMIXVNYQB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JMMIXVNYQB" value="answer"></input> <span><strong>1K2E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JMMIXVNYQB" value=""></input> <span><strong>1TM</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JMMIXVNYQB" value=""></input> <span><strong>3TM</strong></span></label>
 </div></li>
-<li>Which sample has the fourth highest relative abundance of the phylum Bacteroidota (Taxonomic level 2)?
-<div id="radio_ITIKCKZKKH" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ITIKCKZKKH" value=""></input> <span><strong>1K2E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ITIKCKZKKH" value=""></input> <span><strong>1TM</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ITIKCKZKKH" value="answer"></input> <span><strong>3TM</strong></span></label>
+<li>Which sample has the third highest relative abundance of the phylum Bacteroidota (Taxonomic level 2)?
+<div id="radio_BRGHRDQUZT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BRGHRDQUZT" value=""></input> <span><strong>1K2E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BRGHRDQUZT" value=""></input> <span><strong>1TM</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BRGHRDQUZT" value="answer"></input> <span><strong>3TM</strong></span></label>
 </div></li>
 </ol>
 </div>
 <div id="taxonomy-summary" class="section level2 hasAnchor" number="10.7">
 <h2><span class="header-section-number">10.7</span> Taxonomy: summary<a href="10-Taxonomic_assignment.html#taxonomy-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><img src="figures/sum_blue.png" width="150px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/sum_blue.png" style="width:150px" />
+</center>
 <p>We have trimmed and denoised our data, producing ASVs. This has been followed by assigning taxonomic classifications to the ASVs.</p>
 <p>In your future analysis if you have sequenced any samples with known composition (e.g. mock community), now is the time to see if they behave as expected. Do they contain what you expect? You may want to change some steps and/or settings of what you have done so far if the composition does not match what you expect. For example, change the de-noising tool or apply more quality filters to further improve the quality of the sequence under examination.</p>
 <p>We are close to carrying out some biodiversity analysis. Before this we will produce a phylogenetic tree in the next chapter.</p>
-<p><a href="https://docs.qiime2.org/2023.5/tutorials/feature-classifier/">QIIME2 documents on training feature classifiers</a></p>
+<p><a href="https://docs.qiime2.org/2024.10/tutorials/feature-classifier/">QIIME2 documents on training feature classifiers</a></p>
 
 </div>
 </div>
