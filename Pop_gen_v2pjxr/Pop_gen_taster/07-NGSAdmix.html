@@ -23,7 +23,7 @@
 <meta name="author" content="Helen Hipperson, Katy Maher, Victor Soria-Carrasco, Graeme Fox, Gavin Gouws" />
 
 
-<meta name="date" content="2024-12-17" />
+<meta name="date" content="2024-12-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -255,38 +255,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>NGSadmix is a program (part of the package ANGSD) for inferring admixture from genotype likelihoods, thus taking into account the uncertainty inherent to NGS data. It is similar to the famous program STRUCTURE, but better suited for low-coverage NGS data. For those not familiar with these kind of approaches, these programs allow investigating population structure by inferring individual admixture proportions given a number of populations (K). This allows us to assign individuals to populations and identify migrants or admixed individuals.</p>
 <p>For this step, we will use an already prepared BCF file containing filtered genome-wide variants for 16 individual whales.</p>
 <p>First navigate to the 'structure' directory:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb53-1"><a href="07-NGSAdmix.html#cb53-1" tabindex="-1"></a><span class="bu">cd</span> ~/popgenomics/data/structure/</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb51-1"><a href="07-NGSAdmix.html#cb51-1" tabindex="-1"></a><span class="bu">cd</span> ~/popgenomics/taster/structure/</span></code></pre></div>
 <p>Check that you have the bcf file plus a text file of sample location information using <code>ls</code>.</p>
 <p>We then need to convert the bcf file to beagle format with angsd:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb54-1"><a href="07-NGSAdmix.html#cb54-1" tabindex="-1"></a><span class="fu">mkdir</span> ngsadmix</span>
-<span id="cb54-2"><a href="07-NGSAdmix.html#cb54-2" tabindex="-1"></a></span>
-<span id="cb54-3"><a href="07-NGSAdmix.html#cb54-3" tabindex="-1"></a><span class="ex">angsd</span> <span class="at">-vcf-pl</span> <span class="dt">\</span></span>
-<span id="cb54-4"><a href="07-NGSAdmix.html#cb54-4" tabindex="-1"></a>orca16_filtered.bcf <span class="dt">\</span></span>
-<span id="cb54-5"><a href="07-NGSAdmix.html#cb54-5" tabindex="-1"></a>-fai ../aligned/GCF_000331955.2_Oorc_1.1_genomic.fna.fai <span class="dt">\</span></span>
-<span id="cb54-6"><a href="07-NGSAdmix.html#cb54-6" tabindex="-1"></a>-doMaf 3 <span class="at">-nInd</span> 16 <span class="dt">\</span></span>
-<span id="cb54-7"><a href="07-NGSAdmix.html#cb54-7" tabindex="-1"></a>-domajorminor 1 <span class="at">-doglf</span> 2 <span class="dt">\</span></span>
-<span id="cb54-8"><a href="07-NGSAdmix.html#cb54-8" tabindex="-1"></a>-out ngsadmix/snps</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb52-1"><a href="07-NGSAdmix.html#cb52-1" tabindex="-1"></a><span class="fu">mkdir</span> ngsadmix</span>
+<span id="cb52-2"><a href="07-NGSAdmix.html#cb52-2" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="07-NGSAdmix.html#cb52-3" tabindex="-1"></a><span class="ex">angsd</span> <span class="at">-vcf-pl</span> <span class="dt">\</span></span>
+<span id="cb52-4"><a href="07-NGSAdmix.html#cb52-4" tabindex="-1"></a>orca16_filtered.bcf <span class="dt">\</span></span>
+<span id="cb52-5"><a href="07-NGSAdmix.html#cb52-5" tabindex="-1"></a>-fai ../aligned/GCF_000331955.2_Oorc_1.1_genomic.fna.fai <span class="dt">\</span></span>
+<span id="cb52-6"><a href="07-NGSAdmix.html#cb52-6" tabindex="-1"></a>-doMaf 3 <span class="at">-nInd</span> 16 <span class="dt">\</span></span>
+<span id="cb52-7"><a href="07-NGSAdmix.html#cb52-7" tabindex="-1"></a>-domajorminor 1 <span class="at">-doglf</span> 2 <span class="dt">\</span></span>
+<span id="cb52-8"><a href="07-NGSAdmix.html#cb52-8" tabindex="-1"></a>-out ngsadmix/snps</span></code></pre></div>
 <p>Now we need to run NGSadmix three times for K=2 to K=4. Each run will take a few minutes to complete. We will first run K=2:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb55-1"><a href="07-NGSAdmix.html#cb55-1" tabindex="-1"></a><span class="ex">NGSadmix</span> <span class="dt">\</span></span>
-<span id="cb55-2"><a href="07-NGSAdmix.html#cb55-2" tabindex="-1"></a>-likes ngsadmix/snps.beagle.gz <span class="dt">\</span></span>
-<span id="cb55-3"><a href="07-NGSAdmix.html#cb55-3" tabindex="-1"></a>-K 2 <span class="at">-seed</span> 1 <span class="at">-P</span> 4 <span class="dt">\</span></span>
-<span id="cb55-4"><a href="07-NGSAdmix.html#cb55-4" tabindex="-1"></a>-o ngsadmix/snps_K2</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb53-1"><a href="07-NGSAdmix.html#cb53-1" tabindex="-1"></a><span class="ex">NGSadmix</span> <span class="dt">\</span></span>
+<span id="cb53-2"><a href="07-NGSAdmix.html#cb53-2" tabindex="-1"></a>-likes ngsadmix/snps.beagle.gz <span class="dt">\</span></span>
+<span id="cb53-3"><a href="07-NGSAdmix.html#cb53-3" tabindex="-1"></a>-K 2 <span class="at">-seed</span> 1 <span class="at">-P</span> 4 <span class="dt">\</span></span>
+<span id="cb53-4"><a href="07-NGSAdmix.html#cb53-4" tabindex="-1"></a>-o ngsadmix/snps_K2</span></code></pre></div>
 <p>Repeat for K=3 and K=4.</p>
 <p>We can now look at the '.qopt' files that contain the admixture proportions:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb56-1"><a href="07-NGSAdmix.html#cb56-1" tabindex="-1"></a><span class="fu">head</span> ngsadmix/snps_K2.qopt</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb54-1"><a href="07-NGSAdmix.html#cb54-1" tabindex="-1"></a><span class="fu">head</span> ngsadmix/snps_K2.qopt</span></code></pre></div>
 <p>You should get something that looks like this, which represents the admixture proportions for each of the K populations (here K=2) for the first 10 samples:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb57-1"><a href="07-NGSAdmix.html#cb57-1" tabindex="-1"></a><span class="ex">0.99999982830453515437</span> 0.00000017169546480430 </span>
-<span id="cb57-2"><a href="07-NGSAdmix.html#cb57-2" tabindex="-1"></a><span class="ex">0.74766154471069756760</span> 0.25233845528930237689 </span>
-<span id="cb57-3"><a href="07-NGSAdmix.html#cb57-3" tabindex="-1"></a><span class="ex">0.99999999900000002828</span> 0.00000000100000000000 </span>
-<span id="cb57-4"><a href="07-NGSAdmix.html#cb57-4" tabindex="-1"></a><span class="ex">0.99999999900000002828</span> 0.00000000100000000000 </span>
-<span id="cb57-5"><a href="07-NGSAdmix.html#cb57-5" tabindex="-1"></a><span class="ex">0.76116119088545863836</span> 0.23883880911454133389 </span>
-<span id="cb57-6"><a href="07-NGSAdmix.html#cb57-6" tabindex="-1"></a><span class="ex">0.53927021410032682791</span> 0.46072978589967317209 </span>
-<span id="cb57-7"><a href="07-NGSAdmix.html#cb57-7" tabindex="-1"></a><span class="ex">0.57937878456323999021</span> 0.42062121543676006530 </span>
-<span id="cb57-8"><a href="07-NGSAdmix.html#cb57-8" tabindex="-1"></a><span class="ex">0.00000000100000000000</span> 0.99999999900000002828 </span>
-<span id="cb57-9"><a href="07-NGSAdmix.html#cb57-9" tabindex="-1"></a><span class="ex">0.00000000100000000000</span> 0.99999999900000002828 </span>
-<span id="cb57-10"><a href="07-NGSAdmix.html#cb57-10" tabindex="-1"></a><span class="ex">0.99999999900000002828</span> 0.00000000100000000000 </span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb55-1"><a href="07-NGSAdmix.html#cb55-1" tabindex="-1"></a><span class="ex">0.99999982830453515437</span> 0.00000017169546480430 </span>
+<span id="cb55-2"><a href="07-NGSAdmix.html#cb55-2" tabindex="-1"></a><span class="ex">0.74766154471069756760</span> 0.25233845528930237689 </span>
+<span id="cb55-3"><a href="07-NGSAdmix.html#cb55-3" tabindex="-1"></a><span class="ex">0.99999999900000002828</span> 0.00000000100000000000 </span>
+<span id="cb55-4"><a href="07-NGSAdmix.html#cb55-4" tabindex="-1"></a><span class="ex">0.99999999900000002828</span> 0.00000000100000000000 </span>
+<span id="cb55-5"><a href="07-NGSAdmix.html#cb55-5" tabindex="-1"></a><span class="ex">0.76116119088545863836</span> 0.23883880911454133389 </span>
+<span id="cb55-6"><a href="07-NGSAdmix.html#cb55-6" tabindex="-1"></a><span class="ex">0.53927021410032682791</span> 0.46072978589967317209 </span>
+<span id="cb55-7"><a href="07-NGSAdmix.html#cb55-7" tabindex="-1"></a><span class="ex">0.57937878456323999021</span> 0.42062121543676006530 </span>
+<span id="cb55-8"><a href="07-NGSAdmix.html#cb55-8" tabindex="-1"></a><span class="ex">0.00000000100000000000</span> 0.99999999900000002828 </span>
+<span id="cb55-9"><a href="07-NGSAdmix.html#cb55-9" tabindex="-1"></a><span class="ex">0.00000000100000000000</span> 0.99999999900000002828 </span>
+<span id="cb55-10"><a href="07-NGSAdmix.html#cb55-10" tabindex="-1"></a><span class="ex">0.99999999900000002828</span> 0.00000000100000000000 </span></code></pre></div>
 <p>Now we are going to visualize the admixture estimates using 'R'. We will need some more information about the samples to produce meaningful plots. A file with information about the sampling location of each individual can be found in your "structure" directory. Both the population and ocean each sample is from is listed.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb58-1"><a href="07-NGSAdmix.html#cb58-1" tabindex="-1"></a><span class="fu">head</span> sample_location.tsv</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb56-1"><a href="07-NGSAdmix.html#cb56-1" tabindex="-1"></a><span class="fu">head</span> sample_location.tsv</span></code></pre></div>
 <p>We will be using Jupyter-notebook to run our R code and generate some plots for the admixture inferences when K=2.</p>
 </div>
 <div id="jupyter" class="section level2 hasAnchor" number="7.2">
@@ -307,7 +307,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="open-jupyter-notebook" class="section level3 hasAnchor" number="7.2.1">
 <h3><span class="header-section-number">7.2.1</span> Open Jupyter-notebook<a href="07-NGSAdmix.html#open-jupyter-notebook" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The first step is to open <code>jupyter-notebook</code>. Run the below command in your <code>(popgenomics)</code> environment.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb59-1"><a href="07-NGSAdmix.html#cb59-1" tabindex="-1"></a><span class="ex">jupyter-notebook</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb57-1"><a href="07-NGSAdmix.html#cb57-1" tabindex="-1"></a><span class="ex">jupyter-notebook</span></span></code></pre></div>
 <p>This will open <code>jupyter-notebook</code> in firefox. We won't need to access the linux terminal anymore. Leave the terminal running <code>jupyter-notebook</code> and full screen your <code>firefox</code>. You should see something like below.</p>
 <center>
 <img src="figures/jupyter_notebook_example_1.png" style="width:1000px; border-radius:15px; border:5px solid #333333" />
@@ -329,8 +329,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">7.2.3</span> Cells and code<a href="07-NGSAdmix.html#cells-and-code" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><code>Jupyter-notebook</code> uses <strong>cells</strong> (the gray boxes) to separate code. This is very useful to compartmentalise our code.</p>
 <p>There will already be one <strong>cell</strong>. Within the <strong>cell</strong>, type in the below commands.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb60-1"><a href="07-NGSAdmix.html#cb60-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
-<span id="cb60-2"><a href="07-NGSAdmix.html#cb60-2" tabindex="-1"></a><span class="dv">2-3</span></span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb58-1"><a href="07-NGSAdmix.html#cb58-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb58-2"><a href="07-NGSAdmix.html#cb58-2" tabindex="-1"></a><span class="dv">2-3</span></span></code></pre></div>
 <p>When pressing enter in <strong>cells</strong> it will create a new line. To run all commands in a <strong>cell</strong> press <code>CTRL + enter</code>.</p>
 <p>Run your current <strong>cell</strong> and you should see something like below.</p>
 <center>
@@ -346,11 +346,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p><strong>Tip:</strong> Hover over the toolbar icons to display a text based description of its function.</p>
 <p>With that knowledge add a second <strong>cell</strong> below the first <strong>cell</strong>. Add the following code to your second <strong>cell</strong> but do not run it.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb61-1"><a href="07-NGSAdmix.html#cb61-1" tabindex="-1"></a>num_1 <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb61-2"><a href="07-NGSAdmix.html#cb61-2" tabindex="-1"></a>num_2 <span class="ot">&lt;-</span> <span class="dv">10</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb59-1"><a href="07-NGSAdmix.html#cb59-1" tabindex="-1"></a>num_1 <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb59-2"><a href="07-NGSAdmix.html#cb59-2" tabindex="-1"></a>num_2 <span class="ot">&lt;-</span> <span class="dv">10</span></span></code></pre></div>
 <p><strong>Tip:</strong> Notice there are green lines around your selected cell.</p>
 <p>Insert a third <strong>cell</strong> and add the following code to it. Do not run the code.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb62-1"><a href="07-NGSAdmix.html#cb62-1" tabindex="-1"></a>num_1 <span class="sc">*</span> num_2</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb60-1"><a href="07-NGSAdmix.html#cb60-1" tabindex="-1"></a>num_1 <span class="sc">*</span> num_2</span></code></pre></div>
 </div>
 <div id="running-code" class="section level3 hasAnchor" number="7.2.5">
 <h3><span class="header-section-number">7.2.5</span> Running code<a href="07-NGSAdmix.html#running-code" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -408,7 +408,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Ensure you have a space between the <code>#</code> and header text ("Tutorial").</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb63-1"><a href="07-NGSAdmix.html#cb63-1" tabindex="-1"></a><span class="co"># Tutorial</span></span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb61-1"><a href="07-NGSAdmix.html#cb61-1" tabindex="-1"></a><span class="co"># Tutorial</span></span></code></pre></div>
 <p>Great, we can now add nice headers in our notebooks. <strong>Save</strong> the notebook once more before carrying on to the next section.</p>
 <div class="webex-solution">
 <button>
@@ -444,23 +444,23 @@ Markdown
 <p>Create a new notebook called <strong>"Chp07a-Admixture"</strong>.
 - Add a markdown cell with the first level header: # Admixture analysis</p>
 <p>Now let’s load the admixture proportions, the information about the individuals, and let’s do some plotting. Remember this is typed into a code cell and then run. Please create your own coding and markdown cells where you think appropriate.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb64-1"><a href="07-NGSAdmix.html#cb64-1" tabindex="-1"></a><span class="co"># Load admixture proportions</span></span>
-<span id="cb64-2"><a href="07-NGSAdmix.html#cb64-2" tabindex="-1"></a>admix<span class="ot">&lt;-</span><span class="fu">t</span>(<span class="fu">as.matrix</span>(<span class="fu">read.table</span>(<span class="st">&quot;ngsadmix/snps_K2.qopt&quot;</span>)))</span>
-<span id="cb64-3"><a href="07-NGSAdmix.html#cb64-3" tabindex="-1"></a></span>
-<span id="cb64-4"><a href="07-NGSAdmix.html#cb64-4" tabindex="-1"></a><span class="co"># Load info about samples</span></span>
-<span id="cb64-5"><a href="07-NGSAdmix.html#cb64-5" tabindex="-1"></a>id.info<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;sample_location.tsv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span>T)</span>
-<span id="cb64-6"><a href="07-NGSAdmix.html#cb64-6" tabindex="-1"></a></span>
-<span id="cb64-7"><a href="07-NGSAdmix.html#cb64-7" tabindex="-1"></a><span class="co"># Palette for plotting</span></span>
-<span id="cb64-8"><a href="07-NGSAdmix.html#cb64-8" tabindex="-1"></a>mypal<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;#E41A1C&quot;</span>,<span class="st">&quot;#377EB8&quot;</span>,<span class="st">&quot;#4DAF4A&quot;</span>,<span class="st">&quot;#984EA3&quot;</span>)</span>
-<span id="cb64-9"><a href="07-NGSAdmix.html#cb64-9" tabindex="-1"></a></span>
-<span id="cb64-10"><a href="07-NGSAdmix.html#cb64-10" tabindex="-1"></a><span class="co"># sort by sampling area and plot</span></span>
-<span id="cb64-11"><a href="07-NGSAdmix.html#cb64-11" tabindex="-1"></a>admix<span class="ot">&lt;-</span>admix[,<span class="fu">order</span>(id.info<span class="sc">$</span>area)]</span>
-<span id="cb64-12"><a href="07-NGSAdmix.html#cb64-12" tabindex="-1"></a></span>
-<span id="cb64-13"><a href="07-NGSAdmix.html#cb64-13" tabindex="-1"></a>id.info<span class="ot">&lt;-</span>id.info[<span class="fu">order</span>(id.info<span class="sc">$</span>area),]</span>
-<span id="cb64-14"><a href="07-NGSAdmix.html#cb64-14" tabindex="-1"></a></span>
-<span id="cb64-15"><a href="07-NGSAdmix.html#cb64-15" tabindex="-1"></a><span class="fu">barplot</span>(admix,<span class="at">col=</span>mypal,<span class="at">space=</span><span class="dv">0</span>,<span class="at">border=</span><span class="cn">NA</span>,<span class="at">xlab=</span><span class="st">&quot;Samples&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;admixture&quot;</span>)</span>
-<span id="cb64-16"><a href="07-NGSAdmix.html#cb64-16" tabindex="-1"></a></span>
-<span id="cb64-17"><a href="07-NGSAdmix.html#cb64-17" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">tapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(id.info),id.info<span class="sc">$</span>area,min),<span class="sc">-</span><span class="fl">0.05</span>,<span class="fu">unique</span>(id.info<span class="sc">$</span>area),<span class="at">xpd=</span>T, <span class="at">srt=</span><span class="sc">-</span><span class="dv">45</span>, <span class="at">adj=</span><span class="fl">0.2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb62-1"><a href="07-NGSAdmix.html#cb62-1" tabindex="-1"></a><span class="co"># Load admixture proportions</span></span>
+<span id="cb62-2"><a href="07-NGSAdmix.html#cb62-2" tabindex="-1"></a>admix<span class="ot">&lt;-</span><span class="fu">t</span>(<span class="fu">as.matrix</span>(<span class="fu">read.table</span>(<span class="st">&quot;ngsadmix/snps_K2.qopt&quot;</span>)))</span>
+<span id="cb62-3"><a href="07-NGSAdmix.html#cb62-3" tabindex="-1"></a></span>
+<span id="cb62-4"><a href="07-NGSAdmix.html#cb62-4" tabindex="-1"></a><span class="co"># Load info about samples</span></span>
+<span id="cb62-5"><a href="07-NGSAdmix.html#cb62-5" tabindex="-1"></a>id.info<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;sample_location.tsv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span>T)</span>
+<span id="cb62-6"><a href="07-NGSAdmix.html#cb62-6" tabindex="-1"></a></span>
+<span id="cb62-7"><a href="07-NGSAdmix.html#cb62-7" tabindex="-1"></a><span class="co"># Palette for plotting</span></span>
+<span id="cb62-8"><a href="07-NGSAdmix.html#cb62-8" tabindex="-1"></a>mypal<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;#E41A1C&quot;</span>,<span class="st">&quot;#377EB8&quot;</span>,<span class="st">&quot;#4DAF4A&quot;</span>,<span class="st">&quot;#984EA3&quot;</span>)</span>
+<span id="cb62-9"><a href="07-NGSAdmix.html#cb62-9" tabindex="-1"></a></span>
+<span id="cb62-10"><a href="07-NGSAdmix.html#cb62-10" tabindex="-1"></a><span class="co"># sort by sampling area and plot</span></span>
+<span id="cb62-11"><a href="07-NGSAdmix.html#cb62-11" tabindex="-1"></a>admix<span class="ot">&lt;-</span>admix[,<span class="fu">order</span>(id.info<span class="sc">$</span>area)]</span>
+<span id="cb62-12"><a href="07-NGSAdmix.html#cb62-12" tabindex="-1"></a></span>
+<span id="cb62-13"><a href="07-NGSAdmix.html#cb62-13" tabindex="-1"></a>id.info<span class="ot">&lt;-</span>id.info[<span class="fu">order</span>(id.info<span class="sc">$</span>area),]</span>
+<span id="cb62-14"><a href="07-NGSAdmix.html#cb62-14" tabindex="-1"></a></span>
+<span id="cb62-15"><a href="07-NGSAdmix.html#cb62-15" tabindex="-1"></a><span class="fu">barplot</span>(admix,<span class="at">col=</span>mypal,<span class="at">space=</span><span class="dv">0</span>,<span class="at">border=</span><span class="cn">NA</span>,<span class="at">xlab=</span><span class="st">&quot;Samples&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;admixture&quot;</span>)</span>
+<span id="cb62-16"><a href="07-NGSAdmix.html#cb62-16" tabindex="-1"></a></span>
+<span id="cb62-17"><a href="07-NGSAdmix.html#cb62-17" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">tapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(id.info),id.info<span class="sc">$</span>area,min),<span class="sc">-</span><span class="fl">0.05</span>,<span class="fu">unique</span>(id.info<span class="sc">$</span>area),<span class="at">xpd=</span>T, <span class="at">srt=</span><span class="sc">-</span><span class="dv">45</span>, <span class="at">adj=</span><span class="fl">0.2</span>)</span></code></pre></div>
 <p>This generates a plot for K=2 which should look something like this:</p>
 <center>
 <img src="figures/snps_K2_byarea.png" style="width:800px; border-radius:15px; border:5px solid #333333; background:null" />
@@ -481,38 +481,38 @@ Markdown
 <p>We will use R within Jupyter to perform the PCA with the mean genotypes.</p>
 <p>Create a new Jupyter notebook called <strong>"Chp07b-PCA"</strong>.
 - Add a markdown cell with the first level header: # PCA analysis</p>
-<p>First, let’s load the genotypes in a new markdown cell:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb65-1"><a href="07-NGSAdmix.html#cb65-1" tabindex="-1"></a><span class="do">## load genotypes</span></span>
-<span id="cb65-2"><a href="07-NGSAdmix.html#cb65-2" tabindex="-1"></a>genotypes<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;orca16_filtered.bbgeno&quot;</span>,<span class="at">header=</span>T, <span class="at">check.names=</span>F)</span>
-<span id="cb65-3"><a href="07-NGSAdmix.html#cb65-3" tabindex="-1"></a><span class="fu">head</span>(genotypes)</span></code></pre></div>
-<p>We can now do a the PCA with the genotype matrix, excluding the first 3 columns that contain information for SNP id, reference allele and alternate allele:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb66-1"><a href="07-NGSAdmix.html#cb66-1" tabindex="-1"></a>pca.genotypes<span class="ot">&lt;-</span><span class="fu">prcomp</span>(<span class="fu">t</span>(genotypes[,<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)]), <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p>First, let’s load the genotypes in a new code cell:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb63-1"><a href="07-NGSAdmix.html#cb63-1" tabindex="-1"></a><span class="do">## load genotypes</span></span>
+<span id="cb63-2"><a href="07-NGSAdmix.html#cb63-2" tabindex="-1"></a>genotypes<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;orca16_filtered.bbgeno&quot;</span>,<span class="at">header=</span>T, <span class="at">check.names=</span>F)</span>
+<span id="cb63-3"><a href="07-NGSAdmix.html#cb63-3" tabindex="-1"></a><span class="fu">head</span>(genotypes)</span></code></pre></div>
+<p>We can now do the PCA with the genotype matrix, excluding the first 3 columns that contain information for SNP id, reference allele and alternate allele:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb64-1"><a href="07-NGSAdmix.html#cb64-1" tabindex="-1"></a>pca.genotypes<span class="ot">&lt;-</span><span class="fu">prcomp</span>(<span class="fu">t</span>(genotypes[,<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)]), <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Then we can have a look at the proportion of variance explained by each PC:</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb67-1"><a href="07-NGSAdmix.html#cb67-1" tabindex="-1"></a><span class="fu">summary</span>(pca.genotypes)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb65-1"><a href="07-NGSAdmix.html#cb65-1" tabindex="-1"></a><span class="fu">summary</span>(pca.genotypes)</span></code></pre></div>
 <p>As you can see, ~30% of the variance is explained by the first 4 PCs. We will extract the PCs vectors and plot them by pairs (i.e. PC1xPC2, PC2xPC3, PC3xPC4):</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb68-1"><a href="07-NGSAdmix.html#cb68-1" tabindex="-1"></a><span class="co"># Get PCs</span></span>
-<span id="cb68-2"><a href="07-NGSAdmix.html#cb68-2" tabindex="-1"></a>pcs<span class="ot">&lt;-</span>pca.genotypes<span class="sc">$</span>x</span>
-<span id="cb68-3"><a href="07-NGSAdmix.html#cb68-3" tabindex="-1"></a></span>
-<span id="cb68-4"><a href="07-NGSAdmix.html#cb68-4" tabindex="-1"></a><span class="co"># Load info about samples</span></span>
-<span id="cb68-5"><a href="07-NGSAdmix.html#cb68-5" tabindex="-1"></a>id.info<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;sample_location.tsv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span>T)</span>
-<span id="cb68-6"><a href="07-NGSAdmix.html#cb68-6" tabindex="-1"></a></span>
-<span id="cb68-7"><a href="07-NGSAdmix.html#cb68-7" tabindex="-1"></a><span class="co"># sort as in the pcs</span></span>
-<span id="cb68-8"><a href="07-NGSAdmix.html#cb68-8" tabindex="-1"></a>id.info<span class="ot">&lt;-</span>id.info[<span class="fu">match</span>(<span class="fu">rownames</span>(pcs), id.info<span class="sc">$</span>run_accession),]</span>
-<span id="cb68-9"><a href="07-NGSAdmix.html#cb68-9" tabindex="-1"></a></span>
-<span id="cb68-10"><a href="07-NGSAdmix.html#cb68-10" tabindex="-1"></a><span class="co"># colours</span></span>
-<span id="cb68-11"><a href="07-NGSAdmix.html#cb68-11" tabindex="-1"></a>id.colours<span class="ot">&lt;-</span><span class="fu">as.character</span>(id.info<span class="sc">$</span>area)</span>
-<span id="cb68-12"><a href="07-NGSAdmix.html#cb68-12" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Atlantic_Ocean&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;red&quot;</span> <span class="co"># Atlantic as red</span></span>
-<span id="cb68-13"><a href="07-NGSAdmix.html#cb68-13" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Australasia&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;blue&quot;</span> <span class="co"># Australasia as blue</span></span>
-<span id="cb68-14"><a href="07-NGSAdmix.html#cb68-14" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Indian_Ocean&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;green&quot;</span> <span class="co"># Indian as green</span></span>
-<span id="cb68-15"><a href="07-NGSAdmix.html#cb68-15" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Pacific_Ocean&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;orange&quot;</span> <span class="co"># Pacific as orange</span></span>
-<span id="cb68-16"><a href="07-NGSAdmix.html#cb68-16" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Southern_Ocean&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;purple&quot;</span> <span class="co"># Southern as purple</span></span>
-<span id="cb68-17"><a href="07-NGSAdmix.html#cb68-17" tabindex="-1"></a></span>
-<span id="cb68-18"><a href="07-NGSAdmix.html#cb68-18" tabindex="-1"></a><span class="fu">plot</span>(pcs[,<span class="dv">1</span>], pcs[,<span class="dv">2</span>], <span class="at">main =</span> <span class="st">&quot;PCA using genotype matrix&quot;</span>, </span>
-<span id="cb68-19"><a href="07-NGSAdmix.html#cb68-19" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;PC1&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;PC2&quot;</span>, <span class="at">col=</span>id.colours, <span class="at">pch=</span><span class="dv">16</span>)</span>
-<span id="cb68-20"><a href="07-NGSAdmix.html#cb68-20" tabindex="-1"></a><span class="fu">plot</span>(pcs[,<span class="dv">2</span>], pcs[,<span class="dv">3</span>], <span class="at">main =</span> <span class="st">&quot;PCA using genotype matrix&quot;</span>, </span>
-<span id="cb68-21"><a href="07-NGSAdmix.html#cb68-21" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;PC2&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;PC3&quot;</span>, <span class="at">col=</span>id.colours, <span class="at">pch=</span><span class="dv">16</span>)</span>
-<span id="cb68-22"><a href="07-NGSAdmix.html#cb68-22" tabindex="-1"></a><span class="fu">plot</span>(pcs[,<span class="dv">3</span>], pcs[,<span class="dv">4</span>], <span class="at">main =</span> <span class="st">&quot;PCA using genotype matrix&quot;</span>, </span>
-<span id="cb68-23"><a href="07-NGSAdmix.html#cb68-23" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;PC3&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;PC4&quot;</span>, <span class="at">col=</span>id.colours, <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb66-1"><a href="07-NGSAdmix.html#cb66-1" tabindex="-1"></a><span class="co"># Get PCs</span></span>
+<span id="cb66-2"><a href="07-NGSAdmix.html#cb66-2" tabindex="-1"></a>pcs<span class="ot">&lt;-</span>pca.genotypes<span class="sc">$</span>x</span>
+<span id="cb66-3"><a href="07-NGSAdmix.html#cb66-3" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="07-NGSAdmix.html#cb66-4" tabindex="-1"></a><span class="co"># Load info about samples</span></span>
+<span id="cb66-5"><a href="07-NGSAdmix.html#cb66-5" tabindex="-1"></a>id.info<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;sample_location.tsv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span>T)</span>
+<span id="cb66-6"><a href="07-NGSAdmix.html#cb66-6" tabindex="-1"></a></span>
+<span id="cb66-7"><a href="07-NGSAdmix.html#cb66-7" tabindex="-1"></a><span class="co"># sort as in the pcs</span></span>
+<span id="cb66-8"><a href="07-NGSAdmix.html#cb66-8" tabindex="-1"></a>id.info<span class="ot">&lt;-</span>id.info[<span class="fu">match</span>(<span class="fu">rownames</span>(pcs), id.info<span class="sc">$</span>run_accession),]</span>
+<span id="cb66-9"><a href="07-NGSAdmix.html#cb66-9" tabindex="-1"></a></span>
+<span id="cb66-10"><a href="07-NGSAdmix.html#cb66-10" tabindex="-1"></a><span class="co"># colours</span></span>
+<span id="cb66-11"><a href="07-NGSAdmix.html#cb66-11" tabindex="-1"></a>id.colours<span class="ot">&lt;-</span><span class="fu">as.character</span>(id.info<span class="sc">$</span>area)</span>
+<span id="cb66-12"><a href="07-NGSAdmix.html#cb66-12" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Atlantic_Ocean&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;red&quot;</span> <span class="co"># Atlantic as red</span></span>
+<span id="cb66-13"><a href="07-NGSAdmix.html#cb66-13" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Australasia&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;blue&quot;</span> <span class="co"># Australasia as blue</span></span>
+<span id="cb66-14"><a href="07-NGSAdmix.html#cb66-14" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Indian_Ocean&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;green&quot;</span> <span class="co"># Indian as green</span></span>
+<span id="cb66-15"><a href="07-NGSAdmix.html#cb66-15" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Pacific_Ocean&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;orange&quot;</span> <span class="co"># Pacific as orange</span></span>
+<span id="cb66-16"><a href="07-NGSAdmix.html#cb66-16" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Southern_Ocean&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;purple&quot;</span> <span class="co"># Southern as purple</span></span>
+<span id="cb66-17"><a href="07-NGSAdmix.html#cb66-17" tabindex="-1"></a></span>
+<span id="cb66-18"><a href="07-NGSAdmix.html#cb66-18" tabindex="-1"></a><span class="fu">plot</span>(pcs[,<span class="dv">1</span>], pcs[,<span class="dv">2</span>], <span class="at">main =</span> <span class="st">&quot;PCA using genotype matrix&quot;</span>, </span>
+<span id="cb66-19"><a href="07-NGSAdmix.html#cb66-19" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;PC1&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;PC2&quot;</span>, <span class="at">col=</span>id.colours, <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb66-20"><a href="07-NGSAdmix.html#cb66-20" tabindex="-1"></a><span class="fu">plot</span>(pcs[,<span class="dv">2</span>], pcs[,<span class="dv">3</span>], <span class="at">main =</span> <span class="st">&quot;PCA using genotype matrix&quot;</span>, </span>
+<span id="cb66-21"><a href="07-NGSAdmix.html#cb66-21" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;PC2&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;PC3&quot;</span>, <span class="at">col=</span>id.colours, <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb66-22"><a href="07-NGSAdmix.html#cb66-22" tabindex="-1"></a><span class="fu">plot</span>(pcs[,<span class="dv">3</span>], pcs[,<span class="dv">4</span>], <span class="at">main =</span> <span class="st">&quot;PCA using genotype matrix&quot;</span>, </span>
+<span id="cb66-23"><a href="07-NGSAdmix.html#cb66-23" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;PC3&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;PC4&quot;</span>, <span class="at">col=</span>id.colours, <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
 <p>The first plot should look like this:</p>
 <center>
 <img src="figures/genotype_matrix-pc1-pc2.png" style="width:800px; border-radius:15px; border:5px solid #333333; background:null" />
