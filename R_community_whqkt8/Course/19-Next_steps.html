@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 8 Summarise phyloseq | R community analysis</title>
+  <title>Chapter 19 Next steps | R community analysis</title>
   <meta name="description" content="NEOF book for the R community analysis workflow" />
   <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 8 Summarise phyloseq | R community analysis" />
+  <meta property="og:title" content="Chapter 19 Next steps | R community analysis" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the R community analysis workflow" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 8 Summarise phyloseq | R community analysis" />
+  <meta name="twitter:title" content="Chapter 19 Next steps | R community analysis" />
   
   <meta name="twitter:description" content="NEOF book for the R community analysis workflow" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-<link rel="prev" href="07-Import.html"/>
-<link rel="next" href="09-Minimum_read_depth.html"/>
+<link rel="prev" href="18-Summary.html"/>
+<link rel="next" href="20-Appendix.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -409,130 +409,94 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="sum_phyloseq_chap" class="section level1 hasAnchor" number="8">
-<h1><span class="header-section-number">Chapter 8</span> Summarise phyloseq<a href="08-Summarise_phyloseq.html#sum_phyloseq_chap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="nextsteps" class="section level1 hasAnchor" number="19">
+<h1><span class="header-section-number">Chapter 19</span> Next steps<a href="19-Next_steps.html#nextsteps" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/transform.png" style="width:200px; border-radius:15px; background:white" />
+<img src="figures/step.png" style="border-radius: 5px; width: 200px" />
 </center>
-<p>For the next 2 chapters we will use one notebook. We will setup this notebook with packages and the <code>phyloseq</code> object we created in the last chapter.</p>
-<p>After this, we will summarise the <code>phyloseq</code> object. We will investigate the read depth of samples and the number of ASVs in our dataset.</p>
-<div id="summarise-setup" class="section level2 hasAnchor" number="8.1">
-<h2><span class="header-section-number">8.1</span> Summarise: setup<a href="08-Summarise_phyloseq.html#summarise-setup" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</center>
+<p>There is always more to learn with more content available for this workshop.</p>
+<div id="supplemental-book" class="section level2 hasAnchor" number="19.1">
+<h2><span class="header-section-number">19.1</span> Supplemental book<a href="19-Next_steps.html#supplemental-book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/setup_2.png" style="width:200px; border-radius:15px; background:white" />
+<img src="figures/r_comm_supplement.png" style="border-radius: 5px; width: 150px" />
 </center>
-<p>Before starting analysis create and save a new <code>R</code> notebook called <strong>"2-Preprocess.ipynb"</strong> in the analysis directory (when renaming you don't need to include the suffix).</p>
-<p>It is useful to add a title to the top of the notebook.
-Create a <strong>"Markdown"</strong> <strong>cell</strong> and add the following first level header:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb15-1"><a href="08-Summarise_phyloseq.html#cb15-1" tabindex="-1"></a><span class="co"># Preprocessing data notebook</span></span></code></pre></div>
-<p>The first section of our notebook will be used for setup.
-This will involve loading packages and data we need.</p>
-<p>For good documentation add a second level heading to the first <strong>"Markdown"</strong> cell.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb16-1"><a href="08-Summarise_phyloseq.html#cb16-1" tabindex="-1"></a><span class="do">## Setup</span></span></code></pre></div>
-<p>To decrease the level of a heading add another <code>#</code>.</p>
+</center>
+<p>There is a <a href="https://neof-workshops.github.io/R_community_whqkt8/Supplemental/">Supplemental book</a> you can go through.</p>
+<p>This contains the following topics:</p>
 <ul>
-<li><code>#</code>: 1st level header.</li>
-<li><code>##</code>: 2nd level header.</li>
-<li><code>###</code>: 3rd level header etc...</li>
+<li>Importing other data types into <code>phyloseq</code></li>
+<li>Plotly to create interactive html plots</li>
 </ul>
-<p>I like to load all the packages to be used in the notebook in this section. We will explain their uses later in this chapter. Add the below to a new <strong>"Code"</strong> cell in your notebook:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb17-1"><a href="08-Summarise_phyloseq.html#cb17-1" tabindex="-1"></a><span class="co">#Packages</span></span>
-<span id="cb17-2"><a href="08-Summarise_phyloseq.html#cb17-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
-<span id="cb17-3"><a href="08-Summarise_phyloseq.html#cb17-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span>
-<span id="cb17-4"><a href="08-Summarise_phyloseq.html#cb17-4" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;vegan&quot;</span>)</span>
-<span id="cb17-5"><a href="08-Summarise_phyloseq.html#cb17-5" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;IRdisplay&quot;</span>)</span></code></pre></div>
-<p>Our last bit of set-up is to load in our abundance <code>phyloseq</code> object we created in the previous chapter.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb18-1"><a href="08-Summarise_phyloseq.html#cb18-1" tabindex="-1"></a><span class="co">#Load the phyloseq object</span></span>
-<span id="cb18-2"><a href="08-Summarise_phyloseq.html#cb18-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;phyloseq.RData&quot;</span>)</span></code></pre></div>
-<p>Ensure you have run the code in this cell.</p>
-<div id="summarise-header" class="section level3 hasAnchor" number="8.1.1">
-<h3><span class="header-section-number">8.1.1</span> Summarise header<a href="08-Summarise_phyloseq.html#summarise-header" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<center>
-<img src="figures/header.png" style="width:200px; border-radius:15px; background:white" />
-</center>
-<p>When you load in a dataset it is always useful to check it.
-We will therefore use a new section to inspect the data.</p>
-<p>In a new <strong>"Markdown"</strong> cell add the following 2nd level header.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb19-1"><a href="08-Summarise_phyloseq.html#cb19-1" tabindex="-1"></a><span class="do">## Summarise the phyloseq object</span></span></code></pre></div>
 </div>
-<div id="summarise-phyloseq" class="section level3 hasAnchor" number="8.1.2">
-<h3><span class="header-section-number">8.1.2</span> Summarise phyloseq<a href="08-Summarise_phyloseq.html#summarise-phyloseq" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="iterative-rarefaction" class="section level2 hasAnchor" number="19.2">
+<h2><span class="header-section-number">19.2</span> Iterative rarefaction<a href="19-Next_steps.html#iterative-rarefaction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/list_blue.png" style="width:200px" />
+<img src="figures/iterative_rarefaction.png" style="border-radius: 5px; width: 200px; background:white; border: solid white 5px" />
 </center>
-<p>Create a new code <strong>cell</strong> and add the following annotation and code. Then run the code.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb20-1"><a href="08-Summarise_phyloseq.html#cb20-1" tabindex="-1"></a><span class="co">#Summary of phyloseq object</span></span>
-<span id="cb20-2"><a href="08-Summarise_phyloseq.html#cb20-2" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(pseq)</span></code></pre></div>
-<p>We ran this code in the <strong>"01-Import.ipynb"</strong>. You can therefore check if our new output matched the output from that notebook. This should be the case since they are the same data.</p>
-<p>Due to the relative large amount of output to screen we'll put the next part into a new <strong>cell</strong>.</p>
+</center>
+<p>There is a <a href="https://neof-workshops.github.io/R_community_whqkt8/iterative_rarefaction">Iterative rarefaction book</a>.</p>
+<p>The book explains and demonstrates how to carry out iterative rarefaction for alpha and beta diversity analysis in R with the <code>phyloseq</code> object. This involves running multiple rounds/iterations of rarefaction and producing an averaged table of alpha and beta diversity values. This is a more robust method than only carrying out one round of rarefaction.</p>
+<p>It contains the following topics:</p>
+<ul>
+<li>Random seeds</li>
+<li>Iterating rarefaction</li>
+<li>Alpha diversity</li>
+<li>Beta diversity</li>
+</ul>
 </div>
-<div id="reads-per-sample" class="section level3 hasAnchor" number="8.1.3">
-<h3><span class="header-section-number">8.1.3</span> Reads per sample<a href="08-Summarise_phyloseq.html#reads-per-sample" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="literature" class="section level2 hasAnchor" number="19.3">
+<h2><span class="header-section-number">19.3</span> Literature<a href="19-Next_steps.html#literature" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/histogram.png" style="width:200px" />
+<img src="figures/literature.png" style="border-radius: 5px; width: 200px; background:white; border: solid white 5px" />
 </center>
-<p>In a new <strong>cell</strong> we will use the command <code>microbiome::readcount()</code> to store and display the number of reads in each sample within our <code>phyloseq</code> object (<code>pseq</code>).</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb21-1"><a href="08-Summarise_phyloseq.html#cb21-1" tabindex="-1"></a><span class="co">#Number of reads per sample</span></span>
-<span id="cb21-2"><a href="08-Summarise_phyloseq.html#cb21-2" tabindex="-1"></a>sample_depths <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq)</span>
-<span id="cb21-3"><a href="08-Summarise_phyloseq.html#cb21-3" tabindex="-1"></a>sample_depths</span></code></pre></div>
-<p>With this info we can make a histogram of read numbers per sample with the base <code>R</code> function <code>hist()</code>.
-We will save this as a <code>.png</code> file with the functions <code>png()</code> and <code>dev.off()</code>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb22-1"><a href="08-Summarise_phyloseq.html#cb22-1" tabindex="-1"></a><span class="co">#Histogram</span></span>
-<span id="cb22-2"><a href="08-Summarise_phyloseq.html#cb22-2" tabindex="-1"></a><span class="co">#Save as png</span></span>
-<span id="cb22-3"><a href="08-Summarise_phyloseq.html#cb22-3" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;./sample_depth_histogram.png&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
-<span id="cb22-4"><a href="08-Summarise_phyloseq.html#cb22-4" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">100</span>, <span class="at">width =</span> <span class="dv">200</span>)</span>
-<span id="cb22-5"><a href="08-Summarise_phyloseq.html#cb22-5" tabindex="-1"></a><span class="fu">hist</span>(sample_depths, <span class="at">main =</span> <span class="st">&quot;Histogram of read depths&quot;</span>)</span>
-<span id="cb22-6"><a href="08-Summarise_phyloseq.html#cb22-6" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+</center>
+<p>Of course there is a lot of literature you can explore to inform your future analysis decisions. Below is a list of some importnat litertaure.</p>
+<div id="rarefaction" class="section level3 hasAnchor" number="19.3.1">
+<h3><span class="header-section-number">19.3.1</span> Rarefaction<a href="19-Next_steps.html#rarefaction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><a href="https://academic.oup.com/bioinformatics/article/38/9/2389/6536959">To rarefy or not to rarefy: robustness and efficiency trade-offs of rarefying microbiome data</a></li>
+<li><a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003531">Waste Not, Want Not: Why Rarefying Microbiome Data Is Inadmissible</a></li>
+<li><a href="https://journals.asm.org/doi/10.1128/msphere.00354-23">Rarefaction is currently the best approach to control for uneven sequencing effort in amplicon sequence analyses</a></li>
+<li><a href="https://forum.qiime2.org/t/q2-boots-bootstrapped-and-rarefaction-based-diversity-analysis/31134">QIIME2 developers adding bootstrapping and rarefaction-based diversity analysis</a></li>
+</ul>
 </div>
-<div id="display-png" class="section level3 hasAnchor" number="8.1.4">
-<h3><span class="header-section-number">8.1.4</span> Display png<a href="08-Summarise_phyloseq.html#display-png" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<center>
-<img src="figures/display_png.png" style="width:200px" />
-</center>
-<p>We can use the R package <a href="https://github.com/IRkernel/IRdisplay"><code>IRdisplay</code></a> to display plots from files in <code>jupyter-notebook</code>.</p>
-<p>Use the function <code>display_png()</code> to display our histogram.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb23-1"><a href="08-Summarise_phyloseq.html#cb23-1" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
-<span id="cb23-2"><a href="08-Summarise_phyloseq.html#cb23-2" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./sample_depth_histogram.png&quot;</span>)</span></code></pre></div>
-<p>This information is very useful. We will use it in the next chapter to determine what our minimum read depth should be.</p>
-</div>
-<div id="asvs-per-sample" class="section level3 hasAnchor" number="8.1.5">
-<h3><span class="header-section-number">8.1.5</span> ASVs per sample<a href="08-Summarise_phyloseq.html#asvs-per-sample" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<center>
-<img src="figures/nice_table.png" style="width:200px" />
-</center>
-<p>Before preprocessing we will look at information related to the ASVs (Amplicon Sequnces Variants).</p>
-<p>A useful <code>phyloseq</code> command is <code>otu_table()</code>. This allows us to extract the ASV/OTU/feature table. With this we can then carry out some other commands.</p>
-<p>For demonstrative purposes write and run the following code in its own <strong>cell</strong> to display the ASV table.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb24-1"><a href="08-Summarise_phyloseq.html#cb24-1" tabindex="-1"></a><span class="co">#Can extract ASV table (known as otu table in phyloseq)</span></span>
-<span id="cb24-2"><a href="08-Summarise_phyloseq.html#cb24-2" tabindex="-1"></a>phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq)</span></code></pre></div>
-<p>With this function we will extract the number of ASVs in the original abundance table.
-We will then save this in a vector using a new <strong>cell</strong>.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb25-1"><a href="08-Summarise_phyloseq.html#cb25-1" tabindex="-1"></a><span class="co">#Each row is an ASV and each column is a sample</span></span>
-<span id="cb25-2"><a href="08-Summarise_phyloseq.html#cb25-2" tabindex="-1"></a><span class="co">#Therefore we can get the number of ASVs in the data by counting the number of rows</span></span>
-<span id="cb25-3"><a href="08-Summarise_phyloseq.html#cb25-3" tabindex="-1"></a><span class="co">#Let&#39;s make a new vector with this info so we can easily keep track</span></span>
-<span id="cb25-4"><a href="08-Summarise_phyloseq.html#cb25-4" tabindex="-1"></a>num_asvs_vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">nrow</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq)))</span>
-<span id="cb25-5"><a href="08-Summarise_phyloseq.html#cb25-5" tabindex="-1"></a><span class="co">#Give the 1st element a relevant name</span></span>
-<span id="cb25-6"><a href="08-Summarise_phyloseq.html#cb25-6" tabindex="-1"></a><span class="fu">names</span>(num_asvs_vec)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;abundance&quot;</span></span>
-<span id="cb25-7"><a href="08-Summarise_phyloseq.html#cb25-7" tabindex="-1"></a><span class="co">#View current vector</span></span>
-<span id="cb25-8"><a href="08-Summarise_phyloseq.html#cb25-8" tabindex="-1"></a>num_asvs_vec</span></code></pre></div>
-<p>Save this vector as a <code>.Rdata</code> object in a new <strong>cell</strong>.
-This will allow us to load it in future notebooks.
-We can remove the object so it doesn't use RAM.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb26-1"><a href="08-Summarise_phyloseq.html#cb26-1" tabindex="-1"></a><span class="co">#Save object as file</span></span>
-<span id="cb26-2"><a href="08-Summarise_phyloseq.html#cb26-2" tabindex="-1"></a><span class="fu">save</span>(num_asvs_vec, <span class="at">file=</span> <span class="st">&quot;num_asvs_vec.RData&quot;</span>)</span>
-<span id="cb26-3"><a href="08-Summarise_phyloseq.html#cb26-3" tabindex="-1"></a><span class="co">#Remove object from environment</span></span>
-<span id="cb26-4"><a href="08-Summarise_phyloseq.html#cb26-4" tabindex="-1"></a><span class="fu">rm</span>(num_asvs_vec)</span></code></pre></div>
+<div id="diversity-measures" class="section level3 hasAnchor" number="19.3.2">
+<h3><span class="header-section-number">19.3.2</span> Diversity measures<a href="19-Next_steps.html#diversity-measures" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><a href="https://www.nature.com/articles/s41598-024-77864-y">Key features and guidelines for the application of microbial alpha diversity metrics</a></li>
+<li><a href="https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2021.796025/full">The Power of Microbiome Studies: Some Considerations on Which Alpha and Beta Metrics to Use and How to Report Results</a></li>
+</ul>
 </div>
 </div>
-<div id="summarise-recap" class="section level2 hasAnchor" number="8.2">
-<h2><span class="header-section-number">8.2</span> Summarise: recap<a href="08-Summarise_phyloseq.html#summarise-recap" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="online-tutorials" class="section level2 hasAnchor" number="19.4">
+<h2><span class="header-section-number">19.4</span> Online tutorials<a href="19-Next_steps.html#online-tutorials" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/recap.png" style="width:200px; border-radius:15px; background:white" />
+<img src="figures/computer_tutorial.png" style="border-radius: 5px; width: 200px; background:white; border: solid white 5px" />
 </center>
-<p>We now have an idea of some of the attributes of our dataset. This includes the number of reads and ASVs. We can use this knowledge to carry out some preprocessing.</p>
+</center>
+<p>There are other tutorials online that can solidify and expand the skills you learnt during this workshop.</p>
+<ul>
+<li><a href="https://microbiome.github.io/tutorials/">Introduction to the microbiome R package</a></li>
+<li><a href="https://joey711.github.io/phyloseq/">Phyloseq website that contains tutorials</a></li>
+<li><a href="https://www.bioconductor.org/packages/release/bioc/vignettes/ANCOMBC/inst/doc/ANCOMBC2.html">ANCOM-BC2 tutorial</a></li>
+<li><a href="https://ggplot2.tidyverse.org/">ggplot2 website</a></li>
+</ul>
+</div>
+<div id="book-appendix" class="section level2 hasAnchor" number="19.5">
+<h2><span class="header-section-number">19.5</span> Book appendix<a href="19-Next_steps.html#book-appendix" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Check out this books' <a href="20-Appendix.html#mambainstalls">appendix</a> for the following content:</p>
+<ul>
+<li>Instructions to install the required <code>mamba/conda</code> environments</li>
+<li>Information on the various R packages</li>
+<li>Information on diversity measures</li>
+</ul>
 
 </div>
 </div>
+
+
+
 <script>
 
 /* update total correct if #webex-total_correct exists */
@@ -744,8 +708,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-<a href="07-Import.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="09-Minimum_read_depth.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="18-Summary.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="20-Appendix.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
