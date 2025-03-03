@@ -23,7 +23,7 @@
 <meta name="author" content="Helen Hipperson, Katy Maher, Victor Soria-Carrasco, Graeme Fox, Gavin Gouws" />
 
 
-<meta name="date" content="2025-02-24" />
+<meta name="date" content="2025-03-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -308,16 +308,18 @@ F _{ST} =
 <p>You should see a single vcf file: NW_004438430.1.vcf. This contains the 8,289 SNPs called from the scaffold NW_004438430, which is itself 17,494,547 bases long.</p>
 <p>We'll first calculate nucleotide diversity (<em>π</em>) across all 16 samples included in the vcf file.</p>
 <div class="sourceCode" id="cb71"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb71-1"><a href="08-Summary_stats.html#cb71-1" tabindex="-1"></a>vcftools <span class="sc">--</span>vcf NW_004438430.<span class="fl">1.</span>vcf <span class="sc">--</span>window<span class="sc">-</span>pi <span class="dv">17494547</span> <span class="sc">--</span>out all_samples</span></code></pre></div>
-<p>In this code,
-- <code>--vcf</code> specifies our input data file and indicates that it is in vcf format.
-- <code>--window-pi</code>: With this command, we are specifying that we want to calculate an average nucleotide diversity over a given window or bin. An alternative command (<code>sites-pi</code>) will calculate nucleotide diversity for each variant site, which, given that our data only includes variant sites (mostly biallelic SNPs), is not particularly useful or informative. Using a window or bin that can move along the scaffold or genome and calculate an average nucleotide diversity for that window is a handy way to examine how diversity is distributed or varies along the genome. In this case, we are specifying a window size of 17,494,547 in order to get an average nucleotide diversity for the full scaffold.
-- <code>--out</code> specifies the prefix to be used for our output files.</p>
+<p>In this code,</p>
+<ul>
+<li><code>--vcf</code> specifies our input data file and indicates that it is in vcf format.</li>
+<li><code>--window-pi</code>: With this command, we are specifying that we want to calculate an average nucleotide diversity over a given window or bin. An alternative command (<code>sites-pi</code>) will calculate nucleotide diversity for each variant site, which, given that our data only includes variant sites (mostly biallelic SNPs), is not particularly useful or informative. Using a window or bin that can move along the scaffold or genome and calculate an average nucleotide diversity for that window is a handy way to examine how diversity is distributed or varies along the genome. In this case, we are specifying a window size of 17,494,547 in order to get an average nucleotide diversity for the full scaffold.</li>
+<li><code>--out</code> specifies the prefix to be used for our output files.</li>
+</ul>
 <p>Once run, examine the output. You may see some warning messages which relate to the formatting of the header of the file. These can be ignored, the analysis should run successfully.</p>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb72-1"><a href="08-Summary_stats.html#cb72-1" tabindex="-1"></a>less all_samples.windowed.pi</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>What is the nucleotide diversity across all 16 samples?
-<div id="radio_GSDXRTVJBJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_GSDXRTVJBJ" value="answer"></input> <span>0.000190465</span></label><label><input type="radio" autocomplete="off" name="radio_GSDXRTVJBJ" value=""></input> <span>0.000202824</span></label><label><input type="radio" autocomplete="off" name="radio_GSDXRTVJBJ" value=""></input> <span>0.000204345</span></label>
+<div id="radio_IZBYLZWSRV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_IZBYLZWSRV" value="answer"></input> <span>0.000190465</span></label><label><input type="radio" autocomplete="off" name="radio_IZBYLZWSRV" value=""></input> <span>0.000202824</span></label><label><input type="radio" autocomplete="off" name="radio_IZBYLZWSRV" value=""></input> <span>0.000204345</span></label>
 </div></li>
 </ol>
 <p>Having calculated nucleotide diversity for the full set of 16 samples, we will now calculate the same for two arbitrarily-defined populations of four samples each. For each of these we'll need to create a file to indicate which individuals belong to that population. In your own study, you will need to create a file for each population you wish to examine.</p>
@@ -350,8 +352,8 @@ created.</p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb78-1"><a href="08-Summary_stats.html#cb78-1" tabindex="-1"></a>less population1.windowed.pi</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>What is the nucleotide diversity for population 1?
-<div id="radio_XXXLGEWOEZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XXXLGEWOEZ" value=""></input> <span>0.000190465</span></label><label><input type="radio" autocomplete="off" name="radio_XXXLGEWOEZ" value=""></input> <span>0.000202824</span></label><label><input type="radio" autocomplete="off" name="radio_XXXLGEWOEZ" value="answer"></input> <span>0.000204345</span></label>
+<div id="radio_MDBGUUILHR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MDBGUUILHR" value=""></input> <span>0.000190465</span></label><label><input type="radio" autocomplete="off" name="radio_MDBGUUILHR" value=""></input> <span>0.000202824</span></label><label><input type="radio" autocomplete="off" name="radio_MDBGUUILHR" value="answer"></input> <span>0.000204345</span></label>
 </div></li>
 </ol>
 <p>We can now do the same for the second population. <strong>Tip:</strong> Use your Linux history and overwrite the '1' in the file names.</p>
@@ -360,17 +362,19 @@ created.</p>
 <div class="sourceCode" id="cb80"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb80-1"><a href="08-Summary_stats.html#cb80-1" tabindex="-1"></a>less population2.windowed.pi</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>How many variable SNPs are in population 2?
-<div id="radio_FLVWOBBATA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FLVWOBBATA" value="answer"></input> <span>7,587</span></label><label><input type="radio" autocomplete="off" name="radio_FLVWOBBATA" value=""></input> <span>7,628</span></label><label><input type="radio" autocomplete="off" name="radio_FLVWOBBATA" value=""></input> <span>8,289</span></label>
+<div id="radio_SWJUJQOMVL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SWJUJQOMVL" value="answer"></input> <span>7,587</span></label><label><input type="radio" autocomplete="off" name="radio_SWJUJQOMVL" value=""></input> <span>7,628</span></label><label><input type="radio" autocomplete="off" name="radio_SWJUJQOMVL" value=""></input> <span>8,289</span></label>
 </div></li>
 </ol>
 <p>Unfortunately, nucleotide diversities need to be calculated for each population individually. If you have a large number of populations, you could use a loop to cycle through each of your populations and calculate the diversity. The appendix of this workbook introduces the use of loops.</p>
 <p>We will now proceed to examine differentiation among our two hypothetical populations, by calculating the <em>F<sub>ST</sub></em>-value for their comparison. In this case, it is <a href="https://www.researchgate.net/publication/200102299_Weir_BS_Cockerham_CC_Estimating_F-Statistics_for_the_Analysis_of_Population-Structure_Evolution_38_1358-1370">Weir &amp; Cockerham's (1984)</a> <em>F<sub>ST</sub></em>-estimate. By default, <em>F<sub>ST</sub></em>-values are calculated on a per site basis, and there is no need to define a window or bin, as before, to get the estimate for the full scaffold. Of course, it is possible to define bins if you wanted to get <em>F<sub>ST</sub></em>-values for different sections of your scaffold or genome (as one would do to look for islands of divergence or outlier regions).</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb81-1"><a href="08-Summary_stats.html#cb81-1" tabindex="-1"></a>vcftools <span class="sc">--</span>vcf NW_004438430.<span class="fl">1.</span>vcf <span class="sc">--</span>weir<span class="sc">-</span>fst<span class="sc">-</span>pop population1 \</span>
 <span id="cb81-2"><a href="08-Summary_stats.html#cb81-2" tabindex="-1"></a><span class="sc">--</span>weir<span class="sc">-</span>fst<span class="sc">-</span>pop population2 <span class="sc">--</span>out pop1_vs_pop2</span></code></pre></div>
-<p>In this command,
-- <code>--vcf</code> and <code>--out</code>, respectively, specify the input data file and the prefix for the output files, as above.
-- <code>--weir-fst-pop</code> is used to specify, one at a time, the populations files that we wish to compare, with the argument being the file we created to indicate which individuals belong to the population. This command can be repeated as many times as you have populations to add to the matrix. If you were interested in performing the calculations over bins/windows or a given number of steps, we would specify these with <code>--fst-window-size</code> or <code>--fst-window-step</code>.</p>
+<p>In this command,</p>
+<ul>
+<li><code>--vcf</code> and <code>--out</code>, respectively, specify the input data file and the prefix for the output files, as above.</li>
+<li><code>--weir-fst-pop</code> is used to specify, one at a time, the populations files that we wish to compare, with the argument being the file we created to indicate which individuals belong to the population. This command can be repeated as many times as you have populations to add to the matrix. If you were interested in performing the calculations over bins/windows or a given number of steps, we would specify these with <code>--fst-window-size</code> or <code>--fst-window-step</code>.</li>
+</ul>
 <p>Once the command is run, the <em>F<sub>ST</sub></em>-values (the mean value and a weighted value) are presented in the terminal. We can see that there is zero to negligible differentiation among our two hypothetical populations. If we are interested in the <em>F<sub>ST</sub></em>-estimates of differentiation among the two populations for each SNP, we can find these by viewing the '.weir.fst' output file.</p>
 <div class="sourceCode" id="cb82"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb82-1"><a href="08-Summary_stats.html#cb82-1" tabindex="-1"></a>less pop1_vs_pop2.weir.fst</span></code></pre></div>
 <p>Lastly, we will calculate and compare Tajima's <em>D</em> for various bins along the scaffold. We'll include all 16 individuals. Of course, you could also do this for individual populations (with the <code>--keep</code> command), or specify the entire length of the scaffold as your bin or window if you want an overall estimate to compare among populations. With the scaffold being 17,494,547 bases, we'll specify a window size of 1.8 million bases, which would give us ten bins (nine complete and one partial bin) for this scaffold. We specify this with the <code>--TajimaD</code> command in the code we will run below.</p>
@@ -380,16 +384,16 @@ created.</p>
 <p>From this, we can see that the diversity is not evenly distributed along the scaffold. We can also see that Tajima's <em>D</em>-estimates are not similar across the bins.</p>
 <ol start="4" style="list-style-type: decimal">
 <li>Which bin (identified by the starting position) has the most SNPs?
-<div id="radio_UMXMLUJXGS" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_UMXMLUJXGS" value=""></input> <span>1,800,000</span></label><label><input type="radio" autocomplete="off" name="radio_UMXMLUJXGS" value=""></input> <span>12,600,000</span></label><label><input type="radio" autocomplete="off" name="radio_UMXMLUJXGS" value="answer"></input> <span>16,200,000</span></label>
+<div id="radio_EPNLNTXHUI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EPNLNTXHUI" value=""></input> <span>1,800,000</span></label><label><input type="radio" autocomplete="off" name="radio_EPNLNTXHUI" value=""></input> <span>12,600,000</span></label><label><input type="radio" autocomplete="off" name="radio_EPNLNTXHUI" value="answer"></input> <span>16,200,000</span></label>
 </div></li>
 <li>Which bin has the highest estimate of D?
-<div id="radio_PQSHHDLOPC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PQSHHDLOPC" value="answer"></input> <span>0</span></label><label><input type="radio" autocomplete="off" name="radio_PQSHHDLOPC" value=""></input> <span>5,400,000</span></label><label><input type="radio" autocomplete="off" name="radio_PQSHHDLOPC" value=""></input> <span>16,200,000</span></label>
+<div id="radio_KLPKDACUDG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KLPKDACUDG" value="answer"></input> <span>0</span></label><label><input type="radio" autocomplete="off" name="radio_KLPKDACUDG" value=""></input> <span>5,400,000</span></label><label><input type="radio" autocomplete="off" name="radio_KLPKDACUDG" value=""></input> <span>16,200,000</span></label>
 </div></li>
 <li>What is the lowest value of Tajima's <em>D</em> observed?
-<div id="radio_ERXPSCBDYC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ERXPSCBDYC" value=""></input> <span>0.05721</span></label><label><input type="radio" autocomplete="off" name="radio_ERXPSCBDYC" value="answer"></input> <span>0.755336</span></label><label><input type="radio" autocomplete="off" name="radio_ERXPSCBDYC" value=""></input> <span>1.69975</span></label>
+<div id="radio_KOXWDMUNTV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KOXWDMUNTV" value=""></input> <span>0.05721</span></label><label><input type="radio" autocomplete="off" name="radio_KOXWDMUNTV" value="answer"></input> <span>0.755336</span></label><label><input type="radio" autocomplete="off" name="radio_KOXWDMUNTV" value=""></input> <span>1.69975</span></label>
 </div></li>
 </ol>
 <p>In interpreting these values, we generally consider values greater than 2 or less than -2 to indicate that the region may be under selection, whereas values between -2 and 2 indicate that the region (or population) conforms to neutral expectations. Along this scaffold, it does seem that there are regions that are under greater selective pressure than others, and this can probably prompt some further genome scanning or outlier analyses to identify islands of divergence or conservation.</p>
