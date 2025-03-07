@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Importing | R community analysis supplemental</title>
   <meta name="description" content="NEOF book for the R community analysis supplemental" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Importing | R community analysis supplemental" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-09-13" />
+<meta name="date" content="2025-03-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -68,7 +68,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -78,7 +78,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -150,10 +150,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img 
-src="figures/neof_rounded_corners_300ppi.png" 
-width=250px></a></li>
-<li><a>R community analysis</a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank">
+<img src="figures/neof_rounded_corners_300ppi.png" width=250px></a></li>
+<li><a>R community analysis supplemental</a></li>
 
 <li class="divider"></li>
 <li class="part"><span><b>Intro</b></span></li>
@@ -218,6 +217,9 @@ This section will show you how to import the <code>bracken</code> output.</p>
 <center>
 <img src="figures/setup_3.png" style="width:200px" />
 </center>
+<p>We will use the <code>kraken_biom</code> conda environment.
+Open a new terminal (right click on the main screen, choose Terminal).
+In the new terminal run <code>. usekrakenbiom</code> to activate the environment and then carry out the following.</p>
 <p>First we need the <code>Bracken</code> output in the <code>Kraken2</code> report output file format.
 We can copy over the output made during the NEOF Shotgun metagenomics workshop.</p>
 <p><strong>Note</strong>: If you are using <code>Bracken</code> ensure you are using the latest version as older versions do not provide this output.</p>
@@ -234,6 +236,7 @@ We can copy over the output made during the NEOF Shotgun metagenomics workshop.<
 </center>
 <p>Unfortunately we can't use the <code>bracken</code> report files.
 Instead we need to convert them to a single collated biom file with <code>kraken-biom</code>.</p>
+<p><strong>Note:</strong> Continue using the <code>kraken_biom</code> terminal.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb3-1"><a href="02-Importing.html#cb3-1" tabindex="-1"></a><span class="ex">kraken-biom</span> <span class="pp">*</span>breport2 <span class="at">-o</span> KW.biom </span></code></pre></div>
 <p><a href="https://biom-format.org/"><strong>Biom</strong></a> files are not human readable.
 Therefore to check the file is correct we can create a tsv (tab separated value) file to inspect.</p>
@@ -250,19 +253,21 @@ You'll also have the taxonomy lineage as the last column because we added in <co
 <img src="figures/jupyter_notebook.png" style="width:200px" />
 </center>
 <p>Now we are ready to carry out some R analysis.</p>
+<p>Use your terminal with the <code>r_community</code> environment activated and change directory into your <code>bracken_r_comm</code> directory.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb5-1"><a href="02-Importing.html#cb5-1" tabindex="-1"></a><span class="bu">cd</span> ~/bracken_r_comm</span></code></pre></div>
 <p>Open up <code>jupyter-notebook</code> and create a new <code>R</code> notebook called "Bracken_phyloseq_creation".</p>
 <p>At the top of the notebook create a cell to load the libraries we'll need.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb5-1"><a href="02-Importing.html#cb5-1" tabindex="-1"></a><span class="co">#Libraries</span></span>
-<span id="cb5-2"><a href="02-Importing.html#cb5-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
-<span id="cb5-3"><a href="02-Importing.html#cb5-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb6-1"><a href="02-Importing.html#cb6-1" tabindex="-1"></a><span class="co">#Libraries</span></span>
+<span id="cb6-2"><a href="02-Importing.html#cb6-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
+<span id="cb6-3"><a href="02-Importing.html#cb6-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span></code></pre></div>
 <div id="import-biom-into-phyloseq" class="section level4 unnumbered hasAnchor">
 <h4>Import biom into phyloseq<a href="02-Importing.html#import-biom-into-phyloseq" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <center>
 <img src="figures/phyloseq_logo.png" style="width:100px" />
 </center>
 <p>The first step is to import the biom file.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb6-1"><a href="02-Importing.html#cb6-1" tabindex="-1"></a><span class="co">#Read in bracken biom file</span></span>
-<span id="cb6-2"><a href="02-Importing.html#cb6-2" tabindex="-1"></a>pseq <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">import_biom</span>(<span class="st">&quot;./KW.biom&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb7-1"><a href="02-Importing.html#cb7-1" tabindex="-1"></a><span class="co">#Read in bracken biom file</span></span>
+<span id="cb7-2"><a href="02-Importing.html#cb7-2" tabindex="-1"></a>pseq <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">import_biom</span>(<span class="st">&quot;./KW.biom&quot;</span>)</span></code></pre></div>
 </div>
 <div id="import-sample-data" class="section level4 unnumbered hasAnchor">
 <h4>Import sample data<a href="02-Importing.html#import-sample-data" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -273,15 +278,15 @@ You'll also have the taxonomy lineage as the last column because we added in <co
 We have a tab delimited file we will read into R as a <strong>data frame</strong>.
 Then we can assign the sample data of <code>pseq</code> to the <strong>data frame</strong>.
 As long as the row names contain the same sample names, like in the biom file, it should work correctly.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb7-1"><a href="02-Importing.html#cb7-1" tabindex="-1"></a><span class="co">#Read in metadata</span></span>
-<span id="cb7-2"><a href="02-Importing.html#cb7-2" tabindex="-1"></a>metadf <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;KW_metadata.tsv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names=</span><span class="dv">1</span>)</span>
-<span id="cb7-3"><a href="02-Importing.html#cb7-3" tabindex="-1"></a><span class="co">#Check metadf</span></span>
-<span id="cb7-4"><a href="02-Importing.html#cb7-4" tabindex="-1"></a><span class="fu">head</span>(metadf)</span>
-<span id="cb7-5"><a href="02-Importing.html#cb7-5" tabindex="-1"></a><span class="co">#Assign sample data</span></span>
-<span id="cb7-6"><a href="02-Importing.html#cb7-6" tabindex="-1"></a>phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq) <span class="ot">&lt;-</span> metadf</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb8-1"><a href="02-Importing.html#cb8-1" tabindex="-1"></a><span class="co">#Read in metadata</span></span>
+<span id="cb8-2"><a href="02-Importing.html#cb8-2" tabindex="-1"></a>metadf <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;KW_metadata.tsv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb8-3"><a href="02-Importing.html#cb8-3" tabindex="-1"></a><span class="co">#Check metadf</span></span>
+<span id="cb8-4"><a href="02-Importing.html#cb8-4" tabindex="-1"></a><span class="fu">head</span>(metadf)</span>
+<span id="cb8-5"><a href="02-Importing.html#cb8-5" tabindex="-1"></a><span class="co">#Assign sample data</span></span>
+<span id="cb8-6"><a href="02-Importing.html#cb8-6" tabindex="-1"></a>phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq) <span class="ot">&lt;-</span> metadf</span></code></pre></div>
 <p>We can then summarise our <code>phyloseq</code> object to make sure it seems ok.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb8-1"><a href="02-Importing.html#cb8-1" tabindex="-1"></a><span class="co">#Summarise</span></span>
-<span id="cb8-2"><a href="02-Importing.html#cb8-2" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(pseq)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb9-1"><a href="02-Importing.html#cb9-1" tabindex="-1"></a><span class="co">#Summarise</span></span>
+<span id="cb9-2"><a href="02-Importing.html#cb9-2" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(pseq)</span></code></pre></div>
 </div>
 <div id="taxonomy" class="section level4 unnumbered hasAnchor">
 <h4>Taxonomy<a href="02-Importing.html#taxonomy" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -289,23 +294,23 @@ As long as the row names contain the same sample names, like in the biom file, i
 <img src="figures/taxa.png" style="width:100px" />
 </center>
 <p>Let's check out the taxonomy</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb9-1"><a href="02-Importing.html#cb9-1" tabindex="-1"></a><span class="co">#Check taxonomy</span></span>
-<span id="cb9-2"><a href="02-Importing.html#cb9-2" tabindex="-1"></a><span class="fu">head</span>(phyloseq<span class="sc">::</span><span class="fu">tax_table</span>(pseq))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb10-1"><a href="02-Importing.html#cb10-1" tabindex="-1"></a><span class="co">#Check taxonomy</span></span>
+<span id="cb10-2"><a href="02-Importing.html#cb10-2" tabindex="-1"></a><span class="fu">head</span>(phyloseq<span class="sc">::</span><span class="fu">tax_table</span>(pseq))</span></code></pre></div>
 <p>It looks good but we'll carry out 2 tasks.</p>
 <p>First we'll change the taxonomy headers from Rank1... to Kingdom....
 We know we can do this due to the prefix of the taxonomies ("k__", "p__"...)</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb10-1"><a href="02-Importing.html#cb10-1" tabindex="-1"></a><span class="co">#Change tax column names</span></span>
-<span id="cb10-2"><a href="02-Importing.html#cb10-2" tabindex="-1"></a><span class="fu">colnames</span>(phyloseq<span class="sc">::</span><span class="fu">tax_table</span>(pseq)) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Kingdom&quot;</span>, <span class="st">&quot;Phylum&quot;</span>, <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>, <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>, <span class="st">&quot;Species&quot;</span>)</span>
-<span id="cb10-3"><a href="02-Importing.html#cb10-3" tabindex="-1"></a><span class="fu">head</span>(phyloseq<span class="sc">::</span><span class="fu">tax_table</span>(pseq))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb11-1"><a href="02-Importing.html#cb11-1" tabindex="-1"></a><span class="co">#Change tax column names</span></span>
+<span id="cb11-2"><a href="02-Importing.html#cb11-2" tabindex="-1"></a><span class="fu">colnames</span>(phyloseq<span class="sc">::</span><span class="fu">tax_table</span>(pseq)) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Kingdom&quot;</span>, <span class="st">&quot;Phylum&quot;</span>, <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>, <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>, <span class="st">&quot;Species&quot;</span>)</span>
+<span id="cb11-3"><a href="02-Importing.html#cb11-3" tabindex="-1"></a><span class="fu">head</span>(phyloseq<span class="sc">::</span><span class="fu">tax_table</span>(pseq))</span></code></pre></div>
 <p>This next step is optional.
 We are going to aggregate the <code>phyloseq</code> object from taxids to genus.
 Shotgun metagenomics is not always the best tool at differentiating between species so genus classifications will be more reliable.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb11-1"><a href="02-Importing.html#cb11-1" tabindex="-1"></a><span class="co">#Aggregate to genus</span></span>
-<span id="cb11-2"><a href="02-Importing.html#cb11-2" tabindex="-1"></a>genus_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_taxa</span>(pseq, <span class="st">&quot;Genus&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb11-3"><a href="02-Importing.html#cb11-3" tabindex="-1"></a><span class="co">#Summarise</span></span>
-<span id="cb11-4"><a href="02-Importing.html#cb11-4" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(genus_pseq)</span>
-<span id="cb11-5"><a href="02-Importing.html#cb11-5" tabindex="-1"></a><span class="co">#Check number of genera</span></span>
-<span id="cb11-6"><a href="02-Importing.html#cb11-6" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;Genera: &quot;</span>, <span class="fu">nrow</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(genus_pseq)))</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb12-1"><a href="02-Importing.html#cb12-1" tabindex="-1"></a><span class="co">#Aggregate to genus</span></span>
+<span id="cb12-2"><a href="02-Importing.html#cb12-2" tabindex="-1"></a>genus_pseq <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">aggregate_taxa</span>(pseq, <span class="st">&quot;Genus&quot;</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-3"><a href="02-Importing.html#cb12-3" tabindex="-1"></a><span class="co">#Summarise</span></span>
+<span id="cb12-4"><a href="02-Importing.html#cb12-4" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(genus_pseq)</span>
+<span id="cb12-5"><a href="02-Importing.html#cb12-5" tabindex="-1"></a><span class="co">#Check number of genera</span></span>
+<span id="cb12-6"><a href="02-Importing.html#cb12-6" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;Genera: &quot;</span>, <span class="fu">nrow</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(genus_pseq)))</span></code></pre></div>
 <p>In your own analysis you may even want to use family or order to aggregate to, or to keep using genus.
 Know your data, look at the literature, and make an informed decision.
 Of course it can be useful to look at multiple levels of taxonomy.</p>
@@ -513,29 +518,29 @@ window.onload = function() {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": null,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": null,
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>
