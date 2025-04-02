@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Overview | Shotgun Metagenomics</title>
+  <title>Chapter 20 Stitching read pairs | Shotgun Metagenomics</title>
   <meta name="description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Overview | Shotgun Metagenomics" />
+  <meta property="og:title" content="Chapter 20 Stitching read pairs | Shotgun Metagenomics" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Overview | Shotgun Metagenomics" />
+  <meta name="twitter:title" content="Chapter 20 Stitching read pairs | Shotgun Metagenomics" />
   
   <meta name="twitter:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-<link rel="prev" href="01-Shotgun_metagenomics.html"/>
-<link rel="next" href="03-Cluster_Introduction.html"/>
+<link rel="prev" href="19-Metagenome_assembly.html"/>
+<link rel="next" href="21_Megahit.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -323,71 +323,76 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="overview" class="section level1 hasAnchor" number="2">
-<h1><span class="header-section-number">Chapter 2</span> Overview<a href="02-Overview.html#overview" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="stitching-read-pairs" class="section level1 hasAnchor" number="20">
+<h1><span class="header-section-number">Chapter 20</span> Stitching read pairs<a href="20-Stitching_reads.html#stitching-read-pairs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/overview.png" style="width:200px" />
+<img src="figures/stitch.png" style="width:150px" />
 </center>
-<div id="what-is-metagenomics" class="section level2 hasAnchor" number="2.1">
-<h2><span class="header-section-number">2.1</span> What is metagenomics?<a href="02-Overview.html#what-is-metagenomics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Longer k-mers generally perform better for assemblies. However, our maximum read length is 100 bp so we are limited to a maximum k-mer length of 99 bp. Thankfully we can get even longer k-mers if we stitch our read pairs together.</p>
+<p><strong>Note</strong>: This method will not work if your reads have no overlap. If you are not sure if your reads have overlap ask the team who sequenced them.</p>
+<p>A read pair consists of two sequences read from each end of a fragment of DNA (or RNA). If the two sequences meet and overlap in the middle of the fragment, there will be a region of homology. We can use this to merge the two reads together (See next image).</p>
+<p>First, we obtain our forward and reverse reads, derived from different ends of the same fragment. Second, we look for sufficient overlap between the 3' ends of our sequences. Third, if there is sufficient overlap, we combine, or stitch, the two reads together to form one long sequence.</p>
 <center>
-<img src="figures/what.png" style="width:100px" />
+<img src="figures/merging_paired_reads.png" style="width: 400px; border-radius: 15px; border: 5px solid white; background-color: white" />
 </center>
-<p><strong>Meta /ˈmɛtə/ : prefix meaning “higher” or “beyond”</strong></p>
-<p>Metagenomics is the study of genes and genetic material recovered from environmental samples (whether from the sea, soil, human gut, or anywhere else you can imagine). Unlike genomics, metagenomics deals with a multitude of usually diverse species rather than focussing on a single species/genome.</p>
-</div>
-<div id="why-metagenomics" class="section level2 hasAnchor" number="2.2">
-<h2><span class="header-section-number">2.2</span> Why metagenomics?<a href="02-Overview.html#why-metagenomics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Once we have longer stitched reads, we can increase the k-mer length for our assembly.</p>
+<p>There are a number of pieces of software that can be used to stitch reads (e.g. <code>Pear</code>, <code>Pandaseq</code>) but today we will use one called <code>FLASH</code>:</p>
+<div id="flash-run" class="section level2 hasAnchor" number="20.1">
+<h2><span class="header-section-number">20.1</span> FLASH: run<a href="20-Stitching_reads.html#flash-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/why.png" style="width:100px" />
+<img src="figures/play_red.png" style="width:100px" />
 </center>
-<p>Microbes exist virtually everywhere on Earth, even in some of the most seemingly hostile environments. Every process on our planet is influenced in some way by the actions of microbes, and all higher organisms are intrinsically associated with microbial communities.</p>
-<p>While much can be learned from studying the genome of a single microbial species in isolation, it does not provide us with any information regarding that species' neighbours, i.e. what else is in its natural environment? Metagenomics offers a top-down approach which allows researchers to investigate and understand interactions between species in different environments, thus providing a much broader and complete picture.</p>
-</div>
-<div id="metagenomics-vs-metagenetics" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> Metagenomics vs Metagenetics<a href="02-Overview.html#metagenomics-vs-metagenetics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Make a new output directory for the stitched reads and run <code>FLASH</code>:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb59-1"><a href="20-Stitching_reads.html#cb59-1" tabindex="-1"></a><span class="co">#Change directory to home</span></span>
+<span id="cb59-2"><a href="20-Stitching_reads.html#cb59-2" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb59-3"><a href="20-Stitching_reads.html#cb59-3" tabindex="-1"></a><span class="co">#Make and move into new directory</span></span>
+<span id="cb59-4"><a href="20-Stitching_reads.html#cb59-4" tabindex="-1"></a><span class="fu">mkdir</span> 5-Stitched</span>
+<span id="cb59-5"><a href="20-Stitching_reads.html#cb59-5" tabindex="-1"></a><span class="bu">cd</span> 5-Stitched</span>
+<span id="cb59-6"><a href="20-Stitching_reads.html#cb59-6" tabindex="-1"></a><span class="co">#Run flash</span></span>
+<span id="cb59-7"><a href="20-Stitching_reads.html#cb59-7" tabindex="-1"></a><span class="ex">flash</span>  <span class="at">-o</span> K1 <span class="at">-z</span> <span class="at">-t</span> 12 <span class="at">-d</span> . <span class="dt">\</span></span>
+<span id="cb59-8"><a href="20-Stitching_reads.html#cb59-8" tabindex="-1"></a>../2-Trimmed/K1_R1.fq.gz ../2-Trimmed/K1_R2.fq.gz</span></code></pre></div>
+<div id="parameters-7" class="section level4 unnumbered hasAnchor">
+<h4>Parameters<a href="20-Stitching_reads.html#parameters-7" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <center>
-<img src="figures/16s_vs_shotgun.png" style="width:150px; border-radius:15px; background-color:white" />
+<img src="figures/parameter_red.png" style="width:100px" />
 </center>
-<p>Broadly speaking, there are two families of metagenomic analysis:</p>
 <ul>
-<li><strong>Amplicon-based</strong>: This utilises sequencing data generated from amplified marker sequences, for example, regions of the 16S rRNA. Sequences are clustered together and taxonomically assigned to estimate the species abundance in a sample. This is sometimes referred to as metagenetics, as it does not consist of any genomic analysis beyond the marker gene regions.</li>
-<li><strong>Shotgun</strong>: This utilises sequencing data generated from random fragments from total genomic DNA from environmental samples, rather than targeting specific genes. This approach allows for not only species abundance determination but direct functional analysis, too, due to having information on a wide range of genetic data sampled from the population. This is sometimes referred to as metagenomics, as it involves genome-wide analyses. Shotgun metagenomics is the focus of this practical session.</li>
+<li><code>-o</code>: Sets the prefix of the output files.</li>
+<li><code>-z</code>: The input is zipped.</li>
+<li><code>-t</code>: Number of threads to use.</li>
+<li><code>-d</code>: The directory the output files will be placed.</li>
+<li>The last 2 flag-less parameters are the forward and reverse read files for stitching.</li>
 </ul>
 </div>
-<div id="tutorial-overview" class="section level2 hasAnchor" number="2.4">
-<h2><span class="header-section-number">2.4</span> Tutorial overview<a href="02-Overview.html#tutorial-overview" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<center>
-<img src="figures/tutorial.png" style="width:200px" />
-</center>
-<div id="basics" class="section level3 hasAnchor" number="2.4.1">
-<h3><span class="header-section-number">2.4.1</span> Basics<a href="02-Overview.html#basics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>This tutorial and practical session focuses on performing a range of metagenomic analyses using shotgun sequence data from the Illumina platforms.</p>
-<p>The analyses discussed here are by no means exhaustive and are instead intended to provide a sample of what can be done with a metagenomic dataset.</p>
 </div>
-<div id="structure" class="section level3 hasAnchor" number="2.4.2">
-<h3><span class="header-section-number">2.4.2</span> Structure<a href="02-Overview.html#structure" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We prefer to allow people to work at a pace that they are comfortable with rather than ensuring that everyone is at the same point of the tutorial at the same time. There will be no instructor telling you what to type and click. Instead, everything you require to carry out the practical is written in this document. Take your time; it's important to spend some time understanding why you are running the commands, rather than simply typing them out.</p>
-<p>If at any point you are having trouble or have a question, let one of us know and we'll provide 1-to-1 assistance.</p>
-</div>
-<div id="content" class="section level3 hasAnchor" number="2.4.3">
-<h3><span class="header-section-number">2.4.3</span> Content<a href="02-Overview.html#content" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="flash-output" class="section level2 hasAnchor" number="20.2">
+<h2><span class="header-section-number">20.2</span> FLASH: Output<a href="20-Stitching_reads.html#flash-output" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/sections.png" style="width:100px; border-radius:5px; background-color:white; border: solid white 5px" />
+<img src="figures/output_file_red.png" style="width:100px" />
 </center>
-<p>This practical is broken up into the following broad sections.</p>
+<p>Once <code>FLASH</code> has finished running, it will display on screen how well the stitching process went, in this case a low amount of reads were combined. Have a look what files have been generated.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb60-1"><a href="20-Stitching_reads.html#cb60-1" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
+<p>We have three new fastq.gz files. One containing the stitched reads (<code>K1.extendedFrags.fastq.gz</code>) and two containing the reads from pairs that could not be combined (<code>K1.notCombined_1.fastq.gz</code> and <code>K1.notCombined_2.fastq.gz</code>).</p>
+<p>We can also see what the new read lengths are:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb61-1"><a href="20-Stitching_reads.html#cb61-1" tabindex="-1"></a><span class="fu">less</span> K1.histogram</span></code></pre></div>
+<p>Scroll down with the down key and you will see that we are looking at a histogram showing the proportion of stitched reads at different lengths.</p>
+</div>
+<div id="flash-mcqs" class="section level2 hasAnchor" number="20.3">
+<h2><span class="header-section-number">20.3</span> FLASH: MCQs<a href="20-Stitching_reads.html#flash-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/question_bubble_red.png" style="width:100px" />
+</center>
 <ol style="list-style-type: decimal">
-<li><strong>Raw data</strong>: We will first link to a dataset that we have downloaded for this tutorial. We will take a quick look at what the sequence files look like and briefly discuss the origin of the samples.</li>
-<li><strong>Trimming data</strong>: This entails preprocessing our data to ensure that it is of good quality.</li>
-<li><strong>Host removal</strong>: When sequencing the genomic content of host's microbiota (bacteriome, archaeome, mycobiome, and more) it is likely you will also sequence the host's genome. This step shows a method of removing possible host contamination.</li>
-<li><strong>Taxonomic profiling</strong>: We will analyse the dataset to determine the species abundance in each sample. Following this, we will visualise the data and compare the samples.</li>
-<li><strong>Functional profiling</strong>: We will analyse the dataset to determine the pathway abundance and completeness in each sample. Following this, we will visualise the data and compare the samples.</li>
-<li><strong>Metagenome assembly</strong>: Here, we will move away from just analysing the reads directly and will assemble the metagenome into contigs. Prior to this, we will 'stitch' the reads together to ensure we get the best assembly possible.</li>
-<li><strong>Binning</strong>: This step attempts to seperate each assembled genomes into bins. These genome assemblies are called Metagenome-assembled Genomes (MAGs).</li>
-<li><strong>Functional annotation</strong>: We will take our MAGs, predict genes and then functionally annotate them with MetaCyc.</li>
+<li>What length has the highest proportion of stitched reads?
+<div id="radio_HAAINWSLDG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HAAINWSLDG" value=""></input> <span><strong>101</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HAAINWSLDG" value=""></input> <span><strong>177</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HAAINWSLDG" value="answer"></input> <span><strong>188</strong></span></label>
+</div></li>
+<li>What length has the lowest proportion of stitched reads?
+<div id="radio_RYDEDCBTIV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_RYDEDCBTIV" value="answer"></input> <span><strong>101</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RYDEDCBTIV" value=""></input> <span><strong>177</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RYDEDCBTIV" value=""></input> <span><strong>188</strong></span></label>
+</div></li>
 </ol>
 
-</div>
 </div>
 </div>
 <script>
@@ -601,8 +606,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-<a href="01-Shotgun_metagenomics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="03-Cluster_Introduction.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="19-Metagenome_assembly.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="21_Megahit.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

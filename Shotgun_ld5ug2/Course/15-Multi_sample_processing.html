@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Overview | Shotgun Metagenomics</title>
+  <title>Chapter 15 Multi sample processing | Shotgun Metagenomics</title>
   <meta name="description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Overview | Shotgun Metagenomics" />
+  <meta property="og:title" content="Chapter 15 Multi sample processing | Shotgun Metagenomics" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Overview | Shotgun Metagenomics" />
+  <meta name="twitter:title" content="Chapter 15 Multi sample processing | Shotgun Metagenomics" />
   
   <meta name="twitter:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-<link rel="prev" href="01-Shotgun_metagenomics.html"/>
-<link rel="next" href="03-Cluster_Introduction.html"/>
+<link rel="prev" href="14-HUMAnN.html"/>
+<link rel="next" href="16-Heatmap.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -323,69 +323,97 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="overview" class="section level1 hasAnchor" number="2">
-<h1><span class="header-section-number">Chapter 2</span> Overview<a href="02-Overview.html#overview" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="humannmultisampleprocessing" class="section level1 hasAnchor" number="15">
+<h1><span class="header-section-number">Chapter 15</span> Multi sample processing<a href="15-Multi_sample_processing.html#humannmultisampleprocessing" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/overview.png" style="width:200px" />
+<img src="figures/k_w_venn.png" style="width:150px" />
 </center>
-<div id="what-is-metagenomics" class="section level2 hasAnchor" number="2.1">
-<h2><span class="header-section-number">2.1</span> What is metagenomics?<a href="02-Overview.html#what-is-metagenomics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Looking at the functional profile of one sample in isolation is usually not very informative. First, there is nothing to compare it to and second, there are no biological replicates. We will therefore use all the Korean and Western diet samples.</p>
+<p>It would take many hours to analyse all of the data using <code>HUMAnN</code> and is outside the scope of this course. For this reason, samples were analysed prior to the workshop to generate the output files we covered above.</p>
+<p>For the purposes of this comparison, we will look at the pathway abundances only. First copy over the data directory containg the gene families tables and have a look in it.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb47-1"><a href="15-Multi_sample_processing.html#cb47-1" tabindex="-1"></a><span class="co">#Ensure you are in the correct directory</span></span>
+<span id="cb47-2"><a href="15-Multi_sample_processing.html#cb47-2" tabindex="-1"></a><span class="bu">cd</span> ~/4-FunctionalProfiling</span>
+<span id="cb47-3"><a href="15-Multi_sample_processing.html#cb47-3" tabindex="-1"></a><span class="co">#Copy directory with pre made results</span></span>
+<span id="cb47-4"><a href="15-Multi_sample_processing.html#cb47-4" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> /pub14/tea/nsc206/NEOF/Shotgun_metagenomics/DietPathAbundance .</span>
+<span id="cb47-5"><a href="15-Multi_sample_processing.html#cb47-5" tabindex="-1"></a><span class="co">#Move into the copied directory</span></span>
+<span id="cb47-6"><a href="15-Multi_sample_processing.html#cb47-6" tabindex="-1"></a><span class="bu">cd</span> DietPathAbundance</span>
+<span id="cb47-7"><a href="15-Multi_sample_processing.html#cb47-7" tabindex="-1"></a><span class="co">#List files</span></span>
+<span id="cb47-8"><a href="15-Multi_sample_processing.html#cb47-8" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
+<p>You will see there are 12 files prefixed with K and 12 prefixed with W, for the Korean diet and Western diet samples, respectively. Take a look at the file for K1.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb48-1"><a href="15-Multi_sample_processing.html#cb48-1" tabindex="-1"></a><span class="fu">less</span> K1_pathabundance.tsv</span></code></pre></div>
+<p>There are a lot of pathways in the file. Quit out of the <code>less</code> viewer (<code>q</code>) and look at the entries for one specific pathway, COA-PWY-1 (a coenzyme A biosynthesis II pathway).</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb49-1"><a href="15-Multi_sample_processing.html#cb49-1" tabindex="-1"></a><span class="fu">grep</span> COA-PWY-1 K1_pathabundance.tsv <span class="kw">|</span> <span class="fu">less</span></span></code></pre></div>
+<p>This shows 30 entries/lines with the top entry/line:</p>
+<p><strong><code>COA-PWY-1: superpathway of coenzyme A biosynthesis III (mammals)        6790.1517478104</code></strong></p>
+<p>This shows the abundance of the pathway across the entire sample (6790.1517478104).</p>
+<p>The other entries show the species stratification information (mentioned above) of the pathway. I.e. the second line:</p>
+<p><strong><code>COA-PWY-1: superpathway of coenzyme A biosynthesis III (mammals)|g__Bacteroides.s__Bacteroides_dorei    1292.7711872228</code></strong></p>
+<p>shows the abundance of the pathway that is contributed by the species <em>Bacteroides dorei</em> (1292.7711872228).</p>
+<p><strong>Note</strong>: The species stratified pathway abundances may not equal the total community pathway abundance. Please see this <a href="https://forum.biobakery.org/t/humann3-pathway-abundance-table-pathway-sum-and-species-sum-different/1471">forum post</a> for details.</p>
+<p>With this information we will carry out some comparisons including biomarker detection to determine which pathways are differentially abundant between the Western diet and Korean diet samples.</p>
+<p><strong>Note</strong>: The following methods/pipeline can be used for the genefamilies and pathcoverage tables in your own future analyses.</p>
+<div id="combining-data" class="section level2 hasAnchor" number="15.1">
+<h2><span class="header-section-number">15.1</span> Combining data<a href="15-Multi_sample_processing.html#combining-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/what.png" style="width:100px" />
+<img src="figures/merge.png" style="width:100px; background:white; border-radius:5px" />
 </center>
-<p><strong>Meta /ˈmɛtə/ : prefix meaning “higher” or “beyond”</strong></p>
-<p>Metagenomics is the study of genes and genetic material recovered from environmental samples (whether from the sea, soil, human gut, or anywhere else you can imagine). Unlike genomics, metagenomics deals with a multitude of usually diverse species rather than focussing on a single species/genome.</p>
+<p>First, we need to combine these 24 tables into one large results table. <code>HUMAnN</code> provides a tool to do this:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb50-1"><a href="15-Multi_sample_processing.html#cb50-1" tabindex="-1"></a><span class="co">#Change directory to main Functional profiling directory</span></span>
+<span id="cb50-2"><a href="15-Multi_sample_processing.html#cb50-2" tabindex="-1"></a><span class="bu">cd</span> ~/4-FunctionalProfiling</span>
+<span id="cb50-3"><a href="15-Multi_sample_processing.html#cb50-3" tabindex="-1"></a><span class="co">#Join the tables</span></span>
+<span id="cb50-4"><a href="15-Multi_sample_processing.html#cb50-4" tabindex="-1"></a><span class="ex">humann_join_tables</span> <span class="at">--input</span> DietPathAbundance/ <span class="at">--output</span> diet.tsv</span></code></pre></div>
+<p>This command will look for all tables in the <code>DietPathAbundance</code> directory and generate a large, 25 column table called <code>diet.tsv</code>. You can inspect the file to ensure that this has worked correctly.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb51-1"><a href="15-Multi_sample_processing.html#cb51-1" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> diet.tsv</span></code></pre></div>
 </div>
-<div id="why-metagenomics" class="section level2 hasAnchor" number="2.2">
-<h2><span class="header-section-number">2.2</span> Why metagenomics?<a href="02-Overview.html#why-metagenomics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="split-stratified-table" class="section level2 hasAnchor" number="15.2">
+<h2><span class="header-section-number">15.2</span> Split stratified table<a href="15-Multi_sample_processing.html#split-stratified-table" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/why.png" style="width:100px" />
+<img src="figures/split.png" style="width:100px; background:white; border-radius:5px" />
 </center>
-<p>Microbes exist virtually everywhere on Earth, even in some of the most seemingly hostile environments. Every process on our planet is influenced in some way by the actions of microbes, and all higher organisms are intrinsically associated with microbial communities.</p>
-<p>While much can be learned from studying the genome of a single microbial species in isolation, it does not provide us with any information regarding that species' neighbours, i.e. what else is in its natural environment? Metagenomics offers a top-down approach which allows researchers to investigate and understand interactions between species in different environments, thus providing a much broader and complete picture.</p>
-</div>
-<div id="metagenomics-vs-metagenetics" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> Metagenomics vs Metagenetics<a href="02-Overview.html#metagenomics-vs-metagenetics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<center>
-<img src="figures/16s_vs_shotgun.png" style="width:150px; border-radius:15px; background-color:white" />
-</center>
-<p>Broadly speaking, there are two families of metagenomic analysis:</p>
+<p>For this tutorial we do not want the species stratification information. We will therefore split the table to create 2 new files:</p>
 <ul>
-<li><strong>Amplicon-based</strong>: This utilises sequencing data generated from amplified marker sequences, for example, regions of the 16S rRNA. Sequences are clustered together and taxonomically assigned to estimate the species abundance in a sample. This is sometimes referred to as metagenetics, as it does not consist of any genomic analysis beyond the marker gene regions.</li>
-<li><strong>Shotgun</strong>: This utilises sequencing data generated from random fragments from total genomic DNA from environmental samples, rather than targeting specific genes. This approach allows for not only species abundance determination but direct functional analysis, too, due to having information on a wide range of genetic data sampled from the population. This is sometimes referred to as metagenomics, as it involves genome-wide analyses. Shotgun metagenomics is the focus of this practical session.</li>
+<li><code>diet_unstratified.tsv</code>: This table only contains the total abundance values for the pathways. It does not contain any species stratification information.</li>
+<li><code>diet_stratified.tsv</code>: This table only contains the species stratification abundance values for the pathways. It does not contain the total abundance information.</li>
 </ul>
+<p>To create the split files and output them to your current directory, run the following command:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb52-1"><a href="15-Multi_sample_processing.html#cb52-1" tabindex="-1"></a><span class="ex">humann_split_stratified_table</span> <span class="at">--input</span> diet.tsv <span class="at">--output</span> .</span></code></pre></div>
+<p>We will use the file <code>diet_unstratified.tsv</code> for our downstream analysis.</p>
+<p>Before you move on feel free to inspect the output files with the <code>less</code> command.</p>
+<p><strong>Note</strong>: You can use any of the three tables (unsplit table, unstratified table, or stratified table) in your own analysis. This depends on your question and data.</p>
 </div>
-<div id="tutorial-overview" class="section level2 hasAnchor" number="2.4">
-<h2><span class="header-section-number">2.4</span> Tutorial overview<a href="02-Overview.html#tutorial-overview" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="humannrenormalise" class="section level2 hasAnchor" number="15.3">
+<h2><span class="header-section-number">15.3</span> Renormalising data<a href="15-Multi_sample_processing.html#humannrenormalise" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/tutorial.png" style="width:200px" />
+<img src="figures/normalisation.png" style="width:100px; background:white; border-radius:5px" />
 </center>
-<div id="basics" class="section level3 hasAnchor" number="2.4.1">
-<h3><span class="header-section-number">2.4.1</span> Basics<a href="02-Overview.html#basics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>This tutorial and practical session focuses on performing a range of metagenomic analyses using shotgun sequence data from the Illumina platforms.</p>
-<p>The analyses discussed here are by no means exhaustive and are instead intended to provide a sample of what can be done with a metagenomic dataset.</p>
-</div>
-<div id="structure" class="section level3 hasAnchor" number="2.4.2">
-<h3><span class="header-section-number">2.4.2</span> Structure<a href="02-Overview.html#structure" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We prefer to allow people to work at a pace that they are comfortable with rather than ensuring that everyone is at the same point of the tutorial at the same time. There will be no instructor telling you what to type and click. Instead, everything you require to carry out the practical is written in this document. Take your time; it's important to spend some time understanding why you are running the commands, rather than simply typing them out.</p>
-<p>If at any point you are having trouble or have a question, let one of us know and we'll provide 1-to-1 assistance.</p>
-</div>
-<div id="content" class="section level3 hasAnchor" number="2.4.3">
-<h3><span class="header-section-number">2.4.3</span> Content<a href="02-Overview.html#content" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<center>
-<img src="figures/sections.png" style="width:100px; border-radius:5px; background-color:white; border: solid white 5px" />
+<p>The next step is to renormalise the data. Currently, all of the abundance values are only normalised within each sample (RPKs). However, they are not normalised between samples, and this is very important to do. For example, if we had sequenced two samples, A and B, and we obtained 5 million reads for sample A and 20 million reads for sample B, without normalisation, it might look there was up to 4x as much functional activity in sample B!</p>
+<p>To correct for this, we normalise the abundance values based on the number of reads in each sample. We will normalise to relative abundance (<code>--units relab</code>) where all abundances for each sample add up to 1.</p>
+<p>Renormalisation command:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb53-1"><a href="15-Multi_sample_processing.html#cb53-1" tabindex="-1"></a><span class="ex">humann_renorm_table</span> <span class="dt">\</span></span>
+<span id="cb53-2"><a href="15-Multi_sample_processing.html#cb53-2" tabindex="-1"></a>--units relab <span class="dt">\</span></span>
+<span id="cb53-3"><a href="15-Multi_sample_processing.html#cb53-3" tabindex="-1"></a>--input diet_unstratified.tsv <span class="dt">\</span></span>
+<span id="cb53-4"><a href="15-Multi_sample_processing.html#cb53-4" tabindex="-1"></a>--special n <span class="dt">\</span></span>
+<span id="cb53-5"><a href="15-Multi_sample_processing.html#cb53-5" tabindex="-1"></a>--output diet_unstratified.relab.tsv</span></code></pre></div>
+<p>This command generates the normalised data in the new table <code>diet_unstratified.relab.tsv</code>. The <code>--special n</code> option tells the script to remove all unmapped and unassigned values (<strong>UNMAPPED</strong> &amp; <strong>UNINTEGRATED</strong>) from the table.</p>
+<p><strong>Note:</strong> With the gene families information ensure you normalise by CPM (counts per million) with the option <code>--units cpm</code>. More info can be found on the <a href="https://github.com/biobakery/biobakery/wiki/humann3#31-normalizing-rpks-to-relative-abundance">Normalizing RPKs to relative abundance</a> section of the HUMAnN 3.0 tutorial.</p>
 </center>
-<p>This practical is broken up into the following broad sections.</p>
+<div id="mcqs" class="section level4 unnumbered hasAnchor">
+<h4>MCQs<a href="15-Multi_sample_processing.html#mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ol style="list-style-type: decimal">
-<li><strong>Raw data</strong>: We will first link to a dataset that we have downloaded for this tutorial. We will take a quick look at what the sequence files look like and briefly discuss the origin of the samples.</li>
-<li><strong>Trimming data</strong>: This entails preprocessing our data to ensure that it is of good quality.</li>
-<li><strong>Host removal</strong>: When sequencing the genomic content of host's microbiota (bacteriome, archaeome, mycobiome, and more) it is likely you will also sequence the host's genome. This step shows a method of removing possible host contamination.</li>
-<li><strong>Taxonomic profiling</strong>: We will analyse the dataset to determine the species abundance in each sample. Following this, we will visualise the data and compare the samples.</li>
-<li><strong>Functional profiling</strong>: We will analyse the dataset to determine the pathway abundance and completeness in each sample. Following this, we will visualise the data and compare the samples.</li>
-<li><strong>Metagenome assembly</strong>: Here, we will move away from just analysing the reads directly and will assemble the metagenome into contigs. Prior to this, we will 'stitch' the reads together to ensure we get the best assembly possible.</li>
-<li><strong>Binning</strong>: This step attempts to seperate each assembled genomes into bins. These genome assemblies are called Metagenome-assembled Genomes (MAGs).</li>
-<li><strong>Functional annotation</strong>: We will take our MAGs, predict genes and then functionally annotate them with MetaCyc.</li>
+<li>Which pathway stands out the most?
+<div id="radio_EHHXVWFTTI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EHHXVWFTTI" value=""></input> <span><strong>ARO-PWY</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EHHXVWFTTI" value="answer"></input> <span><strong>DTDPRHAMSYN</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EHHXVWFTTI" value=""></input> <span><strong>PWY-6385</strong></span></label>
+</div></li>
+<li>How many clusters are formed based on diet (Colours on tree at top of heatmap)?
+<div id="radio_IMXFTYDHKG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_IMXFTYDHKG" value=""></input> <span><strong>1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IMXFTYDHKG" value="answer"></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IMXFTYDHKG" value=""></input> <span><strong>3</strong></span></label>
+</div></li>
+<li>How many clusters are formed based on pathways (Colours on tree at the side of heatmap)?
+<div id="radio_LRNCIICAXO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LRNCIICAXO" value=""></input> <span><strong>1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LRNCIICAXO" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LRNCIICAXO" value="answer"></input> <span><strong>3</strong></span></label>
+</div></li>
 </ol>
+<p>You can look up the pathway names in the table file to see a fuller description.</p>
 
 </div>
 </div>
@@ -601,8 +629,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-<a href="01-Shotgun_metagenomics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="03-Cluster_Introduction.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="14-HUMAnN.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="16-Heatmap.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

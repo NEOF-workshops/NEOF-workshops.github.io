@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Overview | Shotgun Metagenomics</title>
+  <title>Chapter 16 Heatmap | Shotgun Metagenomics</title>
   <meta name="description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Overview | Shotgun Metagenomics" />
+  <meta property="og:title" content="Chapter 16 Heatmap | Shotgun Metagenomics" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Overview | Shotgun Metagenomics" />
+  <meta name="twitter:title" content="Chapter 16 Heatmap | Shotgun Metagenomics" />
   
   <meta name="twitter:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-<link rel="prev" href="01-Shotgun_metagenomics.html"/>
-<link rel="next" href="03-Cluster_Introduction.html"/>
+<link rel="prev" href="15-Multi_sample_processing.html"/>
+<link rel="next" href="17-LEfSe_humann.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -323,71 +323,90 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="overview" class="section level1 hasAnchor" number="2">
-<h1><span class="header-section-number">Chapter 2</span> Overview<a href="02-Overview.html#overview" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="heatmap" class="section level1 hasAnchor" number="16">
+<h1><span class="header-section-number">Chapter 16</span> Heatmap<a href="16-Heatmap.html#heatmap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/overview.png" style="width:200px" />
+<img src="figures/heatmap.png" style="width:150px; background:white; border-radius:5px" />
 </center>
-<div id="what-is-metagenomics" class="section level2 hasAnchor" number="2.1">
-<h2><span class="header-section-number">2.1</span> What is metagenomics?<a href="02-Overview.html#what-is-metagenomics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<center>
-<img src="figures/what.png" style="width:100px" />
-</center>
-<p><strong>Meta /ˈmɛtə/ : prefix meaning “higher” or “beyond”</strong></p>
-<p>Metagenomics is the study of genes and genetic material recovered from environmental samples (whether from the sea, soil, human gut, or anywhere else you can imagine). Unlike genomics, metagenomics deals with a multitude of usually diverse species rather than focussing on a single species/genome.</p>
-</div>
-<div id="why-metagenomics" class="section level2 hasAnchor" number="2.2">
-<h2><span class="header-section-number">2.2</span> Why metagenomics?<a href="02-Overview.html#why-metagenomics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<center>
-<img src="figures/why.png" style="width:100px" />
-</center>
-<p>Microbes exist virtually everywhere on Earth, even in some of the most seemingly hostile environments. Every process on our planet is influenced in some way by the actions of microbes, and all higher organisms are intrinsically associated with microbial communities.</p>
-<p>While much can be learned from studying the genome of a single microbial species in isolation, it does not provide us with any information regarding that species' neighbours, i.e. what else is in its natural environment? Metagenomics offers a top-down approach which allows researchers to investigate and understand interactions between species in different environments, thus providing a much broader and complete picture.</p>
-</div>
-<div id="metagenomics-vs-metagenetics" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> Metagenomics vs Metagenetics<a href="02-Overview.html#metagenomics-vs-metagenetics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<center>
-<img src="figures/16s_vs_shotgun.png" style="width:150px; border-radius:15px; background-color:white" />
-</center>
-<p>Broadly speaking, there are two families of metagenomic analysis:</p>
+<p>Now that we have our combined, unstratified, and normalised table, we can visualise the dataset to see how the two groups compare.</p>
 <ul>
-<li><strong>Amplicon-based</strong>: This utilises sequencing data generated from amplified marker sequences, for example, regions of the 16S rRNA. Sequences are clustered together and taxonomically assigned to estimate the species abundance in a sample. This is sometimes referred to as metagenetics, as it does not consist of any genomic analysis beyond the marker gene regions.</li>
-<li><strong>Shotgun</strong>: This utilises sequencing data generated from random fragments from total genomic DNA from environmental samples, rather than targeting specific genes. This approach allows for not only species abundance determination but direct functional analysis, too, due to having information on a wide range of genetic data sampled from the population. This is sometimes referred to as metagenomics, as it involves genome-wide analyses. Shotgun metagenomics is the focus of this practical session.</li>
+<li>Do samples in the same diet group appear to correlate well with each other?</li>
+<li>Are samples from one diet group distinguishable from those from the other diet group?</li>
 </ul>
+<p>To visualise this we will create a heatmap with <code>hclust2</code>.</p>
+<p>Before carrying out the command we will need to edit the file. Carry out the following alterations:</p>
+<p>Remove the <code>_Abundance</code> part of the sample names whilst creating a copy that we will use (It is always a good idea to keep the original file in case a mistake happens).</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb54-1"><a href="16-Heatmap.html#cb54-1" tabindex="-1"></a><span class="fu">cat</span> diet_unstratified.relab.tsv <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/_Abundance//g&quot;</span> <span class="op">&gt;</span> diet_unstratified.relab.comp.tsv</span></code></pre></div>
+<p><strong>Intro to unix links</strong>:</p>
+<ul>
+<li><a href="https://neof-workshops.github.io/Unix_nxcdf7/Course/12-Advanced_linux_practice.html#sed">Text editing with <strong><code>sed</code></strong></a></li>
+<li><a href="https://neof-workshops.github.io/Unix_nxcdf7/Course/12-Advanced_linux_practice.html#redirection">Redirection with <strong><code>&gt;</code></strong></a></li>
+</ul>
+<p>Next using your text editor of choice carry out the following changes on the file <code>diet_unstratified.relab.comp.tsv</code>.</p>
+<ul>
+<li>Remove the <code>#</code> (including the one space after the <code>#</code>) from the start of the header so it starts as <code>Pathway</code>.</li>
+<li>Add in the same metadata line as we did for <a href="12-Lefse.html#kraken2_lefse_metadata">12.1</a> but this time below the header line, i.e. as the 2nd line (ensure you are using tabs instead of spaces).</li>
+</ul>
+<div class="webex-solution">
+<button>
+Issues with creating file?
+</button>
+<p>If you are having issues with creating and editing the file <code>all_num.lefse.bracken</code> you can copy a pre-made version.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb55-1"><a href="16-Heatmap.html#cb55-1" tabindex="-1"></a><span class="fu">cp</span> /pub14/tea/nsc206/NEOF/Shotgun_metagenomics/lefse/diet_unstratified.relab.comp.tsv .</span></code></pre></div>
 </div>
-<div id="tutorial-overview" class="section level2 hasAnchor" number="2.4">
-<h2><span class="header-section-number">2.4</span> Tutorial overview<a href="02-Overview.html#tutorial-overview" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now we can use the <code>hclust2</code> tool to create a heatmap of our pathway abundances.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb56-1"><a href="16-Heatmap.html#cb56-1" tabindex="-1"></a><span class="ex">hclust2.py</span> <span class="dt">\</span></span>
+<span id="cb56-2"><a href="16-Heatmap.html#cb56-2" tabindex="-1"></a>-i diet_unstratified.relab.comp.tsv <span class="dt">\</span></span>
+<span id="cb56-3"><a href="16-Heatmap.html#cb56-3" tabindex="-1"></a>-o diet_unstratified.relab.heatmap.png <span class="dt">\</span></span>
+<span id="cb56-4"><a href="16-Heatmap.html#cb56-4" tabindex="-1"></a>--ftop 40 <span class="dt">\</span></span>
+<span id="cb56-5"><a href="16-Heatmap.html#cb56-5" tabindex="-1"></a>--metadata_rows 1 <span class="dt">\</span></span>
+<span id="cb56-6"><a href="16-Heatmap.html#cb56-6" tabindex="-1"></a>--dpi 300</span></code></pre></div>
+<p><strong>Note:</strong> You will get 2 <code>MatplotlibDeprecationWarnings</code>, these are normal and can be ignored. However, ensure these are the only warnings/errors before continuing.</p>
+<div id="parameters-6" class="section level4 unnumbered hasAnchor">
+<h4>Parameters<a href="16-Heatmap.html#parameters-6" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><code>-i</code>: The input table file.</li>
+<li><code>-o</code>: The output image file. The tool does not specify what types of image files you can use but <code>.png</code> is always a good image file format.</li>
+<li><code>--ftop</code>: Specifies how many of the top features (pathways in this case) to be included in the heatmap.</li>
+<li><code>--metadata_rows</code>: Specifies which row/s contain the metadata information to be used for the group colouring at the top of the heatmap.
+<ul>
+<li>Row numbers start at 0 for this tool. Therefore our sample names are in row 0 and the diet info is in row 1.</li>
+<li>Multiple rows can be specified if you have multiple rows of metadata.
+<ul>
+<li>e.g. <code>--metadata_rows 1,2,3</code>.</li>
+</ul></li>
+</ul></li>
+<li><code>--dpi</code>: The image resolution in dpi (dots per inch). 300 dpi is used for publication quality images.</li>
+</ul>
+<p>There are many more options that can be seen on the <a href="https://github.com/SegataLab/hclust2">hclust2 github</a>.</p>
+</div>
+<div id="visualise" class="section level4 unnumbered hasAnchor">
+<h4>Visualise<a href="16-Heatmap.html#visualise" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Now we can view the plot.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb57-1"><a href="16-Heatmap.html#cb57-1" tabindex="-1"></a><span class="ex">firefox</span> diet_unstratified.relab.heatmap.png</span></code></pre></div>
+<p>From this, we can see that there is a small amount of clustering caused by the differences between the Korean and Western diet. Other factors that we do not know about the samples must also come into play. This is normal as we cannot account for everything but it is good to try to account for as much as possible.</p>
 <center>
-<img src="figures/tutorial.png" style="width:200px" />
+<img src="figures/humann_heatmap.png" style="border-radius: 15px; width: 750px; border: 5px solid white" />
 </center>
-<div id="basics" class="section level3 hasAnchor" number="2.4.1">
-<h3><span class="header-section-number">2.4.1</span> Basics<a href="02-Overview.html#basics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>This tutorial and practical session focuses on performing a range of metagenomic analyses using shotgun sequence data from the Illumina platforms.</p>
-<p>The analyses discussed here are by no means exhaustive and are instead intended to provide a sample of what can be done with a metagenomic dataset.</p>
 </div>
-<div id="structure" class="section level3 hasAnchor" number="2.4.2">
-<h3><span class="header-section-number">2.4.2</span> Structure<a href="02-Overview.html#structure" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We prefer to allow people to work at a pace that they are comfortable with rather than ensuring that everyone is at the same point of the tutorial at the same time. There will be no instructor telling you what to type and click. Instead, everything you require to carry out the practical is written in this document. Take your time; it's important to spend some time understanding why you are running the commands, rather than simply typing them out.</p>
-<p>If at any point you are having trouble or have a question, let one of us know and we'll provide 1-to-1 assistance.</p>
-</div>
-<div id="content" class="section level3 hasAnchor" number="2.4.3">
-<h3><span class="header-section-number">2.4.3</span> Content<a href="02-Overview.html#content" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<center>
-<img src="figures/sections.png" style="width:100px; border-radius:5px; background-color:white; border: solid white 5px" />
-</center>
-<p>This practical is broken up into the following broad sections.</p>
+<div id="mcqs-1" class="section level4 unnumbered hasAnchor">
+<h4>MCQs<a href="16-Heatmap.html#mcqs-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ol style="list-style-type: decimal">
-<li><strong>Raw data</strong>: We will first link to a dataset that we have downloaded for this tutorial. We will take a quick look at what the sequence files look like and briefly discuss the origin of the samples.</li>
-<li><strong>Trimming data</strong>: This entails preprocessing our data to ensure that it is of good quality.</li>
-<li><strong>Host removal</strong>: When sequencing the genomic content of host's microbiota (bacteriome, archaeome, mycobiome, and more) it is likely you will also sequence the host's genome. This step shows a method of removing possible host contamination.</li>
-<li><strong>Taxonomic profiling</strong>: We will analyse the dataset to determine the species abundance in each sample. Following this, we will visualise the data and compare the samples.</li>
-<li><strong>Functional profiling</strong>: We will analyse the dataset to determine the pathway abundance and completeness in each sample. Following this, we will visualise the data and compare the samples.</li>
-<li><strong>Metagenome assembly</strong>: Here, we will move away from just analysing the reads directly and will assemble the metagenome into contigs. Prior to this, we will 'stitch' the reads together to ensure we get the best assembly possible.</li>
-<li><strong>Binning</strong>: This step attempts to seperate each assembled genomes into bins. These genome assemblies are called Metagenome-assembled Genomes (MAGs).</li>
-<li><strong>Functional annotation</strong>: We will take our MAGs, predict genes and then functionally annotate them with MetaCyc.</li>
+<li>Which pathway stands out the most?
+<div id="radio_CLLDHKJIBV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CLLDHKJIBV" value=""></input> <span><strong>ARO-PWY</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CLLDHKJIBV" value="answer"></input> <span><strong>DTDPRHAMSYN</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CLLDHKJIBV" value=""></input> <span><strong>PWY-6385</strong></span></label>
+</div></li>
+<li>How many clusters are formed based on diet (Colours on tree at top of heatmap)?
+<div id="radio_PXLLSJIFPD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PXLLSJIFPD" value=""></input> <span><strong>1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PXLLSJIFPD" value="answer"></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PXLLSJIFPD" value=""></input> <span><strong>3</strong></span></label>
+</div></li>
+<li>How many clusters are formed based on pathways (Colours on tree at the side of heatmap)?
+<div id="radio_EPFJAFFKJZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EPFJAFFKJZ" value=""></input> <span><strong>1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EPFJAFFKJZ" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EPFJAFFKJZ" value="answer"></input> <span><strong>3</strong></span></label>
+</div></li>
 </ol>
+<p>You can look up the pathway names in the table file to see a fuller description.</p>
 
-</div>
 </div>
 </div>
 <script>
@@ -601,8 +620,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-<a href="01-Shotgun_metagenomics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="03-Cluster_Introduction.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="15-Multi_sample_processing.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="17-LEfSe_humann.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
