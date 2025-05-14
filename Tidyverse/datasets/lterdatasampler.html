@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.340">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>NEOF Tidyverse - Lterdatasampler</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../datasets/mgrtibbles.html" rel="next">
+<link href="../datasets/datasets.html" rel="prev">
+<link href="..//images/NEOF_favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../include/webex.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">NEOF Tidy R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html" rel="" target="">
+ <span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tibble/tibble.html" rel="" target="">
+ <span class="menu-text">Tibble</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../dplyr/dplyr.html" rel="" target="">
+ <span class="menu-text">Dplyr</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../readr/readr.html" rel="" target="">
+ <span class="menu-text">Readr</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tidyr/tidyr.html" rel="" target="">
+ <span class="menu-text">Tidyr</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../ggplot2/ggplot2.html" rel="" target="">
+ <span class="menu-text">Ggplot2</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../stringr/stringr.html" rel="" target="">
+ <span class="menu-text">Stringr</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../forcats/forcats.html" rel="" target="">
+ <span class="menu-text">Forcats</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../purrr/purrr.html" rel="" target="">
+ <span class="menu-text">Purrr</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../lubridate/lubridate.html" rel="" target="">
+ <span class="menu-text">Lubridate</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../datasets/datasets.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Datasets</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://neof.org.uk/training/" rel="" target=""><i class="bi bi-house-fill" role="img" aria-label="Neof website">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/training-neof/" rel="" target=""><i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://bsky.app/profile/nerc-eof.bsky.social" rel="" target="">
+ <span class="menu-text"><img src="..\images/Bluesky_quarto_navbar.svg" height="20"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../datasets/lterdatasampler.html">Lterdatasampler</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../datasets/datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../datasets/lterdatasampler.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Lterdatasampler</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../datasets/mgrtibbles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mgrtibbles</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#install-and-load" id="toc-install-and-load" class="nav-link active" data-scroll-target="#install-and-load">Install and load</a></li>
+  <li><a href="#accessing-data" id="toc-accessing-data" class="nav-link" data-scroll-target="#accessing-data">Accessing data</a></li>
+  <li><a href="#datasets" id="toc-datasets" class="nav-link" data-scroll-target="#datasets">Datasets</a>
+  <ul class="collapse">
+  <li><a href="#and_vertebrates" id="toc-and_vertebrates" class="nav-link" data-scroll-target="#and_vertebrates">and_vertebrates</a></li>
+  <li><a href="#arc_weather" id="toc-arc_weather" class="nav-link" data-scroll-target="#arc_weather">arc_weather</a></li>
+  <li><a href="#hbr_maples" id="toc-hbr_maples" class="nav-link" data-scroll-target="#hbr_maples">hbr_maples</a></li>
+  <li><a href="#knz_bison" id="toc-knz_bison" class="nav-link" data-scroll-target="#knz_bison">knz_bison</a></li>
+  <li><a href="#luq_streamchem" id="toc-luq_streamchem" class="nav-link" data-scroll-target="#luq_streamchem">luq_streamchem</a></li>
+  <li><a href="#ntl_icecover" id="toc-ntl_icecover" class="nav-link" data-scroll-target="#ntl_icecover">ntl_icecover</a></li>
+  <li><a href="#ntl_airtemp" id="toc-ntl_airtemp" class="nav-link" data-scroll-target="#ntl_airtemp">ntl_airtemp</a></li>
+  <li><a href="#nwt_pikas" id="toc-nwt_pikas" class="nav-link" data-scroll-target="#nwt_pikas">nwt_pikas</a></li>
+  <li><a href="#pie_crab" id="toc-pie_crab" class="nav-link" data-scroll-target="#pie_crab">pie_crab</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lterdatasampler</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<center>
+<img src="./images/lterdatasampler.png" class="img-fluid" style="width:150px">
+</center>
+<p><strong>Lterdatasampler</strong> is a R package containing various datasets. These datasets were generated by the <a href="https://lternet.edu/">Long Term Ecological Research program (LTER) Network</a>. They were curated into a R package by <a href="https://allisonhorst.com/">Allison Horst</a> and <a href="https://brunj7.github.io/">Julien Brun</a>.</p>
+<p>For full information please see the <a href="https://lter.github.io/lterdatasampler/">lterdatasampler website</a></p>
+<section id="install-and-load" class="level2">
+<h2 class="anchored" data-anchor-id="install-and-load">Install and load</h2>
+<p>Installation and loading instruction below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"lterdatasampler"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"lterdatasampler"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="accessing-data" class="level2">
+<h2 class="anchored" data-anchor-id="accessing-data">Accessing data</h2>
+<p>Once you have installed and loaded the package you can access one of the various datasets as a <a href="../tibble/tibble.html"><strong>tibble</strong></a> like below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">as_tibble</span>(lterdatasampler<span class="sc">::</span>and_vertebrates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32,209 × 16
+    year sitecode section reach  pass unitnum unittype vert_index pitnumber
+   &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt;
+ 1  1987 MACKCC-L CC      L         1       1 R                 1        NA
+ 2  1987 MACKCC-L CC      L         1       1 R                 2        NA
+ 3  1987 MACKCC-L CC      L         1       1 R                 3        NA
+ 4  1987 MACKCC-L CC      L         1       1 R                 4        NA
+ 5  1987 MACKCC-L CC      L         1       1 R                 5        NA
+ 6  1987 MACKCC-L CC      L         1       1 R                 6        NA
+ 7  1987 MACKCC-L CC      L         1       1 R                 7        NA
+ 8  1987 MACKCC-L CC      L         1       1 R                 8        NA
+ 9  1987 MACKCC-L CC      L         1       1 R                 9        NA
+10  1987 MACKCC-L CC      L         1       1 R                10        NA
+# ℹ 32,199 more rows
+# ℹ 7 more variables: species &lt;chr&gt;, length_1_mm &lt;dbl&gt;, length_2_mm &lt;dbl&gt;,
+#   weight_g &lt;dbl&gt;, clip &lt;chr&gt;, sampledate &lt;date&gt;, notes &lt;chr&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="datasets" class="level2">
+<h2 class="anchored" data-anchor-id="datasets">Datasets</h2>
+<p>Below is the infomration on all the datasets within the package (as of 25th April 2025)</p>
+<section id="and_vertebrates" class="level3">
+<h3 class="anchored" data-anchor-id="and_vertebrates">and_vertebrates</h3>
+<p>Records for aquatic vertebrates (cutthroat trout and salamanders) in Mack Creek, Andrews Experimental Forest, Oregon (1987 - present)</p>
+<div class="webex-solution">
+<button>
+List of variables
+</button>
+<ul>
+<li><strong>year</strong>: a number indicating the observation year</li>
+<li><strong>sitecode</strong>: a character denoting the coded name of sample area</li>
+<li><strong>section</strong>: a character denoting the section in Mack Creek (CC = clear cut forest, OG = upstream old growth coniferous forest)</li>
+<li><strong>reach</strong>: a character denoting the reach sampled from each section; L = lower reach (0 - 50 meters), M = middle reach (50 - 100 meters), U = upper reach (100 150 meters)</li>
+<li><strong>pass</strong>: a number denoting the electroshocking pass number, either 1 or 2</li>
+<li><strong>unitnum</strong>: a number denoting the channel unit number</li>
+<li><strong>unittype</strong>: a character denoting the channel unit classification type (C = cascade, I = riffle, IP = isolated pool (not connected to channel), P = pool, R = rapid, S = step (small falls), SC = side channel, NA = not sampled by unit)</li>
+<li><strong>vert_index</strong>: a number denoting the unique index for each vertebrate</li>
+<li><strong>pitnumber</strong>: a number denoting the unique tag number embedded into vertebrate (tagging started in 2007)</li>
+<li><strong>species</strong>: a character denoting species measured</li>
+<li><strong>length_1_mm</strong>: a number denoting vertebrate length in millimeters; total or snout-fork length for trout, and snout-vent length for salamanders</li>
+<li><strong>length_2_mm</strong>: a number denoting snout-tail length in millimeters (for Coastal giant salamander only)</li>
+<li><strong>weight_g</strong>: a number denoting vertebrate mass in grams</li>
+<li><strong>clip</strong>: a character denoting the fin clip type for cutthroat trout, ended in 2006 (LV = left ventral fin; LVRV = left and right ventral fins; RV = right ventral fin; NONE = no ventral fin clip)</li>
+<li><strong>sampledate</strong>: a date denoting the date of observation</li>
+<li><strong>notes</strong>: a character denoting additional comments</li>
+</ul>
+</div>
+<p><a href="https://lter.github.io/lterdatasampler/reference/and_vertebrates.html">Webpage link</a></p>
+</section>
+<section id="arc_weather" class="level3">
+<h3 class="anchored" data-anchor-id="arc_weather">arc_weather</h3>
+<p>Daily meteorological (e.g.&nbsp;air temperature, precipitation) records from Toolik Field Station, Alaska (1988 - present)</p>
+<div class="webex-solution">
+<button>
+List of variables
+</button>
+<ul>
+<li><strong>date</strong>: a date denoting recorded date</li>
+<li><strong>station</strong>: a character denoting the station</li>
+<li><strong>mean_airtemp</strong>: a number denoting mean daily air temperature in degrees Celsius</li>
+<li><strong>daily_precip</strong>:a number denoting total daily precipitation in millimeters</li>
+<li><strong>mean_windspeed</strong>: a number denoting daily mean windspeed in meters per second</li>
+</ul>
+</div>
+<p><a href="https://lter.github.io/lterdatasampler/reference/arc_weather.html">Webpage link</a></p>
+</section>
+<section id="hbr_maples" class="level3">
+<h3 class="anchored" data-anchor-id="hbr_maples">hbr_maples</h3>
+<p>Sugar maple seedlings at Hubbard Brook Experimental Forest (New Hampshire) in calcium-treated and reference watersheds in August 2003 and June 2004</p>
+<div class="webex-solution">
+<button>
+List of variables
+</button>
+<ul>
+<li><strong>year</strong>: a number denoting the year that the sample was taken</li>
+<li><strong>watershed</strong>: a factor denoting the watershed where the sample was collected; W1 = calcium-treated, Reference = reference</li>
+<li><strong>elevation</strong>: a factor describing the Elevation of transect; Low = low elevation, Mid = mid elevation</li>
+<li><strong>transect</strong>: a factor denoting the transect number within the watershed</li>
+<li><strong>sample</strong>: a factor denoting the sample number within transect. There are twenty samples in each transect</li>
+<li><strong>stem_length</strong>: a number denoting the height of the seedling in millimeters</li>
+<li><strong>leaf1area</strong>: a number denoting the area of the first sampled leaf in square centimeters</li>
+<li><strong>leaf2area</strong>: a number denoting the area of the second sampled leaf in square centimeters</li>
+<li><strong>leaf_dry_mass</strong>: a number denoting the dry mass of both sampled leaves in grams</li>
+<li><strong>stem_dry_mass</strong>: a number denoting the dry mass of the stem in grams</li>
+<li><strong>corrected_leaf_area</strong>: a number denoting the area of both leaves in addition to the area removed for chlorophyll measurements in square centimeters</li>
+</ul>
+</div>
+<p><a href="https://lter.github.io/lterdatasampler/reference/hbr_maples.html">Webpage link</a></p>
+</section>
+<section id="knz_bison" class="level3">
+<h3 class="anchored" data-anchor-id="knz_bison">knz_bison</h3>
+<p>Bison masses recorded for the herd at Konza Prairie Biological Station LTER</p>
+<div class="webex-solution">
+<button>
+List of variables
+</button>
+<ul>
+<li><strong>data_code</strong>: a character denoting the dataset code</li>
+<li><strong>rec_year</strong>: a number denoting the year of observation</li>
+<li><strong>rec_month</strong>: a number denoting the month of observation</li>
+<li><strong>rec_day</strong>: a number denoting the day of observation</li>
+<li><strong>animal_code</strong>: a character denoting the unique individual bison identification code based on ear tag number</li>
+<li><strong>animal_sex</strong>: a character denoting the sex of bison: M = male, F = female, U = unknown</li>
+<li><strong>animal_weight</strong>: a number denoting bison weight in pounds</li>
+<li><strong>animal_yob</strong>: a number denoting the year animal was born</li>
+</ul>
+</div>
+<p><a href="https://lter.github.io/lterdatasampler/reference/knz_bison.html">Webpage link</a></p>
+</section>
+<section id="luq_streamchem" class="level3">
+<h3 class="anchored" data-anchor-id="luq_streamchem">luq_streamchem</h3>
+<p>Stream chemistry data for the Quebrada Sonadora (QS) location part of the Luqillo tropical forest LTER site</p>
+<div class="webex-solution">
+<button>
+List of variables
+</button>
+<ul>
+<li><strong>Sample_ID</strong>: a character denoting Watershed or Collector’s location where the sample is taken</li>
+<li><strong>Sample_Date</strong>: a date denoting the date when the sample was collected</li>
+<li><strong>Gage_Ht</strong>: a number denoting the height of the water surface above the gage datum (zero point) at sampling time (in meters)</li>
+<li><strong>Temp</strong>: a number denoting the temperature of the sample collected</li>
+<li><strong>pH</strong>: a number pH (Electrometric with combination electrode)</li>
+<li><strong>Cond</strong>: a number denoting the conductivity (Conductivity bridge in micro siemens/cm)</li>
+<li><strong>Cl</strong>: a number denoting the concentration of Chloride (up to 1989 by automated colorimetric analysis (thiocyanate); after 1989 by liquid chromatography with conductivity detection) in mg Cl/L</li>
+<li><strong>NO3</strong>: a number denoting the concentration of dissolved nitrate in the stream water in ug N/L</li>
+<li><strong>SO4-S</strong>: a number denoting the concentration of Sulfate (Liquid chromatography; conductivity detection) in mg/L</li>
+<li><strong>Na</strong>: a number denoting the concentration of Sodium (up to 1994 by atomic absorption spectroscopy) in mg/L</li>
+<li><strong>K</strong>: a number denoting the concentration of Potassium (up to 1994 by atomic absorption spectroscopy) in mg/L</li>
+<li><strong>Mg</strong>: a number denoting the concentration of Magnesium (up to 1994 by atomic absorption spectroscopy) in mg/L</li>
+<li><strong>Ca</strong>: a number denoting the concentration of Calcium (up to 1994 by atomic absorption spectroscopy) in mg/L</li>
+<li><strong>NH4-N</strong>: a number denoting the concentration of Ammonium Nitrogen (automated colorimetric analysis (phenolhypochlorite)) in ug N/L</li>
+<li><strong>DOC</strong>: a number denoting Dissolved Organic Carbon in the stream water ion milligrams carbon per liter (mg C/L)</li>
+<li><strong>DIC</strong>: a number denoting Dissolved Inorganic Carbon (by syringe stripping and infrared spectroscopy (Stainton 1973)) in mg C/L</li>
+<li><strong>SiO2</strong>: a number denoting the concentration of Silica (automated colorimetric analysis (molybdate blue)) in mg SiO2/L</li>
+<li><strong>TSS</strong>: a number denoting the Total Suspended Sediments in mg/L</li>
+</ul>
+</div>
+<p><a href="https://lter.github.io/lterdatasampler/reference/luq_streamchem.html">Webpage link</a></p>
+</section>
+<section id="ntl_icecover" class="level3">
+<h3 class="anchored" data-anchor-id="ntl_icecover">ntl_icecover</h3>
+<p>Ice freeze and thaw dates for Madison, Wisconsin Area lakes (1853 - 2019), North Temperate Lakes LTER</p>
+<div class="webex-solution">
+<button>
+List of variables
+</button>
+<ul>
+<li><strong>lakeid</strong>: a factor denoting the lake name</li>
+<li><strong>ice_on</strong>: a date denoting the freeze date of each lake</li>
+<li><strong>ice_off</strong>: a date denoting the ice breakup date of each lake</li>
+<li><strong>ice_duration</strong>: a number denoting the number of days between the freeze and breakup dates of each lake</li>
+<li><strong>year</strong>: a number denoting the year of observation</li>
+</ul>
+</div>
+<p><a href="https://lter.github.io/lterdatasampler/reference/ntl_icecover.html">Webpage link</a></p>
+</section>
+<section id="ntl_airtemp" class="level3">
+<h3 class="anchored" data-anchor-id="ntl_airtemp">ntl_airtemp</h3>
+<p>Daily average air temperature data for Madison, Wisconsin (1869 - 2019), North Temperate Lakes LTER</p>
+<div class="webex-solution">
+<button>
+List of variables
+</button>
+<ul>
+<li><strong>sampledate</strong>: a date denoting the day of collection</li>
+<li><strong>year</strong>: a number denoting the year of observation</li>
+<li><strong>ave_air_temp_adjusted</strong>: a number denoting the air temperature in degrees Celsius, collected in Madison, WI and adjusted for biases</li>
+</ul>
+</div>
+<p><a href="https://lter.github.io/lterdatasampler/reference/ntl_airtemp.html">Webpage link</a></p>
+</section>
+<section id="nwt_pikas" class="level3">
+<h3 class="anchored" data-anchor-id="nwt_pikas">nwt_pikas</h3>
+<p>Pika observations for habitat and stress analysis at Niwot Ridge LTER, Colorado</p>
+<div class="webex-solution">
+<button>
+List of variables
+</button>
+<ul>
+<li><strong>date</strong>: a date denoting the observation date of the fecal sample</li>
+<li><strong>site</strong>: a factor denoting the location where the fecal sample was collected within Niwot Ridge</li>
+<li><strong>station</strong>: a factor denoting the sample station where the fecal sample was collected</li>
+<li><strong>utm_easting</strong>: a number denoting the GPS E-W coordinate of the sampling station as Universal Transverse Mercator easting; NAD83, Zone 13. Measured in meters.</li>
+<li><strong>utm_northing</strong>: a number denoting the GPS N-S coordinate of the sampling stations as Universal Transverse Mercator northing; NAD83, Zone 13. Measured in meters.</li>
+<li><strong>sex</strong>: a factor denoting the sex of the observed pika</li>
+<li><strong>concentration_pg_m</strong>: a number denoting the glucocorticoid metabolite (GCM) concentration in picogram GCM/gram dry pika feces -<strong>elev_m</strong>: a number denoting the elevation in meters of the sampling station where the fecal sample was collected</li>
+</ul>
+</div>
+<p><a href="https://lter.github.io/lterdatasampler/reference/nwt_pikas.html">Webpage link</a></p>
+</section>
+<section id="pie_crab" class="level3">
+<h3 class="anchored" data-anchor-id="pie_crab">pie_crab</h3>
+<p>Fiddler crab body size recorded summer 2016 in salt marshes from Florida to Massachusetts including Plum Island Ecosystem LTER, Virginia Coast LTER, and NOAA’s National Estuarine Research Reserve System</p>
+<div class="webex-solution">
+<button>
+List of variables
+</button>
+<ul>
+<li><strong>date</strong>: a date denoting the date crabs were collected</li>
+<li><strong>latitude</strong>: a number denoting the latitude of salt marsh (degree)</li>
+<li><strong>site</strong>: a character denoting the location where crabs were collected (abbreviation of site name); GTM=Guana Tolomoto Matanzas NERR | SI=Sapelo Island NERR |NIB=North Inlet Winyah Bay NERR | ZI=Zeke’s Island NERR | RC=Rachel Carson NERR | VCR=Virginia Coastal Reserve LTER | DB=Delaware Bay NERR |JC=Jacques Cousteau NERR | CT=Sixpenny Island - Connecticut |NB=Narragansett Bay NERR | CC=Cape Cod | BC=Bare Cove Park | PIE=Plum Island Estuary - West Creek</li>
+<li><strong>size</strong>: a number denoting carapace width of a crab (millimeter)</li>
+<li><strong>air_temp</strong>: a number denoting mean annual air temperature (Celsius)</li>
+<li><strong>air_temp_sd</strong>: a number denoting the standard deviation of mean annual air temperature (Celsius)</li>
+<li><strong>water_temp</strong>: a number denoting mean annual water temperature (Celcius), which is surface temperature (&lt; 1m)</li>
+<li><strong>water_temp_sd</strong>: a number denoting the standard deviation of mean annual water temperature (Celsius)</li>
+<li><strong>name</strong>: full name of research site; LTER, Long-Term Ecological Research site; NERR, National Estuarine Research Reserve</li>
+</ul>
+</div>
+<p><a href="https://lter.github.io/lterdatasampler/reference/pie_crab.html">Webpage link</a></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../datasets/datasets.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Datasets</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../datasets/mgrtibbles.html" class="pagination-link">
+        <span class="nav-page-text">Mgrtibbles</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="CC BY-SA 4.0" height="30"></a></div>   
+    <div class="nav-footer-center"><a href="https://neof.org.uk/"><img src="..\images/NEOF_rounded_corners.png" alt="NEOF" height="60"></a></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
