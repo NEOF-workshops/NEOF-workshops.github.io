@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson and Ewan Harney" />
 
 
-<meta name="date" content="2025-05-16" />
+<meta name="date" content="2025-05-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -215,7 +215,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="blast2megan" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">Chapter 6</span> More BLAST and MEGAN<a href="06-blast2megan.html#blast2megan" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figures/taxonomy.png" width="200px" style="display: block; margin: auto;" /></p>
+<center>
+<img src="figures/taxonomy.png" style="width:200px; background:white; border-radius:15px; border: white 5px solid" />
+</center>
 <div id="introduction-to-blast2megan" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Introduction to blast2megan<a href="06-blast2megan.html#introduction-to-blast2megan" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We may want to scale up the approaches described in chapters 04 and 05 to allow us to process larger data sets more rapidly. In this chapter we explain two ways you could do this:</p>
@@ -334,10 +336,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 The output of blast2lca includes information about the most probable taxa down to species level. This information is known as a taxon path. The default output looks something like this:<br />
 <br>
 <center>
-<img src="figures/megan_full_example.png" style="width:1000px" />
+<img src="figures/megan_full_example.png" style="width:1000px; border: #1c1c1c 5px solid; border-radius:5px" />
 </center>
 <p><br>
-<br>
 At first glance this looks rather a mess. There are many missing values denoted by 'unknown'. This is because of the way blast2lca handles differences between prokaryotes and eukaryotes. Because these domains have a different number of taxonomic ranks (7 in prokaryotes, 8 in eukaryotes), blast2lca first checks the taxon path for prokaryotes (e.g. ASV_1032 in the example above) and writes 'unknown' if the domain is not prokaryotic. Thus for every eukaryotic sequence 6 values of 'unknown' are written between the domain and the kingdom.</p>
 <p>Notice also that every taxonomic rank has a trailling number associated with it: this is the percentage of blast hits that match that taxon. If this number is less than 100 then there is some ambiguity about the identity of the taxon. It is recommended to only use taxonomic assignments that have 100% support. The lowest taxonomic level rank with 100% support is the lowest common ancestor.</p>
 <p>Occasionally taxon paths will be missing information for intermediate taxonomic ranks. This could be for genuine taxonomic reasons (in the example above ASV_1089 is associated with the <a href="https://en.wikipedia.org/wiki/Lymnaeidae">Lymnaeidae</a> family of snails which belong to a superfamily, a superorder, and an infraclass, but not a regular order), or it may reflect missing data in the databases.</p>
@@ -352,16 +353,14 @@ At first glance this looks rather a mess. There are many missing values denoted 
 <li>megan_summary_out.tsv outputs just the LCA rank (s for species, g for genus etc) and the LCA. The output looks like this:<br />
 <br>
 <center>
-<img src="figures/megan_summary_example.png" style="width:250px" />
+<img src="figures/megan_summary_example.png" style="width:250px; border: #1c1c1c 5px solid; border-radius:5px" />
 </center>
-<br>
 <br></li>
 <li>megan_taxonpath_out.tsv contains all the taxonomic information down to the LCA, with NAs for ambiguous levels. The output looks like this:<br />
 <br>
 <center>
-<img src="figures/megan_taxonpath_example.png" style="width:900px" />
+<img src="figures/megan_taxonpath_example.png" style="width:900px; border: #1c1c1c 5px solid; border-radius:5px" />
 </center>
-<br>
 <br>
 The awk and sed commands are not provided here, but if you look inside the script <a href="https://github.com/ewan-harney/hpc_blast2megan/blob/main/b2m_scripts/02_run_blast2lca.sh">02_run_blast2lca.sh</a> you will see that they all make use of <code>awk</code> conditional statements. Although the code appears a little complex at first, the idea behind awk conditional statements is a simple one: <code>if</code> some argument is true, do 'A', <code>else</code> do 'B'. In this script, many awk conditional statements have been joined together using the pipe '|'.</li>
 </ul>
