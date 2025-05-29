@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>NEOF Tidyverse - Readr</title>
+<title>NEOF Tidyverse - Write</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../readr/read.html" rel="next">
+<link href="../readr/cheatsheets.html" rel="next">
+<link href="../readr/read_misc.html" rel="prev">
 <link href="..//images/NEOF_favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -156,7 +191,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../readr/readr.html">Readr</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../readr/write.html">Write</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -170,7 +205,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../readr/readr.html" class="sidebar-item-text sidebar-link active">
+  <a href="../readr/readr.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Readr</span></a>
   </div>
 </li>
@@ -205,7 +240,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../readr/write.html" class="sidebar-item-text sidebar-link">
+  <a href="../readr/write.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Write</span></a>
   </div>
 </li>
@@ -225,12 +260,26 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  <li><a href="#sections" id="toc-sections" class="nav-link" data-scroll-target="#sections">Sections</a>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data">Data</a></li>
+  <li><a href="#comma-delimited" id="toc-comma-delimited" class="nav-link" data-scroll-target="#comma-delimited">Comma delimited</a>
   <ul class="collapse">
-  <li><a href="#read" id="toc-read" class="nav-link" data-scroll-target="#read">Read</a></li>
-  <li><a href="#write" id="toc-write" class="nav-link" data-scroll-target="#write">Write</a></li>
+  <li><a href="#write-comma-delimited-file" id="toc-write-comma-delimited-file" class="nav-link" data-scroll-target="#write-comma-delimited-file">Write comma delimited file</a></li>
+  <li><a href="#comma-delimited-file-contents" id="toc-comma-delimited-file-contents" class="nav-link" data-scroll-target="#comma-delimited-file-contents">Comma delimited file contents</a></li>
+  </ul></li>
+  <li><a href="#tab-delimited" id="toc-tab-delimited" class="nav-link" data-scroll-target="#tab-delimited">Tab delimited</a>
+  <ul class="collapse">
+  <li><a href="#write-tab-delimited-file" id="toc-write-tab-delimited-file" class="nav-link" data-scroll-target="#write-tab-delimited-file">Write tab delimited file</a></li>
+  <li><a href="#tab-delimited-file-contents" id="toc-tab-delimited-file-contents" class="nav-link" data-scroll-target="#tab-delimited-file-contents">Tab delimited file contents</a></li>
+  </ul></li>
+  <li><a href="#space-delimited" id="toc-space-delimited" class="nav-link" data-scroll-target="#space-delimited">Space delimited</a>
+  <ul class="collapse">
+  <li><a href="#write-space-delimited-file" id="toc-write-space-delimited-file" class="nav-link" data-scroll-target="#write-space-delimited-file">Write space delimited file</a></li>
+  <li><a href="#space-delimited-file-contents" id="toc-space-delimited-file-contents" class="nav-link" data-scroll-target="#space-delimited-file-contents">Space delimited file contents</a></li>
+  </ul></li>
+  <li><a href="#non-standard-delimiters" id="toc-non-standard-delimiters" class="nav-link" data-scroll-target="#non-standard-delimiters">Non-standard delimiters</a>
+  <ul class="collapse">
+  <li><a href="#write-non-standard-delimited-file" id="toc-write-non-standard-delimited-file" class="nav-link" data-scroll-target="#write-non-standard-delimited-file">Write non-standard delimited file</a></li>
+  <li><a href="#non-standard-delimited-file-contents" id="toc-non-standard-delimited-file-contents" class="nav-link" data-scroll-target="#non-standard-delimited-file-contents">Non-standard delimited file contents</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -240,7 +289,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Readr</h1>
+<h1 class="title">Write</h1>
 </div>
 
 
@@ -255,43 +304,136 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<center>
-<img src="../images/readr.png" class="img-fluid" style="width:150px">
-</center>
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p><code>Readr</code> is primarily used to read in <strong>rectangular data</strong> from a <strong>delimited file</strong> into R as a <a href="../tibble/tibble.html">tibble</a> or write data to a file.</p>
-<p><strong>Rectangular data</strong> generally refers to tables.</p>
-<p><strong>Delimited data</strong> means that the columns/fields are delimited/separated by a character. Common delimiting characters include spaces (<code></code>), commas (<code>,</code>), and tabs (<code>\t</code>).</p>
-<p><a href="https://readr.tidyverse.org/">readr homepage</a></p>
-</section>
+<p>Although there are specific functions for some delimiters this page will show you how to write out data with any delimiter using <code>readr::write_delim()</code> and the <code>delim=</code> option.</p>
+<p>The most common types of delimiters for rectangular data files are:</p>
+<ul>
+<li>Commas (<code>,</code>): Files with commas as delimiters are known as CSV files (Comma Separated Values) and commonly end with the suffix <strong>.csv</strong>.</li>
+<li>Tabs (<code>\t</code>): Files with tabs as delimiters are known as TSV files (Tab Separated Values) and commonly end with the suffix <strong>.tsv</strong>.</li>
+<li>Spaces (<code></code>): Spaces are used as delimiters for many files but are generally not recommended in data science.</li>
+</ul>
+<p>Additionally, non-standard delimiters can be specified. Tilde (<code>~</code>), Colon (<code>:</code>), Semi-colon (<code>;</code>), Pipe (<code>|</code>) are commonly used as non-standard delimiters.</p>
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>Rather than downloading files to then read in to R, we will use the URL of files uploaded to this website.</p>
-<p>If you are interested in information and/or downloading the data you can view the following page: <a href="../datasets/data_files.html">Data files</a></p>
+<p>We’ll write the first five lines of <a href="https://neof-workshops.github.io/Tidyverse/data/all_plant_details.csv">all_plant_details.csv</a> to various files with different delimiters.</p>
+<p>For convenience read in the data, slice it and assign it to a variable called <strong>plant_detail_slice_tbl</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>plant_detail_slice_tbl <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_delim</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> <span class="st">"https://neof-workshops.github.io/Tidyverse/data/all_plant_details.csv"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">","</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="sections" class="level2">
-<h2 class="anchored" data-anchor-id="sections">Sections</h2>
-<p>The sections of <code>readr</code> are summarised below.</p>
-<section id="read" class="level3">
-<h3 class="anchored" data-anchor-id="read">Read</h3>
-<p>The <code>readr::read_delim()</code> function reads in <strong>delimited rectangular data</strong> from a file to a <strong>tibble</strong>.</p>
-<p>Topics covered are:</p>
+<section id="comma-delimited" class="level2">
+<h2 class="anchored" data-anchor-id="comma-delimited">Comma delimited</h2>
+<p>To write a data to a file with comma (<code>,</code>) delimiters you can use the option <code>delim = ","</code>.</p>
+<section id="write-comma-delimited-file" class="level3">
+<h3 class="anchored" data-anchor-id="write-comma-delimited-file">Write comma delimited file</h3>
+<p>Write the variable <strong>plant_detail_slice_tbl</strong> to a comma delimited file called <strong>all_plant_slice.csv</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">write_delim</span>(plant_detail_slice_tbl, <span class="st">"plant_detail_slice.csv"</span>, <span class="at">delim =</span> <span class="st">","</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="comma-delimited-file-contents" class="level3">
+<h3 class="anchored" data-anchor-id="comma-delimited-file-contents">Comma delimited file contents</h3>
+<p>Print the file contents of <strong>all_plant_slice.txt</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(<span class="st">"plant_detail_slice.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "id,common_name,seeds,drought_tolerant,salt_tolerant,thorny,invasive,tropical,indoor,flowers,cones,fruits,edible_fruit,leaf,edible_leaf,cuisine,medicinal,poisonous_to_humans,poisonous_to_pets,sunlight_part_sun_part_shade,sunlight_full_shade,sunlight_deep_shade,sunlight_part_shade,sunlight_full_sun_only_if_soil_kept_moist,sunlight_full_sun,sunlight_filtered_shade,care_level_encoded,maintenance_encoded,watering_encoded,growth_rate_encoded,cycle_perennial,cycle_herbaceous_perennial,cycle_annual"
+[2] "425,flowering-maple,0,1,0,1,0,1,1,1,0,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,2,0,2,0,1,0,0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[3] "426,flowering-maple,0,1,0,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[4] "427,flowering-maple,0,1,0,0,0,1,1,1,0,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[5] "428,flowering-maple,0,1,1,0,0,1,1,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,2,1,1,0,1,0,0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[6] "434,Jacob's coat,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,2,0,2,0,1,0,0"                                                                                                                                                                                                                                                                                                                                                                                                                                 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="tab-delimited" class="level2">
+<h2 class="anchored" data-anchor-id="tab-delimited">Tab delimited</h2>
+<p>To write a data to a file with comma (<code>\t</code>) delimiters you can use the option <code>delim = "\t"</code>.</p>
+<section id="write-tab-delimited-file" class="level3">
+<h3 class="anchored" data-anchor-id="write-tab-delimited-file">Write tab delimited file</h3>
+<p>Write the variable <strong>plant_detail_slice_tbl</strong> to a tab delimited file called <strong>all_plant_slice.tsv</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">write_delim</span>(plant_detail_slice_tbl, <span class="st">"plant_detail_slice.tsv"</span>, <span class="at">delim =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="tab-delimited-file-contents" class="level3">
+<h3 class="anchored" data-anchor-id="tab-delimited-file-contents">Tab delimited file contents</h3>
+<p>Print the file contents of <strong>all_plant_slice.tsv</strong>.</p>
+<p>If you were to open the file in a text editor it would most likely represent the <code>\t</code> characters as tab space.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(<span class="st">"plant_detail_slice.tsv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "id\tcommon_name\tseeds\tdrought_tolerant\tsalt_tolerant\tthorny\tinvasive\ttropical\tindoor\tflowers\tcones\tfruits\tedible_fruit\tleaf\tedible_leaf\tcuisine\tmedicinal\tpoisonous_to_humans\tpoisonous_to_pets\tsunlight_part_sun_part_shade\tsunlight_full_shade\tsunlight_deep_shade\tsunlight_part_shade\tsunlight_full_sun_only_if_soil_kept_moist\tsunlight_full_sun\tsunlight_filtered_shade\tcare_level_encoded\tmaintenance_encoded\twatering_encoded\tgrowth_rate_encoded\tcycle_perennial\tcycle_herbaceous_perennial\tcycle_annual"
+[2] "425\tflowering-maple\t0\t1\t0\t1\t0\t1\t1\t1\t0\t0\t0\t1\t0\t0\t1\t0\t0\t0\t0\t0\t1\t0\t1\t0\t2\t0\t2\t0\t1\t0\t0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[3] "426\tflowering-maple\t0\t1\t0\t0\t0\t0\t1\t1\t0\t0\t0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t1\t0\t1\t0\t1\t0\t1\t0\t1\t0\t0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[4] "427\tflowering-maple\t0\t1\t0\t0\t0\t1\t1\t1\t0\t0\t0\t1\t0\t0\t1\t0\t0\t0\t0\t0\t1\t0\t1\t0\t1\t0\t1\t0\t1\t0\t0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[5] "428\tflowering-maple\t0\t1\t1\t0\t0\t1\t1\t1\t0\t0\t0\t1\t0\t0\t1\t0\t0\t0\t0\t0\t0\t0\t1\t0\t2\t1\t1\t0\t1\t0\t0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[6] "434\tJacob's coat\t0\t0\t0\t0\t0\t0\t1\t1\t0\t0\t0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t1\t0\t1\t0\t2\t0\t2\t0\t1\t0\t0"                                                                                                                                                                                                                                                                                                                                                                                                                                 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="space-delimited" class="level2">
+<h2 class="anchored" data-anchor-id="space-delimited">Space delimited</h2>
+<p>By default <code>readr::write_delim()</code> will use a space as the delimiter character. Therefore you do not need to provide the <code>delim=</code> option.</p>
+<section id="write-space-delimited-file" class="level3">
+<h3 class="anchored" data-anchor-id="write-space-delimited-file">Write space delimited file</h3>
+<p>Write the variable <strong>plant_detail_slice_tbl</strong> to a space delimited file called <strong>all_plant_slice.txt</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">write_delim</span>(plant_detail_slice_tbl, <span class="st">"plant_detail_slice.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="space-delimited-file-contents" class="level3">
+<h3 class="anchored" data-anchor-id="space-delimited-file-contents">Space delimited file contents</h3>
+<p>Print the file contents of <strong>all_plant_slice.txt</strong>.</p>
+<p>You will notice the 6th line has <strong>"Jacob’s coat"</strong>. As this value had a space the <code>\"</code> are used to indicate that <strong>Jacob’s coat</strong> is the value within one field.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(<span class="st">"plant_detail_slice.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "id common_name seeds drought_tolerant salt_tolerant thorny invasive tropical indoor flowers cones fruits edible_fruit leaf edible_leaf cuisine medicinal poisonous_to_humans poisonous_to_pets sunlight_part_sun_part_shade sunlight_full_shade sunlight_deep_shade sunlight_part_shade sunlight_full_sun_only_if_soil_kept_moist sunlight_full_sun sunlight_filtered_shade care_level_encoded maintenance_encoded watering_encoded growth_rate_encoded cycle_perennial cycle_herbaceous_perennial cycle_annual"
+[2] "425 flowering-maple 0 1 0 1 0 1 1 1 0 0 0 1 0 0 1 0 0 0 0 0 1 0 1 0 2 0 2 0 1 0 0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[3] "426 flowering-maple 0 1 0 0 0 0 1 1 0 0 0 1 0 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[4] "427 flowering-maple 0 1 0 0 0 1 1 1 0 0 0 1 0 0 1 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[5] "428 flowering-maple 0 1 1 0 0 1 1 1 0 0 0 1 0 0 1 0 0 0 0 0 0 0 1 0 2 1 1 0 1 0 0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[6] "434 \"Jacob's coat\" 0 0 0 0 0 0 1 1 0 0 0 1 0 0 0 0 0 0 0 0 1 0 1 0 2 0 2 0 1 0 0"                                                                                                                                                                                                                                                                                                                                                                                                                             </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="non-standard-delimiters" class="level2">
+<h2 class="anchored" data-anchor-id="non-standard-delimiters">Non-standard delimiters</h2>
+<p>You can use many other characters as delimiters when writing files. This can be useful if your data contains the three common delimiters (comm, tab, and space).</p>
+<p>The most common non-standard delimiters are:</p>
 <ul>
-<li><a href="../readr/read.html">Read_delim()</a>: Reading in data with <code>readr::read_delim()</code> and specifying the delimiter with <code>delim=</code>. Common delimiters are comma (<code>,</code>), tab (<code>\t</code>), and space (<code></code>).</li>
-<li><a href="../readr/column_types.html">Column types</a>: Specifying the data types (double, integer, character, factor, logical etc.) of the columns when reading in data with <code>readr::read_delim()</code>. Particularly important when you want integer or factor columns.</li>
-<li><a href="../readr/read_misc.html">Misc read options</a>: Three miscellaneous options for <code>readr::read_delim()</code>.
-<ul>
-<li><code>id=</code>: Adds an ID column containing the file path.</li>
-<li><code>skip=</code>: Skips a specified number of lines from the top of the file.</li>
-<li><code>n_max=</code>: Specify the max number of lines/rows to read into a <strong>tibble</strong>.</li>
-</ul></li>
+<li><strong>Tilde</strong> (<code>~</code>)</li>
+<li><strong>Colon</strong> (<code>:</code>)</li>
+<li><strong>Semi-colon</strong> (<code>;</code>)</li>
+<li><strong>Pipe</strong> (<code>|</code>)</li>
 </ul>
-<p><a href="https://readr.tidyverse.org/reference/read_delim.html">Tidyverse reference page</a></p>
+<section id="write-non-standard-delimited-file" class="level3">
+<h3 class="anchored" data-anchor-id="write-non-standard-delimited-file">Write non-standard delimited file</h3>
+<p>Write the variable <strong>plant_detail_slice_tbl</strong> to a pipe (<code>|</code>) delimited file called <strong>all_plant_slice.pipe_delimit.text</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">write_delim</span>(plant_detail_slice_tbl, <span class="st">"plant_detail_slice.pipe_delimit.text"</span>, <span class="at">delim =</span> <span class="st">"|"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="write" class="level3">
-<h3 class="anchored" data-anchor-id="write">Write</h3>
-<p>The <a href="../readr/write.html"><code>readr::write_delim()</code></a> writes <strong>tibbles</strong> and other table data to files.</p>
+<section id="non-standard-delimited-file-contents" class="level3">
+<h3 class="anchored" data-anchor-id="non-standard-delimited-file-contents">Non-standard delimited file contents</h3>
+<p>Print the file contents of <strong>all_plant_slice.pipe_delimit.text</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(<span class="st">"plant_detail_slice.pipe_delimit.text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "id|common_name|seeds|drought_tolerant|salt_tolerant|thorny|invasive|tropical|indoor|flowers|cones|fruits|edible_fruit|leaf|edible_leaf|cuisine|medicinal|poisonous_to_humans|poisonous_to_pets|sunlight_part_sun_part_shade|sunlight_full_shade|sunlight_deep_shade|sunlight_part_shade|sunlight_full_sun_only_if_soil_kept_moist|sunlight_full_sun|sunlight_filtered_shade|care_level_encoded|maintenance_encoded|watering_encoded|growth_rate_encoded|cycle_perennial|cycle_herbaceous_perennial|cycle_annual"
+[2] "425|flowering-maple|0|1|0|1|0|1|1|1|0|0|0|1|0|0|1|0|0|0|0|0|1|0|1|0|2|0|2|0|1|0|0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[3] "426|flowering-maple|0|1|0|0|0|0|1|1|0|0|0|1|0|0|0|0|0|0|0|0|1|0|1|0|1|0|1|0|1|0|0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[4] "427|flowering-maple|0|1|0|0|0|1|1|1|0|0|0|1|0|0|1|0|0|0|0|0|1|0|1|0|1|0|1|0|1|0|0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[5] "428|flowering-maple|0|1|1|0|0|1|1|1|0|0|0|1|0|0|1|0|0|0|0|0|0|0|1|0|2|1|1|0|1|0|0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[6] "434|Jacob's coat|0|0|0|0|0|0|1|1|0|0|0|1|0|0|0|0|0|0|0|0|1|0|1|0|2|0|2|0|1|0|0"                                                                                                                                                                                                                                                                                                                                                                                                                                 </code></pre>
+</div>
+</div>
 
 
 </section>
@@ -854,10 +996,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../readr/read_misc.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Misc read options</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../readr/read.html" class="pagination-link">
-        <span class="nav-page-text">Read_delim()</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../readr/cheatsheets.html" class="pagination-link">
+        <span class="nav-page-text">Cheatsheets</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

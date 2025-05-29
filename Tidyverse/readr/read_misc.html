@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>NEOF Tidyverse - Readr</title>
+<title>NEOF Tidyverse - Misc read options</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../readr/read.html" rel="next">
+<link href="../readr/write.html" rel="next">
+<link href="../readr/column_types.html" rel="prev">
 <link href="..//images/NEOF_favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -156,7 +191,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../readr/readr.html">Readr</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../readr/read.html">Read</a></li><li class="breadcrumb-item"><a href="../readr/read_misc.html">Misc read options</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -170,7 +205,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../readr/readr.html" class="sidebar-item-text sidebar-link active">
+  <a href="../readr/readr.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Readr</span></a>
   </div>
 </li>
@@ -197,7 +232,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../readr/read_misc.html" class="sidebar-item-text sidebar-link">
+  <a href="../readr/read_misc.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Misc read options</span></a>
   </div>
 </li>
@@ -225,13 +260,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  <li><a href="#sections" id="toc-sections" class="nav-link" data-scroll-target="#sections">Sections</a>
+  <li><a href="#file-path-column" id="toc-file-path-column" class="nav-link active" data-scroll-target="#file-path-column">File path column</a>
   <ul class="collapse">
-  <li><a href="#read" id="toc-read" class="nav-link" data-scroll-target="#read">Read</a></li>
-  <li><a href="#write" id="toc-write" class="nav-link" data-scroll-target="#write">Write</a></li>
+  <li><a href="#id-as-file-path" id="toc-id-as-file-path" class="nav-link" data-scroll-target="#id-as-file-path">ID as file path</a></li>
+  <li><a href="#id-as-file-name" id="toc-id-as-file-name" class="nav-link" data-scroll-target="#id-as-file-name">ID as file name</a></li>
   </ul></li>
+  <li><a href="#skip-lines" id="toc-skip-lines" class="nav-link" data-scroll-target="#skip-lines">Skip lines</a>
+  <ul class="collapse">
+  <li><a href="#file-contents" id="toc-file-contents" class="nav-link" data-scroll-target="#file-contents">File contents</a></li>
+  <li><a href="#read-in-and-skip-lines" id="toc-read-in-and-skip-lines" class="nav-link" data-scroll-target="#read-in-and-skip-lines">Read in and skip lines</a></li>
+  </ul></li>
+  <li><a href="#max-number-of-lines" id="toc-max-number-of-lines" class="nav-link" data-scroll-target="#max-number-of-lines">Max number of lines</a></li>
   </ul>
 </nav>
     </div>
@@ -240,7 +279,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Readr</h1>
+<h1 class="title">Misc read options</h1>
 </div>
 
 
@@ -255,46 +294,183 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<center>
-<img src="../images/readr.png" class="img-fluid" style="width:150px">
-</center>
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p><code>Readr</code> is primarily used to read in <strong>rectangular data</strong> from a <strong>delimited file</strong> into R as a <a href="../tibble/tibble.html">tibble</a> or write data to a file.</p>
-<p><strong>Rectangular data</strong> generally refers to tables.</p>
-<p><strong>Delimited data</strong> means that the columns/fields are delimited/separated by a character. Common delimiting characters include spaces (<code></code>), commas (<code>,</code>), and tabs (<code>\t</code>).</p>
-<p><a href="https://readr.tidyverse.org/">readr homepage</a></p>
-</section>
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>Rather than downloading files to then read in to R, we will use the URL of files uploaded to this website.</p>
-<p>If you are interested in information and/or downloading the data you can view the following page: <a href="../datasets/data_files.html">Data files</a></p>
-</section>
-<section id="sections" class="level2">
-<h2 class="anchored" data-anchor-id="sections">Sections</h2>
-<p>The sections of <code>readr</code> are summarised below.</p>
-<section id="read" class="level3">
-<h3 class="anchored" data-anchor-id="read">Read</h3>
-<p>The <code>readr::read_delim()</code> function reads in <strong>delimited rectangular data</strong> from a file to a <strong>tibble</strong>.</p>
-<p>Topics covered are:</p>
+<p>On top of choosing the delimiter (<code>delim=</code>) and the column types (<code>col_types=</code>) there are other useful options for <code>readr::read_delim()</code>.</p>
+<p>The three covered here are:</p>
 <ul>
-<li><a href="../readr/read.html">Read_delim()</a>: Reading in data with <code>readr::read_delim()</code> and specifying the delimiter with <code>delim=</code>. Common delimiters are comma (<code>,</code>), tab (<code>\t</code>), and space (<code></code>).</li>
-<li><a href="../readr/column_types.html">Column types</a>: Specifying the data types (double, integer, character, factor, logical etc.) of the columns when reading in data with <code>readr::read_delim()</code>. Particularly important when you want integer or factor columns.</li>
-<li><a href="../readr/read_misc.html">Misc read options</a>: Three miscellaneous options for <code>readr::read_delim()</code>.
-<ul>
-<li><code>id=</code>: Adds an ID column containing the file path.</li>
-<li><code>skip=</code>: Skips a specified number of lines from the top of the file.</li>
-<li><code>n_max=</code>: Specify the max number of lines/rows to read into a <strong>tibble</strong>.</li>
-</ul></li>
+<li><code>id=</code>: Adds an ID column containing the file path. Useful when reading in multiple files and combining the data into one <strong>tibble</strong>.</li>
+<li><code>skip=</code>: Skips a specified number of lines from the top of the file. Useful if the top of the file contains information (e.g.&nbsp;annotation) on the data that you don’t want included in the <strong>tibble</strong>.</li>
+<li><code>n_max=</code>: Specify the max number of lines/rows to read into the <strong>tibble</strong>. Useful for only getting a small amount of the data for creating/testing/debugging code.</li>
 </ul>
-<p><a href="https://readr.tidyverse.org/reference/read_delim.html">Tidyverse reference page</a></p>
+<section id="file-path-column" class="level2">
+<h2 class="anchored" data-anchor-id="file-path-column">File path column</h2>
+<p>The <code>id=</code> option can be used to add an ID column with the file path of the data. The important features of this are:</p>
+<ul>
+<li>The column’s name is specified as a string e.g.&nbsp;<code>id = "file_path"</code>.</li>
+<li>The file path column is added as the first column to the resulting <strong>tibble</strong>.</li>
+<li>The string specified as <code>file=</code> is used as the values in the created column.</li>
+<li>The values of the resulting column are identical.</li>
+</ul>
+<section id="id-as-file-path" class="level3">
+<h3 class="anchored" data-anchor-id="id-as-file-path">ID as file path</h3>
+<p>Read in the file <a href="https://neof-workshops.github.io/Tidyverse/data/all_plant_details.csv">https://neof-workshops.github.io/Tidyverse/data/all_plant_details.csv</a> setting “file_path” to <code>id=</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">read_delim</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> <span class="st">"https://neof-workshops.github.io/Tidyverse/data/all_plant_details.csv"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">","</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> <span class="st">"file_path"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Slice and select the first 5 rows and 6 columns</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">|&gt;</span>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 155 Columns: 34
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (1): common_name
+dbl (32): id, seeds, drought_tolerant, salt_tolerant, thorny, invasive, trop...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 6
+  file_path                  id common_name seeds drought_tolerant salt_tolerant
+  &lt;chr&gt;                   &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;
+1 https://neof-workshops…   425 flowering-…     0                1             0
+2 https://neof-workshops…   426 flowering-…     0                1             0
+3 https://neof-workshops…   427 flowering-…     0                1             0
+4 https://neof-workshops…   428 flowering-…     0                1             1
+5 https://neof-workshops…   434 Jacob's co…     0                0             0</code></pre>
+</div>
+</div>
 </section>
-<section id="write" class="level3">
-<h3 class="anchored" data-anchor-id="write">Write</h3>
-<p>The <a href="../readr/write.html"><code>readr::write_delim()</code></a> writes <strong>tibbles</strong> and other table data to files.</p>
+<section id="id-as-file-name" class="level3">
+<h3 class="anchored" data-anchor-id="id-as-file-name">ID as file name</h3>
+<p>Repeat the above using the functions <code>dplyr::mutate()</code> and <code>basename()</code> to only contain the file name (i.e.&nbsp;remove the entire file path except the file name).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">read_delim</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> <span class="st">"https://neof-workshops.github.io/Tidyverse/data/all_plant_details.csv"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">","</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> <span class="st">"file_name"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Mutate to only retain file name in the file_name column</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">file_name =</span> <span class="fu">basename</span>(file_name)) <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Slice and select the first 5 rows and 6 columns</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">|&gt;</span>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 155 Columns: 34
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (1): common_name
+dbl (32): id, seeds, drought_tolerant, salt_tolerant, thorny, invasive, trop...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 6
+  file_name                id common_name   seeds drought_tolerant salt_tolerant
+  &lt;chr&gt;                 &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;
+1 all_plant_details.csv   425 flowering-ma…     0                1             0
+2 all_plant_details.csv   426 flowering-ma…     0                1             0
+3 all_plant_details.csv   427 flowering-ma…     0                1             0
+4 all_plant_details.csv   428 flowering-ma…     0                1             1
+5 all_plant_details.csv   434 Jacob's coat      0                0             0</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="skip-lines" class="level2">
+<h2 class="anchored" data-anchor-id="skip-lines">Skip lines</h2>
+<p>Data files may contain information related to the data that is not part of the table at the top of the file. The <code>skip=</code> option allows the first X lines to be skipped for these data files.</p>
+<p>If these information lines are not skipped it can confuse the parsing of the data based on the delimiter since the information lines will not have the same amount of the delimiter character as the actual data.</p>
+<section id="file-contents" class="level3">
+<h3 class="anchored" data-anchor-id="file-contents">File contents</h3>
+<p>Check the top 8 lines of the file: <a href="https://neof-workshops.github.io/Tidyverse/data/all_plant_details_w_info.csv">https://neof-workshops.github.io/Tidyverse/data/all_plant_details_w_info.csv</a>.</p>
+<p>Notice the first three lines are information and not data lines.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(<span class="st">"https://neof-workshops.github.io/Tidyverse/data/all_plant_details_w_info.csv"</span>, <span class="at">n=</span><span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Houseplant environment characteristics"                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+[2] "information about indoor plants, with multiple binary and categorical features."                                                                                                                                                                                                                                                                                                                                                                                                                                
+[3] "Source: https://www.kaggle.com/datasets/noneee/houseplant-environment-characteristics"                                                                                                                                                                                                                                                                                                                                                                                                                          
+[4] "id,common_name,seeds,drought_tolerant,salt_tolerant,thorny,invasive,tropical,indoor,flowers,cones,fruits,edible_fruit,leaf,edible_leaf,cuisine,medicinal,poisonous_to_humans,poisonous_to_pets,sunlight_part_sun_part_shade,sunlight_full_shade,sunlight_deep_shade,sunlight_part_shade,sunlight_full_sun_only_if_soil_kept_moist,sunlight_full_sun,sunlight_filtered_shade,care_level_encoded,maintenance_encoded,watering_encoded,growth_rate_encoded,cycle_perennial,cycle_herbaceous_perennial,cycle_annual"
+[5] "425,flowering-maple,0,1,0,1,0,1,1,1,0,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,2,0,2,0,1,0,0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[6] "426,flowering-maple,0,1,0,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[7] "427,flowering-maple,0,1,0,0,0,1,1,1,0,0,0,1,0,0,1,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0"                                                                                                                                                                                                                                                                                                                                                                                                                              
+[8] "428,flowering-maple,0,1,1,0,0,1,1,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,2,1,1,0,1,0,0"                                                                                                                                                                                                                                                                                                                                                                                                                              </code></pre>
+</div>
+</div>
+</section>
+<section id="read-in-and-skip-lines" class="level3">
+<h3 class="anchored" data-anchor-id="read-in-and-skip-lines">Read in and skip lines</h3>
+<p>Read in the data skipping the first 3 lines.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">read_delim</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> <span class="st">"https://neof-workshops.github.io/Tidyverse/data/all_plant_details_w_info.csv"</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">","</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">skip =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Slice and select the first 5 rows and 6 columns</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="sc">|&gt;</span>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 155 Columns: 33
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (1): common_name
+dbl (32): id, seeds, drought_tolerant, salt_tolerant, thorny, invasive, trop...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 6
+     id common_name     seeds drought_tolerant salt_tolerant thorny
+  &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt;
+1   425 flowering-maple     0                1             0      1
+2   426 flowering-maple     0                1             0      0
+3   427 flowering-maple     0                1             0      0
+4   428 flowering-maple     0                1             1      0
+5   434 Jacob's coat        0                0             0      0</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="max-number-of-lines" class="level2">
+<h2 class="anchored" data-anchor-id="max-number-of-lines">Max number of lines</h2>
+<p>If you have a very large file and only want to read in a specified amount of lines it is best to use <code>n_max=</code>.</p>
+<p>This is better than piping to <code>dplyr::slice()</code> as it saves the computer from needing to read in the whole file to memory (RAM) only to then slice it.</p>
+<p>Read in the first 8 lines from <a href="https://neof-workshops.github.io/Tidyverse/data/all_plant_details.csv">https://neof-workshops.github.io/Tidyverse/data/all_plant_details.csv</a>.</p>
+<p><strong>Note:</strong> The header line is not considered for <code>n_max=</code> therefore the header line and first 8 rows ar read in.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">read_delim</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> <span class="st">"https://neof-workshops.github.io/Tidyverse/data/all_plant_details.csv"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">","</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_max =</span> <span class="dv">8</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Select the first 6 columns to view</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 8 Columns: 33
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (1): common_name
+dbl (32): id, seeds, drought_tolerant, salt_tolerant, thorny, invasive, trop...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 6
+     id common_name     seeds drought_tolerant salt_tolerant thorny
+  &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt;
+1   425 flowering-maple     0                1             0      1
+2   426 flowering-maple     0                1             0      0
+3   427 flowering-maple     0                1             0      0
+4   428 flowering-maple     0                1             1      0
+5   434 Jacob's coat        0                0             0      0
+6   502 hot water plant     0                0             0      0
+7   540 desert rose         0                1             1      1
+8   543 maidenhair fern     0                0             0      0</code></pre>
+</div>
+</div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -854,10 +1030,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../readr/column_types.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Column types</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../readr/read.html" class="pagination-link">
-        <span class="nav-page-text">Read_delim()</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../readr/write.html" class="pagination-link">
+        <span class="nav-page-text">Write</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
