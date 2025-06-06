@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../tidyr/cheatsheets.html" rel="next">
+<link href="../tidyr/pivot_longer.html" rel="next">
 <link href="..//images/NEOF_favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -174,6 +174,75 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Tidyr</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Pivot</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tidyr/pivot_longer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pivot longer</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tidyr/pivot_wider.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pivot wider</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Character vectors</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tidyr/separate_wider.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Separate wider</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tidyr/unite.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Unite</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Missing data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tidyr/drop_na.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Drop NA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tidyr/replace_na.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Replace NA</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../tidyr/cheatsheets.html" class="sidebar-item-text sidebar-link">
@@ -186,7 +255,18 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sections" id="toc-sections" class="nav-link active" data-scroll-target="#sections">Sections</a>
+  <ul class="collapse">
+  <li><a href="#pivoting" id="toc-pivoting" class="nav-link" data-scroll-target="#pivoting">Pivoting</a></li>
+  <li><a href="#character-vectors" id="toc-character-vectors" class="nav-link" data-scroll-target="#character-vectors">Character vectors</a></li>
+  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">Missing values</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -211,9 +291,70 @@ ul.task-list li input[type="checkbox"] {
 <center>
 <img src="../images/tidyr.png" class="img-fluid" style="width:150px">
 </center>
+<p>The purpose of <code>tidyr</code> is to create <strong>tidy data</strong>. Tidy data has three main features:</p>
+<ul>
+<li>Each variable is a column; each column is a variable.</li>
+<li>Each observation is a row; each row is an observation.</li>
+<li>Each value is a cell; each cell is a single value.</li>
+</ul>
+<p>The aim of tidy data is to work within the tidyverse so less time is needed to manipulate data and fight with tools. This allows you to spend your time and effort analysing the data.</p>
 <p><a href="https://tidyr.tidyverse.org/">tidyr homepage</a></p>
+<p>This website aims to quickly cover the most commonly used <code>tidyr</code> functions and uses. Therefore there are a lot more <code>tidyr</code> functions than those covered here. Please check the below link for the full list.</p>
+<p><a href="https://tidyr.tidyverse.org//reference/index.html">Full tidyr reference page</a></p>
+<section id="sections" class="level2">
+<h2 class="anchored" data-anchor-id="sections">Sections</h2>
+<p>The sections for <code>tidyr</code> are summarised below.</p>
+<section id="pivoting" class="level3">
+<h3 class="anchored" data-anchor-id="pivoting">Pivoting</h3>
+<div class="hexrow">
+<p>
+<a href="../tidyr/pivot_longer.html"> <img src="images/tidyr_pivot_longer.png" width="150px"> </a>
+</p>
+<p>
+<a href="../tidyr/pivot_wider.html"> <img src="images/tidyr_pivot_wider.png" width="150px"> </a>
+</p>
+</div>
+<p>Certain analyses and tools require data to be in a specific structure. Two rectangular/table data structures are <strong>wide</strong> and <strong>long</strong>. The two pivot functions transform data between these two types.</p>
+<ul>
+<li><a href="../tidyr/pivot_longer.html"><code>pivot_longer()</code></a>: Lengthens data, transforming it from wide to long. Many <strong>Tidyverse</strong> packages are built with long data in mind, especially <a href="../ggplot2/ggplot2.html"><code>ggplot2</code></a>.</li>
+<li><a href="../tidyr/pivot_wider.html"><code>pivot_wider()</code></a>: Widens data, transforming it from long to wide.</li>
+</ul>
+</section>
+<section id="character-vectors" class="level3">
+<h3 class="anchored" data-anchor-id="character-vectors">Character vectors</h3>
+<div class="hexrow">
+<p>
+<a href="../tidyr/separate_wider.html"> <img src="../tidyr/images/tidyr_separate_wider.png" width="150px"> </a>
+</p>
+<p>
+<a href="../tidyr/unite.html"> <img src="../tidyr/images/tidyr_unite.png" width="150px"> </a>
+</p>
+</div>
+<p>A column may contain multiple pieces of character/string data or you may want to create a column by uniting multiple character/string columns. The below functions can be used for these purposes.</p>
+<ul>
+<li><a href="../tidyr/separate_wider.html"><code>separate_wider_delim()</code></a>: Splits a string column into multiple columns by a delimiter.</li>
+<li><a href="../tidyr/unite.html"><code>unite()</code></a>: Combines/unites multiple string columns into one column.</li>
+</ul>
+</section>
+<section id="missing-values" class="level3">
+<h3 class="anchored" data-anchor-id="missing-values">Missing values</h3>
+<div class="hexrow">
+<p>
+<a href="../tidyr/drop_na.html"> <img src="../tidyr/images/tidyr_drop_na.png" width="150px"> </a>
+</p>
+<p>
+<a href="../tidyr/replace_na.html"> <img src="../tidyr/images/tidyr_replace_na.png" width="150px"> </a>
+</p>
+</div>
+<p>It is common to encounter NAs in tabular data. Dropping columns with NAs or replacing NA values are common approaches to deal with them.</p>
+<ul>
+<li><a href="../tidyr/drop_na.html"><code>drop_na()</code></a>: Remove rows with NAs.</li>
+<li><a href="../tidyr/replace_na.html"><code>replace_na()</code></a>: Replace NA values.</li>
+</ul>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -774,8 +915,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../tidyr/cheatsheets.html" class="pagination-link">
-        <span class="nav-page-text">Cheatsheets</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../tidyr/pivot_longer.html" class="pagination-link">
+        <span class="nav-page-text">Pivot longer</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

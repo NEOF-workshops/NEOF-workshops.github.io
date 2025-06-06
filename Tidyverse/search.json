@@ -238,6 +238,13 @@
     "text": "Pipes\nYou can use pipes for finer control of multiple comparisons.\nThe below command carries out the following filtering steps in order:\n\nExtract females.\nExtract observations with animal weight between 900 and 1100.\nExtract samples from the year 2000.\n\n\nbison_tbl |&gt; \n    #Filter to retain females\n    dplyr::filter(animal_sex == \"F\") |&gt;\n    #Filter to retain samples with animal_weight between 900 and 1100\n    dplyr::filter(animal_weight &gt; 900 & animal_weight &lt; 1000) |&gt;\n    #Retain samples from year 2000\n    dplyr::filter(rec_year == 2000)\n\n# A tibble: 39 × 8\n   data_code rec_year rec_month rec_day animal_code animal_sex animal_weight\n   &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;              &lt;dbl&gt;\n 1 CBH01         2000        11      16 A11         F                    976\n 2 CBH01         2000        11      16 A14         F                    930\n 3 CBH01         2000        11      16 A16         F                    952\n 4 CBH01         2000        11      16 A17         F                    964\n 5 CBH01         2000        11      16 A18         F                    904\n 6 CBH01         2000        11      16 A2          F                    910\n 7 CBH01         2000        11      16 A22         F                    992\n 8 CBH01         2000        11      16 A27         F                    970\n 9 CBH01         2000        11      16 A28         F                    902\n10 CBH01         2000        11      16 A6          F                    992\n# ℹ 29 more rows\n# ℹ 1 more variable: animal_yob &lt;dbl&gt;"
   },
   {
+    "objectID": "dplyr/filter.html#na-removal",
+    "href": "dplyr/filter.html#na-removal",
+    "title": "Filter",
+    "section": "NA removal",
+    "text": "NA removal\nFor removal of NAs please see the tidyr drop NA page."
+  },
+  {
     "objectID": "dplyr/glimpse.html",
     "href": "dplyr/glimpse.html",
     "title": "Glimpse",
@@ -315,39 +322,11 @@
     "text": "Create new column\nCreate a column of brain and body weight ratio.\n\nmammal_sleep_tbl |&gt;\n    #Select columns of interest\n    dplyr::select(species, body_wt, brain_wt) |&gt;\n    #Calculate and add brain_body_wt_ratio column\n    dplyr::mutate(brain_body_wt_ratio = brain_wt/(body_wt*1000))\n\n# A tibble: 62 × 4\n   species                 body_wt brain_wt brain_body_wt_ratio\n   &lt;chr&gt;                     &lt;dbl&gt;    &lt;dbl&gt;               &lt;dbl&gt;\n 1 Africanelephant        6654       5.71           0.000000858\n 2 Africangiantpouchedrat    1       0.0066         0.0000066  \n 3 ArcticFox                 3.38    0.0445         0.0000131  \n 4 Arcticgroundsquirrel      0.92    0.0057         0.00000620 \n 5 Asianelephant          2547       4.60           0.00000181 \n 6 Baboon                   10.6     0.180          0.0000170  \n 7 Bigbrownbat               0.023   0.0003         0.0000130  \n 8 Braziliantapir          160       0.169          0.00000106 \n 9 Cat                       3.3     0.0256         0.00000776 \n10 Chimpanzee               52.2     0.44           0.00000844 \n# ℹ 52 more rows\n\n\nCreate a column for life time sleep\n\nmammal_sleep_tbl |&gt;\n    #Select columns of interest\n    dplyr::select(species, total_sleep, life_span) |&gt;\n    #Calculate and add total_life_sleep column\n    dplyr::mutate(total_life_sleep = (life_span*365.25) * total_sleep)\n\n# A tibble: 62 × 4\n   species                total_sleep life_span total_life_sleep\n   &lt;chr&gt;                        &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;\n 1 Africanelephant                3.3      38.6           46526.\n 2 Africangiantpouchedrat         8.3       4.5           13642.\n 3 ArcticFox                     12.5      14             63919.\n 4 Arcticgroundsquirrel          16.5      NA                NA \n 5 Asianelephant                  3.9      69             98289.\n 6 Baboon                         9.8      27             96645.\n 7 Bigbrownbat                   19.7      19            136713.\n 8 Braziliantapir                 6.2      30.4           68842.\n 9 Cat                           14.5      28            148292.\n10 Chimpanzee                     9.7      50            177146.\n# ℹ 52 more rows"
   },
   {
-    "objectID": "dplyr/na_removal.html",
-    "href": "dplyr/na_removal.html",
-    "title": "NA removal",
-    "section": "",
-    "text": "You can remove rows with NAs in various ways with dplyr."
-  },
-  {
-    "objectID": "dplyr/na_removal.html#dataset",
-    "href": "dplyr/na_removal.html#dataset",
-    "title": "NA removal",
-    "section": "Dataset",
-    "text": "Dataset\nFor demonstration we’ll load the mammal_sleep_tbl data from the mgrtibbles package (hyperlink includes install instructions).\n\n#Load package\nlibrary(\"mgrtibbles\")\n#mammal_sleep_tbl tibble for demonstration\nmgrtibbles::mammal_sleep_tbl\n\n# A tibble: 62 × 11\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africanelephant  6.65e+3   5.71           NA       NA           3.3      38.6\n 2 Africangiantpou… 1   e+0   0.0066          6.3      2           8.3       4.5\n 3 ArcticFox        3.38e+0   0.0445         NA       NA          12.5      14  \n 4 Arcticgroundsqu… 9.2 e-1   0.0057         NA       NA          16.5      NA  \n 5 Asianelephant    2.55e+3   4.60            2.1      1.8         3.9      69  \n 6 Baboon           1.06e+1   0.180           9.1      0.7         9.8      27  \n 7 Bigbrownbat      2.3 e-2   0.0003         15.8      3.9        19.7      19  \n 8 Braziliantapir   1.6 e+2   0.169           5.2      1           6.2      30.4\n 9 Cat              3.3 e+0   0.0256         10.9      3.6        14.5      28  \n10 Chimpanzee       5.22e+1   0.44            8.3      1.4         9.7      50  \n# ℹ 52 more rows\n# ℹ 4 more variables: gestation &lt;dbl&gt;, predation &lt;fct&gt;, exposure &lt;fct&gt;,\n#   danger &lt;fct&gt;"
-  },
-  {
-    "objectID": "dplyr/na_removal.html#na-in-any-column",
-    "href": "dplyr/na_removal.html#na-in-any-column",
-    "title": "NA removal",
-    "section": "Na in any column",
-    "text": "Na in any column\nRemove rows with an NA in any column with na.omit() from stats package in base R.\n\nmammal_sleep_tbl |&gt;\n    na.omit()\n\n# A tibble: 42 × 11\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africangiantpou… 1   e+0   0.0066          6.3      2           8.3       4.5\n 2 Asianelephant    2.55e+3   4.60            2.1      1.8         3.9      69  \n 3 Baboon           1.06e+1   0.180           9.1      0.7         9.8      27  \n 4 Bigbrownbat      2.3 e-2   0.0003         15.8      3.9        19.7      19  \n 5 Braziliantapir   1.6 e+2   0.169           5.2      1           6.2      30.4\n 6 Cat              3.3 e+0   0.0256         10.9      3.6        14.5      28  \n 7 Chimpanzee       5.22e+1   0.44            8.3      1.4         9.7      50  \n 8 Chinchilla       4.25e-1   0.0064         11        1.5        12.5       7  \n 9 Cow              4.65e+2   0.423           3.2      0.7         3.9      30  \n10 EasternAmerican… 7.5 e-2   0.0012          6.3      2.1         8.4       3.5\n# ℹ 32 more rows\n# ℹ 4 more variables: gestation &lt;dbl&gt;, predation &lt;fct&gt;, exposure &lt;fct&gt;,\n#   danger &lt;fct&gt;"
-  },
-  {
-    "objectID": "dplyr/na_removal.html#na-in-one-column",
-    "href": "dplyr/na_removal.html#na-in-one-column",
-    "title": "NA removal",
-    "section": "NA in one column",
-    "text": "NA in one column\nCan remove rows with an NA in one specific column with dplyr::filter() and !is.na().\nRemove rows where there is an NA in the life_span column.\n\nmammal_sleep_tbl |&gt;\n    dplyr::filter(!is.na(life_span))\n\n# A tibble: 58 × 11\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africanelephant  6.65e+3   5.71           NA       NA           3.3      38.6\n 2 Africangiantpou… 1   e+0   0.0066          6.3      2           8.3       4.5\n 3 ArcticFox        3.38e+0   0.0445         NA       NA          12.5      14  \n 4 Asianelephant    2.55e+3   4.60            2.1      1.8         3.9      69  \n 5 Baboon           1.06e+1   0.180           9.1      0.7         9.8      27  \n 6 Bigbrownbat      2.3 e-2   0.0003         15.8      3.9        19.7      19  \n 7 Braziliantapir   1.6 e+2   0.169           5.2      1           6.2      30.4\n 8 Cat              3.3 e+0   0.0256         10.9      3.6        14.5      28  \n 9 Chimpanzee       5.22e+1   0.44            8.3      1.4         9.7      50  \n10 Chinchilla       4.25e-1   0.0064         11        1.5        12.5       7  \n# ℹ 48 more rows\n# ℹ 4 more variables: gestation &lt;dbl&gt;, predation &lt;fct&gt;, exposure &lt;fct&gt;,\n#   danger &lt;fct&gt;"
-  },
-  {
-    "objectID": "dplyr/na_removal.html#na-in-certain-columns",
-    "href": "dplyr/na_removal.html#na-in-certain-columns",
-    "title": "NA removal",
-    "section": "NA in certain columns",
-    "text": "NA in certain columns\nRemove rows with an NA in at least one of the specified columns with dplyr::filter_at().\nRemove rows where there is an NA in the non_dreaming or dreaming columns.\n\nmammal_sleep_tbl |&gt;\n    dplyr::filter_at(vars(non_dreaming, dreaming), all_vars(!is.na(.)))\n\n# A tibble: 48 × 11\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africangiantpou… 1   e+0   0.0066          6.3      2           8.3       4.5\n 2 Asianelephant    2.55e+3   4.60            2.1      1.8         3.9      69  \n 3 Baboon           1.06e+1   0.180           9.1      0.7         9.8      27  \n 4 Bigbrownbat      2.3 e-2   0.0003         15.8      3.9        19.7      19  \n 5 Braziliantapir   1.6 e+2   0.169           5.2      1           6.2      30.4\n 6 Cat              3.3 e+0   0.0256         10.9      3.6        14.5      28  \n 7 Chimpanzee       5.22e+1   0.44            8.3      1.4         9.7      50  \n 8 Chinchilla       4.25e-1   0.0064         11        1.5        12.5       7  \n 9 Cow              4.65e+2   0.423           3.2      0.7         3.9      30  \n10 Deserthedgehog   5.5 e-1   0.0024          7.6      2.7        10.3      NA  \n# ℹ 38 more rows\n# ℹ 4 more variables: gestation &lt;dbl&gt;, predation &lt;fct&gt;, exposure &lt;fct&gt;,\n#   danger &lt;fct&gt;"
+    "objectID": "dplyr/mutate.html#na-filling",
+    "href": "dplyr/mutate.html#na-filling",
+    "title": "Mutate",
+    "section": "NA filling",
+    "text": "NA filling\nFor NA filling/editing please see the tidyr NA filling page."
   },
   {
     "objectID": "dplyr/pipes.html",
@@ -928,7 +907,7 @@
     "href": "tibble/add_rows_and_columns.html#binding-a-tibble-to-a-tibble",
     "title": "Adding rows and columns",
     "section": "Binding a tibble to a tibble",
-    "text": "Binding a tibble to a tibble\nTibbles can be bound together to create a new tibble with dplyr::bind_cols() and dplyr::bind_rows().\nPlease view the Dplyr bind tibbles page for examples."
+    "text": "Binding a tibble to a tibble\n\n\n  \n\n\n  \n\n\nTibbles can be bound together to create a new tibble with dplyr::bind_cols() and dplyr::bind_rows().\nPlease view the Dplyr bind tibbles page for examples."
   },
   {
     "objectID": "tibble/creating_tibbles.html",
@@ -1071,10 +1050,220 @@
     "text": "Source"
   },
   {
+    "objectID": "tidyr/drop_na.html",
+    "href": "tidyr/drop_na.html",
+    "title": "Drop NA",
+    "section": "",
+    "text": "You can remove rows with NAs in various ways with the drop_na() function.\nTidyverse reference page"
+  },
+  {
+    "objectID": "tidyr/drop_na.html#dataset",
+    "href": "tidyr/drop_na.html#dataset",
+    "title": "Drop NA",
+    "section": "Dataset",
+    "text": "Dataset\nFor demonstration we’ll load the mammal_sleep_tbl data from the mgrtibbles package (hyperlink includes install instructions).\n\n#Load package\nlibrary(\"mgrtibbles\")\n#mammal_sleep_tbl tibble for demonstration\nmgrtibbles::mammal_sleep_tbl\n\n# A tibble: 62 × 11\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africanelephant  6.65e+3   5.71           NA       NA           3.3      38.6\n 2 Africangiantpou… 1   e+0   0.0066          6.3      2           8.3       4.5\n 3 ArcticFox        3.38e+0   0.0445         NA       NA          12.5      14  \n 4 Arcticgroundsqu… 9.2 e-1   0.0057         NA       NA          16.5      NA  \n 5 Asianelephant    2.55e+3   4.60            2.1      1.8         3.9      69  \n 6 Baboon           1.06e+1   0.180           9.1      0.7         9.8      27  \n 7 Bigbrownbat      2.3 e-2   0.0003         15.8      3.9        19.7      19  \n 8 Braziliantapir   1.6 e+2   0.169           5.2      1           6.2      30.4\n 9 Cat              3.3 e+0   0.0256         10.9      3.6        14.5      28  \n10 Chimpanzee       5.22e+1   0.44            8.3      1.4         9.7      50  \n# ℹ 52 more rows\n# ℹ 4 more variables: gestation &lt;dbl&gt;, predation &lt;fct&gt;, exposure &lt;fct&gt;,\n#   danger &lt;fct&gt;"
+  },
+  {
+    "objectID": "tidyr/drop_na.html#na-in-any-column",
+    "href": "tidyr/drop_na.html#na-in-any-column",
+    "title": "Drop NA",
+    "section": "Na in any column",
+    "text": "Na in any column\nDrop rows with an NA in any column with drop_na().\n\nmammal_sleep_tbl |&gt;\n    tidyr::drop_na()\n\n# A tibble: 42 × 11\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africangiantpou… 1   e+0   0.0066          6.3      2           8.3       4.5\n 2 Asianelephant    2.55e+3   4.60            2.1      1.8         3.9      69  \n 3 Baboon           1.06e+1   0.180           9.1      0.7         9.8      27  \n 4 Bigbrownbat      2.3 e-2   0.0003         15.8      3.9        19.7      19  \n 5 Braziliantapir   1.6 e+2   0.169           5.2      1           6.2      30.4\n 6 Cat              3.3 e+0   0.0256         10.9      3.6        14.5      28  \n 7 Chimpanzee       5.22e+1   0.44            8.3      1.4         9.7      50  \n 8 Chinchilla       4.25e-1   0.0064         11        1.5        12.5       7  \n 9 Cow              4.65e+2   0.423           3.2      0.7         3.9      30  \n10 EasternAmerican… 7.5 e-2   0.0012          6.3      2.1         8.4       3.5\n# ℹ 32 more rows\n# ℹ 4 more variables: gestation &lt;dbl&gt;, predation &lt;fct&gt;, exposure &lt;fct&gt;,\n#   danger &lt;fct&gt;"
+  },
+  {
+    "objectID": "tidyr/drop_na.html#na-in-one-column",
+    "href": "tidyr/drop_na.html#na-in-one-column",
+    "title": "Drop NA",
+    "section": "NA in one column",
+    "text": "NA in one column\nDrop rows with an NA in one specific column.\n\nmammal_sleep_tbl |&gt;\n    tidyr::drop_na(life_span)\n\n# A tibble: 58 × 11\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africanelephant  6.65e+3   5.71           NA       NA           3.3      38.6\n 2 Africangiantpou… 1   e+0   0.0066          6.3      2           8.3       4.5\n 3 ArcticFox        3.38e+0   0.0445         NA       NA          12.5      14  \n 4 Asianelephant    2.55e+3   4.60            2.1      1.8         3.9      69  \n 5 Baboon           1.06e+1   0.180           9.1      0.7         9.8      27  \n 6 Bigbrownbat      2.3 e-2   0.0003         15.8      3.9        19.7      19  \n 7 Braziliantapir   1.6 e+2   0.169           5.2      1           6.2      30.4\n 8 Cat              3.3 e+0   0.0256         10.9      3.6        14.5      28  \n 9 Chimpanzee       5.22e+1   0.44            8.3      1.4         9.7      50  \n10 Chinchilla       4.25e-1   0.0064         11        1.5        12.5       7  \n# ℹ 48 more rows\n# ℹ 4 more variables: gestation &lt;dbl&gt;, predation &lt;fct&gt;, exposure &lt;fct&gt;,\n#   danger &lt;fct&gt;"
+  },
+  {
+    "objectID": "tidyr/drop_na.html#na-in-multiple-specific-columns",
+    "href": "tidyr/drop_na.html#na-in-multiple-specific-columns",
+    "title": "Drop NA",
+    "section": "NA in multiple specific columns",
+    "text": "NA in multiple specific columns\nDrop rows with an NA in at least one of the specified columns.\nBelow a character vector of column names is used c(\"non_dreaming\",\"dreaming\"). The following range of column names would also work in this situation (non_dreaming:dreaming).\nNote: There is an NA in the 10th row of the life_span column as we did not specify it with drop_na().\n\nmammal_sleep_tbl |&gt;\n    tidyr::drop_na(c(\"non_dreaming\",\"dreaming\"))\n\n# A tibble: 48 × 11\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africangiantpou… 1   e+0   0.0066          6.3      2           8.3       4.5\n 2 Asianelephant    2.55e+3   4.60            2.1      1.8         3.9      69  \n 3 Baboon           1.06e+1   0.180           9.1      0.7         9.8      27  \n 4 Bigbrownbat      2.3 e-2   0.0003         15.8      3.9        19.7      19  \n 5 Braziliantapir   1.6 e+2   0.169           5.2      1           6.2      30.4\n 6 Cat              3.3 e+0   0.0256         10.9      3.6        14.5      28  \n 7 Chimpanzee       5.22e+1   0.44            8.3      1.4         9.7      50  \n 8 Chinchilla       4.25e-1   0.0064         11        1.5        12.5       7  \n 9 Cow              4.65e+2   0.423           3.2      0.7         3.9      30  \n10 Deserthedgehog   5.5 e-1   0.0024          7.6      2.7        10.3      NA  \n# ℹ 38 more rows\n# ℹ 4 more variables: gestation &lt;dbl&gt;, predation &lt;fct&gt;, exposure &lt;fct&gt;,\n#   danger &lt;fct&gt;"
+  },
+  {
+    "objectID": "tidyr/na_filling.html",
+    "href": "tidyr/na_filling.html",
+    "title": "Replace NA",
+    "section": "",
+    "text": "It is common to have NAs in your data. However, sometimes instead of removing them you may want to replace them. below are three methods to carry this out."
+  },
+  {
+    "objectID": "tidyr/na_filling.html#dataset",
+    "href": "tidyr/na_filling.html#dataset",
+    "title": "Replace NA",
+    "section": "Dataset",
+    "text": "Dataset\nFor demonstration we’ll load the mammal_sleep_tbl data from the mgrtibbles package (hyperlink includes install instructions).\n\n#Load package\nlibrary(\"mgrtibbles\")\n#mammal_sleep_tbl tibble for demonstration\nmgrtibbles::mammal_sleep_tbl\n\n# A tibble: 62 × 11\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africanelephant  6.65e+3   5.71           NA       NA           3.3      38.6\n 2 Africangiantpou… 1   e+0   0.0066          6.3      2           8.3       4.5\n 3 ArcticFox        3.38e+0   0.0445         NA       NA          12.5      14  \n 4 Arcticgroundsqu… 9.2 e-1   0.0057         NA       NA          16.5      NA  \n 5 Asianelephant    2.55e+3   4.60            2.1      1.8         3.9      69  \n 6 Baboon           1.06e+1   0.180           9.1      0.7         9.8      27  \n 7 Bigbrownbat      2.3 e-2   0.0003         15.8      3.9        19.7      19  \n 8 Braziliantapir   1.6 e+2   0.169           5.2      1           6.2      30.4\n 9 Cat              3.3 e+0   0.0256         10.9      3.6        14.5      28  \n10 Chimpanzee       5.22e+1   0.44            8.3      1.4         9.7      50  \n# ℹ 52 more rows\n# ℹ 4 more variables: gestation &lt;dbl&gt;, predation &lt;fct&gt;, exposure &lt;fct&gt;,\n#   danger &lt;fct&gt;"
+  },
+  {
+    "objectID": "tidyr/na_filling.html#replace-with-a-value",
+    "href": "tidyr/na_filling.html#replace-with-a-value",
+    "title": "Replace NA",
+    "section": "Replace with a value",
+    "text": "Replace with a value\n\nmammal_sleep_tbl |&gt;\n    tidyr::replace_na(list(dreaming=0))\n\n# A tibble: 62 × 11\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africanelephant  6.65e+3   5.71           NA        0           3.3      38.6\n 2 Africangiantpou… 1   e+0   0.0066          6.3      2           8.3       4.5\n 3 ArcticFox        3.38e+0   0.0445         NA        0          12.5      14  \n 4 Arcticgroundsqu… 9.2 e-1   0.0057         NA        0          16.5      NA  \n 5 Asianelephant    2.55e+3   4.60            2.1      1.8         3.9      69  \n 6 Baboon           1.06e+1   0.180           9.1      0.7         9.8      27  \n 7 Bigbrownbat      2.3 e-2   0.0003         15.8      3.9        19.7      19  \n 8 Braziliantapir   1.6 e+2   0.169           5.2      1           6.2      30.4\n 9 Cat              3.3 e+0   0.0256         10.9      3.6        14.5      28  \n10 Chimpanzee       5.22e+1   0.44            8.3      1.4         9.7      50  \n# ℹ 52 more rows\n# ℹ 4 more variables: gestation &lt;dbl&gt;, predation &lt;fct&gt;, exposure &lt;fct&gt;,\n#   danger &lt;fct&gt;"
+  },
+  {
+    "objectID": "tidyr/na_filling.html#replace-with-other-column",
+    "href": "tidyr/na_filling.html#replace-with-other-column",
+    "title": "Replace NA",
+    "section": "Replace with other column",
+    "text": "Replace with other column\n\nmammal_sleep_tbl |&gt;\n    dplyr::mutate(dreaming = dplyr::coalesce(dreaming, total_sleep))\n\n# A tibble: 62 × 11\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africanelephant  6.65e+3   5.71           NA        3.3         3.3      38.6\n 2 Africangiantpou… 1   e+0   0.0066          6.3      2           8.3       4.5\n 3 ArcticFox        3.38e+0   0.0445         NA       12.5        12.5      14  \n 4 Arcticgroundsqu… 9.2 e-1   0.0057         NA       16.5        16.5      NA  \n 5 Asianelephant    2.55e+3   4.60            2.1      1.8         3.9      69  \n 6 Baboon           1.06e+1   0.180           9.1      0.7         9.8      27  \n 7 Bigbrownbat      2.3 e-2   0.0003         15.8      3.9        19.7      19  \n 8 Braziliantapir   1.6 e+2   0.169           5.2      1           6.2      30.4\n 9 Cat              3.3 e+0   0.0256         10.9      3.6        14.5      28  \n10 Chimpanzee       5.22e+1   0.44            8.3      1.4         9.7      50  \n# ℹ 52 more rows\n# ℹ 4 more variables: gestation &lt;dbl&gt;, predation &lt;fct&gt;, exposure &lt;fct&gt;,\n#   danger &lt;fct&gt;"
+  },
+  {
+    "objectID": "tidyr/na_filling.html#replace-all-nas",
+    "href": "tidyr/na_filling.html#replace-all-nas",
+    "title": "Replace NA",
+    "section": "Replace all NAs",
+    "text": "Replace all NAs\n\nmammal_sleep_tbl[is.na(mammal_sleep_tbl)] &lt;- 0\nmammal_sleep_tbl\n\n# A tibble: 62 × 11\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africanelephant  6.65e+3   5.71            0        0           3.3      38.6\n 2 Africangiantpou… 1   e+0   0.0066          6.3      2           8.3       4.5\n 3 ArcticFox        3.38e+0   0.0445          0        0          12.5      14  \n 4 Arcticgroundsqu… 9.2 e-1   0.0057          0        0          16.5       0  \n 5 Asianelephant    2.55e+3   4.60            2.1      1.8         3.9      69  \n 6 Baboon           1.06e+1   0.180           9.1      0.7         9.8      27  \n 7 Bigbrownbat      2.3 e-2   0.0003         15.8      3.9        19.7      19  \n 8 Braziliantapir   1.6 e+2   0.169           5.2      1           6.2      30.4\n 9 Cat              3.3 e+0   0.0256         10.9      3.6        14.5      28  \n10 Chimpanzee       5.22e+1   0.44            8.3      1.4         9.7      50  \n# ℹ 52 more rows\n# ℹ 4 more variables: gestation &lt;dbl&gt;, predation &lt;fct&gt;, exposure &lt;fct&gt;,\n#   danger &lt;fct&gt;"
+  },
+  {
+    "objectID": "tidyr/pivot_longer.html",
+    "href": "tidyr/pivot_longer.html",
+    "title": "Pivot longer",
+    "section": "",
+    "text": "The function pivot_longer() lengthens data, converting it from wide to long. Long data is generally the preferred format for Tidyverse, and is especially useful for ggplot2.\nWhen data is lengthened:\nTo lengthen data a set of columns are chosen.\nTidyverse reference page"
+  },
+  {
+    "objectID": "tidyr/pivot_longer.html#dataset",
+    "href": "tidyr/pivot_longer.html#dataset",
+    "title": "Pivot longer",
+    "section": "Dataset",
+    "text": "Dataset\nFor demonstration we’ll load the fisheries_wide_tbl data from the mgrtibbles package (hyperlink includes install instructions).\n\n#Load package\nlibrary(\"mgrtibbles\")\n#mammal_sleep_tbl tibble for demonstration\nmgrtibbles::fisheries_wide_tbl |&gt;\n    #View first 11 columns with select\n    dplyr::select(1:11)\n\n# A tibble: 264 × 11\n   Entity  `1969` `1970` `1971` `1972` `1973` `1974` `1975` `1976` `1977` `1978`\n   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n 1 Afgha…     400 4   e2 5   e2 5   e2 5   e2 5   e2 6   e2 6   e2 6   e2 6   e2\n 2 Afric… 3078461 2.48e6 2.36e6 2.63e6 2.78e6 2.74e6 2.49e6 2.20e6 2.16e6 2.12e6\n 3 Afric…  850772 9.61e5 1.13e6 1.20e6 1.20e6 1.24e6 1.28e6 1.26e6 1.29e6 1.31e6\n 4 Alban…    7000 8   e3 8   e3 8   e3 8.00e3 8.45e3 8.41e3 8.38e3 8.34e3 8.81e3\n 5 Alger…   23150 2.42e4 2.37e4 2.83e4 3.12e4 3.58e4 3.77e4 3.51e4 4.35e4 3.41e4\n 6 Ameri…       0 0      0      0      1   e2 8.2 e1 1.36e2 1.13e2 2.02e2 1.93e2\n 7 Andor…      NA 0      0      0      0      0      0      0      0      0     \n 8 Angola  425200 3.75e5 3.24e5 6.07e5 4.79e5 4.00e5 1.61e5 8.15e4 1.20e5 1.26e5\n 9 Antig…     800 9   e2 9   e2 1.2 e3 1.5 e3 1.59e3 1.60e3 1.61e3 1.82e3 1.62e3\n10 Arab …  634609 6.88e5 7.05e5 7.53e5 9.21e5 8.99e5 8.64e5 9.34e5 9.05e5 9.10e5\n# ℹ 254 more rows"
+  },
+  {
+    "objectID": "tidyr/pivot_longer.html#wide-to-long",
+    "href": "tidyr/pivot_longer.html#wide-to-long",
+    "title": "Pivot longer",
+    "section": "Wide to long",
+    "text": "Wide to long\nPivot the wide tibble to a long tibble.\nThe three options provided below are:\n\nThe columns to use for lengthening.\n\nBelow !Entity is used to lengthen all but the Entity column.\nString vectors can be used.\n\nnames_to=: New column in long data containing the names of the lengthened columns.\nvalues_to=: New column in long data containing the values of the lengthened columns.\n\n\nfisheries_wide_tbl |&gt; tidyr::pivot_longer(!Entity, names_to=\"Year\", values_to = \"Metric_tons\")\n\n# A tibble: 15,576 × 3\n   Entity      Year  Metric_tons\n   &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt;\n 1 Afghanistan 1969          400\n 2 Afghanistan 1970          400\n 3 Afghanistan 1971          500\n 4 Afghanistan 1972          500\n 5 Afghanistan 1973          500\n 6 Afghanistan 1974          500\n 7 Afghanistan 1975          600\n 8 Afghanistan 1976          600\n 9 Afghanistan 1977          600\n10 Afghanistan 1978          600\n# ℹ 15,566 more rows"
+  },
+  {
+    "objectID": "tidyr/pivot_wider.html",
+    "href": "tidyr/pivot_wider.html",
+    "title": "Pivot wider",
+    "section": "",
+    "text": "The function pivot_wider() widens data, converting it from long to wide.\nWhen data is widened:\nTo widen data two columns are chosen.\nTidyverse reference page"
+  },
+  {
+    "objectID": "tidyr/pivot_wider.html#dataset",
+    "href": "tidyr/pivot_wider.html#dataset",
+    "title": "Pivot wider",
+    "section": "Dataset",
+    "text": "Dataset\nFor demonstration we’ll load the fisheries_long_tbl data from the mgrtibbles package (hyperlink includes install instructions).\n\n#Load package\nlibrary(\"mgrtibbles\")\n#mammal_sleep_tbl tibble for demonstration\nmgrtibbles::fisheries_long_tbl\n\n# A tibble: 14,674 × 3\n   Entity       Year Metric_tons\n   &lt;chr&gt;       &lt;dbl&gt;       &lt;dbl&gt;\n 1 Afghanistan  1969         400\n 2 Afghanistan  1970         400\n 3 Afghanistan  1971         500\n 4 Afghanistan  1972         500\n 5 Afghanistan  1973         500\n 6 Afghanistan  1974         500\n 7 Afghanistan  1975         600\n 8 Afghanistan  1976         600\n 9 Afghanistan  1977         600\n10 Afghanistan  1978         600\n# ℹ 14,664 more rows"
+  },
+  {
+    "objectID": "tidyr/pivot_wider.html#long-to-wide",
+    "href": "tidyr/pivot_wider.html#long-to-wide",
+    "title": "Pivot wider",
+    "section": "Long to wide",
+    "text": "Long to wide\nPivot the long tibble to a wide tibble.\nThe two options provided below are:\n\nnames_from=: Column in long data to use as the widened column names.\nvalues_from=: Column in long data to use as the widened values.\n\n\nfisheries_long_tbl |&gt; tidyr::pivot_wider(names_from=Year, values_from=Metric_tons) |&gt;\n    #View first 11 columns with select\n    dplyr::select(1:11)\n\n# A tibble: 264 × 11\n   Entity  `1969` `1970` `1971` `1972` `1973` `1974` `1975` `1976` `1977` `1978`\n   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n 1 Afgha…     400 4   e2 5   e2 5   e2 5   e2 5   e2 6   e2 6   e2 6   e2 6   e2\n 2 Afric… 3078461 2.48e6 2.36e6 2.63e6 2.78e6 2.74e6 2.49e6 2.20e6 2.16e6 2.12e6\n 3 Afric…  850772 9.61e5 1.13e6 1.20e6 1.20e6 1.24e6 1.28e6 1.26e6 1.29e6 1.31e6\n 4 Alban…    7000 8   e3 8   e3 8   e3 8.00e3 8.45e3 8.41e3 8.38e3 8.34e3 8.81e3\n 5 Alger…   23150 2.42e4 2.37e4 2.83e4 3.12e4 3.58e4 3.77e4 3.51e4 4.35e4 3.41e4\n 6 Ameri…       0 0      0      0      1   e2 8.2 e1 1.36e2 1.13e2 2.02e2 1.93e2\n 7 Andor…      NA 0      0      0      0      0      0      0      0      0     \n 8 Angola  425200 3.75e5 3.24e5 6.07e5 4.79e5 4.00e5 1.61e5 8.15e4 1.20e5 1.26e5\n 9 Antig…     800 9   e2 9   e2 1.2 e3 1.5 e3 1.59e3 1.60e3 1.61e3 1.82e3 1.62e3\n10 Arab …  634609 6.88e5 7.05e5 7.53e5 9.21e5 8.99e5 8.64e5 9.34e5 9.05e5 9.10e5\n# ℹ 254 more rows"
+  },
+  {
+    "objectID": "tidyr/separate_wider.html",
+    "href": "tidyr/separate_wider.html",
+    "title": "Separate wider",
+    "section": "",
+    "text": "The separate_wider_delim() function splits a string column into multiple columns by a delimiter.\nTidyverse reference page"
+  },
+  {
+    "objectID": "tidyr/separate_wider.html#dataset",
+    "href": "tidyr/separate_wider.html#dataset",
+    "title": "Separate wider",
+    "section": "Dataset",
+    "text": "Dataset\nFor demonstration we’ll load the crop_and_soil_tbl data from the mgrtibbles package (hyperlink includes install instructions).\n\n#Load package\nlibrary(\"mgrtibbles\")\n#mammal_sleep_tbl tibble for demonstration\nmgrtibbles::crop_and_soil_tbl |&gt;\n    #View first four columns with select\n    dplyr::select(1:4)\n\n# A tibble: 8,000 × 4\n   Soil_type Crop_type Fertiliser Temperature_celsius_kelvin\n   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;                     \n 1 Sandy     Maize     Urea       26_-247                   \n 2 Loamy     Sugarcane DAP        29_-244                   \n 3 Black     Cotton    14-35-14   34_-239                   \n 4 Red       Tobacco   28-28      32_-241                   \n 5 Clayey    Paddy     Urea       28_-245                   \n 6 Sandy     Barley    17-17-17   26_-247                   \n 7 Red       Cotton    20-20      25_-248                   \n 8 Loamy     Wheat     Urea       33_-240                   \n 9 Sandy     Millets   28-28      30_-243                   \n10 Black     Oil seeds 14-35-14   29_-244                   \n# ℹ 7,990 more rows"
+  },
+  {
+    "objectID": "tidyr/separate_wider.html#separate-a-column",
+    "href": "tidyr/separate_wider.html#separate-a-column",
+    "title": "Separate wider",
+    "section": "Separate a column",
+    "text": "Separate a column\nSplit the column Temperature_celsius_kelvin into 2 columns by the delimiter ““. This will produce a Temp_celsius column and a -Temp_kelvin__ column.\n\ncrop_and_soil_tbl |&gt;\n    #Select first four columns\n    dplyr::select(1:4) |&gt;\n    #Separate wider\n    tidyr::separate_wider_delim(Temperature_celsius_kelvin, delim=\"_\",\n    names = c(\"Temp_celsius\", \"Temp_kelvin\")) |&gt;\n    #Mutate across the two columns to convert them to numeric columns\n    dplyr::mutate(dplyr::across(Temp_celsius:Temp_kelvin, as.numeric))\n\n# A tibble: 8,000 × 5\n   Soil_type Crop_type Fertiliser Temp_celsius Temp_kelvin\n   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;             &lt;dbl&gt;       &lt;dbl&gt;\n 1 Sandy     Maize     Urea                 26        -247\n 2 Loamy     Sugarcane DAP                  29        -244\n 3 Black     Cotton    14-35-14             34        -239\n 4 Red       Tobacco   28-28                32        -241\n 5 Clayey    Paddy     Urea                 28        -245\n 6 Sandy     Barley    17-17-17             26        -247\n 7 Red       Cotton    20-20                25        -248\n 8 Loamy     Wheat     Urea                 33        -240\n 9 Sandy     Millets   28-28                30        -243\n10 Black     Oil seeds 14-35-14             29        -244\n# ℹ 7,990 more rows"
+  },
+  {
     "objectID": "tidyr/tidyr.html",
     "href": "tidyr/tidyr.html",
     "title": "Tidyr",
     "section": "",
-    "text": "tidyr homepage"
+    "text": "The purpose of tidyr is to create tidy data. Tidy data has three main features:\nThe aim of tidy data is to work within the tidyverse so less time is needed to manipulate data and fight with tools. This allows you to spend your time and effort analysing the data.\ntidyr homepage\nThis website aims to quickly cover the most commonly used tidyr functions and uses. Therefore there are a lot more tidyr functions than those covered here. Please check the below link for the full list.\nFull tidyr reference page"
+  },
+  {
+    "objectID": "tidyr/tidyr.html#sections",
+    "href": "tidyr/tidyr.html#sections",
+    "title": "Tidyr",
+    "section": "Sections",
+    "text": "Sections\nThe sections for tidyr are summarised below.\n\nPivoting\n\n\n  \n\n\n  \n\n\nCertain analyses and tools require data to be in a specific structure. Two rectangular/table data structures are wide and long. The two pivot functions transform data between these two types.\n\npivot_longer(): Lengthens data, transforming it from wide to long. Many Tidyverse packages are built with long data in mind, especially ggplot2.\npivot_wider(): Widens data, transforming it from long to wide.\n\n\n\nCharacter vectors\n\n\n  \n\n\n  \n\n\nA column may contain multiple pieces of character/string data or you may want to create a column by uniting multiple character/string columns. The below functions can be used for these purposes.\n\nseparate_wider_delim(): Splits a string column into multiple columns by a delimiter.\nunite(): Combines/unites multiple string columns into one column.\n\n\n\nMissing values\n\n\n  \n\n\n  \n\n\nIt is common to encounter NAs in tabular data. Dropping columns with NAs or replacing NA values are common approaches to deal with them.\n\ndrop_na(): Remove rows with NAs.\nreplace_na(): Replace NA values."
+  },
+  {
+    "objectID": "tidyr/unite.html",
+    "href": "tidyr/unite.html",
+    "title": "Unite",
+    "section": "",
+    "text": "The unite() function combines/pastes multiple string/character columns into one. This can be useful when combing multiple metadata columns into one for analyses/statistics/plotting purposes.\nTidyverse reference page"
+  },
+  {
+    "objectID": "tidyr/unite.html#dataset",
+    "href": "tidyr/unite.html#dataset",
+    "title": "Unite",
+    "section": "Dataset",
+    "text": "Dataset\nFor demonstration we’ll load the crop_and_soil_tbl data from the mgrtibbles package (hyperlink includes install instructions).\n\n#Load package\nlibrary(\"mgrtibbles\")\n#mammal_sleep_tbl tibble for demonstration\nmgrtibbles::crop_and_soil_tbl |&gt;\n    #Select all but the fourth column\n    dplyr::select(-4)\n\n# A tibble: 8,000 × 8\n   Soil_type Crop_type Fertiliser Humidity Moisture Nitrogen Potassium\n   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;\n 1 Sandy     Maize     Urea             52       38       37         0\n 2 Loamy     Sugarcane DAP              52       45       12         0\n 3 Black     Cotton    14-35-14         65       62        7         9\n 4 Red       Tobacco   28-28            62       34       22         0\n 5 Clayey    Paddy     Urea             54       46       35         0\n 6 Sandy     Barley    17-17-17         52       35       12        10\n 7 Red       Cotton    20-20            50       64        9         0\n 8 Loamy     Wheat     Urea             64       50       41         0\n 9 Sandy     Millets   28-28            60       42       21         0\n10 Black     Oil seeds 14-35-14         58       33        9         7\n# ℹ 7,990 more rows\n# ℹ 1 more variable: Phosphorous &lt;dbl&gt;"
+  },
+  {
+    "objectID": "tidyr/unite.html#unite-columns",
+    "href": "tidyr/unite.html#unite-columns",
+    "title": "Unite",
+    "section": "Unite columns",
+    "text": "Unite columns\nUnite 2 columns into one. This will remove the columns to be united.\nThe two options below are:\n\nThe name of the new united column (Crop_fertiliser).\nThe columns to unite (Crop_type:Fertiliser).\n\n\ncrop_and_soil_tbl |&gt;\n    #Select all but the fourth column\n    dplyr::select(-4) |&gt;\n    #Unite the Crop and fertiliser columns\n    tidyr::unite(\"Crop_Fertiliser\", Crop_type:Fertiliser)\n\n# A tibble: 8,000 × 7\n   Soil_type Crop_Fertiliser    Humidity Moisture Nitrogen Potassium Phosphorous\n   &lt;chr&gt;     &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;\n 1 Sandy     Maize_Urea               52       38       37         0           0\n 2 Loamy     Sugarcane_DAP            52       45       12         0          36\n 3 Black     Cotton_14-35-14          65       62        7         9          30\n 4 Red       Tobacco_28-28            62       34       22         0          20\n 5 Clayey    Paddy_Urea               54       46       35         0           0\n 6 Sandy     Barley_17-17-17          52       35       12        10          13\n 7 Red       Cotton_20-20             50       64        9         0          10\n 8 Loamy     Wheat_Urea               64       50       41         0           0\n 9 Sandy     Millets_28-28            60       42       21         0          18\n10 Black     Oil seeds_14-35-14       58       33        9         7          30\n# ℹ 7,990 more rows"
+  },
+  {
+    "objectID": "tidyr/unite.html#further-unite-options",
+    "href": "tidyr/unite.html#further-unite-options",
+    "title": "Unite",
+    "section": "Further unite options",
+    "text": "Further unite options\nWith tidyr::unite() you can:\n\nChoose specific columns and their order in the united column with a string vector of the column names.\nChoose the delimiter/separator for the strings in the united column (sep=).\nRetain the original columns with the option remove=FALSE.\n\n\ncrop_and_soil_tbl |&gt;\n    #Select all but the fourth column\n    dplyr::select(-4) |&gt;\n    #Unite columns\n    tidyr::unite(\n        #United column name\n        \"Crop.Soil.Fertiliser\",\n        #Columns to unite\n        c(\"Crop_type\",\"Soil_type\",\"Fertiliser\"), \n        #Separator for stings in united column\n        sep=\".\", \n        #Do not remove the original columns to be united\n        remove=FALSE\n        )\n\n# A tibble: 8,000 × 9\n   Crop.Soil.Fertiliser     Soil_type Crop_type Fertiliser Humidity Moisture\n   &lt;chr&gt;                    &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;\n 1 Maize.Sandy.Urea         Sandy     Maize     Urea             52       38\n 2 Sugarcane.Loamy.DAP      Loamy     Sugarcane DAP              52       45\n 3 Cotton.Black.14-35-14    Black     Cotton    14-35-14         65       62\n 4 Tobacco.Red.28-28        Red       Tobacco   28-28            62       34\n 5 Paddy.Clayey.Urea        Clayey    Paddy     Urea             54       46\n 6 Barley.Sandy.17-17-17    Sandy     Barley    17-17-17         52       35\n 7 Cotton.Red.20-20         Red       Cotton    20-20            50       64\n 8 Wheat.Loamy.Urea         Loamy     Wheat     Urea             64       50\n 9 Millets.Sandy.28-28      Sandy     Millets   28-28            60       42\n10 Oil seeds.Black.14-35-14 Black     Oil seeds 14-35-14         58       33\n# ℹ 7,990 more rows\n# ℹ 3 more variables: Nitrogen &lt;dbl&gt;, Potassium &lt;dbl&gt;, Phosphorous &lt;dbl&gt;"
+  },
+  {
+    "objectID": "tidyr/replace_na.html",
+    "href": "tidyr/replace_na.html",
+    "title": "Replace NA",
+    "section": "",
+    "text": "It is common to have NAs in your data. However, sometimes instead of removing them you may want to replace them. below are three methods to carry this out.\nTidyverse reference page"
+  },
+  {
+    "objectID": "tidyr/replace_na.html#dataset",
+    "href": "tidyr/replace_na.html#dataset",
+    "title": "Replace NA",
+    "section": "Dataset",
+    "text": "Dataset\nFor demonstration we’ll load the mammal_sleep_tbl data from the mgrtibbles package (hyperlink includes install instructions). Additionally, we’ll subset it to:\n\nKeep the first ten rows with at least one NA.\nCOlumns species to life_span\n\n\n#Load package\nlibrary(\"mgrtibbles\")\n#mammal_sleep_tbl tibble for demonstration\n#Subset to only keep rows with at least one NA\nmammal_sleep_na_tbl &lt;- mgrtibbles::mammal_sleep_tbl[!complete.cases(mammal_sleep_tbl),] |&gt;\n    #Slice to keep first ten rows and select columns species to life_span\n    dplyr::slice(1:10) |&gt; dplyr::select(species:life_span)\n#View tibble\nmammal_sleep_na_tbl\n\n# A tibble: 10 × 7\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africanelephant  6654      5.71           NA       NA           3.3      38.6\n 2 ArcticFox           3.38   0.0445         NA       NA          12.5      14  \n 3 Arcticgroundsqu…    0.92   0.0057         NA       NA          16.5      NA  \n 4 Deserthedgehog      0.55   0.0024          7.6      2.7        10.3      NA  \n 5 Donkey            187.     0.419          NA       NA           3.1      40  \n 6 Genet               1.41   0.0175          4.8      1.3         6.1      34  \n 7 Giantarmadillo     60      0.081          12        6.1        18.1       7  \n 8 Giraffe           529      0.68           NA        0.3        NA        28  \n 9 Gorilla           207      0.406          NA       NA          12        39.3\n10 Graywolf           36.3    0.120          NA       NA          13        16.2"
+  },
+  {
+    "objectID": "tidyr/replace_na.html#replace-with-a-value",
+    "href": "tidyr/replace_na.html#replace-with-a-value",
+    "title": "Replace NA",
+    "section": "Replace with a value",
+    "text": "Replace with a value\nReplace NAs in specified columns with tidyr::replace_na().\nWhen used with a tibble/data.frame the function needs to be provided with a list. The list contains the column names and the replacement value.\n\nOne column\nReplaces NAs in the dreaming column with 0.\n\nmammal_sleep_na_tbl |&gt;\n    tidyr::replace_na(list(dreaming=0))\n\n# A tibble: 10 × 7\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africanelephant  6654      5.71           NA        0           3.3      38.6\n 2 ArcticFox           3.38   0.0445         NA        0          12.5      14  \n 3 Arcticgroundsqu…    0.92   0.0057         NA        0          16.5      NA  \n 4 Deserthedgehog      0.55   0.0024          7.6      2.7        10.3      NA  \n 5 Donkey            187.     0.419          NA        0           3.1      40  \n 6 Genet               1.41   0.0175          4.8      1.3         6.1      34  \n 7 Giantarmadillo     60      0.081          12        6.1        18.1       7  \n 8 Giraffe           529      0.68           NA        0.3        NA        28  \n 9 Gorilla           207      0.406          NA        0          12        39.3\n10 Graywolf           36.3    0.120          NA        0          13        16.2\n\n\n\n\nMultiple columns\nReplaces:\n\nNAs in the dreaming column with 0.\nNAs in the life_span column with 1.\n\n\nmammal_sleep_na_tbl |&gt;\n    tidyr::replace_na(list(dreaming=0, life_span=1))\n\n# A tibble: 10 × 7\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africanelephant  6654      5.71           NA        0           3.3      38.6\n 2 ArcticFox           3.38   0.0445         NA        0          12.5      14  \n 3 Arcticgroundsqu…    0.92   0.0057         NA        0          16.5       1  \n 4 Deserthedgehog      0.55   0.0024          7.6      2.7        10.3       1  \n 5 Donkey            187.     0.419          NA        0           3.1      40  \n 6 Genet               1.41   0.0175          4.8      1.3         6.1      34  \n 7 Giantarmadillo     60      0.081          12        6.1        18.1       7  \n 8 Giraffe           529      0.68           NA        0.3        NA        28  \n 9 Gorilla           207      0.406          NA        0          12        39.3\n10 Graywolf           36.3    0.120          NA        0          13        16.2\n\n\n\n\nVector\nthe replace_na() function can be used with vectors. In this case the function only needs to value to be replace NAs with.\n\nmammal_sleep_na_tbl |&gt;\n    #Pull out non_dreaming column as a vector\n    dplyr::pull(non_dreaming) |&gt;\n    #Replace NAs with 0\n    tidyr::replace_na(0)\n\n [1]  0.0  0.0  0.0  7.6  0.0  4.8 12.0  0.0  0.0  0.0"
+  },
+  {
+    "objectID": "tidyr/replace_na.html#replace-with-other-column",
+    "href": "tidyr/replace_na.html#replace-with-other-column",
+    "title": "Replace NA",
+    "section": "Replace with other column",
+    "text": "Replace with other column\nNAs can be replaced with the corresponding value in another column. This carried out with the following functions:\n\ndplyr::mutate: Mutate columns to create new columns based on existing ones, modify existing columns, and delete columns.\ndplyr::coalesce: Finds the first non-missing value at each point.\n\n\nmammal_sleep_na_tbl |&gt;\n    dplyr::mutate(dreaming = dplyr::coalesce(dreaming, total_sleep))\n\n# A tibble: 10 × 7\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africanelephant  6654      5.71           NA        3.3         3.3      38.6\n 2 ArcticFox           3.38   0.0445         NA       12.5        12.5      14  \n 3 Arcticgroundsqu…    0.92   0.0057         NA       16.5        16.5      NA  \n 4 Deserthedgehog      0.55   0.0024          7.6      2.7        10.3      NA  \n 5 Donkey            187.     0.419          NA        3.1         3.1      40  \n 6 Genet               1.41   0.0175          4.8      1.3         6.1      34  \n 7 Giantarmadillo     60      0.081          12        6.1        18.1       7  \n 8 Giraffe           529      0.68           NA        0.3        NA        28  \n 9 Gorilla           207      0.406          NA       12          12        39.3\n10 Graywolf           36.3    0.120          NA       13          13        16.2"
+  },
+  {
+    "objectID": "tidyr/replace_na.html#replace-all-nas",
+    "href": "tidyr/replace_na.html#replace-all-nas",
+    "title": "Replace NA",
+    "section": "Replace all NAs",
+    "text": "Replace all NAs\nAll NAs can be replaced with a value using base R’s is.na() function.\n\nmammal_sleep_na_tbl[is.na(mammal_sleep_na_tbl)] &lt;- 0\nmammal_sleep_na_tbl\n\n# A tibble: 10 × 7\n   species          body_wt brain_wt non_dreaming dreaming total_sleep life_span\n   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;\n 1 Africanelephant  6654      5.71            0        0           3.3      38.6\n 2 ArcticFox           3.38   0.0445          0        0          12.5      14  \n 3 Arcticgroundsqu…    0.92   0.0057          0        0          16.5       0  \n 4 Deserthedgehog      0.55   0.0024          7.6      2.7        10.3       0  \n 5 Donkey            187.     0.419           0        0           3.1      40  \n 6 Genet               1.41   0.0175          4.8      1.3         6.1      34  \n 7 Giantarmadillo     60      0.081          12        6.1        18.1       7  \n 8 Giraffe           529      0.68            0        0.3         0        28  \n 9 Gorilla           207      0.406           0        0          12        39.3\n10 Graywolf           36.3    0.120           0        0          13        16.2"
+  },
+  {
+    "objectID": "tibble/subsetting.html#dplyr",
+    "href": "tibble/subsetting.html#dplyr",
+    "title": "Subsetting",
+    "section": "Dplyr",
+    "text": "Dplyr\n\n\n  \n\n\nThere are also many ways to subset a tibble with dplyr.\ndplyr page"
   }
 ]

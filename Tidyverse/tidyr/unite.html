@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>NEOF Tidyverse - Cheatsheets</title>
+<title>NEOF Tidyverse - Unite</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../tidyr/na_filling.html" rel="prev">
+<link href="../tidyr/drop_na.html" rel="next">
+<link href="../tidyr/separate_wider.html" rel="prev">
 <link href="..//images/NEOF_favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -156,7 +191,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tidyr/cheatsheets.html">Cheatsheets</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tidyr/separate_wider.html">Character vectors</a></li><li class="breadcrumb-item"><a href="../tidyr/unite.html">Unite</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -214,7 +249,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../tidyr/unite.html" class="sidebar-item-text sidebar-link">
+  <a href="../tidyr/unite.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Unite</span></a>
   </div>
 </li>
@@ -245,7 +280,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../tidyr/cheatsheets.html" class="sidebar-item-text sidebar-link active">
+  <a href="../tidyr/cheatsheets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Cheatsheets</span></a>
   </div>
 </li>
@@ -255,14 +290,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link active" data-scroll-target="#dataset">Dataset</a></li>
+  <li><a href="#unite-columns" id="toc-unite-columns" class="nav-link" data-scroll-target="#unite-columns">Unite columns</a></li>
+  <li><a href="#further-unite-options" id="toc-further-unite-options" class="nav-link" data-scroll-target="#further-unite-options">Further unite options</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Cheatsheets</h1>
+<h1 class="title">Unite</h1>
 </div>
 
 
@@ -277,15 +320,116 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p><a href="https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf">Source</a></p>
 <center>
-<img src="images/cheatsheet_1.png" class="img-fluid" style="width:100%">
+<img src="..\tidyr/images/tidyr_unite.png" class="img-fluid" style="width:150px">
 </center>
-<center>
-<img src="images/cheatsheet_2.png" class="img-fluid" style="width:100%">
-</center>
+<p>The <code>unite()</code> function combines/pastes multiple string/character columns into one. This can be useful when combing multiple metadata columns into one for analyses/statistics/plotting purposes.</p>
+<p><a href="https://tidyr.tidyverse.org//reference/pivot_longer.html">Tidyverse reference page</a></p>
+<section id="dataset" class="level2">
+<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
+<p>For demonstration we’ll load the <code>crop_and_soil_tbl</code> data from the <a href="../datasets/mgrtibbles.html">mgrtibbles package</a> (hyperlink includes install instructions).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load package</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"mgrtibbles"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#mammal_sleep_tbl tibble for demonstration</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>mgrtibbles<span class="sc">::</span>crop_and_soil_tbl <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Select all but the fourth column</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8,000 × 8
+   Soil_type Crop_type Fertiliser Humidity Moisture Nitrogen Potassium
+   &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+ 1 Sandy     Maize     Urea             52       38       37         0
+ 2 Loamy     Sugarcane DAP              52       45       12         0
+ 3 Black     Cotton    14-35-14         65       62        7         9
+ 4 Red       Tobacco   28-28            62       34       22         0
+ 5 Clayey    Paddy     Urea             54       46       35         0
+ 6 Sandy     Barley    17-17-17         52       35       12        10
+ 7 Red       Cotton    20-20            50       64        9         0
+ 8 Loamy     Wheat     Urea             64       50       41         0
+ 9 Sandy     Millets   28-28            60       42       21         0
+10 Black     Oil seeds 14-35-14         58       33        9         7
+# ℹ 7,990 more rows
+# ℹ 1 more variable: Phosphorous &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="unite-columns" class="level2">
+<h2 class="anchored" data-anchor-id="unite-columns">Unite columns</h2>
+<p>Unite 2 columns into one. This will remove the columns to be united.</p>
+<p>The two options below are:</p>
+<ul>
+<li>The name of the new united column (<code>Crop_fertiliser</code>).</li>
+<li>The columns to unite (<code>Crop_type:Fertiliser</code>).</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>crop_and_soil_tbl <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Select all but the fourth column</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="dv">4</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Unite the Crop and fertiliser columns</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">unite</span>(<span class="st">"Crop_Fertiliser"</span>, Crop_type<span class="sc">:</span>Fertiliser)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8,000 × 7
+   Soil_type Crop_Fertiliser    Humidity Moisture Nitrogen Potassium Phosphorous
+   &lt;chr&gt;     &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+ 1 Sandy     Maize_Urea               52       38       37         0           0
+ 2 Loamy     Sugarcane_DAP            52       45       12         0          36
+ 3 Black     Cotton_14-35-14          65       62        7         9          30
+ 4 Red       Tobacco_28-28            62       34       22         0          20
+ 5 Clayey    Paddy_Urea               54       46       35         0           0
+ 6 Sandy     Barley_17-17-17          52       35       12        10          13
+ 7 Red       Cotton_20-20             50       64        9         0          10
+ 8 Loamy     Wheat_Urea               64       50       41         0           0
+ 9 Sandy     Millets_28-28            60       42       21         0          18
+10 Black     Oil seeds_14-35-14       58       33        9         7          30
+# ℹ 7,990 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="further-unite-options" class="level2">
+<h2 class="anchored" data-anchor-id="further-unite-options">Further unite options</h2>
+<p>With <code>tidyr::unite()</code> you can:</p>
+<ul>
+<li>Choose specific columns and their order in the united column with a string vector of the column names.</li>
+<li>Choose the delimiter/separator for the strings in the united column (<code>sep=</code>).</li>
+<li>Retain the original columns with the option <code>remove=FALSE</code>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>crop_and_soil_tbl <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Select all but the fourth column</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="dv">4</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Unite columns</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">unite</span>(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">#United column name</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Crop.Soil.Fertiliser"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">#Columns to unite</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(<span class="st">"Crop_type"</span>,<span class="st">"Soil_type"</span>,<span class="st">"Fertiliser"</span>), </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">#Separator for stings in united column</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">sep=</span><span class="st">"."</span>, </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">#Do not remove the original columns to be united</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">remove=</span><span class="cn">FALSE</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8,000 × 9
+   Crop.Soil.Fertiliser     Soil_type Crop_type Fertiliser Humidity Moisture
+   &lt;chr&gt;                    &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Maize.Sandy.Urea         Sandy     Maize     Urea             52       38
+ 2 Sugarcane.Loamy.DAP      Loamy     Sugarcane DAP              52       45
+ 3 Cotton.Black.14-35-14    Black     Cotton    14-35-14         65       62
+ 4 Tobacco.Red.28-28        Red       Tobacco   28-28            62       34
+ 5 Paddy.Clayey.Urea        Clayey    Paddy     Urea             54       46
+ 6 Barley.Sandy.17-17-17    Sandy     Barley    17-17-17         52       35
+ 7 Cotton.Red.20-20         Red       Cotton    20-20            50       64
+ 8 Wheat.Loamy.Urea         Loamy     Wheat     Urea             64       50
+ 9 Millets.Sandy.28-28      Sandy     Millets   28-28            60       42
+10 Oil seeds.Black.14-35-14 Black     Oil seeds 14-35-14         58       33
+# ℹ 7,990 more rows
+# ℹ 3 more variables: Nitrogen &lt;dbl&gt;, Potassium &lt;dbl&gt;, Phosphorous &lt;dbl&gt;</code></pre>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -844,11 +988,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../tidyr/na_filling.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">NA filling</span>
+      <a href="../tidyr/separate_wider.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Separate wider</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../tidyr/drop_na.html" class="pagination-link">
+        <span class="nav-page-text">Drop NA</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

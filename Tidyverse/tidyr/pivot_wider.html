@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>NEOF Tidyverse - Cheatsheets</title>
+<title>NEOF Tidyverse - Pivot wider</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../tidyr/na_filling.html" rel="prev">
+<link href="../tidyr/separate_wider.html" rel="next">
+<link href="../tidyr/pivot_longer.html" rel="prev">
 <link href="..//images/NEOF_favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -156,7 +191,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tidyr/cheatsheets.html">Cheatsheets</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tidyr/pivot_longer.html">Pivot</a></li><li class="breadcrumb-item"><a href="../tidyr/pivot_wider.html">Pivot wider</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -191,7 +226,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../tidyr/pivot_wider.html" class="sidebar-item-text sidebar-link">
+  <a href="../tidyr/pivot_wider.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Pivot wider</span></a>
   </div>
 </li>
@@ -245,7 +280,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../tidyr/cheatsheets.html" class="sidebar-item-text sidebar-link active">
+  <a href="../tidyr/cheatsheets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Cheatsheets</span></a>
   </div>
 </li>
@@ -255,14 +290,21 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link active" data-scroll-target="#dataset">Dataset</a></li>
+  <li><a href="#long-to-wide" id="toc-long-to-wide" class="nav-link" data-scroll-target="#long-to-wide">Long to wide</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Cheatsheets</h1>
+<h1 class="title">Pivot wider</h1>
 </div>
 
 
@@ -277,15 +319,79 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p><a href="https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf">Source</a></p>
 <center>
-<img src="images/cheatsheet_1.png" class="img-fluid" style="width:100%">
+<img src="images/tidyr_pivot_wider.png" class="img-fluid" style="width:200px">
 </center>
-<center>
-<img src="images/cheatsheet_2.png" class="img-fluid" style="width:100%">
-</center>
+<p>The function <code>pivot_wider()</code> widens data, converting it from long to wide.</p>
+<p>When data is widened:</p>
+<ul>
+<li>The number of rows decreases.</li>
+<li>The number of columns increases.</li>
+</ul>
+<p>To widen data two columns are chosen.</p>
+<ul>
+<li>A <strong>names</strong> column is chosen. These names are used to name the widened columns.</li>
+<li>A <strong>values</strong> column is chosen. These values populate the widened columns.</li>
+</ul>
+<p><a href="https://tidyr.tidyverse.org//reference/pivot_wider.html">Tidyverse reference page</a></p>
+<section id="dataset" class="level2">
+<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
+<p>For demonstration we’ll load the <code>fisheries_long_tbl</code> data from the <a href="../datasets/mgrtibbles.html">mgrtibbles package</a> (hyperlink includes install instructions).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load package</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"mgrtibbles"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#mammal_sleep_tbl tibble for demonstration</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>mgrtibbles<span class="sc">::</span>fisheries_long_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14,674 × 3
+   Entity       Year Metric_tons
+   &lt;chr&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+ 1 Afghanistan  1969         400
+ 2 Afghanistan  1970         400
+ 3 Afghanistan  1971         500
+ 4 Afghanistan  1972         500
+ 5 Afghanistan  1973         500
+ 6 Afghanistan  1974         500
+ 7 Afghanistan  1975         600
+ 8 Afghanistan  1976         600
+ 9 Afghanistan  1977         600
+10 Afghanistan  1978         600
+# ℹ 14,664 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="long-to-wide" class="level2">
+<h2 class="anchored" data-anchor-id="long-to-wide">Long to wide</h2>
+<p>Pivot the <strong>long tibble</strong> to a <strong>wide tibble</strong>.</p>
+<p>The two options provided below are:</p>
+<ul>
+<li><code>names_from=</code>: Column in long data to use as the widened column <strong>names</strong>.</li>
+<li><code>values_from=</code>: Column in long data to use as the widened <strong>values</strong>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fisheries_long_tbl <span class="sc">|&gt;</span> tidyr<span class="sc">::</span><span class="fu">pivot_wider</span>(<span class="at">names_from=</span>Year, <span class="at">values_from=</span>Metric_tons) <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#View first 11 columns with select</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 264 × 11
+   Entity  `1969` `1970` `1971` `1972` `1973` `1974` `1975` `1976` `1977` `1978`
+   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+ 1 Afgha…     400 4   e2 5   e2 5   e2 5   e2 5   e2 6   e2 6   e2 6   e2 6   e2
+ 2 Afric… 3078461 2.48e6 2.36e6 2.63e6 2.78e6 2.74e6 2.49e6 2.20e6 2.16e6 2.12e6
+ 3 Afric…  850772 9.61e5 1.13e6 1.20e6 1.20e6 1.24e6 1.28e6 1.26e6 1.29e6 1.31e6
+ 4 Alban…    7000 8   e3 8   e3 8   e3 8.00e3 8.45e3 8.41e3 8.38e3 8.34e3 8.81e3
+ 5 Alger…   23150 2.42e4 2.37e4 2.83e4 3.12e4 3.58e4 3.77e4 3.51e4 4.35e4 3.41e4
+ 6 Ameri…       0 0      0      0      1   e2 8.2 e1 1.36e2 1.13e2 2.02e2 1.93e2
+ 7 Andor…      NA 0      0      0      0      0      0      0      0      0     
+ 8 Angola  425200 3.75e5 3.24e5 6.07e5 4.79e5 4.00e5 1.61e5 8.15e4 1.20e5 1.26e5
+ 9 Antig…     800 9   e2 9   e2 1.2 e3 1.5 e3 1.59e3 1.60e3 1.61e3 1.82e3 1.62e3
+10 Arab …  634609 6.88e5 7.05e5 7.53e5 9.21e5 8.99e5 8.64e5 9.34e5 9.05e5 9.10e5
+# ℹ 254 more rows</code></pre>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -844,11 +950,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../tidyr/na_filling.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">NA filling</span>
+      <a href="../tidyr/pivot_longer.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Pivot longer</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../tidyr/separate_wider.html" class="pagination-link">
+        <span class="nav-page-text">Separate wider</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
