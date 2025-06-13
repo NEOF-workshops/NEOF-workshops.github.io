@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-03-28" />
+<meta name="date" content="2025-06-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -205,7 +205,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-rarefaction"><i class="fa fa-check"></i><b>10.1</b> MR: Rarefaction</a></li>
 <li class="chapter" data-level="10.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mathematical-operators-data-frames"><i class="fa fa-check"></i><b>10.2</b> Mathematical operators &amp; data frames</a></li>
-<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a></li>
+<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#relative-abundance-transformation"><i class="fa fa-check"></i><b>10.3.1</b> Relative abundance transformation</a></li>
+<li class="chapter" data-level="10.3.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#histogram-comparison"><i class="fa fa-check"></i><b>10.3.2</b> Histogram comparison</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-Iterating_rarefaction_practice.html"><a href="11-Iterating_rarefaction_practice.html"><i class="fa fa-check"></i><b>11</b> Iterating rarefaction practice</a>
 <ul>
@@ -221,9 +225,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13" data-path="13-Alpha_diversity_rarefaction.html"><a href="13-Alpha_diversity_rarefaction.html"><i class="fa fa-check"></i><b>13</b> <span class="math inline">\(\alpha\)</span>: Iterative rarefaction loop</a></li>
 <li class="chapter" data-level="14" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html"><i class="fa fa-check"></i><b>14</b> <span class="math inline">\(\alpha\)</span> data frame tidying</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
-<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
-<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
+<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-rename-metrics"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Rename metrics</a></li>
+<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.4</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
 </ul></li>
 <li class="chapter" data-level="15" data-path="15-Alpha_violin_plot_and_stats.html"><a href="15-Alpha_violin_plot_and_stats.html"><i class="fa fa-check"></i><b>15</b> <span class="math inline">\(\alpha\)</span>: Plot and stats</a>
 <ul>
@@ -339,24 +344,24 @@ However, the code is slightly different.</p>
 <div id="stats-setup" class="section level2 hasAnchor" number="22.1">
 <h2><span class="header-section-number">22.1</span> Stats setup<a href="22-Beta_stats.html#stats-setup" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Load the required data.</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb69-1"><a href="22-Beta_stats.html#cb69-1" tabindex="-1"></a><span class="co">#Load wunifrac</span></span>
-<span id="cb69-2"><a href="22-Beta_stats.html#cb69-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;wunifrac_df_mean.RData&quot;</span>)</span>
-<span id="cb69-3"><a href="22-Beta_stats.html#cb69-3" tabindex="-1"></a><span class="co">#Extract metadata</span></span>
-<span id="cb69-4"><a href="22-Beta_stats.html#cb69-4" tabindex="-1"></a><span class="co">#need data.frame() for vegan::adonis2() used later</span></span>
-<span id="cb69-5"><a href="22-Beta_stats.html#cb69-5" tabindex="-1"></a>metadf <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq))</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb75-1"><a href="22-Beta_stats.html#cb75-1" tabindex="-1"></a><span class="co">#Load wunifrac</span></span>
+<span id="cb75-2"><a href="22-Beta_stats.html#cb75-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;wunifrac_df_mean.RData&quot;</span>)</span>
+<span id="cb75-3"><a href="22-Beta_stats.html#cb75-3" tabindex="-1"></a><span class="co">#Extract metadata</span></span>
+<span id="cb75-4"><a href="22-Beta_stats.html#cb75-4" tabindex="-1"></a><span class="co">#need data.frame() for vegan::adonis2() used later</span></span>
+<span id="cb75-5"><a href="22-Beta_stats.html#cb75-5" tabindex="-1"></a>metadf <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq))</span></code></pre></div>
 </div>
 <div id="permanova" class="section level2 hasAnchor" number="22.2">
 <h2><span class="header-section-number">22.2</span> PERMANOVA<a href="22-Beta_stats.html#permanova" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
 <img src="figures/permanova.png" style="width:200px" />
 </center>
-<p>To determine if their is a significant overall difference between the media &amp; site groups we can carry out a PERMANOVA test.
+<p>To determine if there is a significant overall difference between the media &amp; site groups we can carry out a PERMANOVA test.
 We'll use the package <code>vegan</code> with its function <code>adonis2()</code>.</p>
 <p><strong>Note:</strong> The original <code>vegan::adonis()</code> function is deprecated and should not be used.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb70-1"><a href="22-Beta_stats.html#cb70-1" tabindex="-1"></a><span class="co">#PERMANOVA of media+site</span></span>
-<span id="cb70-2"><a href="22-Beta_stats.html#cb70-2" tabindex="-1"></a>wunifrac_adonis <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">adonis2</span>(beta_df_mean <span class="sc">~</span> media<span class="sc">+</span>site,</span>
-<span id="cb70-3"><a href="22-Beta_stats.html#cb70-3" tabindex="-1"></a>                                  <span class="at">data =</span> metadf, <span class="at">by =</span> <span class="st">&quot;margin&quot;</span>)</span>
-<span id="cb70-4"><a href="22-Beta_stats.html#cb70-4" tabindex="-1"></a>wunifrac_adonis</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb76-1"><a href="22-Beta_stats.html#cb76-1" tabindex="-1"></a><span class="co">#PERMANOVA of media+site</span></span>
+<span id="cb76-2"><a href="22-Beta_stats.html#cb76-2" tabindex="-1"></a>wunifrac_adonis <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">adonis2</span>(beta_df_mean <span class="sc">~</span> media<span class="sc">+</span>site,</span>
+<span id="cb76-3"><a href="22-Beta_stats.html#cb76-3" tabindex="-1"></a>                                  <span class="at">data =</span> metadf, <span class="at">by =</span> <span class="st">&quot;margin&quot;</span>)</span>
+<span id="cb76-4"><a href="22-Beta_stats.html#cb76-4" tabindex="-1"></a>wunifrac_adonis</span></code></pre></div>
 </div>
 <div id="pairwise-permanova" class="section level2 hasAnchor" number="22.3">
 <h2><span class="header-section-number">22.3</span> Pairwise PERMANOVA<a href="22-Beta_stats.html#pairwise-permanova" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -365,38 +370,38 @@ We'll use the package <code>vegan</code> with its function <code>adonis2()</code
 </center>
 <p>We can use a pairwise PERMANOVA to determine if there are significant differences between groups in a metadata category.
 The below code carries this out for the media groupings.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb71-1"><a href="22-Beta_stats.html#cb71-1" tabindex="-1"></a><span class="co">#Pairwise PERMANOVA for media</span></span>
-<span id="cb71-2"><a href="22-Beta_stats.html#cb71-2" tabindex="-1"></a><span class="co">#Get combinations of unique media values</span></span>
-<span id="cb71-3"><a href="22-Beta_stats.html#cb71-3" tabindex="-1"></a>cbn <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="at">x =</span> <span class="fu">unique</span>(metadf<span class="sc">$</span>media), <span class="at">m =</span> <span class="dv">2</span>)</span>
-<span id="cb71-4"><a href="22-Beta_stats.html#cb71-4" tabindex="-1"></a><span class="co">#Create empty final data frame with 4 columns</span></span>
-<span id="cb71-5"><a href="22-Beta_stats.html#cb71-5" tabindex="-1"></a><span class="co"># and a number of rows equal to the the number of combinations</span></span>
-<span id="cb71-6"><a href="22-Beta_stats.html#cb71-6" tabindex="-1"></a>pairwise_permanova_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">data =</span> <span class="cn">NA</span>, <span class="at">nrow =</span> <span class="fu">ncol</span>(cbn), <span class="at">ncol =</span> <span class="dv">4</span>))</span>
-<span id="cb71-7"><a href="22-Beta_stats.html#cb71-7" tabindex="-1"></a><span class="co">#Add column names</span></span>
-<span id="cb71-8"><a href="22-Beta_stats.html#cb71-8" tabindex="-1"></a><span class="fu">colnames</span>(pairwise_permanova_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;2&quot;</span>,<span class="st">&quot;p&quot;</span>,<span class="st">&quot;p.adj&quot;</span>)</span>
-<span id="cb71-9"><a href="22-Beta_stats.html#cb71-9" tabindex="-1"></a></span>
-<span id="cb71-10"><a href="22-Beta_stats.html#cb71-10" tabindex="-1"></a><span class="co">#Loop through the combinations</span></span>
-<span id="cb71-11"><a href="22-Beta_stats.html#cb71-11" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(cbn)){</span>
-<span id="cb71-12"><a href="22-Beta_stats.html#cb71-12" tabindex="-1"></a>  <span class="co">#Subset metadata</span></span>
-<span id="cb71-13"><a href="22-Beta_stats.html#cb71-13" tabindex="-1"></a>  metadata_subset <span class="ot">&lt;-</span> metadf[metadf<span class="sc">$</span>media <span class="sc">%in%</span> cbn[,i],]</span>
-<span id="cb71-14"><a href="22-Beta_stats.html#cb71-14" tabindex="-1"></a>  <span class="co">#Extract sample names</span></span>
-<span id="cb71-15"><a href="22-Beta_stats.html#cb71-15" tabindex="-1"></a>  samples_subset <span class="ot">&lt;-</span> <span class="fu">row.names</span>(metadf_subset)</span>
-<span id="cb71-16"><a href="22-Beta_stats.html#cb71-16" tabindex="-1"></a>  <span class="co">#Subset distance matrix</span></span>
-<span id="cb71-17"><a href="22-Beta_stats.html#cb71-17" tabindex="-1"></a>  wunifrac_dist_mat_subset <span class="ot">&lt;-</span> beta_df_mean[samples_subset,samples_subset]</span>
-<span id="cb71-18"><a href="22-Beta_stats.html#cb71-18" tabindex="-1"></a>  <span class="co">#PERMANOVA/ADONIS of media</span></span>
-<span id="cb71-19"><a href="22-Beta_stats.html#cb71-19" tabindex="-1"></a>  <span class="co">#Ensure to change group name if using different group (media)</span></span>
-<span id="cb71-20"><a href="22-Beta_stats.html#cb71-20" tabindex="-1"></a>  pairwise_adonis <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">adonis2</span>(</span>
-<span id="cb71-21"><a href="22-Beta_stats.html#cb71-21" tabindex="-1"></a>    wunifrac_dist_mat_subset <span class="sc">~</span> media, <span class="at">data =</span> metadf_subset, <span class="at">by =</span> <span class="st">&quot;margin&quot;</span>)</span>
-<span id="cb71-22"><a href="22-Beta_stats.html#cb71-22" tabindex="-1"></a>  <span class="co">#Add the group names and p-value to the main data frame</span></span>
-<span id="cb71-23"><a href="22-Beta_stats.html#cb71-23" tabindex="-1"></a>  pairwise_permanova_df[i,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> cbn[,i]</span>
-<span id="cb71-24"><a href="22-Beta_stats.html#cb71-24" tabindex="-1"></a>  pairwise_permanova_df[i,<span class="dv">3</span>] <span class="ot">&lt;-</span> wunifrac_pairwise_adonis[<span class="dv">1</span>,<span class="st">&quot;Pr(&gt;F)&quot;</span>]</span>
-<span id="cb71-25"><a href="22-Beta_stats.html#cb71-25" tabindex="-1"></a>}</span>
-<span id="cb71-26"><a href="22-Beta_stats.html#cb71-26" tabindex="-1"></a><span class="co">#Add adjusted P-values</span></span>
-<span id="cb71-27"><a href="22-Beta_stats.html#cb71-27" tabindex="-1"></a>pairwise_permanova_df<span class="sc">$</span>p.adj <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(pairwise_permanova_df<span class="sc">$</span>p, <span class="at">method =</span> <span class="st">&quot;BH&quot;</span>)</span>
-<span id="cb71-28"><a href="22-Beta_stats.html#cb71-28" tabindex="-1"></a><span class="co">#View data frame</span></span>
-<span id="cb71-29"><a href="22-Beta_stats.html#cb71-29" tabindex="-1"></a>pairwise_permanova_df</span>
-<span id="cb71-30"><a href="22-Beta_stats.html#cb71-30" tabindex="-1"></a><span class="co">#Write to a file</span></span>
-<span id="cb71-31"><a href="22-Beta_stats.html#cb71-31" tabindex="-1"></a><span class="fu">write.table</span>(<span class="at">x =</span> pairwise_permanova_df, <span class="at">file =</span> <span class="st">&quot;pairwise_permanova_media_wunifrac.tsv&quot;</span>,</span>
-<span id="cb71-32"><a href="22-Beta_stats.html#cb71-32" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb77-1"><a href="22-Beta_stats.html#cb77-1" tabindex="-1"></a><span class="co">#Pairwise PERMANOVA for media</span></span>
+<span id="cb77-2"><a href="22-Beta_stats.html#cb77-2" tabindex="-1"></a><span class="co">#Get combinations of unique media values</span></span>
+<span id="cb77-3"><a href="22-Beta_stats.html#cb77-3" tabindex="-1"></a>cbn <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="at">x =</span> <span class="fu">unique</span>(metadf<span class="sc">$</span>media), <span class="at">m =</span> <span class="dv">2</span>)</span>
+<span id="cb77-4"><a href="22-Beta_stats.html#cb77-4" tabindex="-1"></a><span class="co">#Create empty final data frame with 4 columns</span></span>
+<span id="cb77-5"><a href="22-Beta_stats.html#cb77-5" tabindex="-1"></a><span class="co"># and a number of rows equal to the the number of combinations</span></span>
+<span id="cb77-6"><a href="22-Beta_stats.html#cb77-6" tabindex="-1"></a>pairwise_permanova_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">data =</span> <span class="cn">NA</span>, <span class="at">nrow =</span> <span class="fu">ncol</span>(cbn), <span class="at">ncol =</span> <span class="dv">4</span>))</span>
+<span id="cb77-7"><a href="22-Beta_stats.html#cb77-7" tabindex="-1"></a><span class="co">#Add column names</span></span>
+<span id="cb77-8"><a href="22-Beta_stats.html#cb77-8" tabindex="-1"></a><span class="fu">colnames</span>(pairwise_permanova_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;2&quot;</span>,<span class="st">&quot;p&quot;</span>,<span class="st">&quot;p.adj&quot;</span>)</span>
+<span id="cb77-9"><a href="22-Beta_stats.html#cb77-9" tabindex="-1"></a></span>
+<span id="cb77-10"><a href="22-Beta_stats.html#cb77-10" tabindex="-1"></a><span class="co">#Loop through the combinations</span></span>
+<span id="cb77-11"><a href="22-Beta_stats.html#cb77-11" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(cbn)){</span>
+<span id="cb77-12"><a href="22-Beta_stats.html#cb77-12" tabindex="-1"></a>  <span class="co">#Subset metadata</span></span>
+<span id="cb77-13"><a href="22-Beta_stats.html#cb77-13" tabindex="-1"></a>  metadata_subset <span class="ot">&lt;-</span> metadf[metadf<span class="sc">$</span>media <span class="sc">%in%</span> cbn[,i],]</span>
+<span id="cb77-14"><a href="22-Beta_stats.html#cb77-14" tabindex="-1"></a>  <span class="co">#Extract sample names</span></span>
+<span id="cb77-15"><a href="22-Beta_stats.html#cb77-15" tabindex="-1"></a>  samples_subset <span class="ot">&lt;-</span> <span class="fu">row.names</span>(metadf_subset)</span>
+<span id="cb77-16"><a href="22-Beta_stats.html#cb77-16" tabindex="-1"></a>  <span class="co">#Subset distance matrix</span></span>
+<span id="cb77-17"><a href="22-Beta_stats.html#cb77-17" tabindex="-1"></a>  wunifrac_dist_mat_subset <span class="ot">&lt;-</span> beta_df_mean[samples_subset,samples_subset]</span>
+<span id="cb77-18"><a href="22-Beta_stats.html#cb77-18" tabindex="-1"></a>  <span class="co">#PERMANOVA/ADONIS of media</span></span>
+<span id="cb77-19"><a href="22-Beta_stats.html#cb77-19" tabindex="-1"></a>  <span class="co">#Ensure to change group name if using different group (media)</span></span>
+<span id="cb77-20"><a href="22-Beta_stats.html#cb77-20" tabindex="-1"></a>  pairwise_adonis <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">adonis2</span>(</span>
+<span id="cb77-21"><a href="22-Beta_stats.html#cb77-21" tabindex="-1"></a>    wunifrac_dist_mat_subset <span class="sc">~</span> media, <span class="at">data =</span> metadf_subset, <span class="at">by =</span> <span class="st">&quot;margin&quot;</span>)</span>
+<span id="cb77-22"><a href="22-Beta_stats.html#cb77-22" tabindex="-1"></a>  <span class="co">#Add the group names and p-value to the main data frame</span></span>
+<span id="cb77-23"><a href="22-Beta_stats.html#cb77-23" tabindex="-1"></a>  pairwise_permanova_df[i,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> cbn[,i]</span>
+<span id="cb77-24"><a href="22-Beta_stats.html#cb77-24" tabindex="-1"></a>  pairwise_permanova_df[i,<span class="dv">3</span>] <span class="ot">&lt;-</span> wunifrac_pairwise_adonis[<span class="dv">1</span>,<span class="st">&quot;Pr(&gt;F)&quot;</span>]</span>
+<span id="cb77-25"><a href="22-Beta_stats.html#cb77-25" tabindex="-1"></a>}</span>
+<span id="cb77-26"><a href="22-Beta_stats.html#cb77-26" tabindex="-1"></a><span class="co">#Add adjusted P-values</span></span>
+<span id="cb77-27"><a href="22-Beta_stats.html#cb77-27" tabindex="-1"></a>pairwise_permanova_df<span class="sc">$</span>p.adj <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(pairwise_permanova_df<span class="sc">$</span>p, <span class="at">method =</span> <span class="st">&quot;BH&quot;</span>)</span>
+<span id="cb77-28"><a href="22-Beta_stats.html#cb77-28" tabindex="-1"></a><span class="co">#View data frame</span></span>
+<span id="cb77-29"><a href="22-Beta_stats.html#cb77-29" tabindex="-1"></a>pairwise_permanova_df</span>
+<span id="cb77-30"><a href="22-Beta_stats.html#cb77-30" tabindex="-1"></a><span class="co">#Write to a file</span></span>
+<span id="cb77-31"><a href="22-Beta_stats.html#cb77-31" tabindex="-1"></a><span class="fu">write.table</span>(<span class="at">x =</span> pairwise_permanova_df, <span class="at">file =</span> <span class="st">&quot;pairwise_permanova_media_wunifrac.tsv&quot;</span>,</span>
+<span id="cb77-32"><a href="22-Beta_stats.html#cb77-32" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 
 </div>
 </div>

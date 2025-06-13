@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-03-28" />
+<meta name="date" content="2025-06-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -205,7 +205,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-rarefaction"><i class="fa fa-check"></i><b>10.1</b> MR: Rarefaction</a></li>
 <li class="chapter" data-level="10.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mathematical-operators-data-frames"><i class="fa fa-check"></i><b>10.2</b> Mathematical operators &amp; data frames</a></li>
-<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a></li>
+<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#relative-abundance-transformation"><i class="fa fa-check"></i><b>10.3.1</b> Relative abundance transformation</a></li>
+<li class="chapter" data-level="10.3.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#histogram-comparison"><i class="fa fa-check"></i><b>10.3.2</b> Histogram comparison</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-Iterating_rarefaction_practice.html"><a href="11-Iterating_rarefaction_practice.html"><i class="fa fa-check"></i><b>11</b> Iterating rarefaction practice</a>
 <ul>
@@ -221,9 +225,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13" data-path="13-Alpha_diversity_rarefaction.html"><a href="13-Alpha_diversity_rarefaction.html"><i class="fa fa-check"></i><b>13</b> <span class="math inline">\(\alpha\)</span>: Iterative rarefaction loop</a></li>
 <li class="chapter" data-level="14" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html"><i class="fa fa-check"></i><b>14</b> <span class="math inline">\(\alpha\)</span> data frame tidying</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
-<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
-<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
+<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-rename-metrics"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Rename metrics</a></li>
+<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.4</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
 </ul></li>
 <li class="chapter" data-level="15" data-path="15-Alpha_violin_plot_and_stats.html"><a href="15-Alpha_violin_plot_and_stats.html"><i class="fa fa-check"></i><b>15</b> <span class="math inline">\(\alpha\)</span>: Plot and stats</a>
 <ul>
@@ -340,46 +345,46 @@ We'll then compare the <strong>non-rarefied</strong> data to our <strong>iterati
 <center>
 <img src="figures/tiger.png" style="width:300px; background: white; border-radius:5px; border:5px solid white" />
 </center>
-<p>The below loop creates a relative abundance table created by 10 rounds of iteration.
+<p>The below loop creates a rarefied abundance table created by 10 rounds of iteration.
 Type the code and read the annotations to understand it.
 Then run the code.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb22-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-1" tabindex="-1"></a><span class="co">#Iterative rarefaction to produce an average rarefied relative abundance table</span></span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb22-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-1" tabindex="-1"></a><span class="co">#Iterative rarefaction to produce an average rarefied abundance table</span></span>
 <span id="cb22-2"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-2" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-3" tabindex="-1"></a><span class="co">#Assign rarefaction size</span></span>
 <span id="cb22-4"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-4" tabindex="-1"></a>rarefaction_size <span class="ot">&lt;-</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq_env_phyla))</span>
 <span id="cb22-5"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-5" tabindex="-1"></a><span class="co">#Load our rng seed vector</span></span>
 <span id="cb22-6"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-6" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;rngseeds.RData&quot;</span>)</span>
 <span id="cb22-7"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-7" tabindex="-1"></a></span>
-<span id="cb22-8"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-8" tabindex="-1"></a><span class="co">#Initalise where we will store the output</span></span>
+<span id="cb22-8"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-8" tabindex="-1"></a><span class="co">#Initialise where we will store the output</span></span>
 <span id="cb22-9"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-9" tabindex="-1"></a><span class="co">#In this case we create the first iteration</span></span>
 <span id="cb22-10"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-10" tabindex="-1"></a><span class="co">#Carry out first rarefaction</span></span>
 <span id="cb22-11"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-11" tabindex="-1"></a>pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(pseq_env_phyla,</span>
 <span id="cb22-12"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-12" tabindex="-1"></a>                                           <span class="at">sample.size =</span> rarefaction_size</span>
 <span id="cb22-13"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-13" tabindex="-1"></a>                                           <span class="co">#First random seed as the rng seed</span></span>
 <span id="cb22-14"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-14" tabindex="-1"></a>                                           <span class="at">rngseed =</span> rngseed_vec[<span class="dv">1</span>])</span>
-<span id="cb22-15"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-15" tabindex="-1"></a><span class="co">#Calculate relative abundance</span></span>
-<span id="cb22-16"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-16" tabindex="-1"></a>pseq_rarefy_relabund <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">transform</span>(pseq_rarefy, <span class="st">&quot;compositional&quot;</span>)</span>
-<span id="cb22-17"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-17" tabindex="-1"></a><span class="co">#Extract relative abundance phyla table as a data frame</span></span>
-<span id="cb22-18"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-18" tabindex="-1"></a>relabund_phyla_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq_rarefy_relabund))</span>
-<span id="cb22-19"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-19" tabindex="-1"></a></span>
-<span id="cb22-20"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-20" tabindex="-1"></a><span class="co">#Loop through the next 9 iterations</span></span>
-<span id="cb22-21"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-21" tabindex="-1"></a><span class="co">#Add the relabund rarefied values to phyla_table</span></span>
-<span id="cb22-22"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-22" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(rngseed_vec)){</span>
-<span id="cb22-23"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-23" tabindex="-1"></a>  <span class="co">#Rarefy</span></span>
-<span id="cb22-24"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-24" tabindex="-1"></a>  pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(pseq_env_phyla,</span>
-<span id="cb22-25"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-25" tabindex="-1"></a>                                           <span class="at">sample.size =</span> rarefaction_size</span>
-<span id="cb22-26"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-26" tabindex="-1"></a>                                           <span class="at">rngseed =</span> rngseed_vec[i])</span>
-<span id="cb22-27"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-27" tabindex="-1"></a>  <span class="co">#Calculate relative abundance</span></span>
-<span id="cb22-28"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-28" tabindex="-1"></a>  pseq_rarefy_relabund <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">transform</span>(pseq_rarefy, <span class="st">&quot;compositional&quot;</span>)</span>
-<span id="cb22-29"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-29" tabindex="-1"></a>  <span class="co">#Add values to phyla_table</span></span>
-<span id="cb22-30"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-30" tabindex="-1"></a>  relabund_phyla_df <span class="ot">&lt;-</span> </span>
-<span id="cb22-31"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-31" tabindex="-1"></a>    relabund_phyla_df <span class="sc">+</span> <span class="fu">as.data.frame</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq_rarefy_relabund))</span>
-<span id="cb22-32"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-32" tabindex="-1"></a>}</span>
-<span id="cb22-33"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-33" tabindex="-1"></a><span class="co">#Average the values of the summed relabund phyla_table</span></span>
-<span id="cb22-34"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-34" tabindex="-1"></a>relabund_phyla_mean_df <span class="ot">&lt;-</span> relabund_phyla_df <span class="sc">/</span> <span class="fu">length</span>(rngseed_vec)</span></code></pre></div>
-<p>The loop produces a data frame (<code>relabund_phyla_df</code>) that has all the values from the ten rarefied data frames totalled/summed in each corresponding cell. More info on this is under the next heading in this chapter.</p>
+<span id="cb22-15"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-15" tabindex="-1"></a>rarefy_phyla_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq_rarefy))</span>
+<span id="cb22-16"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-16" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-17" tabindex="-1"></a><span class="co">#Loop through the next 9 iterations</span></span>
+<span id="cb22-18"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-18" tabindex="-1"></a><span class="co">#Add the rarefied values to rarefy_phyla_df</span></span>
+<span id="cb22-19"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-19" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(rngseed_vec)){</span>
+<span id="cb22-20"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-20" tabindex="-1"></a>  <span class="co">#Rarefy</span></span>
+<span id="cb22-21"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-21" tabindex="-1"></a>  pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(pseq_env_phyla,</span>
+<span id="cb22-22"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-22" tabindex="-1"></a>                                           <span class="at">sample.size =</span> rarefaction_size</span>
+<span id="cb22-23"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-23" tabindex="-1"></a>                                           <span class="at">rngseed =</span> rngseed_vec[i])</span>
+<span id="cb22-24"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-24" tabindex="-1"></a>  <span class="co">#Add values to rarefy_phyla_df</span></span>
+<span id="cb22-25"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-25" tabindex="-1"></a>  rarefy_phyla_df <span class="ot">&lt;-</span> </span>
+<span id="cb22-26"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-26" tabindex="-1"></a>    rarefy_phyla_df <span class="sc">+</span> <span class="fu">as.data.frame</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq_rarefy))</span>
+<span id="cb22-27"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-27" tabindex="-1"></a>}</span>
+<span id="cb22-28"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-28" tabindex="-1"></a><span class="co">#Average the values of the summed relabund phyla_table</span></span>
+<span id="cb22-29"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-29" tabindex="-1"></a>rarefy_phyla_mean_df <span class="ot">&lt;-</span> rarefy_phyla_df <span class="sc">/</span> <span class="fu">length</span>(rngseed_vec)</span>
+<span id="cb22-30"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-30" tabindex="-1"></a><span class="co">#Remove unwanted objects</span></span>
+<span id="cb22-31"><a href="10-Multiple_rounds_of_rarefaction.html#cb22-31" tabindex="-1"></a><span class="fu">rm</span>(pseq_rarefy, rarefy_phyla_df)</span></code></pre></div>
+<p>The loop produces a data frame (<code>rarefy_phyla_df</code>) that has all the values from the ten rarefied data frames totalled/summed in each corresponding cell. More info on this is under the next heading in this chapter.</p>
 <p>The final data frame is then divided by the number of <strong>iterations</strong> to get the average value for each cell.
-This produces the final data frame <code>relabund_phyla_mean_df</code>.</p>
+This produces the final data frame <code>rarefy_phyla_mean_df</code>.</p>
+<p>Let's view the <code>rarefy_phyla_mean_df</code> object.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb23-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb23-1" tabindex="-1"></a><span class="co">#View iterative rarefied abundances</span></span>
+<span id="cb23-2"><a href="10-Multiple_rounds_of_rarefaction.html#cb23-2" tabindex="-1"></a>rarefy_phyla_mean_df</span></code></pre></div>
 </div>
 <div id="mathematical-operators-data-frames" class="section level2 hasAnchor" number="10.2">
 <h2><span class="header-section-number">10.2</span> Mathematical operators &amp; data frames<a href="10-Multiple_rounds_of_rarefaction.html#mathematical-operators-data-frames" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -390,23 +395,23 @@ This produces the final data frame <code>relabund_phyla_mean_df</code>.</p>
 This can be carried out with any mathematical operator (<code>+</code>,<code>-</code>,<code>*</code>,<code>/</code>, etc.)
 An example of how this works is below.</p>
 <p><strong>Note:</strong> You don't need to run the below code as the output is displayed.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb23-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb23-1" tabindex="-1"></a><span class="co">#Matrix 1</span></span>
-<span id="cb23-2"><a href="10-Multiple_rounds_of_rarefaction.html#cb23-2" tabindex="-1"></a>mat1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
-<span id="cb23-3"><a href="10-Multiple_rounds_of_rarefaction.html#cb23-3" tabindex="-1"></a>mat1</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb24-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb24-1" tabindex="-1"></a><span class="co">#Matrix 1</span></span>
+<span id="cb24-2"><a href="10-Multiple_rounds_of_rarefaction.html#cb24-2" tabindex="-1"></a>mat1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb24-3"><a href="10-Multiple_rounds_of_rarefaction.html#cb24-3" tabindex="-1"></a>mat1</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    4    7
 ## [2,]    2    5    8
 ## [3,]    3    6    9</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb25-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb25-1" tabindex="-1"></a><span class="co">#Matrix 2</span></span>
-<span id="cb25-2"><a href="10-Multiple_rounds_of_rarefaction.html#cb25-2" tabindex="-1"></a>mat2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>((<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)<span class="sc">*</span><span class="dv">10</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
-<span id="cb25-3"><a href="10-Multiple_rounds_of_rarefaction.html#cb25-3" tabindex="-1"></a>mat2</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb26-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb26-1" tabindex="-1"></a><span class="co">#Matrix 2</span></span>
+<span id="cb26-2"><a href="10-Multiple_rounds_of_rarefaction.html#cb26-2" tabindex="-1"></a>mat2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>((<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)<span class="sc">*</span><span class="dv">10</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb26-3"><a href="10-Multiple_rounds_of_rarefaction.html#cb26-3" tabindex="-1"></a>mat2</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]   10   40   70
 ## [2,]   20   50   80
 ## [3,]   30   60   90</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb27-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb27-1" tabindex="-1"></a><span class="co">#Summed matrix</span></span>
-<span id="cb27-2"><a href="10-Multiple_rounds_of_rarefaction.html#cb27-2" tabindex="-1"></a>mat_sum <span class="ot">&lt;-</span> mat1 <span class="sc">+</span> mat2</span>
-<span id="cb27-3"><a href="10-Multiple_rounds_of_rarefaction.html#cb27-3" tabindex="-1"></a>mat_sum</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb28-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb28-1" tabindex="-1"></a><span class="co">#Summed matrix</span></span>
+<span id="cb28-2"><a href="10-Multiple_rounds_of_rarefaction.html#cb28-2" tabindex="-1"></a>mat_sum <span class="ot">&lt;-</span> mat1 <span class="sc">+</span> mat2</span>
+<span id="cb28-3"><a href="10-Multiple_rounds_of_rarefaction.html#cb28-3" tabindex="-1"></a>mat_sum</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]   11   44   77
 ## [2,]   22   55   88
@@ -414,9 +419,9 @@ An example of how this works is below.</p>
 <p>If you only use one number with a data frame/matrix the operation will act upon each cell in the same manner.
 You could add 1 to each cell, minus 4 from each cell, etc.</p>
 <p>Continuing the matrix example, we'll get the average of the 2 data frames by dividins by two (<code>/2</code>).</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb29-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb29-1" tabindex="-1"></a><span class="co">#Mean matrix</span></span>
-<span id="cb29-2"><a href="10-Multiple_rounds_of_rarefaction.html#cb29-2" tabindex="-1"></a>mat_mean <span class="ot">&lt;-</span> mat_sum <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb29-3"><a href="10-Multiple_rounds_of_rarefaction.html#cb29-3" tabindex="-1"></a>mat_mean</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb30-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb30-1" tabindex="-1"></a><span class="co">#Mean matrix</span></span>
+<span id="cb30-2"><a href="10-Multiple_rounds_of_rarefaction.html#cb30-2" tabindex="-1"></a>mat_mean <span class="ot">&lt;-</span> mat_sum <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb30-3"><a href="10-Multiple_rounds_of_rarefaction.html#cb30-3" tabindex="-1"></a>mat_mean</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]  5.5 22.0 38.5
 ## [2,] 11.0 27.5 44.0
@@ -427,21 +432,45 @@ You could add 1 to each cell, minus 4 from each cell, etc.</p>
 <center>
 <img src="figures/histogram_3.png" style="width:200px" />
 </center>
-<p>We'll skip the bar chart this time and only look at the difference of the values.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb31-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb31-1" tabindex="-1"></a><span class="co">#Value difference matrix</span></span>
-<span id="cb31-2"><a href="10-Multiple_rounds_of_rarefaction.html#cb31-2" tabindex="-1"></a>iterative_rarefaction_diff <span class="ot">&lt;-</span> </span>
-<span id="cb31-3"><a href="10-Multiple_rounds_of_rarefaction.html#cb31-3" tabindex="-1"></a>  <span class="fu">as.matrix</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq_env_phyla_relabund) <span class="sc">-</span> relabund_phyla_mean_df)</span>
-<span id="cb31-4"><a href="10-Multiple_rounds_of_rarefaction.html#cb31-4" tabindex="-1"></a>iterative_rarefaction_diff</span>
-<span id="cb31-5"><a href="10-Multiple_rounds_of_rarefaction.html#cb31-5" tabindex="-1"></a><span class="co">#Histogram</span></span>
-<span id="cb31-6"><a href="10-Multiple_rounds_of_rarefaction.html#cb31-6" tabindex="-1"></a><span class="fu">hist</span>(iterative_rarefaction_diff)</span></code></pre></div>
-What is the range of the differences compared to the non rarefied relative abundance values?
-<div id="radio_EEECLFPQEU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_EEECLFPQEU" value=""></input> <span><strong>-0.0003(-3e-04) to 0.0003(3e-04)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EEECLFPQEU" value="answer"></input> <span><strong>-0.003 to 0.003</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EEECLFPQEU" value=""></input> <span><strong>-0.015 to 0.015</strong></span></label>
+<p>For the purposes of demonstration (not something you would do in normal research) we will compare the phyla relative abundances of the non-rarefied data against the rarefied data with 10 iterations.</p>
+<div id="relative-abundance-transformation" class="section level3 hasAnchor" number="10.3.1">
+<h3><span class="header-section-number">10.3.1</span> Relative abundance transformation<a href="10-Multiple_rounds_of_rarefaction.html#relative-abundance-transformation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First we will convert our rarefied counts into relative abundances (i.e. proportional counts by column). However, we can't use <code>microbiome::transform()</code> as our rarefied abundances are in a data frame rather than a <strong>phyloseq object</strong>.</p>
+<p>To carry this out we can use a few new functions:</p>
+<ul>
+<li><code>prop.table()</code>: Converts all values in a table to proportional values (i.e. sum of all values in table will equal 1).</li>
+<li><a href="https://neof-workshops.github.io/Tidyverse/dplyr/mutate.html"><code>dplyr::mutate_all()</code></a>: Mutates all columns, in this instance using <code>prop.table</code> to proportionalise each column (i.e. each column will sum to 1).
+<ul>
+<li><a href="https://neof-workshops.github.io/Tidyverse/dplyr/dplyr.html">dplyr</a> is part of the <a href="https://neof-workshops.github.io/Tidyverse/">tidyverse package suite</a></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb32-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb32-1" tabindex="-1"></a><span class="co">#Convert to relative abundance table</span></span>
+<span id="cb32-2"><a href="10-Multiple_rounds_of_rarefaction.html#cb32-2" tabindex="-1"></a>rarefy_i10_relabund_phyla_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">mutate_all</span>(rarefy_phyla_mean_df, prop.table)</span>
+<span id="cb32-3"><a href="10-Multiple_rounds_of_rarefaction.html#cb32-3" tabindex="-1"></a><span class="co">#View relative abundances</span></span>
+<span id="cb32-4"><a href="10-Multiple_rounds_of_rarefaction.html#cb32-4" tabindex="-1"></a>rarefy_i10_relabund_phyla_df</span></code></pre></div>
 </div>
-<p>You should notice that the differences are much smaller.
+<div id="histogram-comparison" class="section level3 hasAnchor" number="10.3.2">
+<h3><span class="header-section-number">10.3.2</span> Histogram comparison<a href="10-Multiple_rounds_of_rarefaction.html#histogram-comparison" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We'll skip the bar chart this time and only look at the difference of the values of the following tables:</p>
+<ul>
+<li><code>as.matrix(phyloseq::otu_table(pseq_env_phyla_relabund)</code>: Phyla relative abundances based on non-rarefied abundances.</li>
+<li><code>rarefy_i10_relabund_phyla_df</code>: Phyla relative abundances based on rarefied abundances with 10 iterations.</li>
+</ul>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb33-1"><a href="10-Multiple_rounds_of_rarefaction.html#cb33-1" tabindex="-1"></a><span class="co">#Value difference matrix</span></span>
+<span id="cb33-2"><a href="10-Multiple_rounds_of_rarefaction.html#cb33-2" tabindex="-1"></a>iterative_rarefaction_diff <span class="ot">&lt;-</span> </span>
+<span id="cb33-3"><a href="10-Multiple_rounds_of_rarefaction.html#cb33-3" tabindex="-1"></a>  <span class="fu">as.matrix</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq_env_phyla_relabund) <span class="sc">-</span> rarefy_i10_relabund_phyla_df)</span>
+<span id="cb33-4"><a href="10-Multiple_rounds_of_rarefaction.html#cb33-4" tabindex="-1"></a>iterative_rarefaction_diff</span>
+<span id="cb33-5"><a href="10-Multiple_rounds_of_rarefaction.html#cb33-5" tabindex="-1"></a><span class="co">#Histogram</span></span>
+<span id="cb33-6"><a href="10-Multiple_rounds_of_rarefaction.html#cb33-6" tabindex="-1"></a><span class="fu">hist</span>(iterative_rarefaction_diff)</span></code></pre></div>
+What is the range of the differences compared to the non rarefied relative abundance values?
+<div id="radio_GTDSCFAGPO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GTDSCFAGPO" value=""></input> <span><strong>-0.0003(-3e-04) to 0.0003(3e-04)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GTDSCFAGPO" value="answer"></input> <span><strong>-0.003 to 0.003</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GTDSCFAGPO" value=""></input> <span><strong>-0.015 to 0.015</strong></span></label>
+</div>
+<p>You should notice that the differences are much smaller compared to the differences found in <a href="09-One_round_of_rarefaction.html#r-difference-from-non-rarefied">chapter 9</a>.
 This indicates that the structure of the <strong>iterative rarefied</strong> data is much closer to the non-rarefied data compared to the one round <strong>rarefied</strong> data.
 This is what we want.</p>
 
+</div>
 </div>
 </div>
 <script>

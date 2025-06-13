@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-03-28" />
+<meta name="date" content="2025-06-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -205,7 +205,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-rarefaction"><i class="fa fa-check"></i><b>10.1</b> MR: Rarefaction</a></li>
 <li class="chapter" data-level="10.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mathematical-operators-data-frames"><i class="fa fa-check"></i><b>10.2</b> Mathematical operators &amp; data frames</a></li>
-<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a></li>
+<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#relative-abundance-transformation"><i class="fa fa-check"></i><b>10.3.1</b> Relative abundance transformation</a></li>
+<li class="chapter" data-level="10.3.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#histogram-comparison"><i class="fa fa-check"></i><b>10.3.2</b> Histogram comparison</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-Iterating_rarefaction_practice.html"><a href="11-Iterating_rarefaction_practice.html"><i class="fa fa-check"></i><b>11</b> Iterating rarefaction practice</a>
 <ul>
@@ -221,9 +225,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13" data-path="13-Alpha_diversity_rarefaction.html"><a href="13-Alpha_diversity_rarefaction.html"><i class="fa fa-check"></i><b>13</b> <span class="math inline">\(\alpha\)</span>: Iterative rarefaction loop</a></li>
 <li class="chapter" data-level="14" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html"><i class="fa fa-check"></i><b>14</b> <span class="math inline">\(\alpha\)</span> data frame tidying</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
-<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
-<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
+<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-rename-metrics"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Rename metrics</a></li>
+<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.4</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
 </ul></li>
 <li class="chapter" data-level="15" data-path="15-Alpha_violin_plot_and_stats.html"><a href="15-Alpha_violin_plot_and_stats.html"><i class="fa fa-check"></i><b>15</b> <span class="math inline">\(\alpha\)</span>: Plot and stats</a>
 <ul>
@@ -342,8 +347,8 @@ We are going to use two of the most popular for community based data: <strong>NM
 </center>
 <p>Prior to ordination we need to load the weighted unifrac matrix.
 This is a useful cell to have as we don't need to rerun the <strong>iterative rarefaction</strong> to reacquire this object if we save, close + halt, and then reopen this notebook.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb59-1"><a href="21-Beta_ordination.html#cb59-1" tabindex="-1"></a><span class="co">#Load wunifrac matrix</span></span>
-<span id="cb59-2"><a href="21-Beta_ordination.html#cb59-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;wunifrac_df_mean.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb65-1"><a href="21-Beta_ordination.html#cb65-1" tabindex="-1"></a><span class="co">#Load wunifrac matrix</span></span>
+<span id="cb65-2"><a href="21-Beta_ordination.html#cb65-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;wunifrac_df_mean.RData&quot;</span>)</span></code></pre></div>
 </div>
 <div id="nmds" class="section level2 hasAnchor" number="21.2">
 <h2><span class="header-section-number">21.2</span> NMDS<a href="21-Beta_ordination.html#nmds" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -359,10 +364,10 @@ To carry this out we can use the function <code>vegan::monoMDS()</code>.</p>
 </center>
 <p>We provide the function with our <strong>beta diversity dissimilarity matrix</strong> and the parameter <code>k = 2</code>.
 The parameter<code>k</code> specifies the number of dimensions to calculate, we want 2 as we will only be plotting an x and y axis i.e. 2 dimensions.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb60-1"><a href="21-Beta_ordination.html#cb60-1" tabindex="-1"></a><span class="co">#NMDS ordinate</span></span>
-<span id="cb60-2"><a href="21-Beta_ordination.html#cb60-2" tabindex="-1"></a>nmds_res <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">monoMDS</span>(beta_df_mean, <span class="at">k =</span> <span class="dv">2</span>)</span>
-<span id="cb60-3"><a href="21-Beta_ordination.html#cb60-3" tabindex="-1"></a><span class="co">#Structure of nmds_res</span></span>
-<span id="cb60-4"><a href="21-Beta_ordination.html#cb60-4" tabindex="-1"></a><span class="fu">str</span>(nmds_res)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb66-1"><a href="21-Beta_ordination.html#cb66-1" tabindex="-1"></a><span class="co">#NMDS ordinate</span></span>
+<span id="cb66-2"><a href="21-Beta_ordination.html#cb66-2" tabindex="-1"></a>nmds_res <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">monoMDS</span>(beta_df_mean, <span class="at">k =</span> <span class="dv">2</span>)</span>
+<span id="cb66-3"><a href="21-Beta_ordination.html#cb66-3" tabindex="-1"></a><span class="co">#Structure of nmds_res</span></span>
+<span id="cb66-4"><a href="21-Beta_ordination.html#cb66-4" tabindex="-1"></a><span class="fu">str</span>(nmds_res)</span></code></pre></div>
 </div>
 <div id="nmds-points" class="section level3 hasAnchor" number="21.2.2">
 <h3><span class="header-section-number">21.2.2</span> NMDS points<a href="21-Beta_ordination.html#nmds-points" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -373,10 +378,10 @@ The parameter<code>k</code> specifies the number of dimensions to calculate, we 
 Here we are only interested in the <code>points</code> data frame.
 This contains the points we will be plotting in our NMDS plot.
 Lets extract this data frame.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb61-1"><a href="21-Beta_ordination.html#cb61-1" tabindex="-1"></a><span class="co">#Extract plot points</span></span>
-<span id="cb61-2"><a href="21-Beta_ordination.html#cb61-2" tabindex="-1"></a>nmds_points <span class="ot">&lt;-</span> nmds_res<span class="sc">$</span>points</span>
-<span id="cb61-3"><a href="21-Beta_ordination.html#cb61-3" tabindex="-1"></a><span class="co">#Check head</span></span>
-<span id="cb61-4"><a href="21-Beta_ordination.html#cb61-4" tabindex="-1"></a><span class="fu">head</span>(nmds_points)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb67-1"><a href="21-Beta_ordination.html#cb67-1" tabindex="-1"></a><span class="co">#Extract plot points</span></span>
+<span id="cb67-2"><a href="21-Beta_ordination.html#cb67-2" tabindex="-1"></a>nmds_points <span class="ot">&lt;-</span> nmds_res<span class="sc">$</span>points</span>
+<span id="cb67-3"><a href="21-Beta_ordination.html#cb67-3" tabindex="-1"></a><span class="co">#Check head</span></span>
+<span id="cb67-4"><a href="21-Beta_ordination.html#cb67-4" tabindex="-1"></a><span class="fu">head</span>(nmds_points)</span></code></pre></div>
 </div>
 <div id="nmds-data-frame-with-metadata" class="section level3 hasAnchor" number="21.2.3">
 <h3><span class="header-section-number">21.2.3</span> NMDS data frame with metadata<a href="21-Beta_ordination.html#nmds-data-frame-with-metadata" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -384,20 +389,20 @@ Lets extract this data frame.</p>
 <img src="figures/milk_carton.png" style="width:200px" />
 </center>
 <p>Before plotting with <code>ggplot2</code> we need to combine the metadata and points into a long data frame.
-There is no need to "longify" our data frame as it will start in the long format we require.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb62-1"><a href="21-Beta_ordination.html#cb62-1" tabindex="-1"></a><span class="co">#Create long data frame with metadata and points</span></span>
-<span id="cb62-2"><a href="21-Beta_ordination.html#cb62-2" tabindex="-1"></a><span class="co">#Extract metadata and ensure row names order matches</span></span>
-<span id="cb62-3"><a href="21-Beta_ordination.html#cb62-3" tabindex="-1"></a>metadf <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)</span>
-<span id="cb62-4"><a href="21-Beta_ordination.html#cb62-4" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">identical</span>(<span class="fu">row.names</span>(metadf), <span class="fu">row.names</span>(nmds_points)) <span class="sc">==</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb62-5"><a href="21-Beta_ordination.html#cb62-5" tabindex="-1"></a>  metadf <span class="ot">&lt;-</span> metadf[<span class="fu">row.names</span>(nmds_points),]</span>
-<span id="cb62-6"><a href="21-Beta_ordination.html#cb62-6" tabindex="-1"></a>}</span>
-<span id="cb62-7"><a href="21-Beta_ordination.html#cb62-7" tabindex="-1"></a><span class="co">#Make points with metadata data frame</span></span>
-<span id="cb62-8"><a href="21-Beta_ordination.html#cb62-8" tabindex="-1"></a>nmds_points_metadata <span class="ot">&lt;-</span> <span class="fu">cbind</span>(nmds_points, metadf)</span>
-<span id="cb62-9"><a href="21-Beta_ordination.html#cb62-9" tabindex="-1"></a><span class="co">#Check head of data frame</span></span>
-<span id="cb62-10"><a href="21-Beta_ordination.html#cb62-10" tabindex="-1"></a><span class="fu">head</span>(nmds_points_metadata)</span>
-<span id="cb62-11"><a href="21-Beta_ordination.html#cb62-11" tabindex="-1"></a><span class="co">#Save object we want, remove ones we don&#39;t</span></span>
-<span id="cb62-12"><a href="21-Beta_ordination.html#cb62-12" tabindex="-1"></a><span class="fu">save</span>(nmds_points_metadata, <span class="at">file =</span> <span class="st">&quot;wunifrac_NMDS.RData&quot;</span>)</span>
-<span id="cb62-13"><a href="21-Beta_ordination.html#cb62-13" tabindex="-1"></a><span class="fu">rm</span>(metadf, nmds_res, nmds_points)</span></code></pre></div>
+There is no need to "longify" our data frame as it will already be in the long format we require.</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb68-1"><a href="21-Beta_ordination.html#cb68-1" tabindex="-1"></a><span class="co">#Create long data frame with metadata and points</span></span>
+<span id="cb68-2"><a href="21-Beta_ordination.html#cb68-2" tabindex="-1"></a><span class="co">#Extract metadata and ensure row names order matches</span></span>
+<span id="cb68-3"><a href="21-Beta_ordination.html#cb68-3" tabindex="-1"></a>metadf <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)</span>
+<span id="cb68-4"><a href="21-Beta_ordination.html#cb68-4" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">identical</span>(<span class="fu">row.names</span>(metadf), <span class="fu">row.names</span>(nmds_points)) <span class="sc">==</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb68-5"><a href="21-Beta_ordination.html#cb68-5" tabindex="-1"></a>  metadf <span class="ot">&lt;-</span> metadf[<span class="fu">row.names</span>(nmds_points),]</span>
+<span id="cb68-6"><a href="21-Beta_ordination.html#cb68-6" tabindex="-1"></a>}</span>
+<span id="cb68-7"><a href="21-Beta_ordination.html#cb68-7" tabindex="-1"></a><span class="co">#Make points with metadata data frame</span></span>
+<span id="cb68-8"><a href="21-Beta_ordination.html#cb68-8" tabindex="-1"></a>nmds_points_metadata <span class="ot">&lt;-</span> <span class="fu">cbind</span>(nmds_points, metadf)</span>
+<span id="cb68-9"><a href="21-Beta_ordination.html#cb68-9" tabindex="-1"></a><span class="co">#Check head of data frame</span></span>
+<span id="cb68-10"><a href="21-Beta_ordination.html#cb68-10" tabindex="-1"></a><span class="fu">head</span>(nmds_points_metadata)</span>
+<span id="cb68-11"><a href="21-Beta_ordination.html#cb68-11" tabindex="-1"></a><span class="co">#Save object we want, remove ones we don&#39;t</span></span>
+<span id="cb68-12"><a href="21-Beta_ordination.html#cb68-12" tabindex="-1"></a><span class="fu">save</span>(nmds_points_metadata, <span class="at">file =</span> <span class="st">&quot;wunifrac_NMDS.RData&quot;</span>)</span>
+<span id="cb68-13"><a href="21-Beta_ordination.html#cb68-13" tabindex="-1"></a><span class="fu">rm</span>(metadf, nmds_res, nmds_points)</span></code></pre></div>
 </div>
 <div id="nmds-scatter-plot" class="section level3 hasAnchor" number="21.2.4">
 <h3><span class="header-section-number">21.2.4</span> NMDS scatter plot<a href="21-Beta_ordination.html#nmds-scatter-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -406,17 +411,17 @@ There is no need to "longify" our data frame as it will start in the long format
 </center>
 <p>Now we can produce a NMDS scatter plot.
 We will colour the points by site and the point shapes will be determined by the media.</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb63-1"><a href="21-Beta_ordination.html#cb63-1" tabindex="-1"></a><span class="co">#Produce NMDS scatter plot</span></span>
-<span id="cb63-2"><a href="21-Beta_ordination.html#cb63-2" tabindex="-1"></a><span class="co">#Plot ordination</span></span>
-<span id="cb63-3"><a href="21-Beta_ordination.html#cb63-3" tabindex="-1"></a>nmds.wunifrac <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> nmds_points_metadata,</span>
-<span id="cb63-4"><a href="21-Beta_ordination.html#cb63-4" tabindex="-1"></a>                        <span class="fu">aes</span>(<span class="at">x =</span> MDS1, <span class="at">y =</span> MDS2, <span class="at">color =</span> site, <span class="at">shape =</span> media)) <span class="sc">+</span></span>
-<span id="cb63-5"><a href="21-Beta_ordination.html#cb63-5" tabindex="-1"></a>                ggplot2<span class="sc">::</span><span class="fu">geom_point</span>()</span>
-<span id="cb63-6"><a href="21-Beta_ordination.html#cb63-6" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
-<span id="cb63-7"><a href="21-Beta_ordination.html#cb63-7" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Beta_diversity_NMDS_wunifrac_media_site.png&quot;</span>,</span>
-<span id="cb63-8"><a href="21-Beta_ordination.html#cb63-8" tabindex="-1"></a>       <span class="at">plot =</span> nmds.wunifrac,</span>
-<span id="cb63-9"><a href="21-Beta_ordination.html#cb63-9" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">125</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
-<span id="cb63-10"><a href="21-Beta_ordination.html#cb63-10" tabindex="-1"></a><span class="co">#Display plot</span></span>
-<span id="cb63-11"><a href="21-Beta_ordination.html#cb63-11" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file =</span> <span class="st">&quot;./Beta_diversity_NMDS_wunifrac_media_site.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb69-1"><a href="21-Beta_ordination.html#cb69-1" tabindex="-1"></a><span class="co">#Produce NMDS scatter plot</span></span>
+<span id="cb69-2"><a href="21-Beta_ordination.html#cb69-2" tabindex="-1"></a><span class="co">#Plot ordination</span></span>
+<span id="cb69-3"><a href="21-Beta_ordination.html#cb69-3" tabindex="-1"></a>nmds.wunifrac <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> nmds_points_metadata,</span>
+<span id="cb69-4"><a href="21-Beta_ordination.html#cb69-4" tabindex="-1"></a>                        <span class="fu">aes</span>(<span class="at">x =</span> MDS1, <span class="at">y =</span> MDS2, <span class="at">color =</span> site, <span class="at">shape =</span> media)) <span class="sc">+</span></span>
+<span id="cb69-5"><a href="21-Beta_ordination.html#cb69-5" tabindex="-1"></a>                ggplot2<span class="sc">::</span><span class="fu">geom_point</span>()</span>
+<span id="cb69-6"><a href="21-Beta_ordination.html#cb69-6" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
+<span id="cb69-7"><a href="21-Beta_ordination.html#cb69-7" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Beta_diversity_NMDS_wunifrac_media_site.png&quot;</span>,</span>
+<span id="cb69-8"><a href="21-Beta_ordination.html#cb69-8" tabindex="-1"></a>       <span class="at">plot =</span> nmds.wunifrac,</span>
+<span id="cb69-9"><a href="21-Beta_ordination.html#cb69-9" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">125</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
+<span id="cb69-10"><a href="21-Beta_ordination.html#cb69-10" tabindex="-1"></a><span class="co">#Display plot</span></span>
+<span id="cb69-11"><a href="21-Beta_ordination.html#cb69-11" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file =</span> <span class="st">&quot;./Beta_diversity_NMDS_wunifrac_media_site.png&quot;</span>)</span></code></pre></div>
 <p>Super!
 You should see that the plot is mainly separated by NMDS1 splitting the ENV samples compared to the media samples.
 The next major difference is in NMDS2 which separates the TSA samples compared to the CVP and KBC samples.
@@ -436,10 +441,10 @@ The CVP and KBC samples also appear to form distinct clusters.</p>
 </center>
 <p>The <code>vegan</code> package cannot carry out <strong>PCoA</strong> ordination.
 Therefore, we will use the function <code>pcoa()</code> from the <code>ape</code> package.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb64-1"><a href="21-Beta_ordination.html#cb64-1" tabindex="-1"></a><span class="co">#PCoA ordinate</span></span>
-<span id="cb64-2"><a href="21-Beta_ordination.html#cb64-2" tabindex="-1"></a>pcoa_res <span class="ot">&lt;-</span> ape<span class="sc">::</span><span class="fu">pcoa</span>(beta_df_mean)</span>
-<span id="cb64-3"><a href="21-Beta_ordination.html#cb64-3" tabindex="-1"></a><span class="co">#Structure of pcoa_res</span></span>
-<span id="cb64-4"><a href="21-Beta_ordination.html#cb64-4" tabindex="-1"></a><span class="fu">str</span>(pcoa_res)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb70-1"><a href="21-Beta_ordination.html#cb70-1" tabindex="-1"></a><span class="co">#PCoA ordinate</span></span>
+<span id="cb70-2"><a href="21-Beta_ordination.html#cb70-2" tabindex="-1"></a>pcoa_res <span class="ot">&lt;-</span> ape<span class="sc">::</span><span class="fu">pcoa</span>(beta_df_mean)</span>
+<span id="cb70-3"><a href="21-Beta_ordination.html#cb70-3" tabindex="-1"></a><span class="co">#Structure of pcoa_res</span></span>
+<span id="cb70-4"><a href="21-Beta_ordination.html#cb70-4" tabindex="-1"></a><span class="fu">str</span>(pcoa_res)</span></code></pre></div>
 <p>The function creates a <strong>list</strong> containing 5 objects.</p>
 <p>We are interested in 2 of these objects, <code>vectors</code> and <code>values</code>.</p>
 </div>
@@ -452,9 +457,9 @@ Therefore, we will use the function <code>pcoa()</code> from the <code>ape</code
 The <code>vectors</code> object contains the axes points for all these dimensions.
 We will only plot the first 2 axes.</p>
 <p>Extract these points:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb65-1"><a href="21-Beta_ordination.html#cb65-1" tabindex="-1"></a><span class="co">#Extract first 2 axes</span></span>
-<span id="cb65-2"><a href="21-Beta_ordination.html#cb65-2" tabindex="-1"></a>pcoa_points <span class="ot">&lt;-</span> pcoa_res<span class="sc">$</span>vectors[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
-<span id="cb65-3"><a href="21-Beta_ordination.html#cb65-3" tabindex="-1"></a><span class="fu">head</span>(pcoa_points)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb71-1"><a href="21-Beta_ordination.html#cb71-1" tabindex="-1"></a><span class="co">#Extract first 2 axes</span></span>
+<span id="cb71-2"><a href="21-Beta_ordination.html#cb71-2" tabindex="-1"></a>pcoa_points <span class="ot">&lt;-</span> pcoa_res<span class="sc">$</span>vectors[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb71-3"><a href="21-Beta_ordination.html#cb71-3" tabindex="-1"></a><span class="fu">head</span>(pcoa_points)</span></code></pre></div>
 </div>
 <div id="pcoa-variance" class="section level3 hasAnchor" number="21.3.3">
 <h3><span class="header-section-number">21.3.3</span> PCoA variance<a href="21-Beta_ordination.html#pcoa-variance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -466,7 +471,7 @@ This is known as the <strong>"Percentage/proportion of variance explained"</stro
 The axes are always ordered from highest to lowest <strong>% variance explained</strong>.
 Therefore axis one explains the most variance, followed by axis 2.</p>
 <p>The higher the <strong>% variance explained</strong> of axis 1 and axis 2, the better our subsequent plot represents our data.
-General guidelines to how good our plot are based on the sum of these 2 values:</p>
+General guidelines to the power of our plot are based on the sum of these 2 values:</p>
 <ul>
 <li>&lt;50%: Poor</li>
 <li>50-69%: Decent</li>
@@ -476,9 +481,9 @@ General guidelines to how good our plot are based on the sum of these 2 values:<
 <p>The <strong>% variance explained</strong> is contained in the <code>Relative_eig</code> column within the <code>values</code> <strong>data frame</strong>.
 These are proportion values (0-1) so we will multiply them by 100 to make them percentages and round these digits to 2 decimal places (<code>round(,digits=2)</code>).</p>
 <p>Let's extract the <strong>% variance explained</strong> values.</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb66-1"><a href="21-Beta_ordination.html#cb66-1" tabindex="-1"></a><span class="co">#Variation explained values </span></span>
-<span id="cb66-2"><a href="21-Beta_ordination.html#cb66-2" tabindex="-1"></a>pcoa_axis_var_explained <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="at">x=</span>pcoa_res<span class="sc">$</span>values[,<span class="st">&quot;Relative_eig&quot;</span>] <span class="sc">*</span> <span class="dv">100</span>, <span class="at">digits=</span><span class="dv">2</span>)</span>
-<span id="cb66-3"><a href="21-Beta_ordination.html#cb66-3" tabindex="-1"></a>pcoa_axis_var_explained</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb72-1"><a href="21-Beta_ordination.html#cb72-1" tabindex="-1"></a><span class="co">#Variation explained values </span></span>
+<span id="cb72-2"><a href="21-Beta_ordination.html#cb72-2" tabindex="-1"></a>pcoa_axis_var_explained <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="at">x=</span>pcoa_res<span class="sc">$</span>values[,<span class="st">&quot;Relative_eig&quot;</span>] <span class="sc">*</span> <span class="dv">100</span>, <span class="at">digits=</span><span class="dv">2</span>)</span>
+<span id="cb72-3"><a href="21-Beta_ordination.html#cb72-3" tabindex="-1"></a>pcoa_axis_var_explained</span></code></pre></div>
 </div>
 <div id="pcoa-data-frame-with-metadata" class="section level3 hasAnchor" number="21.3.4">
 <h3><span class="header-section-number">21.3.4</span> PCoA data frame with metadata<a href="21-Beta_ordination.html#pcoa-data-frame-with-metadata" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -486,18 +491,18 @@ These are proportion values (0-1) so we will multiply them by 100 to make them p
 <img src="figures/wayfinding.png" style="width:150px; background-color:white; border-radius:15px" />
 </center>
 <p>As with the NMDS data we will create a <strong>long data frame</strong> containing our points and metadata.</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb67-1"><a href="21-Beta_ordination.html#cb67-1" tabindex="-1"></a><span class="co">#Create point long data frame with metadata</span></span>
-<span id="cb67-2"><a href="21-Beta_ordination.html#cb67-2" tabindex="-1"></a><span class="co">#Extract metadata and ensure row names order matches</span></span>
-<span id="cb67-3"><a href="21-Beta_ordination.html#cb67-3" tabindex="-1"></a>metadf <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)</span>
-<span id="cb67-4"><a href="21-Beta_ordination.html#cb67-4" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">identical</span>(<span class="fu">row.names</span>(metadf), <span class="fu">row.names</span>(pcoa_points)) <span class="sc">==</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb67-5"><a href="21-Beta_ordination.html#cb67-5" tabindex="-1"></a>  metadf <span class="ot">&lt;-</span> metadf[<span class="fu">row.names</span>(pcoa_points),]</span>
-<span id="cb67-6"><a href="21-Beta_ordination.html#cb67-6" tabindex="-1"></a>}</span>
-<span id="cb67-7"><a href="21-Beta_ordination.html#cb67-7" tabindex="-1"></a><span class="co">#Make points with metadata data frame</span></span>
-<span id="cb67-8"><a href="21-Beta_ordination.html#cb67-8" tabindex="-1"></a>pcoa_points_metadata <span class="ot">&lt;-</span> <span class="fu">cbind</span>(pcoa_points, metadf)</span>
-<span id="cb67-9"><a href="21-Beta_ordination.html#cb67-9" tabindex="-1"></a><span class="fu">head</span>(pcoa_points_metadata)</span>
-<span id="cb67-10"><a href="21-Beta_ordination.html#cb67-10" tabindex="-1"></a><span class="co">#Save object we want, remove ones we don&#39;t</span></span>
-<span id="cb67-11"><a href="21-Beta_ordination.html#cb67-11" tabindex="-1"></a><span class="fu">save</span>(pcoa_points_metadata, <span class="at">file =</span> <span class="st">&quot;wunifrac_PCoA.RData&quot;</span>)</span>
-<span id="cb67-12"><a href="21-Beta_ordination.html#cb67-12" tabindex="-1"></a><span class="fu">rm</span>(metadf, pcoa_res, pcoa_points)</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb73-1"><a href="21-Beta_ordination.html#cb73-1" tabindex="-1"></a><span class="co">#Create point long data frame with metadata</span></span>
+<span id="cb73-2"><a href="21-Beta_ordination.html#cb73-2" tabindex="-1"></a><span class="co">#Extract metadata and ensure row names order matches</span></span>
+<span id="cb73-3"><a href="21-Beta_ordination.html#cb73-3" tabindex="-1"></a>metadf <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)</span>
+<span id="cb73-4"><a href="21-Beta_ordination.html#cb73-4" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">identical</span>(<span class="fu">row.names</span>(metadf), <span class="fu">row.names</span>(pcoa_points)) <span class="sc">==</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb73-5"><a href="21-Beta_ordination.html#cb73-5" tabindex="-1"></a>  metadf <span class="ot">&lt;-</span> metadf[<span class="fu">row.names</span>(pcoa_points),]</span>
+<span id="cb73-6"><a href="21-Beta_ordination.html#cb73-6" tabindex="-1"></a>}</span>
+<span id="cb73-7"><a href="21-Beta_ordination.html#cb73-7" tabindex="-1"></a><span class="co">#Make points with metadata data frame</span></span>
+<span id="cb73-8"><a href="21-Beta_ordination.html#cb73-8" tabindex="-1"></a>pcoa_points_metadata <span class="ot">&lt;-</span> <span class="fu">cbind</span>(pcoa_points, metadf)</span>
+<span id="cb73-9"><a href="21-Beta_ordination.html#cb73-9" tabindex="-1"></a><span class="fu">head</span>(pcoa_points_metadata)</span>
+<span id="cb73-10"><a href="21-Beta_ordination.html#cb73-10" tabindex="-1"></a><span class="co">#Save object we want, remove ones we don&#39;t</span></span>
+<span id="cb73-11"><a href="21-Beta_ordination.html#cb73-11" tabindex="-1"></a><span class="fu">save</span>(pcoa_points_metadata, <span class="at">file =</span> <span class="st">&quot;wunifrac_PCoA.RData&quot;</span>)</span>
+<span id="cb73-12"><a href="21-Beta_ordination.html#cb73-12" tabindex="-1"></a><span class="fu">rm</span>(metadf, pcoa_res, pcoa_points)</span></code></pre></div>
 </div>
 <div id="pcoa-scatter-plot" class="section level3 hasAnchor" number="21.3.5">
 <h3><span class="header-section-number">21.3.5</span> PCoA scatter plot<a href="21-Beta_ordination.html#pcoa-scatter-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -506,19 +511,19 @@ These are proportion values (0-1) so we will multiply them by 100 to make them p
 </center>
 <p>When plotting a PCoA scatter plot it is important to include the <strong>% variance</strong> on the axes labels.
 We will carry this out using the <code>pcoa_axis_var_explained</code> <strong>vector</strong> we created earlier.</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb68-1"><a href="21-Beta_ordination.html#cb68-1" tabindex="-1"></a><span class="co">#Produce PCoA scatter plot</span></span>
-<span id="cb68-2"><a href="21-Beta_ordination.html#cb68-2" tabindex="-1"></a><span class="co">#Plot ordination</span></span>
-<span id="cb68-3"><a href="21-Beta_ordination.html#cb68-3" tabindex="-1"></a>pcoa.wunifrac <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> pcoa_points_metadata, </span>
-<span id="cb68-4"><a href="21-Beta_ordination.html#cb68-4" tabindex="-1"></a>                        <span class="fu">aes</span>(<span class="at">x =</span> Axis<span class="fl">.1</span>, <span class="at">y =</span> Axis<span class="fl">.2</span>, <span class="at">color =</span> site, <span class="at">shape =</span> media)) <span class="sc">+</span></span>
-<span id="cb68-5"><a href="21-Beta_ordination.html#cb68-5" tabindex="-1"></a>                ggplot2<span class="sc">::</span><span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb68-6"><a href="21-Beta_ordination.html#cb68-6" tabindex="-1"></a>                <span class="co">#Add x and y labels to include % variance explained</span></span>
-<span id="cb68-7"><a href="21-Beta_ordination.html#cb68-7" tabindex="-1"></a>                <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">&quot;Axis.1 [&quot;</span>, pcoa_axis_var_explained[<span class="dv">1</span>], <span class="st">&quot;%]&quot;</span>),</span>
-<span id="cb68-8"><a href="21-Beta_ordination.html#cb68-8" tabindex="-1"></a>                     <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">&quot;Axis.2 [&quot;</span>, pcoa_axis_var_explained[<span class="dv">2</span>], <span class="st">&quot;%]&quot;</span>))</span>
-<span id="cb68-9"><a href="21-Beta_ordination.html#cb68-9" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
-<span id="cb68-10"><a href="21-Beta_ordination.html#cb68-10" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Beta_diversity_pcoa_wunifrac_media_site.png&quot;</span>, <span class="at">plot =</span> pcoa.wunifrac</span>
-<span id="cb68-11"><a href="21-Beta_ordination.html#cb68-11" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">125</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
-<span id="cb68-12"><a href="21-Beta_ordination.html#cb68-12" tabindex="-1"></a><span class="co">#Display plot</span></span>
-<span id="cb68-13"><a href="21-Beta_ordination.html#cb68-13" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file =</span> <span class="st">&quot;./Beta_diversity_pcoa_wunifrac_media_site.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb74-1"><a href="21-Beta_ordination.html#cb74-1" tabindex="-1"></a><span class="co">#Produce PCoA scatter plot</span></span>
+<span id="cb74-2"><a href="21-Beta_ordination.html#cb74-2" tabindex="-1"></a><span class="co">#Plot ordination</span></span>
+<span id="cb74-3"><a href="21-Beta_ordination.html#cb74-3" tabindex="-1"></a>pcoa.wunifrac <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> pcoa_points_metadata, </span>
+<span id="cb74-4"><a href="21-Beta_ordination.html#cb74-4" tabindex="-1"></a>                        <span class="fu">aes</span>(<span class="at">x =</span> Axis<span class="fl">.1</span>, <span class="at">y =</span> Axis<span class="fl">.2</span>, <span class="at">color =</span> site, <span class="at">shape =</span> media)) <span class="sc">+</span></span>
+<span id="cb74-5"><a href="21-Beta_ordination.html#cb74-5" tabindex="-1"></a>                ggplot2<span class="sc">::</span><span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb74-6"><a href="21-Beta_ordination.html#cb74-6" tabindex="-1"></a>                <span class="co">#Add x and y labels to include % variance explained</span></span>
+<span id="cb74-7"><a href="21-Beta_ordination.html#cb74-7" tabindex="-1"></a>                <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">&quot;Axis.1 [&quot;</span>, pcoa_axis_var_explained[<span class="dv">1</span>], <span class="st">&quot;%]&quot;</span>),</span>
+<span id="cb74-8"><a href="21-Beta_ordination.html#cb74-8" tabindex="-1"></a>                     <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">&quot;Axis.2 [&quot;</span>, pcoa_axis_var_explained[<span class="dv">2</span>], <span class="st">&quot;%]&quot;</span>))</span>
+<span id="cb74-9"><a href="21-Beta_ordination.html#cb74-9" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
+<span id="cb74-10"><a href="21-Beta_ordination.html#cb74-10" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Beta_diversity_pcoa_wunifrac_media_site.png&quot;</span>, <span class="at">plot =</span> pcoa.wunifrac</span>
+<span id="cb74-11"><a href="21-Beta_ordination.html#cb74-11" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">125</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
+<span id="cb74-12"><a href="21-Beta_ordination.html#cb74-12" tabindex="-1"></a><span class="co">#Display plot</span></span>
+<span id="cb74-13"><a href="21-Beta_ordination.html#cb74-13" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file =</span> <span class="st">&quot;./Beta_diversity_pcoa_wunifrac_media_site.png&quot;</span>)</span></code></pre></div>
 <p>We have a PCoA plot which represents 82.1% (67.46+14.64) of the variance of our data.
 It is quite similar to our NMDS plot.</p>
 </div>

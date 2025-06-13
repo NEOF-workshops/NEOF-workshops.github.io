@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-03-28" />
+<meta name="date" content="2025-06-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -205,7 +205,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-rarefaction"><i class="fa fa-check"></i><b>10.1</b> MR: Rarefaction</a></li>
 <li class="chapter" data-level="10.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mathematical-operators-data-frames"><i class="fa fa-check"></i><b>10.2</b> Mathematical operators &amp; data frames</a></li>
-<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a></li>
+<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#relative-abundance-transformation"><i class="fa fa-check"></i><b>10.3.1</b> Relative abundance transformation</a></li>
+<li class="chapter" data-level="10.3.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#histogram-comparison"><i class="fa fa-check"></i><b>10.3.2</b> Histogram comparison</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-Iterating_rarefaction_practice.html"><a href="11-Iterating_rarefaction_practice.html"><i class="fa fa-check"></i><b>11</b> Iterating rarefaction practice</a>
 <ul>
@@ -221,9 +225,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13" data-path="13-Alpha_diversity_rarefaction.html"><a href="13-Alpha_diversity_rarefaction.html"><i class="fa fa-check"></i><b>13</b> <span class="math inline">\(\alpha\)</span>: Iterative rarefaction loop</a></li>
 <li class="chapter" data-level="14" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html"><i class="fa fa-check"></i><b>14</b> <span class="math inline">\(\alpha\)</span> data frame tidying</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
-<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
-<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
+<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-rename-metrics"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Rename metrics</a></li>
+<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.4</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
 </ul></li>
 <li class="chapter" data-level="15" data-path="15-Alpha_violin_plot_and_stats.html"><a href="15-Alpha_violin_plot_and_stats.html"><i class="fa fa-check"></i><b>15</b> <span class="math inline">\(\alpha\)</span>: Plot and stats</a>
 <ul>
@@ -348,15 +353,15 @@ This means we cannot simply subset our ordination points.</p>
 We can therefore subset our distance matrix and then ordinate it.
 This is much better than having to carry out the iterative rarefaction again.</p>
 <p>Subset out previously produced distance matrix to remove the environmental samples:</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb72-1"><a href="23-Beta_subset_ordination.html#cb72-1" tabindex="-1"></a><span class="co">#Load wunifrac</span></span>
-<span id="cb72-2"><a href="23-Beta_subset_ordination.html#cb72-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;wunifrac_df_mean.RData&quot;</span>)</span>
-<span id="cb72-3"><a href="23-Beta_subset_ordination.html#cb72-3" tabindex="-1"></a><span class="co">#Load metadata</span></span>
-<span id="cb72-4"><a href="23-Beta_subset_ordination.html#cb72-4" tabindex="-1"></a>metadf <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)</span>
-<span id="cb72-5"><a href="23-Beta_subset_ordination.html#cb72-5" tabindex="-1"></a><span class="co">#Subset data frame so it excludes env samples</span></span>
-<span id="cb72-6"><a href="23-Beta_subset_ordination.html#cb72-6" tabindex="-1"></a>metadf_noenv <span class="ot">&lt;-</span> metadf[metadf<span class="sc">$</span>media <span class="sc">!=</span> ENV,]</span>
-<span id="cb72-7"><a href="23-Beta_subset_ordination.html#cb72-7" tabindex="-1"></a><span class="co">#Subset distance matrix so it only contains non env samples</span></span>
-<span id="cb72-8"><a href="23-Beta_subset_ordination.html#cb72-8" tabindex="-1"></a>beta_df_mean_noenv <span class="ot">&lt;-</span> beta_df_mean[<span class="fu">row.names</span>(metadf_noenv), <span class="fu">row.names</span>(metadf_noenv)]</span>
-<span id="cb72-9"><a href="23-Beta_subset_ordination.html#cb72-9" tabindex="-1"></a>beta_df_mean_no_env</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb78-1"><a href="23-Beta_subset_ordination.html#cb78-1" tabindex="-1"></a><span class="co">#Load wunifrac</span></span>
+<span id="cb78-2"><a href="23-Beta_subset_ordination.html#cb78-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;wunifrac_df_mean.RData&quot;</span>)</span>
+<span id="cb78-3"><a href="23-Beta_subset_ordination.html#cb78-3" tabindex="-1"></a><span class="co">#Load metadata</span></span>
+<span id="cb78-4"><a href="23-Beta_subset_ordination.html#cb78-4" tabindex="-1"></a>metadf <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(pseq)</span>
+<span id="cb78-5"><a href="23-Beta_subset_ordination.html#cb78-5" tabindex="-1"></a><span class="co">#Subset data frame so it excludes env samples</span></span>
+<span id="cb78-6"><a href="23-Beta_subset_ordination.html#cb78-6" tabindex="-1"></a>metadf_noenv <span class="ot">&lt;-</span> metadf[metadf<span class="sc">$</span>media <span class="sc">!=</span> ENV,]</span>
+<span id="cb78-7"><a href="23-Beta_subset_ordination.html#cb78-7" tabindex="-1"></a><span class="co">#Subset distance matrix so it only contains non env samples</span></span>
+<span id="cb78-8"><a href="23-Beta_subset_ordination.html#cb78-8" tabindex="-1"></a>beta_df_mean_noenv <span class="ot">&lt;-</span> beta_df_mean[<span class="fu">row.names</span>(metadf_noenv), <span class="fu">row.names</span>(metadf_noenv)]</span>
+<span id="cb78-9"><a href="23-Beta_subset_ordination.html#cb78-9" tabindex="-1"></a>beta_df_mean_no_env</span></code></pre></div>
 </div>
 <div id="points-long-data-frame" class="section level2 hasAnchor" number="23.2">
 <h2><span class="header-section-number">23.2</span> Points long data frame<a href="23-Beta_subset_ordination.html#points-long-data-frame" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -364,27 +369,27 @@ This is much better than having to carry out the iterative rarefaction again.</p
 <img src="figures/long_data_frame_subset.png" style="width:150px; background:white; border-radius:15px; border: white solid 5px" />
 </center>
 <p>We can now ordinate (PCoA) our subset distance matrix:</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb73-1"><a href="23-Beta_subset_ordination.html#cb73-1" tabindex="-1"></a><span class="co">#Ordinate subset distance matrix with PCoA</span></span>
-<span id="cb73-2"><a href="23-Beta_subset_ordination.html#cb73-2" tabindex="-1"></a><span class="co">#PCoA ordinate</span></span>
-<span id="cb73-3"><a href="23-Beta_subset_ordination.html#cb73-3" tabindex="-1"></a>pcoa_res <span class="ot">&lt;-</span> ape<span class="sc">::</span><span class="fu">pcoa</span>(beta_df_mean_noenv)</span>
-<span id="cb73-4"><a href="23-Beta_subset_ordination.html#cb73-4" tabindex="-1"></a><span class="co">#Variation explained values</span></span>
-<span id="cb73-5"><a href="23-Beta_subset_ordination.html#cb73-5" tabindex="-1"></a>pcoa_axis_var_explained <span class="ot">&lt;-</span> <span class="fu">round</span>(pcoa_res<span class="sc">$</span>values[,<span class="st">&quot;Relative_eig&quot;</span>] <span class="sc">*</span> <span class="dv">100</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span>
-<span id="cb73-6"><a href="23-Beta_subset_ordination.html#cb73-6" tabindex="-1"></a>pcoa_axis_var_explained</span>
-<span id="cb73-7"><a href="23-Beta_subset_ordination.html#cb73-7" tabindex="-1"></a><span class="co">#Extract 1st 2 axes</span></span>
-<span id="cb73-8"><a href="23-Beta_subset_ordination.html#cb73-8" tabindex="-1"></a>pcoa_res_points <span class="ot">&lt;-</span> pcoa_res<span class="sc">$</span>vectros[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
-<span id="cb73-9"><a href="23-Beta_subset_ordination.html#cb73-9" tabindex="-1"></a><span class="fu">head</span>(pcoa_res_points)</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb79-1"><a href="23-Beta_subset_ordination.html#cb79-1" tabindex="-1"></a><span class="co">#Ordinate subset distance matrix with PCoA</span></span>
+<span id="cb79-2"><a href="23-Beta_subset_ordination.html#cb79-2" tabindex="-1"></a><span class="co">#PCoA ordinate</span></span>
+<span id="cb79-3"><a href="23-Beta_subset_ordination.html#cb79-3" tabindex="-1"></a>pcoa_res <span class="ot">&lt;-</span> ape<span class="sc">::</span><span class="fu">pcoa</span>(beta_df_mean_noenv)</span>
+<span id="cb79-4"><a href="23-Beta_subset_ordination.html#cb79-4" tabindex="-1"></a><span class="co">#Variation explained values</span></span>
+<span id="cb79-5"><a href="23-Beta_subset_ordination.html#cb79-5" tabindex="-1"></a>pcoa_axis_var_explained <span class="ot">&lt;-</span> <span class="fu">round</span>(pcoa_res<span class="sc">$</span>values[,<span class="st">&quot;Relative_eig&quot;</span>] <span class="sc">*</span> <span class="dv">100</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb79-6"><a href="23-Beta_subset_ordination.html#cb79-6" tabindex="-1"></a>pcoa_axis_var_explained</span>
+<span id="cb79-7"><a href="23-Beta_subset_ordination.html#cb79-7" tabindex="-1"></a><span class="co">#Extract 1st 2 axes</span></span>
+<span id="cb79-8"><a href="23-Beta_subset_ordination.html#cb79-8" tabindex="-1"></a>pcoa_res_points <span class="ot">&lt;-</span> pcoa_res<span class="sc">$</span>vectros[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb79-9"><a href="23-Beta_subset_ordination.html#cb79-9" tabindex="-1"></a><span class="fu">head</span>(pcoa_res_points)</span></code></pre></div>
 <p>Followed by producing a long data frame for plotting:</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb74-1"><a href="23-Beta_subset_ordination.html#cb74-1" tabindex="-1"></a><span class="co">#Create point long data frame with metadata</span></span>
-<span id="cb74-2"><a href="23-Beta_subset_ordination.html#cb74-2" tabindex="-1"></a><span class="co">#Ensure row names order matches</span></span>
-<span id="cb74-3"><a href="23-Beta_subset_ordination.html#cb74-3" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">identical</span>(<span class="fu">row.names</span>(beta_df_mean_noenv), <span class="fu">row.names</span>(pcoa_points)) <span class="sc">==</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb74-4"><a href="23-Beta_subset_ordination.html#cb74-4" tabindex="-1"></a>  beta_df_mean_noenv <span class="ot">&lt;-</span> beta_df_mean_noenv[<span class="fu">row.names</span>(pcoa_points),]</span>
-<span id="cb74-5"><a href="23-Beta_subset_ordination.html#cb74-5" tabindex="-1"></a>}</span>
-<span id="cb74-6"><a href="23-Beta_subset_ordination.html#cb74-6" tabindex="-1"></a><span class="co">#Make points with metadata data frame</span></span>
-<span id="cb74-7"><a href="23-Beta_subset_ordination.html#cb74-7" tabindex="-1"></a>pcoa_points_metadata <span class="ot">&lt;-</span> <span class="fu">cbind</span>(pcoa_points, metadf_noenv)</span>
-<span id="cb74-8"><a href="23-Beta_subset_ordination.html#cb74-8" tabindex="-1"></a><span class="fu">head</span>(nmds_points_metadata)</span>
-<span id="cb74-9"><a href="23-Beta_subset_ordination.html#cb74-9" tabindex="-1"></a><span class="co">#Save object we want, remove ones we don&#39;t</span></span>
-<span id="cb74-10"><a href="23-Beta_subset_ordination.html#cb74-10" tabindex="-1"></a><span class="fu">save</span>(pcoa_points_metadata, <span class="at">file =</span> <span class="st">&quot;noenv_wunifrac_PCoA.RData&quot;</span>)</span>
-<span id="cb74-11"><a href="23-Beta_subset_ordination.html#cb74-11" tabindex="-1"></a><span class="fu">rm</span>(metadf, pcoa_points, pcoa_res)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb80-1"><a href="23-Beta_subset_ordination.html#cb80-1" tabindex="-1"></a><span class="co">#Create point long data frame with metadata</span></span>
+<span id="cb80-2"><a href="23-Beta_subset_ordination.html#cb80-2" tabindex="-1"></a><span class="co">#Ensure row names order matches</span></span>
+<span id="cb80-3"><a href="23-Beta_subset_ordination.html#cb80-3" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">identical</span>(<span class="fu">row.names</span>(beta_df_mean_noenv), <span class="fu">row.names</span>(pcoa_points)) <span class="sc">==</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb80-4"><a href="23-Beta_subset_ordination.html#cb80-4" tabindex="-1"></a>  beta_df_mean_noenv <span class="ot">&lt;-</span> beta_df_mean_noenv[<span class="fu">row.names</span>(pcoa_points),]</span>
+<span id="cb80-5"><a href="23-Beta_subset_ordination.html#cb80-5" tabindex="-1"></a>}</span>
+<span id="cb80-6"><a href="23-Beta_subset_ordination.html#cb80-6" tabindex="-1"></a><span class="co">#Make points with metadata data frame</span></span>
+<span id="cb80-7"><a href="23-Beta_subset_ordination.html#cb80-7" tabindex="-1"></a>pcoa_points_metadata <span class="ot">&lt;-</span> <span class="fu">cbind</span>(pcoa_points, metadf_noenv)</span>
+<span id="cb80-8"><a href="23-Beta_subset_ordination.html#cb80-8" tabindex="-1"></a><span class="fu">head</span>(nmds_points_metadata)</span>
+<span id="cb80-9"><a href="23-Beta_subset_ordination.html#cb80-9" tabindex="-1"></a><span class="co">#Save object we want, remove ones we don&#39;t</span></span>
+<span id="cb80-10"><a href="23-Beta_subset_ordination.html#cb80-10" tabindex="-1"></a><span class="fu">save</span>(pcoa_points_metadata, <span class="at">file =</span> <span class="st">&quot;noenv_wunifrac_PCoA.RData&quot;</span>)</span>
+<span id="cb80-11"><a href="23-Beta_subset_ordination.html#cb80-11" tabindex="-1"></a><span class="fu">rm</span>(metadf, pcoa_points, pcoa_res)</span></code></pre></div>
 </div>
 <div id="media-pcoa-scatter-plot" class="section level2 hasAnchor" number="23.3">
 <h2><span class="header-section-number">23.3</span> Media PCoA scatter plot<a href="23-Beta_subset_ordination.html#media-pcoa-scatter-plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -392,19 +397,19 @@ This is much better than having to carry out the iterative rarefaction again.</p
 <img src="figures/scatter_subset.png" style="width:200px; background-color:white; border-radius:15px; border: white solid 5px" />
 </center>
 <p>Finally you can produce the PCoA scatter plot for just the media samples:</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb75-1"><a href="23-Beta_subset_ordination.html#cb75-1" tabindex="-1"></a><span class="co">#Produce PCoA scatter plot</span></span>
-<span id="cb75-2"><a href="23-Beta_subset_ordination.html#cb75-2" tabindex="-1"></a><span class="co">#Plot ordination</span></span>
-<span id="cb75-3"><a href="23-Beta_subset_ordination.html#cb75-3" tabindex="-1"></a>pcoa.wunifrac <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> pcoa_points_metadata, </span>
-<span id="cb75-4"><a href="23-Beta_subset_ordination.html#cb75-4" tabindex="-1"></a>                        <span class="fu">aes</span>(<span class="at">x =</span> Axis<span class="fl">.1</span>, <span class="at">y =</span> Axis<span class="fl">.2</span>, <span class="at">color =</span> site, <span class="at">shape =</span> media)) <span class="sc">+</span></span>
-<span id="cb75-5"><a href="23-Beta_subset_ordination.html#cb75-5" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_points</span>() <span class="sc">+</span></span>
-<span id="cb75-6"><a href="23-Beta_subset_ordination.html#cb75-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">&quot;Axis.1 [&quot;</span>, pcoa_axis_var_explained[<span class="dv">1</span>], <span class="st">&quot;%]&quot;</span>),</span>
-<span id="cb75-7"><a href="23-Beta_subset_ordination.html#cb75-7" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">&quot;Axis.2 [&quot;</span>, pcoa_axis_var_explained[<span class="dv">2</span>], <span class="st">&quot;%]&quot;</span>))</span>
-<span id="cb75-8"><a href="23-Beta_subset_ordination.html#cb75-8" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
-<span id="cb75-9"><a href="23-Beta_subset_ordination.html#cb75-9" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Beta_diversity_pcoa_wunifrac_noenv_media_site.png&quot;</span>,</span>
-<span id="cb75-10"><a href="23-Beta_subset_ordination.html#cb75-10" tabindex="-1"></a>       <span class="at">plot =</span> pcoa.wunifrac,</span>
-<span id="cb75-11"><a href="23-Beta_subset_ordination.html#cb75-11" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">125</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
-<span id="cb75-12"><a href="23-Beta_subset_ordination.html#cb75-12" tabindex="-1"></a><span class="co">#Display plot</span></span>
-<span id="cb75-13"><a href="23-Beta_subset_ordination.html#cb75-13" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file =</span> <span class="st">&quot;./Beta_diversity_pcoa_wunifrac_noenv_media_site.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb81-1"><a href="23-Beta_subset_ordination.html#cb81-1" tabindex="-1"></a><span class="co">#Produce PCoA scatter plot</span></span>
+<span id="cb81-2"><a href="23-Beta_subset_ordination.html#cb81-2" tabindex="-1"></a><span class="co">#Plot ordination</span></span>
+<span id="cb81-3"><a href="23-Beta_subset_ordination.html#cb81-3" tabindex="-1"></a>pcoa.wunifrac <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> pcoa_points_metadata, </span>
+<span id="cb81-4"><a href="23-Beta_subset_ordination.html#cb81-4" tabindex="-1"></a>                        <span class="fu">aes</span>(<span class="at">x =</span> Axis<span class="fl">.1</span>, <span class="at">y =</span> Axis<span class="fl">.2</span>, <span class="at">color =</span> site, <span class="at">shape =</span> media)) <span class="sc">+</span></span>
+<span id="cb81-5"><a href="23-Beta_subset_ordination.html#cb81-5" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_points</span>() <span class="sc">+</span></span>
+<span id="cb81-6"><a href="23-Beta_subset_ordination.html#cb81-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">&quot;Axis.1 [&quot;</span>, pcoa_axis_var_explained[<span class="dv">1</span>], <span class="st">&quot;%]&quot;</span>),</span>
+<span id="cb81-7"><a href="23-Beta_subset_ordination.html#cb81-7" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">paste0</span>(<span class="st">&quot;Axis.2 [&quot;</span>, pcoa_axis_var_explained[<span class="dv">2</span>], <span class="st">&quot;%]&quot;</span>))</span>
+<span id="cb81-8"><a href="23-Beta_subset_ordination.html#cb81-8" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave</span></span>
+<span id="cb81-9"><a href="23-Beta_subset_ordination.html#cb81-9" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Beta_diversity_pcoa_wunifrac_noenv_media_site.png&quot;</span>,</span>
+<span id="cb81-10"><a href="23-Beta_subset_ordination.html#cb81-10" tabindex="-1"></a>       <span class="at">plot =</span> pcoa.wunifrac,</span>
+<span id="cb81-11"><a href="23-Beta_subset_ordination.html#cb81-11" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">125</span>, <span class="at">width =</span> <span class="dv">150</span>)</span>
+<span id="cb81-12"><a href="23-Beta_subset_ordination.html#cb81-12" tabindex="-1"></a><span class="co">#Display plot</span></span>
+<span id="cb81-13"><a href="23-Beta_subset_ordination.html#cb81-13" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file =</span> <span class="st">&quot;./Beta_diversity_pcoa_wunifrac_noenv_media_site.png&quot;</span>)</span></code></pre></div>
 <p>Now we can see some much clearer clustering of the media and site groupings:</p>
 <ul>
 <li>The different media produce distinct separate clusters.</li>

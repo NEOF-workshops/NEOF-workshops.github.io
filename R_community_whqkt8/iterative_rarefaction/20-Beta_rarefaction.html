@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-03-28" />
+<meta name="date" content="2025-06-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -205,7 +205,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-rarefaction"><i class="fa fa-check"></i><b>10.1</b> MR: Rarefaction</a></li>
 <li class="chapter" data-level="10.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mathematical-operators-data-frames"><i class="fa fa-check"></i><b>10.2</b> Mathematical operators &amp; data frames</a></li>
-<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a></li>
+<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#relative-abundance-transformation"><i class="fa fa-check"></i><b>10.3.1</b> Relative abundance transformation</a></li>
+<li class="chapter" data-level="10.3.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#histogram-comparison"><i class="fa fa-check"></i><b>10.3.2</b> Histogram comparison</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-Iterating_rarefaction_practice.html"><a href="11-Iterating_rarefaction_practice.html"><i class="fa fa-check"></i><b>11</b> Iterating rarefaction practice</a>
 <ul>
@@ -221,9 +225,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13" data-path="13-Alpha_diversity_rarefaction.html"><a href="13-Alpha_diversity_rarefaction.html"><i class="fa fa-check"></i><b>13</b> <span class="math inline">\(\alpha\)</span>: Iterative rarefaction loop</a></li>
 <li class="chapter" data-level="14" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html"><i class="fa fa-check"></i><b>14</b> <span class="math inline">\(\alpha\)</span> data frame tidying</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
-<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
-<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
+<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-rename-metrics"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Rename metrics</a></li>
+<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.4</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
 </ul></li>
 <li class="chapter" data-level="15" data-path="15-Alpha_violin_plot_and_stats.html"><a href="15-Alpha_violin_plot_and_stats.html"><i class="fa fa-check"></i><b>15</b> <span class="math inline">\(\alpha\)</span>: Plot and stats</a>
 <ul>
@@ -341,15 +346,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </center>
 <p>We need to set our <strong>rarefaction</strong> values and rngseeds.
 We can use the same code as we used in the <strong>alpha_diversity</strong> analysis.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb57-1"><a href="20-Beta_rarefaction.html#cb57-1" tabindex="-1"></a><span class="co">#Rarefaction values</span></span>
-<span id="cb57-2"><a href="20-Beta_rarefaction.html#cb57-2" tabindex="-1"></a><span class="co">#Rarefaction size</span></span>
-<span id="cb57-3"><a href="20-Beta_rarefaction.html#cb57-3" tabindex="-1"></a><span class="co">#Minimum sample depth in this case</span></span>
-<span id="cb57-4"><a href="20-Beta_rarefaction.html#cb57-4" tabindex="-1"></a>rarefaction_size <span class="ot">&lt;-</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq))</span>
-<span id="cb57-5"><a href="20-Beta_rarefaction.html#cb57-5" tabindex="-1"></a><span class="co">#Load the vector of 10 rngseeds created in the previous chapter</span></span>
-<span id="cb57-6"><a href="20-Beta_rarefaction.html#cb57-6" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;rngseeds.RData&quot;</span>)</span>
-<span id="cb57-7"><a href="20-Beta_rarefaction.html#cb57-7" tabindex="-1"></a><span class="co">#Number of rarefaction iterations to be carried out</span></span>
-<span id="cb57-8"><a href="20-Beta_rarefaction.html#cb57-8" tabindex="-1"></a><span class="co">#Based on length of rng seed vector</span></span>
-<span id="cb57-9"><a href="20-Beta_rarefaction.html#cb57-9" tabindex="-1"></a>rarefaction_iters <span class="ot">&lt;-</span> <span class="fu">length</span>(rngseed_vec)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb63-1"><a href="20-Beta_rarefaction.html#cb63-1" tabindex="-1"></a><span class="co">#Rarefaction values</span></span>
+<span id="cb63-2"><a href="20-Beta_rarefaction.html#cb63-2" tabindex="-1"></a><span class="co">#Rarefaction size</span></span>
+<span id="cb63-3"><a href="20-Beta_rarefaction.html#cb63-3" tabindex="-1"></a><span class="co">#Minimum sample depth in this case</span></span>
+<span id="cb63-4"><a href="20-Beta_rarefaction.html#cb63-4" tabindex="-1"></a>rarefaction_size <span class="ot">&lt;-</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq))</span>
+<span id="cb63-5"><a href="20-Beta_rarefaction.html#cb63-5" tabindex="-1"></a><span class="co">#Load the vector of 10 rngseeds created in the previous chapter</span></span>
+<span id="cb63-6"><a href="20-Beta_rarefaction.html#cb63-6" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;rngseeds.RData&quot;</span>)</span>
+<span id="cb63-7"><a href="20-Beta_rarefaction.html#cb63-7" tabindex="-1"></a><span class="co">#Number of rarefaction iterations to be carried out</span></span>
+<span id="cb63-8"><a href="20-Beta_rarefaction.html#cb63-8" tabindex="-1"></a><span class="co">#Based on length of rng seed vector</span></span>
+<span id="cb63-9"><a href="20-Beta_rarefaction.html#cb63-9" tabindex="-1"></a>rarefaction_iters <span class="ot">&lt;-</span> <span class="fu">length</span>(rngseed_vec)</span></code></pre></div>
 </div>
 <div id="iterative-beta-diversity-calculation" class="section level2 hasAnchor" number="20.2">
 <h2><span class="header-section-number">20.2</span> Iterative beta diversity calculation<a href="20-Beta_rarefaction.html#iterative-beta-diversity-calculation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -357,47 +362,47 @@ We can use the same code as we used in the <strong>alpha_diversity</strong> anal
 <img src="figures/mean.png" style="width:200px; background:white; border-radius:15px" />
 </center>
 <p>The below code carries out <strong>iterative rarefaction</strong> and produces an averaged <strong>weighted unifrac</strong> paired distance matrix.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb58-1"><a href="20-Beta_rarefaction.html#cb58-1" tabindex="-1"></a><span class="co">#Loop to create iteration based rarefied weighted unifrac values</span></span>
-<span id="cb58-2"><a href="20-Beta_rarefaction.html#cb58-2" tabindex="-1"></a></span>
-<span id="cb58-3"><a href="20-Beta_rarefaction.html#cb58-3" tabindex="-1"></a><span class="co">#Create matrix to contain summed wunifrac beta diversity values</span></span>
-<span id="cb58-4"><a href="20-Beta_rarefaction.html#cb58-4" tabindex="-1"></a><span class="co">#In this case we&#39;ll run the first rarefied beta diversity analysis</span></span>
-<span id="cb58-5"><a href="20-Beta_rarefaction.html#cb58-5" tabindex="-1"></a>pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(</span>
-<span id="cb58-6"><a href="20-Beta_rarefaction.html#cb58-6" tabindex="-1"></a>  pseq,</span>
-<span id="cb58-7"><a href="20-Beta_rarefaction.html#cb58-7" tabindex="-1"></a>  <span class="at">sample.size =</span> rarefaction_size,</span>
-<span id="cb58-8"><a href="20-Beta_rarefaction.html#cb58-8" tabindex="-1"></a>  <span class="at">rngseed =</span> rngseed_vec[<span class="dv">1</span>],</span>
-<span id="cb58-9"><a href="20-Beta_rarefaction.html#cb58-9" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb58-10"><a href="20-Beta_rarefaction.html#cb58-10" tabindex="-1"></a><span class="co">#wunifrac beta diversity</span></span>
-<span id="cb58-11"><a href="20-Beta_rarefaction.html#cb58-11" tabindex="-1"></a>beta_df_sum <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(</span>
-<span id="cb58-12"><a href="20-Beta_rarefaction.html#cb58-12" tabindex="-1"></a>  rbiom<span class="sc">::</span><span class="fu">unifrac</span>(</span>
-<span id="cb58-13"><a href="20-Beta_rarefaction.html#cb58-13" tabindex="-1"></a>    <span class="at">biom =</span> phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq_rarefy),</span>
-<span id="cb58-14"><a href="20-Beta_rarefaction.html#cb58-14" tabindex="-1"></a>    <span class="at">tree =</span> phyloseq<span class="sc">::</span><span class="fu">phy_tree</span>(pseq_rarefy),</span>
-<span id="cb58-15"><a href="20-Beta_rarefaction.html#cb58-15" tabindex="-1"></a>    <span class="at">weighted =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb58-16"><a href="20-Beta_rarefaction.html#cb58-16" tabindex="-1"></a></span>
-<span id="cb58-17"><a href="20-Beta_rarefaction.html#cb58-17" tabindex="-1"></a><span class="co">#Loop through 2 to the number of iterations</span></span>
-<span id="cb58-18"><a href="20-Beta_rarefaction.html#cb58-18" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>rarefaction_iters){</span>
-<span id="cb58-19"><a href="20-Beta_rarefaction.html#cb58-19" tabindex="-1"></a>  <span class="co">#Rarefaction</span></span>
-<span id="cb58-20"><a href="20-Beta_rarefaction.html#cb58-20" tabindex="-1"></a>  pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(</span>
-<span id="cb58-21"><a href="20-Beta_rarefaction.html#cb58-21" tabindex="-1"></a>    pseq,</span>
-<span id="cb58-22"><a href="20-Beta_rarefaction.html#cb58-22" tabindex="-1"></a>    <span class="at">sample.size =</span> rarefaction_size,</span>
-<span id="cb58-23"><a href="20-Beta_rarefaction.html#cb58-23" tabindex="-1"></a>    <span class="at">rngseed =</span> rngseed_vec[i],</span>
-<span id="cb58-24"><a href="20-Beta_rarefaction.html#cb58-24" tabindex="-1"></a>    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb58-25"><a href="20-Beta_rarefaction.html#cb58-25" tabindex="-1"></a>  <span class="co">#Beta diversity</span></span>
-<span id="cb58-26"><a href="20-Beta_rarefaction.html#cb58-26" tabindex="-1"></a>  beta_df <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(</span>
-<span id="cb58-27"><a href="20-Beta_rarefaction.html#cb58-27" tabindex="-1"></a>    rbiom<span class="sc">::</span><span class="fu">unifrac</span>(</span>
-<span id="cb58-28"><a href="20-Beta_rarefaction.html#cb58-28" tabindex="-1"></a>      <span class="at">biom =</span> phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq_rarefy),</span>
-<span id="cb58-29"><a href="20-Beta_rarefaction.html#cb58-29" tabindex="-1"></a>      <span class="at">tree =</span> phyloseq<span class="sc">::</span><span class="fu">phy_tree</span>(pseq_rarefy),</span>
-<span id="cb58-30"><a href="20-Beta_rarefaction.html#cb58-30" tabindex="-1"></a>      <span class="at">weighted =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb58-31"><a href="20-Beta_rarefaction.html#cb58-31" tabindex="-1"></a>  <span class="co">#Add/sum the new data frame values to the sum data frame</span></span>
-<span id="cb58-32"><a href="20-Beta_rarefaction.html#cb58-32" tabindex="-1"></a>  beta_df_sum <span class="ot">&lt;-</span> beta_df_sum <span class="sc">+</span> beta_df</span>
-<span id="cb58-33"><a href="20-Beta_rarefaction.html#cb58-33" tabindex="-1"></a>}</span>
-<span id="cb58-34"><a href="20-Beta_rarefaction.html#cb58-34" tabindex="-1"></a><span class="co">#Divide by number of rarefaction iterations to get average</span></span>
-<span id="cb58-35"><a href="20-Beta_rarefaction.html#cb58-35" tabindex="-1"></a>beta_df_mean <span class="ot">&lt;-</span> beta_df_sum <span class="sc">/</span> rarefaction_iters</span>
-<span id="cb58-36"><a href="20-Beta_rarefaction.html#cb58-36" tabindex="-1"></a><span class="co">#Save beta mean data frame</span></span>
-<span id="cb58-37"><a href="20-Beta_rarefaction.html#cb58-37" tabindex="-1"></a><span class="fu">save</span>(beta_df_mean, <span class="at">file =</span> <span class="st">&quot;wunifrac_df_mean.RData&quot;</span>)</span>
-<span id="cb58-38"><a href="20-Beta_rarefaction.html#cb58-38" tabindex="-1"></a><span class="co">#View first 6 rows and columns of matrix</span></span>
-<span id="cb58-39"><a href="20-Beta_rarefaction.html#cb58-39" tabindex="-1"></a>beta_df_mean[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
-<span id="cb58-40"><a href="20-Beta_rarefaction.html#cb58-40" tabindex="-1"></a><span class="co">#Remove unneeded objects</span></span>
-<span id="cb58-41"><a href="20-Beta_rarefaction.html#cb58-41" tabindex="-1"></a><span class="fu">rm</span>(beta_df_sum, beta_df_mean, pseq_rarefy)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb64-1"><a href="20-Beta_rarefaction.html#cb64-1" tabindex="-1"></a><span class="co">#Loop to create iteration based rarefied weighted unifrac values</span></span>
+<span id="cb64-2"><a href="20-Beta_rarefaction.html#cb64-2" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="20-Beta_rarefaction.html#cb64-3" tabindex="-1"></a><span class="co">#Create matrix to contain summed wunifrac beta diversity values</span></span>
+<span id="cb64-4"><a href="20-Beta_rarefaction.html#cb64-4" tabindex="-1"></a><span class="co">#In this case we&#39;ll run the first rarefied beta diversity analysis</span></span>
+<span id="cb64-5"><a href="20-Beta_rarefaction.html#cb64-5" tabindex="-1"></a>pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(</span>
+<span id="cb64-6"><a href="20-Beta_rarefaction.html#cb64-6" tabindex="-1"></a>  pseq,</span>
+<span id="cb64-7"><a href="20-Beta_rarefaction.html#cb64-7" tabindex="-1"></a>  <span class="at">sample.size =</span> rarefaction_size,</span>
+<span id="cb64-8"><a href="20-Beta_rarefaction.html#cb64-8" tabindex="-1"></a>  <span class="at">rngseed =</span> rngseed_vec[<span class="dv">1</span>],</span>
+<span id="cb64-9"><a href="20-Beta_rarefaction.html#cb64-9" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb64-10"><a href="20-Beta_rarefaction.html#cb64-10" tabindex="-1"></a><span class="co">#wunifrac beta diversity</span></span>
+<span id="cb64-11"><a href="20-Beta_rarefaction.html#cb64-11" tabindex="-1"></a>beta_df_sum <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(</span>
+<span id="cb64-12"><a href="20-Beta_rarefaction.html#cb64-12" tabindex="-1"></a>  rbiom<span class="sc">::</span><span class="fu">unifrac</span>(</span>
+<span id="cb64-13"><a href="20-Beta_rarefaction.html#cb64-13" tabindex="-1"></a>    <span class="at">biom =</span> phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq_rarefy),</span>
+<span id="cb64-14"><a href="20-Beta_rarefaction.html#cb64-14" tabindex="-1"></a>    <span class="at">tree =</span> phyloseq<span class="sc">::</span><span class="fu">phy_tree</span>(pseq_rarefy),</span>
+<span id="cb64-15"><a href="20-Beta_rarefaction.html#cb64-15" tabindex="-1"></a>    <span class="at">weighted =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb64-16"><a href="20-Beta_rarefaction.html#cb64-16" tabindex="-1"></a></span>
+<span id="cb64-17"><a href="20-Beta_rarefaction.html#cb64-17" tabindex="-1"></a><span class="co">#Loop through 2 to the number of iterations</span></span>
+<span id="cb64-18"><a href="20-Beta_rarefaction.html#cb64-18" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>rarefaction_iters){</span>
+<span id="cb64-19"><a href="20-Beta_rarefaction.html#cb64-19" tabindex="-1"></a>  <span class="co">#Rarefaction</span></span>
+<span id="cb64-20"><a href="20-Beta_rarefaction.html#cb64-20" tabindex="-1"></a>  pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(</span>
+<span id="cb64-21"><a href="20-Beta_rarefaction.html#cb64-21" tabindex="-1"></a>    pseq,</span>
+<span id="cb64-22"><a href="20-Beta_rarefaction.html#cb64-22" tabindex="-1"></a>    <span class="at">sample.size =</span> rarefaction_size,</span>
+<span id="cb64-23"><a href="20-Beta_rarefaction.html#cb64-23" tabindex="-1"></a>    <span class="at">rngseed =</span> rngseed_vec[i],</span>
+<span id="cb64-24"><a href="20-Beta_rarefaction.html#cb64-24" tabindex="-1"></a>    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb64-25"><a href="20-Beta_rarefaction.html#cb64-25" tabindex="-1"></a>  <span class="co">#Beta diversity</span></span>
+<span id="cb64-26"><a href="20-Beta_rarefaction.html#cb64-26" tabindex="-1"></a>  beta_df <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(</span>
+<span id="cb64-27"><a href="20-Beta_rarefaction.html#cb64-27" tabindex="-1"></a>    rbiom<span class="sc">::</span><span class="fu">unifrac</span>(</span>
+<span id="cb64-28"><a href="20-Beta_rarefaction.html#cb64-28" tabindex="-1"></a>      <span class="at">biom =</span> phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq_rarefy),</span>
+<span id="cb64-29"><a href="20-Beta_rarefaction.html#cb64-29" tabindex="-1"></a>      <span class="at">tree =</span> phyloseq<span class="sc">::</span><span class="fu">phy_tree</span>(pseq_rarefy),</span>
+<span id="cb64-30"><a href="20-Beta_rarefaction.html#cb64-30" tabindex="-1"></a>      <span class="at">weighted =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb64-31"><a href="20-Beta_rarefaction.html#cb64-31" tabindex="-1"></a>  <span class="co">#Add/sum the new data frame values to the sum data frame</span></span>
+<span id="cb64-32"><a href="20-Beta_rarefaction.html#cb64-32" tabindex="-1"></a>  beta_df_sum <span class="ot">&lt;-</span> beta_df_sum <span class="sc">+</span> beta_df</span>
+<span id="cb64-33"><a href="20-Beta_rarefaction.html#cb64-33" tabindex="-1"></a>}</span>
+<span id="cb64-34"><a href="20-Beta_rarefaction.html#cb64-34" tabindex="-1"></a><span class="co">#Divide by number of rarefaction iterations to get average</span></span>
+<span id="cb64-35"><a href="20-Beta_rarefaction.html#cb64-35" tabindex="-1"></a>beta_df_mean <span class="ot">&lt;-</span> beta_df_sum <span class="sc">/</span> rarefaction_iters</span>
+<span id="cb64-36"><a href="20-Beta_rarefaction.html#cb64-36" tabindex="-1"></a><span class="co">#Save beta mean data frame</span></span>
+<span id="cb64-37"><a href="20-Beta_rarefaction.html#cb64-37" tabindex="-1"></a><span class="fu">save</span>(beta_df_mean, <span class="at">file =</span> <span class="st">&quot;wunifrac_df_mean.RData&quot;</span>)</span>
+<span id="cb64-38"><a href="20-Beta_rarefaction.html#cb64-38" tabindex="-1"></a><span class="co">#View first 6 rows and columns of matrix</span></span>
+<span id="cb64-39"><a href="20-Beta_rarefaction.html#cb64-39" tabindex="-1"></a>beta_df_mean[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb64-40"><a href="20-Beta_rarefaction.html#cb64-40" tabindex="-1"></a><span class="co">#Remove unneeded objects</span></span>
+<span id="cb64-41"><a href="20-Beta_rarefaction.html#cb64-41" tabindex="-1"></a><span class="fu">rm</span>(beta_df_sum, beta_df_mean, pseq_rarefy)</span></code></pre></div>
 <div class="webex-solution">
 <button>
 verbose = FALSE option

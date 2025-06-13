@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-03-28" />
+<meta name="date" content="2025-06-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -205,7 +205,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-rarefaction"><i class="fa fa-check"></i><b>10.1</b> MR: Rarefaction</a></li>
 <li class="chapter" data-level="10.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mathematical-operators-data-frames"><i class="fa fa-check"></i><b>10.2</b> Mathematical operators &amp; data frames</a></li>
-<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a></li>
+<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#relative-abundance-transformation"><i class="fa fa-check"></i><b>10.3.1</b> Relative abundance transformation</a></li>
+<li class="chapter" data-level="10.3.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#histogram-comparison"><i class="fa fa-check"></i><b>10.3.2</b> Histogram comparison</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-Iterating_rarefaction_practice.html"><a href="11-Iterating_rarefaction_practice.html"><i class="fa fa-check"></i><b>11</b> Iterating rarefaction practice</a>
 <ul>
@@ -221,9 +225,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13" data-path="13-Alpha_diversity_rarefaction.html"><a href="13-Alpha_diversity_rarefaction.html"><i class="fa fa-check"></i><b>13</b> <span class="math inline">\(\alpha\)</span>: Iterative rarefaction loop</a></li>
 <li class="chapter" data-level="14" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html"><i class="fa fa-check"></i><b>14</b> <span class="math inline">\(\alpha\)</span> data frame tidying</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
-<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
-<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
+<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-rename-metrics"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Rename metrics</a></li>
+<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.4</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
 </ul></li>
 <li class="chapter" data-level="15" data-path="15-Alpha_violin_plot_and_stats.html"><a href="15-Alpha_violin_plot_and_stats.html"><i class="fa fa-check"></i><b>15</b> <span class="math inline">\(\alpha\)</span>: Plot and stats</a>
 <ul>
@@ -342,34 +347,34 @@ We can use the function <code>ggplot2::geom_violin()</code> to carry this out.</
 <p>Additionally, we'll add a point for each value and colour it based on the site it came from (UD, MD, or LD).
 The function <code>ggforce::geom_sina()</code> can be used for this.
 We'll use its parameter <code>alpha()</code> to make the points 50% (<code>0.5</code>) transparent.</p>
-<p>As we are plotting values from three different metrics we will split the plot into three separate plots.
+<p>As we are plotting values from three different metrics we will split the figure into three separate plots.
 <code>ggplot2::facet_wrap()</code> can be used for this tasked with <code>~metric</code> used to split the plot by the metrics.
 We also specify <code>scales = "free"</code> so each of the three plots has their own x and y scales.
-This is important when the values are drastically different such is the case between the observed and chao1 (&gt;100) compared to the shannon values (&lt;10).</p>
+This is important when the values are drastically different such as in the case between the observed (&gt;100) and shannon values (&lt;10).</p>
 <div class="webex-solution">
 <button>
 scales options
 </button>
 <p>The four <code>scales</code> are:</p>
 <ul>
-<li><strong><code>"fixed"</code> (default):</strong> All the scales are the same (fixed), based on the largest and smallest x and y values across all the plots. Useful where you want direct comparisons such as looking at teh overall pattern in ordination plots.</li>
+<li><strong><code>"fixed"</code> (default):</strong> All the scales are the same (fixed), based on the largest and smallest x and y values across all the plots. Useful where you want direct comparisons such as looking at the overall pattern in ordination plots.</li>
 <li><strong><code>"free"</code>:</strong> All the scales are free. Each plot's x and y values limits are based on the data within it.</li>
 <li><strong><code>"free_x"</code>:</strong> The x axis is free and the y axis is fixed.</li>
 <li><strong><code>"free_y"</code>:</strong> The y axis is free and the x axis is fixed.</li>
 </ul>
-<p>Which you want to use depends on your data and how you are facetting it.</p>
+<p>Which you want to use depends on your data and how you are faceting it.</p>
 </div>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb42-1"><a href="15-Alpha_violin_plot_and_stats.html#cb42-1" tabindex="-1"></a><span class="co">#Produce ggplot object of violin plot</span></span>
-<span id="cb42-2"><a href="15-Alpha_violin_plot_and_stats.html#cb42-2" tabindex="-1"></a>alpha_violinplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(basic_alpha_metrics_long_df, <span class="fu">aes</span>(<span class="at">x =</span> media, <span class="at">y =</span> value)) <span class="sc">+</span></span>
-<span id="cb42-3"><a href="15-Alpha_violin_plot_and_stats.html#cb42-3" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">geom_violin</span>() <span class="sc">+</span></span>
-<span id="cb42-4"><a href="15-Alpha_violin_plot_and_stats.html#cb42-4" tabindex="-1"></a>                            ggforce<span class="sc">::</span><span class="fu">geom_sina</span>(<span class="at">alpha=</span><span class="fl">0.5</span>, <span class="fu">aes</span>(<span class="at">color=</span>site)) <span class="sc">+</span></span>
-<span id="cb42-5"><a href="15-Alpha_violin_plot_and_stats.html#cb42-5" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;Site&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Media&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">+</span></span>
-<span id="cb42-6"><a href="15-Alpha_violin_plot_and_stats.html#cb42-6" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(<span class="sc">~</span>metric, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>)</span>
-<span id="cb42-7"><a href="15-Alpha_violin_plot_and_stats.html#cb42-7" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave()</span></span>
-<span id="cb42-8"><a href="15-Alpha_violin_plot_and_stats.html#cb42-8" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Alpha_diversity_rarefy_iters_media_violinplot.png&quot;</span>, <span class="at">plot =</span> alpha_violinplot,</span>
-<span id="cb42-9"><a href="15-Alpha_violin_plot_and_stats.html#cb42-9" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">150</span>, <span class="at">width =</span> <span class="dv">250</span>)</span>
-<span id="cb42-10"><a href="15-Alpha_violin_plot_and_stats.html#cb42-10" tabindex="-1"></a><span class="co">#Display plot</span></span>
-<span id="cb42-11"><a href="15-Alpha_violin_plot_and_stats.html#cb42-11" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file =</span> <span class="st">&quot;./Alpha_diversity_rarefy_iters_media_violinplot.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb47-1"><a href="15-Alpha_violin_plot_and_stats.html#cb47-1" tabindex="-1"></a><span class="co">#Produce ggplot object of violin plot</span></span>
+<span id="cb47-2"><a href="15-Alpha_violin_plot_and_stats.html#cb47-2" tabindex="-1"></a>alpha_violinplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(basic_alpha_metrics_long_df, <span class="fu">aes</span>(<span class="at">x =</span> media, <span class="at">y =</span> value)) <span class="sc">+</span></span>
+<span id="cb47-3"><a href="15-Alpha_violin_plot_and_stats.html#cb47-3" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">geom_violin</span>() <span class="sc">+</span></span>
+<span id="cb47-4"><a href="15-Alpha_violin_plot_and_stats.html#cb47-4" tabindex="-1"></a>                            ggforce<span class="sc">::</span><span class="fu">geom_sina</span>(<span class="at">alpha=</span><span class="fl">0.5</span>, <span class="fu">aes</span>(<span class="at">color=</span>site)) <span class="sc">+</span></span>
+<span id="cb47-5"><a href="15-Alpha_violin_plot_and_stats.html#cb47-5" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;Site&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Media&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">+</span></span>
+<span id="cb47-6"><a href="15-Alpha_violin_plot_and_stats.html#cb47-6" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(<span class="sc">~</span>metric, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>)</span>
+<span id="cb47-7"><a href="15-Alpha_violin_plot_and_stats.html#cb47-7" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave()</span></span>
+<span id="cb47-8"><a href="15-Alpha_violin_plot_and_stats.html#cb47-8" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Alpha_diversity_rarefy_iters_media_violinplot.png&quot;</span>, <span class="at">plot =</span> alpha_violinplot,</span>
+<span id="cb47-9"><a href="15-Alpha_violin_plot_and_stats.html#cb47-9" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">150</span>, <span class="at">width =</span> <span class="dv">250</span>)</span>
+<span id="cb47-10"><a href="15-Alpha_violin_plot_and_stats.html#cb47-10" tabindex="-1"></a><span class="co">#Display plot</span></span>
+<span id="cb47-11"><a href="15-Alpha_violin_plot_and_stats.html#cb47-11" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file =</span> <span class="st">&quot;./Alpha_diversity_rarefy_iters_media_violinplot.png&quot;</span>)</span></code></pre></div>
 </div>
 <div id="alpha-stats" class="section level2 hasAnchor" number="15.2">
 <h2><span class="header-section-number">15.2</span> <span class="math inline">\(\alpha\)</span>: Stats<a href="15-Alpha_violin_plot_and_stats.html#alpha-stats" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -382,23 +387,22 @@ scales options
 <h3><span class="header-section-number">15.2.1</span> Kruskal Wallis test<a href="15-Alpha_violin_plot_and_stats.html#kruskal-wallis-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To determine if there is an overall difference in our data we'll use the Kruskal Wallis test.
 We'll carry this out using the media grouping for our two alpha diversity values.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb43-1"><a href="15-Alpha_violin_plot_and_stats.html#cb43-1" tabindex="-1"></a><span class="co">#Kruskal Wallis test</span></span>
-<span id="cb43-2"><a href="15-Alpha_violin_plot_and_stats.html#cb43-2" tabindex="-1"></a><span class="co">#Observed ASVs</span></span>
-<span id="cb43-3"><a href="15-Alpha_violin_plot_and_stats.html#cb43-3" tabindex="-1"></a><span class="fu">kruskal.test</span>(observed <span class="sc">~</span> media, <span class="at">data =</span> meta_alpha_mean_df)</span>
-<span id="cb43-4"><a href="15-Alpha_violin_plot_and_stats.html#cb43-4" tabindex="-1"></a><span class="co">#Shannon diversity</span></span>
-<span id="cb43-5"><a href="15-Alpha_violin_plot_and_stats.html#cb43-5" tabindex="-1"></a><span class="fu">kruskal.test</span>(shannon <span class="sc">~</span> media, <span class="at">data =</span> meta_alpha_mean_df)</span></code></pre></div>
-<p>All the p-values are less than 0.05 indicating statistical significance.
+<div class="sourceCode" id="cb48"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb48-1"><a href="15-Alpha_violin_plot_and_stats.html#cb48-1" tabindex="-1"></a><span class="co">#Kruskal Wallis test</span></span>
+<span id="cb48-2"><a href="15-Alpha_violin_plot_and_stats.html#cb48-2" tabindex="-1"></a><span class="co">#Observed ASVs</span></span>
+<span id="cb48-3"><a href="15-Alpha_violin_plot_and_stats.html#cb48-3" tabindex="-1"></a><span class="fu">kruskal.test</span>(observed <span class="sc">~</span> media, <span class="at">data =</span> meta_alpha_mean_df)</span>
+<span id="cb48-4"><a href="15-Alpha_violin_plot_and_stats.html#cb48-4" tabindex="-1"></a><span class="co">#Shannon diversity</span></span>
+<span id="cb48-5"><a href="15-Alpha_violin_plot_and_stats.html#cb48-5" tabindex="-1"></a><span class="fu">kruskal.test</span>(shannon <span class="sc">~</span> media, <span class="at">data =</span> meta_alpha_mean_df)</span></code></pre></div>
+<p>Both the p-values are less than 0.05 indicating statistical significance.
 That means we can move onto pairwise comparisons.</p>
 </div>
 <div id="paired-wilcoxon-test" class="section level3 hasAnchor" number="15.2.2">
 <h3><span class="header-section-number">15.2.2</span> Paired Wilcoxon test<a href="15-Alpha_violin_plot_and_stats.html#paired-wilcoxon-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>To determine what groups are significantly different from each other we can carry out paired Wilcoxon test.
-This tests</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb44-1"><a href="15-Alpha_violin_plot_and_stats.html#cb44-1" tabindex="-1"></a><span class="co">#Paired wilcoxon test</span></span>
-<span id="cb44-2"><a href="15-Alpha_violin_plot_and_stats.html#cb44-2" tabindex="-1"></a><span class="co">#Observed ASVs</span></span>
-<span id="cb44-3"><a href="15-Alpha_violin_plot_and_stats.html#cb44-3" tabindex="-1"></a><span class="fu">pairwise.wilcox.test</span>(meta_alpha_mean_df<span class="sc">$</span>observed, meta_alpha_mean_df, <span class="at">p.adjust.method =</span> <span class="st">&quot;holm&quot;</span>)</span>
-<span id="cb44-4"><a href="15-Alpha_violin_plot_and_stats.html#cb44-4" tabindex="-1"></a><span class="co">#Shannon diversity</span></span>
-<span id="cb44-5"><a href="15-Alpha_violin_plot_and_stats.html#cb44-5" tabindex="-1"></a><span class="fu">pairwise.wilcox.test</span>(meta_alpha_mean_df<span class="sc">$</span>shannon, meta_alpha_mean_df, <span class="at">p.adjust.method =</span> <span class="st">&quot;holm&quot;</span>)</span></code></pre></div>
+<p>To determine what groups are significantly different from each other we can carry out paired Wilcoxon test.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb49-1"><a href="15-Alpha_violin_plot_and_stats.html#cb49-1" tabindex="-1"></a><span class="co">#Paired wilcoxon test</span></span>
+<span id="cb49-2"><a href="15-Alpha_violin_plot_and_stats.html#cb49-2" tabindex="-1"></a><span class="co">#Observed ASVs</span></span>
+<span id="cb49-3"><a href="15-Alpha_violin_plot_and_stats.html#cb49-3" tabindex="-1"></a><span class="fu">pairwise.wilcox.test</span>(meta_alpha_mean_df<span class="sc">$</span>observed, meta_alpha_mean_df, <span class="at">p.adjust.method =</span> <span class="st">&quot;holm&quot;</span>)</span>
+<span id="cb49-4"><a href="15-Alpha_violin_plot_and_stats.html#cb49-4" tabindex="-1"></a><span class="co">#Shannon diversity</span></span>
+<span id="cb49-5"><a href="15-Alpha_violin_plot_and_stats.html#cb49-5" tabindex="-1"></a><span class="fu">pairwise.wilcox.test</span>(meta_alpha_mean_df<span class="sc">$</span>shannon, meta_alpha_mean_df, <span class="at">p.adjust.method =</span> <span class="st">&quot;holm&quot;</span>)</span></code></pre></div>
 <p>You'll see three p-value adjusted tables with all the values (except Shannon: ENV against TSA) being significant (&lt;0.05).</p>
 
 </div>

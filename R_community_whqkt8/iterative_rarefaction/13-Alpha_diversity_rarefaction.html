@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-03-28" />
+<meta name="date" content="2025-06-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -205,7 +205,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-rarefaction"><i class="fa fa-check"></i><b>10.1</b> MR: Rarefaction</a></li>
 <li class="chapter" data-level="10.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mathematical-operators-data-frames"><i class="fa fa-check"></i><b>10.2</b> Mathematical operators &amp; data frames</a></li>
-<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a></li>
+<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#relative-abundance-transformation"><i class="fa fa-check"></i><b>10.3.1</b> Relative abundance transformation</a></li>
+<li class="chapter" data-level="10.3.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#histogram-comparison"><i class="fa fa-check"></i><b>10.3.2</b> Histogram comparison</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-Iterating_rarefaction_practice.html"><a href="11-Iterating_rarefaction_practice.html"><i class="fa fa-check"></i><b>11</b> Iterating rarefaction practice</a>
 <ul>
@@ -221,9 +225,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13" data-path="13-Alpha_diversity_rarefaction.html"><a href="13-Alpha_diversity_rarefaction.html"><i class="fa fa-check"></i><b>13</b> <span class="math inline">\(\alpha\)</span>: Iterative rarefaction loop</a></li>
 <li class="chapter" data-level="14" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html"><i class="fa fa-check"></i><b>14</b> <span class="math inline">\(\alpha\)</span> data frame tidying</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
-<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
-<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
+<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-rename-metrics"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Rename metrics</a></li>
+<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.4</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
 </ul></li>
 <li class="chapter" data-level="15" data-path="15-Alpha_violin_plot_and_stats.html"><a href="15-Alpha_violin_plot_and_stats.html"><i class="fa fa-check"></i><b>15</b> <span class="math inline">\(\alpha\)</span>: Plot and stats</a>
 <ul>
@@ -341,36 +346,36 @@ We will carry this out by:</p>
 <li>Dividing each value of the final summed <strong>alpha diversity</strong> by the number of <strong>rarefaction iterations</strong>. This gives us the averaged alpha diversity values.</li>
 </ul>
 <p>For this we will use the function <code>microbiome::alpha()</code> to calculate our alpha diversity values.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb37-1"><a href="13-Alpha_diversity_rarefaction.html#cb37-1" tabindex="-1"></a><span class="co">#Loop to create iteration based rarefied alpha diversity values</span></span>
-<span id="cb37-2"><a href="13-Alpha_diversity_rarefaction.html#cb37-2" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="13-Alpha_diversity_rarefaction.html#cb37-3" tabindex="-1"></a><span class="co">#Create data frame to contain final summed alpha diversity values</span></span>
-<span id="cb37-4"><a href="13-Alpha_diversity_rarefaction.html#cb37-4" tabindex="-1"></a><span class="co">#In this case we&#39;ll run the first rarefied alpha diversity analysis</span></span>
-<span id="cb37-5"><a href="13-Alpha_diversity_rarefaction.html#cb37-5" tabindex="-1"></a>pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(</span>
-<span id="cb37-6"><a href="13-Alpha_diversity_rarefaction.html#cb37-6" tabindex="-1"></a>  pseq,</span>
-<span id="cb37-7"><a href="13-Alpha_diversity_rarefaction.html#cb37-7" tabindex="-1"></a>  <span class="at">sample.size =</span> rarefaction_size,</span>
-<span id="cb37-8"><a href="13-Alpha_diversity_rarefaction.html#cb37-8" tabindex="-1"></a>  <span class="at">rngseed =</span> rngseed_vec[<span class="dv">1</span>],</span>
-<span id="cb37-9"><a href="13-Alpha_diversity_rarefaction.html#cb37-9" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb37-10"><a href="13-Alpha_diversity_rarefaction.html#cb37-10" tabindex="-1"></a><span class="co">#Alpha diversity</span></span>
-<span id="cb37-11"><a href="13-Alpha_diversity_rarefaction.html#cb37-11" tabindex="-1"></a>alpha_df_sum <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">alpha</span>(pseq_rarefy, <span class="at">index =</span> <span class="st">&quot;all&quot;</span>)</span>
-<span id="cb37-12"><a href="13-Alpha_diversity_rarefaction.html#cb37-12" tabindex="-1"></a></span>
-<span id="cb37-13"><a href="13-Alpha_diversity_rarefaction.html#cb37-13" tabindex="-1"></a><span class="co">#Loop through 2 to the number of iterations</span></span>
-<span id="cb37-14"><a href="13-Alpha_diversity_rarefaction.html#cb37-14" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>rarefaction_iters){</span>
-<span id="cb37-15"><a href="13-Alpha_diversity_rarefaction.html#cb37-15" tabindex="-1"></a>  pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(</span>
-<span id="cb37-16"><a href="13-Alpha_diversity_rarefaction.html#cb37-16" tabindex="-1"></a>    pseq,</span>
-<span id="cb37-17"><a href="13-Alpha_diversity_rarefaction.html#cb37-17" tabindex="-1"></a>    <span class="at">sample.size =</span> rarefaction_size,</span>
-<span id="cb37-18"><a href="13-Alpha_diversity_rarefaction.html#cb37-18" tabindex="-1"></a>    <span class="at">rngseed =</span> rngseed_vec[i],</span>
-<span id="cb37-19"><a href="13-Alpha_diversity_rarefaction.html#cb37-19" tabindex="-1"></a>    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb37-20"><a href="13-Alpha_diversity_rarefaction.html#cb37-20" tabindex="-1"></a>  <span class="co">#Alpha diversity</span></span>
-<span id="cb37-21"><a href="13-Alpha_diversity_rarefaction.html#cb37-21" tabindex="-1"></a>  alpha_df <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">alpha</span>(pseq_rarefy, <span class="at">index =</span> <span class="st">&quot;all&quot;</span>)</span>
-<span id="cb37-22"><a href="13-Alpha_diversity_rarefaction.html#cb37-22" tabindex="-1"></a>  <span class="co">#Add/sum the new data frame values to the sum data frame</span></span>
-<span id="cb37-23"><a href="13-Alpha_diversity_rarefaction.html#cb37-23" tabindex="-1"></a>  alpha_df_sum <span class="ot">&lt;-</span> alpha_df_sum <span class="sc">+</span> alpha_df</span>
-<span id="cb37-24"><a href="13-Alpha_diversity_rarefaction.html#cb37-24" tabindex="-1"></a>}</span>
-<span id="cb37-25"><a href="13-Alpha_diversity_rarefaction.html#cb37-25" tabindex="-1"></a><span class="co">#Divide by number of rarefaction iterations to get average</span></span>
-<span id="cb37-26"><a href="13-Alpha_diversity_rarefaction.html#cb37-26" tabindex="-1"></a>alpha_df_mean <span class="ot">&lt;-</span> alpha_df_sum <span class="sc">/</span> rarefaction_iters</span>
-<span id="cb37-27"><a href="13-Alpha_diversity_rarefaction.html#cb37-27" tabindex="-1"></a><span class="co">#Save alpha mean data frame</span></span>
-<span id="cb37-28"><a href="13-Alpha_diversity_rarefaction.html#cb37-28" tabindex="-1"></a><span class="fu">save</span>(alpha_df_mean, <span class="at">file =</span> <span class="st">&quot;alpha_df_mean.RData&quot;</span>)</span>
-<span id="cb37-29"><a href="13-Alpha_diversity_rarefaction.html#cb37-29" tabindex="-1"></a><span class="co">#Remove unneeded objects</span></span>
-<span id="cb37-30"><a href="13-Alpha_diversity_rarefaction.html#cb37-30" tabindex="-1"></a><span class="fu">rm</span>(pseq,alpha_df_sum, alpha_df)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb40-1"><a href="13-Alpha_diversity_rarefaction.html#cb40-1" tabindex="-1"></a><span class="co">#Loop to create iteration based rarefied alpha diversity values</span></span>
+<span id="cb40-2"><a href="13-Alpha_diversity_rarefaction.html#cb40-2" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="13-Alpha_diversity_rarefaction.html#cb40-3" tabindex="-1"></a><span class="co">#Create data frame to contain final summed alpha diversity values</span></span>
+<span id="cb40-4"><a href="13-Alpha_diversity_rarefaction.html#cb40-4" tabindex="-1"></a><span class="co">#In this case we&#39;ll run the first rarefied alpha diversity analysis</span></span>
+<span id="cb40-5"><a href="13-Alpha_diversity_rarefaction.html#cb40-5" tabindex="-1"></a>pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(</span>
+<span id="cb40-6"><a href="13-Alpha_diversity_rarefaction.html#cb40-6" tabindex="-1"></a>  pseq,</span>
+<span id="cb40-7"><a href="13-Alpha_diversity_rarefaction.html#cb40-7" tabindex="-1"></a>  <span class="at">sample.size =</span> rarefaction_size,</span>
+<span id="cb40-8"><a href="13-Alpha_diversity_rarefaction.html#cb40-8" tabindex="-1"></a>  <span class="at">rngseed =</span> rngseed_vec[<span class="dv">1</span>],</span>
+<span id="cb40-9"><a href="13-Alpha_diversity_rarefaction.html#cb40-9" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb40-10"><a href="13-Alpha_diversity_rarefaction.html#cb40-10" tabindex="-1"></a><span class="co">#Alpha diversity</span></span>
+<span id="cb40-11"><a href="13-Alpha_diversity_rarefaction.html#cb40-11" tabindex="-1"></a>alpha_df_sum <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">alpha</span>(pseq_rarefy, <span class="at">index =</span> <span class="st">&quot;all&quot;</span>)</span>
+<span id="cb40-12"><a href="13-Alpha_diversity_rarefaction.html#cb40-12" tabindex="-1"></a></span>
+<span id="cb40-13"><a href="13-Alpha_diversity_rarefaction.html#cb40-13" tabindex="-1"></a><span class="co">#Loop through 2 to the number of iterations</span></span>
+<span id="cb40-14"><a href="13-Alpha_diversity_rarefaction.html#cb40-14" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>rarefaction_iters){</span>
+<span id="cb40-15"><a href="13-Alpha_diversity_rarefaction.html#cb40-15" tabindex="-1"></a>  pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(</span>
+<span id="cb40-16"><a href="13-Alpha_diversity_rarefaction.html#cb40-16" tabindex="-1"></a>    pseq,</span>
+<span id="cb40-17"><a href="13-Alpha_diversity_rarefaction.html#cb40-17" tabindex="-1"></a>    <span class="at">sample.size =</span> rarefaction_size,</span>
+<span id="cb40-18"><a href="13-Alpha_diversity_rarefaction.html#cb40-18" tabindex="-1"></a>    <span class="at">rngseed =</span> rngseed_vec[i],</span>
+<span id="cb40-19"><a href="13-Alpha_diversity_rarefaction.html#cb40-19" tabindex="-1"></a>    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb40-20"><a href="13-Alpha_diversity_rarefaction.html#cb40-20" tabindex="-1"></a>  <span class="co">#Alpha diversity</span></span>
+<span id="cb40-21"><a href="13-Alpha_diversity_rarefaction.html#cb40-21" tabindex="-1"></a>  alpha_df <span class="ot">&lt;-</span> microbiome<span class="sc">::</span><span class="fu">alpha</span>(pseq_rarefy, <span class="at">index =</span> <span class="st">&quot;all&quot;</span>)</span>
+<span id="cb40-22"><a href="13-Alpha_diversity_rarefaction.html#cb40-22" tabindex="-1"></a>  <span class="co">#Add/sum the new data frame values to the sum data frame</span></span>
+<span id="cb40-23"><a href="13-Alpha_diversity_rarefaction.html#cb40-23" tabindex="-1"></a>  alpha_df_sum <span class="ot">&lt;-</span> alpha_df_sum <span class="sc">+</span> alpha_df</span>
+<span id="cb40-24"><a href="13-Alpha_diversity_rarefaction.html#cb40-24" tabindex="-1"></a>}</span>
+<span id="cb40-25"><a href="13-Alpha_diversity_rarefaction.html#cb40-25" tabindex="-1"></a><span class="co">#Divide by number of rarefaction iterations to get average</span></span>
+<span id="cb40-26"><a href="13-Alpha_diversity_rarefaction.html#cb40-26" tabindex="-1"></a>alpha_df_mean <span class="ot">&lt;-</span> alpha_df_sum <span class="sc">/</span> rarefaction_iters</span>
+<span id="cb40-27"><a href="13-Alpha_diversity_rarefaction.html#cb40-27" tabindex="-1"></a><span class="co">#Save alpha mean data frame</span></span>
+<span id="cb40-28"><a href="13-Alpha_diversity_rarefaction.html#cb40-28" tabindex="-1"></a><span class="fu">save</span>(alpha_df_mean, <span class="at">file =</span> <span class="st">&quot;alpha_df_mean.RData&quot;</span>)</span>
+<span id="cb40-29"><a href="13-Alpha_diversity_rarefaction.html#cb40-29" tabindex="-1"></a><span class="co">#Remove unneeded objects</span></span>
+<span id="cb40-30"><a href="13-Alpha_diversity_rarefaction.html#cb40-30" tabindex="-1"></a><span class="fu">rm</span>(pseq,alpha_df_sum, alpha_df)</span></code></pre></div>
 <div class="webex-solution">
 <button>
 verbose = FALSE option
@@ -380,7 +385,7 @@ This text says which rngseed was used in the rarefaction.
 We don't need this message as we already have a record of the rngseeds we used in <code>rngseed_vec</code>.</p>
 </div>
 <p>You can check the structure and contents of our alpha diversity data frame with <code>head()</code>.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb38-1"><a href="13-Alpha_diversity_rarefaction.html#cb38-1" tabindex="-1"></a><span class="fu">head</span>(alpha_df_mean)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb41-1"><a href="13-Alpha_diversity_rarefaction.html#cb41-1" tabindex="-1"></a><span class="fu">head</span>(alpha_df_mean)</span></code></pre></div>
 <p>There are a lot of diversity metrics.
 We are only interested in a few of them here but we will remove the other ones later on.</p>
 

@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-03-28" />
+<meta name="date" content="2025-06-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -205,7 +205,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-rarefaction"><i class="fa fa-check"></i><b>10.1</b> MR: Rarefaction</a></li>
 <li class="chapter" data-level="10.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mathematical-operators-data-frames"><i class="fa fa-check"></i><b>10.2</b> Mathematical operators &amp; data frames</a></li>
-<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a></li>
+<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#relative-abundance-transformation"><i class="fa fa-check"></i><b>10.3.1</b> Relative abundance transformation</a></li>
+<li class="chapter" data-level="10.3.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#histogram-comparison"><i class="fa fa-check"></i><b>10.3.2</b> Histogram comparison</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-Iterating_rarefaction_practice.html"><a href="11-Iterating_rarefaction_practice.html"><i class="fa fa-check"></i><b>11</b> Iterating rarefaction practice</a>
 <ul>
@@ -221,9 +225,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13" data-path="13-Alpha_diversity_rarefaction.html"><a href="13-Alpha_diversity_rarefaction.html"><i class="fa fa-check"></i><b>13</b> <span class="math inline">\(\alpha\)</span>: Iterative rarefaction loop</a></li>
 <li class="chapter" data-level="14" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html"><i class="fa fa-check"></i><b>14</b> <span class="math inline">\(\alpha\)</span> data frame tidying</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
-<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
-<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
+<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-rename-metrics"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Rename metrics</a></li>
+<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.4</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
 </ul></li>
 <li class="chapter" data-level="15" data-path="15-Alpha_violin_plot_and_stats.html"><a href="15-Alpha_violin_plot_and_stats.html"><i class="fa fa-check"></i><b>15</b> <span class="math inline">\(\alpha\)</span>: Plot and stats</a>
 <ul>
@@ -360,15 +365,15 @@ We provide it with three parameters:</p>
 <li><code>FALSE</code> returns a <strong>list</strong>. This is what we want as <code>ggpubr::stat_compare_means()</code> requires a <strong>list</strong></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb45-1"><a href="16-Alpha_plot_with_stats.html#cb45-1" tabindex="-1"></a><span class="co">#To compare mean we need to create a list of comparisons</span></span>
-<span id="cb45-2"><a href="16-Alpha_plot_with_stats.html#cb45-2" tabindex="-1"></a><span class="co">#Create character vector of unique metadata values (media in this case)</span></span>
-<span id="cb45-3"><a href="16-Alpha_plot_with_stats.html#cb45-3" tabindex="-1"></a>uniq_media_values_chr_vec <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">as.character</span>(basic_alpha_metrics_long_df<span class="sc">$</span>media))</span>
-<span id="cb45-4"><a href="16-Alpha_plot_with_stats.html#cb45-4" tabindex="-1"></a>uniq_media_values_chr_vec</span>
-<span id="cb45-5"><a href="16-Alpha_plot_with_stats.html#cb45-5" tabindex="-1"></a><span class="co">#Can use combn() to get comparisons</span></span>
-<span id="cb45-6"><a href="16-Alpha_plot_with_stats.html#cb45-6" tabindex="-1"></a>my_comparisons <span class="ot">&lt;-</span> <span class="fu">combn</span>(uniq_media_values_chr_vec, <span class="at">m =</span> <span class="dv">2</span>, <span class="at">simplify =</span> <span class="cn">FALSE</span>)<span class="er">)</span></span>
-<span id="cb45-7"><a href="16-Alpha_plot_with_stats.html#cb45-7" tabindex="-1"></a><span class="co">#Check contents and structure</span></span>
-<span id="cb45-8"><a href="16-Alpha_plot_with_stats.html#cb45-8" tabindex="-1"></a>my_comparisons</span>
-<span id="cb45-9"><a href="16-Alpha_plot_with_stats.html#cb45-9" tabindex="-1"></a><span class="fu">str</span>(my_comparisons)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb50-1"><a href="16-Alpha_plot_with_stats.html#cb50-1" tabindex="-1"></a><span class="co">#To compare mean we need to create a list of comparisons</span></span>
+<span id="cb50-2"><a href="16-Alpha_plot_with_stats.html#cb50-2" tabindex="-1"></a><span class="co">#Create character vector of unique metadata values (media in this case)</span></span>
+<span id="cb50-3"><a href="16-Alpha_plot_with_stats.html#cb50-3" tabindex="-1"></a>uniq_media_values_chr_vec <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">as.character</span>(basic_alpha_metrics_long_df<span class="sc">$</span>media))</span>
+<span id="cb50-4"><a href="16-Alpha_plot_with_stats.html#cb50-4" tabindex="-1"></a>uniq_media_values_chr_vec</span>
+<span id="cb50-5"><a href="16-Alpha_plot_with_stats.html#cb50-5" tabindex="-1"></a><span class="co">#Can use combn() to get comparisons</span></span>
+<span id="cb50-6"><a href="16-Alpha_plot_with_stats.html#cb50-6" tabindex="-1"></a>my_comparisons <span class="ot">&lt;-</span> <span class="fu">combn</span>(uniq_media_values_chr_vec, <span class="at">m =</span> <span class="dv">2</span>, <span class="at">simplify =</span> <span class="cn">FALSE</span>)<span class="er">)</span></span>
+<span id="cb50-7"><a href="16-Alpha_plot_with_stats.html#cb50-7" tabindex="-1"></a><span class="co">#Check contents and structure</span></span>
+<span id="cb50-8"><a href="16-Alpha_plot_with_stats.html#cb50-8" tabindex="-1"></a>my_comparisons</span>
+<span id="cb50-9"><a href="16-Alpha_plot_with_stats.html#cb50-9" tabindex="-1"></a><span class="fu">str</span>(my_comparisons)</span></code></pre></div>
 </div>
 <div id="violin-plot-with-stats" class="section level2 hasAnchor" number="16.2">
 <h2><span class="header-section-number">16.2</span> Violin plot with stats<a href="16-Alpha_plot_with_stats.html#violin-plot-with-stats" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -377,20 +382,20 @@ We provide it with three parameters:</p>
 </center>
 <p>With our <strong>list</strong> of comparisons we can add <code>ggpubr::stat_compare_means()</code> to our <code>ggplot2</code> code.
 This function will both calculate the Wilcoxon tests and add them to the plot.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb46-1"><a href="16-Alpha_plot_with_stats.html#cb46-1" tabindex="-1"></a><span class="co">#Produce ggplot object of violin plot</span></span>
-<span id="cb46-2"><a href="16-Alpha_plot_with_stats.html#cb46-2" tabindex="-1"></a>alpha_violinplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(basic_alpha_metrics_long_df, <span class="fu">aes</span>(<span class="at">x =</span> media, <span class="at">y =</span> value)) <span class="sc">+</span></span>
-<span id="cb46-3"><a href="16-Alpha_plot_with_stats.html#cb46-3" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">geom_violin</span>() <span class="sc">+</span></span>
-<span id="cb46-4"><a href="16-Alpha_plot_with_stats.html#cb46-4" tabindex="-1"></a>                            ggforce<span class="sc">::</span><span class="fu">geom_sina</span>(<span class="at">alpha=</span><span class="fl">0.5</span>, <span class="fu">aes</span>(<span class="at">color=</span>site)) <span class="sc">+</span></span>
-<span id="cb46-5"><a href="16-Alpha_plot_with_stats.html#cb46-5" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;Site&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Media&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">+</span></span>
-<span id="cb46-6"><a href="16-Alpha_plot_with_stats.html#cb46-6" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(<span class="sc">~</span>metric, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
-<span id="cb46-7"><a href="16-Alpha_plot_with_stats.html#cb46-7" tabindex="-1"></a>                            <span class="co">#Add comparisons</span></span>
-<span id="cb46-8"><a href="16-Alpha_plot_with_stats.html#cb46-8" tabindex="-1"></a>                            ggpubr<span class="sc">::</span><span class="fu">stat_compare_means</span>(<span class="at">comparisons =</span> my_comparisons)</span>
-<span id="cb46-9"><a href="16-Alpha_plot_with_stats.html#cb46-9" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave()</span></span>
-<span id="cb46-10"><a href="16-Alpha_plot_with_stats.html#cb46-10" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Alpha_diversity_rarefy_iters_media_violinplot_pairwise_wilcox.png&quot;</span>, </span>
-<span id="cb46-11"><a href="16-Alpha_plot_with_stats.html#cb46-11" tabindex="-1"></a>       <span class="at">plot =</span> alpha_violinplot,</span>
-<span id="cb46-12"><a href="16-Alpha_plot_with_stats.html#cb46-12" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">150</span>, <span class="at">width =</span> <span class="dv">250</span>)</span>
-<span id="cb46-13"><a href="16-Alpha_plot_with_stats.html#cb46-13" tabindex="-1"></a><span class="co">#Display plot</span></span>
-<span id="cb46-14"><a href="16-Alpha_plot_with_stats.html#cb46-14" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file =</span> <span class="st">&quot;./Alpha_diversity_rarefy_iters_media_violinplot_pairwise_wilcox.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb51-1"><a href="16-Alpha_plot_with_stats.html#cb51-1" tabindex="-1"></a><span class="co">#Produce ggplot object of violin plot</span></span>
+<span id="cb51-2"><a href="16-Alpha_plot_with_stats.html#cb51-2" tabindex="-1"></a>alpha_violinplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(basic_alpha_metrics_long_df, <span class="fu">aes</span>(<span class="at">x =</span> media, <span class="at">y =</span> value)) <span class="sc">+</span></span>
+<span id="cb51-3"><a href="16-Alpha_plot_with_stats.html#cb51-3" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">geom_violin</span>() <span class="sc">+</span></span>
+<span id="cb51-4"><a href="16-Alpha_plot_with_stats.html#cb51-4" tabindex="-1"></a>                            ggforce<span class="sc">::</span><span class="fu">geom_sina</span>(<span class="at">alpha=</span><span class="fl">0.5</span>, <span class="fu">aes</span>(<span class="at">color=</span>site)) <span class="sc">+</span></span>
+<span id="cb51-5"><a href="16-Alpha_plot_with_stats.html#cb51-5" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;Site&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Media&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">+</span></span>
+<span id="cb51-6"><a href="16-Alpha_plot_with_stats.html#cb51-6" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(<span class="sc">~</span>metric, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb51-7"><a href="16-Alpha_plot_with_stats.html#cb51-7" tabindex="-1"></a>                            <span class="co">#Add comparisons</span></span>
+<span id="cb51-8"><a href="16-Alpha_plot_with_stats.html#cb51-8" tabindex="-1"></a>                            ggpubr<span class="sc">::</span><span class="fu">stat_compare_means</span>(<span class="at">comparisons =</span> my_comparisons)</span>
+<span id="cb51-9"><a href="16-Alpha_plot_with_stats.html#cb51-9" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave()</span></span>
+<span id="cb51-10"><a href="16-Alpha_plot_with_stats.html#cb51-10" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Alpha_diversity_rarefy_iters_media_violinplot_pairwise_wilcox.png&quot;</span>, </span>
+<span id="cb51-11"><a href="16-Alpha_plot_with_stats.html#cb51-11" tabindex="-1"></a>       <span class="at">plot =</span> alpha_violinplot,</span>
+<span id="cb51-12"><a href="16-Alpha_plot_with_stats.html#cb51-12" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">150</span>, <span class="at">width =</span> <span class="dv">250</span>)</span>
+<span id="cb51-13"><a href="16-Alpha_plot_with_stats.html#cb51-13" tabindex="-1"></a><span class="co">#Display plot</span></span>
+<span id="cb51-14"><a href="16-Alpha_plot_with_stats.html#cb51-14" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file =</span> <span class="st">&quot;./Alpha_diversity_rarefy_iters_media_violinplot_pairwise_wilcox.png&quot;</span>)</span></code></pre></div>
 </div>
 <div id="reorder-x-axis-and-stats" class="section level2 hasAnchor" number="16.3">
 <h2><span class="header-section-number">16.3</span> Reorder x-axis and stats<a href="16-Alpha_plot_with_stats.html#reorder-x-axis-and-stats" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -400,33 +405,33 @@ This function will both calculate the Wilcoxon tests and add them to the plot.</
 <p><code>ggplot</code> orders the x-axis by alphabetical order.
 This is not normally wanted so we will convert our media column to a <strong>factor</strong> and order the levels how we want them.
 As the environmental samples can be seen as the baseline we will have them first.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb47-1"><a href="16-Alpha_plot_with_stats.html#cb47-1" tabindex="-1"></a><span class="co">#Set order of media</span></span>
-<span id="cb47-2"><a href="16-Alpha_plot_with_stats.html#cb47-2" tabindex="-1"></a>basic_alpha_metrics_long_df<span class="sc">$</span>media <span class="ot">&lt;-</span> <span class="fu">factor</span>(basic_alpha_metrics_long_df<span class="sc">$</span>media,</span>
-<span id="cb47-3"><a href="16-Alpha_plot_with_stats.html#cb47-3" tabindex="-1"></a>                                            <span class="co">#Set order of levels</span></span>
-<span id="cb47-4"><a href="16-Alpha_plot_with_stats.html#cb47-4" tabindex="-1"></a>                                            <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;ENV&quot;</span>, <span class="st">&quot;CVP&quot;</span>, <span class="st">&quot;KBC&quot;</span>, <span class="st">&quot;TSA&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb52-1"><a href="16-Alpha_plot_with_stats.html#cb52-1" tabindex="-1"></a><span class="co">#Set order of media</span></span>
+<span id="cb52-2"><a href="16-Alpha_plot_with_stats.html#cb52-2" tabindex="-1"></a>basic_alpha_metrics_long_df<span class="sc">$</span>media <span class="ot">&lt;-</span> <span class="fu">factor</span>(basic_alpha_metrics_long_df<span class="sc">$</span>media,</span>
+<span id="cb52-3"><a href="16-Alpha_plot_with_stats.html#cb52-3" tabindex="-1"></a>                                            <span class="co">#Set order of levels</span></span>
+<span id="cb52-4"><a href="16-Alpha_plot_with_stats.html#cb52-4" tabindex="-1"></a>                                            <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;ENV&quot;</span>, <span class="st">&quot;CVP&quot;</span>, <span class="st">&quot;KBC&quot;</span>, <span class="st">&quot;TSA&quot;</span>))</span></code></pre></div>
 <p>The stats in our previous plot were also not in a good order.
 We'll therefore reorder them.
 When doing this it is important to note that the first comparison in the <strong>lists</strong> is the bottom most stat in the plot.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb48-1"><a href="16-Alpha_plot_with_stats.html#cb48-1" tabindex="-1"></a><span class="co">#Order comparisons</span></span>
-<span id="cb48-2"><a href="16-Alpha_plot_with_stats.html#cb48-2" tabindex="-1"></a>my_ordered_comparisons <span class="ot">&lt;-</span> my_comparisons[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>)]</span>
-<span id="cb48-3"><a href="16-Alpha_plot_with_stats.html#cb48-3" tabindex="-1"></a>my_ordered_comparisons</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb53-1"><a href="16-Alpha_plot_with_stats.html#cb53-1" tabindex="-1"></a><span class="co">#Order comparisons</span></span>
+<span id="cb53-2"><a href="16-Alpha_plot_with_stats.html#cb53-2" tabindex="-1"></a>my_ordered_comparisons <span class="ot">&lt;-</span> my_comparisons[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>)]</span>
+<span id="cb53-3"><a href="16-Alpha_plot_with_stats.html#cb53-3" tabindex="-1"></a>my_ordered_comparisons</span></code></pre></div>
 <p>You'll notice this can be quite manual.
 It can be made easier when doing this yourself to roughly reorder, run the below code for your plot, then fix the stats reorder.</p>
 <p>With our media categories and comparisons reordered we can create the final plot.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb49-1"><a href="16-Alpha_plot_with_stats.html#cb49-1" tabindex="-1"></a><span class="co">#Produce ggplot object of violin plot</span></span>
-<span id="cb49-2"><a href="16-Alpha_plot_with_stats.html#cb49-2" tabindex="-1"></a>alpha_violinplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(basic_alpha_metrics_long_df, <span class="fu">aes</span>(<span class="at">x =</span> media, <span class="at">y =</span> value)) <span class="sc">+</span></span>
-<span id="cb49-3"><a href="16-Alpha_plot_with_stats.html#cb49-3" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">geom_violin</span>() <span class="sc">+</span></span>
-<span id="cb49-4"><a href="16-Alpha_plot_with_stats.html#cb49-4" tabindex="-1"></a>                            ggforce<span class="sc">::</span><span class="fu">geom_sina</span>(<span class="at">alpha=</span><span class="fl">0.5</span>, <span class="fu">aes</span>(<span class="at">color=</span>site)) <span class="sc">+</span></span>
-<span id="cb49-5"><a href="16-Alpha_plot_with_stats.html#cb49-5" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;Site&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Media&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">+</span></span>
-<span id="cb49-6"><a href="16-Alpha_plot_with_stats.html#cb49-6" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(<span class="sc">~</span>metric, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
-<span id="cb49-7"><a href="16-Alpha_plot_with_stats.html#cb49-7" tabindex="-1"></a>                            <span class="co">#Add comparisons</span></span>
-<span id="cb49-8"><a href="16-Alpha_plot_with_stats.html#cb49-8" tabindex="-1"></a>                            ggpubr<span class="sc">::</span><span class="fu">stat_compare_means</span>(<span class="at">comparisons =</span> my_ordered_comparisons)</span>
-<span id="cb49-9"><a href="16-Alpha_plot_with_stats.html#cb49-9" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave()</span></span>
-<span id="cb49-10"><a href="16-Alpha_plot_with_stats.html#cb49-10" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Alpha_diversity_rarefy_iters_media_violinplot_pairwise_wilcox.png&quot;</span>, </span>
-<span id="cb49-11"><a href="16-Alpha_plot_with_stats.html#cb49-11" tabindex="-1"></a>       <span class="at">plot =</span> alpha_violinplot,</span>
-<span id="cb49-12"><a href="16-Alpha_plot_with_stats.html#cb49-12" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">150</span>, <span class="at">width =</span> <span class="dv">250</span>)</span>
-<span id="cb49-13"><a href="16-Alpha_plot_with_stats.html#cb49-13" tabindex="-1"></a><span class="co">#Display plot</span></span>
-<span id="cb49-14"><a href="16-Alpha_plot_with_stats.html#cb49-14" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file =</span> <span class="st">&quot;./Alpha_diversity_rarefy_iters_media_violinplot_pairwise_wilcox.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb54-1"><a href="16-Alpha_plot_with_stats.html#cb54-1" tabindex="-1"></a><span class="co">#Produce ggplot object of violin plot</span></span>
+<span id="cb54-2"><a href="16-Alpha_plot_with_stats.html#cb54-2" tabindex="-1"></a>alpha_violinplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(basic_alpha_metrics_long_df, <span class="fu">aes</span>(<span class="at">x =</span> media, <span class="at">y =</span> value)) <span class="sc">+</span></span>
+<span id="cb54-3"><a href="16-Alpha_plot_with_stats.html#cb54-3" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">geom_violin</span>() <span class="sc">+</span></span>
+<span id="cb54-4"><a href="16-Alpha_plot_with_stats.html#cb54-4" tabindex="-1"></a>                            ggforce<span class="sc">::</span><span class="fu">geom_sina</span>(<span class="at">alpha=</span><span class="fl">0.5</span>, <span class="fu">aes</span>(<span class="at">color=</span>site)) <span class="sc">+</span></span>
+<span id="cb54-5"><a href="16-Alpha_plot_with_stats.html#cb54-5" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;Site&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Media&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">+</span></span>
+<span id="cb54-6"><a href="16-Alpha_plot_with_stats.html#cb54-6" tabindex="-1"></a>                            ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(<span class="sc">~</span>metric, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb54-7"><a href="16-Alpha_plot_with_stats.html#cb54-7" tabindex="-1"></a>                            <span class="co">#Add comparisons</span></span>
+<span id="cb54-8"><a href="16-Alpha_plot_with_stats.html#cb54-8" tabindex="-1"></a>                            ggpubr<span class="sc">::</span><span class="fu">stat_compare_means</span>(<span class="at">comparisons =</span> my_ordered_comparisons)</span>
+<span id="cb54-9"><a href="16-Alpha_plot_with_stats.html#cb54-9" tabindex="-1"></a><span class="co">#Save ggplot2 object with ggsave()</span></span>
+<span id="cb54-10"><a href="16-Alpha_plot_with_stats.html#cb54-10" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">&quot;./Alpha_diversity_rarefy_iters_media_violinplot_pairwise_wilcox.png&quot;</span>, </span>
+<span id="cb54-11"><a href="16-Alpha_plot_with_stats.html#cb54-11" tabindex="-1"></a>       <span class="at">plot =</span> alpha_violinplot,</span>
+<span id="cb54-12"><a href="16-Alpha_plot_with_stats.html#cb54-12" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">&quot;png&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">150</span>, <span class="at">width =</span> <span class="dv">250</span>)</span>
+<span id="cb54-13"><a href="16-Alpha_plot_with_stats.html#cb54-13" tabindex="-1"></a><span class="co">#Display plot</span></span>
+<span id="cb54-14"><a href="16-Alpha_plot_with_stats.html#cb54-14" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file =</span> <span class="st">&quot;./Alpha_diversity_rarefy_iters_media_violinplot_pairwise_wilcox.png&quot;</span>)</span></code></pre></div>
 
 </div>
 </div>

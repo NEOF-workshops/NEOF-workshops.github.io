@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-03-28" />
+<meta name="date" content="2025-06-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -205,7 +205,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="10.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-rarefaction"><i class="fa fa-check"></i><b>10.1</b> MR: Rarefaction</a></li>
 <li class="chapter" data-level="10.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mathematical-operators-data-frames"><i class="fa fa-check"></i><b>10.2</b> Mathematical operators &amp; data frames</a></li>
-<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a></li>
+<li class="chapter" data-level="10.3" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#mr-difference-from-non-rarefied"><i class="fa fa-check"></i><b>10.3</b> MR: Difference from non-rarefied</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#relative-abundance-transformation"><i class="fa fa-check"></i><b>10.3.1</b> Relative abundance transformation</a></li>
+<li class="chapter" data-level="10.3.2" data-path="10-Multiple_rounds_of_rarefaction.html"><a href="10-Multiple_rounds_of_rarefaction.html#histogram-comparison"><i class="fa fa-check"></i><b>10.3.2</b> Histogram comparison</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-Iterating_rarefaction_practice.html"><a href="11-Iterating_rarefaction_practice.html"><i class="fa fa-check"></i><b>11</b> Iterating rarefaction practice</a>
 <ul>
@@ -221,9 +225,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13" data-path="13-Alpha_diversity_rarefaction.html"><a href="13-Alpha_diversity_rarefaction.html"><i class="fa fa-check"></i><b>13</b> <span class="math inline">\(\alpha\)</span>: Iterative rarefaction loop</a></li>
 <li class="chapter" data-level="14" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html"><i class="fa fa-check"></i><b>14</b> <span class="math inline">\(\alpha\)</span> data frame tidying</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
-<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
-<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
+<li class="chapter" data-level="14.1" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-rename-metrics"><i class="fa fa-check"></i><b>14.1</b> <span class="math inline">\(\alpha\)</span>: Rename metrics</a></li>
+<li class="chapter" data-level="14.2" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-metric-and-metadata-data-frame"><i class="fa fa-check"></i><b>14.2</b> <span class="math inline">\(\alpha\)</span>: Metric and metadata data frame</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha_long_df"><i class="fa fa-check"></i><b>14.3</b> <span class="math inline">\(\alpha\)</span>: Long data frame</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Alpha_data_frame_tidy.html"><a href="14-Alpha_data_frame_tidy.html#alpha-subset-metrics"><i class="fa fa-check"></i><b>14.4</b> <span class="math inline">\(\alpha\)</span>: Subset metrics</a></li>
 </ul></li>
 <li class="chapter" data-level="15" data-path="15-Alpha_violin_plot_and_stats.html"><a href="15-Alpha_violin_plot_and_stats.html"><i class="fa fa-check"></i><b>15</b> <span class="math inline">\(\alpha\)</span>: Plot and stats</a>
 <ul>
@@ -344,14 +349,14 @@ Due to this we won't go into great detail, instead focussing on giving you the c
 </center>
 <p>Create a new R jupyter notebook called "Alpha_diversity.ipynb".</p>
 <p>Load the required data and libraries.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb35-1"><a href="12-Alpha_diversity_intro.html#cb35-1" tabindex="-1"></a><span class="co">#Libraries</span></span>
-<span id="cb35-2"><a href="12-Alpha_diversity_intro.html#cb35-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
-<span id="cb35-3"><a href="12-Alpha_diversity_intro.html#cb35-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span>
-<span id="cb35-4"><a href="12-Alpha_diversity_intro.html#cb35-4" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
-<span id="cb35-5"><a href="12-Alpha_diversity_intro.html#cb35-5" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;IRdisplay&quot;</span>)</span>
-<span id="cb35-6"><a href="12-Alpha_diversity_intro.html#cb35-6" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ggpubr&quot;</span>)</span>
-<span id="cb35-7"><a href="12-Alpha_diversity_intro.html#cb35-7" tabindex="-1"></a><span class="co">#Load processed but unrarefied ASV data from main R community workshop</span></span>
-<span id="cb35-8"><a href="12-Alpha_diversity_intro.html#cb35-8" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;/pub14/tea/nsc206/NEOF/R_community/data/phyloseq.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb38-1"><a href="12-Alpha_diversity_intro.html#cb38-1" tabindex="-1"></a><span class="co">#Libraries</span></span>
+<span id="cb38-2"><a href="12-Alpha_diversity_intro.html#cb38-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
+<span id="cb38-3"><a href="12-Alpha_diversity_intro.html#cb38-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;microbiome&quot;</span>)</span>
+<span id="cb38-4"><a href="12-Alpha_diversity_intro.html#cb38-4" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
+<span id="cb38-5"><a href="12-Alpha_diversity_intro.html#cb38-5" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;IRdisplay&quot;</span>)</span>
+<span id="cb38-6"><a href="12-Alpha_diversity_intro.html#cb38-6" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ggpubr&quot;</span>)</span>
+<span id="cb38-7"><a href="12-Alpha_diversity_intro.html#cb38-7" tabindex="-1"></a><span class="co">#Load processed but unrarefied ASV data from main R community workshop</span></span>
+<span id="cb38-8"><a href="12-Alpha_diversity_intro.html#cb38-8" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;/pub14/tea/nsc206/NEOF/R_community/data/phyloseq.RData&quot;</span>)</span></code></pre></div>
 </div>
 <div id="alpha-iterative-rarefaction-values" class="section level2 hasAnchor" number="12.2">
 <h2><span class="header-section-number">12.2</span> <span class="math inline">\(\alpha\)</span>: Iterative rarefaction values<a href="12-Alpha_diversity_intro.html#alpha-iterative-rarefaction-values" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -368,7 +373,7 @@ Due to this we won't go into great detail, instead focussing on giving you the c
 </ul></li>
 <li><strong>RNG seeds:</strong> The rng seeds we will use for all the rarefactions
 <ul>
-<li>We created these in the previous <a href="07-Iterating_rarefaction_intro.html#rng_vec_creation">chapter</a></li>
+<li>We created these in the previous <a href="07-Iterating_rarefaction_intro.html#rng_vec_creation">section</a></li>
 </ul></li>
 <li><strong>Rarefaction iterations:</strong> The number of rarefaction iterations we will use
 <ul>
@@ -376,15 +381,15 @@ Due to this we won't go into great detail, instead focussing on giving you the c
 <li>We recommend using 1000 in your real analysis</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb36-1"><a href="12-Alpha_diversity_intro.html#cb36-1" tabindex="-1"></a><span class="co">#Rarefaction values</span></span>
-<span id="cb36-2"><a href="12-Alpha_diversity_intro.html#cb36-2" tabindex="-1"></a><span class="co">#Rarefaction size</span></span>
-<span id="cb36-3"><a href="12-Alpha_diversity_intro.html#cb36-3" tabindex="-1"></a><span class="co">#Minimum sample depth in this case</span></span>
-<span id="cb36-4"><a href="12-Alpha_diversity_intro.html#cb36-4" tabindex="-1"></a>rarefaction_size <span class="ot">&lt;-</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq))</span>
-<span id="cb36-5"><a href="12-Alpha_diversity_intro.html#cb36-5" tabindex="-1"></a><span class="co">#Load the vector of 10 rngseeds created in the previous chapter</span></span>
-<span id="cb36-6"><a href="12-Alpha_diversity_intro.html#cb36-6" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;rngseeds.RData&quot;</span>)</span>
-<span id="cb36-7"><a href="12-Alpha_diversity_intro.html#cb36-7" tabindex="-1"></a><span class="co">#Number of rarefaction iterations to be carried out</span></span>
-<span id="cb36-8"><a href="12-Alpha_diversity_intro.html#cb36-8" tabindex="-1"></a><span class="co">#Based on length of rng seed vector</span></span>
-<span id="cb36-9"><a href="12-Alpha_diversity_intro.html#cb36-9" tabindex="-1"></a>rarefaction_iters <span class="ot">&lt;-</span> <span class="fu">length</span>(rngseed_vec)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb39-1"><a href="12-Alpha_diversity_intro.html#cb39-1" tabindex="-1"></a><span class="co">#Rarefaction values</span></span>
+<span id="cb39-2"><a href="12-Alpha_diversity_intro.html#cb39-2" tabindex="-1"></a><span class="co">#Rarefaction size</span></span>
+<span id="cb39-3"><a href="12-Alpha_diversity_intro.html#cb39-3" tabindex="-1"></a><span class="co">#Minimum sample depth in this case</span></span>
+<span id="cb39-4"><a href="12-Alpha_diversity_intro.html#cb39-4" tabindex="-1"></a>rarefaction_size <span class="ot">&lt;-</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq))</span>
+<span id="cb39-5"><a href="12-Alpha_diversity_intro.html#cb39-5" tabindex="-1"></a><span class="co">#Load the vector of 10 rngseeds created in the previous chapter</span></span>
+<span id="cb39-6"><a href="12-Alpha_diversity_intro.html#cb39-6" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;rngseeds.RData&quot;</span>)</span>
+<span id="cb39-7"><a href="12-Alpha_diversity_intro.html#cb39-7" tabindex="-1"></a><span class="co">#Number of rarefaction iterations to be carried out</span></span>
+<span id="cb39-8"><a href="12-Alpha_diversity_intro.html#cb39-8" tabindex="-1"></a><span class="co">#Based on length of rng seed vector</span></span>
+<span id="cb39-9"><a href="12-Alpha_diversity_intro.html#cb39-9" tabindex="-1"></a>rarefaction_iters <span class="ot">&lt;-</span> <span class="fu">length</span>(rngseed_vec)</span></code></pre></div>
 
 </div>
 </div>
