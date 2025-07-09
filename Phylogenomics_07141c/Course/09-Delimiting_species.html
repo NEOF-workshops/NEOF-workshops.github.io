@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 Species delimitation with the Multispecies Coalescent | Phylogenomics</title>
   <meta name="description" content="NEOF book for the Phylogenomics workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 Species delimitation with the Multispecies Coalescent | Phylogenomics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Gavin Gouws, Matthew Gemmell, Ewan Harney, Helen Hipperson, Kathryn Maher" />
 
 
-<meta name="date" content="2024-11-11" />
+<meta name="date" content="2025-07-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -60,7 +60,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -70,7 +70,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -320,8 +320,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>By clicking the <code>Sample</code> button next to any parameter, we can choose to have these sampled from the posterior distribution. For the mutation rates, it is <strong>not</strong> necessary to sample these; we merely need to set the initial values. Ensure <code>Sample</code> is unchecked for the Mutation Rates.</p>
 <p>We <strong>do</strong> want to sample the <code>Coalescent Rate</code> from the posterior distribution, otherwise we are assuming equal population sizes.</p>
 <p>In this version of <strong>BEAUti</strong>, you should see little circular icons next to some of the fields; older versions might not have this. These open windows that allow us to set upper and lower bounds on these rates. We'll leave these unset for now, but you may have reason (and the information) to set these in your own analysis.</p>
-<p>We need to indicate whether our data <code>include non-polymorphic sites</code>. Given the way our data were compiled, there shouldn't be any constant sites. Make sure that the <code>Include non-polymorphic sites</code> box is <strong>not checked</strong>.</p>
-<p>Also be sure that the <code>Mutation Only At Root</code> box is <strong>not checked</strong>. This specifies zero mutations except at the root, which will effectively make all the branches coalesce at the root and not within the tree. This is only really used to determine model parameters for some other applications.</p>
+<p>We need to indicate whether our data include non-polymorphic sites. Given the way our data were compiled, there shouldn't be any constant sites. Make sure that the <code>Include non-polymorphic sites</code> box is <strong>not</strong> checked.</p>
+<p>Also be sure that the <code>Mutation Only At Root</code> box is <strong>not</strong> checked. This specifies zero mutations except at the root, which will effectively make all the branches coalesce at the root and not within the tree. This is only really used to determine model parameters for some other applications.</p>
 </div>
 <div id="prior" class="section level4 hasAnchor" number="9.2.1.5">
 <h4><span class="header-section-number">9.2.1.5</span> Prior<a href="09-Delimiting_species.html#prior" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -358,13 +358,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="examining-the-results" class="section level3 hasAnchor" number="9.2.3">
 <h3><span class="header-section-number">9.2.3</span> Examining the results<a href="09-Delimiting_species.html#examining-the-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The analysis will produce a 'snap.log' and a 'snap.trees' file. The 'snap.log' contains the likelihood and the theta parameters sampled from the posterior distribution at each sampled generation or step. The 'snap.trees' file contains the topologies, branch-lengths and theta estimates from each of these sampled generations. These each represent a potential species tree based on the likelihoods of allele changes and lineage coalescence of each marker through the tree.</p>
+<p>The analysis will produce a 'snap.log' and a 'snap.trees' file. The 'snap.log' contains the prior and posterior likelihoods, the theta parameters and the tree height sampled from the posterior distribution at each sampled generation or step. The 'snap.trees' file contains the tree topologies, branch-lengths and theta estimates from each of these sampled generations. These each represent a potential species tree based on the likelihoods of allele changes and lineage coalescence of each marker through the tree.</p>
 <p>You can look at the two files with the following commands:</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb56-1"><a href="09-Delimiting_species.html#cb56-1" tabindex="-1"></a><span class="co"># View the SNAPP log</span></span>
-<span id="cb56-2"><a href="09-Delimiting_species.html#cb56-2" tabindex="-1"></a><span class="fu">less</span> snap.log</span>
+<span id="cb56-2"><a href="09-Delimiting_species.html#cb56-2" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> snap.log</span>
 <span id="cb56-3"><a href="09-Delimiting_species.html#cb56-3" tabindex="-1"></a><span class="co"># Press &#39;q&#39; to close</span></span>
 <span id="cb56-4"><a href="09-Delimiting_species.html#cb56-4" tabindex="-1"></a><span class="co"># View the SNAPP trees file</span></span>
-<span id="cb56-5"><a href="09-Delimiting_species.html#cb56-5" tabindex="-1"></a><span class="fu">less</span> snap.trees</span></code></pre></div>
+<span id="cb56-5"><a href="09-Delimiting_species.html#cb56-5" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> snap.trees</span></code></pre></div>
 <p>As with all Bayesian, MCMC-based approaches, it is important to evaluate the output for stationarity (determining the length of the burn-in, ensuring the MCMC run was sufficient to sample the posterior distribution effectively), convergence or the sufficient sampling of parameters (through the Effective Sample Size or ESS), and, in the case of multiple runs, that there was convergence on the same part of the posterior distribution. We will not attempt that here; these results may not be particularly well-sampled anyway. However, <a href="https://www.beast2.org/tracer-2/">Tracer</a> is a useful tool to examine these features graphically and manipulate the log and tree files (e.g., specifying and removing the burn-in) for further analysis.</p>
 <center>
 <img src="figures/densitree.png" style="max-width: 600px; border-radius: 5px" />
@@ -379,9 +379,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Click <code>File</code> and <code>Load</code> or use the folder icon to navigate to your 'snap.trees' file and open it. The trees will now be displayed. There is a wealth of functionality available with respect to editing the display and "look" of the tree cloud and any consensus trees, specifying and eliminating burn-in, and putting confidence limits around clades. More excitingly, you can view your trees as an animation, scrolling through them and building the full tree set from those sampled. The best way to come to terms with the features is to play around with the package.</p>
 <p>In terms of interpretation:</p>
 <ul>
-<li>The most popular/common species trees are blue (as are any consensus trees).</li>
-<li>The next most popular tree is red.</li>
-<li>The third most popular tree is green.</li>
+<li>The most common species trees are blue (as are any consensus trees).</li>
+<li>The next most common tree is red.</li>
+<li>The third most common tree is green.</li>
 <li>The remainder are all dark green.</li>
 <li>Any obvious conflicts and differences in topology should be apparent from different branching structures in the tree cloud, and</li>
 <li>Different branching depths represent different coalescent events (depending on the markers) at different points in the past.</li>
@@ -399,8 +399,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Although we will again use BEAUti to compile our data and run the analysis in beast2 and SNAPP, the implementation of this analysis is slightly different to that above. We will first create a base 'xml' file, which represents the taxonomic arrangement that we want to compare the others to - our null hypothesis. We'll similarly create 'xml' files for the alternative hypotheses. Then, some text editing of these files is required to enable the Path Analysis for the calculation of Marginal Likelihoods. Thereafter, some desktop statistical analysis is needed to compare and select the competing hypotheses.</p>
 <ol style="list-style-type: decimal">
 <li><p>Open up BEAUti as you did above and load the SNAPP template.</p></li>
-<li><p>Open the 'mobular_japanica.xml' file that you created in the preceding section. We will use that as a basis for this analysis, changing a few parameters.</p></li>
-<li><p>For our base scenario, we will use the currently-accepted taxonomy. Change the names of the various <em>Mobula japanica</em> samples to <em>Mobula_mobular</em> (these species have been synonymised), and change <em>Manta_alfredi_1</em> to <em>Mobula_alfredi</em> in the 'Species/Population' column.</p></li>
+<li><p>Load the 'mobular_japanica.xml' file that you created in the preceding section. We will use that as a basis for this analysis, changing a few parameters.</p></li>
+<li><p>For our base scenario, we will use the currently-accepted taxonomy. Change the names of the various <em>Mobula_japanica</em> samples to <em>Mobula_mobular</em> (these species have been synonymised), and change <em>Manta_alfredi_1</em> to <em>Mobula_alfredi</em> in the 'Species/Population' column.</p></li>
 <li><p>The model parameters need to be set up under the 'Model Parameters' tab, exactly as you did above. These should not need any editing, but it is worthwhile to check the parameters. The only additional task is to tick the <code>Use Log Likelihood Correction</code> checkbox. This calculates corrected likelihood values in the Bayes Factor assessments of the different species arrangements.</p></li>
 <li><p>In setting the priors under the 'Prior' tab, we'll follow Hosegood <em>et al.</em> (2020) and implement a gamma distribution for the lambda prior. Select this from the drop-down to the right of 'lambda'. These authors also assessed the effect of a 1/<em>X</em> prior; testing alternative priors and seeing how these impact your results is a means of evaluating the robustness of your results and data, as mentioned above.</p></li>
 <li><p>Under the 'MCMC' tab, we'll use the same parameters as above. Make sure the 'Chain Length' is set at 100,000, 'Store Every' at 100, 'Pre Burnin' at zero and 'Num Initialization Attempts' at 10. Under the 'tracelog' drop-down (arrow) change the 'File Name' to 'runA.log', and set the 'File Name' under the 'treelog' drop-down to 'runA.trees'. You can leave the 'Log Every' for each of these set at 100.</p></li>
@@ -424,8 +424,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>If you use this approach outside of the webVNC, <code>/pub14/tea/nsc206/bin/beast/bin/beast</code> will need to be replaced with the path to the beast executable on your computer or HPC.</p>
 <p>The analysis will take a few minutes to run. Once it is complete, the Marginal Likelihood for this hypothesis will be presented in the terminal. Also note the Effective Sample Size (ESS) scores.</p>
 What is the Marginal Likelihood for the Run A hypothesis (the current taxonomy)? Note that your estimates may not match exactly.
-<div id="radio_XRMTAIFQYM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XRMTAIFQYM" value=""></input> <span>-930.5</span></label><label><input type="radio" autocomplete="off" name="radio_XRMTAIFQYM" value="answer"></input> <span>-953.1</span></label><label><input type="radio" autocomplete="off" name="radio_XRMTAIFQYM" value=""></input> <span>-1,856.2</span></label><label><input type="radio" autocomplete="off" name="radio_XRMTAIFQYM" value=""></input> <span>-2,236.0</span></label>
+<div id="radio_RVJKGCRSPV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_RVJKGCRSPV" value=""></input> <span>-930.5</span></label><label><input type="radio" autocomplete="off" name="radio_RVJKGCRSPV" value="answer"></input> <span>-953.1</span></label><label><input type="radio" autocomplete="off" name="radio_RVJKGCRSPV" value=""></input> <span>-1,856.2</span></label><label><input type="radio" autocomplete="off" name="radio_RVJKGCRSPV" value=""></input> <span>-2,236.0</span></label>
 </div>
 <p>The ESS scores are very low, indicating that these parameters have not converged and are not well-sampled. At a minimum, we would like these to be &gt; 200. This is not surprising given the low number of sampling replicates of the chains in both the SNAPP and Path Analysis parts of our analysis.</p>
 <p>We can then repeat this for Run B.</p>
@@ -434,8 +434,8 @@ What is the Marginal Likelihood for the Run A hypothesis (the current taxonomy)?
 <span id="cb60-3"><a href="09-Delimiting_species.html#cb60-3" tabindex="-1"></a><span class="co"># Start the analysis</span></span>
 <span id="cb60-4"><a href="09-Delimiting_species.html#cb60-4" tabindex="-1"></a><span class="ex">/pub14/tea/nsc206/bin/beast/bin/beast</span> <span class="at">-threads</span> 8 runB.xml</span></code></pre></div>
 What is the Marginal Likelihood for the Run B hypothesis (<em>Mobula mobular</em> and <em>Manta alfredi</em> are conspecific, excluding <em>Mobula japanica</em>)?
-<div id="radio_RWVHRNKAAV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RWVHRNKAAV" value=""></input> <span>-930.5</span></label><label><input type="radio" autocomplete="off" name="radio_RWVHRNKAAV" value=""></input> <span>-953.1</span></label><label><input type="radio" autocomplete="off" name="radio_RWVHRNKAAV" value="answer"></input> <span>-1,856.2</span></label><label><input type="radio" autocomplete="off" name="radio_RWVHRNKAAV" value=""></input> <span>-2,236.0</span></label>
+<div id="radio_PEDLNRHXYA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PEDLNRHXYA" value=""></input> <span>-930.5</span></label><label><input type="radio" autocomplete="off" name="radio_PEDLNRHXYA" value=""></input> <span>-953.1</span></label><label><input type="radio" autocomplete="off" name="radio_PEDLNRHXYA" value="answer"></input> <span>-1,856.2</span></label><label><input type="radio" autocomplete="off" name="radio_PEDLNRHXYA" value=""></input> <span>-2,236.0</span></label>
 </div>
 <p>Now do the same for Runs C and D.</p>
 <div class="sourceCode" id="cb61"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb61-1"><a href="09-Delimiting_species.html#cb61-1" tabindex="-1"></a><span class="co"># Change directory to &#39;runC&#39;</span></span>
@@ -443,16 +443,16 @@ What is the Marginal Likelihood for the Run B hypothesis (<em>Mobula mobular</em
 <span id="cb61-3"><a href="09-Delimiting_species.html#cb61-3" tabindex="-1"></a><span class="co"># Start the analysis</span></span>
 <span id="cb61-4"><a href="09-Delimiting_species.html#cb61-4" tabindex="-1"></a><span class="ex">/pub14/tea/nsc206/bin/beast/bin/beast</span> <span class="at">-threads</span> 8 runC.xml</span></code></pre></div>
 What is the Marginal Likelihood for the Run C hypothesis (an Atlantic-Mediterranean species and a Pacific species)?
-<div id="radio_OGSHPGQKSI" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_OGSHPGQKSI" value="answer"></input> <span>-930.5</span></label><label><input type="radio" autocomplete="off" name="radio_OGSHPGQKSI" value=""></input> <span>-953.1</span></label><label><input type="radio" autocomplete="off" name="radio_OGSHPGQKSI" value=""></input> <span>-1,856.2</span></label><label><input type="radio" autocomplete="off" name="radio_OGSHPGQKSI" value=""></input> <span>-2,236.0</span></label>
+<div id="radio_PTMQYAUAZL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PTMQYAUAZL" value="answer"></input> <span>-930.5</span></label><label><input type="radio" autocomplete="off" name="radio_PTMQYAUAZL" value=""></input> <span>-953.1</span></label><label><input type="radio" autocomplete="off" name="radio_PTMQYAUAZL" value=""></input> <span>-1,856.2</span></label><label><input type="radio" autocomplete="off" name="radio_PTMQYAUAZL" value=""></input> <span>-2,236.0</span></label>
 </div>
 <div class="sourceCode" id="cb62"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb62-1"><a href="09-Delimiting_species.html#cb62-1" tabindex="-1"></a><span class="co"># Change directory to &#39;runD&#39;</span></span>
 <span id="cb62-2"><a href="09-Delimiting_species.html#cb62-2" tabindex="-1"></a><span class="bu">cd</span> ../runD</span>
 <span id="cb62-3"><a href="09-Delimiting_species.html#cb62-3" tabindex="-1"></a><span class="co"># Start the analysis</span></span>
 <span id="cb62-4"><a href="09-Delimiting_species.html#cb62-4" tabindex="-1"></a><span class="ex">/pub14/tea/nsc206/bin/beast/bin/beast</span> <span class="at">-threads</span> 8 runD.xml</span></code></pre></div>
 What is the Marginal Likelihood for the Run D hypothesis (a random assignment of individuals to two species)?
-<div id="radio_DVFYFAVQCG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DVFYFAVQCG" value=""></input> <span>-930.5</span></label><label><input type="radio" autocomplete="off" name="radio_DVFYFAVQCG" value=""></input> <span>-953.1</span></label><label><input type="radio" autocomplete="off" name="radio_DVFYFAVQCG" value=""></input> <span>-1,856.2</span></label><label><input type="radio" autocomplete="off" name="radio_DVFYFAVQCG" value="answer"></input> <span>-2,236.0</span></label>
+<div id="radio_PWAVBCYIKM" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PWAVBCYIKM" value=""></input> <span>-930.5</span></label><label><input type="radio" autocomplete="off" name="radio_PWAVBCYIKM" value=""></input> <span>-953.1</span></label><label><input type="radio" autocomplete="off" name="radio_PWAVBCYIKM" value=""></input> <span>-1,856.2</span></label><label><input type="radio" autocomplete="off" name="radio_PWAVBCYIKM" value="answer"></input> <span>-2,236.0</span></label>
 </div>
 </div>
 <div id="selecting-the-taxonomic-hypothesis" class="section level3 hasAnchor" number="9.3.3">
@@ -474,7 +474,7 @@ This is a small desktop exercise that is done as follows:</p>
 <li>6 &lt; BF &lt; 10: Strong evidence that one model is better,</li>
 <li>BF &gt; 10: It's decisive! One model <strong>is</strong> better.</li>
 </ul>
-<p>Is the current taxonomy the best species arrangement, given the limited data we have used and our very limited analysis? You may have had different likelihoods calculated by the MCMC-sampling regime in your analysis, but the broad trends would have been simmilar. Based on the values in the MCQs above, the arrangement by ocean region is a decisively better arrangement than the current taxonomy and the other arrangements are decisively worse. This could well be an artefact of the sampling distribution of the examples we included to represent the current taxonomy.</p>
+<p>Is the current taxonomy the best species arrangement, given the limited data we have used and our very limited analysis? You may have had different likelihoods calculated by the MCMC-sampling regime in your analysis, but the broad trends would have been similar. Based on the values in the MCQs above, the arrangement by ocean region is a decisively better arrangement than the current taxonomy and the other arrangements are decisively worse. This could well be an artefact of the sampling distribution of the examples we included to represent the current taxonomy.</p>
 <center>
 <img src="figures/trophy.png" style="max-width: 300px; background:white; border-radius: 5px; border: 5px solid white" />
 </center>
@@ -713,29 +713,29 @@ window.onload = function() {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": null,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": null,
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

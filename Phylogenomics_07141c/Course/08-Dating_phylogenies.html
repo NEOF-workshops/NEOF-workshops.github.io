@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Dating phylogenies | Phylogenomics</title>
   <meta name="description" content="NEOF book for the Phylogenomics workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Dating phylogenies | Phylogenomics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Gavin Gouws, Matthew Gemmell, Ewan Harney, Helen Hipperson, Kathryn Maher" />
 
 
-<meta name="date" content="2024-11-08" />
+<meta name="date" content="2025-07-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -60,7 +60,7 @@
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -70,7 +70,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -304,17 +304,23 @@ Annotation with #
 <img src="figures/calendar.png" style="width:200px; background:white;border-radius:5px; border:white solid 5px" />
 </center>
 <p>Starting the analysis in IQ-TREE is straightforward:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb47-1"><a href="08-Dating_phylogenies.html#cb47-1" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> manta_phylogeny.phylip <span class="at">--date</span> manta_phylogeny.dating <span class="dt">\</span></span>
-<span id="cb47-2"><a href="08-Dating_phylogenies.html#cb47-2" tabindex="-1"></a>--date-tip 0 <span class="at">--redo</span></span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb47-1"><a href="08-Dating_phylogenies.html#cb47-1" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> manta_phylogeny.phylip <span class="dt">\</span></span>
+<span id="cb47-2"><a href="08-Dating_phylogenies.html#cb47-2" tabindex="-1"></a>--date manta_phylogeny.dating <span class="dt">\</span></span>
+<span id="cb47-3"><a href="08-Dating_phylogenies.html#cb47-3" tabindex="-1"></a>--date-tip 0 <span class="dt">\</span></span>
+<span id="cb47-4"><a href="08-Dating_phylogenies.html#cb47-4" tabindex="-1"></a>-redo</span></code></pre></div>
 <p>In this command:</p>
 <ul>
 <li><code>-s</code> points to our sequence alignment (as before).</li>
 <li><code>--date</code> specifies our date file.</li>
 <li><code>--date-tip</code>: This indicates that all our terminal taxa are extant and present at the present date ("time zero"). You could optimistically have ancient DNA from an extinct taxon or a mixture of contemporary tip dates and ancestral dates in a viral study.</li>
-<li><strong>Remember</strong> <code>--redo</code>. Our output and log files from the previous chapter are still in the folder.</li>
+<li><strong>Remember</strong> <code>-redo</code>. Our output and log files from the previous chapter are still in the folder.</li>
 </ul>
 <p>This will run through the full analysis, as we did before. It will use ModelFinder to find the optimal model and parameters of sequence evolution and find a maximum-likelihood tree. The branch lengths will represent the number of substitutions per site. For the dating, it will rescale the branches, using our time constraints, to build a time-calibrated tree.</p>
 <p>Once run, a few results are output to the terminal. These include the 'tMRCA', which is the age of the root of the tree, and a substitution rate at the root as the number of subtitutions per site along that branch of the tree.</p>
+What is age (approximatety) of the root of the tree?
+<div id="radio_PERDLLKFWV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PERDLLKFWV" value=""></input> <span>310 million years</span></label><label><input type="radio" autocomplete="off" name="radio_PERDLLKFWV" value="answer"></input> <span>225 million years</span></label><label><input type="radio" autocomplete="off" name="radio_PERDLLKFWV" value=""></input> <span>185 million years</span></label><label><input type="radio" autocomplete="off" name="radio_PERDLLKFWV" value=""></input> <span>125 million years</span></label>
+</div>
 <p>Alongside the typical IQ-TREE output we looked at in the last section, this analysis will also produce three 'timetree' files:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb48-1"><a href="08-Dating_phylogenies.html#cb48-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span></code></pre></div>
 <p>These are:</p>
@@ -345,15 +351,19 @@ Annotation with #
 <li><p>Press 'Enter' to use the existing file name. Hopefully, this shows the benefits of using annotations rather than saving lots of files under different names.</p></li>
 </ol>
 <p>Now you can execute the analysis again!</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb50-1"><a href="08-Dating_phylogenies.html#cb50-1" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> manta_phylogeny.phylip <span class="at">--date</span> manta_phylogeny.dating <span class="dt">\</span></span>
-<span id="cb50-2"><a href="08-Dating_phylogenies.html#cb50-2" tabindex="-1"></a>--date-tip 0 <span class="at">--redo</span></span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb50-1"><a href="08-Dating_phylogenies.html#cb50-1" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> manta_phylogeny.phylip <span class="dt">\</span></span>
+<span id="cb50-2"><a href="08-Dating_phylogenies.html#cb50-2" tabindex="-1"></a>--date manta_phylogeny.dating <span class="dt">\</span></span>
+<span id="cb50-3"><a href="08-Dating_phylogenies.html#cb50-3" tabindex="-1"></a>--date-tip 0 <span class="dt">\</span></span>
+<span id="cb50-4"><a href="08-Dating_phylogenies.html#cb50-4" tabindex="-1"></a>-redo</span></code></pre></div>
 <p>Go back to your browser and open a new tab in Firefox. You can open IcyTree and load the latest nexus tree file (it will have the same name) as you did above. Display the dates on the nodes. By flipping between the tabs you can compare the trees to see if there are any obvious or large differences or if the dating was fairly robust to these changes.</p>
 </div>
 <div id="getting-confidence-intervals-around-our-dates" class="section level3 hasAnchor" number="8.2.2">
 <h3><span class="header-section-number">8.2.2</span> Getting confidence intervals around our dates<a href="08-Dating_phylogenies.html#getting-confidence-intervals-around-our-dates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>IQ-TREE uses a procedure that resamples and combines a mixed Poisson and log-normal distribution of the relaxed clock model. As it is not published yet, it is probably best to use this with caution and to keep an eye on the literature.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb51-1"><a href="08-Dating_phylogenies.html#cb51-1" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> manta_phylogeny.phylip <span class="at">--date</span> manta_phylogeny.dating <span class="dt">\</span></span>
-<span id="cb51-2"><a href="08-Dating_phylogenies.html#cb51-2" tabindex="-1"></a>--date-ci 100 <span class="at">--redo</span></span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb51-1"><a href="08-Dating_phylogenies.html#cb51-1" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> manta_phylogeny.phylip <span class="dt">\</span></span>
+<span id="cb51-2"><a href="08-Dating_phylogenies.html#cb51-2" tabindex="-1"></a>--date manta_phylogeny.dating <span class="dt">\</span></span>
+<span id="cb51-3"><a href="08-Dating_phylogenies.html#cb51-3" tabindex="-1"></a>--date-ci 100 <span class="dt">\</span></span>
+<span id="cb51-4"><a href="08-Dating_phylogenies.html#cb51-4" tabindex="-1"></a>-redo</span></code></pre></div>
 <p>The only real difference to our earlier code is the argument <code>--date-ci</code>, which specifies how many resampling replicates we want to use. One can also set the standard deviation of the log-normal distribution (through <code>--clock-sd</code>), but increasing this can make the confidence intervals wider. We will use the default (0.2) here and will not specify this argument.</p>
 <p>Once this is run, you can again use IcyTree to open the nexus time-tree file. To display the 95% confidence intervals around the dates we calculated before (with <em>Manta</em> constrained to be 4.8 million years old), click the <code>Style</code> button, select <code>Internal node text</code> and <code>CI_date</code>. This will place the minimum and maximum age on each nodes. You are welcome to repeat the analysis with the alternative dating for <em>Manta</em>.</p>
 <p>Do these look reasonable or are they quite wide? Do these suggest our estimated dates are accurate?</p>
@@ -361,10 +371,9 @@ Annotation with #
 <p>Generally, we'd expect better dating estimates and narrower confidence intervals</p>
 <ul>
 <li>on nodes that are temporally- or phylogenetically-close to those that we are constraining,</li>
-<li>the more accurate the nodal constraints we have available,</li>
+<li>if we have accurate nodal constraints available,</li>
 <li>if we were able to constrain more nodes, and</li>
 <li>if our data are relatively free from conflict.</li>
-<li>narrower confidence intervals</li>
 </ul>
 <p>You have now dated your phylogeny, and can use these dates to examine various evolutionary, historical or biogeographic scenarios.</p>
 </div>
@@ -606,29 +615,29 @@ window.onload = function() {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": null,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": null,
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>
