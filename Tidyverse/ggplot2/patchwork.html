@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>geom_histogram – NEOF Tidyverse</title>
+<title>patchwork – NEOF Tidyverse</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -65,8 +30,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../ggplot2/geom_line.html" rel="next">
-<link href="../ggplot2/geom_bar.html" rel="prev">
+<link href="../ggplot2/ggplotly.html" rel="next">
+<link href="../ggplot2/ggsave.html" rel="prev">
 <link href="..//images/NEOF_favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -435,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ggplot2/geom_histogram.html" class="sidebar-item-text sidebar-link active">
+  <a href="../ggplot2/geom_histogram.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Geom histogram</span></a>
   </div>
 </li>
@@ -482,7 +447,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ggplot2/patchwork.html" class="sidebar-item-text sidebar-link">
+  <a href="../ggplot2/patchwork.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Patchwork</span></a>
   </div>
 </li>
@@ -510,15 +475,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#geom-histogram" id="toc-geom-histogram" class="nav-link active" data-scroll-target="#geom-histogram">Geom histogram</a>
-  <ul class="collapse">
-  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
-  <li><a href="#default-histogram" id="toc-default-histogram" class="nav-link" data-scroll-target="#default-histogram">Default histogram</a></li>
-  <li><a href="#bin-width" id="toc-bin-width" class="nav-link" data-scroll-target="#bin-width">Bin width</a></li>
-  <li><a href="#amount-of-bins" id="toc-amount-of-bins" class="nav-link" data-scroll-target="#amount-of-bins">Amount of bins</a></li>
-  <li><a href="#flipped-histogram" id="toc-flipped-histogram" class="nav-link" data-scroll-target="#flipped-histogram">Flipped histogram</a></li>
-  <li><a href="#frequency-polygon" id="toc-frequency-polygon" class="nav-link" data-scroll-target="#frequency-polygon">Frequency polygon</a></li>
-  </ul></li>
+  <li><a href="#patchwork" id="toc-patchwork" class="nav-link active" data-scroll-target="#patchwork">Patchwork</a></li>
   </ul>
 </nav>
     </div>
@@ -529,147 +486,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="geom-histogram" class="level1">
-<h1>Geom histogram</h1>
+<section id="patchwork" class="level1">
+<h1>Patchwork</h1>
 <center>
-<img src="images/ggplot2_geom_histogram.png" class="img-fluid" style="width:200px">
+<img src="images/ggplot2_patchwork.png" class="img-fluid" style="width:200px">
 </center>
-<p>Histograms are commonly used to display the distribution of a single <strong>continuous variable</strong>. This is carried out by creating bins (i.e.&nbsp;number ranges) and counting the number of values that are within each bin. These bin counts displayed as a bar chart.</p>
-<p>In this page we will create histograms with <code>ggplot2::geom_histogram()</code>. Through examples we will demonstrate creating:</p>
-<ul>
-<li>A histogram with default options.</li>
-<li>A histogram when specifying bin width.</li>
-<li>A histogram when specifying the number of bins.</li>
-<li>A flipped histogram.</li>
-<li>A frequency polygon.</li>
-</ul>
-<p><a href="https://ggplot2.tidyverse.org//reference/geom_histogram.html">Tidyverse reference page</a></p>
-<section id="dataset" class="level2">
-<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
-<p>For demonstration we’ll load the <code>mammal_sleep_tbl</code> data from the <a href="../datasets/mgrtibbles.html">mgrtibbles package</a> (hyperlink includes install instructions). We will select the “total_sleep” and “predation” columns for our plots.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load package</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"mgrtibbles"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#mammal_sleep_tbl tibble for demonstration</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl<span class="ot">&lt;-</span> mgrtibbles<span class="sc">::</span>mammal_sleep_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="st">"total_sleep"</span>,<span class="st">"danger"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Remove rows with NA values</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">drop_na</span>() <span class="sc">|&gt;</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Reorder danger factor levels</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">danger =</span> forcats<span class="sc">::</span><span class="fu">fct_relevel</span>(danger, <span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>,<span class="st">"4"</span>,<span class="st">"5"</span>))</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 58 × 2
-   total_sleep danger
-         &lt;dbl&gt; &lt;fct&gt; 
- 1         3.3 3     
- 2         8.3 3     
- 3        12.5 1     
- 4        16.5 3     
- 5         3.9 4     
- 6         9.8 4     
- 7        19.7 1     
- 8         6.2 4     
- 9        14.5 1     
-10         9.7 1     
-# ℹ 48 more rows</code></pre>
-</div>
-</div>
-</section>
-<section id="default-histogram" class="level2">
-<h2 class="anchored" data-anchor-id="default-histogram">Default histogram</h2>
-<p>When creating a histogram with <code>geom_histogram()</code> a <strong>continuous numerical variable/column</strong> can be mapped to the <strong>x aesthetic</strong>. The function will create bins (number ranges) and count the number of values that fit within each bin.</p>
-<p>For our default histogram the data will be fit into 30 bins. This is always the default value of <code>ggplot2::geom_histogram()</code> and the function will output a message saying how to choose a better value. However, the best method on choosing a better value is to create the default plot first and then experiment with bin numbers afterwards. Choosing bin widths or bin numbers is shown below.</p>
-<p>Create a histogram of the <code>total_sleep</code> <strong>variable/column</strong>. This is a <strong>column</strong> of <strong>continuous doubles <code>&lt;dbl&gt;</code></strong> representing the total hours of sleep per day for different mammals.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> total_sleep)) <span class="sc">+</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        ggplot2<span class="sc">::</span><span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="geom_histogram_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="979"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="bin-width" class="level2">
-<h2 class="anchored" data-anchor-id="bin-width">Bin width</h2>
-<p>The default number of bins for <code>ggplot2::geom_histogram()</code> is rarely going to be the best option. To choose the bin width (i.e.&nbsp;the number range of the bins) we can use the option <code>binwidth=</code>.</p>
-<p>Create a histogram of <code>total_sleep</code> with a bin size of 1 hour (i.e.&nbsp;1).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> total_sleep)) <span class="sc">+</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        ggplot2<span class="sc">::</span><span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="geom_histogram_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="979"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="amount-of-bins" class="level2">
-<h2 class="anchored" data-anchor-id="amount-of-bins">Amount of bins</h2>
-<p>The amount of bins to fit the data into can be set with the option <code>bins=</code>.</p>
-<p>Create a histogram of <code>total_sleep</code> with a total of 15 bins.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> total_sleep)) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        ggplot2<span class="sc">::</span><span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="geom_histogram_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="979"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="flipped-histogram" class="level2">
-<h2 class="anchored" data-anchor-id="flipped-histogram">Flipped histogram</h2>
-<p>To create a flipped histogram you can map the <strong>continuous variable</strong> to the <strong>y aesthetic</strong>.</p>
-<p>Create a <strong>flipped histogram</strong> of the <code>total_sleep</code> <strong>continuous double variable/column</strong>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> total_sleep)) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        ggplot2<span class="sc">::</span><span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-</div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="geom_histogram_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="979"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="frequency-polygon" class="level2">
-<h2 class="anchored" data-anchor-id="frequency-polygon">Frequency polygon</h2>
-<p>Histograms are great if you are only looking at one group but not as suitable for looking at distributions between groups. Instead you can create a frequency polygon with <code>ggplot2::geom_freqpoly()</code>. A frequency polygon shows the same information as a histogram but uses lines instead of bars.</p>
-<p>Create a <strong>frequency polygon</strong> of <code>total__sleep</code> separated by the <code>danger</code> levels of the mammals (1 = least danger from other animals, 5 = most danger from other animals).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> total_sleep, <span class="at">colour =</span> danger)) <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        ggplot2<span class="sc">::</span><span class="fu">geom_freqpoly</span>(<span class="at">binwidth =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="geom_histogram_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="979"></p>
-</figure>
-</div>
-</div>
-</div>
+<p><a href="https://patchwork.data-imaginist.com/">Patchwork home page</a></p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1293,13 +1117,13 @@ window.onload = function() {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../ggplot2/geom_bar.html" class="pagination-link" aria-label="Geom bar">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Geom bar</span>
+      <a href="../ggplot2/ggsave.html" class="pagination-link" aria-label="Ggsave">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Ggsave</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../ggplot2/geom_line.html" class="pagination-link" aria-label="Geom line">
-        <span class="nav-page-text">Geom line</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../ggplot2/ggplotly.html" class="pagination-link" aria-label="Ggplotly">
+        <span class="nav-page-text">Ggplotly</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
