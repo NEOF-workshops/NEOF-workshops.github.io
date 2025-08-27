@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 QC exercises | Illumina Quality Control</title>
   <meta name="description" content="NEOF book for the Illumina quality control workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 QC exercises | Illumina Quality Control" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-10-17" />
+<meta name="date" content="2025-08-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,6 +56,14 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/translucent.css" rel="stylesheet" />
+<script src="libs/tippyjs-3.2.0/tippy.all.min.js"></script>
+<script src="libs/tippy-binding-0.1.0/tippy.js"></script>
 
 
 <style type="text/css">
@@ -70,7 +78,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -203,7 +211,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="A.2.1" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#fastp"><i class="fa fa-check"></i><b>A.2.1</b> Fastp</a></li>
 <li class="chapter" data-level="A.2.2" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#seqtk"><i class="fa fa-check"></i><b>A.2.2</b> Seqtk</a></li>
 <li class="chapter" data-level="A.2.3" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#fastx-toolkit"><i class="fa fa-check"></i><b>A.2.3</b> FASTX-Toolkit</a></li>
-<li class="chapter" data-level="A.2.4" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#bbtools"><i class="fa fa-check"></i><b>A.2.4</b> BBTools</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="B" data-path="08-Useful_Tools_and_Considerations.html"><a href="08-Useful_Tools_and_Considerations.html#mamba-1"><i class="fa fa-check"></i><b>B</b> Mamba</a>
@@ -234,13 +241,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="qcexercise" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">Chapter 6</span> QC exercises<a href="06-QC_exercises.html#qcexercise" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/exercise.png" style="width:200px" />
+<img src="figures/exercise.png" style="width:200px; background: white; border-radius:5px" />
 </center>
-<p>Now you will carry out Quality checking and control of a whole genome shotgun study and a 16S rRNA study. You will run through the Quality checking and Quality control using the examples to help you. There will be questions to answer after which there will be info on the data and what the QC has shown.</p>
+<p>Now you will carry out Quality checking and control of a whole genome shotgun study and a 16S rRNA study.
+You will run through the Quality checking and Quality control using the examples to help you. There will be questions to answer.
+After the question there will be info on the data and what the QC has shown.</p>
 <div id="shotgun" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Whole shotgun metagenomics<a href="06-QC_exercises.html#shotgun" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/kraken.png" style="width:200px" />
+<img src="figures/kraken.png" style="width:200px; background: white; border-radius:5px" />
 </center>
 <p>The data from this exercise comes from the following link:</p>
 <p><a href="https://www.ebi.ac.uk/ena/browser/view/SRR2081071" class="uri">https://www.ebi.ac.uk/ena/browser/view/SRR2081071</a></p>
@@ -254,33 +263,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Carry out <code>trimmomatic</code> quality control, deciding on the sliding window and the length threshold. After <code>trimmomatic</code> carry out <code>fastqc</code> on the trimmed and filtered reads to determine if it was successful. Afterwards answer the following questions. If your answers don't match the correct answers below try to rerun trimmomatic with different parameter options.</p>
 <ol style="list-style-type: decimal">
 <li>Is the number of quality controlled reads above 60,000?
-<div id="radio_JUWUNKMRWQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_JUWUNKMRWQ" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JUWUNKMRWQ" value=""></input> <span><strong>No</strong></span></label>
+<div id="radio_ZFZEAYGGTH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZFZEAYGGTH" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZFZEAYGGTH" value=""></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>Does the quality for either R1 or R2 drop below Q24 (Including the whiskers)?
-<div id="radio_IACWVPQJZU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_IACWVPQJZU" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IACWVPQJZU" value=""></input> <span><strong>No</strong></span></label>
+<div id="radio_JPOTNGPNIX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JPOTNGPNIX" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JPOTNGPNIX" value=""></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>Is the weird GC content still at the start of the read?
-<div id="radio_HSRYNUILTZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HSRYNUILTZ" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HSRYNUILTZ" value=""></input> <span><strong>No</strong></span></label>
+<div id="radio_KVAMFQRXYQ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KVAMFQRXYQ" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KVAMFQRXYQ" value=""></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>Does the "Per sequence GC content" still have a weird peak?
-<div id="radio_UIFHICSCXN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_UIFHICSCXN" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UIFHICSCXN" value=""></input> <span><strong>No</strong></span></label>
+<div id="radio_JKSUVUIWQI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JKSUVUIWQI" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JKSUVUIWQI" value=""></input> <span><strong>No</strong></span></label>
 </div></li>
 </ol>
 <p><strong>Explanations</strong></p>
 <p>In this case it helps to know the adapter sequence, used for the Illumina sequencing, was Nextera. Nextera is decent but I and others online have experienced it has a slight bias. It prefers to ligate to certain sequence patterns, this bias is then shown as the GC content bias at the start of reads. Fortunately the rest of the GC content is fine.</p>
-<p>In previous tests I have trimmed off the first 20bps to remove this bias and not removed the first 20bp. I found there was little difference in the downstream results for the two methods.</p>
+<p>In previous tests I have trimmed off the first 20bps to remove this bias and not removed the first 20bp. I found there was little difference in the downstream results for the two methods. I therefore normally retain the first 20bp.</p>
 <p>As for the weird "Per sequence GC content" peak, We must remember that the metagenome sample contains many different organisms with different GC contents. Therefore a flat GC peak would be expected.</p>
 </div>
 <div id="metagenetics" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> 16S rRNA Metagenetics<a href="06-QC_exercises.html#metagenetics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/chime.png" style="width:200px" />
+<img src="figures/chime.png" style="width:200px; background: white; border-radius:5px" />
 </center>
-<p>Before starting this exercise I must note this is not the normal method to quality control 16S rRNA data. Both QIIME2 and MOTHUR have their own methods but it can be useful to check the quality of 16S rRNA data.</p>
+<p>Before starting this exercise I must note this is not the normal method to quality control 16S rRNA data. Both QIIME2 and other 16S pipelines have their own methods but it can be useful to check the quality of 16S rRNA data beofre analysis.</p>
 <p>With that in mind we will only use <code>fastqc</code> to check the quality and features of a 16S rRNA dataset.</p>
 <p>The dataset can be found in the following link:</p>
 <p><a href="https://www.ebi.ac.uk/ena/data/view/SRR2081030" class="uri">https://www.ebi.ac.uk/ena/data/view/SRR2081030</a></p>
@@ -520,29 +529,29 @@ window.onload = function() {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": null,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": null,
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>
