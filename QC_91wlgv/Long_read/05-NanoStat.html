@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 NanoStat | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 NanoStat | Long read Quality Control" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell, Helen Hipperson &amp; Ewan Harney" />
 
 
-<meta name="date" content="2025-02-20" />
+<meta name="date" content="2025-08-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -208,13 +208,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.3" data-path="10-PB_background.html"><a href="10-PB_background.html#tools"><i class="fa fa-check"></i><b>10.3</b> Tools</a>
 <ul>
 <li class="chapter" data-level="10.3.1" data-path="10-PB_background.html"><a href="10-PB_background.html#hifiadapterfilt"><i class="fa fa-check"></i><b>10.3.1</b> HiFiAdapterFilt</a></li>
-<li class="chapter" data-level="10.3.2" data-path="10-PB_background.html"><a href="10-PB_background.html#smrttools"><i class="fa fa-check"></i><b>10.3.2</b> smrttools</a></li>
+<li class="chapter" data-level="10.3.2" data-path="10-PB_background.html"><a href="10-PB_background.html#smrtlink-tools"><i class="fa fa-check"></i><b>10.3.2</b> SMRTlink tools</a></li>
 <li class="chapter" data-level="10.3.3" data-path="10-PB_background.html"><a href="10-PB_background.html#rabbitqcplus"><i class="fa fa-check"></i><b>10.3.3</b> RabbitQCPlus</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-PB_setup.html"><a href="11-PB_setup.html"><i class="fa fa-check"></i><b>11</b> PacBio setup</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="11-PB_setup.html"><a href="11-PB_setup.html#pacbio-smrt-tools"><i class="fa fa-check"></i><b>11.1</b> PacBio SMRT tools</a></li>
+<li class="chapter" data-level="11.1" data-path="11-PB_setup.html"><a href="11-PB_setup.html#pacbio-smrtlink-tools"><i class="fa fa-check"></i><b>11.1</b> PacBio SMRTlink tools</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="12-PB_filtering.html"><a href="12-PB_filtering.html"><i class="fa fa-check"></i><b>12</b> PacBio filtering</a>
 <ul>
@@ -235,7 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="B" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>B</b> Mamba installs</a>
 <ul>
-<li class="chapter" data-level="B.1" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>B.1</b> Mamba installation</a></li>
+<li class="chapter" data-level="B.1" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba-installation"><i class="fa fa-check"></i><b>B.1</b> Mamba installation</a></li>
 <li class="chapter" data-level="B.2" data-path="14-Appendix.html"><a href="14-Appendix.html#ont-qc-environment"><i class="fa fa-check"></i><b>B.2</b> ONT QC environment</a></li>
 <li class="chapter" data-level="B.3" data-path="14-Appendix.html"><a href="14-Appendix.html#pb-qc-environment"><i class="fa fa-check"></i><b>B.3</b> PB QC environment</a></li>
 </ul></li>
@@ -262,16 +262,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="nanostat" class="section level1 hasAnchor" number="5">
 <h1><span class="header-section-number">Chapter 5</span> NanoStat<a href="05-NanoStat.html#nanostat" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/metrics.png" style="width:150px" />
+<img src="figures/metrics.png" style="width:150px; background: white; border-radius:5px; border: white solid 5px" />
 </center>
 <p>The first step is to acquire stats for the sequences in our fastq file. We will use <code>NanoStat</code> (<a href="https://github.com/wdecoster/nanostat" class="uri">https://github.com/wdecoster/nanostat</a>).</p>
 <p><code>NanoStat</code> is one of the many tools contained in the <code>NanoPack</code> suite (<a href="https://github.com/wdecoster/nanopack" class="uri">https://github.com/wdecoster/nanopack</a>). We will also use the tools <code>NanoPlot</code> and <code>NanoFilt</code> downstream.</p>
 <div id="nanostat-run" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> NanoStat: run<a href="05-NanoStat.html#nanostat-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/enter_key_black.png" style="width:150px; background: white; border-radius:15px" />
+<img src="figures/enter_key_black.png" style="width:150px; background: white; border-radius:5px" />
 </center>
-<p>We want to have a tidy set of directories at the end of this analysis. It would be an untidy mess if we had all the output files in the current directory. We will therefore be making directories and subdirectories to send our output.</p>
+<p>We want to have a tidy set of directories at the end of this analysis. It would be an untidy mess if we had all the output files in the current directory. We will therefore be making directories and subdirectories to send our output to.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb6-1"><a href="05-NanoStat.html#cb6-1" tabindex="-1"></a><span class="fu">mkdir</span> nanostats</span></code></pre></div>
 <p>Finally we will now run <code>NanoStat.</code> The options used are:</p>
 <ul>
@@ -313,56 +313,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="nanostat-mcqs" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> NanoStat: MCQs<a href="05-NanoStat.html#nanostat-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/question_bubble_black.png" style="width:150px; background: white; border-radius:15px; border: 5px white solid" />
+<img src="figures/question_bubble_black.png" style="width:150px; background: white; border-radius:5px; border: 5px white solid" />
 </center>
 <p>With the output of <code>NanoStat</code> and the above info on the output please answer the following Multiple-choice questions.</p>
 <ol style="list-style-type: decimal">
 <li>What is the mean base quality for the read with the highest mean base quality?
-<div id="radio_PXZBXDVWRN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PXZBXDVWRN" value=""></input> <span><strong>9.2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PXZBXDVWRN" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PXZBXDVWRN" value="answer"></input> <span><strong>12.3</strong></span></label>
+<div id="radio_XCPTHLUTWD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_XCPTHLUTWD" value=""></input> <span><strong>9.2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XCPTHLUTWD" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XCPTHLUTWD" value="answer"></input> <span><strong>12.3</strong></span></label>
 </div></li>
 <li>What is the mean base quality for the longest read?
-<div id="radio_KUKDMDCEQC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_KUKDMDCEQC" value="answer"></input> <span><strong>9.2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KUKDMDCEQC" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KUKDMDCEQC" value=""></input> <span><strong>12.3</strong></span></label>
+<div id="radio_DSCQOWAVCX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DSCQOWAVCX" value="answer"></input> <span><strong>9.2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DSCQOWAVCX" value=""></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DSCQOWAVCX" value=""></input> <span><strong>12.3</strong></span></label>
 </div></li>
 <li>What is the mean read quality for all the data?
-<div id="radio_XDJRFOMDTA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XDJRFOMDTA" value=""></input> <span><strong>9.2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XDJRFOMDTA" value="answer"></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XDJRFOMDTA" value=""></input> <span><strong>12.3</strong></span></label>
+<div id="radio_DRPQUJXQOO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DRPQUJXQOO" value=""></input> <span><strong>9.2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DRPQUJXQOO" value="answer"></input> <span><strong>9.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DRPQUJXQOO" value=""></input> <span><strong>12.3</strong></span></label>
 </div></li>
 <li>What is the length of the read with the 2nd highest mean quality?
-<div id="radio_MKGJKZVJSI" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MKGJKZVJSI" value="answer"></input> <span><strong>5,770</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MKGJKZVJSI" value=""></input> <span><strong>6,700.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MKGJKZVJSI" value=""></input> <span><strong>25,072</strong></span></label>
+<div id="radio_ZZZBRYAMIQ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZZZBRYAMIQ" value="answer"></input> <span><strong>5,770</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZZZBRYAMIQ" value=""></input> <span><strong>6,700.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZZZBRYAMIQ" value=""></input> <span><strong>25,072</strong></span></label>
 </div></li>
 <li>What is the length of the 3rd longest read?
-<div id="radio_WOTPBPUEAM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WOTPBPUEAM" value=""></input> <span><strong>5,770</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WOTPBPUEAM" value=""></input> <span><strong>6,700.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WOTPBPUEAM" value="answer"></input> <span><strong>25,072</strong></span></label>
+<div id="radio_LXNNOSIGJW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LXNNOSIGJW" value=""></input> <span><strong>5,770</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LXNNOSIGJW" value=""></input> <span><strong>6,700.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LXNNOSIGJW" value="answer"></input> <span><strong>25,072</strong></span></label>
 </div></li>
 <li>What is the median read length of the data?
-<div id="radio_ZQCBYLEBDA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZQCBYLEBDA" value=""></input> <span><strong>5,770</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZQCBYLEBDA" value="answer"></input> <span><strong>6,700.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZQCBYLEBDA" value=""></input> <span><strong>25,072</strong></span></label>
+<div id="radio_TRQVLIYHCZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TRQVLIYHCZ" value=""></input> <span><strong>5,770</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TRQVLIYHCZ" value="answer"></input> <span><strong>6,700.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TRQVLIYHCZ" value=""></input> <span><strong>25,072</strong></span></label>
 </div></li>
 <li>To the nearest 0.1 Megabases (i.e. 100,000 bases), what is the total number of bases of the data?
-<div id="radio_MJJHHBRLHZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MJJHHBRLHZ" value=""></input> <span><strong>0.0Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MJJHHBRLHZ" value=""></input> <span><strong>8.8Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MJJHHBRLHZ" value="answer"></input> <span><strong>14.1Mb</strong></span></label>
+<div id="radio_NPXCLCLXQX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NPXCLCLXQX" value=""></input> <span><strong>0.0Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NPXCLCLXQX" value=""></input> <span><strong>8.8Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NPXCLCLXQX" value="answer"></input> <span><strong>14.1Mb</strong></span></label>
 </div></li>
 <li>How many Megabases are within reads with a quality cutoff of &gt;Q10?
-<div id="radio_WCLHYYJNJM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WCLHYYJNJM" value=""></input> <span><strong>0.0Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WCLHYYJNJM" value="answer"></input> <span><strong>8.8Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WCLHYYJNJM" value=""></input> <span><strong>14.1Mb</strong></span></label>
+<div id="radio_PXMRXTWYNK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PXMRXTWYNK" value=""></input> <span><strong>0.0Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PXMRXTWYNK" value="answer"></input> <span><strong>8.8Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PXMRXTWYNK" value=""></input> <span><strong>14.1Mb</strong></span></label>
 </div></li>
 <li>How many Megabases are within reads with a quality cutoff of &gt;Q15?
-<div id="radio_JWGTUWQVES" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_JWGTUWQVES" value="answer"></input> <span><strong>0.0Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JWGTUWQVES" value=""></input> <span><strong>8.8Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JWGTUWQVES" value="answer"></input> <span><strong>14.1Mb</strong></span></label>
+<div id="radio_AUUQYOJRRO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_AUUQYOJRRO" value="answer"></input> <span><strong>0.0Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AUUQYOJRRO" value=""></input> <span><strong>8.8Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AUUQYOJRRO" value="answer"></input> <span><strong>14.1Mb</strong></span></label>
 </div></li>
 <li>To the nearest 0.1 Megabases (i.e. 100,000 bases), what is the total number of bases within reads with a mean quality of Q10 or less (you will need to do some mental maths)?
-<div id="radio_HJPZNRIVLB" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HJPZNRIVLB" value="answer"></input> <span><strong>5.3Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HJPZNRIVLB" value=""></input> <span><strong>8.8Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HJPZNRIVLB" value="answer"></input> <span><strong>14.1Mb</strong></span></label>
+<div id="radio_EPFWORPJJN" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EPFWORPJJN" value="answer"></input> <span><strong>5.3Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EPFWORPJJN" value=""></input> <span><strong>8.8Mb</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EPFWORPJJN" value="answer"></input> <span><strong>14.1Mb</strong></span></label>
 </div></li>
 </ol>
 </div>
 <div id="nanostat-summary" class="section level2 hasAnchor" number="5.4">
 <h2><span class="header-section-number">5.4</span> NanoStat: summary<a href="05-NanoStat.html#nanostat-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/sum_black.png" style="width:150px; background: white; border-radius:15px; border: white solid 5px" />
+<img src="figures/sum_black.png" style="width:150px; background: white; border-radius:5px; border: white solid 5px" />
 </center>
 <p>We have carried out our first step of QC by quality checking the <strong>fastq</strong> file with <code>NanoStat</code>. Overall the data has good quality, for ONT data &gt;Q10 is good. However, there is some poor quality data so quality control will be needed.</p>
 
@@ -594,29 +594,29 @@ window.onload = function() {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": null,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": null,
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

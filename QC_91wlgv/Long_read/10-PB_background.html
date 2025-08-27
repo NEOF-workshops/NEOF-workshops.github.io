@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 10 PacBio Background | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 10 PacBio Background | Long read Quality Control" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell, Helen Hipperson &amp; Ewan Harney" />
 
 
-<meta name="date" content="2025-02-20" />
+<meta name="date" content="2025-08-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -208,13 +208,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.3" data-path="10-PB_background.html"><a href="10-PB_background.html#tools"><i class="fa fa-check"></i><b>10.3</b> Tools</a>
 <ul>
 <li class="chapter" data-level="10.3.1" data-path="10-PB_background.html"><a href="10-PB_background.html#hifiadapterfilt"><i class="fa fa-check"></i><b>10.3.1</b> HiFiAdapterFilt</a></li>
-<li class="chapter" data-level="10.3.2" data-path="10-PB_background.html"><a href="10-PB_background.html#smrttools"><i class="fa fa-check"></i><b>10.3.2</b> smrttools</a></li>
+<li class="chapter" data-level="10.3.2" data-path="10-PB_background.html"><a href="10-PB_background.html#smrtlink-tools"><i class="fa fa-check"></i><b>10.3.2</b> SMRTlink tools</a></li>
 <li class="chapter" data-level="10.3.3" data-path="10-PB_background.html"><a href="10-PB_background.html#rabbitqcplus"><i class="fa fa-check"></i><b>10.3.3</b> RabbitQCPlus</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-PB_setup.html"><a href="11-PB_setup.html"><i class="fa fa-check"></i><b>11</b> PacBio setup</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="11-PB_setup.html"><a href="11-PB_setup.html#pacbio-smrt-tools"><i class="fa fa-check"></i><b>11.1</b> PacBio SMRT tools</a></li>
+<li class="chapter" data-level="11.1" data-path="11-PB_setup.html"><a href="11-PB_setup.html#pacbio-smrtlink-tools"><i class="fa fa-check"></i><b>11.1</b> PacBio SMRTlink tools</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="12-PB_filtering.html"><a href="12-PB_filtering.html"><i class="fa fa-check"></i><b>12</b> PacBio filtering</a>
 <ul>
@@ -235,7 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="B" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>B</b> Mamba installs</a>
 <ul>
-<li class="chapter" data-level="B.1" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>B.1</b> Mamba installation</a></li>
+<li class="chapter" data-level="B.1" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba-installation"><i class="fa fa-check"></i><b>B.1</b> Mamba installation</a></li>
 <li class="chapter" data-level="B.2" data-path="14-Appendix.html"><a href="14-Appendix.html#ont-qc-environment"><i class="fa fa-check"></i><b>B.2</b> ONT QC environment</a></li>
 <li class="chapter" data-level="B.3" data-path="14-Appendix.html"><a href="14-Appendix.html#pb-qc-environment"><i class="fa fa-check"></i><b>B.3</b> PB QC environment</a></li>
 </ul></li>
@@ -268,7 +268,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="file-formats" class="section level2 hasAnchor" number="10.1">
 <h2><span class="header-section-number">10.1</span> File formats<a href="10-PB_background.html#file-formats" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/files.png" style="width:150px" />
+<img src="figures/files.png" style="width:150px; background: white; border-radius:5px; border: white solid 5px" />
 </center>
 <p>Sequence data from PacBio are output as subreads in unaligned BAM format. (Further explanation of the BAM format is in section 3.1.4).</p>
 <p>The figure below shows a schematic of a circular DNA molecule of a PacBio library with the colours representing:</p>
@@ -293,24 +293,24 @@ For more information see: <a href="https://pacbiofileformats.readthedocs.io/en/1
 <h2><span class="header-section-number">10.2</span> HiFi reads<a href="10-PB_background.html#hifi-reads" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The ZMW reads are processed on the sequencing instrument to produce HiFi reads, using the circular consensus (CCS) tool. CCS generates high accuracy sequences from a consensus of many subreads (i.e. there would be several of the grey insert regions shown above in every ZMW read). By taking the consensus sequences HiFi reads have an accuracy of Q≥20 (99%). In the diagram below the insert region is shown by purple and yellow lines representing the sequences obtained by each strand of the template DNA, sequencing errors by the red bases, and the green line represents the high-accuracy consensus read.</p>
 <center>
-<img src="figures/hifi.png" style="width:800px; border-radius:15px; background:null" />
+<img src="figures/hifi.png" style="width:800px; border-radius:15px; background:null; border: white solid 5px" />
 </center>
-<p>For this tutorial we will carry out adapter filtering and quality checking aof a HiFi BAM file.</p>
+<p>For this tutorial we will carry out adapter filtering and quality checking of a HiFi BAM file.</p>
 </div>
 <div id="tools" class="section level2 hasAnchor" number="10.3">
 <h2><span class="header-section-number">10.3</span> Tools<a href="10-PB_background.html#tools" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/toolbox.png" style="width:200px" />
+<img src="figures/toolbox.png" style="width:200px; background: white; border-radius:5px; border: white solid 5px" />
 </center>
 <div id="hifiadapterfilt" class="section level3 hasAnchor" number="10.3.1">
 <h3><span class="header-section-number">10.3.1</span> HiFiAdapterFilt<a href="10-PB_background.html#hifiadapterfilt" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><a href="https://github.com/sheinasim/HiFiAdapterFilt" class="uri">https://github.com/sheinasim/HiFiAdapterFilt</a></p>
 <p>We will use <code>HiFiAdapterFilt</code> to remove any reads containing PacBio adapter sequences.</p>
 </div>
-<div id="smrttools" class="section level3 hasAnchor" number="10.3.2">
-<h3><span class="header-section-number">10.3.2</span> smrttools<a href="10-PB_background.html#smrttools" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><a href="https://www.pacb.com/wp-content/uploads/SMRT-Tools-Reference-Guide-v13.0.pdf" class="uri">https://www.pacb.com/wp-content/uploads/SMRT-Tools-Reference-Guide-v13.0.pdf</a></p>
-<p>We will also use <code>smrttools</code> from PacBio to:</p>
+<div id="smrtlink-tools" class="section level3 hasAnchor" number="10.3.2">
+<h3><span class="header-section-number">10.3.2</span> SMRTlink tools<a href="10-PB_background.html#smrtlink-tools" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><a href="https://www.pacb.com/smrt-link/" class="uri">https://www.pacb.com/smrt-link/</a></p>
+<p>We will also use <code>SMRTlink tools</code> from PacBio to:</p>
 <ul>
 <li>Generate any missing index files</li>
 <li>Convert BAM to fasta/q format.</li>
@@ -550,29 +550,29 @@ window.onload = function() {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": null,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": null,
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

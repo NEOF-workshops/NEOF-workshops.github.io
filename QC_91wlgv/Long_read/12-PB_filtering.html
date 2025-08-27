@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 12 PacBio filtering | Long read Quality Control</title>
   <meta name="description" content="NEOF book for the Long read quality control workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 12 PacBio filtering | Long read Quality Control" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell, Helen Hipperson &amp; Ewan Harney" />
 
 
-<meta name="date" content="2025-02-20" />
+<meta name="date" content="2025-08-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -208,13 +208,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.3" data-path="10-PB_background.html"><a href="10-PB_background.html#tools"><i class="fa fa-check"></i><b>10.3</b> Tools</a>
 <ul>
 <li class="chapter" data-level="10.3.1" data-path="10-PB_background.html"><a href="10-PB_background.html#hifiadapterfilt"><i class="fa fa-check"></i><b>10.3.1</b> HiFiAdapterFilt</a></li>
-<li class="chapter" data-level="10.3.2" data-path="10-PB_background.html"><a href="10-PB_background.html#smrttools"><i class="fa fa-check"></i><b>10.3.2</b> smrttools</a></li>
+<li class="chapter" data-level="10.3.2" data-path="10-PB_background.html"><a href="10-PB_background.html#smrtlink-tools"><i class="fa fa-check"></i><b>10.3.2</b> SMRTlink tools</a></li>
 <li class="chapter" data-level="10.3.3" data-path="10-PB_background.html"><a href="10-PB_background.html#rabbitqcplus"><i class="fa fa-check"></i><b>10.3.3</b> RabbitQCPlus</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="11-PB_setup.html"><a href="11-PB_setup.html"><i class="fa fa-check"></i><b>11</b> PacBio setup</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="11-PB_setup.html"><a href="11-PB_setup.html#pacbio-smrt-tools"><i class="fa fa-check"></i><b>11.1</b> PacBio SMRT tools</a></li>
+<li class="chapter" data-level="11.1" data-path="11-PB_setup.html"><a href="11-PB_setup.html#pacbio-smrtlink-tools"><i class="fa fa-check"></i><b>11.1</b> PacBio SMRTlink tools</a></li>
 </ul></li>
 <li class="chapter" data-level="12" data-path="12-PB_filtering.html"><a href="12-PB_filtering.html"><i class="fa fa-check"></i><b>12</b> PacBio filtering</a>
 <ul>
@@ -235,7 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="B" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>B</b> Mamba installs</a>
 <ul>
-<li class="chapter" data-level="B.1" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>B.1</b> Mamba installation</a></li>
+<li class="chapter" data-level="B.1" data-path="14-Appendix.html"><a href="14-Appendix.html#mamba-installation"><i class="fa fa-check"></i><b>B.1</b> Mamba installation</a></li>
 <li class="chapter" data-level="B.2" data-path="14-Appendix.html"><a href="14-Appendix.html#ont-qc-environment"><i class="fa fa-check"></i><b>B.2</b> ONT QC environment</a></li>
 <li class="chapter" data-level="B.3" data-path="14-Appendix.html"><a href="14-Appendix.html#pb-qc-environment"><i class="fa fa-check"></i><b>B.3</b> PB QC environment</a></li>
 </ul></li>
@@ -262,11 +262,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="pbfiltchap" class="section level1 hasAnchor" number="12">
 <h1><span class="header-section-number">Chapter 12</span> PacBio filtering<a href="12-PB_filtering.html#pbfiltchap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/quality_filtering.png" style="width:150px; background: white; border-radius:5px" />
+<img src="figures/quality_filtering.png" style="width:150px; background: white; border-radius:5px; border: white solid 5px" />
 </center>
 <p>PacBio HiFi reads are generated via CCS analysis which computes a consensus sequence from multiple passes of the circularised SMRTbell molecules. Each 'pass' will be interspersed with an adapter sequence (as shown in 10.1). Whilst the majority of these adapter sequences are removed by the CCS analysis that generates the HiFi BAM file, it is good practice to check for any remaining sequences to ensure they are removed before downstream analysis.</p>
 <p>We will perform this using the software <a href="https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-022-08375-1">HiFiAdapterFilt</a>.</p>
-<p>This software has already been installed, but we will start by setting the PATH variable</p>
+<p>This software has already been installed, but we will start by setting the PATH variable.</p>
 <div id="path" class="section level2 hasAnchor" number="12.1">
 <h2><span class="header-section-number">12.1</span> $PATH<a href="12-PB_filtering.html#path" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The PATH environment variable is a list of directories that an operating system searches to find executable files and commands (programs). If a directory is included in the <code>$PATH</code>, it won’t be necessary to type out the full name of the executable when running a command. Directories can be added to the path on a temporary basis using the export command, but if you close your terminal or start a new session you will have to rerun the export command.</p>
@@ -284,7 +284,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="hifiadapterfilt-1" class="section level2 hasAnchor" number="12.2">
 <h2><span class="header-section-number">12.2</span> HiFiAdapterFilt<a href="12-PB_filtering.html#hifiadapterfilt-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/enter_key_purple.png" style="width:150px; background: white; border-radius:5px" />
+<img src="figures/enter_key_purple.png" style="width:150px; ; background: white; border-radius:5px; border: white solid 5px" />
 </center>
 <p><a href="https://github.com/sheinasim/HiFiAdapterFilt">HiFiAdapterFilt</a> blasts the reads against a database of PacBio adapter sequences and excludes reads if the match with an adapter is good enough (the default is a blast percent identity match of 97% and a minimum length of 44 bp). It creates a file with the suffix ‘.filt.fastq.gz’ with the adapters removed that can be used for QC and downstream analysis.</p>
 <p>Run HiFiAdapterFilt on the fastq file:</p>
@@ -293,16 +293,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Use <code>less</code> to inspect the results to check for adapter contamination:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb24-1"><a href="12-PB_filtering.html#cb24-1" tabindex="-1"></a><span class="fu">less</span> ERR13246467_qc.stats</span></code></pre></div>
 How many CCS reads are in the unfiltered dataset?
-<div id="radio_RVYIBXDGSN" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RVYIBXDGSN" value=""></input> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RVYIBXDGSN" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RVYIBXDGSN" value="answer"></input> <span><strong>13798</strong></span></label>
+<div id="radio_PUEPLLOEYP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PUEPLLOEYP" value=""></input> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PUEPLLOEYP" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PUEPLLOEYP" value="answer"></input> <span><strong>13798</strong></span></label>
 </div>
 How many adapter contaminated reads were found?
-<div id="radio_DSEPVYOBKA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DSEPVYOBKA" value=""></input> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DSEPVYOBKA" value="answer"></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DSEPVYOBKA" value=""></input> <span><strong>13798</strong></span></label>
+<div id="radio_RPNYSYGYZK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_RPNYSYGYZK" value=""></input> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RPNYSYGYZK" value="answer"></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RPNYSYGYZK" value=""></input> <span><strong>13798</strong></span></label>
 </div>
 What percentage of CCS reads are retained (i.e. unfiltered)?
-<div id="radio_CPLUVSDDOZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_CPLUVSDDOZ" value="answer"></input> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CPLUVSDDOZ" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CPLUVSDDOZ" value=""></input> <span><strong>13798</strong></span></label>
+<div id="radio_UOGCLUTFEC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UOGCLUTFEC" value="answer"></input> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UOGCLUTFEC" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UOGCLUTFEC" value=""></input> <span><strong>13798</strong></span></label>
 </div>
 <p>Very few reads were found to contain adapter sequences. This isn't entirely unexpected as the CCS algorithm on the instrument will filter out most of them. However, the authors of HiFiAdapterFilt found that &gt;95% of published HiFi datasets did contain some adapter sequences, so it is worthwile to check and remove these.</p>
 </div>
@@ -541,29 +541,29 @@ window.onload = function() {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": null,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": null,
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>
