@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 13 Guide to analysing the second primer pair | Metabarcoding for diet analysis and environmental DNA</title>
   <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
-  <meta name="generator" content="bookdown 0.44 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 13 Guide to analysing the second primer pair | Metabarcoding for diet analysis and environmental DNA" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher and Helen Hipperson" />
 
 
-<meta name="date" content="2025-09-11" />
+<meta name="date" content="2025-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -613,7 +613,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>There are a far higher proportion of ASVs unassigned with this primer combination (the grey NA portion of the bars). The filter control sample has almost entirely unassigned ASVs. Given the low diversity, high differentiation from other samples and lack of ASVs of the fish sequences of interest we can remove this negative control, and re-plot the NMDS. Let's remove the aquarium samples as well, and re-plot the community similarity for the lake filter samples.</p>
 <div class="sourceCode" id="cb91"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb91-1"><a href="13-Others_marker_steps.html#cb91-1" tabindex="-1"></a><span class="co">#To remove specific samples from a phyloseq object</span></span>
 <span id="cb91-2"><a href="13-Others_marker_steps.html#cb91-2" tabindex="-1"></a>SamplesToRemove <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;S62&quot;</span>, <span class="st">&quot;S63&quot;</span>, <span class="st">&quot;S64&quot;</span>, <span class="st">&quot;S65&quot;</span>, <span class="st">&quot;S66&quot;</span>, <span class="st">&quot;S67&quot;</span>)</span>
-<span id="cb91-3"><a href="13-Others_marker_steps.html#cb91-3" tabindex="-1"></a>phylo2.nofilt <span class="ot">&lt;-</span> <span class="fu">subset_samples</span>(phylo2, <span class="sc">!</span>(<span class="fu">sample_names</span>(phylo2) <span class="sc">%in%</span> SamplesToRemove))</span>
+<span id="cb91-3"><a href="13-Others_marker_steps.html#cb91-3" tabindex="-1"></a>phylo2.nofilt  <span class="ot">&lt;-</span> <span class="fu">prune_samples</span>(<span class="sc">!</span>(<span class="fu">sample_names</span>(phylo2) <span class="sc">%in%</span> SamplesToRemove), phylo2)</span>
 <span id="cb91-4"><a href="13-Others_marker_steps.html#cb91-4" tabindex="-1"></a></span>
 <span id="cb91-5"><a href="13-Others_marker_steps.html#cb91-5" tabindex="-1"></a><span class="co">#Transform the data into proportions and re-plot NMDS</span></span>
 <span id="cb91-6"><a href="13-Others_marker_steps.html#cb91-6" tabindex="-1"></a>ps.prop.nofilt <span class="ot">&lt;-</span> <span class="fu">transform_sample_counts</span>(phylo2.nofilt, <span class="cf">function</span>(otu) otu<span class="sc">/</span><span class="fu">sum</span>(otu))</span>
