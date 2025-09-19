@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 18 Student grades example | R primer for omics</title>
+  <meta name="description" content="NEOF book for the R primer for omics workshop" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 18 Student grades example | R primer for omics" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the R primer for omics workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 18 Student grades example | R primer for omics" />
+  
+  <meta name="twitter:description" content="NEOF book for the R primer for omics workshop" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Matthew R. Gemmell" />
+
+
+<meta name="date" content="2025-09-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="17-Basic_programming.html"/>
+<link rel="next" href="19-Further_resources.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/translucent.css" rel="stylesheet" />
+<script src="libs/tippyjs-3.2.0/tippy.all.min.js"></script>
+<script src="libs/tippy-binding-0.1.0/tippy.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_rounded_corners.png" width="250"></a></li>
+<li><a>R primer for omics</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>Start</b></span></li>
+<li class="chapter" data-level="1" data-path="01-Intro_to_R.html"><a href="01-Intro_to_R.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="01-Intro_to_R.html"><a href="01-Intro_to_R.html#learning-outcome"><i class="fa fa-check"></i>Learning outcome</a></li>
+<li class="chapter" data-level="" data-path="01-Intro_to_R.html"><a href="01-Intro_to_R.html#extra-materials"><i class="fa fa-check"></i>Extra materials</a></li>
+<li class="chapter" data-level="" data-path="01-Intro_to_R.html"><a href="01-Intro_to_R.html#material-contents"><i class="fa fa-check"></i>Material contents</a></li>
+<li class="chapter" data-level="" data-path="01-Intro_to_R.html"><a href="01-Intro_to_R.html#table-of-contents"><i class="fa fa-check"></i>Table of contents</a></li>
+</ul></li>
+<li class="part"><span><b>Foundations</b></span></li>
+<li class="chapter" data-level="2" data-path="02-Foundations.html"><a href="02-Foundations.html"><i class="fa fa-check"></i><b>2</b> Foundations of R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-Foundations.html"><a href="02-Foundations.html#operators"><i class="fa fa-check"></i><b>2.1</b> Operators</a></li>
+<li class="chapter" data-level="2.2" data-path="02-Foundations.html"><a href="02-Foundations.html#variables"><i class="fa fa-check"></i><b>2.2</b> Variables</a></li>
+<li class="chapter" data-level="2.3" data-path="02-Foundations.html"><a href="02-Foundations.html#functions"><i class="fa fa-check"></i><b>2.3</b> Functions</a></li>
+<li class="chapter" data-level="2.4" data-path="02-Foundations.html"><a href="02-Foundations.html#directories"><i class="fa fa-check"></i><b>2.4</b> Directories</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="02-Foundations.html"><a href="02-Foundations.html#commands"><i class="fa fa-check"></i><b>2.4.1</b> Commands</a></li>
+<li class="chapter" data-level="2.4.2" data-path="02-Foundations.html"><a href="02-Foundations.html#rstudio-interface"><i class="fa fa-check"></i><b>2.4.2</b> RStudio Interface</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="02-Foundations.html"><a href="02-Foundations.html#scripteditor"><i class="fa fa-check"></i><b>2.5</b> Script editor</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="02-Foundations.html"><a href="02-Foundations.html#running-commands"><i class="fa fa-check"></i><b>2.5.1</b> Running commands</a></li>
+<li class="chapter" data-level="2.5.2" data-path="02-Foundations.html"><a href="02-Foundations.html#annotations"><i class="fa fa-check"></i><b>2.5.2</b> Annotations</a></li>
+<li class="chapter" data-level="2.5.3" data-path="02-Foundations.html"><a href="02-Foundations.html#saving-scripts"><i class="fa fa-check"></i><b>2.5.3</b> Saving scripts</a></li>
+<li class="chapter" data-level="2.5.4" data-path="02-Foundations.html"><a href="02-Foundations.html#open-a-saved-script"><i class="fa fa-check"></i><b>2.5.4</b> Open a saved script</a></li>
+<li class="chapter" data-level="2.5.5" data-path="02-Foundations.html"><a href="02-Foundations.html#new-script"><i class="fa fa-check"></i><b>2.5.5</b> New script</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="02-Foundations.html"><a href="02-Foundations.html#foundations-mcqs"><i class="fa fa-check"></i><b>2.6</b> Foundations MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-Foundations_exercises.html"><a href="03-Foundations_exercises.html"><i class="fa fa-check"></i><b>3</b> Foundations of R exercises</a></li>
+<li class="part"><span><b>Objects</b></span></li>
+<li class="chapter" data-level="4" data-path="04-R_objects.html"><a href="04-R_objects.html"><i class="fa fa-check"></i><b>4</b> R objects</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-R_objects.html"><a href="04-R_objects.html#codesections"><i class="fa fa-check"></i><b>4.1</b> Code sections</a></li>
+<li class="chapter" data-level="4.2" data-path="04-R_objects.html"><a href="04-R_objects.html#classes"><i class="fa fa-check"></i><b>4.2</b> Classes</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="04-R_objects.html"><a href="04-R_objects.html#numeric"><i class="fa fa-check"></i><b>4.2.1</b> Numeric</a></li>
+<li class="chapter" data-level="4.2.2" data-path="04-R_objects.html"><a href="04-R_objects.html#logical"><i class="fa fa-check"></i><b>4.2.2</b> Logical</a></li>
+<li class="chapter" data-level="4.2.3" data-path="04-R_objects.html"><a href="04-R_objects.html#string"><i class="fa fa-check"></i><b>4.2.3</b> String</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="04-R_objects.html"><a href="04-R_objects.html#code-section-continued"><i class="fa fa-check"></i><b>4.3</b> Code section continued</a></li>
+<li class="chapter" data-level="4.4" data-path="04-R_objects.html"><a href="04-R_objects.html#data-structures"><i class="fa fa-check"></i><b>4.4</b> Data structures</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="04-R_objects.html"><a href="04-R_objects.html#scalar"><i class="fa fa-check"></i><b>4.4.1</b> Scalar</a></li>
+<li class="chapter" data-level="4.4.2" data-path="04-R_objects.html"><a href="04-R_objects.html#vectors-lists"><i class="fa fa-check"></i><b>4.4.2</b> Vectors &amp; Lists</a></li>
+<li class="chapter" data-level="4.4.3" data-path="04-R_objects.html"><a href="04-R_objects.html#data-frames-matrices"><i class="fa fa-check"></i><b>4.4.3</b> Data frames &amp; Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="04-R_objects.html"><a href="04-R_objects.html#objects-mcqs"><i class="fa fa-check"></i><b>4.5</b> Objects MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="05-R_objects_exercises.html"><a href="05-R_objects_exercises.html"><i class="fa fa-check"></i><b>5</b> R objects exercises</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-R_objects_exercises.html"><a href="05-R_objects_exercises.html#df"><i class="fa fa-check"></i><b>5.1</b> df</a></li>
+<li class="chapter" data-level="5.2" data-path="05-R_objects_exercises.html"><a href="05-R_objects_exercises.html#beach_df_2"><i class="fa fa-check"></i><b>5.2</b> beach_df_2</a></li>
+</ul></li>
+<li class="part"><span><b>Files &amp; Subsetting</b></span></li>
+<li class="chapter" data-level="6" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html"><i class="fa fa-check"></i><b>6</b> Files and subsetting data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#reading-from-a-file"><i class="fa fa-check"></i><b>6.1</b> Reading from a file</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#directory-and-file-setup"><i class="fa fa-check"></i><b>6.1.1</b> Directory and file setup</a></li>
+<li class="chapter" data-level="6.1.2" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#viewing-the-file"><i class="fa fa-check"></i><b>6.1.2</b> Viewing the file</a></li>
+<li class="chapter" data-level="6.1.3" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#read.csv"><i class="fa fa-check"></i><b>6.1.3</b> read.csv()</a></li>
+<li class="chapter" data-level="6.1.4" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#tsv-files"><i class="fa fa-check"></i><b>6.1.4</b> TSV files</a></li>
+<li class="chapter" data-level="6.1.5" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#excel-files-and-r"><i class="fa fa-check"></i><b>6.1.5</b> Excel files and R</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#subsetting-data"><i class="fa fa-check"></i><b>6.2</b> Subsetting data</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#vectors"><i class="fa fa-check"></i><b>6.2.1</b> Vectors</a></li>
+<li class="chapter" data-level="6.2.2" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#data-frames"><i class="fa fa-check"></i><b>6.2.2</b> Data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#writing-to-a-file"><i class="fa fa-check"></i><b>6.3</b> Writing to a file</a></li>
+<li class="chapter" data-level="6.4" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#files-subsetting-mcqs"><i class="fa fa-check"></i><b>6.4</b> Files &amp; subsetting MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="07-Files_exercises.html"><a href="07-Files_exercises.html"><i class="fa fa-check"></i><b>7</b> Files exercises</a></li>
+<li class="chapter" data-level="8" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html"><i class="fa fa-check"></i><b>8</b> Bat roost exercise</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenges"><i class="fa fa-check"></i><b>8.1</b> Bat roost challenges</a>
+<ul>
+<li class="chapter" data-level="" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenge-1"><i class="fa fa-check"></i>Bat roost challenge 1</a></li>
+<li class="chapter" data-level="" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenge-2"><i class="fa fa-check"></i>Bat roost challenge 2</a></li>
+<li class="chapter" data-level="" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenge-3"><i class="fa fa-check"></i>Bat roost challenge 3</a></li>
+<li class="chapter" data-level="" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenge-4"><i class="fa fa-check"></i>Bat roost challenge 4</a></li>
+<li class="chapter" data-level="" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenge-5"><i class="fa fa-check"></i>Bat roost challenge 5</a></li>
+<li class="chapter" data-level="" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenge-6"><i class="fa fa-check"></i>Bat roost challenge 6</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-mcqs"><i class="fa fa-check"></i><b>8.2</b> Bat roost MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html"><i class="fa fa-check"></i><b>9</b> Honey bee colonies exercise</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-challenges"><i class="fa fa-check"></i><b>9.1</b> Honey bee colony challenges</a>
+<ul>
+<li class="chapter" data-level="" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-challenge-1"><i class="fa fa-check"></i>Honey bee colony challenge 1</a></li>
+<li class="chapter" data-level="" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-challenge-2"><i class="fa fa-check"></i>Honey bee colony challenge 2</a></li>
+<li class="chapter" data-level="" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-challenge-3"><i class="fa fa-check"></i>Honey bee colony challenge 3</a></li>
+<li class="chapter" data-level="" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-challenge-4"><i class="fa fa-check"></i>Honey bee colony challenge 4</a></li>
+<li class="chapter" data-level="" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-challenge-5"><i class="fa fa-check"></i>Honey bee colony challenge 5</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-mcqs"><i class="fa fa-check"></i><b>9.2</b> Honey bee colony MCQs</a></li>
+</ul></li>
+<li class="part"><span><b>Tips &amp; tricks</b></span></li>
+<li class="chapter" data-level="10" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html"><i class="fa fa-check"></i><b>10</b> Handy tips &amp; tricks</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#r-conventions"><i class="fa fa-check"></i><b>10.1</b> R conventions</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#variable-names"><i class="fa fa-check"></i><b>10.1.1</b> Variable names</a></li>
+<li class="chapter" data-level="10.1.2" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#wide-vs-long-coding"><i class="fa fa-check"></i><b>10.1.2</b> Wide vs Long coding</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#rstudio"><i class="fa fa-check"></i><b>10.2</b> RStudio</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#global-options"><i class="fa fa-check"></i><b>10.2.1</b> Global options</a></li>
+<li class="chapter" data-level="10.2.2" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#sweep-buttons"><i class="fa fa-check"></i><b>10.2.2</b> Sweep buttons</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#multiplication-table"><i class="fa fa-check"></i><b>10.3</b> Multiplication table</a></li>
+<li class="chapter" data-level="10.4" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#tab-complete"><i class="fa fa-check"></i><b>10.4</b> Tab complete</a></li>
+<li class="chapter" data-level="10.5" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#tea"><i class="fa fa-check"></i><b>10.5</b> Tea</a></li>
+<li class="chapter" data-level="10.6" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#english-speakers-across-the-world"><i class="fa fa-check"></i><b>10.6</b> English speakers across the world</a></li>
+<li class="chapter" data-level="10.7" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#identical"><i class="fa fa-check"></i><b>10.7</b> Identical</a></li>
+<li class="chapter" data-level="10.8" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#shortcuts"><i class="fa fa-check"></i><b>10.8</b> Shortcuts</a></li>
+<li class="chapter" data-level="10.9" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#handy-tips-tricks-mcqs"><i class="fa fa-check"></i><b>10.9</b> Handy tips &amp; tricks MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html"><i class="fa fa-check"></i><b>11</b> Handy exercises</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html#tea-exercise"><i class="fa fa-check"></i><b>11.1</b> Tea exercise</a></li>
+<li class="chapter" data-level="11.2" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html#english-speakers-across-the-world-exercise"><i class="fa fa-check"></i><b>11.2</b> English speakers across the world exercise</a></li>
+<li class="chapter" data-level="11.3" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html#extra-exercise"><i class="fa fa-check"></i><b>11.3</b> Extra exercise</a></li>
+</ul></li>
+<li class="part"><span><b>Plots</b></span></li>
+<li class="chapter" data-level="12" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html"><i class="fa fa-check"></i><b>12</b> Histograms and Line graphs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#histogram"><i class="fa fa-check"></i><b>12.1</b> Histogram</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#basic-histogram"><i class="fa fa-check"></i><b>12.1.1</b> Basic histogram</a></li>
+<li class="chapter" data-level="12.1.2" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#eu-cities"><i class="fa fa-check"></i><b>12.1.2</b> EU cities</a></li>
+<li class="chapter" data-level="12.1.3" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#eu-populations"><i class="fa fa-check"></i><b>12.1.3</b> EU populations</a></li>
+<li class="chapter" data-level="12.1.4" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#eu-population-and-cities-ratio"><i class="fa fa-check"></i><b>12.1.4</b> EU population and cities ratio</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#previous-plots"><i class="fa fa-check"></i><b>12.2</b> Previous plots</a></li>
+<li class="chapter" data-level="12.3" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#line-graphs"><i class="fa fa-check"></i><b>12.3</b> Line graphs</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#read-in-data"><i class="fa fa-check"></i><b>12.3.1</b> Read in data</a></li>
+<li class="chapter" data-level="12.3.2" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#plotting-a-line-graph"><i class="fa fa-check"></i><b>12.3.2</b> Plotting a line graph</a></li>
+<li class="chapter" data-level="12.3.3" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#adding-lines-to-a-plot"><i class="fa fa-check"></i><b>12.3.3</b> Adding lines to a plot</a></li>
+<li class="chapter" data-level="12.3.4" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#axis-limits"><i class="fa fa-check"></i><b>12.3.4</b> Axis limits</a></li>
+<li class="chapter" data-level="12.3.5" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#axis-labels"><i class="fa fa-check"></i><b>12.3.5</b> Axis labels</a></li>
+<li class="chapter" data-level="12.3.6" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#plot-titles"><i class="fa fa-check"></i><b>12.3.6</b> Plot titles</a></li>
+<li class="chapter" data-level="12.3.7" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#line-colours"><i class="fa fa-check"></i><b>12.3.7</b> Line colours</a></li>
+<li class="chapter" data-level="12.3.8" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#plot-legend"><i class="fa fa-check"></i><b>12.3.8</b> Plot legend</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html"><i class="fa fa-check"></i><b>13</b> Scatter plots and Box plots</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#scatter-plot"><i class="fa fa-check"></i><b>13.1</b> Scatter plot</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#basic-examples"><i class="fa fa-check"></i><b>13.1.1</b> Basic examples</a></li>
+<li class="chapter" data-level="13.1.2" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#animal-sizes-data"><i class="fa fa-check"></i><b>13.1.2</b> Animal sizes data</a></li>
+<li class="chapter" data-level="13.1.3" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#read-in-animal-data"><i class="fa fa-check"></i><b>13.1.3</b> Read in animal data</a></li>
+<li class="chapter" data-level="13.1.4" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#average-mass-and-max-mass"><i class="fa fa-check"></i><b>13.1.4</b> Average mass and max mass</a></li>
+<li class="chapter" data-level="13.1.5" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#average-mass-and-length"><i class="fa fa-check"></i><b>13.1.5</b> Average mass and length</a></li>
+<li class="chapter" data-level="13.1.6" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#plot-section-zoom"><i class="fa fa-check"></i><b>13.1.6</b> Plot section zoom</a></li>
+<li class="chapter" data-level="13.1.7" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#colour-points-by-metadata"><i class="fa fa-check"></i><b>13.1.7</b> Colour points by metadata</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#factors"><i class="fa fa-check"></i><b>13.2</b> Factors</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#what-are-levels"><i class="fa fa-check"></i><b>13.2.1</b> What are levels?</a></li>
+<li class="chapter" data-level="13.2.2" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#map-key-analogy"><i class="fa fa-check"></i><b>13.2.2</b> Map key analogy</a></li>
+<li class="chapter" data-level="13.2.3" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#code-example"><i class="fa fa-check"></i><b>13.2.3</b> Code example</a></li>
+<li class="chapter" data-level="13.2.4" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#level-orders"><i class="fa fa-check"></i><b>13.2.4</b> Level orders</a></li>
+<li class="chapter" data-level="13.2.5" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#scatter-plot-with-shapes"><i class="fa fa-check"></i><b>13.2.5</b> Scatter plot with shapes</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#box-plot"><i class="fa fa-check"></i><b>13.3</b> Box plot</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#body-mass-boxplot"><i class="fa fa-check"></i><b>13.3.1</b> Body mass boxplot</a></li>
+<li class="chapter" data-level="13.3.2" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#split-x-axis-by-two-groupings"><i class="fa fa-check"></i><b>13.3.2</b> Split x axis by two groupings</a></li>
+<li class="chapter" data-level="13.3.3" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#example-boxplots"><i class="fa fa-check"></i><b>13.3.3</b> Example boxplots</a></li>
+<li class="chapter" data-level="13.3.4" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#final-boxplot"><i class="fa fa-check"></i><b>13.3.4</b> Final boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="13.4" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#saving-a-plot-to-a-file"><i class="fa fa-check"></i><b>13.4</b> Saving a plot to a file</a>
+<ul>
+<li class="chapter" data-level="13.4.1" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#save-plot-as-png-file"><i class="fa fa-check"></i><b>13.4.1</b> Save plot as png file</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="14-Plots_exercises.html"><a href="14-Plots_exercises.html"><i class="fa fa-check"></i><b>14</b> Plots exercises</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="14-Plots_exercises.html"><a href="14-Plots_exercises.html#line-graph"><i class="fa fa-check"></i><b>14.1</b> Line graph</a></li>
+<li class="chapter" data-level="14.2" data-path="14-Plots_exercises.html"><a href="14-Plots_exercises.html#histogram-1"><i class="fa fa-check"></i><b>14.2</b> Histogram</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Plots_exercises.html"><a href="14-Plots_exercises.html#scatterplot"><i class="fa fa-check"></i><b>14.3</b> Scatterplot</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Plots_exercises.html"><a href="14-Plots_exercises.html#boxplot"><i class="fa fa-check"></i><b>14.4</b> Boxplot</a></li>
+</ul></li>
+<li class="part"><span><b>Stats</b></span></li>
+<li class="chapter" data-level="15" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html"><i class="fa fa-check"></i><b>15</b> Basic stats</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#linear-regression"><i class="fa fa-check"></i><b>15.1</b> Linear regression</a>
+<ul>
+<li class="chapter" data-level="15.1.1" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#fish-market-dataset"><i class="fa fa-check"></i><b>15.1.1</b> Fish market dataset</a></li>
+<li class="chapter" data-level="15.1.2" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#scatterplot-1"><i class="fa fa-check"></i><b>15.1.2</b> Scatterplot</a></li>
+<li class="chapter" data-level="15.1.3" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#linear-model"><i class="fa fa-check"></i><b>15.1.3</b> Linear model</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#t-test"><i class="fa fa-check"></i><b>15.2</b> t-test</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#boxplot-1"><i class="fa fa-check"></i><b>15.2.1</b> Boxplot</a></li>
+<li class="chapter" data-level="15.2.2" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#t-test-comparison"><i class="fa fa-check"></i><b>15.2.2</b> t-test comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#some-more-useful-functions"><i class="fa fa-check"></i><b>15.3</b> Some more useful functions</a>
+<ul>
+<li class="chapter" data-level="15.3.1" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#summary"><i class="fa fa-check"></i><b>15.3.1</b> Summary</a></li>
+<li class="chapter" data-level="15.3.2" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#table"><i class="fa fa-check"></i><b>15.3.2</b> Table</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#further-resources"><i class="fa fa-check"></i><b>15.4</b> Further resources</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html"><i class="fa fa-check"></i><b>16</b> Stats exercises</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#data"><i class="fa fa-check"></i><b>16.1</b> Data</a></li>
+<li class="chapter" data-level="16.2" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenges"><i class="fa fa-check"></i><b>16.2</b> World happiness challenges</a>
+<ul>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-1"><i class="fa fa-check"></i>World happiness challenge 1</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-2"><i class="fa fa-check"></i>World happiness challenge 2</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-3"><i class="fa fa-check"></i>World happiness challenge 3</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-4"><i class="fa fa-check"></i>World happiness challenge 4</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-5"><i class="fa fa-check"></i>World happiness challenge 5</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-6"><i class="fa fa-check"></i>World happiness challenge 6</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-7"><i class="fa fa-check"></i>World happiness challenge 7</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-8"><i class="fa fa-check"></i>World happiness challenge 8</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Programming</b></span></li>
+<li class="chapter" data-level="17" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html"><i class="fa fa-check"></i><b>17</b> Basic programming</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html#recycle-rule"><i class="fa fa-check"></i><b>17.1</b> Recycle rule</a></li>
+<li class="chapter" data-level="17.2" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html#loops"><i class="fa fa-check"></i><b>17.2</b> Loops</a>
+<ul>
+<li class="chapter" data-level="17.2.1" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html#for-loops"><i class="fa fa-check"></i><b>17.2.1</b> For loops</a></li>
+<li class="chapter" data-level="17.2.2" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html#while-loops"><i class="fa fa-check"></i><b>17.2.2</b> While loops</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html#if-statements"><i class="fa fa-check"></i><b>17.3</b> If statements</a></li>
+<li class="chapter" data-level="17.4" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html#functions-1"><i class="fa fa-check"></i><b>17.4</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html"><i class="fa fa-check"></i><b>18</b> Student grades example</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#the-student-grades-data"><i class="fa fa-check"></i><b>18.1</b> The student grades data</a></li>
+<li class="chapter" data-level="18.2" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#analysis-script"><i class="fa fa-check"></i><b>18.2</b> Analysis script</a></li>
+<li class="chapter" data-level="18.3" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#reading-in-and-preprocessing-the-data"><i class="fa fa-check"></i><b>18.3</b> Reading in and preprocessing the data</a></li>
+<li class="chapter" data-level="18.4" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#combining-the-data-frames"><i class="fa fa-check"></i><b>18.4</b> Combining the data frames</a></li>
+<li class="chapter" data-level="18.5" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#saving-the-data-frame"><i class="fa fa-check"></i><b>18.5</b> Saving the data frame</a></li>
+<li class="chapter" data-level="18.6" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#scaling-grading"><i class="fa fa-check"></i><b>18.6</b> Scaling &amp; Grading</a></li>
+<li class="chapter" data-level="18.7" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#some-quick-plots"><i class="fa fa-check"></i><b>18.7</b> Some quick plots</a></li>
+<li class="chapter" data-level="18.8" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#tips-for-creating-your-own-loops-and-functions"><i class="fa fa-check"></i><b>18.8</b> Tips for creating your own loops and functions</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="19-Further_resources.html"><a href="19-Further_resources.html"><i class="fa fa-check"></i><b>A</b> Bookdown</a></li>
+<li class="chapter" data-level="B" data-path="19-Further_resources.html"><a href="19-Further_resources.html#appendix"><i class="fa fa-check"></i><b>B</b> Workshop slides &amp; videos</a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="19-Further_resources.html"><a href="19-Further_resources.html#intro-and-foundations"><i class="fa fa-check"></i><b>B.1</b> Intro and foundations</a></li>
+<li class="chapter" data-level="B.2" data-path="19-Further_resources.html"><a href="19-Further_resources.html#classes-and-data-structures"><i class="fa fa-check"></i><b>B.2</b> Classes and data structures</a></li>
+<li class="chapter" data-level="B.3" data-path="19-Further_resources.html"><a href="19-Further_resources.html#files-and-subsetting"><i class="fa fa-check"></i><b>B.3</b> Files and subsetting</a></li>
+<li class="chapter" data-level="B.4" data-path="19-Further_resources.html"><a href="19-Further_resources.html#handy-tips-and-tricks"><i class="fa fa-check"></i><b>B.4</b> Handy tips and tricks</a></li>
+<li class="chapter" data-level="B.5" data-path="19-Further_resources.html"><a href="19-Further_resources.html#plots-part-1"><i class="fa fa-check"></i><b>B.5</b> Plots part 1</a></li>
+<li class="chapter" data-level="B.6" data-path="19-Further_resources.html"><a href="19-Further_resources.html#plots-part-2"><i class="fa fa-check"></i><b>B.6</b> Plots part 2</a></li>
+<li class="chapter" data-level="B.7" data-path="19-Further_resources.html"><a href="19-Further_resources.html#basic-stats"><i class="fa fa-check"></i><b>B.7</b> Basic stats</a></li>
+<li class="chapter" data-level="B.8" data-path="19-Further_resources.html"><a href="19-Further_resources.html#basic-programming"><i class="fa fa-check"></i><b>B.8</b> Basic programming</a></li>
+</ul></li>
+<li class="chapter" data-level="C" data-path="19-Further_resources.html"><a href="19-Further_resources.html#workshopfiles"><i class="fa fa-check"></i><b>C</b> Workshop files</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="19-Further_resources.html"><a href="19-Further_resources.html#chapter-6-files"><i class="fa fa-check"></i><b>C.1</b> Chapter 6 files</a></li>
+<li class="chapter" data-level="C.2" data-path="19-Further_resources.html"><a href="19-Further_resources.html#chapter-7-9-files"><i class="fa fa-check"></i><b>C.2</b> Chapter 7-9 files</a></li>
+<li class="chapter" data-level="C.3" data-path="19-Further_resources.html"><a href="19-Further_resources.html#chapter-10-11-files"><i class="fa fa-check"></i><b>C.3</b> Chapter 10-11 files</a></li>
+<li class="chapter" data-level="C.4" data-path="19-Further_resources.html"><a href="19-Further_resources.html#chapter-12-14-files"><i class="fa fa-check"></i><b>C.4</b> Chapter 12-14 files</a></li>
+<li class="chapter" data-level="C.5" data-path="19-Further_resources.html"><a href="19-Further_resources.html#chapter-15-16"><i class="fa fa-check"></i><b>C.5</b> Chapter 15-16</a></li>
+<li class="chapter" data-level="C.6" data-path="19-Further_resources.html"><a href="19-Further_resources.html#chapter-17-18"><i class="fa fa-check"></i><b>C.6</b> Chapter 17-18</a></li>
+</ul></li>
+<li class="chapter" data-level="D" data-path="19-Further_resources.html"><a href="19-Further_resources.html#r-user-groups-and-forums"><i class="fa fa-check"></i><b>D</b> R user groups and forums</a></li>
+<li class="chapter" data-level="E" data-path="19-Further_resources.html"><a href="19-Further_resources.html#base-r-books-and-links"><i class="fa fa-check"></i><b>E</b> Base R books and links</a></li>
+<li class="chapter" data-level="F" data-path="19-Further_resources.html"><a href="19-Further_resources.html#r-cheat-sheets"><i class="fa fa-check"></i><b>F</b> R cheat sheets</a></li>
+<li class="chapter" data-level="G" data-path="19-Further_resources.html"><a href="19-Further_resources.html#advanced-r-topics"><i class="fa fa-check"></i><b>G</b> Advanced R topics</a></li>
+<li class="chapter" data-level="H" data-path="19-Further_resources.html"><a href="19-Further_resources.html#datasets"><i class="fa fa-check"></i><b>H</b> Datasets</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R primer for omics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="student-grades-example" class="section level1 hasAnchor" number="18">
+<h1><span class="header-section-number">Chapter 18</span> Student grades example<a href="18-Student_grades_example.html#student-grades-example" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<center>
+<img src="figures/grades.png" style="width:200px; background:white; border-radius:15px" />
+</center>
+<p>In this section we are going to go through analysing datasets of student grades.</p>
+<div id="the-student-grades-data" class="section level2 hasAnchor" number="18.1">
+<h2><span class="header-section-number">18.1</span> The student grades data<a href="18-Student_grades_example.html#the-student-grades-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/data.png" style="width:200px" />
+</center>
+<p>Download the five following files into your directory "Chapter_17-18".</p>
+<ul>
+<li><a href="https://neof-workshops.github.io/R_j4c0xh/downloads/student_grades_group_A.tsv">student_grades_group_A.tsv</a></li>
+<li><a href="https://neof-workshops.github.io/R_j4c0xh/downloads/student_grades_group_B.tsv">student_grades_group_B.tsv</a></li>
+<li><a href="https://neof-workshops.github.io/R_j4c0xh/downloads/student_grades_group_C.tsv">student_grades_group_C.tsv</a></li>
+<li><a href="https://neof-workshops.github.io/R_j4c0xh/downloads/student_grades_group_D.tsv">student_grades_group_D.tsv</a></li>
+<li><a href="https://neof-workshops.github.io/R_j4c0xh/downloads/student_grades_group_E.tsv">student_grades_group_E.tsv</a></li>
+</ul>
+<p>These files contain the marks secured by USA students in various subjects. The files are separated by anonymised race/ethnicity (groups A-E).</p>
+<p>The files each contain the columns:</p>
+<ul>
+<li><strong>gender</strong>: female or male.</li>
+<li><strong>parental level of education</strong>: some high school, high school, associate's degree, some college, bachelor's degree, or master's degree.</li>
+<li><strong>lunch</strong>: Whether the student ate free/reduced lunches or standard lunches.</li>
+<li><strong>test preparation course</strong>: Whether the student completed a test prep course (completed) or not (none).</li>
+<li><strong>math score</strong>: The student's math score.</li>
+<li><strong>reading score</strong>: The student's reading score.</li>
+<li><strong>writing score</strong>: The student's writing score.</li>
+</ul>
+<p>Source of data: <a href="https://www.kaggle.com/spscientist/students-performance-in-exams" class="uri">https://www.kaggle.com/spscientist/students-performance-in-exams</a></p>
+</div>
+<div id="analysis-script" class="section level2 hasAnchor" number="18.2">
+<h2><span class="header-section-number">18.2</span> Analysis script<a href="18-Student_grades_example.html#analysis-script" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/hashtag2.png" style="width:200px" />
+</center>
+<p>Before carrying on I would suggest to set your working directory into the directory "Chapter_17-18".</p>
+<p>Now create a new R Script and save it as "student_grades.R" in the "Chapter_17-18" directory. It is useful to have your scripts close to their relevant data.</p>
+<p>Ensure you use annotations and code sections to keep your script organised and tidy.</p>
+<p>One extra tip: I normally like to keep a <code>setwd()</code> command at the top of my R Scripts so the script will set itself to the correct working directory. I copy the relevant command from the <strong>console</strong> after I set the working directory via the RSudio interface.</p>
+</div>
+<div id="reading-in-and-preprocessing-the-data" class="section level2 hasAnchor" number="18.3">
+<h2><span class="header-section-number">18.3</span> Reading in and preprocessing the data<a href="18-Student_grades_example.html#reading-in-and-preprocessing-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/r_read.png" style="width:200px; border-radius:15px; background:white" />
+</center>
+<p>We are going to first read in the data and carry out some changes to it. First we'll carry this out on just the group A data.</p>
+<p>Read in the group A TSV (tab separated value) file:</p>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb221-1"><a href="18-Student_grades_example.html#cb221-1" tabindex="-1"></a>group_a_df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;student_grades_group_A.tsv&quot;</span>,</span>
+<span id="cb221-2"><a href="18-Student_grades_example.html#cb221-2" tabindex="-1"></a>                       <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb221-3"><a href="18-Student_grades_example.html#cb221-3" tabindex="-1"></a>                       <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb221-4"><a href="18-Student_grades_example.html#cb221-4" tabindex="-1"></a>                       <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>When you first read in a file it is always good practice to check the resulting <strong>data frame's</strong> contents:</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb222-1"><a href="18-Student_grades_example.html#cb222-1" tabindex="-1"></a><span class="co">#Check the top 5 rows</span></span>
+<span id="cb222-2"><a href="18-Student_grades_example.html#cb222-2" tabindex="-1"></a><span class="fu">head</span>(group_a_df)</span>
+<span id="cb222-3"><a href="18-Student_grades_example.html#cb222-3" tabindex="-1"></a><span class="co">#View the data frame</span></span>
+<span id="cb222-4"><a href="18-Student_grades_example.html#cb222-4" tabindex="-1"></a><span class="fu">View</span>(group_a_df)</span>
+<span id="cb222-5"><a href="18-Student_grades_example.html#cb222-5" tabindex="-1"></a><span class="co">#Summary of each of its columns</span></span>
+<span id="cb222-6"><a href="18-Student_grades_example.html#cb222-6" tabindex="-1"></a><span class="fu">summary</span>(group_a_df)</span></code></pre></div>
+<p>There are three main things we want to do with this <strong>data frame</strong>:</p>
+<ul>
+<li>Change the column names so spaces are underscores. We can carry this out with <code>gsub()</code>.</li>
+<li>Change the order of the levels for the column "parental level of education" so they are in order from least to most education. We can do this with the <code>factor()</code> <strong>function</strong>.</li>
+<li>Add a group column which will contain the information on what race/ethnicity group each student belongs to. This will contain all the same info for this <strong>data frame</strong> but it will be useful later on. We are happy for it to be a <strong>character</strong> column for now.</li>
+</ul>
+<p>Let us carry out these tasks:</p>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb223-1"><a href="18-Student_grades_example.html#cb223-1" tabindex="-1"></a><span class="co">#Change spaces to _ in column names</span></span>
+<span id="cb223-2"><a href="18-Student_grades_example.html#cb223-2" tabindex="-1"></a><span class="fu">colnames</span>(group_a_df) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">&quot; &quot;</span>, </span>
+<span id="cb223-3"><a href="18-Student_grades_example.html#cb223-3" tabindex="-1"></a>                             <span class="at">replacement =</span> <span class="st">&quot;_&quot;</span>,</span>
+<span id="cb223-4"><a href="18-Student_grades_example.html#cb223-4" tabindex="-1"></a>                             <span class="at">x =</span> <span class="fu">colnames</span>(group_a_df))</span>
+<span id="cb223-5"><a href="18-Student_grades_example.html#cb223-5" tabindex="-1"></a><span class="co">#check our change</span></span>
+<span id="cb223-6"><a href="18-Student_grades_example.html#cb223-6" tabindex="-1"></a><span class="fu">colnames</span>(group_a_df)</span>
+<span id="cb223-7"><a href="18-Student_grades_example.html#cb223-7" tabindex="-1"></a></span>
+<span id="cb223-8"><a href="18-Student_grades_example.html#cb223-8" tabindex="-1"></a><span class="co">#Change the order of the parental level of education levels</span></span>
+<span id="cb223-9"><a href="18-Student_grades_example.html#cb223-9" tabindex="-1"></a>edu_level_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;some high school&quot;</span>,<span class="st">&quot;high school&quot;</span>,</span>
+<span id="cb223-10"><a href="18-Student_grades_example.html#cb223-10" tabindex="-1"></a>                     <span class="st">&quot;associate&#39;s degree&quot;</span>,<span class="st">&quot;some college&quot;</span>,</span>
+<span id="cb223-11"><a href="18-Student_grades_example.html#cb223-11" tabindex="-1"></a>                     <span class="st">&quot;bachelor&#39;s degree&quot;</span>,<span class="st">&quot;master&#39;s degree&quot;</span>)         </span>
+<span id="cb223-12"><a href="18-Student_grades_example.html#cb223-12" tabindex="-1"></a>group_a_df<span class="sc">$</span>parental_level_of_education <span class="ot">&lt;-</span> <span class="fu">factor</span>(</span>
+<span id="cb223-13"><a href="18-Student_grades_example.html#cb223-13" tabindex="-1"></a>  group_a_df<span class="sc">$</span>parental_level_of_education,</span>
+<span id="cb223-14"><a href="18-Student_grades_example.html#cb223-14" tabindex="-1"></a>  <span class="at">levels =</span> edu_level_order</span>
+<span id="cb223-15"><a href="18-Student_grades_example.html#cb223-15" tabindex="-1"></a>)</span>
+<span id="cb223-16"><a href="18-Student_grades_example.html#cb223-16" tabindex="-1"></a><span class="co">#check our change</span></span>
+<span id="cb223-17"><a href="18-Student_grades_example.html#cb223-17" tabindex="-1"></a><span class="fu">levels</span>(group_a_df<span class="sc">$</span>parental_level_of_education)</span>
+<span id="cb223-18"><a href="18-Student_grades_example.html#cb223-18" tabindex="-1"></a></span>
+<span id="cb223-19"><a href="18-Student_grades_example.html#cb223-19" tabindex="-1"></a><span class="co">#Add group column using the recycle rule</span></span>
+<span id="cb223-20"><a href="18-Student_grades_example.html#cb223-20" tabindex="-1"></a>group_a_df[,<span class="st">&quot;group&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;group_A&quot;</span></span>
+<span id="cb223-21"><a href="18-Student_grades_example.html#cb223-21" tabindex="-1"></a><span class="co">#check the new column</span></span>
+<span id="cb223-22"><a href="18-Student_grades_example.html#cb223-22" tabindex="-1"></a>group_a_df<span class="sc">$</span>group</span></code></pre></div>
+<p>Great we have created code to <strong>read</strong> in our file and preprocess the <strong>data frame</strong>. We have checked the output and know it produces the <strong>data frame</strong> in the format we want.</p>
+<p>We could copy and paste the code four times and change the relevant <strong>variable names</strong> to <strong>read</strong> in groups B-E. This would be pretty annoying and time consuming though.</p>
+<p>Instead let us create a <strong>function</strong> to do this for us. This will mostly use the same code above with <strong>variable names</strong> changed. There are a few changes though especially for the "group_name"" column creation.</p>
+<p><strong>Note</strong>: The <strong>variable names</strong> used within the <strong>function</strong> should not be the same as any you are using outside the <strong>function</strong>.</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb224-1"><a href="18-Student_grades_example.html#cb224-1" tabindex="-1"></a><span class="co">#Function name: &quot;read_and_preprocess&quot;</span></span>
+<span id="cb224-2"><a href="18-Student_grades_example.html#cb224-2" tabindex="-1"></a><span class="co">#Input: file_name</span></span>
+<span id="cb224-3"><a href="18-Student_grades_example.html#cb224-3" tabindex="-1"></a>read_and_preprocess <span class="ot">&lt;-</span> <span class="cf">function</span>(file_name){</span>
+<span id="cb224-4"><a href="18-Student_grades_example.html#cb224-4" tabindex="-1"></a>  <span class="co">#read in the file</span></span>
+<span id="cb224-5"><a href="18-Student_grades_example.html#cb224-5" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(file_name, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb224-6"><a href="18-Student_grades_example.html#cb224-6" tabindex="-1"></a>                 <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb224-7"><a href="18-Student_grades_example.html#cb224-7" tabindex="-1"></a>  <span class="co">#column name change</span></span>
+<span id="cb224-8"><a href="18-Student_grades_example.html#cb224-8" tabindex="-1"></a>  <span class="fu">colnames</span>(df) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">&quot; &quot;</span>, <span class="at">replacement =</span> <span class="st">&quot;_&quot;</span>, <span class="at">x =</span> <span class="fu">colnames</span>(df))</span>
+<span id="cb224-9"><a href="18-Student_grades_example.html#cb224-9" tabindex="-1"></a>  <span class="co">#Parental level of education order</span></span>
+<span id="cb224-10"><a href="18-Student_grades_example.html#cb224-10" tabindex="-1"></a>  edu_level_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;some high school&quot;</span>,<span class="st">&quot;high school&quot;</span>,</span>
+<span id="cb224-11"><a href="18-Student_grades_example.html#cb224-11" tabindex="-1"></a>                       <span class="st">&quot;associate&#39;s degree&quot;</span>,<span class="st">&quot;some college&quot;</span>,</span>
+<span id="cb224-12"><a href="18-Student_grades_example.html#cb224-12" tabindex="-1"></a>                       <span class="st">&quot;bachelor&#39;s degree&quot;</span>,<span class="st">&quot;master&#39;s degree&quot;</span>)         </span>
+<span id="cb224-13"><a href="18-Student_grades_example.html#cb224-13" tabindex="-1"></a>  df<span class="sc">$</span>parental_level_of_education <span class="ot">&lt;-</span> </span>
+<span id="cb224-14"><a href="18-Student_grades_example.html#cb224-14" tabindex="-1"></a>    <span class="fu">factor</span>(df<span class="sc">$</span>parental_level_of_education, <span class="at">levels =</span> edu_level_order)</span>
+<span id="cb224-15"><a href="18-Student_grades_example.html#cb224-15" tabindex="-1"></a>  <span class="co">#extract the group name from the file name</span></span>
+<span id="cb224-16"><a href="18-Student_grades_example.html#cb224-16" tabindex="-1"></a>  group_name <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;.*_group&quot;</span>,<span class="st">&quot;group&quot;</span>, file_name)</span>
+<span id="cb224-17"><a href="18-Student_grades_example.html#cb224-17" tabindex="-1"></a>  group_name <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;.tsv&quot;</span>,<span class="st">&quot;&quot;</span>, group_name)</span>
+<span id="cb224-18"><a href="18-Student_grades_example.html#cb224-18" tabindex="-1"></a>  <span class="co">#Add group column</span></span>
+<span id="cb224-19"><a href="18-Student_grades_example.html#cb224-19" tabindex="-1"></a>  df<span class="sc">$</span>group <span class="ot">&lt;-</span> group_name</span>
+<span id="cb224-20"><a href="18-Student_grades_example.html#cb224-20" tabindex="-1"></a>  <span class="co">#Return df</span></span>
+<span id="cb224-21"><a href="18-Student_grades_example.html#cb224-21" tabindex="-1"></a>  <span class="fu">return</span>(df)</span>
+<span id="cb224-22"><a href="18-Student_grades_example.html#cb224-22" tabindex="-1"></a>}</span></code></pre></div>
+<p>We have created the _<strong>function</strong>. Now to run it with all our files:</p>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb225-1"><a href="18-Student_grades_example.html#cb225-1" tabindex="-1"></a><span class="co">#We can specify the option name</span></span>
+<span id="cb225-2"><a href="18-Student_grades_example.html#cb225-2" tabindex="-1"></a><span class="co">#This is useful when we have lots of options</span></span>
+<span id="cb225-3"><a href="18-Student_grades_example.html#cb225-3" tabindex="-1"></a>group_a_df <span class="ot">&lt;-</span> <span class="fu">read_and_preprocess</span>(<span class="at">file_name =</span> <span class="st">&quot;student_grades_group_A.tsv&quot;</span>)</span>
+<span id="cb225-4"><a href="18-Student_grades_example.html#cb225-4" tabindex="-1"></a><span class="co">#But we don&#39;t need to, which is useful with less options</span></span>
+<span id="cb225-5"><a href="18-Student_grades_example.html#cb225-5" tabindex="-1"></a>group_b_df <span class="ot">&lt;-</span> <span class="fu">read_and_preprocess</span>(<span class="st">&quot;student_grades_group_B.tsv&quot;</span>)</span>
+<span id="cb225-6"><a href="18-Student_grades_example.html#cb225-6" tabindex="-1"></a>group_c_df <span class="ot">&lt;-</span> <span class="fu">read_and_preprocess</span>(<span class="st">&quot;student_grades_group_C.tsv&quot;</span>)</span>
+<span id="cb225-7"><a href="18-Student_grades_example.html#cb225-7" tabindex="-1"></a>group_d_df <span class="ot">&lt;-</span> <span class="fu">read_and_preprocess</span>(<span class="st">&quot;student_grades_group_D.tsv&quot;</span>)</span>
+<span id="cb225-8"><a href="18-Student_grades_example.html#cb225-8" tabindex="-1"></a>group_e_df <span class="ot">&lt;-</span> <span class="fu">read_and_preprocess</span>(<span class="st">&quot;student_grades_group_E.tsv&quot;</span>)</span></code></pre></div>
+</div>
+<div id="combining-the-data-frames" class="section level2 hasAnchor" number="18.4">
+<h2><span class="header-section-number">18.4</span> Combining the data frames<a href="18-Student_grades_example.html#combining-the-data-frames" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/combine.png" style="width:200px" />
+</center>
+<p>A lot of the time we have multiple files but we want all the data to be in one <strong>data frame</strong>.</p>
+<p>The first step is to create a <strong>list</strong> containing our <strong>data frames</strong>. A <strong>list</strong> is just like a <strong>vector</strong> except it can hold heterogeneous data (multiple classes) whilst a <strong>vector</strong> can only contain homogeneous data (one class).</p>
+<p>We will use this so we can <strong>loop</strong> over our <strong>data frames</strong>. There is more to <strong>lists</strong>, if you would like to see more check out: <a href="https://rc2e.com/datastructures#intro-DataStructures" class="uri">https://rc2e.com/datastructures#intro-DataStructures</a></p>
+<p>We'll start with creating our <strong>list</strong> then using a <strong>for loop</strong> to print out the first 3 rows of each <strong>data frame</strong>. To create a <strong>list</strong> of <strong>data frames</strong> we use the <strong>function</strong> <code>list()</code> just like we would with <code>c()</code>.</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb226-1"><a href="18-Student_grades_example.html#cb226-1" tabindex="-1"></a><span class="co">#Create list</span></span>
+<span id="cb226-2"><a href="18-Student_grades_example.html#cb226-2" tabindex="-1"></a>df_lst <span class="ot">&lt;-</span> <span class="fu">list</span>(group_a_df, group_b_df, group_c_df, group_d_df, group_e_df)</span>
+<span id="cb226-3"><a href="18-Student_grades_example.html#cb226-3" tabindex="-1"></a><span class="co">#Loop through list</span></span>
+<span id="cb226-4"><a href="18-Student_grades_example.html#cb226-4" tabindex="-1"></a><span class="cf">for</span> (df <span class="cf">in</span> df_lst) {</span>
+<span id="cb226-5"><a href="18-Student_grades_example.html#cb226-5" tabindex="-1"></a>  <span class="co">#Print the first element of the group name column</span></span>
+<span id="cb226-6"><a href="18-Student_grades_example.html#cb226-6" tabindex="-1"></a>  <span class="fu">print</span>(df<span class="sc">$</span>group[<span class="dv">1</span>])</span>
+<span id="cb226-7"><a href="18-Student_grades_example.html#cb226-7" tabindex="-1"></a>  <span class="co">#Print the first 3 rows</span></span>
+<span id="cb226-8"><a href="18-Student_grades_example.html#cb226-8" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">head</span>(<span class="at">x =</span> df, <span class="at">n =</span> <span class="dv">3</span>))</span>
+<span id="cb226-9"><a href="18-Student_grades_example.html#cb226-9" tabindex="-1"></a>}</span></code></pre></div>
+<p>With our <strong>list</strong> we can combine the <strong>data frames</strong> into one <strong>data frame</strong> with a <strong>for loop</strong> and <code>rbind()</code>.</p>
+<p>It would be very simple but <code>rbind()</code> will not function if one of the <strong>data frames</strong> provided does not exist. We will therefore use an <strong>if statement</strong> to create a <strong>data frame</strong> for our combined data in the first loop.</p>
+<p>We will use a new function, <code>exists()</code>. It will return <code>TRUE</code> if the provided <strong>variable</strong> exists and <code>FALSE</code> if it does not. The provided <strong>variable name</strong> needs to be a character (a string in quotes in this case).</p>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb227-1"><a href="18-Student_grades_example.html#cb227-1" tabindex="-1"></a><span class="co">#First ensure the variable we want to create does not exist</span></span>
+<span id="cb227-2"><a href="18-Student_grades_example.html#cb227-2" tabindex="-1"></a><span class="fu">rm</span>(student_grades_df)</span>
+<span id="cb227-3"><a href="18-Student_grades_example.html#cb227-3" tabindex="-1"></a><span class="co">#Now to loop through our list</span></span>
+<span id="cb227-4"><a href="18-Student_grades_example.html#cb227-4" tabindex="-1"></a><span class="cf">for</span> (df <span class="cf">in</span> df_lst) {</span>
+<span id="cb227-5"><a href="18-Student_grades_example.html#cb227-5" tabindex="-1"></a>  <span class="co">#If statment using the exists() function</span></span>
+<span id="cb227-6"><a href="18-Student_grades_example.html#cb227-6" tabindex="-1"></a>  <span class="co">#If the variable student_grades_df exists</span></span>
+<span id="cb227-7"><a href="18-Student_grades_example.html#cb227-7" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">exists</span>(<span class="st">&quot;student_grades_df&quot;</span>)) {</span>
+<span id="cb227-8"><a href="18-Student_grades_example.html#cb227-8" tabindex="-1"></a>    <span class="co">#Combine student_grades_df with df by rows</span></span>
+<span id="cb227-9"><a href="18-Student_grades_example.html#cb227-9" tabindex="-1"></a>    student_grades_df <span class="ot">&lt;-</span> <span class="fu">rbind</span>(student_grades_df, df)</span>
+<span id="cb227-10"><a href="18-Student_grades_example.html#cb227-10" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb227-11"><a href="18-Student_grades_example.html#cb227-11" tabindex="-1"></a>    <span class="co">#else if it doesn&#39;t exist assign df as student_grades_df</span></span>
+<span id="cb227-12"><a href="18-Student_grades_example.html#cb227-12" tabindex="-1"></a>    student_grades_df <span class="ot">&lt;-</span> df</span>
+<span id="cb227-13"><a href="18-Student_grades_example.html#cb227-13" tabindex="-1"></a>  }</span>
+<span id="cb227-14"><a href="18-Student_grades_example.html#cb227-14" tabindex="-1"></a>}</span>
+<span id="cb227-15"><a href="18-Student_grades_example.html#cb227-15" tabindex="-1"></a></span>
+<span id="cb227-16"><a href="18-Student_grades_example.html#cb227-16" tabindex="-1"></a><span class="co">#whilst we are here let us change the group column to a factor now</span></span>
+<span id="cb227-17"><a href="18-Student_grades_example.html#cb227-17" tabindex="-1"></a><span class="co">#No need to change the order as we are happy with it being alphabetical</span></span>
+<span id="cb227-18"><a href="18-Student_grades_example.html#cb227-18" tabindex="-1"></a>student_grades_df<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">factor</span>(student_grades_df<span class="sc">$</span>group)</span></code></pre></div>
+</div>
+<div id="saving-the-data-frame" class="section level2 hasAnchor" number="18.5">
+<h2><span class="header-section-number">18.5</span> Saving the data frame<a href="18-Student_grades_example.html#saving-the-data-frame" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/r_save.png" style="width:200px" />
+</center>
+<p>You can write the new <strong>data frame</strong> to a text file. This is good if you want to use the file outside of R.</p>
+<p>What if you want to save a R <strong>object</strong> so you can use it later without having to run all the script you used to create it or <strong>reading</strong> in a file you created?</p>
+<p>You can use the <code>save()</code> function:</p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb228-1"><a href="18-Student_grades_example.html#cb228-1" tabindex="-1"></a><span class="fu">save</span>(student_grades_df, <span class="at">file =</span> <span class="st">&quot;student_grades_df&quot;</span>)</span></code></pre></div>
+<p>The above created a file called "students_grades_df" that is not human-readable. It contains the <strong>data frame</strong> <code>student_grades_df</code>. The name of the file and <strong>variable</strong> do not have to match but I find it easier if they do.</p>
+<p>You can then load in the file which will load the <strong>variable</strong> with its <strong>variable name</strong>. Before we load the data we will remove our current <code>student_grades_df</code> <strong>object</strong>:</p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb229-1"><a href="18-Student_grades_example.html#cb229-1" tabindex="-1"></a><span class="co">#Remove the data frame</span></span>
+<span id="cb229-2"><a href="18-Student_grades_example.html#cb229-2" tabindex="-1"></a><span class="fu">rm</span>(student_grades_df)</span>
+<span id="cb229-3"><a href="18-Student_grades_example.html#cb229-3" tabindex="-1"></a><span class="co">#Load in the data frame</span></span>
+<span id="cb229-4"><a href="18-Student_grades_example.html#cb229-4" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;student_grades_df&quot;</span>)</span></code></pre></div>
+<p>Saving your R <strong>objects</strong> acts as very good checkpoints after code that takes a long time to run.</p>
+</div>
+<div id="scaling-grading" class="section level2 hasAnchor" number="18.6">
+<h2><span class="header-section-number">18.6</span> Scaling &amp; Grading<a href="18-Student_grades_example.html#scaling-grading" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/letter_grades.png" style="width:200px; border-radius:15px; background:white" />
+</center>
+<p>We currently have the base scores (%) for the students but not their letter grade (A,B,C, or F in this case).</p>
+<p>Before we provide the grades we are going to scale each student's results. There are complicated ways to do this but we will get the mean score for each topic (math, writing, and reading). For each score below the mean we will minus 5 and for each score above will will add 5. Scores equal to the mean will not be affected.</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb230-1"><a href="18-Student_grades_example.html#cb230-1" tabindex="-1"></a><span class="co">#Create function to scale score vector</span></span>
+<span id="cb230-2"><a href="18-Student_grades_example.html#cb230-2" tabindex="-1"></a>scale_score <span class="ot">&lt;-</span> <span class="cf">function</span>(score_vec){</span>
+<span id="cb230-3"><a href="18-Student_grades_example.html#cb230-3" tabindex="-1"></a>  <span class="co">#Get mean score which we will round to 0 decimal places</span></span>
+<span id="cb230-4"><a href="18-Student_grades_example.html#cb230-4" tabindex="-1"></a>  mean_score <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">mean</span>(score_vec), <span class="at">digits =</span> <span class="dv">0</span>)</span>
+<span id="cb230-5"><a href="18-Student_grades_example.html#cb230-5" tabindex="-1"></a>  <span class="co">#Create an empty scale_score_vec to add to</span></span>
+<span id="cb230-6"><a href="18-Student_grades_example.html#cb230-6" tabindex="-1"></a>  scale_score_vec <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb230-7"><a href="18-Student_grades_example.html#cb230-7" tabindex="-1"></a>  <span class="co">#Loop through scores to scale them</span></span>
+<span id="cb230-8"><a href="18-Student_grades_example.html#cb230-8" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(score_vec)) {</span>
+<span id="cb230-9"><a href="18-Student_grades_example.html#cb230-9" tabindex="-1"></a>    score <span class="ot">&lt;-</span> score_vec[i]</span>
+<span id="cb230-10"><a href="18-Student_grades_example.html#cb230-10" tabindex="-1"></a>    <span class="co">#if to add 5 if larger than mean</span></span>
+<span id="cb230-11"><a href="18-Student_grades_example.html#cb230-11" tabindex="-1"></a>    <span class="cf">if</span> (score <span class="sc">&gt;</span> mean_score) { score <span class="ot">&lt;-</span> score <span class="sc">+</span> <span class="dv">5</span> }</span>
+<span id="cb230-12"><a href="18-Student_grades_example.html#cb230-12" tabindex="-1"></a>    <span class="co">#if to minus 5 if lower than mean</span></span>
+<span id="cb230-13"><a href="18-Student_grades_example.html#cb230-13" tabindex="-1"></a>    <span class="cf">if</span> (score <span class="sc">&lt;</span> mean_score) { score <span class="ot">&lt;-</span> score <span class="sc">-</span> <span class="dv">5</span> }</span>
+<span id="cb230-14"><a href="18-Student_grades_example.html#cb230-14" tabindex="-1"></a>    <span class="co">#We don&#39;t add or minus anything if the score is equal to the mean</span></span>
+<span id="cb230-15"><a href="18-Student_grades_example.html#cb230-15" tabindex="-1"></a>    <span class="co">#Add the scaled score to the scale_score_vec</span></span>
+<span id="cb230-16"><a href="18-Student_grades_example.html#cb230-16" tabindex="-1"></a>    scale_score_vec <span class="ot">&lt;-</span> <span class="fu">c</span>(scale_score_vec, score)</span>
+<span id="cb230-17"><a href="18-Student_grades_example.html#cb230-17" tabindex="-1"></a>  }</span>
+<span id="cb230-18"><a href="18-Student_grades_example.html#cb230-18" tabindex="-1"></a>  <span class="co">#Return the created vector</span></span>
+<span id="cb230-19"><a href="18-Student_grades_example.html#cb230-19" tabindex="-1"></a>  <span class="fu">return</span>(scale_score_vec)</span>
+<span id="cb230-20"><a href="18-Student_grades_example.html#cb230-20" tabindex="-1"></a>}</span>
+<span id="cb230-21"><a href="18-Student_grades_example.html#cb230-21" tabindex="-1"></a></span>
+<span id="cb230-22"><a href="18-Student_grades_example.html#cb230-22" tabindex="-1"></a><span class="co">#Run the function on the topics to create new scaled score topics</span></span>
+<span id="cb230-23"><a href="18-Student_grades_example.html#cb230-23" tabindex="-1"></a>student_grades_df<span class="sc">$</span>math_scaled_score <span class="ot">&lt;-</span> </span>
+<span id="cb230-24"><a href="18-Student_grades_example.html#cb230-24" tabindex="-1"></a>  <span class="fu">scale_score</span>(student_grades_df<span class="sc">$</span>math_score)</span>
+<span id="cb230-25"><a href="18-Student_grades_example.html#cb230-25" tabindex="-1"></a>student_grades_df<span class="sc">$</span>reading_scaled_score <span class="ot">&lt;-</span> </span>
+<span id="cb230-26"><a href="18-Student_grades_example.html#cb230-26" tabindex="-1"></a>  <span class="fu">scale_score</span>(student_grades_df<span class="sc">$</span>reading_score)</span>
+<span id="cb230-27"><a href="18-Student_grades_example.html#cb230-27" tabindex="-1"></a>student_grades_df<span class="sc">$</span>writing_scaled_score <span class="ot">&lt;-</span> </span>
+<span id="cb230-28"><a href="18-Student_grades_example.html#cb230-28" tabindex="-1"></a>  <span class="fu">scale_score</span>(student_grades_df<span class="sc">$</span>writing_score)</span></code></pre></div>
+<p>Now we have scaled the scores. Some students now have more than 100% and some have less than 0% but that is fine. It doesn't matter for their final grade.</p>
+<p>We will give out grades based on the scaled scores like so:</p>
+<ul>
+<li><strong>A</strong>: &gt;=95%</li>
+<li><strong>B</strong>: &gt;=80% and &lt;95%</li>
+<li><strong>C</strong>: &gt;=60% and &lt;80%</li>
+<li><strong>F</strong>: &lt;60%</li>
+</ul>
+<p>We can carry this out with the below code. To create it I copied the last code block and altered it. This time we use <code>else if</code> so the subsequent <strong>ifs</strong> only work if all the previous <strong>ifs</strong> were <code>FALSE</code>.</p>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb231-1"><a href="18-Student_grades_example.html#cb231-1" tabindex="-1"></a><span class="co">#Create function to grade a vector</span></span>
+<span id="cb231-2"><a href="18-Student_grades_example.html#cb231-2" tabindex="-1"></a>grade_score <span class="ot">&lt;-</span> <span class="cf">function</span>(score_vec){</span>
+<span id="cb231-3"><a href="18-Student_grades_example.html#cb231-3" tabindex="-1"></a>  <span class="co">#Create empty grade_vec to add to</span></span>
+<span id="cb231-4"><a href="18-Student_grades_example.html#cb231-4" tabindex="-1"></a>  grade_vec <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb231-5"><a href="18-Student_grades_example.html#cb231-5" tabindex="-1"></a>  <span class="co">#Loop through scores to scale them</span></span>
+<span id="cb231-6"><a href="18-Student_grades_example.html#cb231-6" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(score_vec)) {</span>
+<span id="cb231-7"><a href="18-Student_grades_example.html#cb231-7" tabindex="-1"></a>    <span class="co">#get current score</span></span>
+<span id="cb231-8"><a href="18-Student_grades_example.html#cb231-8" tabindex="-1"></a>    score <span class="ot">&lt;-</span> score_vec[i]</span>
+<span id="cb231-9"><a href="18-Student_grades_example.html#cb231-9" tabindex="-1"></a>    <span class="co">#if statements with else ifs</span></span>
+<span id="cb231-10"><a href="18-Student_grades_example.html#cb231-10" tabindex="-1"></a>    <span class="cf">if</span> (score <span class="sc">&gt;=</span> <span class="dv">95</span>) {</span>
+<span id="cb231-11"><a href="18-Student_grades_example.html#cb231-11" tabindex="-1"></a>      grade_vec[i] <span class="ot">&lt;-</span> <span class="st">&quot;A&quot;</span></span>
+<span id="cb231-12"><a href="18-Student_grades_example.html#cb231-12" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (score <span class="sc">&gt;=</span> <span class="dv">80</span>) {</span>
+<span id="cb231-13"><a href="18-Student_grades_example.html#cb231-13" tabindex="-1"></a>      grade_vec[i] <span class="ot">&lt;-</span> <span class="st">&quot;B&quot;</span></span>
+<span id="cb231-14"><a href="18-Student_grades_example.html#cb231-14" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (score <span class="sc">&gt;=</span> <span class="dv">60</span>) {</span>
+<span id="cb231-15"><a href="18-Student_grades_example.html#cb231-15" tabindex="-1"></a>      grade_vec[i] <span class="ot">&lt;-</span> <span class="st">&quot;C&quot;</span></span>
+<span id="cb231-16"><a href="18-Student_grades_example.html#cb231-16" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb231-17"><a href="18-Student_grades_example.html#cb231-17" tabindex="-1"></a>      grade_vec[i] <span class="ot">&lt;-</span> <span class="st">&quot;F&quot;</span></span>
+<span id="cb231-18"><a href="18-Student_grades_example.html#cb231-18" tabindex="-1"></a>    }</span>
+<span id="cb231-19"><a href="18-Student_grades_example.html#cb231-19" tabindex="-1"></a>  }</span>
+<span id="cb231-20"><a href="18-Student_grades_example.html#cb231-20" tabindex="-1"></a>  <span class="co">#Return the created vector as a factor</span></span>
+<span id="cb231-21"><a href="18-Student_grades_example.html#cb231-21" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">factor</span>(grade_vec))</span>
+<span id="cb231-22"><a href="18-Student_grades_example.html#cb231-22" tabindex="-1"></a>}</span>
+<span id="cb231-23"><a href="18-Student_grades_example.html#cb231-23" tabindex="-1"></a><span class="co">#Run the function on the topics to create the grade columns</span></span>
+<span id="cb231-24"><a href="18-Student_grades_example.html#cb231-24" tabindex="-1"></a>student_grades_df<span class="sc">$</span>math_grade <span class="ot">&lt;-</span> </span>
+<span id="cb231-25"><a href="18-Student_grades_example.html#cb231-25" tabindex="-1"></a>  <span class="fu">grade_score</span>(student_grades_df<span class="sc">$</span>math_scaled_score)</span>
+<span id="cb231-26"><a href="18-Student_grades_example.html#cb231-26" tabindex="-1"></a>student_grades_df<span class="sc">$</span>reading_grade <span class="ot">&lt;-</span> </span>
+<span id="cb231-27"><a href="18-Student_grades_example.html#cb231-27" tabindex="-1"></a>  <span class="fu">grade_score</span>(student_grades_df<span class="sc">$</span>reading_scaled_score)</span>
+<span id="cb231-28"><a href="18-Student_grades_example.html#cb231-28" tabindex="-1"></a>student_grades_df<span class="sc">$</span>writing_grade <span class="ot">&lt;-</span> </span>
+<span id="cb231-29"><a href="18-Student_grades_example.html#cb231-29" tabindex="-1"></a>  <span class="fu">grade_score</span>(student_grades_df<span class="sc">$</span>writing_scaled_score)</span></code></pre></div>
+<p>That is the last edit we will do to our <strong>data frame</strong> so lets <strong>save</strong> it.</p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb232-1"><a href="18-Student_grades_example.html#cb232-1" tabindex="-1"></a><span class="fu">save</span>(student_grades_df, <span class="at">file =</span> <span class="st">&quot;student_grades_df&quot;</span>)</span></code></pre></div>
+</div>
+<div id="some-quick-plots" class="section level2 hasAnchor" number="18.7">
+<h2><span class="header-section-number">18.7</span> Some quick plots<a href="18-Student_grades_example.html#some-quick-plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/bar_chart.png" style="width:200px; background:white; border-radius:15px" />
+</center>
+<p>Below are some quick plots with their code.</p>
+<p>First let us see the distribution of grades for the three topics:</p>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb233-1"><a href="18-Student_grades_example.html#cb233-1" tabindex="-1"></a><span class="co">#Math</span></span>
+<span id="cb233-2"><a href="18-Student_grades_example.html#cb233-2" tabindex="-1"></a><span class="co">#With plot()</span></span>
+<span id="cb233-3"><a href="18-Student_grades_example.html#cb233-3" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">table</span>(student_grades_df<span class="sc">$</span>math_grade))</span></code></pre></div>
+<p><img src="NEOF-Intro-to-R_files/figure-html/unnamed-chunk-319-1.png" width="672" /></p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb234-1"><a href="18-Student_grades_example.html#cb234-1" tabindex="-1"></a><span class="co">#With barplot()</span></span>
+<span id="cb234-2"><a href="18-Student_grades_example.html#cb234-2" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(student_grades_df<span class="sc">$</span>math_grade))</span></code></pre></div>
+<p><img src="NEOF-Intro-to-R_files/figure-html/unnamed-chunk-320-1.png" width="672" /></p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb235-1"><a href="18-Student_grades_example.html#cb235-1" tabindex="-1"></a><span class="co">#Reading</span></span>
+<span id="cb235-2"><a href="18-Student_grades_example.html#cb235-2" tabindex="-1"></a><span class="co">#With barplot()</span></span>
+<span id="cb235-3"><a href="18-Student_grades_example.html#cb235-3" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(student_grades_df<span class="sc">$</span>reading_grade))</span></code></pre></div>
+<p><img src="NEOF-Intro-to-R_files/figure-html/unnamed-chunk-321-1.png" width="672" /></p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb236-1"><a href="18-Student_grades_example.html#cb236-1" tabindex="-1"></a><span class="co">#Writing</span></span>
+<span id="cb236-2"><a href="18-Student_grades_example.html#cb236-2" tabindex="-1"></a><span class="co">#With barplot()</span></span>
+<span id="cb236-3"><a href="18-Student_grades_example.html#cb236-3" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(student_grades_df<span class="sc">$</span>writing_grade))</span></code></pre></div>
+<p><img src="NEOF-Intro-to-R_files/figure-html/unnamed-chunk-322-1.png" width="672" /></p>
+<p>It seems the grades are pretty low. Maybe that is to do with our scaling and harsh grading.</p>
+<p>Quickly we'll check the histogram of all the scores and all the scaled scores.</p>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb237-1"><a href="18-Student_grades_example.html#cb237-1" tabindex="-1"></a><span class="co">#scores</span></span>
+<span id="cb237-2"><a href="18-Student_grades_example.html#cb237-2" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb237-3"><a href="18-Student_grades_example.html#cb237-3" tabindex="-1"></a>  <span class="fu">c</span>(student_grades_df<span class="sc">$</span>math_score, </span>
+<span id="cb237-4"><a href="18-Student_grades_example.html#cb237-4" tabindex="-1"></a>    student_grades_df<span class="sc">$</span>reading_score,</span>
+<span id="cb237-5"><a href="18-Student_grades_example.html#cb237-5" tabindex="-1"></a>    student_grades_df<span class="sc">$</span>writing_score</span>
+<span id="cb237-6"><a href="18-Student_grades_example.html#cb237-6" tabindex="-1"></a>  )</span>
+<span id="cb237-7"><a href="18-Student_grades_example.html#cb237-7" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="NEOF-Intro-to-R_files/figure-html/unnamed-chunk-323-1.png" width="672" /></p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb238-1"><a href="18-Student_grades_example.html#cb238-1" tabindex="-1"></a><span class="co">#scaled scores</span></span>
+<span id="cb238-2"><a href="18-Student_grades_example.html#cb238-2" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb238-3"><a href="18-Student_grades_example.html#cb238-3" tabindex="-1"></a>  <span class="fu">c</span>(student_grades_df<span class="sc">$</span>math_scaled_score, </span>
+<span id="cb238-4"><a href="18-Student_grades_example.html#cb238-4" tabindex="-1"></a>    student_grades_df<span class="sc">$</span>reading_scaled_score,</span>
+<span id="cb238-5"><a href="18-Student_grades_example.html#cb238-5" tabindex="-1"></a>      student_grades_df<span class="sc">$</span>writing_scaled_score</span>
+<span id="cb238-6"><a href="18-Student_grades_example.html#cb238-6" tabindex="-1"></a>  )</span>
+<span id="cb238-7"><a href="18-Student_grades_example.html#cb238-7" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="NEOF-Intro-to-R_files/figure-html/unnamed-chunk-324-1.png" width="672" /></p>
+<p>We can see a big dip in the middle of the scaled scores but not in the non-scaled scores. Seems scaling just increased the distance between people who did better than others.</p>
+<p>Last thing is we'll create a boxplot of math scores separating the x axis by some metadata.</p>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb239-1"><a href="18-Student_grades_example.html#cb239-1" tabindex="-1"></a><span class="fu">boxplot</span>(</span>
+<span id="cb239-2"><a href="18-Student_grades_example.html#cb239-2" tabindex="-1"></a>  math_score<span class="sc">~</span>test_preparation_course<span class="sc">+</span>lunch,</span>
+<span id="cb239-3"><a href="18-Student_grades_example.html#cb239-3" tabindex="-1"></a>  <span class="at">data =</span> student_grades_df)</span></code></pre></div>
+<p><img src="NEOF-Intro-to-R_files/figure-html/unnamed-chunk-325-1.png" width="960" /></p>
+<p>I think that is plenty of coding for today and for this course. Thank you very much!</p>
+</div>
+<div id="tips-for-creating-your-own-loops-and-functions" class="section level2 hasAnchor" number="18.8">
+<h2><span class="header-section-number">18.8</span> Tips for creating your own loops and functions<a href="18-Student_grades_example.html#tips-for-creating-your-own-loops-and-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/tip_box.png" style="width:200px; background:white; border-radius:10px" />
+</center>
+<p>Before you go here are some quick tips.</p>
+<ul>
+<li>Create the code outside the <strong>loop/function</strong> to begin with.</li>
+<li>Test with a small <strong>object</strong> to start (e.g. a part of a <strong>data frame</strong>).</li>
+<li>Keep backups of code.</li>
+<li>If you encounter errors try running your code step by step to determine where the error is.</li>
+<li>It can useful to run the code inside your <strong>loop/function</strong> by setting the <strong>loop/function variable</strong> (e.g. <code>i &lt;- 1</code>)</li>
+</ul>
+
+</div>
+</div>
+
+
+
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="17-Basic_programming.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="19-Further_resources.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 R objects | R primer for omics</title>
   <meta name="description" content="NEOF book for the R primer for omics workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 R objects | R primer for omics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2024-11-27" />
+<meta name="date" content="2025-09-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,9 +56,18 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/translucent.css" rel="stylesheet" />
+<script src="libs/tippyjs-3.2.0/tippy.all.min.js"></script>
+<script src="libs/tippy-binding-0.1.0/tippy.js"></script>
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -142,16 +151,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_rounded_corners.png" width="250"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/NEOF_rounded_corners.png" width="250"></a></li>
 <li><a>R primer for omics</a></li>
 
 <li class="divider"></li>
 <li class="part"><span><b>Start</b></span></li>
 <li class="chapter" data-level="1" data-path="01-Intro_to_R.html"><a href="01-Intro_to_R.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
+<li class="chapter" data-level="" data-path="01-Intro_to_R.html"><a href="01-Intro_to_R.html#learning-outcome"><i class="fa fa-check"></i>Learning outcome</a></li>
+<li class="chapter" data-level="" data-path="01-Intro_to_R.html"><a href="01-Intro_to_R.html#extra-materials"><i class="fa fa-check"></i>Extra materials</a></li>
+<li class="chapter" data-level="" data-path="01-Intro_to_R.html"><a href="01-Intro_to_R.html#material-contents"><i class="fa fa-check"></i>Material contents</a></li>
 <li class="chapter" data-level="" data-path="01-Intro_to_R.html"><a href="01-Intro_to_R.html#table-of-contents"><i class="fa fa-check"></i>Table of contents</a></li>
 </ul></li>
-<li class="part"><span><b>Foundations &amp; Objects</b></span></li>
+<li class="part"><span><b>Foundations</b></span></li>
 <li class="chapter" data-level="2" data-path="02-Foundations.html"><a href="02-Foundations.html"><i class="fa fa-check"></i><b>2</b> Foundations of R</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="02-Foundations.html"><a href="02-Foundations.html#operators"><i class="fa fa-check"></i><b>2.1</b> Operators</a></li>
@@ -173,6 +185,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6" data-path="02-Foundations.html"><a href="02-Foundations.html#foundations-mcqs"><i class="fa fa-check"></i><b>2.6</b> Foundations MCQs</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="03-Foundations_exercises.html"><a href="03-Foundations_exercises.html"><i class="fa fa-check"></i><b>3</b> Foundations of R exercises</a></li>
+<li class="part"><span><b>Objects</b></span></li>
 <li class="chapter" data-level="4" data-path="04-R_objects.html"><a href="04-R_objects.html"><i class="fa fa-check"></i><b>4</b> R objects</a>
 <ul>
 <li class="chapter" data-level="4.1" data-path="04-R_objects.html"><a href="04-R_objects.html#codesections"><i class="fa fa-check"></i><b>4.1</b> Code sections</a></li>
@@ -196,55 +209,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1" data-path="05-R_objects_exercises.html"><a href="05-R_objects_exercises.html#df"><i class="fa fa-check"></i><b>5.1</b> df</a></li>
 <li class="chapter" data-level="5.2" data-path="05-R_objects_exercises.html"><a href="05-R_objects_exercises.html#beach_df_2"><i class="fa fa-check"></i><b>5.2</b> beach_df_2</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html"><i class="fa fa-check"></i><b>6</b> R objects solutions</a>
+<li class="part"><span><b>Files &amp; Subsetting</b></span></li>
+<li class="chapter" data-level="6" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html"><i class="fa fa-check"></i><b>6</b> Files and subsetting data</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#df-solution"><i class="fa fa-check"></i><b>6.1</b> df solution</a>
+<li class="chapter" data-level="6.1" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#reading-from-a-file"><i class="fa fa-check"></i><b>6.1</b> Reading from a file</a>
 <ul>
-<li class="chapter" data-level="6.1.1" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-1"><i class="fa fa-check"></i><b>6.1.1</b> Step 1</a></li>
-<li class="chapter" data-level="6.1.2" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-2a"><i class="fa fa-check"></i><b>6.1.2</b> Step 2a</a></li>
-<li class="chapter" data-level="6.1.3" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-2b"><i class="fa fa-check"></i><b>6.1.3</b> Step 2b</a></li>
+<li class="chapter" data-level="6.1.1" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#directory-and-file-setup"><i class="fa fa-check"></i><b>6.1.1</b> Directory and file setup</a></li>
+<li class="chapter" data-level="6.1.2" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#viewing-the-file"><i class="fa fa-check"></i><b>6.1.2</b> Viewing the file</a></li>
+<li class="chapter" data-level="6.1.3" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#read.csv"><i class="fa fa-check"></i><b>6.1.3</b> read.csv()</a></li>
+<li class="chapter" data-level="6.1.4" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#tsv-files"><i class="fa fa-check"></i><b>6.1.4</b> TSV files</a></li>
+<li class="chapter" data-level="6.1.5" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#excel-files-and-r"><i class="fa fa-check"></i><b>6.1.5</b> Excel files and R</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#beach_df_2-solution"><i class="fa fa-check"></i><b>6.2</b> beach_df_2 solution</a>
+<li class="chapter" data-level="6.2" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#subsetting-data"><i class="fa fa-check"></i><b>6.2</b> Subsetting data</a>
 <ul>
-<li class="chapter" data-level="6.2.1" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-1-1"><i class="fa fa-check"></i><b>6.2.1</b> Step 1</a></li>
-<li class="chapter" data-level="6.2.2" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-2a-1"><i class="fa fa-check"></i><b>6.2.2</b> Step 2a</a></li>
-<li class="chapter" data-level="6.2.3" data-path="06-R_objects_solutions.html"><a href="06-R_objects_solutions.html#step-2b-1"><i class="fa fa-check"></i><b>6.2.3</b> Step 2b</a></li>
+<li class="chapter" data-level="6.2.1" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#vectors"><i class="fa fa-check"></i><b>6.2.1</b> Vectors</a></li>
+<li class="chapter" data-level="6.2.2" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#data-frames"><i class="fa fa-check"></i><b>6.2.2</b> Data frames</a></li>
 </ul></li>
+<li class="chapter" data-level="6.3" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#writing-to-a-file"><i class="fa fa-check"></i><b>6.3</b> Writing to a file</a></li>
+<li class="chapter" data-level="6.4" data-path="06-Files_and_subsetting_data.html"><a href="06-Files_and_subsetting_data.html#files-subsetting-mcqs"><i class="fa fa-check"></i><b>6.4</b> Files &amp; subsetting MCQs</a></li>
 </ul></li>
-<li class="part"><span><b>Files, Subsetting, &amp; Tips</b></span></li>
-<li class="chapter" data-level="7" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html"><i class="fa fa-check"></i><b>7</b> Files and subsetting data</a>
+<li class="chapter" data-level="7" data-path="07-Files_exercises.html"><a href="07-Files_exercises.html"><i class="fa fa-check"></i><b>7</b> Files exercises</a></li>
+<li class="chapter" data-level="8" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html"><i class="fa fa-check"></i><b>8</b> Bat roost exercise</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#reading-from-a-file"><i class="fa fa-check"></i><b>7.1</b> Reading from a file</a>
+<li class="chapter" data-level="8.1" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenges"><i class="fa fa-check"></i><b>8.1</b> Bat roost challenges</a>
 <ul>
-<li class="chapter" data-level="7.1.1" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#directory-and-file-setup"><i class="fa fa-check"></i><b>7.1.1</b> Directory and file setup</a></li>
-<li class="chapter" data-level="7.1.2" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#viewing-the-file"><i class="fa fa-check"></i><b>7.1.2</b> Viewing the file</a></li>
-<li class="chapter" data-level="7.1.3" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#read.csv"><i class="fa fa-check"></i><b>7.1.3</b> read.csv()</a></li>
-<li class="chapter" data-level="7.1.4" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#tsv-files"><i class="fa fa-check"></i><b>7.1.4</b> TSV files</a></li>
-<li class="chapter" data-level="7.1.5" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#excel-files-and-r"><i class="fa fa-check"></i><b>7.1.5</b> Excel files and R</a></li>
+<li class="chapter" data-level="" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenge-1"><i class="fa fa-check"></i>Bat roost challenge 1</a></li>
+<li class="chapter" data-level="" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenge-2"><i class="fa fa-check"></i>Bat roost challenge 2</a></li>
+<li class="chapter" data-level="" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenge-3"><i class="fa fa-check"></i>Bat roost challenge 3</a></li>
+<li class="chapter" data-level="" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenge-4"><i class="fa fa-check"></i>Bat roost challenge 4</a></li>
+<li class="chapter" data-level="" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenge-5"><i class="fa fa-check"></i>Bat roost challenge 5</a></li>
+<li class="chapter" data-level="" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-challenge-6"><i class="fa fa-check"></i>Bat roost challenge 6</a></li>
 </ul></li>
-<li class="chapter" data-level="7.2" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#subsetting-data"><i class="fa fa-check"></i><b>7.2</b> Subsetting data</a>
+<li class="chapter" data-level="8.2" data-path="08-Bats_roosts_exercise.html"><a href="08-Bats_roosts_exercise.html#bat-roost-mcqs"><i class="fa fa-check"></i><b>8.2</b> Bat roost MCQs</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html"><i class="fa fa-check"></i><b>9</b> Honey bee colonies exercise</a>
 <ul>
-<li class="chapter" data-level="7.2.1" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#vectors"><i class="fa fa-check"></i><b>7.2.1</b> Vectors</a></li>
-<li class="chapter" data-level="7.2.2" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#data-frames"><i class="fa fa-check"></i><b>7.2.2</b> Data frames</a></li>
-</ul></li>
-<li class="chapter" data-level="7.3" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#writing-to-a-file"><i class="fa fa-check"></i><b>7.3</b> Writing to a file</a></li>
-<li class="chapter" data-level="7.4" data-path="07-Files_and_subsetting_data.html"><a href="07-Files_and_subsetting_data.html#files-subsetting-mcqs"><i class="fa fa-check"></i><b>7.4</b> Files &amp; subsetting MCQs</a></li>
-</ul></li>
-<li class="chapter" data-level="8" data-path="08-Files_exercises.html"><a href="08-Files_exercises.html"><i class="fa fa-check"></i><b>8</b> Files exercises</a>
+<li class="chapter" data-level="9.1" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-challenges"><i class="fa fa-check"></i><b>9.1</b> Honey bee colony challenges</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="08-Files_exercises.html"><a href="08-Files_exercises.html#bats"><i class="fa fa-check"></i><b>8.1</b> Bats</a></li>
-<li class="chapter" data-level="8.2" data-path="08-Files_exercises.html"><a href="08-Files_exercises.html#honey-bee-colonies"><i class="fa fa-check"></i><b>8.2</b> Honey bee colonies</a></li>
+<li class="chapter" data-level="" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-challenge-1"><i class="fa fa-check"></i>Honey bee colony challenge 1</a></li>
+<li class="chapter" data-level="" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-challenge-2"><i class="fa fa-check"></i>Honey bee colony challenge 2</a></li>
+<li class="chapter" data-level="" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-challenge-3"><i class="fa fa-check"></i>Honey bee colony challenge 3</a></li>
+<li class="chapter" data-level="" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-challenge-4"><i class="fa fa-check"></i>Honey bee colony challenge 4</a></li>
+<li class="chapter" data-level="" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-challenge-5"><i class="fa fa-check"></i>Honey bee colony challenge 5</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="09-Files_solutions.html"><a href="09-Files_solutions.html"><i class="fa fa-check"></i><b>9</b> Files solutions</a>
-<ul>
-<li class="chapter" data-level="9.1" data-path="09-Files_solutions.html"><a href="09-Files_solutions.html#bats-solution"><i class="fa fa-check"></i><b>9.1</b> Bats solution</a></li>
-<li class="chapter" data-level="9.2" data-path="09-Files_solutions.html"><a href="09-Files_solutions.html#honey-bee-colonies-1"><i class="fa fa-check"></i><b>9.2</b> Honey bee colonies</a></li>
+<li class="chapter" data-level="9.2" data-path="09-Honey_bee_colonies_exercise.html"><a href="09-Honey_bee_colonies_exercise.html#honey-bee-colony-mcqs"><i class="fa fa-check"></i><b>9.2</b> Honey bee colony MCQs</a></li>
 </ul></li>
+<li class="part"><span><b>Tips &amp; tricks</b></span></li>
 <li class="chapter" data-level="10" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html"><i class="fa fa-check"></i><b>10</b> Handy tips &amp; tricks</a>
 <ul>
 <li class="chapter" data-level="10.1" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#r-conventions"><i class="fa fa-check"></i><b>10.1</b> R conventions</a>
 <ul>
 <li class="chapter" data-level="10.1.1" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#variable-names"><i class="fa fa-check"></i><b>10.1.1</b> Variable names</a></li>
+<li class="chapter" data-level="10.1.2" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#wide-vs-long-coding"><i class="fa fa-check"></i><b>10.1.2</b> Wide vs Long coding</a></li>
 </ul></li>
 <li class="chapter" data-level="10.2" data-path="10-Handy_tips_and_tricks.html"><a href="10-Handy_tips_and_tricks.html#rstudio"><i class="fa fa-check"></i><b>10.2</b> RStudio</a>
 <ul>
@@ -265,134 +281,154 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html#english-speakers-across-the-world-exercise"><i class="fa fa-check"></i><b>11.2</b> English speakers across the world exercise</a></li>
 <li class="chapter" data-level="11.3" data-path="11-Tips_exercises.html"><a href="11-Tips_exercises.html#extra-exercise"><i class="fa fa-check"></i><b>11.3</b> Extra exercise</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="12-Tips_solutions.html"><a href="12-Tips_solutions.html"><i class="fa fa-check"></i><b>12</b> Handy Solutions</a>
-<ul>
-<li class="chapter" data-level="12.1" data-path="12-Tips_solutions.html"><a href="12-Tips_solutions.html#tea-solution"><i class="fa fa-check"></i><b>12.1</b> Tea solution</a></li>
-<li class="chapter" data-level="12.2" data-path="12-Tips_solutions.html"><a href="12-Tips_solutions.html#english-speakers-across-the-world-solution"><i class="fa fa-check"></i><b>12.2</b> English speakers across the world solution</a></li>
-</ul></li>
 <li class="part"><span><b>Plots</b></span></li>
-<li class="chapter" data-level="13" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html"><i class="fa fa-check"></i><b>13</b> Histograms and Line graphs</a>
+<li class="chapter" data-level="12" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html"><i class="fa fa-check"></i><b>12</b> Histograms and Line graphs</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#histogram"><i class="fa fa-check"></i><b>13.1</b> Histogram</a></li>
-<li class="chapter" data-level="13.2" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#line-graphs"><i class="fa fa-check"></i><b>13.2</b> Line graphs</a>
+<li class="chapter" data-level="12.1" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#histogram"><i class="fa fa-check"></i><b>12.1</b> Histogram</a>
 <ul>
-<li class="chapter" data-level="13.2.1" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#read-in-data"><i class="fa fa-check"></i><b>13.2.1</b> Read in data</a></li>
-<li class="chapter" data-level="13.2.2" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#plotting-a-line-graph"><i class="fa fa-check"></i><b>13.2.2</b> Plotting a line graph</a></li>
-<li class="chapter" data-level="13.2.3" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#adding-lines-to-a-plot"><i class="fa fa-check"></i><b>13.2.3</b> Adding lines to a plot</a></li>
-<li class="chapter" data-level="13.2.4" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#axis-limits"><i class="fa fa-check"></i><b>13.2.4</b> Axis limits</a></li>
-<li class="chapter" data-level="13.2.5" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#axis-labels"><i class="fa fa-check"></i><b>13.2.5</b> Axis labels</a></li>
-<li class="chapter" data-level="13.2.6" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#plot-titles"><i class="fa fa-check"></i><b>13.2.6</b> Plot titles</a></li>
-<li class="chapter" data-level="13.2.7" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#line-colours"><i class="fa fa-check"></i><b>13.2.7</b> Line colours</a></li>
-<li class="chapter" data-level="13.2.8" data-path="13-Plots_line_graphs_and_histograms.html"><a href="13-Plots_line_graphs_and_histograms.html#plot-legend"><i class="fa fa-check"></i><b>13.2.8</b> Plot legend</a></li>
+<li class="chapter" data-level="12.1.1" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#basic-histogram"><i class="fa fa-check"></i><b>12.1.1</b> Basic histogram</a></li>
+<li class="chapter" data-level="12.1.2" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#eu-cities"><i class="fa fa-check"></i><b>12.1.2</b> EU cities</a></li>
+<li class="chapter" data-level="12.1.3" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#eu-populations"><i class="fa fa-check"></i><b>12.1.3</b> EU populations</a></li>
+<li class="chapter" data-level="12.1.4" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#eu-population-and-cities-ratio"><i class="fa fa-check"></i><b>12.1.4</b> EU population and cities ratio</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#previous-plots"><i class="fa fa-check"></i><b>12.2</b> Previous plots</a></li>
+<li class="chapter" data-level="12.3" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#line-graphs"><i class="fa fa-check"></i><b>12.3</b> Line graphs</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#read-in-data"><i class="fa fa-check"></i><b>12.3.1</b> Read in data</a></li>
+<li class="chapter" data-level="12.3.2" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#plotting-a-line-graph"><i class="fa fa-check"></i><b>12.3.2</b> Plotting a line graph</a></li>
+<li class="chapter" data-level="12.3.3" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#adding-lines-to-a-plot"><i class="fa fa-check"></i><b>12.3.3</b> Adding lines to a plot</a></li>
+<li class="chapter" data-level="12.3.4" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#axis-limits"><i class="fa fa-check"></i><b>12.3.4</b> Axis limits</a></li>
+<li class="chapter" data-level="12.3.5" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#axis-labels"><i class="fa fa-check"></i><b>12.3.5</b> Axis labels</a></li>
+<li class="chapter" data-level="12.3.6" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#plot-titles"><i class="fa fa-check"></i><b>12.3.6</b> Plot titles</a></li>
+<li class="chapter" data-level="12.3.7" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#line-colours"><i class="fa fa-check"></i><b>12.3.7</b> Line colours</a></li>
+<li class="chapter" data-level="12.3.8" data-path="12-Plots_line_graphs_and_histograms.html"><a href="12-Plots_line_graphs_and_histograms.html#plot-legend"><i class="fa fa-check"></i><b>12.3.8</b> Plot legend</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html"><i class="fa fa-check"></i><b>14</b> Scatter plots and Box plots</a>
+<li class="chapter" data-level="13" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html"><i class="fa fa-check"></i><b>13</b> Scatter plots and Box plots</a>
 <ul>
-<li class="chapter" data-level="14.1" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#scatter-plot"><i class="fa fa-check"></i><b>14.1</b> Scatter plot</a>
+<li class="chapter" data-level="13.1" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#scatter-plot"><i class="fa fa-check"></i><b>13.1</b> Scatter plot</a>
 <ul>
-<li class="chapter" data-level="14.1.1" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#basic-examples"><i class="fa fa-check"></i><b>14.1.1</b> Basic examples</a></li>
-<li class="chapter" data-level="14.1.2" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#animal-sizes"><i class="fa fa-check"></i><b>14.1.2</b> Animal sizes</a></li>
+<li class="chapter" data-level="13.1.1" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#basic-examples"><i class="fa fa-check"></i><b>13.1.1</b> Basic examples</a></li>
+<li class="chapter" data-level="13.1.2" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#animal-sizes-data"><i class="fa fa-check"></i><b>13.1.2</b> Animal sizes data</a></li>
+<li class="chapter" data-level="13.1.3" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#read-in-animal-data"><i class="fa fa-check"></i><b>13.1.3</b> Read in animal data</a></li>
+<li class="chapter" data-level="13.1.4" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#average-mass-and-max-mass"><i class="fa fa-check"></i><b>13.1.4</b> Average mass and max mass</a></li>
+<li class="chapter" data-level="13.1.5" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#average-mass-and-length"><i class="fa fa-check"></i><b>13.1.5</b> Average mass and length</a></li>
+<li class="chapter" data-level="13.1.6" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#plot-section-zoom"><i class="fa fa-check"></i><b>13.1.6</b> Plot section zoom</a></li>
+<li class="chapter" data-level="13.1.7" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#colour-points-by-metadata"><i class="fa fa-check"></i><b>13.1.7</b> Colour points by metadata</a></li>
 </ul></li>
-<li class="chapter" data-level="14.2" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#factors"><i class="fa fa-check"></i><b>14.2</b> Factors</a></li>
-<li class="chapter" data-level="14.3" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#box-plot"><i class="fa fa-check"></i><b>14.3</b> Box plot</a></li>
-<li class="chapter" data-level="14.4" data-path="14-Plots_scatterplot_and_box_plots.html"><a href="14-Plots_scatterplot_and_box_plots.html#saving-a-plot-to-a-file"><i class="fa fa-check"></i><b>14.4</b> Saving a plot to a file</a></li>
+<li class="chapter" data-level="13.2" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#factors"><i class="fa fa-check"></i><b>13.2</b> Factors</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#what-are-levels"><i class="fa fa-check"></i><b>13.2.1</b> What are levels?</a></li>
+<li class="chapter" data-level="13.2.2" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#map-key-analogy"><i class="fa fa-check"></i><b>13.2.2</b> Map key analogy</a></li>
+<li class="chapter" data-level="13.2.3" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#code-example"><i class="fa fa-check"></i><b>13.2.3</b> Code example</a></li>
+<li class="chapter" data-level="13.2.4" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#level-orders"><i class="fa fa-check"></i><b>13.2.4</b> Level orders</a></li>
+<li class="chapter" data-level="13.2.5" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#scatter-plot-with-shapes"><i class="fa fa-check"></i><b>13.2.5</b> Scatter plot with shapes</a></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html"><i class="fa fa-check"></i><b>15</b> Plots exercises</a>
+<li class="chapter" data-level="13.3" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#box-plot"><i class="fa fa-check"></i><b>13.3</b> Box plot</a>
 <ul>
-<li class="chapter" data-level="15.1" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html#line-graph"><i class="fa fa-check"></i><b>15.1</b> Line graph</a></li>
-<li class="chapter" data-level="15.2" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html#histogram-1"><i class="fa fa-check"></i><b>15.2</b> Histogram</a></li>
-<li class="chapter" data-level="15.3" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html#scatterplot"><i class="fa fa-check"></i><b>15.3</b> Scatterplot</a></li>
-<li class="chapter" data-level="15.4" data-path="15-Plots_exercises.html"><a href="15-Plots_exercises.html#boxplot"><i class="fa fa-check"></i><b>15.4</b> Boxplot</a></li>
+<li class="chapter" data-level="13.3.1" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#body-mass-boxplot"><i class="fa fa-check"></i><b>13.3.1</b> Body mass boxplot</a></li>
+<li class="chapter" data-level="13.3.2" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#split-x-axis-by-two-groupings"><i class="fa fa-check"></i><b>13.3.2</b> Split x axis by two groupings</a></li>
+<li class="chapter" data-level="13.3.3" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#example-boxplots"><i class="fa fa-check"></i><b>13.3.3</b> Example boxplots</a></li>
+<li class="chapter" data-level="13.3.4" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#final-boxplot"><i class="fa fa-check"></i><b>13.3.4</b> Final boxplot</a></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html"><i class="fa fa-check"></i><b>16</b> Plots solutions</a>
+<li class="chapter" data-level="13.4" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#saving-a-plot-to-a-file"><i class="fa fa-check"></i><b>13.4</b> Saving a plot to a file</a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html#line-graph-solution"><i class="fa fa-check"></i><b>16.1</b> Line graph solution</a></li>
-<li class="chapter" data-level="16.2" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html#histogram-solution"><i class="fa fa-check"></i><b>16.2</b> Histogram solution</a></li>
-<li class="chapter" data-level="16.3" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html#scatterplot-solution"><i class="fa fa-check"></i><b>16.3</b> Scatterplot solution</a></li>
-<li class="chapter" data-level="16.4" data-path="16-Plots_solutions.html"><a href="16-Plots_solutions.html#boxplot-solutions"><i class="fa fa-check"></i><b>16.4</b> Boxplot solutions</a></li>
-</ul></li>
-<li class="part"><span><b>Stats &amp; Programming</b></span></li>
-<li class="chapter" data-level="17" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html"><i class="fa fa-check"></i><b>17</b> Basic stats</a>
-<ul>
-<li class="chapter" data-level="17.1" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#linear-regression"><i class="fa fa-check"></i><b>17.1</b> Linear regression</a>
-<ul>
-<li class="chapter" data-level="17.1.1" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#fish-market-dataset"><i class="fa fa-check"></i><b>17.1.1</b> Fish market dataset</a></li>
-<li class="chapter" data-level="17.1.2" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#scatterplot-1"><i class="fa fa-check"></i><b>17.1.2</b> Scatterplot</a></li>
-<li class="chapter" data-level="17.1.3" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#linear-model"><i class="fa fa-check"></i><b>17.1.3</b> Linear model</a></li>
-</ul></li>
-<li class="chapter" data-level="17.2" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#t-test"><i class="fa fa-check"></i><b>17.2</b> t-test</a>
-<ul>
-<li class="chapter" data-level="17.2.1" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#boxplot-1"><i class="fa fa-check"></i><b>17.2.1</b> Boxplot</a></li>
-<li class="chapter" data-level="17.2.2" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#t-test-comparison"><i class="fa fa-check"></i><b>17.2.2</b> t-test comparison</a></li>
-</ul></li>
-<li class="chapter" data-level="17.3" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#some-more-useful-functions"><i class="fa fa-check"></i><b>17.3</b> Some more useful functions</a>
-<ul>
-<li class="chapter" data-level="17.3.1" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#summary"><i class="fa fa-check"></i><b>17.3.1</b> Summary</a></li>
-<li class="chapter" data-level="17.3.2" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#table"><i class="fa fa-check"></i><b>17.3.2</b> Table</a></li>
-</ul></li>
-<li class="chapter" data-level="17.4" data-path="17-Basic_stats.html"><a href="17-Basic_stats.html#further-resources"><i class="fa fa-check"></i><b>17.4</b> Further resources</a></li>
-</ul></li>
-<li class="chapter" data-level="18" data-path="18-Stats_exercises.html"><a href="18-Stats_exercises.html"><i class="fa fa-check"></i><b>18</b> Stats exercises</a>
-<ul>
-<li class="chapter" data-level="18.1" data-path="18-Stats_exercises.html"><a href="18-Stats_exercises.html#world-happiness-report"><i class="fa fa-check"></i><b>18.1</b> World happiness report</a>
-<ul>
-<li class="chapter" data-level="18.1.1" data-path="18-Stats_exercises.html"><a href="18-Stats_exercises.html#data"><i class="fa fa-check"></i><b>18.1.1</b> Data</a></li>
-<li class="chapter" data-level="18.1.2" data-path="18-Stats_exercises.html"><a href="18-Stats_exercises.html#tasks-questions"><i class="fa fa-check"></i><b>18.1.2</b> Tasks &amp; questions</a></li>
+<li class="chapter" data-level="13.4.1" data-path="13-Plots_scatterplot_and_box_plots.html"><a href="13-Plots_scatterplot_and_box_plots.html#save-plot-as-png-file"><i class="fa fa-check"></i><b>13.4.1</b> Save plot as png file</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="19" data-path="19-Stats_solutions.html"><a href="19-Stats_solutions.html"><i class="fa fa-check"></i><b>19</b> Stats solutions</a>
+<li class="chapter" data-level="14" data-path="14-Plots_exercises.html"><a href="14-Plots_exercises.html"><i class="fa fa-check"></i><b>14</b> Plots exercises</a>
 <ul>
-<li class="chapter" data-level="19.1" data-path="19-Stats_solutions.html"><a href="19-Stats_solutions.html#world-happiness-report-solutions"><i class="fa fa-check"></i><b>19.1</b> World happiness report solutions</a></li>
+<li class="chapter" data-level="14.1" data-path="14-Plots_exercises.html"><a href="14-Plots_exercises.html#line-graph"><i class="fa fa-check"></i><b>14.1</b> Line graph</a></li>
+<li class="chapter" data-level="14.2" data-path="14-Plots_exercises.html"><a href="14-Plots_exercises.html#histogram-1"><i class="fa fa-check"></i><b>14.2</b> Histogram</a></li>
+<li class="chapter" data-level="14.3" data-path="14-Plots_exercises.html"><a href="14-Plots_exercises.html#scatterplot"><i class="fa fa-check"></i><b>14.3</b> Scatterplot</a></li>
+<li class="chapter" data-level="14.4" data-path="14-Plots_exercises.html"><a href="14-Plots_exercises.html#boxplot"><i class="fa fa-check"></i><b>14.4</b> Boxplot</a></li>
 </ul></li>
-<li class="chapter" data-level="20" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html"><i class="fa fa-check"></i><b>20</b> Basic programming</a>
+<li class="part"><span><b>Stats</b></span></li>
+<li class="chapter" data-level="15" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html"><i class="fa fa-check"></i><b>15</b> Basic stats</a>
 <ul>
-<li class="chapter" data-level="20.1" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#recycle-rule"><i class="fa fa-check"></i><b>20.1</b> Recycle rule</a></li>
-<li class="chapter" data-level="20.2" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#loops"><i class="fa fa-check"></i><b>20.2</b> Loops</a>
+<li class="chapter" data-level="15.1" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#linear-regression"><i class="fa fa-check"></i><b>15.1</b> Linear regression</a>
 <ul>
-<li class="chapter" data-level="20.2.1" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#for-loops"><i class="fa fa-check"></i><b>20.2.1</b> For loops</a></li>
-<li class="chapter" data-level="20.2.2" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#while-loops"><i class="fa fa-check"></i><b>20.2.2</b> While loops</a></li>
+<li class="chapter" data-level="15.1.1" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#fish-market-dataset"><i class="fa fa-check"></i><b>15.1.1</b> Fish market dataset</a></li>
+<li class="chapter" data-level="15.1.2" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#scatterplot-1"><i class="fa fa-check"></i><b>15.1.2</b> Scatterplot</a></li>
+<li class="chapter" data-level="15.1.3" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#linear-model"><i class="fa fa-check"></i><b>15.1.3</b> Linear model</a></li>
 </ul></li>
-<li class="chapter" data-level="20.3" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#if-statements"><i class="fa fa-check"></i><b>20.3</b> If statements</a></li>
-<li class="chapter" data-level="20.4" data-path="20-Basic_programming.html"><a href="20-Basic_programming.html#functions-1"><i class="fa fa-check"></i><b>20.4</b> Functions</a></li>
-</ul></li>
-<li class="chapter" data-level="21" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html"><i class="fa fa-check"></i><b>21</b> Student grades example</a>
+<li class="chapter" data-level="15.2" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#t-test"><i class="fa fa-check"></i><b>15.2</b> t-test</a>
 <ul>
-<li class="chapter" data-level="21.1" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#the-student-grades-data"><i class="fa fa-check"></i><b>21.1</b> The student grades data</a></li>
-<li class="chapter" data-level="21.2" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#analysis-script"><i class="fa fa-check"></i><b>21.2</b> Analysis script</a></li>
-<li class="chapter" data-level="21.3" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#reading-in-and-preprocessing-the-data"><i class="fa fa-check"></i><b>21.3</b> Reading in and preprocessing the data</a></li>
-<li class="chapter" data-level="21.4" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#combining-the-data-frames"><i class="fa fa-check"></i><b>21.4</b> Combining the data frames</a></li>
-<li class="chapter" data-level="21.5" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#saving-the-data-frame"><i class="fa fa-check"></i><b>21.5</b> Saving the data frame</a></li>
-<li class="chapter" data-level="21.6" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#scaling-grading"><i class="fa fa-check"></i><b>21.6</b> Scaling &amp; Grading</a></li>
-<li class="chapter" data-level="21.7" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#some-quick-plots"><i class="fa fa-check"></i><b>21.7</b> Some quick plots</a></li>
-<li class="chapter" data-level="21.8" data-path="21-Student_grades_example.html"><a href="21-Student_grades_example.html#tips-for-creating-your-own-loops-and-functions"><i class="fa fa-check"></i><b>21.8</b> Tips for creating your own loops and functions</a></li>
+<li class="chapter" data-level="15.2.1" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#boxplot-1"><i class="fa fa-check"></i><b>15.2.1</b> Boxplot</a></li>
+<li class="chapter" data-level="15.2.2" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#t-test-comparison"><i class="fa fa-check"></i><b>15.2.2</b> t-test comparison</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#some-more-useful-functions"><i class="fa fa-check"></i><b>15.3</b> Some more useful functions</a>
+<ul>
+<li class="chapter" data-level="15.3.1" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#summary"><i class="fa fa-check"></i><b>15.3.1</b> Summary</a></li>
+<li class="chapter" data-level="15.3.2" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#table"><i class="fa fa-check"></i><b>15.3.2</b> Table</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="15-Basic_stats.html"><a href="15-Basic_stats.html#further-resources"><i class="fa fa-check"></i><b>15.4</b> Further resources</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html"><i class="fa fa-check"></i><b>16</b> Stats exercises</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#data"><i class="fa fa-check"></i><b>16.1</b> Data</a></li>
+<li class="chapter" data-level="16.2" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenges"><i class="fa fa-check"></i><b>16.2</b> World happiness challenges</a>
+<ul>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-1"><i class="fa fa-check"></i>World happiness challenge 1</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-2"><i class="fa fa-check"></i>World happiness challenge 2</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-3"><i class="fa fa-check"></i>World happiness challenge 3</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-4"><i class="fa fa-check"></i>World happiness challenge 4</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-5"><i class="fa fa-check"></i>World happiness challenge 5</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-6"><i class="fa fa-check"></i>World happiness challenge 6</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-7"><i class="fa fa-check"></i>World happiness challenge 7</a></li>
+<li class="chapter" data-level="" data-path="16-Stats_exercises.html"><a href="16-Stats_exercises.html#world-happiness-challenge-8"><i class="fa fa-check"></i>World happiness challenge 8</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Programming</b></span></li>
+<li class="chapter" data-level="17" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html"><i class="fa fa-check"></i><b>17</b> Basic programming</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html#recycle-rule"><i class="fa fa-check"></i><b>17.1</b> Recycle rule</a></li>
+<li class="chapter" data-level="17.2" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html#loops"><i class="fa fa-check"></i><b>17.2</b> Loops</a>
+<ul>
+<li class="chapter" data-level="17.2.1" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html#for-loops"><i class="fa fa-check"></i><b>17.2.1</b> For loops</a></li>
+<li class="chapter" data-level="17.2.2" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html#while-loops"><i class="fa fa-check"></i><b>17.2.2</b> While loops</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html#if-statements"><i class="fa fa-check"></i><b>17.3</b> If statements</a></li>
+<li class="chapter" data-level="17.4" data-path="17-Basic_programming.html"><a href="17-Basic_programming.html#functions-1"><i class="fa fa-check"></i><b>17.4</b> Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html"><i class="fa fa-check"></i><b>18</b> Student grades example</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#the-student-grades-data"><i class="fa fa-check"></i><b>18.1</b> The student grades data</a></li>
+<li class="chapter" data-level="18.2" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#analysis-script"><i class="fa fa-check"></i><b>18.2</b> Analysis script</a></li>
+<li class="chapter" data-level="18.3" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#reading-in-and-preprocessing-the-data"><i class="fa fa-check"></i><b>18.3</b> Reading in and preprocessing the data</a></li>
+<li class="chapter" data-level="18.4" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#combining-the-data-frames"><i class="fa fa-check"></i><b>18.4</b> Combining the data frames</a></li>
+<li class="chapter" data-level="18.5" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#saving-the-data-frame"><i class="fa fa-check"></i><b>18.5</b> Saving the data frame</a></li>
+<li class="chapter" data-level="18.6" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#scaling-grading"><i class="fa fa-check"></i><b>18.6</b> Scaling &amp; Grading</a></li>
+<li class="chapter" data-level="18.7" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#some-quick-plots"><i class="fa fa-check"></i><b>18.7</b> Some quick plots</a></li>
+<li class="chapter" data-level="18.8" data-path="18-Student_grades_example.html"><a href="18-Student_grades_example.html#tips-for-creating-your-own-loops-and-functions"><i class="fa fa-check"></i><b>18.8</b> Tips for creating your own loops and functions</a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="22-Further_resources.html"><a href="22-Further_resources.html"><i class="fa fa-check"></i><b>A</b> Bookdown</a></li>
-<li class="chapter" data-level="B" data-path="22-Further_resources.html"><a href="22-Further_resources.html#appendix"><i class="fa fa-check"></i><b>B</b> Workshop slides &amp; videos</a>
+<li class="chapter" data-level="A" data-path="19-Further_resources.html"><a href="19-Further_resources.html"><i class="fa fa-check"></i><b>A</b> Bookdown</a></li>
+<li class="chapter" data-level="B" data-path="19-Further_resources.html"><a href="19-Further_resources.html#appendix"><i class="fa fa-check"></i><b>B</b> Workshop slides &amp; videos</a>
 <ul>
-<li class="chapter" data-level="B.1" data-path="22-Further_resources.html"><a href="22-Further_resources.html#intro-and-foundations"><i class="fa fa-check"></i><b>B.1</b> Intro and foundations</a></li>
-<li class="chapter" data-level="B.2" data-path="22-Further_resources.html"><a href="22-Further_resources.html#classes-and-data-structures"><i class="fa fa-check"></i><b>B.2</b> Classes and data structures</a></li>
-<li class="chapter" data-level="B.3" data-path="22-Further_resources.html"><a href="22-Further_resources.html#files-and-subsetting"><i class="fa fa-check"></i><b>B.3</b> Files and subsetting</a></li>
-<li class="chapter" data-level="B.4" data-path="22-Further_resources.html"><a href="22-Further_resources.html#handy-tips-and-tricks"><i class="fa fa-check"></i><b>B.4</b> Handy tips and tricks</a></li>
-<li class="chapter" data-level="B.5" data-path="22-Further_resources.html"><a href="22-Further_resources.html#plots-part-1"><i class="fa fa-check"></i><b>B.5</b> Plots part 1</a></li>
-<li class="chapter" data-level="B.6" data-path="22-Further_resources.html"><a href="22-Further_resources.html#plots-part-2"><i class="fa fa-check"></i><b>B.6</b> Plots part 2</a></li>
-<li class="chapter" data-level="B.7" data-path="22-Further_resources.html"><a href="22-Further_resources.html#basic-stats"><i class="fa fa-check"></i><b>B.7</b> Basic stats</a></li>
-<li class="chapter" data-level="B.8" data-path="22-Further_resources.html"><a href="22-Further_resources.html#basic-programming"><i class="fa fa-check"></i><b>B.8</b> Basic programming</a></li>
+<li class="chapter" data-level="B.1" data-path="19-Further_resources.html"><a href="19-Further_resources.html#intro-and-foundations"><i class="fa fa-check"></i><b>B.1</b> Intro and foundations</a></li>
+<li class="chapter" data-level="B.2" data-path="19-Further_resources.html"><a href="19-Further_resources.html#classes-and-data-structures"><i class="fa fa-check"></i><b>B.2</b> Classes and data structures</a></li>
+<li class="chapter" data-level="B.3" data-path="19-Further_resources.html"><a href="19-Further_resources.html#files-and-subsetting"><i class="fa fa-check"></i><b>B.3</b> Files and subsetting</a></li>
+<li class="chapter" data-level="B.4" data-path="19-Further_resources.html"><a href="19-Further_resources.html#handy-tips-and-tricks"><i class="fa fa-check"></i><b>B.4</b> Handy tips and tricks</a></li>
+<li class="chapter" data-level="B.5" data-path="19-Further_resources.html"><a href="19-Further_resources.html#plots-part-1"><i class="fa fa-check"></i><b>B.5</b> Plots part 1</a></li>
+<li class="chapter" data-level="B.6" data-path="19-Further_resources.html"><a href="19-Further_resources.html#plots-part-2"><i class="fa fa-check"></i><b>B.6</b> Plots part 2</a></li>
+<li class="chapter" data-level="B.7" data-path="19-Further_resources.html"><a href="19-Further_resources.html#basic-stats"><i class="fa fa-check"></i><b>B.7</b> Basic stats</a></li>
+<li class="chapter" data-level="B.8" data-path="19-Further_resources.html"><a href="19-Further_resources.html#basic-programming"><i class="fa fa-check"></i><b>B.8</b> Basic programming</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="22-Further_resources.html"><a href="22-Further_resources.html#workshopfiles"><i class="fa fa-check"></i><b>C</b> Workshop files</a>
+<li class="chapter" data-level="C" data-path="19-Further_resources.html"><a href="19-Further_resources.html#workshopfiles"><i class="fa fa-check"></i><b>C</b> Workshop files</a>
 <ul>
-<li class="chapter" data-level="C.1" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-7-files"><i class="fa fa-check"></i><b>C.1</b> Chapter 7 files</a></li>
-<li class="chapter" data-level="C.2" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-8-files"><i class="fa fa-check"></i><b>C.2</b> Chapter 8 files</a></li>
-<li class="chapter" data-level="C.3" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-10-11-files"><i class="fa fa-check"></i><b>C.3</b> Chapter 10-11 files</a></li>
-<li class="chapter" data-level="C.4" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-13-16-files"><i class="fa fa-check"></i><b>C.4</b> Chapter 13-16 files</a></li>
-<li class="chapter" data-level="C.5" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-17-19"><i class="fa fa-check"></i><b>C.5</b> Chapter 17-19</a></li>
-<li class="chapter" data-level="C.6" data-path="22-Further_resources.html"><a href="22-Further_resources.html#chapter-20-21"><i class="fa fa-check"></i><b>C.6</b> Chapter 20-21</a></li>
+<li class="chapter" data-level="C.1" data-path="19-Further_resources.html"><a href="19-Further_resources.html#chapter-6-files"><i class="fa fa-check"></i><b>C.1</b> Chapter 6 files</a></li>
+<li class="chapter" data-level="C.2" data-path="19-Further_resources.html"><a href="19-Further_resources.html#chapter-7-9-files"><i class="fa fa-check"></i><b>C.2</b> Chapter 7-9 files</a></li>
+<li class="chapter" data-level="C.3" data-path="19-Further_resources.html"><a href="19-Further_resources.html#chapter-10-11-files"><i class="fa fa-check"></i><b>C.3</b> Chapter 10-11 files</a></li>
+<li class="chapter" data-level="C.4" data-path="19-Further_resources.html"><a href="19-Further_resources.html#chapter-12-14-files"><i class="fa fa-check"></i><b>C.4</b> Chapter 12-14 files</a></li>
+<li class="chapter" data-level="C.5" data-path="19-Further_resources.html"><a href="19-Further_resources.html#chapter-15-16"><i class="fa fa-check"></i><b>C.5</b> Chapter 15-16</a></li>
+<li class="chapter" data-level="C.6" data-path="19-Further_resources.html"><a href="19-Further_resources.html#chapter-17-18"><i class="fa fa-check"></i><b>C.6</b> Chapter 17-18</a></li>
 </ul></li>
-<li class="chapter" data-level="D" data-path="22-Further_resources.html"><a href="22-Further_resources.html#r-user-groups-and-forums"><i class="fa fa-check"></i><b>D</b> R user groups and forums</a></li>
-<li class="chapter" data-level="E" data-path="22-Further_resources.html"><a href="22-Further_resources.html#base-r-books-and-links"><i class="fa fa-check"></i><b>E</b> Base R books and links</a></li>
-<li class="chapter" data-level="F" data-path="22-Further_resources.html"><a href="22-Further_resources.html#r-cheat-sheets"><i class="fa fa-check"></i><b>F</b> R cheat sheets</a></li>
-<li class="chapter" data-level="G" data-path="22-Further_resources.html"><a href="22-Further_resources.html#advanced-r-topics"><i class="fa fa-check"></i><b>G</b> Advanced R topics</a></li>
-<li class="chapter" data-level="H" data-path="22-Further_resources.html"><a href="22-Further_resources.html#datasets"><i class="fa fa-check"></i><b>H</b> Datasets</a></li>
+<li class="chapter" data-level="D" data-path="19-Further_resources.html"><a href="19-Further_resources.html#r-user-groups-and-forums"><i class="fa fa-check"></i><b>D</b> R user groups and forums</a></li>
+<li class="chapter" data-level="E" data-path="19-Further_resources.html"><a href="19-Further_resources.html#base-r-books-and-links"><i class="fa fa-check"></i><b>E</b> Base R books and links</a></li>
+<li class="chapter" data-level="F" data-path="19-Further_resources.html"><a href="19-Further_resources.html#r-cheat-sheets"><i class="fa fa-check"></i><b>F</b> R cheat sheets</a></li>
+<li class="chapter" data-level="G" data-path="19-Further_resources.html"><a href="19-Further_resources.html#advanced-r-topics"><i class="fa fa-check"></i><b>G</b> Advanced R topics</a></li>
+<li class="chapter" data-level="H" data-path="19-Further_resources.html"><a href="19-Further_resources.html#datasets"><i class="fa fa-check"></i><b>H</b> Datasets</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -416,17 +452,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="robjectschap" class="section level1 hasAnchor" number="4">
 <h1><span class="header-section-number">Chapter 4</span> R objects<a href="04-R_objects.html#robjectschap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/RObjects.png" style="width:200px" />
+<img src="figures/RObjects.png" style="width:200px; background: white; border-radius:5px" />
 </center>
-<p>In Chapter 2 we learnt how to create a <strong>variable</strong>. This consisted of assigning (<code>&lt;-</code>) an <strong>object</strong> a name. In this chapter we will learn about <strong>R objects</strong>. There are two major R terminologies to learn to fully understand <strong>R objects</strong>.</p>
+<p>In Chapter 2 we learnt how to create a <u id='variable_tooltip'><strong>variable</strong></u>.
+This consisted of assigning (<code>&lt;-</code>) an <strong>object</strong> a name.
+In this chapter we will learn about <strong>R objects</strong>.
+There are two major R terminologies to learn to fully understand <strong>R objects</strong>.</p>
 <ul>
-<li><strong>Class</strong>: An <strong>R object</strong> will have a specific class. The <strong>class</strong> determines what the <strong>object</strong> is. It could be numbers, text, or other types of <strong>classes</strong>.</li>
-<li><strong>Data structure</strong>: This determines the structure of an <strong>R object</strong>.</li>
+<li><u id='class_tooltip'><strong>Class</strong></u>: An <strong>R object</strong> will have a specific class.
+The <u id='class_tooltip'><strong>class</strong></u> determines what the <strong>object</strong> is.
+It could be numbers, text, or other types of <u id='class_tooltip'><strong>classes</strong></u>.</li>
+<li><u id='data_structure_tooltip'><strong>Data structure</strong></u>: This determines the structure of an <strong>R object</strong>.</li>
 </ul>
-<p>The rest of today's plan is to learn about <strong>classes</strong> and <strong>data structures</strong>.</p>
+<p>The rest of today's plan is to learn about <u id='class_tooltip'><strong>classes</strong></u> and <u id='data_structure_tooltip'><strong>data structures</strong></u>.</p>
 <div id="codesections" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Code sections<a href="04-R_objects.html#codesections" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Today, and for the rest of the course, you will use code sections in your R scripts to separate sections in this book.</p>
+<p>In this section, and for the rest of the course, you will use code sections in your R scripts to separate sections in this book.</p>
 <p>First set your working directory to your course directory, create a script, and save it as <strong>"2-Objects.R"</strong>.</p>
 <p>Next create a code section at the top of this script called <strong>"Classes"</strong>.</p>
 <p>In other words have the below at the top of your script:</p>
@@ -434,25 +475,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="classes" class="section level2 hasAnchor" number="4.2">
 <h2><span class="header-section-number">4.2</span> Classes<a href="04-R_objects.html#classes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>There are six basic <strong>classes</strong> in R (Also known as the <strong>atomic classes</strong>).</p>
+<p>There are six basic <u id='class_tooltip'><strong>classes</strong></u> in R (Also known as the <strong>atomic <u id='class_tooltip'>classes</u></strong>).</p>
 <p>The four we will learn are:</p>
 <ul>
-<li><strong>Integer</strong></li>
-<li><strong>Double</strong></li>
-<li><strong>String</strong></li>
-<li><strong>Logical</strong></li>
+<li><u id='integer_tooltip'><strong>Integer</strong></u></li>
+<li><u id='double_tooltip'><strong>Double</strong></u></li>
+<li><u id='string_tooltip'><strong>String</strong></u></li>
+<li><u id='logical_tooltip'><strong>Logical</strong></u></li>
 </ul>
-<p>There are also the classes <strong>complex</strong> and <strong>raw</strong>.</p>
+<p>There are also the <u id='class_tooltip'>classes</u> <strong>complex</strong> and <strong>raw</strong>.</p>
 <div id="numeric" class="section level3 hasAnchor" number="4.2.1">
 <h3><span class="header-section-number">4.2.1</span> Numeric<a href="04-R_objects.html#numeric" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
 <img src="figures/numbers.png" style="width:200px" />
 </center>
-<p><strong>Numeric</strong> <strong>classes</strong> come in two types, <strong>integer</strong> and <strong>double</strong>. <strong>Integers</strong> and <strong>doubles</strong> are almost identical. However, <strong>doubles</strong> contain decimal point information whilst <strong>integers</strong> do not.</p>
-<p>Most of the time you will only need to know if your data is <strong>numeric</strong> and you will not need to worry about <strong>doubles</strong> or <strong>integers</strong>. The exception being if you are working with decimals and your decimals are not showing up. This probably means that your <strong>object</strong> has the <strong>integer class</strong>.</p>
+<p><strong>Numeric</strong> <u id='class_tooltip'><strong>classes</strong></u> come in two types, <u id='integer_tooltip'><strong>integer</strong></u> and <u id='double_tooltip'><strong>double</strong></u>.
+<u id='integer_tooltip'><strong>Integers</strong></u> and <u id='double_tooltip'><strong>doubles</strong></u> are almost identical.
+However, <u id='double_tooltip'><strong>doubles</strong></u> contain decimal point information whilst <u id='integer_tooltip'><strong>integers</strong></u> do not.</p>
+<p>Most of the time you will only need to know if your data is <strong>numeric</strong> and you will not need to worry about <u id='double_tooltip'><strong>doubles</strong></u> or <u id='integer_tooltip'><strong>integers</strong></u>.
+The exception being if you are working with decimals and your decimals are not showing up.
+This probably means that your <strong>object</strong> has the <strong><u id='integer_tooltip'>integer</u> <u id='class_tooltip'>class</u></strong>.</p>
 <p>Type and run the following, using the provided annotation to understand what the commands are doing.</p>
 <p><strong>Note:</strong> Remember you can copy and paste old script.</p>
-<p>Use the <strong>function</strong> <code>class()</code> to show the <strong>class</strong> of an R <strong>object</strong>:</p>
+<p>Use the <strong>function</strong> <code>class()</code> to show the <u id='class_tooltip'><strong>class</strong></u> of an R <strong>object</strong>:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb18-1"><a href="04-R_objects.html#cb18-1" tabindex="-1"></a><span class="co">#Numeric</span></span>
 <span id="cb18-2"><a href="04-R_objects.html#cb18-2" tabindex="-1"></a><span class="co">#Class of 2</span></span>
 <span id="cb18-3"><a href="04-R_objects.html#cb18-3" tabindex="-1"></a><span class="fu">class</span>(<span class="dv">2</span>)</span>
@@ -460,24 +505,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb18-5"><a href="04-R_objects.html#cb18-5" tabindex="-1"></a><span class="fu">class</span>(<span class="fl">3.14</span>)</span>
 <span id="cb18-6"><a href="04-R_objects.html#cb18-6" tabindex="-1"></a><span class="co">#class of 6</span></span>
 <span id="cb18-7"><a href="04-R_objects.html#cb18-7" tabindex="-1"></a><span class="fu">class</span>(<span class="dv">6</span>)</span></code></pre></div>
-<p>Create a <strong>variable</strong> with the <strong>name</strong> "pie" containing the <strong>numeric</strong> 3.14:</p>
+<p>Create a <u id='variable_tooltip'><strong>variable</strong></u> with the <strong>name</strong> "pie" containing the <strong>numeric</strong> 3.14:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb19-1"><a href="04-R_objects.html#cb19-1" tabindex="-1"></a><span class="co">#Creating a variable using the assignment operator</span></span>
 <span id="cb19-2"><a href="04-R_objects.html#cb19-2" tabindex="-1"></a>pie <span class="ot">&lt;-</span> <span class="fl">3.14</span></span></code></pre></div>
-<p>Use the <strong>functions</strong> <code>as.numeric()</code>, <code>as.integer()</code>, and <code>as.double()</code> to print the <strong>variable</strong> as a <strong>numeric</strong>, as an <strong>integer</strong>, and as a <strong>double</strong>:</p>
+<p>Use the <u id='function_tooltip'><strong>functions</strong></u> <code>as.numeric()</code>, <code>as.integer()</code>, and <code>as.double()</code> to print the <u id='variable_tooltip'><strong>variable</strong></u> as a <strong>numeric</strong>, as an <u id='integer_tooltip'><strong>integer</strong></u>, and as a <u id='double_tooltip'><strong>double</strong></u>:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb20-1"><a href="04-R_objects.html#cb20-1" tabindex="-1"></a><span class="co">#Printing out previously made variable as numeric, integer, and double</span></span>
 <span id="cb20-2"><a href="04-R_objects.html#cb20-2" tabindex="-1"></a><span class="fu">as.numeric</span>(pie)</span>
 <span id="cb20-3"><a href="04-R_objects.html#cb20-3" tabindex="-1"></a><span class="fu">as.integer</span>(pie)</span>
 <span id="cb20-4"><a href="04-R_objects.html#cb20-4" tabindex="-1"></a><span class="fu">as.double</span>(pie)</span></code></pre></div>
-<p>You can put a <strong>function</strong> as the <strong>variable</strong> within a <strong>function</strong>.</p>
-<p>Below we will first check the <strong>class</strong> of the <strong>object</strong> within the "pie" <strong>variable</strong>. You will note that the <strong>functions</strong> we used previously did not permanently change the <strong>variable's object</strong>. We can only change a <strong>variable</strong> if we use the <strong>assignment operator</strong>.</p>
-<p>Then we will check the <strong>class</strong> of the <strong>object</strong> as it is altered by the various <code>as.</code> <strong>functions</strong>.</p>
+<p>You can put a <u id='function_tooltip'><strong>function</strong></u> as the <u id='variable_tooltip'><strong>variable</strong></u> within a <u id='function_tooltip'><strong>function</strong></u>.</p>
+<p>Below we will first check the <u id='class_tooltip'><strong>class</strong></u> of the <strong>object</strong> within the "pie" <u id='variable_tooltip'><strong>variable</strong></u>. You will note that the <u id='function_tooltip'><strong>functions</strong></u> we used previously did not permanently change the <strong><u id='variable_tooltip'>variable's</u> object</strong>. We can only change a <u id='variable_tooltip'><strong>variable</strong></u> if we use the <strong>assignment operator</strong>.</p>
+<p>Then we will check the <u id='class_tooltip'><strong>class</strong></u> of the <strong>object</strong> as it is altered by the various <code>as.</code> <u id='function_tooltip'><strong>functions</strong></u>.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb21-1"><a href="04-R_objects.html#cb21-1" tabindex="-1"></a><span class="co">#Checking the class of our variable</span></span>
 <span id="cb21-2"><a href="04-R_objects.html#cb21-2" tabindex="-1"></a><span class="fu">class</span>(pie)</span>
 <span id="cb21-3"><a href="04-R_objects.html#cb21-3" tabindex="-1"></a><span class="fu">class</span>(<span class="fu">as.numeric</span>(pie))</span>
 <span id="cb21-4"><a href="04-R_objects.html#cb21-4" tabindex="-1"></a><span class="fu">class</span>(<span class="fu">as.integer</span>(pie))</span>
 <span id="cb21-5"><a href="04-R_objects.html#cb21-5" tabindex="-1"></a><span class="fu">class</span>(<span class="fu">as.double</span>(pie))</span></code></pre></div>
 <p><strong>Note:</strong> Remember to ask for help if you need it!</p>
-<p>On a side note, R comes with some inbuilt variables such as pi:</p>
+<p>On a side note, R comes with some inbuilt <u id='variable_tooltip'>variables</u> such as pi:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb22-1"><a href="04-R_objects.html#cb22-1" tabindex="-1"></a><span class="co">#The R pi is equal to 3.141593</span></span>
 <span id="cb22-2"><a href="04-R_objects.html#cb22-2" tabindex="-1"></a>pi</span>
 <span id="cb22-3"><a href="04-R_objects.html#cb22-3" tabindex="-1"></a><span class="co">#assign pi to 3.14</span></span>
@@ -494,10 +539,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <center>
 <img src="figures/logical.png" style="width:200px; background:white; border-radius:15px" />
 </center>
-<p><strong>Logical</strong> values can be <strong>TRUE</strong> or <strong>FALSE</strong>.</p>
+<p><u id='logical_tooltip'><strong>Logical</strong></u> values can be <strong>TRUE</strong> or <strong>FALSE</strong>.</p>
 <p>They are primarily used when comparing objects.</p>
-<p>Run the below commands to output <strong>Logical</strong> values using the various <strong>logical operators</strong>.</p>
-<p>Note: when <code>!</code> is used in <strong>operators</strong> it means "not". When used, <code>!</code> always goes at the front of the operator.</p>
+<p>Run the below commands to output <u id='logical_tooltip'><strong>Logical</strong></u> values using the various <strong><u id='logical_tooltip'>logical</u> <u id='operator_tooltip'>operators</u></strong>.</p>
+<p>Note: when <code>!</code> is used in <u id='operator_tooltip'><strong>operators</strong></u> it means "not". When used, <code>!</code> always goes at the front of the operator.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb23-1"><a href="04-R_objects.html#cb23-1" tabindex="-1"></a><span class="co">#Logical</span></span>
 <span id="cb23-2"><a href="04-R_objects.html#cb23-2" tabindex="-1"></a><span class="co"># 2 less than 4 </span></span>
 <span id="cb23-3"><a href="04-R_objects.html#cb23-3" tabindex="-1"></a><span class="dv">2</span> <span class="sc">&lt;</span> <span class="dv">4</span></span>
@@ -511,46 +556,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb23-11"><a href="04-R_objects.html#cb23-11" tabindex="-1"></a><span class="dv">2</span> <span class="sc">==</span> <span class="dv">4</span></span>
 <span id="cb23-12"><a href="04-R_objects.html#cb23-12" tabindex="-1"></a><span class="co"># 2 not equal to 4</span></span>
 <span id="cb23-13"><a href="04-R_objects.html#cb23-13" tabindex="-1"></a><span class="dv">2</span> <span class="sc">!=</span> <span class="dv">4</span></span></code></pre></div>
-<p>It is probably not immediately obvious how useful <strong>logicals</strong> are, but you'll see their usefulness later in the course.</p>
+<p>It is probably not immediately obvious how useful <u id='logical_tooltip'><strong>logicals</strong></u> are, but you'll see their usefulness later in the course.</p>
 </div>
 <div id="string" class="section level3 hasAnchor" number="4.2.3">
 <h3><span class="header-section-number">4.2.3</span> String<a href="04-R_objects.html#string" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/string_bubble.png" style="width:200px" />
+<img src="figures/string_bubble.png" style="width:200px; background: white; border-radius:5px; border: 5px white solid" />
 </center>
-<p><strong>Strings</strong> are text and can be modified in R in ways you would normally want to modify text. They are called <strong>strings</strong> as they are strings of characters. <strong>Strings</strong> are flanked by quote marks. Double quotes (<code>""</code>) are preferred but single quotes can also be used (<code>''</code>).</p>
-<p>Type and run the below examples to get some practice with <strong>strings</strong>.</p>
-<p>A <strong>string object</strong> can consist of a string containing one <strong>character</strong>:</p>
+<p><u id='string_tooltip'><strong>Strings</strong></u> are text and can be modified in R in ways you would normally want to modify text.
+They are called <u id='string_tooltip'><strong>strings</strong></u> as they are strings of characters.
+<u id='string_tooltip'><strong>Strings</strong></u> are flanked by quote marks.
+Double quotes (<code>""</code>) are preferred but single quotes can also be used (<code>''</code>).</p>
+<p>Type and run the below examples to get some practice with <u id='string_tooltip'><strong>strings</strong></u>.</p>
+<p>A <strong><u id='string_tooltip'>string</u> object</strong> can consist of a <u id='string_tooltip'>string</u> containing one <strong>character</strong>:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb24-1"><a href="04-R_objects.html#cb24-1" tabindex="-1"></a><span class="co">#String</span></span>
 <span id="cb24-2"><a href="04-R_objects.html#cb24-2" tabindex="-1"></a>one_character_string <span class="ot">&lt;-</span> <span class="st">&quot;A&quot;</span></span>
 <span id="cb24-3"><a href="04-R_objects.html#cb24-3" tabindex="-1"></a>one_character_string</span></code></pre></div>
-<p>A <strong>string object</strong> can consist of a string containing multiple <strong>characters</strong>:</p>
+<p>A <strong><u id='string_tooltip'>string</u> object</strong> can consist of a <u id='string_tooltip'>string</u> containing multiple <strong>characters</strong>:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb25-1"><a href="04-R_objects.html#cb25-1" tabindex="-1"></a>word_string <span class="ot">&lt;-</span> <span class="st">&quot;alphabet&quot;</span></span>
 <span id="cb25-2"><a href="04-R_objects.html#cb25-2" tabindex="-1"></a>word_string</span></code></pre></div>
-<p>A <strong>string</strong> can contain all the different characters and any number of them. The only exception is that if you try to put a double quote in your string it will cause an issue.</p>
+<p>A <u id='string_tooltip'><strong>string</strong></u> can contain all the different characters and any number of them.
+The only exception is that if you try to put a double quote in your <u id='string_tooltip'>string</u> it will cause an issue.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb26-1"><a href="04-R_objects.html#cb26-1" tabindex="-1"></a>long_string <span class="ot">&lt;-</span> <span class="st">&quot;Strings can be long and contain more than letters. </span><span class="sc">\\</span><span class="st">.(&quot;</span></span>
 <span id="cb26-2"><a href="04-R_objects.html#cb26-2" tabindex="-1"></a>long_string</span></code></pre></div>
-<p>A <strong>string</strong> doesn't need letters, it can consist of only numbers. Note the terms <strong>string</strong> and <strong>character</strong> can be used interchangeably.</p>
+<p>A <u id='string_tooltip'><strong>string</strong></u> doesn't need letters, it can consist of only numbers.
+Note the terms <u id='string_tooltip'><strong>string</strong></u> and <strong>character</strong> can be used interchangeably.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb27-1"><a href="04-R_objects.html#cb27-1" tabindex="-1"></a>number_string <span class="ot">&lt;-</span> <span class="st">&quot;1066&quot;</span></span>
 <span id="cb27-2"><a href="04-R_objects.html#cb27-2" tabindex="-1"></a>number_string</span>
 <span id="cb27-3"><a href="04-R_objects.html#cb27-3" tabindex="-1"></a><span class="fu">class</span>(number_string)</span></code></pre></div>
-<p>You can convert a <strong>numeric</strong> to a <strong>string/character</strong>.</p>
+<p>You can convert a <strong>numeric</strong> to a <u id='string_tooltip'><strong>string/character</strong></u>.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb28-1"><a href="04-R_objects.html#cb28-1" tabindex="-1"></a>number <span class="ot">&lt;-</span> <span class="dv">1066</span></span>
 <span id="cb28-2"><a href="04-R_objects.html#cb28-2" tabindex="-1"></a>numeric_to_string <span class="ot">&lt;-</span> <span class="fu">as.character</span>(number)</span>
 <span id="cb28-3"><a href="04-R_objects.html#cb28-3" tabindex="-1"></a>numeric_to_string</span>
 <span id="cb28-4"><a href="04-R_objects.html#cb28-4" tabindex="-1"></a><span class="fu">class</span>(numeric_to_string)</span></code></pre></div>
-<p>An appropriate <strong>string</strong> can be converted to a <strong>numeric</strong>. This is useful as mathematical <strong>operators</strong> will not work with <strong>strings</strong>.</p>
+<p>An appropriate <u id='string_tooltip'><strong>string</strong></u> can be converted to a <strong>numeric</strong>.
+This is useful as mathematical <u id='operator_tooltip'><strong>operators</strong></u> will not work with <u id='string_tooltip'><strong>strings</strong></u>.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb29-1"><a href="04-R_objects.html#cb29-1" tabindex="-1"></a><span class="co">#will get an error as strings and maths don&#39;t mix</span></span>
 <span id="cb29-2"><a href="04-R_objects.html#cb29-2" tabindex="-1"></a><span class="st">&quot;6&quot;</span> <span class="sc">-</span> <span class="dv">3</span></span>
 <span id="cb29-3"><a href="04-R_objects.html#cb29-3" tabindex="-1"></a><span class="co">#will work as maths and numerics work</span></span>
 <span id="cb29-4"><a href="04-R_objects.html#cb29-4" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="st">&quot;6&quot;</span>) <span class="sc">-</span> <span class="dv">4</span></span>
 <span id="cb29-5"><a href="04-R_objects.html#cb29-5" tabindex="-1"></a><span class="co">#Below will not work as only strings containing numbers can be converted to numeric</span></span>
 <span id="cb29-6"><a href="04-R_objects.html#cb29-6" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="st">&quot;not_a_number_12&quot;</span>)</span></code></pre></div>
-<p>You can use certain <strong>logical operators</strong> to compare <strong>strings</strong> though:</p>
+<p>You can use certain <strong><u id='logical_tooltip'>logical</u> <u id='operator_tooltip'>operators</u></strong> to compare <u id='string_tooltip'><strong>strings</strong></u> though:</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb30-1"><a href="04-R_objects.html#cb30-1" tabindex="-1"></a><span class="st">&quot;character&quot;</span> <span class="sc">==</span> <span class="st">&quot;character&quot;</span></span>
 <span id="cb30-2"><a href="04-R_objects.html#cb30-2" tabindex="-1"></a><span class="st">&quot;1066&quot;</span> <span class="sc">!=</span> <span class="st">&quot;character&quot;</span></span>
 <span id="cb30-3"><a href="04-R_objects.html#cb30-3" tabindex="-1"></a><span class="st">&quot;numeric&quot;</span> <span class="sc">==</span> <span class="st">&quot;string&quot;</span></span></code></pre></div>
-<p>The <strong>paste() function</strong> is very useful to combine two or more <strong>strings</strong> into one.</p>
+<p>The <strong>paste() <u id='function_tooltip'>function</u></strong> is very useful to combine two or more <u id='string_tooltip'><strong>strings</strong></u> into one.</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb31-1"><a href="04-R_objects.html#cb31-1" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;The following is a string:&quot;</span>, long_string) </span>
 <span id="cb31-2"><a href="04-R_objects.html#cb31-2" tabindex="-1"></a><span class="fu">paste</span>(number_string, <span class="st">&quot;and the&quot;</span>, word_string)</span>
 <span id="cb31-3"><a href="04-R_objects.html#cb31-3" tabindex="-1"></a><span class="co">#By default paste will put a space (sep = &quot; &quot;) between each string you provide</span></span>
@@ -566,45 +617,61 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="code-section-continued" class="section level2 hasAnchor" number="4.3">
 <h2><span class="header-section-number">4.3</span> Code section continued<a href="04-R_objects.html#code-section-continued" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>After all that you will have some nice code and annotations in your script editor for the <strong>Classes</strong> code section.</p>
-<p>Making a code section is not very useful until you have multiple code sections. To show this create a new code section at the bottom of your script called <strong>"Data structures"</strong>. This new code section will be used for the next section.</p>
+<p>Making a code section is not very useful until you have multiple code sections.
+To show this create a new code section at the bottom of your script called <strong>"Data structures"</strong>.
+This new code section will be used for the next section.</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb32-1"><a href="04-R_objects.html#cb32-1" tabindex="-1"></a><span class="co"># Data structures ####</span></span></code></pre></div>
-<p>With the new code section created we can now see why code sections are so useful. Go to the text that denotes the first code section (<strong>"Classes"</strong>). Look between the numbers on the left that signify the line number, and the text. You will see an arrow pointing downwards. You can click that arrow and it will collapse the code section. Click the arrow, now pointing right, and it will expand the code section. This is super useful so you can hide code sections in your script that you don't currently need to look at.</p>
+<p>With the new code section created we can now see why code sections are so useful.
+Go to the text that denotes the first code section (<strong>"Classes"</strong>).
+Look between the numbers on the left that signify the line number, and the text.
+You will see an arrow pointing downwards.
+You can click that arrow and it will collapse the code section.
+Click the arrow, now pointing right, and it will expand the code section.
+This is super useful so you can hide code sections in your script that you don't currently need to look at.</p>
 <center>
 <img src="figures/R_code_section_collapse.png" style="width:200px; border-radius:5px" />
 </center>
-<p>With the <strong>"Classes"</strong> code section collapsed let us continue to the next section. There will be less annotations in this book as I expect you will make your own now.</p>
+<p>With the <strong>"Classes"</strong> code section collapsed let us continue to the next section.
+There will be less annotations in this book as I expect you will make your own now.</p>
 </div>
 <div id="data-structures" class="section level2 hasAnchor" number="4.4">
 <h2><span class="header-section-number">4.4</span> Data structures<a href="04-R_objects.html#data-structures" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><strong>Data structures</strong> describe how data is structured in an <strong>object</strong>. We will go into 3 main types of <strong>data structures</strong>.</p>
+<p><u id='data_structure_tooltip'><strong>Data structures</strong></u> describe how data is structured in an <strong>object</strong>.
+We will go into 3 main types of <u id='data_structure_tooltip'><strong>data structures</strong></u>.</p>
 <ul>
-<li><strong>Scalar</strong></li>
-<li><strong>Vectors</strong> &amp; <strong>Lists</strong></li>
-<li><strong>Matrices</strong> &amp; <strong>Data frames</strong></li>
+<li><u id='scalar_tooltip'><strong>Scalar</strong></u></li>
+<li><u id='vector_tooltip'><strong>Vectors</strong></u> &amp; <strong>Lists</strong></li>
+<li><u id='matrix_tooltip'><strong>Matrices</strong></u> &amp; <u id='data_frame_tooltip'><strong>Data frames</strong></u></li>
 </ul>
 <div id="scalar" class="section level3 hasAnchor" number="4.4.1">
 <h3><span class="header-section-number">4.4.1</span> Scalar<a href="04-R_objects.html#scalar" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/Rscalar.png" style="width:200px" />
+<img src="figures/Rscalar.png" style="width:100px; background: white; border-radius:5px" />
 </center>
-<p>A <strong>scalar</strong> consists of one value in an object. This can be one <strong>string</strong>, one <strong>numeric</strong>, one <strong>logical</strong> etc. We have only been working with <strong>scalars</strong> thus far but this is about to change.</p>
+<p>A <u id='scalar_tooltip'><strong>scalar</strong></u> consists of one value in an object.
+This can be one <u id='string_tooltip'><strong>string</strong></u>, one <strong>numeric</strong>, one <u id='logical_tooltip'><strong>logical</strong></u> etc.
+We have only been working with <u id='scalar_tooltip'><strong>scalars</strong></u> thus far but this is about to change.</p>
 </div>
 <div id="vectors-lists" class="section level3 hasAnchor" number="4.4.2">
 <h3><span class="header-section-number">4.4.2</span> Vectors &amp; Lists<a href="04-R_objects.html#vectors-lists" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/Rvector.png" style="width:200px" />
+<img src="figures/Rvector.png" style="width:300px; background: white; border-radius: 5px; border: 5px white solid" />
 </center>
-<p>A <strong>R object</strong> can hold multiple values. Many <strong>data</strong> structures can do this with the simplest being a <strong>vector</strong>.</p>
-<p>A <strong>vector</strong> can be created with the <code>c()</code> <strong>function</strong>. This function will combine the provided objects into a single <strong>vector</strong> or <strong>list</strong>.</p>
-<p><strong>Vectors</strong> and <strong>lists</strong> are both 1-dimensional <strong>data structures</strong>. <strong>Vectors</strong> can only contain one <strong>class</strong> (homogeneous) whilst <strong>lists</strong> can contain multiple (heterogeneous). There is more to <strong>lists</strong> but we will not go into them.</p>
-<p>Run the following commands to produce <strong>variables</strong> which contain <strong>vectors</strong>.</p>
+<p>A <strong>R object</strong> can hold multiple values.
+Many <u id='data_structure_tooltip'><strong>data structures</strong></u> can do this with the simplest being a <u id='vector_tooltip'><strong>vector</strong></u>.</p>
+<p>A <u id='vector_tooltip'><strong>vector</strong></u> can be created with the <code>c()</code> <u id='function_tooltip'><strong>function</strong></u>.
+This function will combine the provided objects into a single <u id='vector_tooltip'><strong>vector</strong></u> or <strong>list</strong>.</p>
+<p><u id='vector_tooltip'><strong>Vectors</strong></u> and <strong>lists</strong> are both 1-dimensional <u id='data_structure_tooltip'><strong>data structures</strong></u>.
+<u id='vector_tooltip'><strong>Vectors</strong></u> can only contain one <u id='class_tooltip'><strong>class</strong></u> (homogeneous) whilst <strong>lists</strong> can contain multiple (heterogeneous).
+There is more to <strong>lists</strong> but we will not go into them.</p>
+<p>Run the following commands to produce <u id='variable_tooltip'><strong>variables</strong></u> which contain <u id='vector_tooltip'><strong>vectors</strong></u>.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb33-1"><a href="04-R_objects.html#cb33-1" tabindex="-1"></a>number_vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">16</span>)</span>
 <span id="cb33-2"><a href="04-R_objects.html#cb33-2" tabindex="-1"></a>number_vec</span>
 <span id="cb33-3"><a href="04-R_objects.html#cb33-3" tabindex="-1"></a>number_series_vec <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
 <span id="cb33-4"><a href="04-R_objects.html#cb33-4" tabindex="-1"></a>number_series_vec</span>
 <span id="cb33-5"><a href="04-R_objects.html#cb33-5" tabindex="-1"></a>animals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Whale&quot;</span>,<span class="st">&quot;Seal&quot;</span>,<span class="st">&quot;Hedgehog&quot;</span>,<span class="st">&quot;Mouse&quot;</span>,<span class="st">&quot;Owl&quot;</span>,<span class="st">&quot;Squirrel&quot;</span>,<span class="st">&quot;Vole&quot;</span>,<span class="st">&quot;Shrew&quot;</span>)</span>
 <span id="cb33-6"><a href="04-R_objects.html#cb33-6" tabindex="-1"></a>animals</span></code></pre></div>
-<p>Elements of a <strong>vector</strong> can be accessed through their indices:</p>
+<p>Elements of a <u id='vector_tooltip'><strong>vector</strong></u> can be accessed through their indices:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb34-1"><a href="04-R_objects.html#cb34-1" tabindex="-1"></a>birds <span class="ot">&lt;-</span> animals[<span class="dv">5</span>]</span>
 <span id="cb34-2"><a href="04-R_objects.html#cb34-2" tabindex="-1"></a>birds</span>
 <span id="cb34-3"><a href="04-R_objects.html#cb34-3" tabindex="-1"></a>aquatic <span class="ot">&lt;-</span> animals[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
@@ -613,19 +680,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb34-6"><a href="04-R_objects.html#cb34-6" tabindex="-1"></a>rodents</span>
 <span id="cb34-7"><a href="04-R_objects.html#cb34-7" tabindex="-1"></a>mammals <span class="ot">&lt;-</span> animals[<span class="sc">-</span><span class="dv">5</span>]</span>
 <span id="cb34-8"><a href="04-R_objects.html#cb34-8" tabindex="-1"></a>mammals</span></code></pre></div>
-<p>You can use <strong>operators</strong> and <strong>functions</strong> on a <strong>vector</strong>. When you do each <strong>scalar</strong> within the <strong>vector</strong> will be acted upon.</p>
+<p>You can use <u id='operator_tooltip'><strong>operators</strong></u> and <u id='function_tooltip'><strong>functions</strong></u> on a <u id='vector_tooltip'><strong>vector</strong></u>.
+When you do each <u id='scalar_tooltip'><strong>scalar</strong></u> within the <u id='vector_tooltip'><strong>vector</strong></u> will be acted upon.</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb35-1"><a href="04-R_objects.html#cb35-1" tabindex="-1"></a>number_vec <span class="sc">-</span> <span class="dv">1</span></span>
 <span id="cb35-2"><a href="04-R_objects.html#cb35-2" tabindex="-1"></a>number_vec <span class="sc">*</span> <span class="dv">2</span></span>
 <span id="cb35-3"><a href="04-R_objects.html#cb35-3" tabindex="-1"></a><span class="fu">log</span>(number_vec)</span>
 <span id="cb35-4"><a href="04-R_objects.html#cb35-4" tabindex="-1"></a><span class="fu">length</span>(rodents)</span></code></pre></div>
-<p>Some <strong>functions</strong> are specifically used for <strong>vectors</strong>:</p>
+<p>Some <u id='function_tooltip'><strong>functions</strong></u> are specifically used for <u id='vector_tooltip'><strong>vectors</strong></u>:</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb36-1"><a href="04-R_objects.html#cb36-1" tabindex="-1"></a><span class="fu">mean</span>(number_vec)</span>
 <span id="cb36-2"><a href="04-R_objects.html#cb36-2" tabindex="-1"></a><span class="fu">summary</span>(number_vec)</span></code></pre></div>
-<p>We can also test the values within <strong>vectors</strong>:</p>
+<p>We can also test the values within <u id='vector_tooltip'><strong>vectors</strong></u>:</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb37-1"><a href="04-R_objects.html#cb37-1" tabindex="-1"></a>aquatic <span class="sc">==</span> <span class="st">&quot;Whale&quot;</span></span>
 <span id="cb37-2"><a href="04-R_objects.html#cb37-2" tabindex="-1"></a>number_vec <span class="sc">&gt;</span> <span class="dv">4</span></span>
 <span id="cb37-3"><a href="04-R_objects.html#cb37-3" tabindex="-1"></a>number_vec[number_vec <span class="sc">&gt;</span> <span class="dv">4</span>]</span></code></pre></div>
-<p>The <code>paste()</code> <strong>function</strong> can be used to paste <strong>string scalars</strong> to other <strong>string scalars</strong> or to <strong>string vectors</strong>:</p>
+<p>The <code>paste()</code> <u id='function_tooltip'><strong>function</strong></u> can be used to paste <strong><u id='string_tooltip'>string</u> <u id='scalar_tooltip'>scalars</u></strong> to other <strong><u id='string_tooltip'>string</u> <u id='scalar_tooltip'>scalars</u></strong> or to <strong><u id='string_tooltip'>string</u> <u id='vector_tooltip'>vectors</u></strong>:</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb38-1"><a href="04-R_objects.html#cb38-1" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;Animals&quot;</span>, animals)</span>
 <span id="cb38-2"><a href="04-R_objects.html#cb38-2" tabindex="-1"></a>bird_or_mammal <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;mammal&quot;</span>,<span class="st">&quot;mammal&quot;</span>,<span class="st">&quot;mammal&quot;</span>,<span class="st">&quot;mammal&quot;</span>,<span class="st">&quot;bird&quot;</span>,<span class="st">&quot;mammal&quot;</span>,<span class="st">&quot;mammal&quot;</span>,<span class="st">&quot;mammal&quot;</span>)</span>
 <span id="cb38-3"><a href="04-R_objects.html#cb38-3" tabindex="-1"></a><span class="fu">paste</span>(animals, bird_or_mammal, <span class="at">sep =</span> <span class="st">&quot;:&quot;</span>)</span>
@@ -634,40 +702,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="data-frames-matrices" class="section level3 hasAnchor" number="4.4.3">
 <h3><span class="header-section-number">4.4.3</span> Data frames &amp; Matrices<a href="04-R_objects.html#data-frames-matrices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/Rmatrix.png" style="width:200px; background:white; border-radius:15px" />
+<img src="figures/Rmatrix.png" style="width:200px; background:white; border-radius:5px; border: 5px white solid" />
 </center>
-<p><strong>Data frames</strong> &amp; <strong>matrices</strong> are 2-dimensional data structures as they have rows and columns.</p>
-<p>A <strong>matrix</strong> only contains 1 <strong>class</strong> (homogeneous). A <strong>data frame</strong> can contain multiple <strong>classes</strong> (heterogeneous), but each column can only contain one <strong>class</strong>.</p>
-<p>Most of the time <strong>data frames</strong> and <strong>matrices</strong> can be treated the same. Because of this I generally use <strong>data frames</strong> and so we will focus on them.</p>
-<p>R comes with a set of pre-loaded data. If you are interested you can use the <strong>function</strong> <code>data()</code> to see the full list.</p>
-<p>We will have a quick look at the dataset "mtcars". This is a <strong>data frame</strong> containing information on various cars. To look at the <strong>data frame</strong> in the <strong>console window</strong> run the below.</p>
+<p><u id='data_frame_tooltip'><strong>Data frames</strong></u> &amp; <u id='matrix_tooltip'><strong>matrices</strong></u> are 2-dimensional data structures as they have rows and columns.</p>
+<p>A <u id='matrix_tooltip'><strong>matrix</strong></u> only contains 1 <u id='class_tooltip'><strong>class</strong></u> (homogeneous). A <u id='data_frame_tooltip'><strong>data frame</strong></u> can contain multiple <u id='class_tooltip'><strong>classes</strong></u> (heterogeneous), but each column can only contain one <u id='class_tooltip'><strong>class</strong></u>.</p>
+<p>Most of the time <u id='data_frame_tooltip'><strong>data frames</strong></u> and <u id='matrix_tooltip'><strong>matrices</strong></u> can be treated the same. Because of this I generally use <u id='data_frame_tooltip'><strong>data frames</strong></u> and so we will focus on them.</p>
+<p>R comes with a set of pre-loaded data. If you are interested you can use the <u id='function_tooltip'><strong>function</strong></u> <code>data()</code> to see the full list.</p>
+<p>We will have a quick look at the dataset "mtcars". This is a <u id='data_frame_tooltip'><strong>data frame</strong></u> containing information on various cars. To look at the <u id='data_frame_tooltip'><strong>data frame</strong></u> in the <strong>console window</strong> run the below.</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb39-1"><a href="04-R_objects.html#cb39-1" tabindex="-1"></a>mtcars</span></code></pre></div>
-<p>The above shows the info in the <strong>console window</strong>. However we can have a better look at it in RStudio if we save it as a <strong>variable</strong> in our <strong>environment</strong> and then click the <strong>variable</strong> name on the <strong>Environment pane</strong> of the <strong>"environment and history"</strong> <strong>window</strong>.</p>
+<p>The above shows the info in the <strong>console window</strong>.
+However we can have a better look at it in RStudio if we save it as a <u id='variable_tooltip'><strong>variable</strong></u> in our <strong>environment</strong> and then click the <u id='variable_tooltip'><strong>variable</strong></u> name on the <strong>Environment pane</strong> of the <strong>"environment and history"</strong> <strong>window</strong>.</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb40-1"><a href="04-R_objects.html#cb40-1" tabindex="-1"></a>cars_info <span class="ot">&lt;-</span> mtcars</span></code></pre></div>
-<p>Now the <strong>variable</strong> will be listed in your <strong>Environment pane</strong> in the <strong>"environment and history" window</strong> . Click on the name "cars_info" in the <strong>Environment pane</strong>. A tab in your <strong>script editor</strong> will open so you can have a good look at the contents of the <strong>data frame</strong>.</p>
-<p>When you are ready, close the "cars_info" tab and remove the <strong>variable</strong> with the below command.</p>
+<p>Now the <u id='variable_tooltip'><strong>variable</strong></u> will be listed in your <strong>Environment pane</strong> in the <strong>"environment and history" window</strong> .
+Click on the name "cars_info" in the <strong>Environment pane</strong>.
+A tab in your <strong>script editor</strong> will open so you can have a good look at the contents of the <u id='data_frame_tooltip'><strong>data frame</strong></u>.</p>
+<p>When you are ready, close the "cars_info" tab and remove the <u id='variable_tooltip'><strong>variable</strong></u> with the below command.</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb41-1"><a href="04-R_objects.html#cb41-1" tabindex="-1"></a><span class="fu">rm</span>(cars_info)</span></code></pre></div>
-<p>Now it is time to create our own <strong>data frame</strong>.</p>
-<p>First we will create three <strong>variables</strong> containing <strong>vectors</strong>. These will be our three columns.</p>
+<p>Now it is time to create our own <u id='data_frame_tooltip'><strong>data frame</strong></u>.</p>
+<p>First we will create three <u id='variable_tooltip'><strong>variables</strong></u> containing <u id='vector_tooltip'><strong>vectors</strong></u>.
+These will be our three columns.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb42-1"><a href="04-R_objects.html#cb42-1" tabindex="-1"></a>Crab <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb42-2"><a href="04-R_objects.html#cb42-2" tabindex="-1"></a>Oystercatcher <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>)</span>
 <span id="cb42-3"><a href="04-R_objects.html#cb42-3" tabindex="-1"></a>Starfish <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">7</span>)</span></code></pre></div>
-<p>Now let us create the <strong>data frame</strong>.</p>
+<p>Now let us create the <u id='data_frame_tooltip'><strong>data frame</strong></u>.</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb43-1"><a href="04-R_objects.html#cb43-1" tabindex="-1"></a><span class="co">#Using the function data.frame to create a data frame</span></span>
 <span id="cb43-2"><a href="04-R_objects.html#cb43-2" tabindex="-1"></a>beach_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Crab,Oystercatcher,Starfish)</span></code></pre></div>
-<p>Look at the <strong>variable</strong> "beach_df" (it is useful to use "df" in <strong>variable names</strong> to signify it is a <strong>data frame</strong>) and you will see that each <strong>vector</strong> has become a column. The <strong>variable names</strong> have become the column names (this is why we used capital letters in the <strong>variable names</strong>).</p>
-<p>You can think of <strong>data frames</strong> in three different ways:</p>
+<p>Look at the <u id='variable_tooltip'><strong>variable</strong></u> "beach_df" (it is useful to use "df" in <strong><u id='variable_tooltip'>variable</u> names</strong> to signify it is a <u id='data_frame_tooltip'><strong>data frame</strong></u>) and you will see that each <u id='vector_tooltip'><strong>vector</strong></u> has become a column.
+The <strong><u id='variable_tooltip'>variable</u> names</strong> have become the column names (this is why we used capital letters in the <strong><u id='variable_tooltip'>variable</u> names</strong>).</p>
+<p>You can think of <u id='data_frame_tooltip'><strong>data frames</strong></u> in three different ways:</p>
 <ul>
 <li>A list of columns</li>
 <li>A list of rows</li>
 <li>A table</li>
 </ul>
-<p>Look at the column and row names with two new <strong>functions</strong>.</p>
+<p>Look at the column and row names with two new <u id='function_tooltip'><strong>functions</strong></u>.</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb44-1"><a href="04-R_objects.html#cb44-1" tabindex="-1"></a><span class="fu">colnames</span>(beach_df)</span>
 <span id="cb44-2"><a href="04-R_objects.html#cb44-2" tabindex="-1"></a><span class="fu">row.names</span>(beach_df)</span></code></pre></div>
-<p>We can use the <strong>function</strong> <code>row.names()</code> and the <strong>assignment operator</strong> to change the row names to something more useful.</p>
+<p>We can use the <u id='function_tooltip'><strong>function</strong></u> <code>row.names()</code> and the <strong>assignment operator</strong> to change the row names to something more useful.</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb45-1"><a href="04-R_objects.html#cb45-1" tabindex="-1"></a><span class="fu">row.names</span>(beach_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Formby&quot;</span>,<span class="st">&quot;West Kirby&quot;</span>,<span class="st">&quot;Crosby&quot;</span>)</span></code></pre></div>
-<p>Now look at your "beach_df" <strong>data frame</strong> to see the difference.</p>
+<p>Now look at your "beach_df" <u id='data_frame_tooltip'><strong>data frame</strong></u> to see the difference.</p>
 </div>
 </div>
 <div id="objects-mcqs" class="section level2 hasAnchor" number="4.5">
@@ -675,58 +748,85 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <center>
 <img src="figures/question_bubble_purple.png" style="width:200px" />
 </center>
-<p>Attempt the below MCQs.</p>
+<p>Super! Understanding the different classes and data structures is vital to understanding R.</p>
+<p>Try choosing the correct answer for each of the below MCQs.</p>
 <ol style="list-style-type: decimal">
 <li>What <strong>class</strong> are numbers normally stored in?
-<div id="radio_HDWRIORXFL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HDWRIORXFL" value="answer"></input> <span>Numeric</span></label><label><input type="radio" autocomplete="off" name="radio_HDWRIORXFL" value=""></input> <span>Logical</span></label><label><input type="radio" autocomplete="off" name="radio_HDWRIORXFL" value=""></input> <span>String</span></label>
+<div id="radio_NGDRWKGOZI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NGDRWKGOZI" value="answer"></input> <span>Numeric</span></label><label><input type="radio" autocomplete="off" name="radio_NGDRWKGOZI" value=""></input> <span>Logical</span></label><label><input type="radio" autocomplete="off" name="radio_NGDRWKGOZI" value=""></input> <span>String</span></label>
 </div></li>
 <li>What <strong>class</strong> is text normally stored in?
-<div id="radio_YOTTDUOBJH" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YOTTDUOBJH" value=""></input> <span>Numeric</span></label><label><input type="radio" autocomplete="off" name="radio_YOTTDUOBJH" value=""></input> <span>Logical</span></label><label><input type="radio" autocomplete="off" name="radio_YOTTDUOBJH" value="answer"></input> <span>String</span></label>
+<div id="radio_WBPYFLTBMB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WBPYFLTBMB" value=""></input> <span>Numeric</span></label><label><input type="radio" autocomplete="off" name="radio_WBPYFLTBMB" value=""></input> <span>Logical</span></label><label><input type="radio" autocomplete="off" name="radio_WBPYFLTBMB" value="answer"></input> <span>String</span></label>
 </div></li>
 <li>What <strong>class</strong> has the value of TRUE or FALSE?
-<div id="radio_JBERZAALXA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_JBERZAALXA" value=""></input> <span>Numeric</span></label><label><input type="radio" autocomplete="off" name="radio_JBERZAALXA" value="answer"></input> <span>Logical</span></label><label><input type="radio" autocomplete="off" name="radio_JBERZAALXA" value=""></input> <span>String</span></label>
+<div id="radio_QMHZFMTQVA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QMHZFMTQVA" value=""></input> <span>Numeric</span></label><label><input type="radio" autocomplete="off" name="radio_QMHZFMTQVA" value="answer"></input> <span>Logical</span></label><label><input type="radio" autocomplete="off" name="radio_QMHZFMTQVA" value=""></input> <span>String</span></label>
 </div></li>
 <li>Which <strong>data structure</strong> is 2-dimensional and heterogeneous (can contain multiple <strong>classes</strong>)?
-<div id="radio_RVNNOJVRFE" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RVNNOJVRFE" value=""></input> <span>Scalar</span></label><label><input type="radio" autocomplete="off" name="radio_RVNNOJVRFE" value=""></input> <span>Vector</span></label><label><input type="radio" autocomplete="off" name="radio_RVNNOJVRFE" value="answer"></input> <span>Data frame</span></label>
+<div id="radio_PKMSRKQHXB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PKMSRKQHXB" value=""></input> <span>Scalar</span></label><label><input type="radio" autocomplete="off" name="radio_PKMSRKQHXB" value=""></input> <span>Vector</span></label><label><input type="radio" autocomplete="off" name="radio_PKMSRKQHXB" value="answer"></input> <span>Data frame</span></label>
 </div></li>
 <li>Which <strong>data structure</strong> is 1-dimensional and homogeneous (can only contain 1 <strong>class</strong>)?
-<div id="radio_SUKKRRNZJL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SUKKRRNZJL" value=""></input> <span>Scalar</span></label><label><input type="radio" autocomplete="off" name="radio_SUKKRRNZJL" value="answer"></input> <span>Vector</span></label><label><input type="radio" autocomplete="off" name="radio_SUKKRRNZJL" value=""></input> <span>Data frame</span></label>
+<div id="radio_HCEBSGUPXW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HCEBSGUPXW" value=""></input> <span>Scalar</span></label><label><input type="radio" autocomplete="off" name="radio_HCEBSGUPXW" value="answer"></input> <span>Vector</span></label><label><input type="radio" autocomplete="off" name="radio_HCEBSGUPXW" value=""></input> <span>Data frame</span></label>
 </div></li>
 <li>Which <strong>data structure</strong> consists of only one value?
-<div id="radio_MMRQMTGNST" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MMRQMTGNST" value="answer"></input> <span>Scalar</span></label><label><input type="radio" autocomplete="off" name="radio_MMRQMTGNST" value=""></input> <span>Vector</span></label><label><input type="radio" autocomplete="off" name="radio_MMRQMTGNST" value=""></input> <span>Data frame</span></label>
+<div id="radio_ITHJJXTCZI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ITHJJXTCZI" value="answer"></input> <span>Scalar</span></label><label><input type="radio" autocomplete="off" name="radio_ITHJJXTCZI" value=""></input> <span>Vector</span></label><label><input type="radio" autocomplete="off" name="radio_ITHJJXTCZI" value=""></input> <span>Data frame</span></label>
 </div></li>
 <li>Which <strong>function</strong> can show the <strong>class</strong> of an R <strong>object</strong>?
-<div id="radio_PXMLZBMJXB" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PXMLZBMJXB" value=""></input> <span><code>c()</code></span></label><label><input type="radio" autocomplete="off" name="radio_PXMLZBMJXB" value="answer"></input> <span><code>class()</code></span></label><label><input type="radio" autocomplete="off" name="radio_PXMLZBMJXB" value=""></input> <span><code>paste()</code></span></label>
+<div id="radio_FLJTEOTUFS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FLJTEOTUFS" value=""></input> <span><code>c()</code></span></label><label><input type="radio" autocomplete="off" name="radio_FLJTEOTUFS" value="answer"></input> <span><code>class()</code></span></label><label><input type="radio" autocomplete="off" name="radio_FLJTEOTUFS" value=""></input> <span><code>paste()</code></span></label>
 </div></li>
 <li>Which <strong>function</strong> can be used to combine <strong>strings</strong>?
-<div id="radio_OSXRGGPFDD" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_OSXRGGPFDD" value=""></input> <span><code>c()</code></span></label><label><input type="radio" autocomplete="off" name="radio_OSXRGGPFDD" value=""></input> <span><code>class()</code></span></label><label><input type="radio" autocomplete="off" name="radio_OSXRGGPFDD" value="answer"></input> <span><code>paste()</code></span></label>
+<div id="radio_HFWKIMLSOU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HFWKIMLSOU" value=""></input> <span><code>c()</code></span></label><label><input type="radio" autocomplete="off" name="radio_HFWKIMLSOU" value=""></input> <span><code>class()</code></span></label><label><input type="radio" autocomplete="off" name="radio_HFWKIMLSOU" value="answer"></input> <span><code>paste()</code></span></label>
 </div></li>
 <li>Which <strong>function</strong> can be used to create a <strong>vector</strong>?
-<div id="radio_FHQMJADFZL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FHQMJADFZL" value="answer"></input> <span><code>c()</code></span></label><label><input type="radio" autocomplete="off" name="radio_FHQMJADFZL" value=""></input> <span><code>class()</code></span></label><label><input type="radio" autocomplete="off" name="radio_FHQMJADFZL" value=""></input> <span><code>paste()</code></span></label>
+<div id="radio_VHNYLVAMQM" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VHNYLVAMQM" value="answer"></input> <span><code>c()</code></span></label><label><input type="radio" autocomplete="off" name="radio_VHNYLVAMQM" value=""></input> <span><code>class()</code></span></label><label><input type="radio" autocomplete="off" name="radio_VHNYLVAMQM" value=""></input> <span><code>paste()</code></span></label>
 </div></li>
 <li>Which <strong>logical operator</strong> means "less than"?
-<div id="radio_PONNCGEAYM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PONNCGEAYM" value="answer"></input> <span><code>&lt;</code></span></label><label><input type="radio" autocomplete="off" name="radio_PONNCGEAYM" value=""></input> <span><code>!=</code></span></label><label><input type="radio" autocomplete="off" name="radio_PONNCGEAYM" value=""></input> <span><code>&gt;=</code></span></label>
+<div id="radio_SOCFFAZTDD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SOCFFAZTDD" value="answer"></input> <span><code>&lt;</code></span></label><label><input type="radio" autocomplete="off" name="radio_SOCFFAZTDD" value=""></input> <span><code>!=</code></span></label><label><input type="radio" autocomplete="off" name="radio_SOCFFAZTDD" value=""></input> <span><code>&gt;=</code></span></label>
 </div></li>
 <li>Which <strong>logical operator</strong> means "not equal to"?
-<div id="radio_HSNTJTIWUV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HSNTJTIWUV" value=""></input> <span><code>&lt;</code></span></label><label><input type="radio" autocomplete="off" name="radio_HSNTJTIWUV" value="answer"></input> <span><code>!=</code></span></label><label><input type="radio" autocomplete="off" name="radio_HSNTJTIWUV" value=""></input> <span><code>&gt;=</code></span></label>
+<div id="radio_BXATFVONXN" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BXATFVONXN" value=""></input> <span><code>&lt;</code></span></label><label><input type="radio" autocomplete="off" name="radio_BXATFVONXN" value="answer"></input> <span><code>!=</code></span></label><label><input type="radio" autocomplete="off" name="radio_BXATFVONXN" value=""></input> <span><code>&gt;=</code></span></label>
 </div></li>
 <li>Which <strong>logical operator</strong> means "greater than or equal to"?
-<div id="radio_LWNSDZVEHF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_LWNSDZVEHF" value=""></input> <span><code>&lt;</code></span></label><label><input type="radio" autocomplete="off" name="radio_LWNSDZVEHF" value=""></input> <span><code>!=</code></span></label><label><input type="radio" autocomplete="off" name="radio_LWNSDZVEHF" value="answer"></input> <span><code>&gt;=</code></span></label>
+<div id="radio_CJJWODYHVQ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CJJWODYHVQ" value=""></input> <span><code>&lt;</code></span></label><label><input type="radio" autocomplete="off" name="radio_CJJWODYHVQ" value=""></input> <span><code>!=</code></span></label><label><input type="radio" autocomplete="off" name="radio_CJJWODYHVQ" value="answer"></input> <span><code>&gt;=</code></span></label>
 </div></li>
 </ol>
 <p>There was quite a lot to go through in this chapter, so let us reinforce it all with exercise!</p>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-52b50658c85a4c1ab8b6" width="672"></span>
+<script type="application/json" data-for="htmlwidget-52b50658c85a4c1ab8b6">{"x":{"element":"operator_tooltip","opts":{"content":"+, -, /, *, etc.","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-36e0d83ff582e35fea92" width="672"></span>
+<script type="application/json" data-for="htmlwidget-36e0d83ff582e35fea92">{"x":{"element":"variable_tooltip","opts":{"content":"Container of an R object with a name","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-c2a8f12a197a4e661502" width="672"></span>
+<script type="application/json" data-for="htmlwidget-c2a8f12a197a4e661502">{"x":{"element":"function_tooltip","opts":{"content":"Named block of code that performs a specific task","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-ef3dc9b509b89255ca37" width="672"></span>
+<script type="application/json" data-for="htmlwidget-ef3dc9b509b89255ca37">{"x":{"element":"class_tooltip","opts":{"content":"Object data type, e.g. integer, double, string, and logical","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-b0ff5e1533ae178cb352" width="672"></span>
+<script type="application/json" data-for="htmlwidget-b0ff5e1533ae178cb352">{"x":{"element":"data_structure_tooltip","opts":{"content":"Object structure type, e.g. scalar, vector, and data frame","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-a42acc93a73aa5f515d9" width="672"></span>
+<script type="application/json" data-for="htmlwidget-a42acc93a73aa5f515d9">{"x":{"element":"integer_tooltip","opts":{"content":"Number without decimal points","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-1fd2b6b72525a95aa207" width="672"></span>
+<script type="application/json" data-for="htmlwidget-1fd2b6b72525a95aa207">{"x":{"element":"double_tooltip","opts":{"content":"Number with decimal points","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-c5bd4d39cf73a3b5e282" width="672"></span>
+<script type="application/json" data-for="htmlwidget-c5bd4d39cf73a3b5e282">{"x":{"element":"string_tooltip","opts":{"content":"Text","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-fa7f8f5f40a60ceda1d9" width="672"></span>
+<script type="application/json" data-for="htmlwidget-fa7f8f5f40a60ceda1d9">{"x":{"element":"logical_tooltip","opts":{"content":"TRUE or FALSE","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-698ec165e615ba623ba8" width="672"></span>
+<script type="application/json" data-for="htmlwidget-698ec165e615ba623ba8">{"x":{"element":"scalar_tooltip","opts":{"content":"A single value in a object","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-aa6bcc25200e3705ecdb" width="672"></span>
+<script type="application/json" data-for="htmlwidget-aa6bcc25200e3705ecdb">{"x":{"element":"vector_tooltip","opts":{"content":"Homogenous 1-dimensional data structure","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-22e6c9dc3f0b1cec251b" width="672"></span>
+<script type="application/json" data-for="htmlwidget-22e6c9dc3f0b1cec251b">{"x":{"element":"matrix_tooltip","opts":{"content":"Homogeneous 2-dimensional data structure","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-96587809c5afee982395" width="672"></span>
+<script type="application/json" data-for="htmlwidget-96587809c5afee982395">{"x":{"element":"data_frame_tooltip","opts":{"content":"Heterogeneous 2-dimensional data structure. Each column is homogeneous","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
 
 </div>
 </div>
@@ -956,29 +1056,29 @@ window.onload = function() {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": null,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": null,
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>
