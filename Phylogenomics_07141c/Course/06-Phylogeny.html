@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Model selection, tree reconstruction and support evaluation | Phylogenomics</title>
   <meta name="description" content="NEOF book for the Phylogenomics workshop" />
-  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Model selection, tree reconstruction and support evaluation | Phylogenomics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Gavin Gouws, Matthew Gemmell, Ewan Harney, Helen Hipperson, Kathryn Maher" />
 
 
-<meta name="date" content="2025-07-14" />
+<meta name="date" content="2025-09-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,11 +56,20 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/translucent.css" rel="stylesheet" />
+<script src="libs/tippyjs-3.2.0/tippy.all.min.js"></script>
+<script src="libs/tippy-binding-0.1.0/tippy.js"></script>
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -70,7 +79,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -345,16 +354,16 @@ There is also an IQ-TREE <a href="http://iqtree.cibiv.univie.ac.at/">web-server<
 <div class="sourceCode" id="cb37"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb37-1"><a href="06-Phylogeny.html#cb37-1" tabindex="-1"></a><span class="fu">less</span> manta_phylogeny.phylip.log</span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Near the top of the report, how many characters in our matrix are informative around relationships (i.e., parsimony-informative)?
-<div id="radio_DVOHBFVUSY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DVOHBFVUSY" value=""></input> <span>1302</span></label><label><input type="radio" autocomplete="off" name="radio_DVOHBFVUSY" value="answer"></input> <span>5610</span></label><label><input type="radio" autocomplete="off" name="radio_DVOHBFVUSY" value=""></input> <span>6031</span></label><label><input type="radio" autocomplete="off" name="radio_DVOHBFVUSY" value=""></input> <span>6912</span></label>
+<div id="radio_EAFXEHASOD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EAFXEHASOD" value=""></input> <span>1302</span></label><label><input type="radio" autocomplete="off" name="radio_EAFXEHASOD" value="answer"></input> <span>5610</span></label><label><input type="radio" autocomplete="off" name="radio_EAFXEHASOD" value=""></input> <span>6031</span></label><label><input type="radio" autocomplete="off" name="radio_EAFXEHASOD" value=""></input> <span>6912</span></label>
 </div></li>
 <li>How many sequences were flagged as having more than 50% missing data (coded as ambiguities in our alignment), resulting from our approach to generate a sparser data set, but with more SNPs?
-<div id="radio_EAJQNHPMJY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_EAJQNHPMJY" value=""></input> <span>0</span></label><label><input type="radio" autocomplete="off" name="radio_EAJQNHPMJY" value="answer"></input> <span>2</span></label><label><input type="radio" autocomplete="off" name="radio_EAJQNHPMJY" value=""></input> <span>6</span></label><label><input type="radio" autocomplete="off" name="radio_EAJQNHPMJY" value=""></input> <span>12</span></label>
+<div id="radio_YYOYGSOFQL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YYOYGSOFQL" value=""></input> <span>0</span></label><label><input type="radio" autocomplete="off" name="radio_YYOYGSOFQL" value="answer"></input> <span>2</span></label><label><input type="radio" autocomplete="off" name="radio_YYOYGSOFQL" value=""></input> <span>6</span></label><label><input type="radio" autocomplete="off" name="radio_YYOYGSOFQL" value=""></input> <span>12</span></label>
 </div></li>
 <li>Which is the optimal model for this data set, as selected using the BIC (i.e., resulting in the lowest BIC score)?
-<div id="radio_DHCCMLLXPR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DHCCMLLXPR" value="answer"></input> <span>K2P+ASC</span></label><label><input type="radio" autocomplete="off" name="radio_DHCCMLLXPR" value=""></input> <span>TVM+F+ASC</span></label>
+<div id="radio_BBQJVZZKRJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BBQJVZZKRJ" value="answer"></input> <span>K2P+ASC</span></label><label><input type="radio" autocomplete="off" name="radio_BBQJVZZKRJ" value=""></input> <span>TVM+F+ASC</span></label>
 </div></li>
 </ol>
 <p>An overview of the various models of sequence or nucleotide evolution can be found <a href="https://en.wikipedia.org/wiki/Models_of_DNA_evolution">here</a>. At the base are a number of simple or straight-forward models (with very few parameters), but these are made increasingly more complex as more parameters are allowed to vary or are added. Older software packages only implemented simpler models, but with increasing computing power, we can now make the models a lot more complicated and specific. This is often needed for our larger and more complex data sets.</p>
