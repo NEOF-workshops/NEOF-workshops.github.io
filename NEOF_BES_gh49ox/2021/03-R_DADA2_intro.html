@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Introduction to DADA2 and R | Metabarcoding for diet analysis and environmental DNA</title>
+  <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Introduction to DADA2 and R | Metabarcoding for diet analysis and environmental DNA" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Introduction to DADA2 and R | Metabarcoding for diet analysis and environmental DNA" />
+  
+  <meta name="twitter:description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Katy Maher, Helen Hipperson &amp; Graeme Fox" />
+
+
+<meta name="date" content="2025-12-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="02-Example_dataset.html"/>
+<link rel="next" href="04-Cluster_Introduction.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_small_logo.png"></a></li>
+<li><a>Environmental metabarcoding</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>Getting started</b></span></li>
+<li class="chapter" data-level="1" data-path="01-Metabarcoding.html"><a href="01-Metabarcoding.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="02-Example_dataset.html"><a href="02-Example_dataset.html"><i class="fa fa-check"></i><b>2</b> Background</a></li>
+<li class="chapter" data-level="3" data-path="03-R_DADA2_intro.html"><a href="03-R_DADA2_intro.html"><i class="fa fa-check"></i><b>3</b> Introduction to DADA2 and R</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="03-R_DADA2_intro.html"><a href="03-R_DADA2_intro.html#dada2"><i class="fa fa-check"></i><b>3.1</b> DADA2</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="03-R_DADA2_intro.html"><a href="03-R_DADA2_intro.html#otus-vs-asvs"><i class="fa fa-check"></i><b>3.1.1</b> OTUs vs ASVs</a></li>
+<li class="chapter" data-level="3.1.2" data-path="03-R_DADA2_intro.html"><a href="03-R_DADA2_intro.html#workflow"><i class="fa fa-check"></i><b>3.1.2</b> Workflow</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="03-R_DADA2_intro.html"><a href="03-R_DADA2_intro.html#r"><i class="fa fa-check"></i><b>3.2</b> R</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="03-R_DADA2_intro.html"><a href="03-R_DADA2_intro.html#the-console-window"><i class="fa fa-check"></i><b>3.2.1</b> The console window</a></li>
+<li class="chapter" data-level="3.2.2" data-path="03-R_DADA2_intro.html"><a href="03-R_DADA2_intro.html#your-working-directory"><i class="fa fa-check"></i><b>3.2.2</b> Your working directory</a></li>
+<li class="chapter" data-level="3.2.3" data-path="03-R_DADA2_intro.html"><a href="03-R_DADA2_intro.html#packages"><i class="fa fa-check"></i><b>3.2.3</b> Packages</a></li>
+<li class="chapter" data-level="3.2.4" data-path="03-R_DADA2_intro.html"><a href="03-R_DADA2_intro.html#functions"><i class="fa fa-check"></i><b>3.2.4</b> Functions</a></li>
+<li class="chapter" data-level="3.2.5" data-path="03-R_DADA2_intro.html"><a href="03-R_DADA2_intro.html#assigning-values-to-variables"><i class="fa fa-check"></i><b>3.2.5</b> Assigning values to variables</a></li>
+<li class="chapter" data-level="3.2.6" data-path="03-R_DADA2_intro.html"><a href="03-R_DADA2_intro.html#a-few-useful-commands-and-tips"><i class="fa fa-check"></i><b>3.2.6</b> A few useful commands and tips</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="04-Cluster_Introduction.html"><a href="04-Cluster_Introduction.html"><i class="fa fa-check"></i><b>4</b> Cluster Introduction</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-Cluster_Introduction.html"><a href="04-Cluster_Introduction.html#logon-instructions"><i class="fa fa-check"></i><b>4.1</b> Logon instructions</a></li>
+<li class="chapter" data-level="4.2" data-path="04-Cluster_Introduction.html"><a href="04-Cluster_Introduction.html#the-terminal-window"><i class="fa fa-check"></i><b>4.2</b> The Terminal Window</a></li>
+</ul></li>
+<li class="part"><span><b>DADA2</b></span></li>
+<li class="chapter" data-level="5" data-path="05-Loading_data.html"><a href="05-Loading_data.html"><i class="fa fa-check"></i><b>5</b> Loading data into R and DADA2</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-Loading_data.html"><a href="05-Loading_data.html#loading-r"><i class="fa fa-check"></i><b>5.1</b> Loading R</a></li>
+<li class="chapter" data-level="5.2" data-path="05-Loading_data.html"><a href="05-Loading_data.html#loading-dada2"><i class="fa fa-check"></i><b>5.2</b> Loading DADA2</a></li>
+<li class="chapter" data-level="5.3" data-path="05-Loading_data.html"><a href="05-Loading_data.html#loading-our-data"><i class="fa fa-check"></i><b>5.3</b> Loading our data</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="05-Loading_data.html"><a href="05-Loading_data.html#saving-the-paths-for-our-input-and-output-directories"><i class="fa fa-check"></i><b>5.3.1</b> Saving the paths for our input and output directories</a></li>
+<li class="chapter" data-level="5.3.2" data-path="05-Loading_data.html"><a href="05-Loading_data.html#inputting-the-forward-and-reverse-reads"><i class="fa fa-check"></i><b>5.3.2</b> Inputting the forward and reverse reads</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="06-quality_checks.html"><a href="06-quality_checks.html"><i class="fa fa-check"></i><b>6</b> Checking the quality of your data</a></li>
+<li class="chapter" data-level="7" data-path="07-clean.html"><a href="07-clean.html"><i class="fa fa-check"></i><b>7</b> Cleaning your data</a></li>
+<li class="chapter" data-level="8" data-path="08-ASV_identification.html"><a href="08-ASV_identification.html"><i class="fa fa-check"></i><b>8</b> Identification of ASVs</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="08-ASV_identification.html"><a href="08-ASV_identification.html#generate-an-error-model"><i class="fa fa-check"></i><b>8.1</b> Generate an error model</a></li>
+<li class="chapter" data-level="8.2" data-path="08-ASV_identification.html"><a href="08-ASV_identification.html#dereplication"><i class="fa fa-check"></i><b>8.2</b> Dereplication</a></li>
+<li class="chapter" data-level="8.3" data-path="08-ASV_identification.html"><a href="08-ASV_identification.html#inferrence-of-asvs"><i class="fa fa-check"></i><b>8.3</b> Inferrence of ASVs</a></li>
+<li class="chapter" data-level="8.4" data-path="08-ASV_identification.html"><a href="08-ASV_identification.html#merging-paired-end-reads"><i class="fa fa-check"></i><b>8.4</b> Merging paired end reads</a></li>
+<li class="chapter" data-level="8.5" data-path="08-ASV_identification.html"><a href="08-ASV_identification.html#making-our-asv-matrix"><i class="fa fa-check"></i><b>8.5</b> Making our ASV matrix</a></li>
+<li class="chapter" data-level="8.6" data-path="08-ASV_identification.html"><a href="08-ASV_identification.html#chimera-detection-and-removal"><i class="fa fa-check"></i><b>8.6</b> Chimera detection and removal</a></li>
+<li class="chapter" data-level="8.7" data-path="08-ASV_identification.html"><a href="08-ASV_identification.html#sequence-tracking-sanity-check"><i class="fa fa-check"></i><b>8.7</b> Sequence tracking sanity check</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="09-Assign_taxonomy.html"><a href="09-Assign_taxonomy.html"><i class="fa fa-check"></i><b>9</b> Assigning taxonomy</a></li>
+<li class="part"><span><b>Analysis</b></span></li>
+<li class="chapter" data-level="10" data-path="10-Further_analysis.html"><a href="10-Further_analysis.html"><i class="fa fa-check"></i><b>10</b> Further analysis</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="10-Further_analysis.html"><a href="10-Further_analysis.html#r-packages-for-further-analysis"><i class="fa fa-check"></i><b>10.1</b> R packages for further analysis</a></li>
+<li class="chapter" data-level="10.2" data-path="10-Further_analysis.html"><a href="10-Further_analysis.html#rarefaction-curves"><i class="fa fa-check"></i><b>10.2</b> Rarefaction curves</a></li>
+<li class="chapter" data-level="10.3" data-path="10-Further_analysis.html"><a href="10-Further_analysis.html#alpha-diversity"><i class="fa fa-check"></i><b>10.3</b> Alpha diversity</a></li>
+<li class="chapter" data-level="10.4" data-path="10-Further_analysis.html"><a href="10-Further_analysis.html#beta-diversity"><i class="fa fa-check"></i><b>10.4</b> Beta diversity</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="11-Exporting_data.html"><a href="11-Exporting_data.html"><i class="fa fa-check"></i><b>11</b> Exporting data</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="11-Exporting_data.html"><a href="11-Exporting_data.html#fasta-file"><i class="fa fa-check"></i><b>11.1</b> Fasta file</a></li>
+<li class="chapter" data-level="11.2" data-path="11-Exporting_data.html"><a href="11-Exporting_data.html#sequence-count-matrix"><i class="fa fa-check"></i><b>11.2</b> Sequence count matrix</a></li>
+<li class="chapter" data-level="11.3" data-path="11-Exporting_data.html"><a href="11-Exporting_data.html#table-of-taxon-names"><i class="fa fa-check"></i><b>11.3</b> Table of taxon names</a></li>
+</ul></li>
+<li class="part"><span><b>Second marker</b></span></li>
+<li class="chapter" data-level="12" data-path="12-Summary.html"><a href="12-Summary.html"><i class="fa fa-check"></i><b>12</b> Summary</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="12-Summary.html"><a href="12-Summary.html#neof-training-courses"><i class="fa fa-check"></i><b>12.1</b> NEOF training courses</a></li>
+<li class="chapter" data-level="12.2" data-path="12-Summary.html"><a href="12-Summary.html#feedback-and-access-to-example-data"><i class="fa fa-check"></i><b>12.2</b> Feedback and access to example data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Metabarcoding for diet analysis and environmental DNA</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="R" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Introduction to DADA2 and R<a href="03-R_DADA2_intro.html#R" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="figures/R%20-%20Copy.png" width="15%" style="display: block; margin: auto;" /></p>
+<div id="dada2" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> DADA2<a href="03-R_DADA2_intro.html#dada2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/DADA2_Logo_Text_1_18_640px.png" width="40%" style="display: block; margin: auto;" /></p>
+<p><a href="https://www.nature.com/articles/nmeth.3869">DADA2</a> is an open-source software package for modeling and correcting Illumina-sequenced amplicon errors.</p>
+<p>It has several advantages over other amplicon pipelines:</p>
+<ul>
+<li>Resolution: DADA2 infers amplicon sequence variants (ASVs) from amplicon data rather than operational taxonomic units (OTUs) clustering based methods (we will discuss what these are and how they differ below).</li>
+<li>Accuracy: DADA2 reports fewer false positive sequence variants than other methods. It incorporates quality information, quantitative abundances, sequence differences and parameterises its error model using the data provided.</li>
+<li>Comparability: The ASVs output by DADA2 can be directly compared between studies, without the need to reprocess the pooled data.</li>
+<li>Computational Scaling: The compute time and memory requirements are lower than some other methods.</li>
+</ul>
+<div id="otus-vs-asvs" class="section level3 hasAnchor" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> OTUs vs ASVs<a href="03-R_DADA2_intro.html#otus-vs-asvs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>OTUs</strong> (operational taxonomic units) are generated by clustering reads into groups based on similarity. A threshold, such as 97% similarity, is used to cluster sequences together often with the hope that all those sequences will belong to the same taxonomic group. Because of this clustering step different datasets cannot be compared.</p>
+<p>Commonly used software that are used for clustering OTUs include:</p>
+<ul>
+<li>UCLUST</li>
+<li>VSEARCH</li>
+<li>CD-Hit</li>
+<li>SWARM</li>
+</ul>
+<p><strong>ASVs</strong> (amplicon sequence variants) are generated using the following methods. First the number of times an exact sequence has been sequenced is calculated. This is then combined with an error model unique for the sequencing run to determine the probability that a particular read is not found in the dataset due to a sequencing error. Reads can then be filtered out according to this calculation with the aim to remove sequencing errors and leave only true sequences.</p>
+<p>ASVs are able to be compared across studies using the same amplicon sequence as exact sequences are used rather than the clusters generated by OTU analysis.</p>
+<p><img src="figures/ASV_otu_comparison.png" width="60%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="workflow" class="section level3 hasAnchor" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Workflow<a href="03-R_DADA2_intro.html#workflow" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The workflow we will be following is summarised below:</p>
+<ol style="list-style-type: decimal">
+<li>Load paired-end data (with primers removed) into the R environment</li>
+<li>Use DADA2 to examine data quality by plotting error profiles</li>
+<li>Filter and trim the files to remove poor quality sequences</li>
+<li>Generate an error model, dereplicate reads and infer ASVs from the clean data</li>
+<li>Merge the paired end reads</li>
+<li>Make an ASV matrix</li>
+<li>Remove potential chimeric reads from the dataset</li>
+<li>Assign taxonomy</li>
+<li>Multivariate analysis</li>
+</ol>
+</div>
+</div>
+<div id="r" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> R<a href="03-R_DADA2_intro.html#r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="figures/R.png" width="20%" style="display: block; margin: auto;" /></p>
+<p>R is an open-source free language and environment which was designed for statistical computing and graphics. It is possible to install R on many UNIX platforms, Windows and MacOS. In addition to its base environment, that contains capabilities for data manipulation, calculation and graphical display, there are many packages (including DADA2) that can be installed and contain additional functions, data and code for analysing, manipulating and plotting different types of data.</p>
+<p>You do not need to understand all the code you will be running today but a basic foundation in R can be useful when you come to analysing your own data and running further analysis. Here are some useful links to get you started if you want to learn more about R after this course.</p>
+<p>Tutorial:</p>
+<p><a href="https://swirlstats.com/" class="uri">https://swirlstats.com/</a></p>
+<p>R Website:</p>
+<p><a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a></p>
+<p>Cran Website:</p>
+<p><a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a></p>
+<p>Rstudio Website:</p>
+<p><a href="https://www.rstudio.com/" class="uri">https://www.rstudio.com/</a></p>
+<p>If you are not familiar with R we have decribed some of the common terminology and put a few hints to help you understand how to run a few basic R commands below. You do not need to type these commands out anywhere, they are provided for reference. Feel free to skip this section and move onto the next chapter if you have used R before and are comfortable with the basics.</p>
+<div id="the-console-window" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> The console window<a href="03-R_DADA2_intro.html#the-console-window" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The console window is the place where the user can type R commands to submit and then view the results, just like the terminal window in linux.</p>
+<p>R shows it is ready to accept commands by showing a <code>&gt;</code> prompt. You can then submit a command using the enter button. If you haven’t completed a command (for example you forget to close a set of parentheses) the <code>+</code> symbol will show on a new line until you finish the command.</p>
+<p><img src="figures/R_hang.png" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="your-working-directory" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Your working directory<a href="03-R_DADA2_intro.html#your-working-directory" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Your working directory is the folder you are currently working on on your computer. If you set this when you read in or write an output to a file R will automatically look for and save files in this directory.</p>
+<p>You can set your working directory using:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="03-R_DADA2_intro.html#cb1-1" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;/path/to/working_directory/&quot;</span>)</span></code></pre></div>
+</div>
+<div id="packages" class="section level3 hasAnchor" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> Packages<a href="03-R_DADA2_intro.html#packages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Packages contain additional functions, data and code for analysing, manipulating and plotting different types of data. Many common packages will be installed as default when you install R. Other more specialised packages, such as the DADA2 package, must be installed by the user.</p>
+<p>Packages found on The Comprehensive R Archive Network (CRAN) which is R’s central software repository can be installed easily using the following command.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="03-R_DADA2_intro.html#cb2-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;package_name&quot;</span>)</span></code></pre></div>
+<p>Every time you reload R you will need to load the packages you need if they are not one of the ones installed by default. To do this type:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="03-R_DADA2_intro.html#cb3-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;package_name&quot;</span>)</span></code></pre></div>
+</div>
+<div id="functions" class="section level3 hasAnchor" number="3.2.4">
+<h3><span class="header-section-number">3.2.4</span> Functions<a href="03-R_DADA2_intro.html#functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Functions are a set of commands that are organised to perform a specific task. There are a lot of functions that come pre-installed in packages in R and others can be installed as parts of packages. It is also possible for users to create their own functions.</p>
+<p>For example a specific function can be called like this, we will use the sum function:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="03-R_DADA2_intro.html#cb4-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="dv">1</span>,<span class="dv">2</span>) <span class="co"># which sums 1+2 and prints 3 to the console window.</span></span></code></pre></div>
+<p>And to write your own function you would type something like this:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="03-R_DADA2_intro.html#cb5-1" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(arg_1, arg_2, ...) {</span>
+<span id="cb5-2"><a href="03-R_DADA2_intro.html#cb5-2" tabindex="-1"></a>   Function body </span>
+<span id="cb5-3"><a href="03-R_DADA2_intro.html#cb5-3" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="assigning-values-to-variables" class="section level3 hasAnchor" number="3.2.5">
+<h3><span class="header-section-number">3.2.5</span> Assigning values to variables<a href="03-R_DADA2_intro.html#assigning-values-to-variables" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A variable provides a means of accessing the data stored in R’s memory. Data can be assigned to a variable using either <code>&lt;-</code> or <code>=</code>. For example:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="03-R_DADA2_intro.html#cb6-1" tabindex="-1"></a>x<span class="ot">&lt;-</span><span class="fu">sum</span>(<span class="dv">1</span>,<span class="dv">2</span>)</span></code></pre></div>
+<p>If you run this command and then type <code>x</code> into the R console <code>3</code> will be printed to the screen. You can then use this variable in another function and assign to another variable if desired:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="03-R_DADA2_intro.html#cb7-1" tabindex="-1"></a>y<span class="ot">&lt;-</span><span class="fu">sum</span>(x,x)</span>
+<span id="cb7-2"><a href="03-R_DADA2_intro.html#cb7-2" tabindex="-1"></a>y <span class="co"># y would be assigned the value 6 and be printed to the console </span></span></code></pre></div>
+<p>When you have a large script containing many commands it is beneficial to give variables logical names which can help you remember what they contain and help you call them quickly when needed.</p>
+</div>
+<div id="a-few-useful-commands-and-tips" class="section level3 hasAnchor" number="3.2.6">
+<h3><span class="header-section-number">3.2.6</span> A few useful commands and tips<a href="03-R_DADA2_intro.html#a-few-useful-commands-and-tips" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><code>rm(list=ls())</code> can be used to clear your environment when you start a new analysis. This will delete all the variables you have stored in R’s memory so be careful when you use this.</li>
+<li>The <code>read.table()</code> can be used to read in a file. R likes to work with simple formats such as <code>.csv</code> and <code>.txt</code> files.</li>
+<li><code>write.table()</code> can be used to write a data frame or a matrix to a file.</li>
+<li>Just like linux, remember you can press the up arrow on your keyboard to list previous commands run in the current R session.</li>
+<li>To get the more information and help on the function you want to use you can call using <code>?_function.name_</code> e.g.:</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="03-R_DADA2_intro.html#cb8-1" tabindex="-1"></a>?sum</span></code></pre></div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="02-Example_dataset.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="04-Cluster_Introduction.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
