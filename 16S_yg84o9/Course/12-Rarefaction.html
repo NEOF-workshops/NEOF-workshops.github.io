@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 12 Sequencing depth evaluation | Bacterial 16S metabarcoding</title>
   <meta name="description" content="NEOF book for the Bacterial 16S metabarcoding workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 12 Sequencing depth evaluation | Bacterial 16S metabarcoding" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Luca Lenzi and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-02-10" />
+<meta name="date" content="2025-12-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,11 +56,20 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/translucent.css" rel="stylesheet" />
+<script src="libs/tippyjs-3.2.0/tippy.all.min.js"></script>
+<script src="libs/tippy-binding-0.1.0/tippy.js"></script>
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -70,7 +79,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -142,7 +151,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_rounded_corners.png" width="250"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank">
+<img src="figures/neof_rounded_corners.png" width="250"></a></li>
 <li><a>Bacterial 16S metabarcoding</a></li>
 
 <li class="divider"></li>
@@ -181,7 +191,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="05-Data.html"><a href="05-Data.html"><i class="fa fa-check"></i><b>5</b> Data</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="05-Data.html"><a href="05-Data.html#manifestfile"><i class="fa fa-check"></i><b>5.1</b> PairedEndFastqManifestPhred33.csv</a></li>
-<li class="chapter" data-level="5.2" data-path="05-Data.html"><a href="05-Data.html#metadata.file.txt"><i class="fa fa-check"></i><b>5.2</b> metadata.file.txt</a></li>
+<li class="chapter" data-level="5.2" data-path="05-Data.html"><a href="05-Data.html#metadatafile"><i class="fa fa-check"></i><b>5.2</b> metadata.file.txt</a></li>
 <li class="chapter" data-level="5.3" data-path="05-Data.html"><a href="05-Data.html#primers_seqs.fasta"><i class="fa fa-check"></i><b>5.3</b> primers_seqs.fasta</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="06-QIIME2_analysis_workflow.html"><a href="06-QIIME2_analysis_workflow.html"><i class="fa fa-check"></i><b>6</b> QIIME2 analysis workflow</a>
@@ -281,47 +291,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html"><i class="fa fa-check"></i><b>16</b> Differential abundance analysis</a>
 <ul>
 <li class="chapter" data-level="16.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#taxa-collapse"><i class="fa fa-check"></i><b>16.1</b> Taxa collapse</a></li>
-<li class="chapter" data-level="16.2" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-analysis"><i class="fa fa-check"></i><b>16.2</b> ANCOM-BC analysis</a></li>
-<li class="chapter" data-level="16.3" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-tabulate"><i class="fa fa-check"></i><b>16.3</b> ANCOMBC tabulate</a>
+<li class="chapter" data-level="16.2" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-analysis"><i class="fa fa-check"></i><b>16.2</b> ANCOM-BC2 analysis</a></li>
+<li class="chapter" data-level="16.3" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-tabulate"><i class="fa fa-check"></i><b>16.3</b> ANCOM-BC2 tabulate</a>
 <ul>
-<li class="chapter" data-level="16.3.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-tabulate-visualise"><i class="fa fa-check"></i><b>16.3.1</b> ANCOMBC tabulate: visualise</a></li>
+<li class="chapter" data-level="16.3.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-tabulate-visualise"><i class="fa fa-check"></i><b>16.3.1</b> ANCOM-BC2 tabulate: visualise</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-bar-plots"><i class="fa fa-check"></i><b>16.4</b> ANCOMBC bar plots</a>
+<li class="chapter" data-level="16.4" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-bar-plots"><i class="fa fa-check"></i><b>16.4</b> ANCOM-BC2 bar plots</a>
 <ul>
-<li class="chapter" data-level="16.4.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-bar-plots-visualise"><i class="fa fa-check"></i><b>16.4.1</b> ANCOM-BC bar plots: visualise</a></li>
+<li class="chapter" data-level="16.4.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-bar-plots-visualise"><i class="fa fa-check"></i><b>16.4.1</b> ANCOM-BC2 bar plots: visualise</a></li>
 </ul></li>
-<li class="chapter" data-level="16.5" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-mcqs"><i class="fa fa-check"></i><b>16.5</b> ANCOM-BC: MCQs</a></li>
+<li class="chapter" data-level="16.5" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-mcqs"><i class="fa fa-check"></i><b>16.5</b> ANCOM-BC2: MCQs</a></li>
 <li class="chapter" data-level="16.6" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-summary"><i class="fa fa-check"></i><b>16.6</b> ANCOM-BC: summary</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="17-Final_consideration.html"><a href="17-Final_consideration.html"><i class="fa fa-check"></i><b>17</b> Final consideration</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="18-Appendix.html"><a href="18-Appendix.html"><i class="fa fa-check"></i><b>A</b> Resources</a>
+<li class="chapter" data-level="A" data-path="18-Appendix.html"><a href="18-Appendix.html"><i class="fa fa-check"></i><b>A</b> NEOF</a></li>
+<li class="chapter" data-level="B" data-path="18-Appendix.html"><a href="18-Appendix.html#resources"><i class="fa fa-check"></i><b>B</b> Resources</a>
 <ul>
-<li class="chapter" data-level="A.1" data-path="18-Appendix.html"><a href="18-Appendix.html#suggested-readings"><i class="fa fa-check"></i><b>A.1</b> Suggested readings</a></li>
-<li class="chapter" data-level="A.2" data-path="18-Appendix.html"><a href="18-Appendix.html#other-useful-resources"><i class="fa fa-check"></i><b>A.2</b> Other useful resources</a></li>
-<li class="chapter" data-level="A.3" data-path="18-Appendix.html"><a href="18-Appendix.html#references"><i class="fa fa-check"></i><b>A.3</b> References</a></li>
+<li class="chapter" data-level="B.1" data-path="18-Appendix.html"><a href="18-Appendix.html#suggested-readings"><i class="fa fa-check"></i><b>B.1</b> Suggested readings</a></li>
+<li class="chapter" data-level="B.2" data-path="18-Appendix.html"><a href="18-Appendix.html#other-useful-resources"><i class="fa fa-check"></i><b>B.2</b> Other useful resources</a></li>
+<li class="chapter" data-level="B.3" data-path="18-Appendix.html"><a href="18-Appendix.html#references"><i class="fa fa-check"></i><b>B.3</b> References</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba-installs"><i class="fa fa-check"></i><b>B</b> Mamba installs</a>
+<li class="chapter" data-level="C" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba-installs"><i class="fa fa-check"></i><b>C</b> Mamba installs</a>
 <ul>
-<li class="chapter" data-level="B.1" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>B.1</b> Mamba installation and environment</a></li>
+<li class="chapter" data-level="C.1" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>C.1</b> Mamba installation and environment</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-metrics"><i class="fa fa-check"></i><b>C</b> Diversity metrics</a>
+<li class="chapter" data-level="D" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-metrics"><i class="fa fa-check"></i><b>D</b> Diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.1" data-path="18-Appendix.html"><a href="18-Appendix.html#alphamet"><i class="fa fa-check"></i><b>C.1</b> Alpha diversity metrics</a>
+<li class="chapter" data-level="D.1" data-path="18-Appendix.html"><a href="18-Appendix.html#alphamet"><i class="fa fa-check"></i><b>D.1</b> Alpha diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.1.1" data-path="18-Appendix.html"><a href="18-Appendix.html#obvs"><i class="fa fa-check"></i><b>C.1.1</b> Observed features</a></li>
-<li class="chapter" data-level="C.1.2" data-path="18-Appendix.html"><a href="18-Appendix.html#evenness"><i class="fa fa-check"></i><b>C.1.2</b> Evenness</a></li>
-<li class="chapter" data-level="C.1.3" data-path="18-Appendix.html"><a href="18-Appendix.html#faith"><i class="fa fa-check"></i><b>C.1.3</b> Faith's PD (phylogenetic diversity)</a></li>
-<li class="chapter" data-level="C.1.4" data-path="18-Appendix.html"><a href="18-Appendix.html#simpson"><i class="fa fa-check"></i><b>C.1.4</b> Simpson</a></li>
-<li class="chapter" data-level="C.1.5" data-path="18-Appendix.html"><a href="18-Appendix.html#simpsone"><i class="fa fa-check"></i><b>C.1.5</b> Simpson evenness measure (simpson_e)</a></li>
-<li class="chapter" data-level="C.1.6" data-path="18-Appendix.html"><a href="18-Appendix.html#shannon"><i class="fa fa-check"></i><b>C.1.6</b> Shannon</a></li>
+<li class="chapter" data-level="D.1.1" data-path="18-Appendix.html"><a href="18-Appendix.html#obvs"><i class="fa fa-check"></i><b>D.1.1</b> Observed features</a></li>
+<li class="chapter" data-level="D.1.2" data-path="18-Appendix.html"><a href="18-Appendix.html#evenness"><i class="fa fa-check"></i><b>D.1.2</b> Evenness</a></li>
+<li class="chapter" data-level="D.1.3" data-path="18-Appendix.html"><a href="18-Appendix.html#faith"><i class="fa fa-check"></i><b>D.1.3</b> Faith's PD (phylogenetic diversity)</a></li>
+<li class="chapter" data-level="D.1.4" data-path="18-Appendix.html"><a href="18-Appendix.html#simpson"><i class="fa fa-check"></i><b>D.1.4</b> Simpson</a></li>
+<li class="chapter" data-level="D.1.5" data-path="18-Appendix.html"><a href="18-Appendix.html#simpsone"><i class="fa fa-check"></i><b>D.1.5</b> Simpson evenness measure (simpson_e)</a></li>
+<li class="chapter" data-level="D.1.6" data-path="18-Appendix.html"><a href="18-Appendix.html#shannon"><i class="fa fa-check"></i><b>D.1.6</b> Shannon</a></li>
 </ul></li>
-<li class="chapter" data-level="C.2" data-path="18-Appendix.html"><a href="18-Appendix.html#beta-diversity-metrics"><i class="fa fa-check"></i><b>C.2</b> Beta diversity metrics</a>
+<li class="chapter" data-level="D.2" data-path="18-Appendix.html"><a href="18-Appendix.html#beta-diversity-metrics"><i class="fa fa-check"></i><b>D.2</b> Beta diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.2.1" data-path="18-Appendix.html"><a href="18-Appendix.html#unifrac_explanation"><i class="fa fa-check"></i><b>C.2.1</b> Weighted and unweighted UniFrac distances</a></li>
-<li class="chapter" data-level="C.2.2" data-path="18-Appendix.html"><a href="18-Appendix.html#bray_explanation"><i class="fa fa-check"></i><b>C.2.2</b> Bray-Curtis</a></li>
+<li class="chapter" data-level="D.2.1" data-path="18-Appendix.html"><a href="18-Appendix.html#unifrac_explanation"><i class="fa fa-check"></i><b>D.2.1</b> Weighted and unweighted UniFrac distances</a></li>
+<li class="chapter" data-level="D.2.2" data-path="18-Appendix.html"><a href="18-Appendix.html#bray_explanation"><i class="fa fa-check"></i><b>D.2.2</b> Bray-Curtis</a></li>
 </ul></li>
-<li class="chapter" data-level="C.3" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-resources"><i class="fa fa-check"></i><b>C.3</b> Diversity Resources</a></li>
+<li class="chapter" data-level="D.3" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-resources"><i class="fa fa-check"></i><b>D.3</b> Diversity Resources</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -346,10 +357,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="rarefaction" class="section level1 hasAnchor" number="12">
 <h1><span class="header-section-number">Chapter 12</span> Sequencing depth evaluation<a href="12-Rarefaction.html#rarefaction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/rarefaction.png" style="width:200px" />
+<img src="figures/rarefaction.png" style="width:200px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
-<p>The detected diversity partly depends on the sampling depths. An incompletely sampled community will appear less diverse than a fully sampled community.</p>
-<p>To compare the diversity between samples we need to account for their different sampling depths. This can be carried out with rarefaction.
+<p>The detected diversity partly depends on the sampling depths.
+An incompletely sampled community will appear less diverse than a fully sampled community.</p>
+<p>To compare the diversity between samples we need to account for their different sampling depths.
+This can be carried out with rarefaction.
 Rarefaction is performed by reducing all the samples to the same sequence count, by random sub-sampling of the sequences.</p>
 <p>For example, if we rarefy to a depth of 2000 for all samples:</p>
 <ul>
@@ -357,17 +370,21 @@ Rarefaction is performed by reducing all the samples to the same sequence count,
 <li>Samples with depths of 2000 will be unchanged.</li>
 <li>Samples with depths of &gt;2000 will have all reads removed except for a random subsample of 2000.</li>
 </ul>
-<p>Equally sized subsamples are directly comparable among different samples. Additionally, we can progressively subsample from a sample to draw a curve of estimated alpha diversity. The shape of this curve is informative. If the curve plateaus, then increased sampling depth will not increase the estimate of alpha diversity (the community is fully sampled).</p>
+<p>Equally sized subsamples are directly comparable among different samples.
+Additionally, we can progressively subsample from a sample to draw a curve of estimated <u id='alpha_tip'>alpha</u> diversity.
+The shape of this curve is informative.
+If the curve plateaus, then increased sampling depth will not increase the estimate of <u id='alpha_tip'>alpha</u> diversity (the community is fully sampled).</p>
 <center>
-<img src="figures/rarefaction_ggplot.png" style="width:800px" />
+<img src="figures/rarefaction_ggplot.png" style="width:800px; border-radius:5px" />
 </center>
 <p>Figure: Example rarefaction curve. We can see that S1 plateaus at ~6,000 sequences and S3 plateaus at ~16,000 sequences whilst S2 has not started to plateau.</p>
 <div id="rarefaction-run" class="section level2 hasAnchor" number="12.1">
 <h2><span class="header-section-number">12.1</span> Rarefaction: run<a href="12-Rarefaction.html#rarefaction-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/play_blue.png" style="width:150px" />
+<img src="figures/play_blue.png" style="width:150px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
-<p>Given an abundance table (and a phylogenetic tree for calculating phylogenetic distance), we can plot rarefaction curves using different alpha-diversity metrics. Here, we will use diversity metrics (<a href="18-Appendix.html#obvs">observed features</a>, <a href="18-Appendix.html#simpson">Simpson</a>, <a href="18-Appendix.html#shannon">Shannon</a>, <a href="18-Appendix.html#faith">Faith’s PD</a>) as well as an evenness metric (<a href="18-Appendix.html#simpsone">Simpson’s evenness</a>).</p>
+<p>Given an abundance table (and a phylogenetic tree for calculating phylogenetic distance), we can plot rarefaction curves using different <u id='alpha_tip'>alpha</u>-diversity metrics.
+Here, we will use diversity metrics (<a href="18-Appendix.html#obvs">observed features</a>, <a href="18-Appendix.html#simpson">Simpson</a>, <a href="18-Appendix.html#shannon">Shannon</a>, <a href="18-Appendix.html#faith">Faith’s PD</a>) as well as an evenness metric (<a href="18-Appendix.html#simpsone">Simpson’s evenness</a>).</p>
 <p><strong>Note</strong>: See the <a href="18-Appendix.html#alphamet">appendix</a> at the end of this bookdown for details on each metric.</p>
 <p>You will need to to exclude <code>--i-phylogeny rooted-tree.qza</code> and <code>--p-metrics faith_pd</code> for markers such as ITS where you cannot create a phylogenetic tree.</p>
 <p><strong>Important</strong>: This command will take a long time. If this is the last command you run for today that is fine, go ahead and run it. Optionally, you can <a href="12-Rarefaction.html#cprarefaction">copy the output</a> instead of running it.</p>
@@ -388,11 +405,11 @@ Rarefaction is performed by reducing all the samples to the same sequence count,
 <div id="parameters-14" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="12-Rarefaction.html#parameters-14" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <center>
-<img src="figures/parameter_blue.png" style="width:100px" />
+<img src="figures/parameter_blue.png" style="width:100px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
 <ul>
-<li><strong><code>--i-table</code></strong>: Input artifact containing the abundance table for the identified variants.</li>
-<li><strong><code>--i-phylogeny</code></strong>: Input artifact containing the rooted tree.</li>
+<li><strong><code>--i-table</code></strong>: Input <u id='artifact_tip'>artifact</u> containing the abundance table for the identified variants.</li>
+<li><strong><code>--i-phylogeny</code></strong>: Input <u id='artifact_tip'>artifact</u> containing the rooted tree.</li>
 <li><strong><code>--p-min-depth</code></strong>: Minimum depth to show in the plot (x-axis).</li>
 <li><strong><code>--p-max-depth</code></strong>: Maximum depth to show in the plot (x-axis).
 <ul>
@@ -409,19 +426,19 @@ Rarefaction is performed by reducing all the samples to the same sequence count,
 <li>Although a very large number would be very good it would also take a very long time. The number of iterations increase the time by that amount (i.e. 2 iterations takes 2 times more than 1 iteration).</li>
 <li>Ten iterations is generally a good amount.</li>
 </ul></li>
-<li><strong><code>--m-metadata-file</code></strong>: <a href="05-Data.html#metadata.file.txt">Metadata file</a> for our samples.</li>
-<li><strong><code>--p-metrics</code></strong>: This parameter indicates which alpha diversity to use for rarefaction.
+<li><strong><code>--m-metadata-file</code></strong>: <a href="#metadata.file.txt">Metadata file</a> for our samples.</li>
+<li><strong><code>--p-metrics</code></strong>: This parameter indicates which <u id='alpha_tip'>alpha</u> diversity to use for rarefaction.
 <ul>
 <li>This parameter can be specified multiple times for different metrics.</li>
 </ul></li>
-<li><strong><code>--o-visualization</code></strong>: Output visualisation artifact containing the rarefaction plots.</li>
+<li><strong><code>--o-visualization</code></strong>: Output visualisation <u id='artifact_tip'>artifact</u> containing the rarefaction plots.</li>
 </ul>
-<p><a href="https://docs.qiime2.org/2024.10/plugins/available/diversity/alpha-rarefaction/">QIIME2 docs on <code>qiime diversity alpha-rarefaction</code></a></p>
+<p><a href="https://amplicon-docs.qiime2.org/en/latest/references/plugins/diversity.html#q2-action-diversity-alpha-rarefaction">QIIME2 docs on <code>qiime diversity alpha-rarefaction</code></a></p>
 </div>
 <div id="cprarefaction" class="section level3 hasAnchor" number="12.1.1">
 <h3><span class="header-section-number">12.1.1</span> Copy rarefaction output<a href="12-Rarefaction.html#cprarefaction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/copy.png" style="width:150px" />
+<img src="figures/copy.png" style="width:150px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
 <p>Instead of running the command you can copy the output to your directory.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb26-1"><a href="12-Rarefaction.html#cb26-1" tabindex="-1"></a><span class="fu">cp</span> /pub14/tea/nsc206/NEOF/16s_workshop/chapter_12/rarefaction-curve.qzv .</span></code></pre></div>
@@ -430,12 +447,13 @@ Rarefaction is performed by reducing all the samples to the same sequence count,
 <div id="rarefaction-visualise" class="section level2 hasAnchor" number="12.2">
 <h2><span class="header-section-number">12.2</span> Rarefaction: visualise<a href="12-Rarefaction.html#rarefaction-visualise" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/eye_blue.png" style="width:200px" />
+<img src="figures/eye_blue.png" style="width:200px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
-<p>Load the output visualisation artifact into QIIME2 view. You can select the alpha diversity <strong>Metric</strong> to visualise as well as the groupings (<strong>Sample Metadata Column</strong>, where each <strong>BarcodeSequence</strong> represents a sample). Generally the <a href="18-Appendix.html#obvs"><strong>observed_features</strong></a> metric is the best <strong>Metric</strong> to view.</p>
+<p>Load the output visualisation <u id='artifact_tip'>artifact</u> into QIIME2 view.
+You can select the <u id='alpha_tip'>alpha</u> diversity <strong>Metric</strong> to visualise as well as the groupings (<strong>Sample Metadata Column</strong>, where each <strong>BarcodeSequence</strong> represents a sample). Generally the <a href="18-Appendix.html#obvs"><strong>observed_features</strong></a> metric is the best <strong>Metric</strong> to view.</p>
 <p>The visualisation has two plots.</p>
 <ul>
-<li><strong>Top plot: Alpha rarefaction plot.</strong>
+<li><strong>Top plot: <u id='alpha_tip'>Alpha</u> rarefaction plot.</strong>
 <ul>
 <li>Primarily used to determine if the richness of the samples has been fully observed or sequenced.</li>
 <li>If the lines in the plot appear to "plateau" (i.e., becoming a horizontal line), this suggests that collecting additional sequences beyond that sampling depth will not effect the measured metric. E.g. a plateaued observed feature curve indicates there are no more feature to be detected.</li>
@@ -476,29 +494,29 @@ Rarefaction is performed by reducing all the samples to the same sequence count,
 <div id="rarefaction-mcqs" class="section level3 hasAnchor" number="12.2.2">
 <h3><span class="header-section-number">12.2.2</span> Rarefaction: MCQs<a href="12-Rarefaction.html#rarefaction-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/question_bubble_blue.png" style="width:150px" />
+<img src="figures/question_bubble_blue.png" style="width:150px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
 <p>Attempt the below MCQs.</p>
 <ol style="list-style-type: decimal">
 <li>At approximately what sequencing depth do the rarefaction curves of most of the samples (&gt;90%) plateaue?
-<div id="radio_PJZZZPHWON" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PJZZZPHWON" value=""></input> <span><strong>10,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PJZZZPHWON" value=""></input> <span><strong>25,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PJZZZPHWON" value="answer"></input> <span><strong>50,000</strong></span></label>
+<div id="radio_QNEXRVBPIB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QNEXRVBPIB" value=""></input> <span><strong>10,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QNEXRVBPIB" value=""></input> <span><strong>25,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QNEXRVBPIB" value="answer"></input> <span><strong>50,000</strong></span></label>
 </div></li>
 <li>Comparing the two <strong>Locations</strong>, which has higher evenness scores (simpson_e)?
-<div id="radio_SBYKBYJRHK" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SBYKBYJRHK" value="answer"></input> <span><strong>Corridor</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SBYKBYJRHK" value=""></input> <span><strong>Toilet</strong></span></label>
+<div id="radio_BSHOXQGBWC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BSHOXQGBWC" value="answer"></input> <span><strong>Corridor</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BSHOXQGBWC" value=""></input> <span><strong>Toilet</strong></span></label>
 </div></li>
 <li>Comparing the two <strong>Locations</strong>, which has a higher Faith's PD scores?
-<div id="radio_OQROGYXWJV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_OQROGYXWJV" value="answer"></input> <span><strong>Corridor</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OQROGYXWJV" value=""></input> <span><strong>Toilet</strong></span></label>
+<div id="radio_NNKUEHKXIW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NNKUEHKXIW" value="answer"></input> <span><strong>Corridor</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NNKUEHKXIW" value=""></input> <span><strong>Toilet</strong></span></label>
 </div></li>
 <li>When comparing the two <strong>Places</strong>, at approximately what sequencing depth are there only 6 MainBuilding samples remaining?
-<div id="radio_GXIEZEZOGF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_GXIEZEZOGF" value=""></input> <span><strong>70,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GXIEZEZOGF" value="answer"></input> <span><strong>90,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GXIEZEZOGF" value=""></input> <span><strong>115,000 </strong></span></label>
+<div id="radio_BRSRSJWYYK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BRSRSJWYYK" value=""></input> <span><strong>70,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BRSRSJWYYK" value="answer"></input> <span><strong>90,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BRSRSJWYYK" value=""></input> <span><strong>115,000 </strong></span></label>
 </div></li>
 <li>When comparing the two <strong>Places</strong>, at approximately what sequencing depth are there only 5 Entrance samples remaining?
-<div id="radio_ZFTLCVDQBS" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZFTLCVDQBS" value=""></input> <span><strong>70,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZFTLCVDQBS" value=""></input> <span><strong>90,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZFTLCVDQBS" value="answer"></input> <span><strong>115,000</strong></span></label>
+<div id="radio_DJZWJHZSIN" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DJZWJHZSIN" value=""></input> <span><strong>70,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DJZWJHZSIN" value=""></input> <span><strong>90,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DJZWJHZSIN" value="answer"></input> <span><strong>115,000</strong></span></label>
 </div></li>
 </ol>
 </div>
@@ -506,7 +524,7 @@ Rarefaction is performed by reducing all the samples to the same sequence count,
 <div id="rarefaction-summary" class="section level2 hasAnchor" number="12.3">
 <h2><span class="header-section-number">12.3</span> Rarefaction: summary<a href="12-Rarefaction.html#rarefaction-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/sum_blue.png" style="width:150px" />
+<img src="figures/sum_blue.png" style="width:150px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
 <p>For the next step we will use a rarefaction size of 34,584. We have chosen this depth because:</p>
 <ul>
@@ -516,6 +534,20 @@ Rarefaction is performed by reducing all the samples to the same sequence count,
 <li>We do not have a lot of samples so we have prioritised keeping them rather than removing samples for a relatively small gain.</li>
 </ul>
 <p>How do we know that the very exact number of 34,584 will keep all the samples? Looking at the <strong>Interactive Sample Detail</strong> section of the <a href="09-ASV_identification.html#tabledada2qzv"><code>table-dada2.qzv</code></a> visualisation we can see that the lowest depth of a sample is 34,584 (3K1E). Generally people will use the depth of a sample as the rarefaction threshold. E.g. if we were going to choose a rarefaction threshold of &gt;50k we'd pick 58,605 as the exact threshold, this is the lowest sample depth &gt;50k (from sample 1K2M). This allows us to use the maximum amount of sequences per sample.</p>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-7b011445ba1f56a6be33" width="672"></span>
+<script type="application/json" data-for="htmlwidget-7b011445ba1f56a6be33">{"x":{"element":"s_tip","opts":{"content":"16S ribosomal RNA","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-dfa66985f1e370163f43" width="672"></span>
+<script type="application/json" data-for="htmlwidget-dfa66985f1e370163f43">{"x":{"element":"otu_tip","opts":{"content":"Operational Taxonomy Unit","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-cfba90b358d541fb285b" width="672"></span>
+<script type="application/json" data-for="htmlwidget-cfba90b358d541fb285b">{"x":{"element":"asv_tip","opts":{"content":"Amplicon Sequence Variant","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-1d6ff214a8f80020e955" width="672"></span>
+<script type="application/json" data-for="htmlwidget-1d6ff214a8f80020e955">{"x":{"element":"alpha_tip","opts":{"content":"Alpha diversity values are based on single samples","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-74daefcd3fd7ec970f50" width="672"></span>
+<script type="application/json" data-for="htmlwidget-74daefcd3fd7ec970f50">{"x":{"element":"beta_tip","opts":{"content":"Beta diversity values based on pairwise comparisons","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-5df5d8ab0fd90840adc9" width="672"></span>
+<script type="application/json" data-for="htmlwidget-5df5d8ab0fd90840adc9">{"x":{"element":"artifact_tip","opts":{"content":"Artifact files are specific to QIIME2 and can contain data (.qza) or visualisations (.qzv)","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-183a45c394098ccfed9c" width="672"></span>
+<script type="application/json" data-for="htmlwidget-183a45c394098ccfed9c">{"x":{"element":"amplicon_tip","opts":{"content":"Sequences created by amplifying (e.g. PCR) and sequencing (e.g. Illumina) a targeted region of DNA (e.g. 16S rRNA region)","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
 
 </div>
 </div>
@@ -745,29 +777,29 @@ window.onload = function() {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": null,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": null,
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Introduction to QIIME2 | Bacterial 16S metabarcoding</title>
   <meta name="description" content="NEOF book for the Bacterial 16S metabarcoding workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Introduction to QIIME2 | Bacterial 16S metabarcoding" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Luca Lenzi and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-02-10" />
+<meta name="date" content="2025-12-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,11 +56,20 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/translucent.css" rel="stylesheet" />
+<script src="libs/tippyjs-3.2.0/tippy.all.min.js"></script>
+<script src="libs/tippy-binding-0.1.0/tippy.js"></script>
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -70,7 +79,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -142,7 +151,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_rounded_corners.png" width="250"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank">
+<img src="figures/neof_rounded_corners.png" width="250"></a></li>
 <li><a>Bacterial 16S metabarcoding</a></li>
 
 <li class="divider"></li>
@@ -181,7 +191,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="05-Data.html"><a href="05-Data.html"><i class="fa fa-check"></i><b>5</b> Data</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="05-Data.html"><a href="05-Data.html#manifestfile"><i class="fa fa-check"></i><b>5.1</b> PairedEndFastqManifestPhred33.csv</a></li>
-<li class="chapter" data-level="5.2" data-path="05-Data.html"><a href="05-Data.html#metadata.file.txt"><i class="fa fa-check"></i><b>5.2</b> metadata.file.txt</a></li>
+<li class="chapter" data-level="5.2" data-path="05-Data.html"><a href="05-Data.html#metadatafile"><i class="fa fa-check"></i><b>5.2</b> metadata.file.txt</a></li>
 <li class="chapter" data-level="5.3" data-path="05-Data.html"><a href="05-Data.html#primers_seqs.fasta"><i class="fa fa-check"></i><b>5.3</b> primers_seqs.fasta</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="06-QIIME2_analysis_workflow.html"><a href="06-QIIME2_analysis_workflow.html"><i class="fa fa-check"></i><b>6</b> QIIME2 analysis workflow</a>
@@ -281,47 +291,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html"><i class="fa fa-check"></i><b>16</b> Differential abundance analysis</a>
 <ul>
 <li class="chapter" data-level="16.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#taxa-collapse"><i class="fa fa-check"></i><b>16.1</b> Taxa collapse</a></li>
-<li class="chapter" data-level="16.2" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-analysis"><i class="fa fa-check"></i><b>16.2</b> ANCOM-BC analysis</a></li>
-<li class="chapter" data-level="16.3" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-tabulate"><i class="fa fa-check"></i><b>16.3</b> ANCOMBC tabulate</a>
+<li class="chapter" data-level="16.2" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-analysis"><i class="fa fa-check"></i><b>16.2</b> ANCOM-BC2 analysis</a></li>
+<li class="chapter" data-level="16.3" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-tabulate"><i class="fa fa-check"></i><b>16.3</b> ANCOM-BC2 tabulate</a>
 <ul>
-<li class="chapter" data-level="16.3.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-tabulate-visualise"><i class="fa fa-check"></i><b>16.3.1</b> ANCOMBC tabulate: visualise</a></li>
+<li class="chapter" data-level="16.3.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-tabulate-visualise"><i class="fa fa-check"></i><b>16.3.1</b> ANCOM-BC2 tabulate: visualise</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-bar-plots"><i class="fa fa-check"></i><b>16.4</b> ANCOMBC bar plots</a>
+<li class="chapter" data-level="16.4" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-bar-plots"><i class="fa fa-check"></i><b>16.4</b> ANCOM-BC2 bar plots</a>
 <ul>
-<li class="chapter" data-level="16.4.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-bar-plots-visualise"><i class="fa fa-check"></i><b>16.4.1</b> ANCOM-BC bar plots: visualise</a></li>
+<li class="chapter" data-level="16.4.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-bar-plots-visualise"><i class="fa fa-check"></i><b>16.4.1</b> ANCOM-BC2 bar plots: visualise</a></li>
 </ul></li>
-<li class="chapter" data-level="16.5" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-mcqs"><i class="fa fa-check"></i><b>16.5</b> ANCOM-BC: MCQs</a></li>
+<li class="chapter" data-level="16.5" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-mcqs"><i class="fa fa-check"></i><b>16.5</b> ANCOM-BC2: MCQs</a></li>
 <li class="chapter" data-level="16.6" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-summary"><i class="fa fa-check"></i><b>16.6</b> ANCOM-BC: summary</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="17-Final_consideration.html"><a href="17-Final_consideration.html"><i class="fa fa-check"></i><b>17</b> Final consideration</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="18-Appendix.html"><a href="18-Appendix.html"><i class="fa fa-check"></i><b>A</b> Resources</a>
+<li class="chapter" data-level="A" data-path="18-Appendix.html"><a href="18-Appendix.html"><i class="fa fa-check"></i><b>A</b> NEOF</a></li>
+<li class="chapter" data-level="B" data-path="18-Appendix.html"><a href="18-Appendix.html#resources"><i class="fa fa-check"></i><b>B</b> Resources</a>
 <ul>
-<li class="chapter" data-level="A.1" data-path="18-Appendix.html"><a href="18-Appendix.html#suggested-readings"><i class="fa fa-check"></i><b>A.1</b> Suggested readings</a></li>
-<li class="chapter" data-level="A.2" data-path="18-Appendix.html"><a href="18-Appendix.html#other-useful-resources"><i class="fa fa-check"></i><b>A.2</b> Other useful resources</a></li>
-<li class="chapter" data-level="A.3" data-path="18-Appendix.html"><a href="18-Appendix.html#references"><i class="fa fa-check"></i><b>A.3</b> References</a></li>
+<li class="chapter" data-level="B.1" data-path="18-Appendix.html"><a href="18-Appendix.html#suggested-readings"><i class="fa fa-check"></i><b>B.1</b> Suggested readings</a></li>
+<li class="chapter" data-level="B.2" data-path="18-Appendix.html"><a href="18-Appendix.html#other-useful-resources"><i class="fa fa-check"></i><b>B.2</b> Other useful resources</a></li>
+<li class="chapter" data-level="B.3" data-path="18-Appendix.html"><a href="18-Appendix.html#references"><i class="fa fa-check"></i><b>B.3</b> References</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba-installs"><i class="fa fa-check"></i><b>B</b> Mamba installs</a>
+<li class="chapter" data-level="C" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba-installs"><i class="fa fa-check"></i><b>C</b> Mamba installs</a>
 <ul>
-<li class="chapter" data-level="B.1" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>B.1</b> Mamba installation and environment</a></li>
+<li class="chapter" data-level="C.1" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>C.1</b> Mamba installation and environment</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-metrics"><i class="fa fa-check"></i><b>C</b> Diversity metrics</a>
+<li class="chapter" data-level="D" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-metrics"><i class="fa fa-check"></i><b>D</b> Diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.1" data-path="18-Appendix.html"><a href="18-Appendix.html#alphamet"><i class="fa fa-check"></i><b>C.1</b> Alpha diversity metrics</a>
+<li class="chapter" data-level="D.1" data-path="18-Appendix.html"><a href="18-Appendix.html#alphamet"><i class="fa fa-check"></i><b>D.1</b> Alpha diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.1.1" data-path="18-Appendix.html"><a href="18-Appendix.html#obvs"><i class="fa fa-check"></i><b>C.1.1</b> Observed features</a></li>
-<li class="chapter" data-level="C.1.2" data-path="18-Appendix.html"><a href="18-Appendix.html#evenness"><i class="fa fa-check"></i><b>C.1.2</b> Evenness</a></li>
-<li class="chapter" data-level="C.1.3" data-path="18-Appendix.html"><a href="18-Appendix.html#faith"><i class="fa fa-check"></i><b>C.1.3</b> Faith's PD (phylogenetic diversity)</a></li>
-<li class="chapter" data-level="C.1.4" data-path="18-Appendix.html"><a href="18-Appendix.html#simpson"><i class="fa fa-check"></i><b>C.1.4</b> Simpson</a></li>
-<li class="chapter" data-level="C.1.5" data-path="18-Appendix.html"><a href="18-Appendix.html#simpsone"><i class="fa fa-check"></i><b>C.1.5</b> Simpson evenness measure (simpson_e)</a></li>
-<li class="chapter" data-level="C.1.6" data-path="18-Appendix.html"><a href="18-Appendix.html#shannon"><i class="fa fa-check"></i><b>C.1.6</b> Shannon</a></li>
+<li class="chapter" data-level="D.1.1" data-path="18-Appendix.html"><a href="18-Appendix.html#obvs"><i class="fa fa-check"></i><b>D.1.1</b> Observed features</a></li>
+<li class="chapter" data-level="D.1.2" data-path="18-Appendix.html"><a href="18-Appendix.html#evenness"><i class="fa fa-check"></i><b>D.1.2</b> Evenness</a></li>
+<li class="chapter" data-level="D.1.3" data-path="18-Appendix.html"><a href="18-Appendix.html#faith"><i class="fa fa-check"></i><b>D.1.3</b> Faith's PD (phylogenetic diversity)</a></li>
+<li class="chapter" data-level="D.1.4" data-path="18-Appendix.html"><a href="18-Appendix.html#simpson"><i class="fa fa-check"></i><b>D.1.4</b> Simpson</a></li>
+<li class="chapter" data-level="D.1.5" data-path="18-Appendix.html"><a href="18-Appendix.html#simpsone"><i class="fa fa-check"></i><b>D.1.5</b> Simpson evenness measure (simpson_e)</a></li>
+<li class="chapter" data-level="D.1.6" data-path="18-Appendix.html"><a href="18-Appendix.html#shannon"><i class="fa fa-check"></i><b>D.1.6</b> Shannon</a></li>
 </ul></li>
-<li class="chapter" data-level="C.2" data-path="18-Appendix.html"><a href="18-Appendix.html#beta-diversity-metrics"><i class="fa fa-check"></i><b>C.2</b> Beta diversity metrics</a>
+<li class="chapter" data-level="D.2" data-path="18-Appendix.html"><a href="18-Appendix.html#beta-diversity-metrics"><i class="fa fa-check"></i><b>D.2</b> Beta diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.2.1" data-path="18-Appendix.html"><a href="18-Appendix.html#unifrac_explanation"><i class="fa fa-check"></i><b>C.2.1</b> Weighted and unweighted UniFrac distances</a></li>
-<li class="chapter" data-level="C.2.2" data-path="18-Appendix.html"><a href="18-Appendix.html#bray_explanation"><i class="fa fa-check"></i><b>C.2.2</b> Bray-Curtis</a></li>
+<li class="chapter" data-level="D.2.1" data-path="18-Appendix.html"><a href="18-Appendix.html#unifrac_explanation"><i class="fa fa-check"></i><b>D.2.1</b> Weighted and unweighted UniFrac distances</a></li>
+<li class="chapter" data-level="D.2.2" data-path="18-Appendix.html"><a href="18-Appendix.html#bray_explanation"><i class="fa fa-check"></i><b>D.2.2</b> Bray-Curtis</a></li>
 </ul></li>
-<li class="chapter" data-level="C.3" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-resources"><i class="fa fa-check"></i><b>C.3</b> Diversity Resources</a></li>
+<li class="chapter" data-level="D.3" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-resources"><i class="fa fa-check"></i><b>D.3</b> Diversity Resources</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -348,18 +359,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <center>
 <img src="figures/q2docs.png" style="width:200px; background:white; border-radius:5px; border: white 2px solid" />
 </center>
-<p>Since January 2018, the QIIME project released the QIIME2 (qiime2.org, Bolyen et al., 2018) pipeline to analyse amplicon sequencing data. The QIIME1 scripts, in its latest release QIIME1.9.1, are still available (and their methods are still valid) however the suggestion is to use QIIME2, as QIIME1 is no longer supported. In the following practical we will use the QIIME2 version released on October 2024 (given the active development on the tool this may not be the most recent release at the time of this workshop).</p>
+<p>Since January 2018, the QIIME project released the QIIME2 (qiime2.org, Bolyen et al., 2018) pipeline to analyse <u id='amplicon_tip'>amplicon</u> sequencing data.
+In the following practical we will use the QIIME2 version released on October 2024 (given the active development on the tool this may not be the most recent release at the time of this workshop).</p>
 <p>If you want to install QIIME2 on your own machine, please refer to:
-<a href="https://docs.qiime2.org/2024.10/install/" class="uri">https://docs.qiime2.org/2024.10/install/</a></p>
+<a href="https://library.qiime2.org/quickstart/amplicon" class="uri">https://library.qiime2.org/quickstart/amplicon</a></p>
 <div id="artifacts" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Artifacts<a href="03-Intro_to_qiime2.html#artifacts" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/artefact.png" style="width:150px" />
+<img src="figures/artefact.png" style="width:150px; background:white; border-radius:5px" />
 </center>
-<p>The QIIME2 pipeline produces and uses ‘artifact’ files. These contain data and metadata and may be of two types: result or visualisation.</p>
+<p>The QIIME2 pipeline produces and uses <u id='artifcat_tip'>artifact</u> files.
+These contain data and metadata and may be of two types: result or visualisation.</p>
 <ul>
-<li><strong>Result files (.qza)</strong>: This file type contains the results of a method, which accepts other ‘artifacts’ and specific settings as input, in order to apply a procedure creating a new artifact (e.g. loading sequences, error correction, alpha- or beta-diversity).</li>
-<li><strong>Visualisation files (.qzv)</strong>: This file type contains the results of a specific procedure to obtain an object that can only be used to visualize the results. These files can be loaded into the following web-site <a href="https://view.qiime2.org" class="uri">https://view.qiime2.org</a>, where the interactive visualisations can be viewed. Please note that only chrome and Firefox are supported by this QIIME2 website.</li>
+<li><strong>Result files (.qza)</strong>: This file type contains the results of a method, which accepts other <u id='artifact_tip'>artifacts</u> and specific settings as input, in order to apply a procedure creating a new <u id='s_tip'>artifact</u> (e.g. loading sequences, error correction, <u id='alpha_tip'>alpha-</u> or <u id='beta_tip'>beta</u>-diversity).</li>
+<li><strong>Visualisation files (.qzv)</strong>: This file type contains the results of a specific procedure to obtain an object that can only be used to visualize the results.
+These files can be loaded into the following web-site <a href="https://view.qiime2.org" class="uri">https://view.qiime2.org</a>, where the interactive visualisations can be viewed. Please note that only chrome and Firefox are supported by this QIIME2 view website.</li>
 </ul>
 </div>
 <div id="workflow" class="section level2 hasAnchor" number="3.2">
@@ -367,43 +381,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <center>
 <img src="figures/workflow.png" style="width:150px; background: white; border-radius:5px" />
 </center>
-<p>The steps for the analysis are listed below, mainly taken from <a href="https://docs.qiime2.org/2024.10/tutorials/" class="uri">https://docs.qiime2.org/2024.10/tutorials/</a>.</p>
+<p>The steps for the analysis are listed below.</p>
 <center>
-<img src="figures/16_tutorial_diagram.png" style="width:800px" />
+<img src="figures/16_tutorial_diagram.png" style="width:800px; BORDER-RADIUS:5PX" />
 </center>
-<p>Representation of the step proposed for the analysis (<a href="http://compbio.ucsd.edu/wp-content/uploads/2016/10/20170712_microbiome_16s_tutorial_non-interactive.pdf" class="uri">http://compbio.ucsd.edu/wp-content/uploads/2016/10/20170712_microbiome_16s_tutorial_non-interactive.pdf</a>)</p>
+<p>Representation of the steps proposed for the analysis (<a href="http://compbio.ucsd.edu/wp-content/uploads/2016/10/20170712_microbiome_16s_tutorial_non-interactive.pdf">Source</a>)</p>
 <ol style="list-style-type: decimal">
 <li>Prepare the sequence dataset
 <ol style="list-style-type: lower-alpha">
 <li>Remove PCR primers</li>
 </ol></li>
-<li>Amplicon Sequence Variants identification</li>
-<li>Assign a taxonomic classification to each ASV
+<li><u id='amplicon_tip'>Amplicon</u> Sequence Variants identification</li>
+<li>Assign a taxonomic classification to each <u id='asv_tip'>ASV</u>
 <ol style="list-style-type: lower-alpha">
 <li>Train naive-classifier for assignment</li>
-<li>Taxonomy assignment of the identified ASVs</li>
+<li>Taxonomy assignment of the identified <u id='asv_tip'>ASVs</u></li>
 </ol></li>
-<li>Make a phylogeny tree for the ASVs
+<li>Make a phylogeny tree for the <u id='asv_tip'>ASVs</u>
 <ol style="list-style-type: lower-alpha">
-<li>Alignment of the ASV representative sequences</li>
+<li>Alignment of the <u id='asv_tip'>ASV</u> representative sequences</li>
 <li>Masking low quality alignment</li>
 <li>Creating the un-rooted phylogenetic tree</li>
 <li>Creating the rooted phylogenetic tree</li>
 </ol></li>
 <li>Summarise the taxonomy data for each sample and plot results</li>
-<li>Estimate and plot alpha diversity</li>
-<li>Estimate and plot beta diversity</li>
+<li>Estimate and plot <u id='alpha_tip'>alpha diversity</u></li>
+<li>Estimate and plot <u id='beta_tip'>beta diversity</u></li>
 <li>Differential abundance analysis</li>
 </ol>
 </div>
 <div id="prepare-the-sequence-dataset" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Prepare the sequence dataset<a href="03-Intro_to_qiime2.html#prepare-the-sequence-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/prepare.png" style="width:150px" />
+<img src="figures/prepare.png" style="width:150px; background: white; border-radius:5px; border: 5px white solid" />
 </center>
 <p>You will be using a raw dataset as the tutorial data. It still includes low quality sequences, Illumina sequencing adapters as well as PCR primers. Before proceeding with the analysis, it is a good strategy to investigate the quality of the sequences.</p>
 <p>The PCR primers used for the amplification may have degenerate positions (required for annealing to the large variety of species in the samples). This adds 'random' variability outside the target region. These unknown sequences may affect the subsequent taxonomy identification as well as the error-correction step. We will use Cutadapt to remove the PCR primers before any other step.</p>
-<p>If the analysis is based on a marker gene different than 16S, other quality trimming may be required. In the case of the ITS marker gene, the common practice is to trim off the conserved regions (SSU, 5.8S or LSU) that may be contained in the final amplicon. The ‘ITSxpress’ software (Rivers <em>et al</em>., 2018) is designed for this specific task and it is available as a QIIME2 plug-in, though it requires specific installation steps because it is not installed with the basic (core) installation process. It could be found among the list of third-party QIIME2 available plug-ins (<a href="https://docs.qiime2.org/2024.5/plugins/available/" class="uri">https://docs.qiime2.org/2024.5/plugins/available/</a>).</p>
+<p>If the analysis is based on a marker gene different than <u id='s_tip'>16S</u>, other quality trimming may be required. In the case of the ITS marker gene, the common practice is to trim off the conserved regions (SSU, 5.8S or LSU) that may be contained in the final amplicon. The ‘ITSxpress’ software (Rivers <em>et al</em>., 2018) is designed for this specific task and it is available as a QIIME2 plug-in, though it requires specific installation steps because it is not installed with the basic (core) installation process. Plugins page for <code>ITSxpress</code>: (<a href="https://old-library.qiime2.org/plugins/q2-itsxpress/8/" class="uri">https://old-library.qiime2.org/plugins/q2-itsxpress/8/</a>)</p>
+<p>For all plugins see the following 2 pages:</p>
+<ul>
+<li>Plugins webpage of new QIIME2 site (not all plugins transferred to new site): <a href="https://library.qiime2.org/pluginshttps://docs.qiime2.org/2024.5/plugins/available/" class="uri">https://library.qiime2.org/pluginshttps://docs.qiime2.org/2024.5/plugins/available/</a>.</li>
+<li>Plugins webpage of old QIIME2 site (These should still work for newer version of QIIME2): <a href="https://old-library.qiime2.org/plugins/" class="uri">https://old-library.qiime2.org/plugins/</a>.</li>
+</ul>
 </div>
 <div id="amplicon-sequence-variants-identification" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Amplicon Sequence Variants identification<a href="03-Intro_to_qiime2.html#amplicon-sequence-variants-identification" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -411,34 +430,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="otus" class="section level3 hasAnchor" number="3.4.1">
 <h3><span class="header-section-number">3.4.1</span> OTUs<a href="03-Intro_to_qiime2.html#otus" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/clusters.png" style="width:150px" />
+<img src="figures/clusters.png" style="width:150px; background:white; border-radius:5px; border: white solid 5px" />
 </center>
-<p>The most used procedure to identify OTUs (Operational Taxonomic Units) is through the clustering of reads into groups that are sufficiently similar to one another. These grouped reads are likely to come from the same rRNA gene, genome or taxa group.</p>
-<p>The identified OTUs are a feature of the sequence dataset, heavily dependent on the similarity level used for OTU identification. The most commonly used threshold is 3% dissimilarity (i.e 97% similarity) to group reads into species OTUs. Therefore, de novo OTUs identified in two different data sets cannot be compared.</p>
-<p>There is no single perfect tool for this step; but a few of the most widely used are:</p>
+<p>The most used procedure to identify <u id='otu_tip'>OTUs</u> is through the clustering of reads into groups that are sufficiently similar to one another.
+These grouped reads are likely to come from the same rRNA gene, genome or taxa group.</p>
+<p>The identified <u id='otu_tip'>OTUs</u> are a feature of the sequence dataset, heavily dependent on the similarity level used for <u id='otu_tip'>OTU</u> identification.
+The most commonly used threshold was 3% dissimilarity (i.e 97% similarity) to group reads into species <u id='otu_tip'>OTUs</u>.
+Therefore, de novo <u id='otu_tip'>OTUs</u> identified in two different data sets cannot be compared.</p>
+<p>There is no single perfect tool for this step; but a few of the most widely used were:</p>
 <ul>
-<li>UCLUST (the default used by QIIME1.9.1)</li>
+<li>UCLUST</li>
 <li>VSEARCH</li>
 <li>CD-Hit</li>
-<li>SWARM (if you work with QIIME1.9.1 we recommend using SWARM for this step)</li>
+<li>SWARM</li>
 </ul>
-<p>The number of reads in each OTU should reflect the number of copies of the gene in the sample, thus providing a quantitative measure of diversity.</p>
+<p>The number of reads in each <u id='otu_tip'>OTU</u> should reflect the number of copies of the gene in the sample, thus providing a quantitative measure of diversity.</p>
 </div>
 <div id="asvs" class="section level3 hasAnchor" number="3.4.2">
 <h3><span class="header-section-number">3.4.2</span> ASVs<a href="03-Intro_to_qiime2.html#asvs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/mangify_glass.png" style="width:150px" />
+<img src="figures/mangify_glass.png" style="width:150px; background: white; border-radius:5px; border: white 5px solid" />
 </center>
-<p>There are now many bioinformatic methods to resolve amplicon sequence variants (ASVs) from Illumina data. These methods do not impose the arbitrary dissimilarity thresholds that define molecular OTUs. The two methods available in QIIME2 are DADA2 and deblur.</p>
-<p>ASV methods infer the biological sequences in the sample prior to the introduction of amplification and sequencing errors, and distinguish sequence variants differing by as little as one nucleotide. The methods use a de novo process in which biological sequences are discriminated from errors on the basis of, in part, the expectation that biological sequences are more likely to be repeatedly observed than error-containing sequences.</p>
-<p>Unlike de novo OTUs, ASVs are consistent labels because ASVs represent a biological reality that exists outside of the data being analysed: the DNA sequence of the assayed organism. Thus, ASVs inferred independently from different studies or different samples can be compared.</p>
-<p>The following picture shows how DADA2 (an ASV method) and OTU processes compare to each other. This shows how the canonical creation of OTUs by clustering may lead to an overestimation of the size of the OTUs due to the presence of errors, from either PCR or sequencing.</p>
+<p>There are now many bioinformatic methods to resolve <u id='asv_tip'>ASVs</u> from Illumina data.
+These methods do not impose the arbitrary dissimilarity thresholds that define molecular <u id='otu_tip'>OTUs</u>.
+Due to this we recommend using <u id='asv_tip'>ASVs</u> over <u id='otu_tip'>OTU</u> clustering for metagenetic analysis (unless you have a good reason to use OTU clustering).
+The two methods available in QIIME2 are DADA2 and deblur.</p>
+<p><u id='asv_tip'>ASV</u> methods infer the biological sequences in the sample prior to the introduction of amplification and sequencing errors, and distinguish sequence variants differing by as little as one nucleotide.
+The methods use a de novo process in which biological sequences are discriminated from errors on the basis of, in part, the expectation that biological sequences are more likely to be repeatedly observed than error-containing sequences.</p>
+<p>Unlike de novo <u id='otu_tip'>OTUs</u>, <u id='asv_tip'>ASVs</u> are consistent labels because <u id='asv_tip'>ASVs</u> represent a biological reality that exists outside of the data being analysed: the DNA sequence of the assayed organism.
+Thus, <u id='asv_tip'>ASVs</u> inferred independently from different studies or different samples can be compared.</p>
+<p>The following picture shows how DADA2 (an <u id='asv_tip'>ASV</u> method) and <u id='otu_tip'>OTU</u> processes compare to each other.
+This shows how the canonical creation of <u id='otu_tip'>OTUs</u> by clustering may lead to an overestimation of the size of the <u id='otu_tip'>OTUs</u> due to the presence of errors, from either PCR or sequencing.</p>
 <center>
-<img src="figures/ASC_otu_comparison.png" style="width:800px; border-radius:2px" />
+<img src="figures/ASC_otu_comparison.png" style="width:800px; border-radius:5px; border: 5px solid white" />
 </center>
-<p>Much of the work involved in the analysis of amplicon-based metagenomic data is that of separating true variants from errors introduced by sequencing. These errors include miscalling of nucleotides and the generation of chimeric sequences.</p>
-<p>For sequencing purposes, an aliquot of PhiX phage DNA is added to each sample before sequencing, both DADA2 and deblur include a step aimed to exclude any PhiX associated reads. To remove PCR chimeric artefacts, a further filter step is applied by both.</p>
-<p>QIIME 2 Authors suggest using DADA2 for read pairs and ‘deblur’ for already paired (stitched/joined) sequences. Please note that it is good practice to remove/trim out sequences containing Ns before the error correction step. It is not suggested to denoise with DADA2 samples from different sequencing lanes, because each lane may introduce different sequencing biases. It is possible to collate the denoised abundance tables and representative sequences afterwards, recording the sequencing lane for each sample in a specific metadata column. The ‘deblur’ denoise tool may be used in this case because it should be less sensitive to these possible biases, however it is good practice to keep the lane of origin in the metadata (with the second benefit that ‘deblur’ is also faster than ‘DADA2’).</p>
+<p>Much of the work involved in the analysis of amplicon-based metagenomic data is that of separating true variants from errors introduced by sequencing.
+These errors include miscalling of nucleotides and the generation of chimeric sequences.</p>
+<p>For sequencing purposes, an aliquot of PhiX phage DNA is added to each sample before sequencing, both DADA2 and deblur include a step aimed to exclude any PhiX associated reads.
+To remove PCR chimeric artefacts, a further filter step is applied by both.</p>
+<p>QIIME 2 Authors suggest using DADA2 for read pairs and ‘deblur’ for already paired (stitched/joined) sequences.
+Please note that it is good practice to remove/trim out sequences containing Ns before the error correction step.
+It is not suggested to denoise with DADA2 samples from different sequencing lanes, because each lane may introduce different sequencing biases.
+It is possible to collate the denoised abundance tables and representative sequences afterwards, recording the sequencing lane for each sample in a specific metadata column.
+The ‘deblur’ denoise tool may be used in this case because it should be less sensitive to these possible biases, however it is good practice to keep the lane of origin in the metadata (with the second benefit that ‘deblur’ is also faster than ‘DADA2’).</p>
 </div>
 </div>
 <div id="assign-a-taxonomic-classification-to-each-asv" class="section level2 hasAnchor" number="3.5">
@@ -446,34 +480,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <center>
 <img src="figures/classification.png" style="width:150px; background: white; border-radius:5px" />
 </center>
-<p>The sequence of each ASV is compared with the selected database, to identify the most likely taxonomy for each ASV. Unfortunately different parts of the taxonomic identification step may lead to different results for the same ASV.</p>
-<p>Different databases may result in different taxonomic classification for the same ASV. The choice of tool used for taxonomic assignment may also impact the results in a similar way. The current version of QIIME2 allows you to select from either the Scikit-learn classifier (a classifier which applies a machine learning approach and therefore needs training before use) or BLAST+ and VSEARCH (for a global alignment approach followed by a last common ancestor search) for this step.</p>
-<p>In the practical we will use Scikit-learn (similar to the RDP tool widely used so far). It has been shown that (at least in the case of 16S analysis) taxonomic classification accuracy improves when the classifier is trained with sequences derived from the amplicon region only (Werner <em>et al</em>., 2012).</p>
+<p>The sequence of each <u id='asv_tip'>ASV</u> is compared with the selected database, to identify the most likely taxonomy for each <u id='asv_tip'>ASV</u>.
+Unfortunately different parts of the taxonomic identification step may lead to different results for the same <u id='asv_tip'>ASV</u>.</p>
+<p>Different databases may result in different taxonomic classification for the same <u id='asv_tip'>ASV</u>.
+The choice of tool used for taxonomic assignment may also impact the results in a similar way.
+The current version of QIIME2 allows you to select from either the Scikit-learn classifier (a classifier which applies a machine learning approach and therefore needs training before use) or BLAST+ and VSEARCH (for a global alignment approach followed by a last common ancestor search) for this step.</p>
+<p>In the practical we will use Scikit-learn (similar to the RDP tool widely used so far). It has been shown that (at least in the case of <u id='s_tip'>16S</u> analysis) taxonomic classification accuracy improves when the classifier is trained with sequences derived from the amplicon region only (Werner <em>et al</em>., 2012).</p>
 </div>
 <div id="phylogenetic-tree-creation" class="section level2 hasAnchor" number="3.6">
 <h2><span class="header-section-number">3.6</span> Phylogenetic tree creation<a href="03-Intro_to_qiime2.html#phylogenetic-tree-creation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
 <img src="figures/phylo_tree.png" style="width:150px; background: white; border-radius:5px" />
 </center>
-<p>To include phylogenetic diversity metrics in the diversity analysis, such as UniFrac distance metrics, the construction of a phylogenetic tree for the identified ASVs is required. QIIME2 supports MAFFT for the alignment and MASK to mask the alignment sections that are not phylogenetically informative. Unrooted and rooted trees may be created.</p>
-<p>For some marker genes it is not possible to build a phylogenetic tree (ITS is among these), and it is therefore important to know the properties of the marker in use. Consequently, it is not possible to use any diversity metrics that requires the phylogenetic distance as input.</p>
+<p>To include phylogenetic diversity metrics in the diversity analysis, such as UniFrac distance metrics, the construction of a phylogenetic tree for the identified <u id='asv_tip'>ASVs</u> is required.
+QIIME2 supports MAFFT for the alignment and MASK to mask the alignment sections that are not phylogenetically informative.
+Unrooted and rooted trees may be created.</p>
+<p>For some marker genes it is not possible to build a phylogenetic tree (ITS is among these), and it is therefore important to know the properties of the marker in use.
+Consequently, it is not possible to use any diversity metrics that requires the phylogenetic distance as input.</p>
 </div>
 <div id="data-normalisation" class="section level2 hasAnchor" number="3.7">
 <h2><span class="header-section-number">3.7</span> Data normalisation<a href="03-Intro_to_qiime2.html#data-normalisation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
 <img src="figures/normalisation.png" style="width:150px; background: white; border-radius:5px" />
 </center>
-<p>Any further analyses to compare the identified ASVs among sample groups (either alpha- or beta-diversity or differential abundance) should account for the features of the abundance table that can cause erroneous results (Weiss et al., 2017). These features are:</p>
+<p>Any further analyses to compare the identified <u id='asv_tip'>ASVs</u> among sample groups (either <u id='alpha_tip'>alpha-</u> or <u id='beta_tip'>beta-</u>diversity or differential abundance) should account for the features of the abundance table that can cause erroneous results (Weiss et al., 2017). These features are:</p>
 <ol style="list-style-type: decimal">
 <li>The microbial community in each sample may be represented by different numbers of sequences (i.e. sequencing depth for each sample).</li>
-<li>The abundance table is usually sparse. That is, most of the ASVs are present only in a few samples and therefore the abundance table contains many ‘0’ values (it is also possible that a particular species is present in a sample but below the detection limit of the methods).</li>
+<li>The abundance table is usually sparse. That is, most of the <u id='asv_tip'>ASVs</u> are present only in a few samples and therefore the abundance table contains many ‘0’ values (it is also possible that a particular species is present in a sample but below the detection limit of the methods).</li>
 <li>The total number of sequences obtained reflect the relative abundance of species sequenced rather that the absolute abundance of the species present in the sample (this is commonly referred as ‘compositional nature’ of the data). The relative abundances for the taxa are therefore not independent as in the underlying assumption of many frequently used statistical methods (Gloor <em>et al</em>., 2017).</li>
 </ol>
 <p>A normalisation step for the data is required to mitigate these effects and to allow easier data interpretation. The most used normalisation methods are:</p>
 <ol style="list-style-type: lower-alpha">
 <li>Normalisation by rarefaction. This is performed by reducing all the samples at the same sequence count, by random sub-sampling of the sequences.
 <ul>
-<li>This method may lead to a potential reduction of the species in your dataset (alpha-diversity) and to the exclusion of any samples not reaching the selected total count per sample.</li>
+<li>This method may lead to a potential reduction of the species in your dataset (<u id='alpha_tip'>alpha-diversity</u>) and to the exclusion of any samples not reaching the selected total count per sample.</li>
 </ul></li>
 <li>DESeq method (borrowed from transcriptomic research)</li>
 <li>Scaling the abundance table by a fixed value or proportion.</li>
@@ -482,34 +522,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>This is aimed to convert the abundance data into scales on which it is possible to apply conventional statistical procedures.</li>
 </ul></li>
 </ol>
-<p>Methods b-d convert the abundance table in a normalised-abundance table with different strengths and pitfalls, therefore they can affect results for beta-diversity and differential abundant analysis.</p>
+<p>Methods b-d convert the abundance table in a normalised-abundance table with different strengths and pitfalls, therefore they can affect results for <u id='beta_tip'>beta-diversity</u> and differential abundant analysis.</p>
 <p>These normalisation methods were compared by Weiss and colleagues (2017), but their simulations show that different methods may result in different sensitivity and different false discovery rates.</p>
-<p>In this tutorial, following the QIIME2 current tutorial, we will apply the ‘rarefaction’ method, in the context of the alpha- and beta-diversity analysis.</p>
+<p>In this tutorial, following the QIIME2 current tutorial and other literature, we will apply the ‘rarefaction’ method, in the context of the <u id='alpha_tip'>alpha-</u> and <u id='beta_tip'>beta-</u>diversity analysis.</p>
 </div>
 <div id="alpha-diversity" class="section level2 hasAnchor" number="3.8">
 <h2><span class="header-section-number">3.8</span> Alpha-diversity<a href="03-Intro_to_qiime2.html#alpha-diversity" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
 <img src="figures/alpha_div.png" style="width:150px; background: white; border-radius:5px" />
 </center>
-<p>Alpha-diversity is used to measure the diversity within a sample. It is calculated as a value for each sample. Different metrics were developed to calculate diversity in different ways. It combines richness (a measure of the number of features in the sample) and evenness (a measure of the relative abundances of different features that make up the richness of that sample). Alpha diversity measures cannot be compared unless they have been normalised for the difference in sequencing depth between samples. The QIIME2 release we will use supports the following alpha-diversity measures, amongst others: Chao1, Shannon, Simpson, Simpson evenness, Faith’s Phylogenetic Diversity (the only one considering the phylogenetic relationships among the
-ASVs).</p>
-<p>The alpha-diversity metric used for the analysis must be chosen carefully, considering its mathematical definition in relation to the behaviour of the tools used for the previous steps. An important point to consider is whether the chosen metric uses ASVs with only 1 sequence (‘singletons’) to perform some estimation on the dataset or not. The Chao1, as one example for this, uses the number of singletons in the dataset to infer the total number of singletons in the population. However, the DADA2 denoising step excludes ‘singletons’ from the final output, making Chao1 measures not applicable to its resulting abundance tables. A second consideration regards if the phylogenetic tree is available enabling the use of the Faith’s Phylogenetic Diversity metric, for markers such as ITS this metric would not be possible.</p>
+<p><u id='alpha_tip'>Alpha-diversity</u> is used to measure the diversity within a sample.
+It is calculated as a value for each sample.
+Different metrics were developed to calculate diversity in different ways.
+It combines richness (a measure of the number of features in the sample) and evenness (a measure of the relative abundances of different features that make up the richness of that sample).</p>
+<p><u id='alpha_tip'>Alpha diversity</u> measures cannot be compared unless they have been normalised for the difference in sequencing depth between samples.
+The QIIME2 release we will use supports the following <u id='alpha_tip'>alpha-diversity</u> measures, amongst others: Chao1, Shannon, Simpson, Simpson evenness, Faith’s Phylogenetic Diversity (the only one considering the phylogenetic relationships among the
+<u id='asv_tip'>ASVs</u>).</p>
+<p>The <u id='alpha_tip'>alpha-diversity</u> metric used for the analysis must be chosen carefully, considering its mathematical definition in relation to the behaviour of the tools used for the previous steps.
+An important point to consider is whether the chosen metric uses <u id='asv_tip'>ASVs</u> with only 1 sequence (‘singletons’) to perform some estimation on the dataset or not.
+The Chao1 metric, as one example for this, uses the number of singletons in the dataset to infer the total number of singletons in the population.
+However, the DADA2 denoising step excludes ‘singletons’ from the final output, making Chao1 measures not applicable to its resulting abundance tables.
+A second consideration regards if the phylogenetic tree is available enabling the use of the Faith’s Phylogenetic Diversity metric, for markers such as ITS this metric would not be possible.</p>
 </div>
 <div id="beta-diversity" class="section level2 hasAnchor" number="3.9">
 <h2><span class="header-section-number">3.9</span> Beta-diversity<a href="03-Intro_to_qiime2.html#beta-diversity" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
 <img src="figures/beta_div.png" style="width:200px; background: white; border-radius:5px" />
 </center>
-<p>Beta-diversity is a term for the comparison of samples to each other. It is also referred to as beta-diversity ordination, because it uses one (or more) technique/s to arrange samples along axes on the basis of their composition to highlight the differences. The starting point of the analysis is a dissimilarity matrix, which is used to perform a Principal Component Analysis (PCA) to reduce the dimension for display purpose. The axes obtained from the PCA analysis are then compared with the categories in the metadata file to identify patterns.</p>
-<p>A few of the commonly used beta diversity metrics supported by QIIME2 are:</p>
+<p><u id='beta_tip'>Beta-diversity</u> is a term for the comparison of samples to each other.
+It is also referred to as <u id='beta_tip'>beta-diversity</u> ordination, because it uses one (or more) technique/s to arrange samples along axes on the basis of their composition to highlight the differences.
+The starting point of the analysis is a dissimilarity matrix, which is used to perform a Principal Component Analysis (PCA) to reduce the dimension for display purpose.
+The axes obtained from the PCA analysis are then compared with the categories in the metadata file to identify patterns.</p>
+<p>A few of the commonly used <u id='beta_tip'>beta diversity</u> metrics supported by QIIME2 are:</p>
 <ul>
-<li><strong>Jaccard:</strong> A non-phylogeny based method that takes into account the presence/absence of ASVs to measure the distance between two samples.</li>
-<li><strong>Bray-Curtis:</strong> A non-phylogeny based method that takes into account the number of ASVs and their abundance to determine the distance between two samples.</li>
-<li><strong>Un-weighted UniFrac:</strong> Uses the presence and absence of ASVs and their phylogenies.</li>
-<li><strong>Weighted UniFrac:</strong> Uses the abundance information of ASVs and their phylogenies.</li>
+<li><strong>Jaccard:</strong> A non-phylogeny based method that takes into account the presence/absence of <u id='asv_tip'>ASVs</u> to measure the distance between two samples.</li>
+<li><strong>Bray-Curtis:</strong> A non-phylogeny based method that takes into account the number of <u id='asv_tip'>ASVs</u> and their abundance to determine the distance between two samples.</li>
+<li><strong>Un-weighted UniFrac:</strong> Uses the presence and absence of <u id='asv_tip'>ASVs</u> and their phylogenies.</li>
+<li><strong>Weighted UniFrac:</strong> Uses the abundance information of <u id='asv_tip'>ASVs</u> and their phylogenies.</li>
 </ul>
-<p>As discussed for the alpha-diversity, before proceeding with the beta-diversity analysis the raw abundance table for the identified ASVs needs to be normalised. QIIME2 suggests using the rarefaction methods, in particular at the same rarefaction threshold used for the alpha diversity.</p>
-<p>The choice of the beta-diversity distance metric to use will strongly affect the results. Therefore it is common practice to compare the results obtained with different metrics. Again, not all the metrics may be applicable to all the marker genes. E.g. the UniFrac distances could not be easily used in the case of ITS, because ITS sequences are quite difficult to align onto phylogenetic trees.</p>
+<p>As discussed for the <u id='alpha_tip'>alpha-diversity</u>, before proceeding with the <u id='beta_tip'>beta-diversity</u> analysis the raw abundance table for the identified <u id='asv_tip'>ASVs</u> needs to be normalised.
+QIIME2 suggests using the rarefaction methods at the same rarefaction threshold used for the alpha diversity.</p>
+<p>The choice of the <u id='beta_tip'>beta-diversity</u> distance metric to use will strongly affect the results.
+Therefore it is common practice to compare the results obtained with different metrics.
+Again, not all the metrics may be applicable to all the marker genes. E.g. the UniFrac distances could not be easily used in the case of ITS, because ITS sequences are quite difficult to align onto phylogenetic trees.</p>
 </div>
 <div id="differential-abundance-analysis" class="section level2 hasAnchor" number="3.10">
 <h2><span class="header-section-number">3.10</span> Differential Abundance Analysis<a href="03-Intro_to_qiime2.html#differential-abundance-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -517,15 +572,39 @@ ASVs).</p>
 <img src="figures/comparison.png" style="width:200px; background: white; border-radius:5px" />
 </center>
 <p>The identification of taxa that are differentially abundant across experimental conditions may be an important result for many types of metagenetics analyses. This step is extremely dependent on the normalization methods used to compare the samples: using different normalisation methods may lead to different results (consequently this is another active area of research).</p>
-<p>QIIME2 supports two methods to investigate differentially abundant taxa across experimental conditions: ANCOM (Mandal et al., 2015) and GNEISS (Morton et al, 2017). Both methods are based on the conversion of the abundance values using the clr-transformation method prior to any comparison. Because the conversion is based on a logarithmic transformation, all the values in the abundance table will be increased by ‘1’ to avoid ‘0’ counts (adding pseudo-counts). These methods may therefore artificially increase the alpha-diversity for the samples as well as decrease the beta-diversity distances in the dataset. In this analysis we will use the ANCOM method following the current QIIME2 tutorial. This method computes the log-ratio for every possible pair of the identified taxa (using the mean group values for the clr-transformed abundance) and reports how many times the hypothesis “H 0 = X is not differentially abundant” is rejected for each taxa ‘X’. That is the ‘W’ statistic, the higher this value is the more significant the ASV/taxa X is differentially abundant between the tested groups. This test assumes that a large number of ASVs did not change in abundances between groups. If, in the results, more than 25% of the ASVs changes in the examined contrasts, the underlying hypothesis for the ANCOM test may be not fulfilled, and there is the chance that the results may be misleading.</p>
+<p>QIIME2 supports two methods to investigate differentially abundant taxa across experimental conditions: ANCOM-BC (Lin &amp; Peddada, 2020) and GNEISS (Morton et al, 2017).
+Both methods are based on the conversion of the abundance values using the clr-transformation method prior to any comparison.
+Because the conversion is based on a logarithmic transformation, all the values in the abundance table will be increased by ‘1’ to avoid ‘0’ counts (adding pseudo-counts).
+These methods may therefore artificially increase the <u id='alpha_tip'>alpha-diversity</u> for the samples as well as decrease the <u id='beta_tip'>beta-diversity</u> distances in the dataset.</p>
+<p>In this analysis we will use the ANCOM-BC method following the current QIIME2 tutorial.
+This method computes the log-ratio for every possible pair of the identified taxa (using the mean group values for the clr-transformed abundance) and reports how many times the hypothesis “H 0 = X is not differentially abundant” is rejected for each taxa ‘X’.
+That is the ‘W’ statistic, the higher this value is the more significant the <u id='asv_tip'>ASV</u>/taxa X is differentially abundant between the tested groups.
+This test assumes that a large number of <u id='asv_tip'>ASVs</u> did not change in abundances between groups.
+If, in the results, more than 25% of the <u id='asv_tip'>ASVs</u> changes in the examined contrasts, the underlying hypothesis for the ANCOM-BC test may be not fulfilled, and there is the chance that the results may be misleading.</p>
+<p>Important to note is that ANCOM-BC has its own sample-wise normalisation.
+Therefore the unnormalised (i.e. pre rarefaction) abundance table shoudl be provided to ANCOM-BC.</p>
 <p>Examples of questions to answer:</p>
 <ul>
 <li>Are there differences in taxa at various levels of taxonomy?</li>
-<li>What are the most abundant ASVs (or species)?</li>
-<li>What are the rare ASVs present (either real or still retained sequencing error)?</li>
-<li>Where are the rare ASVs present (if not sequencing error)?</li>
-<li>ASVs correlation: is there a correlation between ASVs and other attributes of samples, like pH or other environmental conditions?</li>
+<li>What are the most abundant <u id='asv_tip'>ASVs</u> (or species)?</li>
+<li>What are the rare <u id='asv_tip'>ASVs</u> present (either real or still retained sequencing error)?</li>
+<li>Where are the rare <u id='asv_tip'>ASVs</u> present (if not sequencing error)?</li>
+<li><u id='asv_tip'>ASVs</u> correlation: is there a correlation between <u id='asv_tip'>ASVs</u> and other attributes of samples, like pH or other environmental conditions?</li>
 </ul>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-ed69d21c5d955f48fe53" width="672"></span>
+<script type="application/json" data-for="htmlwidget-ed69d21c5d955f48fe53">{"x":{"element":"s_tip","opts":{"content":"16S ribosomal RNA","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-1287d915015c49526648" width="672"></span>
+<script type="application/json" data-for="htmlwidget-1287d915015c49526648">{"x":{"element":"otu_tip","opts":{"content":"Operational Taxonomy Unit","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-3d8122ebdafe91391ff6" width="672"></span>
+<script type="application/json" data-for="htmlwidget-3d8122ebdafe91391ff6">{"x":{"element":"asv_tip","opts":{"content":"Amplicon Sequence Variant","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-b355a5c272f7aadd9f67" width="672"></span>
+<script type="application/json" data-for="htmlwidget-b355a5c272f7aadd9f67">{"x":{"element":"alpha_tip","opts":{"content":"Alpha diversity values are based on single samples","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-cd4a30d50d426578efce" width="672"></span>
+<script type="application/json" data-for="htmlwidget-cd4a30d50d426578efce">{"x":{"element":"beta_tip","opts":{"content":"Beta diversity values based on pairwise comparisons","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-16d7ed67fd2e8a3490c9" width="672"></span>
+<script type="application/json" data-for="htmlwidget-16d7ed67fd2e8a3490c9">{"x":{"element":"artifact_tip","opts":{"content":"Artifact files are specific to QIIME2 and can contain data (.qza) or visualisations (.qzv)","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-83ee53dfe2e79f559ce5" width="672"></span>
+<script type="application/json" data-for="htmlwidget-83ee53dfe2e79f559ce5">{"x":{"element":"amplicon_tip","opts":{"content":"Sequences created by amplifying (e.g. PCR) and sequencing (e.g. Illumina) a targeted region of DNA (e.g. 16S rRNA region)","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
 
 </div>
 </div>
@@ -755,29 +834,29 @@ window.onload = function() {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": null,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": null,
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

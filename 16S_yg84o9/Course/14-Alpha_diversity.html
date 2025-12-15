@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 14 Alpha diveristy statistical analysis | Bacterial 16S metabarcoding</title>
   <meta name="description" content="NEOF book for the Bacterial 16S metabarcoding workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 14 Alpha diveristy statistical analysis | Bacterial 16S metabarcoding" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Luca Lenzi and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-02-10" />
+<meta name="date" content="2025-12-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,11 +56,20 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/translucent.css" rel="stylesheet" />
+<script src="libs/tippyjs-3.2.0/tippy.all.min.js"></script>
+<script src="libs/tippy-binding-0.1.0/tippy.js"></script>
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -70,7 +79,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -142,7 +151,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_rounded_corners.png" width="250"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank">
+<img src="figures/neof_rounded_corners.png" width="250"></a></li>
 <li><a>Bacterial 16S metabarcoding</a></li>
 
 <li class="divider"></li>
@@ -181,7 +191,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="05-Data.html"><a href="05-Data.html"><i class="fa fa-check"></i><b>5</b> Data</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="05-Data.html"><a href="05-Data.html#manifestfile"><i class="fa fa-check"></i><b>5.1</b> PairedEndFastqManifestPhred33.csv</a></li>
-<li class="chapter" data-level="5.2" data-path="05-Data.html"><a href="05-Data.html#metadata.file.txt"><i class="fa fa-check"></i><b>5.2</b> metadata.file.txt</a></li>
+<li class="chapter" data-level="5.2" data-path="05-Data.html"><a href="05-Data.html#metadatafile"><i class="fa fa-check"></i><b>5.2</b> metadata.file.txt</a></li>
 <li class="chapter" data-level="5.3" data-path="05-Data.html"><a href="05-Data.html#primers_seqs.fasta"><i class="fa fa-check"></i><b>5.3</b> primers_seqs.fasta</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="06-QIIME2_analysis_workflow.html"><a href="06-QIIME2_analysis_workflow.html"><i class="fa fa-check"></i><b>6</b> QIIME2 analysis workflow</a>
@@ -281,47 +291,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html"><i class="fa fa-check"></i><b>16</b> Differential abundance analysis</a>
 <ul>
 <li class="chapter" data-level="16.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#taxa-collapse"><i class="fa fa-check"></i><b>16.1</b> Taxa collapse</a></li>
-<li class="chapter" data-level="16.2" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-analysis"><i class="fa fa-check"></i><b>16.2</b> ANCOM-BC analysis</a></li>
-<li class="chapter" data-level="16.3" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-tabulate"><i class="fa fa-check"></i><b>16.3</b> ANCOMBC tabulate</a>
+<li class="chapter" data-level="16.2" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-analysis"><i class="fa fa-check"></i><b>16.2</b> ANCOM-BC2 analysis</a></li>
+<li class="chapter" data-level="16.3" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-tabulate"><i class="fa fa-check"></i><b>16.3</b> ANCOM-BC2 tabulate</a>
 <ul>
-<li class="chapter" data-level="16.3.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-tabulate-visualise"><i class="fa fa-check"></i><b>16.3.1</b> ANCOMBC tabulate: visualise</a></li>
+<li class="chapter" data-level="16.3.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-tabulate-visualise"><i class="fa fa-check"></i><b>16.3.1</b> ANCOM-BC2 tabulate: visualise</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-bar-plots"><i class="fa fa-check"></i><b>16.4</b> ANCOMBC bar plots</a>
+<li class="chapter" data-level="16.4" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-bar-plots"><i class="fa fa-check"></i><b>16.4</b> ANCOM-BC2 bar plots</a>
 <ul>
-<li class="chapter" data-level="16.4.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-bar-plots-visualise"><i class="fa fa-check"></i><b>16.4.1</b> ANCOM-BC bar plots: visualise</a></li>
+<li class="chapter" data-level="16.4.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-bar-plots-visualise"><i class="fa fa-check"></i><b>16.4.1</b> ANCOM-BC2 bar plots: visualise</a></li>
 </ul></li>
-<li class="chapter" data-level="16.5" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-mcqs"><i class="fa fa-check"></i><b>16.5</b> ANCOM-BC: MCQs</a></li>
+<li class="chapter" data-level="16.5" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-mcqs"><i class="fa fa-check"></i><b>16.5</b> ANCOM-BC2: MCQs</a></li>
 <li class="chapter" data-level="16.6" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-summary"><i class="fa fa-check"></i><b>16.6</b> ANCOM-BC: summary</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="17-Final_consideration.html"><a href="17-Final_consideration.html"><i class="fa fa-check"></i><b>17</b> Final consideration</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="18-Appendix.html"><a href="18-Appendix.html"><i class="fa fa-check"></i><b>A</b> Resources</a>
+<li class="chapter" data-level="A" data-path="18-Appendix.html"><a href="18-Appendix.html"><i class="fa fa-check"></i><b>A</b> NEOF</a></li>
+<li class="chapter" data-level="B" data-path="18-Appendix.html"><a href="18-Appendix.html#resources"><i class="fa fa-check"></i><b>B</b> Resources</a>
 <ul>
-<li class="chapter" data-level="A.1" data-path="18-Appendix.html"><a href="18-Appendix.html#suggested-readings"><i class="fa fa-check"></i><b>A.1</b> Suggested readings</a></li>
-<li class="chapter" data-level="A.2" data-path="18-Appendix.html"><a href="18-Appendix.html#other-useful-resources"><i class="fa fa-check"></i><b>A.2</b> Other useful resources</a></li>
-<li class="chapter" data-level="A.3" data-path="18-Appendix.html"><a href="18-Appendix.html#references"><i class="fa fa-check"></i><b>A.3</b> References</a></li>
+<li class="chapter" data-level="B.1" data-path="18-Appendix.html"><a href="18-Appendix.html#suggested-readings"><i class="fa fa-check"></i><b>B.1</b> Suggested readings</a></li>
+<li class="chapter" data-level="B.2" data-path="18-Appendix.html"><a href="18-Appendix.html#other-useful-resources"><i class="fa fa-check"></i><b>B.2</b> Other useful resources</a></li>
+<li class="chapter" data-level="B.3" data-path="18-Appendix.html"><a href="18-Appendix.html#references"><i class="fa fa-check"></i><b>B.3</b> References</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba-installs"><i class="fa fa-check"></i><b>B</b> Mamba installs</a>
+<li class="chapter" data-level="C" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba-installs"><i class="fa fa-check"></i><b>C</b> Mamba installs</a>
 <ul>
-<li class="chapter" data-level="B.1" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>B.1</b> Mamba installation and environment</a></li>
+<li class="chapter" data-level="C.1" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>C.1</b> Mamba installation and environment</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-metrics"><i class="fa fa-check"></i><b>C</b> Diversity metrics</a>
+<li class="chapter" data-level="D" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-metrics"><i class="fa fa-check"></i><b>D</b> Diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.1" data-path="18-Appendix.html"><a href="18-Appendix.html#alphamet"><i class="fa fa-check"></i><b>C.1</b> Alpha diversity metrics</a>
+<li class="chapter" data-level="D.1" data-path="18-Appendix.html"><a href="18-Appendix.html#alphamet"><i class="fa fa-check"></i><b>D.1</b> Alpha diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.1.1" data-path="18-Appendix.html"><a href="18-Appendix.html#obvs"><i class="fa fa-check"></i><b>C.1.1</b> Observed features</a></li>
-<li class="chapter" data-level="C.1.2" data-path="18-Appendix.html"><a href="18-Appendix.html#evenness"><i class="fa fa-check"></i><b>C.1.2</b> Evenness</a></li>
-<li class="chapter" data-level="C.1.3" data-path="18-Appendix.html"><a href="18-Appendix.html#faith"><i class="fa fa-check"></i><b>C.1.3</b> Faith's PD (phylogenetic diversity)</a></li>
-<li class="chapter" data-level="C.1.4" data-path="18-Appendix.html"><a href="18-Appendix.html#simpson"><i class="fa fa-check"></i><b>C.1.4</b> Simpson</a></li>
-<li class="chapter" data-level="C.1.5" data-path="18-Appendix.html"><a href="18-Appendix.html#simpsone"><i class="fa fa-check"></i><b>C.1.5</b> Simpson evenness measure (simpson_e)</a></li>
-<li class="chapter" data-level="C.1.6" data-path="18-Appendix.html"><a href="18-Appendix.html#shannon"><i class="fa fa-check"></i><b>C.1.6</b> Shannon</a></li>
+<li class="chapter" data-level="D.1.1" data-path="18-Appendix.html"><a href="18-Appendix.html#obvs"><i class="fa fa-check"></i><b>D.1.1</b> Observed features</a></li>
+<li class="chapter" data-level="D.1.2" data-path="18-Appendix.html"><a href="18-Appendix.html#evenness"><i class="fa fa-check"></i><b>D.1.2</b> Evenness</a></li>
+<li class="chapter" data-level="D.1.3" data-path="18-Appendix.html"><a href="18-Appendix.html#faith"><i class="fa fa-check"></i><b>D.1.3</b> Faith's PD (phylogenetic diversity)</a></li>
+<li class="chapter" data-level="D.1.4" data-path="18-Appendix.html"><a href="18-Appendix.html#simpson"><i class="fa fa-check"></i><b>D.1.4</b> Simpson</a></li>
+<li class="chapter" data-level="D.1.5" data-path="18-Appendix.html"><a href="18-Appendix.html#simpsone"><i class="fa fa-check"></i><b>D.1.5</b> Simpson evenness measure (simpson_e)</a></li>
+<li class="chapter" data-level="D.1.6" data-path="18-Appendix.html"><a href="18-Appendix.html#shannon"><i class="fa fa-check"></i><b>D.1.6</b> Shannon</a></li>
 </ul></li>
-<li class="chapter" data-level="C.2" data-path="18-Appendix.html"><a href="18-Appendix.html#beta-diversity-metrics"><i class="fa fa-check"></i><b>C.2</b> Beta diversity metrics</a>
+<li class="chapter" data-level="D.2" data-path="18-Appendix.html"><a href="18-Appendix.html#beta-diversity-metrics"><i class="fa fa-check"></i><b>D.2</b> Beta diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.2.1" data-path="18-Appendix.html"><a href="18-Appendix.html#unifrac_explanation"><i class="fa fa-check"></i><b>C.2.1</b> Weighted and unweighted UniFrac distances</a></li>
-<li class="chapter" data-level="C.2.2" data-path="18-Appendix.html"><a href="18-Appendix.html#bray_explanation"><i class="fa fa-check"></i><b>C.2.2</b> Bray-Curtis</a></li>
+<li class="chapter" data-level="D.2.1" data-path="18-Appendix.html"><a href="18-Appendix.html#unifrac_explanation"><i class="fa fa-check"></i><b>D.2.1</b> Weighted and unweighted UniFrac distances</a></li>
+<li class="chapter" data-level="D.2.2" data-path="18-Appendix.html"><a href="18-Appendix.html#bray_explanation"><i class="fa fa-check"></i><b>D.2.2</b> Bray-Curtis</a></li>
 </ul></li>
-<li class="chapter" data-level="C.3" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-resources"><i class="fa fa-check"></i><b>C.3</b> Diversity Resources</a></li>
+<li class="chapter" data-level="D.3" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-resources"><i class="fa fa-check"></i><b>D.3</b> Diversity Resources</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -346,9 +357,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="alpha_div_stats" class="section level1 hasAnchor" number="14">
 <h1><span class="header-section-number">Chapter 14</span> Alpha diveristy statistical analysis<a href="14-Alpha_diversity.html#alpha_div_stats" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/alpha_div_2.png" style="width:200px" />
+<img src="figures/alpha_div_2.png" style="width:200px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
-<p>We can carry out some statistical analysis to compare the alpha diversity values between the different metadata data groups.</p>
+<p>We can carry out some statistical analysis to compare the <u id='alpha_tip'>alpha</u> diversity values between the different metadata data groups.</p>
 <p>The QIIME2 pipeline offers two alternative choices:</p>
 <ul>
 <li>Categorical metadata: Kruskal-Wallis test.</li>
@@ -357,9 +368,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="alpha-diversity-run" class="section level2 hasAnchor" number="14.1">
 <h2><span class="header-section-number">14.1</span> Alpha diversity: run<a href="14-Alpha_diversity.html#alpha-diversity-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/play_purple.png" style="width:150px" />
+<img src="figures/play_purple.png" style="width:150px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
-<p>As we have categorical (Location &amp; Place) and numeric (Floor) metadata columns we will carry out both types of tests. Let's do this for the shannon alpha diversity.</p>
+<p>As we have categorical (Location &amp; Place) and numeric (Floor) metadata columns we will carry out both types of tests. Let's do this for the shannon <u id='alpha_tip'>alpha</u> diversity.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb28-1"><a href="14-Alpha_diversity.html#cb28-1" tabindex="-1"></a><span class="co">#Change directory into the output directory</span></span>
 <span id="cb28-2"><a href="14-Alpha_diversity.html#cb28-2" tabindex="-1"></a><span class="bu">cd</span> dada2-diversity-34584</span>
 <span id="cb28-3"><a href="14-Alpha_diversity.html#cb28-3" tabindex="-1"></a><span class="co"># For the Kruskal-Wallis test</span></span>
@@ -375,22 +386,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="parameters-16" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="14-Alpha_diversity.html#parameters-16" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <center>
-<img src="figures/parameter_purple.png" style="width:100px" />
+<img src="figures/parameter_purple.png" style="width:100px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
 <p>Although we have used two different commands they both have the same parameters.</p>
 <ul>
-<li><strong><code>--i-alpha-diversity</code></strong>: Input artifact file containing the alpha diversity vectors (values).</li>
-<li><strong><code>--m-metadata-file</code></strong>: <a href="05-Data.html#metadata.file.txt">Metadata file</a> for our samples.</li>
-<li><strong><code>--o-visualization</code></strong>: Output visualisation artifact containing the box plots and statistical table.</li>
+<li><strong><code>--i-alpha-diversity</code></strong>: Input <u id='artifact_tip'>artifact</u> file containing the <u id='alpha_tip'>alpha</u> diversity vectors (values).</li>
+<li><strong><code>--m-metadata-file</code></strong>: <a href="#metadata.file.txt">Metadata file</a> for our samples.</li>
+<li><strong><code>--o-visualization</code></strong>: Output visualisation <u id='artifact_tip'>artifact</u> containing the box plots and statistical table.</li>
 </ul>
-<p><a href="https://docs.qiime2.org/2024.10/plugins/available/diversity/alpha-group-significance/">QIIME2 docs on <code>qiime diversity alpha-group-significance</code></a></p>
-<p><a href="https://docs.qiime2.org/2024.10/plugins/available/diversity/alpha-correlation/">QIIME2 docs on <code>qiime diversity alpha-correlation</code></a></p>
+<p><a href="https://amplicon-docs.qiime2.org/en/latest/references/plugins/diversity.html#q2-action-diversity-alpha-group-significance">QIIME2 docs on <code>qiime diversity alpha-group-significance</code></a></p>
+<p><a href="https://amplicon-docs.qiime2.org/en/latest/references/plugins/diversity.html#q2-action-diversity-alpha-correlation">QIIME2 docs on <code>qiime diversity alpha-correlation</code></a></p>
 </div>
 </div>
 <div id="alpha-diversity-visualise" class="section level2 hasAnchor" number="14.2">
 <h2><span class="header-section-number">14.2</span> Alpha diversity: visualise<a href="14-Alpha_diversity.html#alpha-diversity-visualise" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/eye_purple.png" style="width:150px" />
+<img src="figures/eye_purple.png" style="width:150px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
 <p>Load the produced files (<code>shannon-group-significance.kw.qzv</code> &amp; <code>shannon-group-significance.rs.qzv</code>) into QIIME2 view using 2 chrome tabs. At this point I will remind you to have only one chrome window open which is to be left open. Also make sure to close tabs you don't need any more (always leaving one open).</p>
 <p>At the top of both the outputs is a drop down menu labelled <strong>"Column"</strong> that can be used to display the plot and stats of your chosen metadata grouping. As there was only one numeric column (Floors) there will only be one option in the Ranked Spearman output.</p>
@@ -398,7 +409,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>Kruskal-Wallis<a href="14-Alpha_diversity.html#kruskal-wallis" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The Kruskal-Wallis (<code>shannon-group-significance.kw.qzv</code>) visualisation artifact contains:</p>
 <ul>
-<li><strong>Alpha Diversity Boxplots</strong>: Displays the alpha diversity values plotted as box plots comparing the chosen metadata column.</li>
+<li><strong>Alpha Diversity Boxplots</strong>: Displays the <u id='alpha_tip'>alpha</u> diversity values plotted as box plots comparing the chosen metadata column.</li>
 <li><strong>Kruskal-Wallis (all groups)</strong>: Displays the stats for the all groups comparison.
 <ul>
 <li>These stats will be different to the pairwise comparisons if there are more than 2 groups.</li>
@@ -412,35 +423,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h4>Ranked Spearman<a href="14-Alpha_diversity.html#ranked-spearman" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The Ranked Spearman (<code>shannon-group-significance.rs.qzv</code>) visualisation artifact contains:</p>
 <ul>
-<li><strong>Plot</strong>: This plots the alpha diversity values as a scatterplot.
+<li><strong>Plot</strong>: This plots the <u id='alpha_tip'>alpha</u> diversity values as a scatterplot.
 <ul>
 <li>The x-axis contains the numeric values form the metadata.</li>
-<li>The y-axis contains the alpha diversity values.</li>
+<li>The y-axis contains the <u id='alpha_tip'>alpha</u> diversity values.</li>
 </ul></li>
 <li><strong>Stats table</strong>: The Spearman ranked correlation statistics table.</li>
 </ul>
-<p>You can look at the p-value to determine if there is a statistical significant correlation between the numeric category and the alpha diversity metric.</p>
+<p>You can look at the p-value to determine if there is a statistical significant correlation between the numeric category and the <u id='alpha_tip'>alpha</u> diversity metric.</p>
 </div>
 <div id="alpha-diversity-mcqs" class="section level3 hasAnchor" number="14.2.1">
 <h3><span class="header-section-number">14.2.1</span> Alpha diversity: MCQs<a href="14-Alpha_diversity.html#alpha-diversity-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/question_bubble_purple.png" style="width:150px" />
+<img src="figures/question_bubble_purple.png" style="width:150px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
 <ol style="list-style-type: decimal">
 <li>Is there a statistical significance (q-value &lt;0.05) when comparing the <strong>Locations (Corridor vs Toilet)</strong> when using <strong>Shannon</strong> diversity?
-<div id="radio_YXSSOCESMC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YXSSOCESMC" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YXSSOCESMC" value="answer"></input> <span><strong>No</strong></span></label>
+<div id="radio_UQNAATXNJS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UQNAATXNJS" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UQNAATXNJS" value="answer"></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>Is there a statistical significance (q-value &lt;0.05) when comparing the <strong>Places (Entrance vs MainBuilding)</strong> when using <strong>Shannon</strong> diversity?
-<div id="radio_KZPHCHZJMH" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_KZPHCHZJMH" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KZPHCHZJMH" value="answer"></input> <span><strong>No</strong></span></label>
+<div id="radio_VITSHZVBJS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VITSHZVBJS" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VITSHZVBJS" value="answer"></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>Is there a statistical significance (P-value &lt;0.05) when comparing the <strong>Floors (1 vs 2 vs 3)</strong> when using <strong>Shannon</strong> diversity? ?
-<div id="radio_KNUBDQGUGL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_KNUBDQGUGL" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KNUBDQGUGL" value="answer"></input> <span><strong>No</strong></span></label>
+<div id="radio_GIBCLRZWTV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GIBCLRZWTV" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_GIBCLRZWTV" value="answer"></input> <span><strong>No</strong></span></label>
 </div></li>
 </ol>
-<p>For the below questions you will need to run some more <code>qiime diversity alpha-group-significance</code> and <code>qiime diversity alpha-correlation</code>. When creating and running these commands ensure you are giving the input and output artifacts the correct names.</p>
+<p>For the below questions you will need to run some more <code>qiime diversity alpha-group-significance</code> and <code>qiime diversity alpha-correlation</code>. When creating and running these commands ensure you are giving the input and output <u id='artifact_tip'>artifacts</u> the correct names.</p>
 <p>If you are are having issue knowing how to run the commands you can look at the box below for the commands.</p>
 <div class="webex-solution">
 <button>
@@ -464,16 +475,16 @@ Alpha diversity stats commands
 </div>
 <ol start="4" style="list-style-type: decimal">
 <li>Is there a statistical significance (q-value &lt;0.05) when comparing the <strong>Locations (Corridor vs Toilet)</strong> when using <strong>observed features</strong>?
-<div id="radio_VJKBZDYSZA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_VJKBZDYSZA" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VJKBZDYSZA" value="answer"></input> <span><strong>No</strong></span></label>
+<div id="radio_FCSXKHNKQV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FCSXKHNKQV" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FCSXKHNKQV" value="answer"></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>Is there a statistical significance (q-value &lt;0.05) when comparing the <strong>Places (Entrance vs MainBuilding)</strong> when using <strong>evenness</strong>?
-<div id="radio_QEWYQWPLZM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_QEWYQWPLZM" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QEWYQWPLZM" value="answer"></input> <span><strong>No</strong></span></label>
+<div id="radio_NCFYPOWXNH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NCFYPOWXNH" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NCFYPOWXNH" value="answer"></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>Is there a statistical significance (P-value &lt;0.05) when comparing the <strong>Floors (1 vs 2 vs 3)</strong> when using <strong>Faith's PD</strong>?
-<div id="radio_MRPFQQAHIB" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MRPFQQAHIB" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MRPFQQAHIB" value="answer"></input> <span><strong>No</strong></span></label>
+<div id="radio_OKUQJDOTCH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OKUQJDOTCH" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_OKUQJDOTCH" value="answer"></input> <span><strong>No</strong></span></label>
 </div></li>
 </ol>
 </div>
@@ -481,10 +492,26 @@ Alpha diversity stats commands
 <div id="alpha-diversity-summary" class="section level2 hasAnchor" number="14.3">
 <h2><span class="header-section-number">14.3</span> Alpha diversity: summary<a href="14-Alpha_diversity.html#alpha-diversity-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/sum_purple.png" style="width:150px" />
+<img src="figures/sum_purple.png" style="width:150px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
-<p>We have viewed alpha diversity output but unfortunately found no significant differences between groups. Hopefully in your future projects you will have more samples and more luck. Even though there was no significance difference we could see some patterns in the box plots such as the diversity being higher in one group than an other.</p>
-<p>In the next chapter we will look at the beta diversity output and carry out some more statistics.</p>
+<p>We have viewed <u id='alpha_tip'>alpha</u> diversity output but unfortunately found no significant differences between groups.
+Hopefully in your future projects you will have more samples and more luck.
+Even though there was no significance difference we could see some patterns in the box plots such as the diversity being higher in one group than an other.</p>
+<p>In the next chapter we will look at the <u id='beta_tip'>beta</u> diversity output and carry out some more statistics.</p>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-c2d5cd2448f795d0a66a" width="672"></span>
+<script type="application/json" data-for="htmlwidget-c2d5cd2448f795d0a66a">{"x":{"element":"s_tip","opts":{"content":"16S ribosomal RNA","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-bb7c240e60de01e79754" width="672"></span>
+<script type="application/json" data-for="htmlwidget-bb7c240e60de01e79754">{"x":{"element":"otu_tip","opts":{"content":"Operational Taxonomy Unit","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-e935b0df8e96b951471f" width="672"></span>
+<script type="application/json" data-for="htmlwidget-e935b0df8e96b951471f">{"x":{"element":"asv_tip","opts":{"content":"Amplicon Sequence Variant","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-61b35aca7b0b658339a0" width="672"></span>
+<script type="application/json" data-for="htmlwidget-61b35aca7b0b658339a0">{"x":{"element":"alpha_tip","opts":{"content":"Alpha diversity values are based on single samples","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-17277ad4ca2d56b3b504" width="672"></span>
+<script type="application/json" data-for="htmlwidget-17277ad4ca2d56b3b504">{"x":{"element":"beta_tip","opts":{"content":"Beta diversity values based on pairwise comparisons","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-28976855c7b823bf7122" width="672"></span>
+<script type="application/json" data-for="htmlwidget-28976855c7b823bf7122">{"x":{"element":"artifact_tip","opts":{"content":"Artifact files are specific to QIIME2 and can contain data (.qza) or visualisations (.qzv)","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-ea803e746b9b97bf3e31" width="672"></span>
+<script type="application/json" data-for="htmlwidget-ea803e746b9b97bf3e31">{"x":{"element":"amplicon_tip","opts":{"content":"Sequences created by amplifying (e.g. PCR) and sequencing (e.g. Illumina) a targeted region of DNA (e.g. 16S rRNA region)","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
 
 </div>
 </div>
@@ -714,29 +741,29 @@ window.onload = function() {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": null,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": null,
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

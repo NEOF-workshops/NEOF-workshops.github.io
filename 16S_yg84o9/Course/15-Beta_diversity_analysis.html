@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 15 Beta diversity statistical analysis | Bacterial 16S metabarcoding</title>
   <meta name="description" content="NEOF book for the Bacterial 16S metabarcoding workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 15 Beta diversity statistical analysis | Bacterial 16S metabarcoding" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Luca Lenzi and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-02-10" />
+<meta name="date" content="2025-12-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,11 +56,20 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/translucent.css" rel="stylesheet" />
+<script src="libs/tippyjs-3.2.0/tippy.all.min.js"></script>
+<script src="libs/tippy-binding-0.1.0/tippy.js"></script>
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -70,7 +79,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -142,7 +151,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_rounded_corners.png" width="250"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank">
+<img src="figures/neof_rounded_corners.png" width="250"></a></li>
 <li><a>Bacterial 16S metabarcoding</a></li>
 
 <li class="divider"></li>
@@ -181,7 +191,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="05-Data.html"><a href="05-Data.html"><i class="fa fa-check"></i><b>5</b> Data</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="05-Data.html"><a href="05-Data.html#manifestfile"><i class="fa fa-check"></i><b>5.1</b> PairedEndFastqManifestPhred33.csv</a></li>
-<li class="chapter" data-level="5.2" data-path="05-Data.html"><a href="05-Data.html#metadata.file.txt"><i class="fa fa-check"></i><b>5.2</b> metadata.file.txt</a></li>
+<li class="chapter" data-level="5.2" data-path="05-Data.html"><a href="05-Data.html#metadatafile"><i class="fa fa-check"></i><b>5.2</b> metadata.file.txt</a></li>
 <li class="chapter" data-level="5.3" data-path="05-Data.html"><a href="05-Data.html#primers_seqs.fasta"><i class="fa fa-check"></i><b>5.3</b> primers_seqs.fasta</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="06-QIIME2_analysis_workflow.html"><a href="06-QIIME2_analysis_workflow.html"><i class="fa fa-check"></i><b>6</b> QIIME2 analysis workflow</a>
@@ -281,47 +291,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html"><i class="fa fa-check"></i><b>16</b> Differential abundance analysis</a>
 <ul>
 <li class="chapter" data-level="16.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#taxa-collapse"><i class="fa fa-check"></i><b>16.1</b> Taxa collapse</a></li>
-<li class="chapter" data-level="16.2" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-analysis"><i class="fa fa-check"></i><b>16.2</b> ANCOM-BC analysis</a></li>
-<li class="chapter" data-level="16.3" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-tabulate"><i class="fa fa-check"></i><b>16.3</b> ANCOMBC tabulate</a>
+<li class="chapter" data-level="16.2" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-analysis"><i class="fa fa-check"></i><b>16.2</b> ANCOM-BC2 analysis</a></li>
+<li class="chapter" data-level="16.3" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-tabulate"><i class="fa fa-check"></i><b>16.3</b> ANCOM-BC2 tabulate</a>
 <ul>
-<li class="chapter" data-level="16.3.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-tabulate-visualise"><i class="fa fa-check"></i><b>16.3.1</b> ANCOMBC tabulate: visualise</a></li>
+<li class="chapter" data-level="16.3.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-tabulate-visualise"><i class="fa fa-check"></i><b>16.3.1</b> ANCOM-BC2 tabulate: visualise</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-bar-plots"><i class="fa fa-check"></i><b>16.4</b> ANCOMBC bar plots</a>
+<li class="chapter" data-level="16.4" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-bar-plots"><i class="fa fa-check"></i><b>16.4</b> ANCOM-BC2 bar plots</a>
 <ul>
-<li class="chapter" data-level="16.4.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-bar-plots-visualise"><i class="fa fa-check"></i><b>16.4.1</b> ANCOM-BC bar plots: visualise</a></li>
+<li class="chapter" data-level="16.4.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-bar-plots-visualise"><i class="fa fa-check"></i><b>16.4.1</b> ANCOM-BC2 bar plots: visualise</a></li>
 </ul></li>
-<li class="chapter" data-level="16.5" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-mcqs"><i class="fa fa-check"></i><b>16.5</b> ANCOM-BC: MCQs</a></li>
+<li class="chapter" data-level="16.5" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-mcqs"><i class="fa fa-check"></i><b>16.5</b> ANCOM-BC2: MCQs</a></li>
 <li class="chapter" data-level="16.6" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-summary"><i class="fa fa-check"></i><b>16.6</b> ANCOM-BC: summary</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="17-Final_consideration.html"><a href="17-Final_consideration.html"><i class="fa fa-check"></i><b>17</b> Final consideration</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="18-Appendix.html"><a href="18-Appendix.html"><i class="fa fa-check"></i><b>A</b> Resources</a>
+<li class="chapter" data-level="A" data-path="18-Appendix.html"><a href="18-Appendix.html"><i class="fa fa-check"></i><b>A</b> NEOF</a></li>
+<li class="chapter" data-level="B" data-path="18-Appendix.html"><a href="18-Appendix.html#resources"><i class="fa fa-check"></i><b>B</b> Resources</a>
 <ul>
-<li class="chapter" data-level="A.1" data-path="18-Appendix.html"><a href="18-Appendix.html#suggested-readings"><i class="fa fa-check"></i><b>A.1</b> Suggested readings</a></li>
-<li class="chapter" data-level="A.2" data-path="18-Appendix.html"><a href="18-Appendix.html#other-useful-resources"><i class="fa fa-check"></i><b>A.2</b> Other useful resources</a></li>
-<li class="chapter" data-level="A.3" data-path="18-Appendix.html"><a href="18-Appendix.html#references"><i class="fa fa-check"></i><b>A.3</b> References</a></li>
+<li class="chapter" data-level="B.1" data-path="18-Appendix.html"><a href="18-Appendix.html#suggested-readings"><i class="fa fa-check"></i><b>B.1</b> Suggested readings</a></li>
+<li class="chapter" data-level="B.2" data-path="18-Appendix.html"><a href="18-Appendix.html#other-useful-resources"><i class="fa fa-check"></i><b>B.2</b> Other useful resources</a></li>
+<li class="chapter" data-level="B.3" data-path="18-Appendix.html"><a href="18-Appendix.html#references"><i class="fa fa-check"></i><b>B.3</b> References</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba-installs"><i class="fa fa-check"></i><b>B</b> Mamba installs</a>
+<li class="chapter" data-level="C" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba-installs"><i class="fa fa-check"></i><b>C</b> Mamba installs</a>
 <ul>
-<li class="chapter" data-level="B.1" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>B.1</b> Mamba installation and environment</a></li>
+<li class="chapter" data-level="C.1" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>C.1</b> Mamba installation and environment</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-metrics"><i class="fa fa-check"></i><b>C</b> Diversity metrics</a>
+<li class="chapter" data-level="D" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-metrics"><i class="fa fa-check"></i><b>D</b> Diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.1" data-path="18-Appendix.html"><a href="18-Appendix.html#alphamet"><i class="fa fa-check"></i><b>C.1</b> Alpha diversity metrics</a>
+<li class="chapter" data-level="D.1" data-path="18-Appendix.html"><a href="18-Appendix.html#alphamet"><i class="fa fa-check"></i><b>D.1</b> Alpha diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.1.1" data-path="18-Appendix.html"><a href="18-Appendix.html#obvs"><i class="fa fa-check"></i><b>C.1.1</b> Observed features</a></li>
-<li class="chapter" data-level="C.1.2" data-path="18-Appendix.html"><a href="18-Appendix.html#evenness"><i class="fa fa-check"></i><b>C.1.2</b> Evenness</a></li>
-<li class="chapter" data-level="C.1.3" data-path="18-Appendix.html"><a href="18-Appendix.html#faith"><i class="fa fa-check"></i><b>C.1.3</b> Faith's PD (phylogenetic diversity)</a></li>
-<li class="chapter" data-level="C.1.4" data-path="18-Appendix.html"><a href="18-Appendix.html#simpson"><i class="fa fa-check"></i><b>C.1.4</b> Simpson</a></li>
-<li class="chapter" data-level="C.1.5" data-path="18-Appendix.html"><a href="18-Appendix.html#simpsone"><i class="fa fa-check"></i><b>C.1.5</b> Simpson evenness measure (simpson_e)</a></li>
-<li class="chapter" data-level="C.1.6" data-path="18-Appendix.html"><a href="18-Appendix.html#shannon"><i class="fa fa-check"></i><b>C.1.6</b> Shannon</a></li>
+<li class="chapter" data-level="D.1.1" data-path="18-Appendix.html"><a href="18-Appendix.html#obvs"><i class="fa fa-check"></i><b>D.1.1</b> Observed features</a></li>
+<li class="chapter" data-level="D.1.2" data-path="18-Appendix.html"><a href="18-Appendix.html#evenness"><i class="fa fa-check"></i><b>D.1.2</b> Evenness</a></li>
+<li class="chapter" data-level="D.1.3" data-path="18-Appendix.html"><a href="18-Appendix.html#faith"><i class="fa fa-check"></i><b>D.1.3</b> Faith's PD (phylogenetic diversity)</a></li>
+<li class="chapter" data-level="D.1.4" data-path="18-Appendix.html"><a href="18-Appendix.html#simpson"><i class="fa fa-check"></i><b>D.1.4</b> Simpson</a></li>
+<li class="chapter" data-level="D.1.5" data-path="18-Appendix.html"><a href="18-Appendix.html#simpsone"><i class="fa fa-check"></i><b>D.1.5</b> Simpson evenness measure (simpson_e)</a></li>
+<li class="chapter" data-level="D.1.6" data-path="18-Appendix.html"><a href="18-Appendix.html#shannon"><i class="fa fa-check"></i><b>D.1.6</b> Shannon</a></li>
 </ul></li>
-<li class="chapter" data-level="C.2" data-path="18-Appendix.html"><a href="18-Appendix.html#beta-diversity-metrics"><i class="fa fa-check"></i><b>C.2</b> Beta diversity metrics</a>
+<li class="chapter" data-level="D.2" data-path="18-Appendix.html"><a href="18-Appendix.html#beta-diversity-metrics"><i class="fa fa-check"></i><b>D.2</b> Beta diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.2.1" data-path="18-Appendix.html"><a href="18-Appendix.html#unifrac_explanation"><i class="fa fa-check"></i><b>C.2.1</b> Weighted and unweighted UniFrac distances</a></li>
-<li class="chapter" data-level="C.2.2" data-path="18-Appendix.html"><a href="18-Appendix.html#bray_explanation"><i class="fa fa-check"></i><b>C.2.2</b> Bray-Curtis</a></li>
+<li class="chapter" data-level="D.2.1" data-path="18-Appendix.html"><a href="18-Appendix.html#unifrac_explanation"><i class="fa fa-check"></i><b>D.2.1</b> Weighted and unweighted UniFrac distances</a></li>
+<li class="chapter" data-level="D.2.2" data-path="18-Appendix.html"><a href="18-Appendix.html#bray_explanation"><i class="fa fa-check"></i><b>D.2.2</b> Bray-Curtis</a></li>
 </ul></li>
-<li class="chapter" data-level="C.3" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-resources"><i class="fa fa-check"></i><b>C.3</b> Diversity Resources</a></li>
+<li class="chapter" data-level="D.3" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-resources"><i class="fa fa-check"></i><b>D.3</b> Diversity Resources</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -346,9 +357,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="beta_stats" class="section level1 hasAnchor" number="15">
 <h1><span class="header-section-number">Chapter 15</span> Beta diversity statistical analysis<a href="15-Beta_diversity_analysis.html#beta_stats" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/beta_div_2.png" style="width:300px" />
+<img src="figures/beta_div_2.png" style="width:300px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
-<p>We'll now carry out statistical analysis of the beta diversity ordination plots. We'll use <strong>'PERMANOVA'</strong> analysis to determine if the separation of samples by metadata groups has statistical significance or if it may have just originated by chance.</p>
+<p>We'll now carry out statistical analysis of the <u id='beta_tip'>beta</u> diversity ordination plots.
+We'll use <strong>'PERMANOVA'</strong> analysis to determine if the separation of samples by metadata groups has statistical significance or if it may have just originated by chance.</p>
 <div id="beta-diveristy-pcoa" class="section level2 hasAnchor" number="15.1">
 <h2><span class="header-section-number">15.1</span> Beta diveristy: PCoA<a href="15-Beta_diversity_analysis.html#beta-diveristy-pcoa" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
@@ -365,7 +377,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="beta-diversity-run" class="section level2 hasAnchor" number="15.2">
 <h2><span class="header-section-number">15.2</span> Beta diversity: run<a href="15-Beta_diversity_analysis.html#beta-diversity-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/play_green.png" style="width:150px" />
+<img src="figures/play_green.png" style="width:150px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
 <p>For our first <strong>'PERMANOVA'</strong> analysis we will use the <code>weighted_unifrac_distance_matrix.qza</code> file. It contains all the sample pairwise <strong>weighted unifrac</strong> dissimilarity distances.</p>
 <p>The <strong>'Location'</strong> metadata column with the <strong>weighted UniFrac</strong> metric will be used as there appears to be a separation between the Corridor and Toilet samples.</p>
@@ -380,11 +392,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="parameters-17" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="15-Beta_diversity_analysis.html#parameters-17" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <center>
-<img src="figures/parameter_green.png" style="width:100px" />
+<img src="figures/parameter_green.png" style="width:100px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
 <ul>
-<li><strong><code>--i-distance-matrix</code></strong>: Input artifact files containing the beta diversity values.</li>
-<li><strong><code>--m-metadata-file</code></strong>: <a href="05-Data.html#metadata.file.txt">Metadata file</a> for our samples.</li>
+<li><strong><code>--i-distance-matrix</code></strong>: Input <u id='artifact_tip'>artifact</u> files containing the <u id='beta_tip'>beta</u> diversity values.</li>
+<li><strong><code>--m-metadata-file</code></strong>: <a href="#metadata.file.txt">Metadata file</a> for our samples.</li>
 <li><strong><code>--m-metadata-column</code></strong>: Metadata column within the metadata file to use for the statistical comparison.</li>
 <li><strong><code>--p-method</code></strong>: The group significance test to be applied.
 <ul>
@@ -398,15 +410,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>The default is <code>999</code>.</li>
 </ul></li>
-<li><strong><code>--o-visualization</code></strong>: The output artifact containing the visualisation.</li>
+<li><strong><code>--o-visualization</code></strong>: The output <u id='artifact_tip'>artifact</u> containing the visualisation.</li>
 </ul>
-<p><a href="https://docs.qiime2.org/2024.10/plugins/available/diversity/beta-group-significance/">QIIME2 docs on <code>qiime diversity beta-group-significance</code></a></p>
+<p><a href="https://amplicon-docs.qiime2.org/en/latest/references/plugins/diversity.html#q2-action-diversity-beta-group-significance">QIIME2 docs on <code>qiime diversity beta-group-significance</code></a></p>
 </div>
 </div>
 <div id="beta-diversity-visualise" class="section level2 hasAnchor" number="15.3">
 <h2><span class="header-section-number">15.3</span> Beta diversity: visualise<a href="15-Beta_diversity_analysis.html#beta-diversity-visualise" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/eye_green.png" style="width:150px" />
+<img src="figures/eye_green.png" style="width:150px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
 <p>Load the resulting visualisation (<code>weighted-unifrac-significance.location.qzv</code>) file in QIIME2 view. You will see the following sections:</p>
 <ul>
@@ -430,42 +442,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="beta-diversity-mcqs" class="section level3 hasAnchor" number="15.3.1">
 <h3><span class="header-section-number">15.3.1</span> Beta diversity: MCQs<a href="15-Beta_diversity_analysis.html#beta-diversity-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/question_bubble_green.png" style="width:150px" />
+<img src="figures/question_bubble_green.png" style="width:150px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
 <p>Attempt the below questions.</p>
 <p><strong>Note</strong>: You will need to run the <code>qiime diversity beta-group-significance</code> with different options and view the new files to answer some of the questions.</p>
 <ol style="list-style-type: decimal">
 <li>Is there a significant difference (q-value &lt;0.05) between <strong>Corridor and Toilet (Location)</strong> for the <strong>weighted unifrac</strong> distances when using <strong>PERMANOVA</strong>?
-<div id="radio_KJEPRFBUZY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_KJEPRFBUZY" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KJEPRFBUZY" value=""></input> <span><strong>No</strong></span></label>
+<div id="radio_VFVGBJZFJR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VFVGBJZFJR" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VFVGBJZFJR" value=""></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>Which sample group, Corridor or Toilet, has larger <strong>weighted unifrac</strong> distances within the group? I.e. which boxplot has the IQR with the largest values: "Distances to Corridor" - "Corridor" box plot, or "Distances to Toilet", "Toilet" box plot?
-<div id="radio_RRNAPIXDSS" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RRNAPIXDSS" value=""></input> <span><strong>Corridor</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RRNAPIXDSS" value="answer"></input> <span><strong>Toilet</strong></span></label>
+<div id="radio_LYMDMOJPHL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LYMDMOJPHL" value=""></input> <span><strong>Corridor</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LYMDMOJPHL" value="answer"></input> <span><strong>Toilet</strong></span></label>
 </div></li>
 <li>In the <strong>weighted unifrac</strong> distances "Distances to Corridor" box plots, which box plot has lower values?
-<div id="radio_MNHWWZEEBK" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_MNHWWZEEBK" value="answer"></input> <span><strong>Corridor</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MNHWWZEEBK" value=""></input> <span><strong>Toilet</strong></span></label>
+<div id="radio_AFJUGWWHAP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_AFJUGWWHAP" value="answer"></input> <span><strong>Corridor</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AFJUGWWHAP" value=""></input> <span><strong>Toilet</strong></span></label>
 </div></li>
 <li>Is there a significant difference (q-value &lt;0.05) between <strong>Corridor and Toilet (Location)</strong> for the <strong>Bray Curtis</strong> distances when using <strong>PERMANOVA</strong>?
-<div id="radio_FUDBILHLBB" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FUDBILHLBB" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FUDBILHLBB" value=""></input> <span><strong>No</strong></span></label>
+<div id="radio_LDTBVDZNTV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LDTBVDZNTV" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LDTBVDZNTV" value=""></input> <span><strong>No</strong></span></label>
 </div></li>
 <li>Is there a significant difference (q-value &lt;0.05) between <strong>Entrance and MainBuilding (Place)</strong> for the <strong>Unweighted Unifrac</strong> distances when using <strong>ANOSIM</strong>?
-<div id="radio_RIMAKJCJKH" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_RIMAKJCJKH" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_RIMAKJCJKH" value="answer"></input> <span><strong>No</strong></span></label>
+<div id="radio_XNLFRCXVCX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_XNLFRCXVCX" value=""></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XNLFRCXVCX" value="answer"></input> <span><strong>No</strong></span></label>
 </div></li>
 </ol>
 </div>
 <div id="beta-diversity-summary" class="section level3 hasAnchor" number="15.3.2">
 <h3><span class="header-section-number">15.3.2</span> Beta diversity: summary<a href="15-Beta_diversity_analysis.html#beta-diversity-summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/sum_green.png" style="width:150px" />
+<img src="figures/sum_green.png" style="width:150px; border-radius: 5px ; background: white; border: 5px solid white" />
 </center>
-<p>Viewing the beta diversity ordination plots and the statistical output we can see there is a difference between the Corridor and Toilet samples. However, there does not appear to be a difference between the Entrance and MainBuilding samples from our quick look.</p>
+<p>Viewing the <u id='beta_tip'>beta</u> diversity ordination plots and the statistical output we can see there is a difference between the Corridor and Toilet samples. However, there does not appear to be a difference between the Entrance and MainBuilding samples from our quick look.</p>
 <p>Additionally, the distances within the Corridor samples are smaller than the distances within the Toilet samples. This indicates that the Corridor samples have less variation than the Toilet samples.</p>
-<p>If you want to carry out multi-way ADONIS tests you can use the <a href="https://docs.qiime2.org/2024.10/plugins/available/diversity/adonis/"><code>qiime diversity adonis</code> plugin</a>.</p>
+<p>If you want to carry out multi-way ADONIS tests you can use the <a href="https://amplicon-docs.qiime2.org/en/latest/references/plugins/diversity.html#q2-action-diversity-adonis"><code>qiime diversity adonis</code> plugin</a>.</p>
 <p>We know there is a difference between Corridor and Toilet samples, but are there particular organisms associated with this difference? We are going to try to determine that in the next chapter.</p>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-85a64422d2929f364832" width="672"></span>
+<script type="application/json" data-for="htmlwidget-85a64422d2929f364832">{"x":{"element":"s_tip","opts":{"content":"16S ribosomal RNA","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-ba8be1393fbdf16d8919" width="672"></span>
+<script type="application/json" data-for="htmlwidget-ba8be1393fbdf16d8919">{"x":{"element":"otu_tip","opts":{"content":"Operational Taxonomy Unit","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-09daf1b5997bc38cf815" width="672"></span>
+<script type="application/json" data-for="htmlwidget-09daf1b5997bc38cf815">{"x":{"element":"asv_tip","opts":{"content":"Amplicon Sequence Variant","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-119b07490846ede7a90b" width="672"></span>
+<script type="application/json" data-for="htmlwidget-119b07490846ede7a90b">{"x":{"element":"alpha_tip","opts":{"content":"Alpha diversity values are based on single samples","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-1766b82fb04c4440690b" width="672"></span>
+<script type="application/json" data-for="htmlwidget-1766b82fb04c4440690b">{"x":{"element":"beta_tip","opts":{"content":"Beta diversity values based on pairwise comparisons","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-9b8e776c0fc1907e59b8" width="672"></span>
+<script type="application/json" data-for="htmlwidget-9b8e776c0fc1907e59b8">{"x":{"element":"artifact_tip","opts":{"content":"Artifact files are specific to QIIME2 and can contain data (.qza) or visualisations (.qzv)","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-c1b01b570b3fae2d39c4" width="672"></span>
+<script type="application/json" data-for="htmlwidget-c1b01b570b3fae2d39c4">{"x":{"element":"amplicon_tip","opts":{"content":"Sequences created by amplifying (e.g. PCR) and sequencing (e.g. Illumina) a targeted region of DNA (e.g. 16S rRNA region)","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
 
 </div>
 </div>
@@ -696,29 +722,29 @@ window.onload = function() {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": null,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": null,
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>

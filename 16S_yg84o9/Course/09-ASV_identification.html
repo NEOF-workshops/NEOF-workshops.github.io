@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 9 De-novo amplicon sequence variants identification | Bacterial 16S metabarcoding</title>
   <meta name="description" content="NEOF book for the Bacterial 16S metabarcoding workshop" />
-  <meta name="generator" content="bookdown 0.40 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 9 De-novo amplicon sequence variants identification | Bacterial 16S metabarcoding" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Luca Lenzi and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-02-10" />
+<meta name="date" content="2025-12-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,11 +56,20 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/light.css" rel="stylesheet" />
+<link href="libs/tippyjs-3.2.0/themes/translucent.css" rel="stylesheet" />
+<script src="libs/tippyjs-3.2.0/tippy.all.min.js"></script>
+<script src="libs/tippy-binding-0.1.0/tippy.js"></script>
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -70,7 +79,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -142,7 +151,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_rounded_corners.png" width="250"></a></li>
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank">
+<img src="figures/neof_rounded_corners.png" width="250"></a></li>
 <li><a>Bacterial 16S metabarcoding</a></li>
 
 <li class="divider"></li>
@@ -181,7 +191,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="05-Data.html"><a href="05-Data.html"><i class="fa fa-check"></i><b>5</b> Data</a>
 <ul>
 <li class="chapter" data-level="5.1" data-path="05-Data.html"><a href="05-Data.html#manifestfile"><i class="fa fa-check"></i><b>5.1</b> PairedEndFastqManifestPhred33.csv</a></li>
-<li class="chapter" data-level="5.2" data-path="05-Data.html"><a href="05-Data.html#metadata.file.txt"><i class="fa fa-check"></i><b>5.2</b> metadata.file.txt</a></li>
+<li class="chapter" data-level="5.2" data-path="05-Data.html"><a href="05-Data.html#metadatafile"><i class="fa fa-check"></i><b>5.2</b> metadata.file.txt</a></li>
 <li class="chapter" data-level="5.3" data-path="05-Data.html"><a href="05-Data.html#primers_seqs.fasta"><i class="fa fa-check"></i><b>5.3</b> primers_seqs.fasta</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="06-QIIME2_analysis_workflow.html"><a href="06-QIIME2_analysis_workflow.html"><i class="fa fa-check"></i><b>6</b> QIIME2 analysis workflow</a>
@@ -281,47 +291,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html"><i class="fa fa-check"></i><b>16</b> Differential abundance analysis</a>
 <ul>
 <li class="chapter" data-level="16.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#taxa-collapse"><i class="fa fa-check"></i><b>16.1</b> Taxa collapse</a></li>
-<li class="chapter" data-level="16.2" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-analysis"><i class="fa fa-check"></i><b>16.2</b> ANCOM-BC analysis</a></li>
-<li class="chapter" data-level="16.3" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-tabulate"><i class="fa fa-check"></i><b>16.3</b> ANCOMBC tabulate</a>
+<li class="chapter" data-level="16.2" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-analysis"><i class="fa fa-check"></i><b>16.2</b> ANCOM-BC2 analysis</a></li>
+<li class="chapter" data-level="16.3" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-tabulate"><i class="fa fa-check"></i><b>16.3</b> ANCOM-BC2 tabulate</a>
 <ul>
-<li class="chapter" data-level="16.3.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-tabulate-visualise"><i class="fa fa-check"></i><b>16.3.1</b> ANCOMBC tabulate: visualise</a></li>
+<li class="chapter" data-level="16.3.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-tabulate-visualise"><i class="fa fa-check"></i><b>16.3.1</b> ANCOM-BC2 tabulate: visualise</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancombc-bar-plots"><i class="fa fa-check"></i><b>16.4</b> ANCOMBC bar plots</a>
+<li class="chapter" data-level="16.4" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-bar-plots"><i class="fa fa-check"></i><b>16.4</b> ANCOM-BC2 bar plots</a>
 <ul>
-<li class="chapter" data-level="16.4.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-bar-plots-visualise"><i class="fa fa-check"></i><b>16.4.1</b> ANCOM-BC bar plots: visualise</a></li>
+<li class="chapter" data-level="16.4.1" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-bar-plots-visualise"><i class="fa fa-check"></i><b>16.4.1</b> ANCOM-BC2 bar plots: visualise</a></li>
 </ul></li>
-<li class="chapter" data-level="16.5" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-mcqs"><i class="fa fa-check"></i><b>16.5</b> ANCOM-BC: MCQs</a></li>
+<li class="chapter" data-level="16.5" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc2-mcqs"><i class="fa fa-check"></i><b>16.5</b> ANCOM-BC2: MCQs</a></li>
 <li class="chapter" data-level="16.6" data-path="16-Differential_abundance.html"><a href="16-Differential_abundance.html#ancom-bc-summary"><i class="fa fa-check"></i><b>16.6</b> ANCOM-BC: summary</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="17-Final_consideration.html"><a href="17-Final_consideration.html"><i class="fa fa-check"></i><b>17</b> Final consideration</a></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="18-Appendix.html"><a href="18-Appendix.html"><i class="fa fa-check"></i><b>A</b> Resources</a>
+<li class="chapter" data-level="A" data-path="18-Appendix.html"><a href="18-Appendix.html"><i class="fa fa-check"></i><b>A</b> NEOF</a></li>
+<li class="chapter" data-level="B" data-path="18-Appendix.html"><a href="18-Appendix.html#resources"><i class="fa fa-check"></i><b>B</b> Resources</a>
 <ul>
-<li class="chapter" data-level="A.1" data-path="18-Appendix.html"><a href="18-Appendix.html#suggested-readings"><i class="fa fa-check"></i><b>A.1</b> Suggested readings</a></li>
-<li class="chapter" data-level="A.2" data-path="18-Appendix.html"><a href="18-Appendix.html#other-useful-resources"><i class="fa fa-check"></i><b>A.2</b> Other useful resources</a></li>
-<li class="chapter" data-level="A.3" data-path="18-Appendix.html"><a href="18-Appendix.html#references"><i class="fa fa-check"></i><b>A.3</b> References</a></li>
+<li class="chapter" data-level="B.1" data-path="18-Appendix.html"><a href="18-Appendix.html#suggested-readings"><i class="fa fa-check"></i><b>B.1</b> Suggested readings</a></li>
+<li class="chapter" data-level="B.2" data-path="18-Appendix.html"><a href="18-Appendix.html#other-useful-resources"><i class="fa fa-check"></i><b>B.2</b> Other useful resources</a></li>
+<li class="chapter" data-level="B.3" data-path="18-Appendix.html"><a href="18-Appendix.html#references"><i class="fa fa-check"></i><b>B.3</b> References</a></li>
 </ul></li>
-<li class="chapter" data-level="B" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba-installs"><i class="fa fa-check"></i><b>B</b> Mamba installs</a>
+<li class="chapter" data-level="C" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba-installs"><i class="fa fa-check"></i><b>C</b> Mamba installs</a>
 <ul>
-<li class="chapter" data-level="B.1" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>B.1</b> Mamba installation and environment</a></li>
+<li class="chapter" data-level="C.1" data-path="18-Appendix.html"><a href="18-Appendix.html#mamba_install"><i class="fa fa-check"></i><b>C.1</b> Mamba installation and environment</a></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-metrics"><i class="fa fa-check"></i><b>C</b> Diversity metrics</a>
+<li class="chapter" data-level="D" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-metrics"><i class="fa fa-check"></i><b>D</b> Diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.1" data-path="18-Appendix.html"><a href="18-Appendix.html#alphamet"><i class="fa fa-check"></i><b>C.1</b> Alpha diversity metrics</a>
+<li class="chapter" data-level="D.1" data-path="18-Appendix.html"><a href="18-Appendix.html#alphamet"><i class="fa fa-check"></i><b>D.1</b> Alpha diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.1.1" data-path="18-Appendix.html"><a href="18-Appendix.html#obvs"><i class="fa fa-check"></i><b>C.1.1</b> Observed features</a></li>
-<li class="chapter" data-level="C.1.2" data-path="18-Appendix.html"><a href="18-Appendix.html#evenness"><i class="fa fa-check"></i><b>C.1.2</b> Evenness</a></li>
-<li class="chapter" data-level="C.1.3" data-path="18-Appendix.html"><a href="18-Appendix.html#faith"><i class="fa fa-check"></i><b>C.1.3</b> Faith's PD (phylogenetic diversity)</a></li>
-<li class="chapter" data-level="C.1.4" data-path="18-Appendix.html"><a href="18-Appendix.html#simpson"><i class="fa fa-check"></i><b>C.1.4</b> Simpson</a></li>
-<li class="chapter" data-level="C.1.5" data-path="18-Appendix.html"><a href="18-Appendix.html#simpsone"><i class="fa fa-check"></i><b>C.1.5</b> Simpson evenness measure (simpson_e)</a></li>
-<li class="chapter" data-level="C.1.6" data-path="18-Appendix.html"><a href="18-Appendix.html#shannon"><i class="fa fa-check"></i><b>C.1.6</b> Shannon</a></li>
+<li class="chapter" data-level="D.1.1" data-path="18-Appendix.html"><a href="18-Appendix.html#obvs"><i class="fa fa-check"></i><b>D.1.1</b> Observed features</a></li>
+<li class="chapter" data-level="D.1.2" data-path="18-Appendix.html"><a href="18-Appendix.html#evenness"><i class="fa fa-check"></i><b>D.1.2</b> Evenness</a></li>
+<li class="chapter" data-level="D.1.3" data-path="18-Appendix.html"><a href="18-Appendix.html#faith"><i class="fa fa-check"></i><b>D.1.3</b> Faith's PD (phylogenetic diversity)</a></li>
+<li class="chapter" data-level="D.1.4" data-path="18-Appendix.html"><a href="18-Appendix.html#simpson"><i class="fa fa-check"></i><b>D.1.4</b> Simpson</a></li>
+<li class="chapter" data-level="D.1.5" data-path="18-Appendix.html"><a href="18-Appendix.html#simpsone"><i class="fa fa-check"></i><b>D.1.5</b> Simpson evenness measure (simpson_e)</a></li>
+<li class="chapter" data-level="D.1.6" data-path="18-Appendix.html"><a href="18-Appendix.html#shannon"><i class="fa fa-check"></i><b>D.1.6</b> Shannon</a></li>
 </ul></li>
-<li class="chapter" data-level="C.2" data-path="18-Appendix.html"><a href="18-Appendix.html#beta-diversity-metrics"><i class="fa fa-check"></i><b>C.2</b> Beta diversity metrics</a>
+<li class="chapter" data-level="D.2" data-path="18-Appendix.html"><a href="18-Appendix.html#beta-diversity-metrics"><i class="fa fa-check"></i><b>D.2</b> Beta diversity metrics</a>
 <ul>
-<li class="chapter" data-level="C.2.1" data-path="18-Appendix.html"><a href="18-Appendix.html#unifrac_explanation"><i class="fa fa-check"></i><b>C.2.1</b> Weighted and unweighted UniFrac distances</a></li>
-<li class="chapter" data-level="C.2.2" data-path="18-Appendix.html"><a href="18-Appendix.html#bray_explanation"><i class="fa fa-check"></i><b>C.2.2</b> Bray-Curtis</a></li>
+<li class="chapter" data-level="D.2.1" data-path="18-Appendix.html"><a href="18-Appendix.html#unifrac_explanation"><i class="fa fa-check"></i><b>D.2.1</b> Weighted and unweighted UniFrac distances</a></li>
+<li class="chapter" data-level="D.2.2" data-path="18-Appendix.html"><a href="18-Appendix.html#bray_explanation"><i class="fa fa-check"></i><b>D.2.2</b> Bray-Curtis</a></li>
 </ul></li>
-<li class="chapter" data-level="C.3" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-resources"><i class="fa fa-check"></i><b>C.3</b> Diversity Resources</a></li>
+<li class="chapter" data-level="D.3" data-path="18-Appendix.html"><a href="18-Appendix.html#diversity-resources"><i class="fa fa-check"></i><b>D.3</b> Diversity Resources</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -346,13 +357,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="dada2" class="section level1 hasAnchor" number="9">
 <h1><span class="header-section-number">Chapter 9</span> De-novo amplicon sequence variants identification<a href="09-ASV_identification.html#dada2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/clusters.png" style="width:200px" />
+<img src="figures/clusters.png" style="width:200px; background:white; border-radius:5px; border:5px white solid" />
 </center>
-<p>We will use DADA2 to denoise and identify the amplicon sequence variants (ASVs) among all the samples.</p>
+<p>We will use DADA2 to denoise and identify the <u id='asv_tip'>ASVs</u> among all the samples.</p>
 <div id="dada2-run" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> DADA2: run<a href="09-ASV_identification.html#dada2-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/play_purple.png" style="width:150px" />
+<img src="figures/play_purple.png" style="width:150px; background:white; border-radius:5px; border:5px white solid" />
 </center>
 <p>To perform the variant sequence identification step with DADA2, the command is (<strong>don't run this command, <a href="09-ASV_identification.html#cpdada2">see below command</a></strong>):</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb10-1"><a href="09-ASV_identification.html#cb10-1" tabindex="-1"></a><span class="ex">qiime</span> dada2 denoise-paired <span class="dt">\</span></span>
@@ -366,41 +377,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="parameters-3" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="09-ASV_identification.html#parameters-3" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <center>
-<img src="figures/parameter_purple.png" style="width:100px" />
+<img src="figures/parameter_purple.png" style="width:100px; background:white; border-radius:5px; border:5px white solid" />
 </center>
 <ul>
-<li><strong><code>--i-demultiplexed-seqs</code></strong>: Input artifact file containing the trimmed demultiplexed sequences.</li>
+<li><strong><code>--i-demultiplexed-seqs</code></strong>: Input <u id='artifact_tip'>artifact</u> file containing the trimmed demultiplexed sequences.</li>
 <li><strong><code>--p-trunc-len-f</code></strong>: This will truncate (trim) the forward sequences to retain only the first <code>220</code> bases.</li>
 <li><strong><code>--p-trunc-len-r</code></strong>: This will truncate (trim) the reverse sequences to retain only the first <code>220</code> bases.</li>
-<li><strong><code>--o-representative-sequences</code></strong>: Output artifact containing the identified sequence variants.</li>
-<li><strong><code>--o-table</code></strong>: Output artifact containing the abundance table for the identified variants.</li>
-<li><strong><code>--o-denoising-stats</code></strong>: Output artifact containing the sequence numbers pre- and post- trimming and denoising.</li>
+<li><strong><code>--o-representative-sequences</code></strong>: Output <u id='artifact_tip'>artifact</u> containing the identified sequence variants.</li>
+<li><strong><code>--o-table</code></strong>: Output <u id='artifact_tip'>artifact</u> containing the abundance table for the identified variants.</li>
+<li><strong><code>--o-denoising-stats</code></strong>: Output <u id='artifact_tip'>artifact</u> containing the sequence numbers pre- and post- trimming and denoising.</li>
 <li><strong><code>--verbose</code></strong>: Causes command to display verbose output to screen.</li>
 </ul>
-<p><a href="https://docs.qiime2.org/2024.10/plugins/available/dada2/denoise-paired/">QIIME2 docs on <code>qiime dada2 denoise-paired</code></a></p>
+<p><a href="https://amplicon-docs.qiime2.org/en/latest/references/plugins/dada2.html#q2-action-dada2-denoise-paired">QIIME2 docs on <code>qiime dada2 denoise-paired</code></a></p>
 </div>
 <div id="truncation-length" class="section level3 hasAnchor" number="9.1.1">
 <h3><span class="header-section-number">9.1.1</span> Truncation length<a href="09-ASV_identification.html#truncation-length" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/measuring_tape.png" style="width:150px" />
+<img src="figures/measuring_tape.png" style="width:150px; background:white; border-radius:5px; border:5px white solid" />
 </center>
 <p>We chose <code>220</code> for <code>--p-trunc-len-f</code> &amp; <code>--p-trunc-len-r</code> as the read quality was very good up to the 220 bp position for both the forward and reverse reads.
 Additionally, our amplicon length is ~291bp. The combined length of our forward and reverse reads is 440bp, therefore we would have an overlap greater than 100bp which is very good (440 - 291 = 149bp).</p>
-<p>As a reminder we are using the primer 515FB-806RB for the V4 16S rRNA gene. The name 515FB-806RB represents the location within an <strong>E.coli</strong> 16S gene that the primers will hit (515 for the forward, 806 for the reverse). Therefore the amplicon length for <strong>E.coli</strong> will be 806 - 515 = 291bp. As with all genes this size will vary in length across all the bacterial taxa but only by a few base pairs.</p>
+<p>As a reminder we are using the primer 515FB-806RB for the V4 <u id='s_tip'>16S rRNA</u> gene. The name 515FB-806RB represents the location within an <strong>E.coli</strong> <u id='s_tip'>16S</u> gene that the primers will hit (515 for the forward, 806 for the reverse). Therefore the amplicon length for <strong>E.coli</strong> will be 806 - 515 = 291bp. As with all genes this size will vary in length across all the bacterial taxa but only by a few base pairs.</p>
 </div>
 <div id="cpdada2" class="section level3 hasAnchor" number="9.1.2">
 <h3><span class="header-section-number">9.1.2</span> Copy DADA2 output<a href="09-ASV_identification.html#cpdada2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/copy.png" style="width:150px" />
+<img src="figures/copy.png" style="width:150px; background:white; border-radius:5px; border:5px white solid" />
 </center>
 <p>The command will take a long time, so stop the command (ctrl+c), if you started it, and copy the final output files, which have been previously made, to your current directory:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb11-1"><a href="09-ASV_identification.html#cb11-1" tabindex="-1"></a><span class="co">#Copy the files from the specified directory to your working directory</span></span>
 <span id="cb11-2"><a href="09-ASV_identification.html#cb11-2" tabindex="-1"></a><span class="fu">cp</span> /pub14/tea/nsc206/NEOF/16s_workshop/chapter_9/<span class="pp">*</span> ~/Metagenetics</span></code></pre></div>
 <p>Through the above command you will now have the following three files:</p>
 <ul>
-<li><code>rep-seqs-dada2.qza</code>: Artifact containing the identified sequence variants.</li>
-<li><code>table-dada2.qza</code>: Artifact containing the ASV abundance table.</li>
-<li><code>dada2-stats.qza</code>: Artifact which summarises the statistics after the denoising steps.</li>
+<li><code>rep-seqs-dada2.qza</code>: <u id='artifact_tip'>Artifact</u> containing the identified sequence variants.</li>
+<li><code>table-dada2.qza</code>: <u id='artifact_tip'>Artifact</u> containing the <u id='asv_tip'>ASV</u> abundance table.</li>
+<li><code>dada2-stats.qza</code>: <u id='artifact_tip'>Artifact</u> which summarises the statistics after the denoising steps.</li>
 </ul>
 </div>
 <div id="dada2-considerations" class="section level3 hasAnchor" number="9.1.3">
@@ -408,16 +419,16 @@ Additionally, our amplicon length is ~291bp. The combined length of our forward 
 <center>
 <img src="figures/considerations.png" style="width:150px; background:white; border-radius:5px" />
 </center>
-<p>This may be one of the longest steps of the whole pipeline. The running time is proportional to the complexity of the sequences (how many ASVs are in the dataset) and to the quality of the sequences (how many errors are present). If this step is taking too long in one of your future projects, you may try to use <a href="https://docs.qiime2.org/2024.10/plugins/available/deblur/">‘deblur’</a> to de-noise your data (after joining the reads with vsearch), which is generally faster.</p>
+<p>This may be one of the longest steps of the whole pipeline. The running time is proportional to the complexity of the sequences (how many <u id='asv_tip'>ASVs</u> are in the dataset) and to the quality of the sequences (how many errors are present). If this step is taking too long in one of your future projects, you may try to use <a href="https://docs.qiime2.org/2024.10/plugins/available/deblur/">‘deblur’</a> to de-noise your data (after joining the reads with vsearch), which is generally faster.</p>
 <p>In the case of a marker gene with a high variability in amplicon sequence lengths, as in the case of ITS amplicon sequencing, a possible alternative denoising strategy is to disable the filtering by truncation length using the options: <code>--p-trunc-len-f 0</code> and <code>--p-trunc-len-r 0</code>. To exclude the low quality tails the <code>--p-trunc-q 20</code> option is now required, this option will trim all the sequences after the first base with quality below ‘20’ (this may be very stringent, so you may want to try with lower values as well). A further possibility may be to use only either the forward or reverse read file, for this the <code>qiime dada2 denoise-single</code> should be used instead of the above dada2 command.</p>
 </div>
 </div>
 <div id="tabledada2qzv" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> table-dada2.qzv<a href="09-ASV_identification.html#tabledada2qzv" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/table.png" style="width:150px" />
+<img src="figures/table.png" style="width:150px; background:white; border-radius:5px; border:5px white solid" />
 </center>
-<p>To visualise information on the ASV table we will run:</p>
+<p>To visualise information on the <u id='asv_tip'>ASV</u> table we will run:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb12-1"><a href="09-ASV_identification.html#cb12-1" tabindex="-1"></a><span class="ex">qiime</span> feature-table summarize <span class="dt">\</span></span>
 <span id="cb12-2"><a href="09-ASV_identification.html#cb12-2" tabindex="-1"></a>--i-table table-dada2.qza <span class="dt">\</span></span>
 <span id="cb12-3"><a href="09-ASV_identification.html#cb12-3" tabindex="-1"></a>--o-visualization table-dada2.qzv <span class="dt">\</span></span>
@@ -425,14 +436,14 @@ Additionally, our amplicon length is ~291bp. The combined length of our forward 
 <div id="parameters-4" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="09-ASV_identification.html#parameters-4" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <center>
-<img src="figures/parameter_purple.png" style="width:100px" />
+<img src="figures/parameter_purple.png" style="width:100px; background:white; border-radius:5px; border:5px white solid" />
 </center>
 <ul>
-<li><strong><code>--i-table</code></strong>: Input artifact file containing the abundance table of the ASVs.</li>
-<li><strong><code>--o-visualization</code></strong>: Output visualisation artifact.</li>
-<li><strong><code>--m-sample-metadata-file</code></strong>: <a href="05-Data.html#metadata.file.txt">Metadata file</a> for our samples.</li>
+<li><strong><code>--i-table</code></strong>: Input <u id='artifact_tip'>artifact</u> file containing the abundance table of the <u id='asv_tip'>ASVs</u>.</li>
+<li><strong><code>--o-visualization</code></strong>: Output visualisation <u id='artifact_tip'>artifact</u>.</li>
+<li><strong><code>--m-sample-metadata-file</code></strong>: <a href="#metadata.file.txt">Metadata file</a> for our samples.</li>
 </ul>
-<p><a href="https://docs.qiime2.org/2024.10/plugins/available/feature-table/summarize/">QIIME2 docs on <code>qiime feature-table summarize</code></a></p>
+<p><a href="(https://docs.qiime2.org/2024.10/plugins/available/feature-table/summarize/)https://amplicon-docs.qiime2.org/en/latest/references/plugins/feature-table.html#q2-action-feature-table-summarize">QIIME2 docs on <code>qiime feature-table summarize</code></a></p>
 </div>
 <div id="output" class="section level4 unnumbered hasAnchor">
 <h4>Output<a href="09-ASV_identification.html#output" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -447,18 +458,18 @@ Additionally, our amplicon length is ~291bp. The combined length of our forward 
 <li><strong>Table summary</strong>
 <ul>
 <li><strong>Number of samples</strong></li>
-<li><strong>Number of features</strong>: In this case features are ASVs. If this was a taxa table features would be the number of taxa.</li>
-<li><strong>Total frequency</strong>: Total number of sequences (i.e. total abundance across all samples and ASVs).</li>
+<li><strong>Number of features</strong>: In this case features are <u id='asv_tip'>ASVs</u>. If this was a taxa table features would be the number of taxa.</li>
+<li><strong>Total frequency</strong>: Total number of sequences (i.e. total abundance across all samples and <u id='asv_tip'>ASVs</u>).</li>
 </ul></li>
 <li><strong>Frequency per sample</strong>: Summary of number of sequences.
 <ul>
 <li><strong>IQR table</strong>: Table showing the Interquartile range of sample frequencies.</li>
 <li><strong>Histogram of frequency per sample</strong>: This gives a rough view as the start and end of the histogram is based on the minimum and maximum sample frequencies.</li>
 </ul></li>
-<li><strong>Frequency per feature</strong>: Summary of number of sequences per feature (ASV/taxa).
+<li><strong>Frequency per feature</strong>: Summary of number of sequences per feature (<u id='asv_tip'>ASV</u>/taxa).
 <ul>
 <li><strong>IQR table</strong>: Table showing the Interquartile range of feature frequencies.</li>
-<li><strong>Histogram of frequency per sample</strong>: This shows a rough view of the number of features (y axis) with different frequencies (x axis). Note that the scales are logarithmic. The left side of the plot shows how many rare ASVs there are (ASVs represented by a low amount of sequences, i.e. low abundance ASVs). The right side of the plot shows the amount of high abundance ASVs.</li>
+<li><strong>Histogram of frequency per sample</strong>: This shows a rough view of the number of features (y axis) with different frequencies (x axis). Note that the scales are logarithmic. The left side of the plot shows how many rare <u id='asv_tip'>ASVs</u> there are (<u id='asv_tip'>ASVs</u> represented by a low amount of sequences, i.e. low abundance <u id='asv_tip'>ASVs</u>). The right side of the plot shows the amount of high abundance <u id='asv_tip'>ASVs</u>.</li>
 </ul></li>
 </ul></li>
 <li><strong>Interactive Sample Detail</strong>: This interactive section allows you to explore sampling depth. Experiment using the Plot Controls.
@@ -479,50 +490,50 @@ Additionally, our amplicon length is ~291bp. The combined length of our forward 
 </ul></li>
 <li><strong>Feature detail</strong>: This is a table with 3 columns.
 <ul>
-<li>1st column: This is the ASV id. This ID represents the exact amplicon sequence variant. This is useful as if this ASV id is in another sequencing experiment it means they are identical between the two studies. This allows for easy merging of multiple ASV tables.</li>
-<li><strong>Frequency</strong>: Number of sequences representing the ASV across all samples. I.e. the total abundance of the ASV.</li>
-<li><strong># of Samples Observed in</strong>: Number of samples the ASVs was detected in.</li>
+<li>1st column: This is the <u id='asv_tip'>ASV</u> id. This ID represents the exact <u id='asv_tip'>ASV</u>. This is useful as if this <u id='asv_tip'>ASV</u> id is in another sequencing experiment it means they are identical between the two studies. This allows for easy merging of multiple <u id='asv_tip'>ASV</u> tables.</li>
+<li><strong>Frequency</strong>: Number of sequences representing the <u id='asv_tip'>ASV</u> across all samples. I.e. the total abundance of the <u id='asv_tip'>ASV</u>.</li>
+<li><strong># of Samples Observed in</strong>: Number of samples the <u id='asv_tip'>ASVs</u> was detected in.</li>
 </ul></li>
 </ol>
 </div>
 <div id="table-dada2.qzv-mcqs" class="section level3 hasAnchor" number="9.2.1">
 <h3><span class="header-section-number">9.2.1</span> table-dada2.qzv: MCQs<a href="09-ASV_identification.html#table-dada2.qzv-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/question_bubble_purple.png" style="width:150px" />
+<img src="figures/question_bubble_purple.png" style="width:150px; background:white; border-radius:5px; border:5px white solid" />
 </center>
 <p>Attempt the below MCQs.</p>
 <ol style="list-style-type: decimal">
 <li>How many ASVs (features) were detected in the dataset?
-<div id="radio_PUJFRFGNXM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PUJFRFGNXM" value="answer"></input> <span><strong>2,138</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PUJFRFGNXM" value=""></input> <span><strong>118,704</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PUJFRFGNXM" value=""></input> <span><strong>258,440</strong></span></label>
+<div id="radio_DHERPJGFEF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DHERPJGFEF" value="answer"></input> <span><strong>2,138</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DHERPJGFEF" value=""></input> <span><strong>118,704</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DHERPJGFEF" value=""></input> <span><strong>258,440</strong></span></label>
 </div></li>
 <li>What is the median number of sequences per sample?
-<div id="radio_KVCGVBUONC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_KVCGVBUONC" value=""></input> <span><strong>2,138</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KVCGVBUONC" value="answer"></input> <span><strong>118,704</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KVCGVBUONC" value=""></input> <span><strong>258,440</strong></span></label>
+<div id="radio_EYGUNATQHL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EYGUNATQHL" value=""></input> <span><strong>2,138</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EYGUNATQHL" value="answer"></input> <span><strong>118,704</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EYGUNATQHL" value=""></input> <span><strong>258,440</strong></span></label>
 </div></li>
 <li>What is the maximum number of sequences per ASV?
-<div id="radio_ZNQDXQGOJL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZNQDXQGOJL" value=""></input> <span><strong>2,138</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZNQDXQGOJL" value=""></input> <span><strong>118,704</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZNQDXQGOJL" value="answer"></input> <span><strong>258,440</strong></span></label>
+<div id="radio_HIHMAFLXDH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HIHMAFLXDH" value=""></input> <span><strong>2,138</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HIHMAFLXDH" value=""></input> <span><strong>118,704</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HIHMAFLXDH" value="answer"></input> <span><strong>258,440</strong></span></label>
 </div></li>
 <li>How many samples have &gt;=100,000 sequences?
-<div id="radio_XTQJIJNXXG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XTQJIJNXXG" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XTQJIJNXXG" value=""></input> <span><strong>5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XTQJIJNXXG" value="answer"></input> <span><strong>13</strong></span></label>
+<div id="radio_FJUXCKXNBR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FJUXCKXNBR" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FJUXCKXNBR" value=""></input> <span><strong>5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FJUXCKXNBR" value="answer"></input> <span><strong>13</strong></span></label>
 </div></li>
 <li>How many Toilet (Metadata Category: Location) samples have &gt;=80,000 sequences?
-<div id="radio_BWMLRLYHVR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_BWMLRLYHVR" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BWMLRLYHVR" value="answer"></input> <span><strong>5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BWMLRLYHVR" value=""></input> <span><strong>13</strong></span></label>
+<div id="radio_BCJHWLNWVY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BCJHWLNWVY" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BCJHWLNWVY" value="answer"></input> <span><strong>5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BCJHWLNWVY" value=""></input> <span><strong>13</strong></span></label>
 </div></li>
 <li>How many MainBuilding (Metadata Category: Place) samples have &gt;=120,000 sequences?
-<div id="radio_DLTEXJHNKL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DLTEXJHNKL" value="answer"></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DLTEXJHNKL" value=""></input> <span><strong>5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DLTEXJHNKL" value=""></input> <span><strong>13</strong></span></label>
+<div id="radio_CTKEFLTRAD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CTKEFLTRAD" value="answer"></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CTKEFLTRAD" value=""></input> <span><strong>5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CTKEFLTRAD" value=""></input> <span><strong>13</strong></span></label>
 </div></li>
 <li>How many sequences represent the second most abundant ASV?
-<div id="radio_TQYKYMYFNF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TQYKYMYFNF" value=""></input> <span><strong>15</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TQYKYMYFNF" value="answer"></input> <span><strong>225,752</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TQYKYMYFNF" value=""></input> <span><strong>258,440</strong></span></label>
+<div id="radio_NMOPALUFVX" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NMOPALUFVX" value=""></input> <span><strong>15</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NMOPALUFVX" value="answer"></input> <span><strong>225,752</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NMOPALUFVX" value=""></input> <span><strong>258,440</strong></span></label>
 </div></li>
 <li>How many samples is the 10th most abundant ASV observed in?
-<div id="radio_XZKLGJVZKZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XZKLGJVZKZ" value="answer"></input> <span><strong>15</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XZKLGJVZKZ" value=""></input> <span><strong>225,752</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XZKLGJVZKZ" value=""></input> <span><strong>258,440</strong></span></label>
+<div id="radio_ZGBGYEORRP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZGBGYEORRP" value="answer"></input> <span><strong>15</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZGBGYEORRP" value=""></input> <span><strong>225,752</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZGBGYEORRP" value=""></input> <span><strong>258,440</strong></span></label>
 </div></li>
 </ol>
 </div>
@@ -539,13 +550,13 @@ Additionally, our amplicon length is ~291bp. The combined length of our forward 
 <div id="parameters-5" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="09-ASV_identification.html#parameters-5" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <center>
-<img src="figures/parameter_blue.png" style="width:100px" />
+<img src="figures/parameter_blue.png" style="width:100px; background:white; border-radius:5px; border:5px white solid" />
 </center>
 <ul>
-<li><strong><code>--m-input-file</code></strong>: Input artifact file containing the denoising stats from DADA2.</li>
-<li><strong><code>--o-visualization</code></strong>: Output visualisation artifact.</li>
+<li><strong><code>--m-input-file</code></strong>: Input <u id='artifact_tip'>artifact</u> file containing the denoising stats from DADA2.</li>
+<li><strong><code>--o-visualization</code></strong>: Output visualisation <u id='artifact_tip'>artifact</u>.</li>
 </ul>
-<p><a href="https://docs.qiime2.org/2024.10/plugins/available/metadata/tabulate/">QIIME2 docs on <code>qiime metadata tabulate</code></a></p>
+<p><a href="https://amplicon-docs.qiime2.org/en/latest/references/plugins/metadata.html#q2-action-metadata-tabulate">QIIME2 docs on <code>qiime metadata tabulate</code></a></p>
 </div>
 <div id="output-1" class="section level4 unnumbered hasAnchor">
 <h4>Output<a href="09-ASV_identification.html#output-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -570,17 +581,17 @@ Additionally, our amplicon length is ~291bp. The combined length of our forward 
 <div id="dada2-stats.qzv-mcqs" class="section level3 hasAnchor" number="9.3.1">
 <h3><span class="header-section-number">9.3.1</span> dada2-stats.qzv: MCQs<a href="09-ASV_identification.html#dada2-stats.qzv-mcqs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/question_bubble_blue.png" style="width:150px" />
+<img src="figures/question_bubble_blue.png" style="width:150px; background:white; border-radius:5px; border:5px white solid" />
 </center>
 <p>Attempt the below MCQs.</p>
 <ol style="list-style-type: decimal">
 <li>In which DADA2 step were most of the sequences lost?
-<div id="radio_BWNYFKKPEV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_BWNYFKKPEV" value="answer"></input> <span><strong>Filtering</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BWNYFKKPEV" value=""></input> <span><strong>Denoising and merging</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BWNYFKKPEV" value=""></input> <span><strong>Chimera removal</strong></span></label>
+<div id="radio_UGJAFGLZPF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UGJAFGLZPF" value="answer"></input> <span><strong>Filtering</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UGJAFGLZPF" value=""></input> <span><strong>Denoising and merging</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UGJAFGLZPF" value=""></input> <span><strong>Chimera removal</strong></span></label>
 </div></li>
 <li>Which sample retained the smallest percentage of its input at the end (i.e. after filtering, denoising, merging, and chimera removal)?
-<div id="radio_UQTVAWPSXS" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_UQTVAWPSXS" value=""></input> <span><strong>1K1MB</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UQTVAWPSXS" value=""></input> <span><strong>1K1E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UQTVAWPSXS" value="answer"></input> <span><strong>1K2M</strong></span></label>
+<div id="radio_MYDJENNRKD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MYDJENNRKD" value=""></input> <span><strong>1K1MB</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MYDJENNRKD" value=""></input> <span><strong>1K1E</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MYDJENNRKD" value="answer"></input> <span><strong>1K2M</strong></span></label>
 </div></li>
 </ol>
 </div>
@@ -588,10 +599,24 @@ Additionally, our amplicon length is ~291bp. The combined length of our forward 
 <div id="dada2-summary" class="section level2 hasAnchor" number="9.4">
 <h2><span class="header-section-number">9.4</span> DADA2: summary<a href="09-ASV_identification.html#dada2-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/sum_blue.png" style="width:150px" />
+<img src="figures/sum_blue.png" style="width:150px; background:white; border-radius:5px; border:5px white solid" />
 </center>
-<p>Our reads have been filtered, denoised, and merged. Additionally, chimeras have been removed. With this carried out we have an ASV abundance table, representative sequences, and stats on the various steps that have been carried out.</p>
+<p>Grand! Our reads have been filtered, denoised, and merged. Additionally, chimeras have been removed. With this carried out we have an <u id='asv_tip'>ASV</u> abundance table, representative sequences, and stats on the various steps that have been carried out.</p>
 <p>Through visualising the table and stats we can determine that there are a good amount of sequences per sample (&gt;20,000) and there is a good amount of samples per sample group. We are therefore happy with our data and can continue on.</p>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-58d65bdbd9e83f2790ba" width="672"></span>
+<script type="application/json" data-for="htmlwidget-58d65bdbd9e83f2790ba">{"x":{"element":"s_tip","opts":{"content":"16S ribosomal RNA","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-15bcc83feb462210ab8d" width="672"></span>
+<script type="application/json" data-for="htmlwidget-15bcc83feb462210ab8d">{"x":{"element":"otu_tip","opts":{"content":"Operational Taxonomy Unit","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-20f5bde09687fec19fc2" width="672"></span>
+<script type="application/json" data-for="htmlwidget-20f5bde09687fec19fc2">{"x":{"element":"asv_tip","opts":{"content":"Amplicon Sequence Variant","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-968b498625954e22a04e" width="672"></span>
+<script type="application/json" data-for="htmlwidget-968b498625954e22a04e">{"x":{"element":"alpha_tip","opts":{"content":"Alpha diversity values are based on single samples","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-6e0ebd75d7b833e418c6" width="672"></span>
+<script type="application/json" data-for="htmlwidget-6e0ebd75d7b833e418c6">{"x":{"element":"beta_tip","opts":{"content":"Beta diversity values based on pairwise comparisons","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-e2b178bd69348a446750" width="672"></span>
+<script type="application/json" data-for="htmlwidget-e2b178bd69348a446750">{"x":{"element":"artifact_tip","opts":{"content":"Artifact files are specific to QIIME2 and can contain data (.qza) or visualisations (.qzv)","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-5642cca11c4cedf5547a" width="672"></span>
+<script type="application/json" data-for="htmlwidget-5642cca11c4cedf5547a">{"x":{"element":"amplicon_tip","opts":{"content":"Sequences created by amplifying (e.g. PCR) and sequencing (e.g. Illumina) a targeted region of DNA (e.g. 16S rRNA region)","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
 
 </div>
 </div>
@@ -821,29 +846,29 @@ window.onload = function() {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": null,
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": null,
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "section"
-}
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
 });
 });
 </script>
