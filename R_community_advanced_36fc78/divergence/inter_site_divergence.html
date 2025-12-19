@@ -663,16 +663,28 @@ Inter-media without upper triangle
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.wilcox.test</span>(inter_site_wunifrac_long_tbl<span class="sc">$</span>value,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                        inter_site_wunifrac_long_tbl<span class="sc">$</span>site_L)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>None of our p-values are significant, i.e.&nbsp;there is no statistical difference between the inter-site divergences. This coincides with our violin plot where does is a lot of overlap between the violins.</p>
+<p>None of our p-values are significant, i.e.&nbsp;there is no statistical difference between the inter-site divergences. This coincides with our violin plot where there is a lot of overlap between the violins.</p>
 </section>
 <section id="pairs" class="level3">
 <h3 class="anchored" data-anchor-id="pairs">Pairs</h3>
 <p>We can also compare all the site pairwise divergences. To carry this out we’ll create a column called <code>site_L_R</code> which contains the site pairing (e.g.&nbsp;LD_MD). We’ll use this column as our grouping for the wilcox test.</p>
-<p>The main concern for our dat is that we want unique distance values within each site pair grouping. To create the paired site column, <code>site_L_R</code>, we’e use a tidyverse based pipeline. The steps are below:</p>
+<p>The main concern for our data is that we want unique distance values within each site pair grouping. To create the paired site column, <code>site_L_R</code>, we’e use a tidyverse based pipeline. The steps are below:</p>
 <ul>
-<li>Filter to remove the upper triangle rows with <a href="https://neof-workshops.github.io/Tidyverse/dplyr/filter.html"><code>dplyr::filter()</code></a> - This is to remove duplicated values which we do not want for these statistics.</li>
-<li>Convert the <code>site_L</code> amd <code>site_R</code> columns to characters with <a href="https://neof-workshops.github.io/Tidyverse/dplyr/mutate.html"><code>dplyr::mutate()</code></a> and <a href="https://dplyr.tidyverse.org//reference/across.html"><code>dplyr::across()</code></a>. - These columns are originally factors which can’t be ordered alphabetically unlike characters. - This is required for the next step.</li>
-<li>Create a new column with left and right sample info, <code>site_L_R</code>, with <a href="https://neof-workshops.github.io/Tidyverse/dplyr/mutate.html"><code>dplyr::mutate()</code></a>. - We ensure the first site (alphabetically) is the prefix by specifying both columns within the <code>pmin()</code> function. - The suffix is set as the last (alphabetically), i.e.&nbsp;second of the two, site with <code>pmax()</code>. - This ensures all the pairings are in the same orientation (i.e.&nbsp;we won’t have some values under LD-MD and some under MD-LD).</li>
+<li>Filter to remove the upper triangle rows with <a href="https://neof-workshops.github.io/Tidyverse/dplyr/filter.html"><code>dplyr::filter()</code></a>
+<ul>
+<li>This is to remove duplicated values which we do not want for these statistics.</li>
+</ul></li>
+<li>Convert the <code>site_L</code> amd <code>site_R</code> columns to characters with <a href="https://neof-workshops.github.io/Tidyverse/dplyr/mutate.html"><code>dplyr::mutate()</code></a> and <a href="https://dplyr.tidyverse.org//reference/across.html"><code>dplyr::across()</code></a>.
+<ul>
+<li>These columns are originally factors which can’t be ordered alphabetically unlike characters.</li>
+<li>This is required for the next step.</li>
+</ul></li>
+<li>Create a new column with left and right sample info, <code>site_L_R</code>, with <a href="https://neof-workshops.github.io/Tidyverse/dplyr/mutate.html"><code>dplyr::mutate()</code></a>.
+<ul>
+<li>We ensure the first site (alphabetically) is the prefix by specifying both columns within the <code>pmin()</code> function.</li>
+<li>The suffix is set as the last (alphabetically), i.e.&nbsp;second of the two, site with <code>pmax()</code>.</li>
+<li>This ensures all the pairings are in the same orientation (i.e.&nbsp;we won’t have some values under LD-MD and some under MD-LD).</li>
+</ul></li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create new tibble for site pair statistics</span></span>
