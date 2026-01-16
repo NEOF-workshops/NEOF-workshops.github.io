@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.28">
+<meta name="generator" content="quarto-1.8.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -30,22 +30,23 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../stringr/cheatsheets.html" rel="next">
+<link href="../stringr/str_view.html" rel="next">
 <link href="..//images/NEOF_favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b719d3d4935f2b08311a76135e2bf442.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-c8b544e1eab81f7563542c0a8b71d1e9.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-b719d3d4935f2b08311a76135e2bf442.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-1fe81d0376b2c50856e68e651e390326.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-6f6599830d51be977da3b6af758f8eff.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-1fe81d0376b2c50856e68e651e390326.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a2c707c9ce2683357deb504d4351355b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-98ad8017309f9ef72815fe3b6df3ee3d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a2c707c9ce2683357deb504d4351355b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-4fe5f8073d572edab971eec995afb315.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-3821d62aacf32ecfa7b1f79d3644b881.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-4fe5f8073d572edab971eec995afb315.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -96,7 +97,7 @@ ul.task-list li input[type="checkbox"] {
         toggleBodyColorMode(bsSheetEl);
       }
     }
-    window.setColorSchemeToggle = (alternate) => {
+    const setColorSchemeToggle = (alternate) => {
       const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
       for (let i=0; i < toggles.length; i++) {
         const toggle = toggles[i];
@@ -129,7 +130,7 @@ ul.task-list li input[type="checkbox"] {
       }
       manageTransitions('#quarto-margin-sidebar .nav-link', true);
       // Switch the toggles
-      window.setColorSchemeToggle(alternate)
+      setColorSchemeToggle(alternate)
       // Hack to workaround the fact that safari doesn't
       // properly recolor the scrollbar when toggling (#1455)
       if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
@@ -169,7 +170,7 @@ ul.task-list li input[type="checkbox"] {
     const isFileUrl = () => {
       return window.location.protocol === 'file:';
     }
-    window.hasAlternateSentinel = () => {
+    const hasAlternateSentinel = () => {
       let styleSentinel = getColorSchemeSentinel();
       if (styleSentinel !== null) {
         return styleSentinel === "alternate";
@@ -197,7 +198,7 @@ ul.task-list li input[type="checkbox"] {
       const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
       const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
       let newTheme = '';
-      if(darkModeDefault) {
+      if(authorPrefersDark) {
         newTheme = isAlternate ? baseTheme : alternateTheme;
       } else {
         newTheme = isAlternate ? alternateTheme : baseTheme;
@@ -220,20 +221,22 @@ ul.task-list li input[type="checkbox"] {
         changeGiscusTheme();
       }
     };
-    const darkModeDefault = false;
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
     // Dark / light mode switch
     window.quartoToggleColorScheme = () => {
       // Read the current dark / light value
-      let toAlternate = !window.hasAlternateSentinel();
+      let toAlternate = !hasAlternateSentinel();
       toggleColorMode(toAlternate);
       setStyleSentinel(toAlternate);
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
     };
     // Switch to dark mode if need be
-    if (window.hasAlternateSentinel()) {
+    if (hasAlternateSentinel()) {
       toggleColorMode(true);
     } else {
       toggleColorMode(false);
@@ -245,6 +248,8 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">NEOF Tidy R</span>
     </a>
@@ -256,7 +261,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
 <span class="menu-text">Overview</span></a>
   </li>  
   <li class="nav-item">
@@ -280,7 +285,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Ggplot2</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../stringr/stringr.html" aria-current="page"> 
+    <a class="nav-link" href="../stringr/stringr.html"> 
 <span class="menu-text">Stringr</span></a>
   </li>  
   <li class="nav-item">
@@ -338,6 +343,10 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -346,6 +355,133 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Stringr</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Viewing strings</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stringr/str_view.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">str_view</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Character maniplation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stringr/str_length.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">str_length</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stringr/str_sub.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">str_sub</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stringr/str_dup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">str_dup</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Combining strings</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stringr/str_c.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">str_c</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stringr/str_flatten.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">str_flatten</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stringr/str_glue.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">str_glue</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">White space</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stringr/str_pad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">str_pad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stringr/str_trim.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">str_trim</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pattern matching</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stringr/str_subset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">str_subset</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stringr/str_detect.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">str_detect</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stringr/str_count.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">str_count</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stringr/cheatsheets.html" class="sidebar-item-text sidebar-link">
@@ -357,8 +493,22 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#sections" id="toc-sections" class="nav-link" data-scroll-target="#sections">Sections</a>
+  <ul class="collapse">
+  <li><a href="#viewing-strings" id="toc-viewing-strings" class="nav-link" data-scroll-target="#viewing-strings">Viewing strings</a></li>
+  <li><a href="#character-manipulation" id="toc-character-manipulation" class="nav-link" data-scroll-target="#character-manipulation">Character manipulation</a></li>
+  <li><a href="#combining-strings" id="toc-combining-strings" class="nav-link" data-scroll-target="#combining-strings">Combining strings</a></li>
+  <li><a href="#white-space-tools" id="toc-white-space-tools" class="nav-link" data-scroll-target="#white-space-tools">White space tools</a></li>
+  <li><a href="#pattern-matching" id="toc-pattern-matching" class="nav-link" data-scroll-target="#pattern-matching">Pattern matching</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -386,10 +536,120 @@ ul.task-list li input[type="checkbox"] {
 <center>
 <img src="../images/stringr.png" class="img-fluid" style="width:150px">
 </center>
-<p>In development</p>
-<p><a href="https://stringr.tidyverse.org/">readr homepage</a></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p><strong>Stringr</strong> is the main string manipulation package in <strong>tidyverse</strong>.</p>
+<p><strong>Stringr</strong> focusses on the most important and comonly used string manipulation functions. It is based on <a href="https://github.com/gagolews/stringi">stringi</a> which has a comprehensive set of functions.</p>
+<p><a href="https://stringr.tidyverse.org/">stringr homepage</a></p>
+<p>This website aims to quickly cover some of the <code>stringr</code> functions and uses. Therefore, there are a lot more <code>stringr</code> functions than covered here. Please check the below link for the full list.</p>
+<p><a href="https://stringr.tidyverse.org/reference/index.html">Full stringr reference page</a></p>
+<p>If you are unfamiliar with strings please see:</p>
+<p><a href="https://r4ds.hadley.nz/strings">String chapter in R for Data Science 2e</a></p>
+</section>
+<section id="sections" class="level2">
+<h2 class="anchored" data-anchor-id="sections">Sections</h2>
+<p>There are many sections for <code>stringr</code>. These are summarised below.</p>
+<section id="viewing-strings" class="level3">
+<h3 class="anchored" data-anchor-id="viewing-strings">Viewing strings</h3>
+<div class="hexrow">
+<p>
+<a href="../stringr/str_view.html"> <img src="images/stringr_str_view.png" width="150px"> </a>
+</p>
+</div>
+<ul>
+<li><a href="../stringr/str_view.html"><code>str_view()</code></a>: View the raw contents of a string.
+<ul>
+<li>Includes information about various special characters and how to escape them with <code>\</code>.</li>
+</ul></li>
+</ul>
+</section>
+<section id="character-manipulation" class="level3">
+<h3 class="anchored" data-anchor-id="character-manipulation">Character manipulation</h3>
+<div class="hexrow">
+<p>
+<a href="../stringr/str_length.html"> <img src="images/stringr_str_length.png" width="150px"> </a>
+</p>
+<p>
+<a href="../stringr/str_sub.html"> <img src="images/stringr_str_sub.png" width="150px"> </a>
+</p>
+<p>
+<a href="../stringr/str_dup.html"> <img src="images/stringr_str_dup.png" width="150px"> </a>
+</p>
+</div>
+<p>These functions allow you to manipulate strings in vectors.</p>
+<ul>
+<li><a href="../stringr/str_length.html"><code>str_length()</code></a>: Determine the length of a string (i.e.&nbsp;count the number of characters in a string).</li>
+<li><a href="../stringr/str_sub.html"><code>str_sub()</code></a>: Extract or modify a substring using a start and end position.</li>
+<li><a href="../stringr/str_dup.html"><code>str_dup()</code></a>: Duplicate a string a specified number of times.</li>
+</ul>
+</section>
+<section id="combining-strings" class="level3">
+<h3 class="anchored" data-anchor-id="combining-strings">Combining strings</h3>
+<div class="hexrow">
+<p>
+<a href="../stringr/str_c.html"> <img src="images/stringr_str_c.png" width="150px"> </a>
+</p>
+<p>
+<a href="../stringr/str_flatten.html"> <img src="images/stringr_str_flatten.png" width="150px"> </a>
+</p>
+<p>
+<a href="../stringr/str_glue.html"> <img src="images/stringr_str_glue.png" width="150px"> </a>
+</p>
+</div>
+<p>These functions allow you combine strings into one scalar or vector.</p>
+<ul>
+<li><a href="../stringr/str_c.html"><code>str_c()</code></a>: Combine strings together (similar to <code>paste0()</code>).</li>
+<li><a href="../stringr/str_flatten.html"><code>str_flatten()</code></a>: Flatten a vector of strings into one string.</li>
+<li><a href="../stringr/str_glue.html"><code>str_glue()</code></a>: Similar to <code>str_c()</code> but allows you to include variables within the strings to combine.
+<ul>
+<li>Variable names are included in the strings with curly braces like so: <code>{variable_name}</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="white-space-tools" class="level3">
+<h3 class="anchored" data-anchor-id="white-space-tools">White space tools</h3>
+<div class="hexrow">
+<p>
+<a href="../stringr/str_pad.html"> <img src="images/stringr_str_pad.png" width="150px"> </a>
+</p>
+<p>
+<a href="../stringr/str_trim.html"> <img src="images/stringr_str_trim.png" width="150px"> </a>
+</p>
+</div>
+<p>These functions allow you to add, remove, and manipulate whitespaces (e.g.&nbsp;spaces and tabs).</p>
+<ul>
+<li><a href="../stringr/str_pad.html"><code>str_pad()</code></a>: Add padding characters to strings shorter than a specified length. The padded strings will all have a length equal to the length.</li>
+<li><a href="../stringr/str_trim.html"><code>str_trim()</code></a>: Remove all white spaces from the start and end of strings.</li>
+</ul>
+</section>
+<section id="pattern-matching" class="level3">
+<h3 class="anchored" data-anchor-id="pattern-matching">Pattern matching</h3>
+<div class="hexrow">
+<p>
+<a href="../stringr/str_subset.html"> <img src="images/stringr_str_subset.png" width="150px"> </a>
+</p>
+<p>
+<a href="../stringr/str_detect.html"> <img src="images/stringr_str_detect.png" width="150px"> </a>
+</p>
+<p>
+<a href="../stringr/str_count.html"> <img src="images/stringr_str_count.png" width="150px"> </a>
+</p>
+</div>
+<p>These functions allow you to carry out various tasks with regular expressions.</p>
+<ul>
+<li><a href="../stringr/str_subset.html"><code>str_subset()</code></a>: Subset vector to elements that match a pattern/regular expression.</li>
+<li><a href="../stringr/str_detect.html"><code>str_detect()</code></a>: Return logical vector showing which elements match (<code>TRUE</code>) a pattern/regular expression or not (<code>FALSE</code>).</li>
+<li><a href="../stringr/str_count.html"><code>str_count()</code></a>: Count number of matches to a pattern/regular expression.</li>
+</ul>
+<p>For an introduction to regular expressions please see:</p>
+<ul>
+<li><a href="https://r4ds.hadley.nz/regexps.html">Regular expressions chapter in R for Data Science 2e</a></li>
+<li><a href="https://stringr.tidyverse.org/articles/regular-expressions.html">Stringr Regular expressions</a></li>
+</ul>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -612,7 +872,7 @@ window.onload = function() {
       a.appendChild(i);
       window.document.body.appendChild(a);
     }
-    window.setColorSchemeToggle(window.hasAlternateSentinel())
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {
@@ -662,13 +922,14 @@ window.onload = function() {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -1014,8 +1275,8 @@ window.onload = function() {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../stringr/cheatsheets.html" class="pagination-link" aria-label="Cheatsheets">
-        <span class="nav-page-text">Cheatsheets</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../stringr/str_view.html" class="pagination-link" aria-label="str_view">
+        <span class="nav-page-text">str_view</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1026,7 +1287,7 @@ window.onload = function() {
 <p><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="CC BY-SA 4.0" height="30"></a></p>
 </div>   
     <div class="nav-footer-center">
-<p><a href="https://neof.org.uk/"><img src="../images/NEOF_rounded_corners.png" alt="NEOF" height="60"></a></p>
+<p><a href="https://neof.org.uk/"><img src="..\images/NEOF_rounded_corners.png" alt="NEOF" height="60"></a></p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
