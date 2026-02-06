@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Population structure with NGSadmix and PCA | Population Genomics</title>
+  <meta name="description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
+  <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Population structure with NGSadmix and PCA | Population Genomics" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="/figures/NEOF.png" />
+  <meta property="og:description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Population structure with NGSadmix and PCA | Population Genomics" />
+  
+  <meta name="twitter:description" content="NEOF book for the Metabarcoding for diet analysis and environmental DNA workshop" />
+  <meta name="twitter:image" content="/figures/NEOF.png" />
+
+<meta name="author" content="Helen Hipperson, Katy Maher, Victor Soria-Carrasco, Graeme Fox, Gavin Gouws" />
+
+
+<meta name="date" content="2026-02-05" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
+<link rel="prev" href="06-SNPs.html"/>
+<link rel="next" href="08-Summary_stats.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="www/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="toc-logo"><a href="https://neof.org.uk/" target="blank"><img src="figures/neof_rounded_corners.png" width="250"></a></li>
+<li><a>Population Genomics</a></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>Getting started</b></span></li>
+<li class="chapter" data-level="1" data-path="01-Intro.html"><a href="01-Intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="01-Intro.html"><a href="01-Intro.html#table-of-contents"><i class="fa fa-check"></i>Table of contents</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="02-Background.html"><a href="02-Background.html"><i class="fa fa-check"></i><b>2</b> Background</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="02-Background.html"><a href="02-Background.html#example-data-whole-genome-resequencing-of-killer-whales"><i class="fa fa-check"></i><b>2.1</b> Example data: Whole-genome resequencing of killer whales</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html"><i class="fa fa-check"></i><b>3</b> Cluster Introduction</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#logon-instructions"><i class="fa fa-check"></i><b>3.1</b> Logon instructions</a></li>
+<li class="chapter" data-level="3.2" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#the-terminal-window"><i class="fa fa-check"></i><b>3.2</b> The Terminal Window</a></li>
+<li class="chapter" data-level="3.3" data-path="03-Cluster_Introduction.html"><a href="03-Cluster_Introduction.html#accessing-the-example-data"><i class="fa fa-check"></i><b>3.3</b> Accessing the example data</a></li>
+</ul></li>
+<li class="part"><span><b>Generating SNP datasets</b></span></li>
+<li class="chapter" data-level="4" data-path="04-QC.html"><a href="04-QC.html"><i class="fa fa-check"></i><b>4</b> QC Tutorials</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="04-QC.html"><a href="04-QC.html#workshop-data"><i class="fa fa-check"></i><b>4.1</b> Workshop data</a></li>
+<li class="chapter" data-level="4.2" data-path="04-QC.html"><a href="04-QC.html#killer-whale-genomic-dataset"><i class="fa fa-check"></i><b>4.2</b> Killer whale genomic dataset</a></li>
+<li class="chapter" data-level="4.3" data-path="04-QC.html"><a href="04-QC.html#quality-assessment"><i class="fa fa-check"></i><b>4.3</b> Quality assessment</a></li>
+<li class="chapter" data-level="4.4" data-path="04-QC.html"><a href="04-QC.html#quality-control"><i class="fa fa-check"></i><b>4.4</b> Quality control</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="04-QC.html"><a href="04-QC.html#post-quality-control-check"><i class="fa fa-check"></i><b>4.4.1</b> Post Quality control check</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="05-Mapping.html"><a href="05-Mapping.html"><i class="fa fa-check"></i><b>5</b> Mapping sequences to the reference genome using BWA</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="05-Mapping.html"><a href="05-Mapping.html#reference-sequence-preparation"><i class="fa fa-check"></i><b>5.1</b> Reference sequence preparation</a></li>
+<li class="chapter" data-level="5.2" data-path="05-Mapping.html"><a href="05-Mapping.html#read-mapping"><i class="fa fa-check"></i><b>5.2</b> Read mapping</a></li>
+<li class="chapter" data-level="5.3" data-path="05-Mapping.html"><a href="05-Mapping.html#assessing-mapping-results"><i class="fa fa-check"></i><b>5.3</b> Assessing mapping results</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="06-SNPs.html"><a href="06-SNPs.html"><i class="fa fa-check"></i><b>6</b> SNP and genotype calling using SAMtools and BCFtools</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="06-SNPs.html"><a href="06-SNPs.html#file-preparation"><i class="fa fa-check"></i><b>6.1</b> File preparation</a></li>
+<li class="chapter" data-level="6.2" data-path="06-SNPs.html"><a href="06-SNPs.html#variant-calling"><i class="fa fa-check"></i><b>6.2</b> Variant calling</a></li>
+<li class="chapter" data-level="6.3" data-path="06-SNPs.html"><a href="06-SNPs.html#variant-filtering"><i class="fa fa-check"></i><b>6.3</b> Variant filtering</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="06-SNPs.html"><a href="06-SNPs.html#extracting-information"><i class="fa fa-check"></i><b>6.3.1</b> Extracting information</a></li>
+<li class="chapter" data-level="6.3.2" data-path="06-SNPs.html"><a href="06-SNPs.html#subsetting-files"><i class="fa fa-check"></i><b>6.3.2</b> Subsetting files</a></li>
+<li class="chapter" data-level="6.3.3" data-path="06-SNPs.html"><a href="06-SNPs.html#filtering"><i class="fa fa-check"></i><b>6.3.3</b> Filtering</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>Analysis</b></span></li>
+<li class="chapter" data-level="7" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html"><i class="fa fa-check"></i><b>7</b> Population structure with NGSadmix and PCA</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#ngsadmix"><i class="fa fa-check"></i><b>7.1</b> NGSadmix</a></li>
+<li class="chapter" data-level="7.2" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#jupyter"><i class="fa fa-check"></i><b>7.2</b> Jupyter</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#open-jupyter-notebook"><i class="fa fa-check"></i><b>7.2.1</b> Open Jupyter-notebook</a></li>
+<li class="chapter" data-level="7.2.2" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#create-r-notebook"><i class="fa fa-check"></i><b>7.2.2</b> Create R notebook</a></li>
+<li class="chapter" data-level="7.2.3" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#cells-and-code"><i class="fa fa-check"></i><b>7.2.3</b> Cells and code</a></li>
+<li class="chapter" data-level="7.2.4" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#create-new-cells"><i class="fa fa-check"></i><b>7.2.4</b> Create new cells</a></li>
+<li class="chapter" data-level="7.2.5" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#running-code"><i class="fa fa-check"></i><b>7.2.5</b> Running code</a></li>
+<li class="chapter" data-level="7.2.6" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#saving-the-file"><i class="fa fa-check"></i><b>7.2.6</b> Saving the file</a></li>
+<li class="chapter" data-level="7.2.7" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#title-cells-with-markdown"><i class="fa fa-check"></i><b>7.2.7</b> Title cells with markdown</a></li>
+<li class="chapter" data-level="7.2.8" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#close-the-notebook"><i class="fa fa-check"></i><b>7.2.8</b> Close the notebook</a></li>
+<li class="chapter" data-level="7.2.9" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#video-tutorial"><i class="fa fa-check"></i><b>7.2.9</b> Video tutorial</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#admixture-plots"><i class="fa fa-check"></i><b>7.3</b> Admixture plots</a></li>
+<li class="chapter" data-level="7.4" data-path="07-NGSAdmix.html"><a href="07-NGSAdmix.html#pca"><i class="fa fa-check"></i><b>7.4</b> PCA</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="08-Summary_stats.html"><a href="08-Summary_stats.html"><i class="fa fa-check"></i><b>8</b> Calculating population summary statistics using VCFtools</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="08-Summary_stats.html"><a href="08-Summary_stats.html#getting-started"><i class="fa fa-check"></i><b>8.1</b> Getting started</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="09-Detecting_selection.html"><a href="09-Detecting_selection.html"><i class="fa fa-check"></i><b>9</b> Delimitation of contiguous regions of differentiation using Hidden Markov Models (HMM)</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="09-Detecting_selection.html"><a href="09-Detecting_selection.html#initial-set-up"><i class="fa fa-check"></i><b>9.1</b> Initial set up</a></li>
+<li class="chapter" data-level="9.2" data-path="09-Detecting_selection.html"><a href="09-Detecting_selection.html#data-formatting"><i class="fa fa-check"></i><b>9.2</b> Data formatting</a></li>
+<li class="chapter" data-level="9.3" data-path="09-Detecting_selection.html"><a href="09-Detecting_selection.html#allele-frequency-estimation"><i class="fa fa-check"></i><b>9.3</b> Allele frequency estimation</a></li>
+<li class="chapter" data-level="9.4" data-path="09-Detecting_selection.html"><a href="09-Detecting_selection.html#fst-estimation"><i class="fa fa-check"></i><b>9.4</b> F<sub>ST</sub> estimation</a></li>
+<li class="chapter" data-level="9.5" data-path="09-Detecting_selection.html"><a href="09-Detecting_selection.html#delimitation-of-contiguous-regions-of-differentiation-using-a-hmm-model"><i class="fa fa-check"></i><b>9.5</b> Delimitation of contiguous regions of differentiation using a HMM model</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="10-GWAS.html"><a href="10-GWAS.html"><i class="fa fa-check"></i><b>10</b> Genetic architecture of traits using multi-locus Genome Wide Association (GWA) mapping with GEMMA</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="10-GWAS.html"><a href="10-GWAS.html#initial-set-up-1"><i class="fa fa-check"></i><b>10.1</b> Initial set up</a></li>
+<li class="chapter" data-level="10.2" data-path="10-GWAS.html"><a href="10-GWAS.html#data-formatting-1"><i class="fa fa-check"></i><b>10.2</b> Data formatting</a></li>
+<li class="chapter" data-level="10.3" data-path="10-GWAS.html"><a href="10-GWAS.html#running-gemma-to-fit-a-bayesian-sparse-linear-mixed-model-bslmm"><i class="fa fa-check"></i><b>10.3</b> Running GEMMA to fit a Bayesian sparse linear mixed model (BSLMM)</a></li>
+<li class="chapter" data-level="10.4" data-path="10-GWAS.html"><a href="10-GWAS.html#analysing-gemma-bslmm-output"><i class="fa fa-check"></i><b>10.4</b> Analysing GEMMA BSLMM output</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="11-Appendix.html"><a href="11-Appendix.html"><i class="fa fa-check"></i><b>A</b> Mamba installs</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="11-Appendix.html"><a href="11-Appendix.html#mamba-installation-and-environment"><i class="fa fa-check"></i><b>A.1</b> Mamba installation and environment</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="11-Appendix.html"><a href="11-Appendix.html#jupyter_appendix"><i class="fa fa-check"></i><b>B</b> Jupyter-notebook</a></li>
+<li class="chapter" data-level="C" data-path="11-Appendix.html"><a href="11-Appendix.html#loops"><i class="fa fa-check"></i><b>C</b> Using loops to process multiple samples</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="11-Appendix.html"><a href="11-Appendix.html#simple-loop-example"><i class="fa fa-check"></i><b>C.1</b> Simple loop example</a></li>
+<li class="chapter" data-level="C.2" data-path="11-Appendix.html"><a href="11-Appendix.html#trimmomatic-loop-example"><i class="fa fa-check"></i><b>C.2</b> Trimmomatic loop example</a></li>
+</ul></li>
+<li class="chapter" data-level="D" data-path="11-Appendix.html"><a href="11-Appendix.html#an-overview-of-bayesian-statistics"><i class="fa fa-check"></i><b>D</b> An overview of Bayesian statistics</a></li>
+<li class="chapter" data-level="E" data-path="11-Appendix.html"><a href="11-Appendix.html#additional-approaches-for-detecting-selection-and-for-gwas"><i class="fa fa-check"></i><b>E</b> Additional approaches for detecting selection and for GWAS</a>
+<ul>
+<li class="chapter" data-level="E.1" data-path="11-Appendix.html"><a href="11-Appendix.html#rehh"><i class="fa fa-check"></i><b>E.1</b> rehh</a></li>
+<li class="chapter" data-level="E.2" data-path="11-Appendix.html"><a href="11-Appendix.html#gcta"><i class="fa fa-check"></i><b>E.2</b> GCTA</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Population Genomics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="structure" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Population structure with NGSadmix and PCA<a href="07-NGSAdmix.html#structure" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<center>
+<img src="figures/pop_structure.png" style="width:150px" />
+</center>
+<div id="ngsadmix" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> NGSadmix<a href="07-NGSAdmix.html#ngsadmix" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>NGSadmix is a program (part of the package ANGSD) for inferring admixture from genotype likelihoods, thus taking into account the uncertainty inherent to NGS data. It is similar to the famous program STRUCTURE, but better suited for low-coverage NGS data. For those not familiar with these kind of approaches, these programs allow investigating population structure by inferring individual admixture proportions given a number of populations (K). This allows us to assign individuals to populations and identify migrants or admixed individuals.</p>
+<p>For this step, we will use an already prepared BCF file containing filtered genome-wide variants for 16 individual whales.</p>
+<p>First navigate to the 'structure' directory:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb53-1"><a href="07-NGSAdmix.html#cb53-1" tabindex="-1"></a><span class="bu">cd</span> ~/popgenomics/data/structure/</span></code></pre></div>
+<p>Check that you have the bcf file plus a text file of sample location information using <code>ls</code>.</p>
+<p>We then need to convert the bcf file to beagle format with angsd:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb54-1"><a href="07-NGSAdmix.html#cb54-1" tabindex="-1"></a><span class="fu">mkdir</span> ngsadmix</span>
+<span id="cb54-2"><a href="07-NGSAdmix.html#cb54-2" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="07-NGSAdmix.html#cb54-3" tabindex="-1"></a><span class="ex">angsd</span> <span class="at">-vcf-pl</span> <span class="dt">\</span></span>
+<span id="cb54-4"><a href="07-NGSAdmix.html#cb54-4" tabindex="-1"></a>orca16_filtered.bcf <span class="dt">\</span></span>
+<span id="cb54-5"><a href="07-NGSAdmix.html#cb54-5" tabindex="-1"></a>-fai ../aligned/GCF_000331955.2_Oorc_1.1_genomic.fna.fai <span class="dt">\</span></span>
+<span id="cb54-6"><a href="07-NGSAdmix.html#cb54-6" tabindex="-1"></a>-doMaf 3 <span class="at">-nInd</span> 16 <span class="dt">\</span></span>
+<span id="cb54-7"><a href="07-NGSAdmix.html#cb54-7" tabindex="-1"></a>-domajorminor 1 <span class="at">-doglf</span> 2 <span class="dt">\</span></span>
+<span id="cb54-8"><a href="07-NGSAdmix.html#cb54-8" tabindex="-1"></a>-out ngsadmix/snps</span></code></pre></div>
+<p>Now we need to run NGSadmix three times for K=2 to K=4. Each run will take a few minutes to complete. We will first run K=2:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb55-1"><a href="07-NGSAdmix.html#cb55-1" tabindex="-1"></a><span class="ex">NGSadmix</span> <span class="dt">\</span></span>
+<span id="cb55-2"><a href="07-NGSAdmix.html#cb55-2" tabindex="-1"></a>-likes ngsadmix/snps.beagle.gz <span class="dt">\</span></span>
+<span id="cb55-3"><a href="07-NGSAdmix.html#cb55-3" tabindex="-1"></a>-K 2 <span class="at">-seed</span> 1 <span class="at">-P</span> 4 <span class="dt">\</span></span>
+<span id="cb55-4"><a href="07-NGSAdmix.html#cb55-4" tabindex="-1"></a>-o ngsadmix/snps_K2</span></code></pre></div>
+<p>Repeat for K=3 and K=4.</p>
+<p>We can now look at the '.qopt' files that contain the admixture proportions:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb56-1"><a href="07-NGSAdmix.html#cb56-1" tabindex="-1"></a><span class="fu">head</span> ngsadmix/snps_K2.qopt</span></code></pre></div>
+<p>You should get something that looks like this, which represents the admixture proportions for each of the K populations (here K=2) for the first 10 samples:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb57-1"><a href="07-NGSAdmix.html#cb57-1" tabindex="-1"></a><span class="ex">0.99999982830453515437</span> 0.00000017169546480430 </span>
+<span id="cb57-2"><a href="07-NGSAdmix.html#cb57-2" tabindex="-1"></a><span class="ex">0.74766154471069756760</span> 0.25233845528930237689 </span>
+<span id="cb57-3"><a href="07-NGSAdmix.html#cb57-3" tabindex="-1"></a><span class="ex">0.99999999900000002828</span> 0.00000000100000000000 </span>
+<span id="cb57-4"><a href="07-NGSAdmix.html#cb57-4" tabindex="-1"></a><span class="ex">0.99999999900000002828</span> 0.00000000100000000000 </span>
+<span id="cb57-5"><a href="07-NGSAdmix.html#cb57-5" tabindex="-1"></a><span class="ex">0.76116119088545863836</span> 0.23883880911454133389 </span>
+<span id="cb57-6"><a href="07-NGSAdmix.html#cb57-6" tabindex="-1"></a><span class="ex">0.53927021410032682791</span> 0.46072978589967317209 </span>
+<span id="cb57-7"><a href="07-NGSAdmix.html#cb57-7" tabindex="-1"></a><span class="ex">0.57937878456323999021</span> 0.42062121543676006530 </span>
+<span id="cb57-8"><a href="07-NGSAdmix.html#cb57-8" tabindex="-1"></a><span class="ex">0.00000000100000000000</span> 0.99999999900000002828 </span>
+<span id="cb57-9"><a href="07-NGSAdmix.html#cb57-9" tabindex="-1"></a><span class="ex">0.00000000100000000000</span> 0.99999999900000002828 </span>
+<span id="cb57-10"><a href="07-NGSAdmix.html#cb57-10" tabindex="-1"></a><span class="ex">0.99999999900000002828</span> 0.00000000100000000000 </span></code></pre></div>
+<p>Now we are going to visualize the admixture estimates using 'R'. We will need some more information about the samples to produce meaningful plots. A file with information about the sampling location of each individual can be found in your "structure" directory. Both the population and ocean each sample is from is listed.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb58-1"><a href="07-NGSAdmix.html#cb58-1" tabindex="-1"></a><span class="fu">head</span> sample_location.tsv</span></code></pre></div>
+<p>We will be using Jupyter-notebook to run our R code and generate some plots for the admixture inferences when K=2.</p>
+</div>
+<div id="jupyter" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Jupyter<a href="07-NGSAdmix.html#jupyter" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/jupyter_logo.png" style="width:200px; border-radius:15px; border:5px solid #333333; background:white" />
+</center>
+<p><a href="https://jupyter.org/"><code>Jupyter-notebook</code></a> is a nice browser-based method to write, edit, and run code. It was initally created for Python coding, but has since branched out to many other languages, such as <code>R</code>.</p>
+<p>We are using it in this workshop for a variety of its properties:</p>
+<ul>
+<li>It is popular and well maintained.</li>
+<li>It is lightweight. Other heavier weight programs, such as RStudio, would struggle in our HPC due to the graphical and CPU load.</li>
+<li>It is interactive and displays code output.</li>
+<li>It allows for easier annotation, editing, and debugging than the command line.</li>
+<li>It provides a graphical interface for changing directories and choosing files.</li>
+</ul>
+<p>Before carrying out any analysis, we will go through a quick tutorial of <code>jupyter-notebook</code>.</p>
+<div id="open-jupyter-notebook" class="section level3 hasAnchor" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> Open Jupyter-notebook<a href="07-NGSAdmix.html#open-jupyter-notebook" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The first step is to open <code>jupyter-notebook</code>. Run the below command in your <code>(popgenomics)</code> environment.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb59-1"><a href="07-NGSAdmix.html#cb59-1" tabindex="-1"></a><span class="ex">jupyter-notebook</span></span></code></pre></div>
+<p>This will open <code>jupyter-notebook</code> in firefox. We won't need to access the linux terminal anymore. Leave the terminal running <code>jupyter-notebook</code> and full screen your <code>firefox</code>. You should see something like below.</p>
+<center>
+<img src="figures/jupyter_notebook_example_1.png" style="width:1000px; border-radius:15px; border:5px solid #333333" />
+</center>
+</div>
+<div id="create-r-notebook" class="section level3 hasAnchor" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> Create R notebook<a href="07-NGSAdmix.html#create-r-notebook" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The next step is to create a R notebook.</p>
+<ol style="list-style-type: decimal">
+<li>Click on the <strong>"New"</strong> button towards the top right, right of the "Upload" button.</li>
+<li>From the dropdown click <strong>"R"</strong> below "Python 3 (ipykernel)".</li>
+</ol>
+<p>This will open up a new R notebook like below.</p>
+<center>
+<img src="figures/jupyter_notebook_example_2.png" style="width:1000px; border-radius:15px; border:5px solid #333333" />
+</center>
+</div>
+<div id="cells-and-code" class="section level3 hasAnchor" number="7.2.3">
+<h3><span class="header-section-number">7.2.3</span> Cells and code<a href="07-NGSAdmix.html#cells-and-code" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>Jupyter-notebook</code> uses <strong>cells</strong> (the gray boxes) to separate code. This is very useful to compartmentalise our code.</p>
+<p>There will already be one <strong>cell</strong>. Within the <strong>cell</strong>, type in the below commands.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb60-1"><a href="07-NGSAdmix.html#cb60-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb60-2"><a href="07-NGSAdmix.html#cb60-2" tabindex="-1"></a><span class="dv">2-3</span></span></code></pre></div>
+<p>When pressing enter in <strong>cells</strong> it will create a new line. To run all commands in a <strong>cell</strong> press <code>CTRL + enter</code>.</p>
+<p>Run your current <strong>cell</strong> and you should see something like below.</p>
+<center>
+<img src="figures/jupyter_notebook_example_3.png" style="width:1000px; border-radius:15px; border:5px solid #333333" />
+</center>
+</div>
+<div id="create-new-cells" class="section level3 hasAnchor" number="7.2.4">
+<h3><span class="header-section-number">7.2.4</span> Create new cells<a href="07-NGSAdmix.html#create-new-cells" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You can create new <strong>cells</strong> by 2 different means.</p>
+<ul>
+<li>Press the <code>+</code> button on the tool bar (between the floppy disk <svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M380.93,57.37A32,32,0,0,0,358.3,48H94.22A46.21,46.21,0,0,0,48,94.22V417.78A46.21,46.21,0,0,0,94.22,464H417.78A46.36,46.36,0,0,0,464,417.78V153.7a32,32,0,0,0-9.37-22.63ZM256,416a64,64,0,1,1,64-64A63.92,63.92,0,0,1,256,416Zm48-224H112a16,16,0,0,1-16-16V112a16,16,0,0,1,16-16H304a16,16,0,0,1,16,16v64A16,16,0,0,1,304,192Z" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></path></svg> and scissors <svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M103.48,224a71.64,71.64,0,0,0,44.76-15.66l41.5,16.89,6.82-12.63a39.15,39.15,0,0,1,4.32-6.37l14.22-14.42-41.17-24.94A72,72,0,1,0,103.48,224Zm0-112a40,40,0,1,1-40,40A40,40,0,0,1,103.48,112Z"></path> <path d="M480,169l-5.52-12.58c-4.48-10.42-14.74-16-32.78-17.85-10.12-1-26.95-1.24-49.69,3.81-20,4.45-122.14,28.2-164.95,58.62C206.81,215.39,203,234.67,200,250.16c-2.78,14.14-5,25.31-18,35-15,11.14-27.27,16.38-33.58,18.6a71.74,71.74,0,1,0,24.79,38ZM255.48,256a16,16,0,1,1,16-16A16,16,0,0,1,255.48,256Zm-152,144a40,40,0,1,1,40-40A40,40,0,0,1,103.48,400Z"></path> <path d="M343.79,259.87l-83.74,48.18,27.63,13.08,3.62,1.74C310,331.92,359.74,356,410.53,359c3.89.23,7.47.34,10.78.34C442,359.31,453,354,459.75,350L480,336Z"></path></svg>). This will add a <strong>cell</strong> below your currently selected <strong>cell</strong>.</li>
+<li>Click on the <strong><code>Insert</code></strong> button and use the dropdown to add a cell above or below your currently selected cell.</li>
+</ul>
+<p><strong>Tip:</strong> Hover over the toolbar icons to display a text based description of its function.</p>
+<p>With that knowledge add a second <strong>cell</strong> below the first <strong>cell</strong>. Add the following code to your second <strong>cell</strong> but do not run it.</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb61-1"><a href="07-NGSAdmix.html#cb61-1" tabindex="-1"></a>num_1 <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb61-2"><a href="07-NGSAdmix.html#cb61-2" tabindex="-1"></a>num_2 <span class="ot">&lt;-</span> <span class="dv">10</span></span></code></pre></div>
+<p><strong>Tip:</strong> Notice there are green lines around your selected cell.</p>
+<p>Insert a third <strong>cell</strong> and add the following code to it. Do not run the code.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb62-1"><a href="07-NGSAdmix.html#cb62-1" tabindex="-1"></a>num_1 <span class="sc">*</span> num_2</span></code></pre></div>
+</div>
+<div id="running-code" class="section level3 hasAnchor" number="7.2.5">
+<h3><span class="header-section-number">7.2.5</span> Running code<a href="07-NGSAdmix.html#running-code" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Try to run the code in the third <strong>cell</strong>. There should be an error as we have not created the objects <code>num_1</code> &amp; <code>num_2</code>. We have only written the code for these objects but not run them.</p>
+<p>We can run all the code in a notebook starting from the first <strong>cell</strong> to the last <strong>cell</strong>.</p>
+<p>To run all <strong>cells</strong> from the start:</p>
+<ul>
+<li>Click on the <strong>"Cell"</strong> button.</li>
+<li>Click <strong>"Run All"</strong> from the drop-down options.</li>
+</ul>
+<p>You should then see something like the below in your notebook.</p>
+<center>
+<img src="figures/jupyter_notebook_example_4.png" style="width:1000px; border-radius:15px; border:5px solid #333333" />
+</center>
+<p>There is no output printed for <strong>cell</strong> 2 because we are assigning variables. However, the correct output for Cell 3 is below it. This is because the variables were assigned in <strong>cell</strong> 2 before <strong>cell</strong> 3 was run.</p>
+</div>
+<div id="saving-the-file" class="section level3 hasAnchor" number="7.2.6">
+<h3><span class="header-section-number">7.2.6</span> Saving the file<a href="07-NGSAdmix.html#saving-the-file" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<center>
+<img src="figures/r_save.png" style="width:100px" />
+</center>
+<p>As with RStudio and other good coding interfaces, we can save our notebook.</p>
+<p>First, we should rename the file. Rename the notebook to <strong>"jupyter_tut"</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>Click on the name of the notebook, currently called <strong>"Untitled"</strong>.
+<ul>
+<li>This is at the very top of the notebook, right of the Jupyter logo.</li>
+</ul></li>
+<li>A pop-up called <strong>"Rename Notebook"</strong> will appear. Change the Name to <strong>"jupyter_tut"</strong>.</li>
+<li>Click <strong>"Rename"</strong>.</li>
+</ol>
+<p>Now we can save the file. Two methods to save are:</p>
+<ul>
+<li>Click the floppy disk <svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M380.93,57.37A32,32,0,0,0,358.3,48H94.22A46.21,46.21,0,0,0,48,94.22V417.78A46.21,46.21,0,0,0,94.22,464H417.78A46.36,46.36,0,0,0,464,417.78V153.7a32,32,0,0,0-9.37-22.63ZM256,416a64,64,0,1,1,64-64A63.92,63.92,0,0,1,256,416Zm48-224H112a16,16,0,0,1-16-16V112a16,16,0,0,1,16-16H304a16,16,0,0,1,16,16v64A16,16,0,0,1,304,192Z" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></path></svg> on the toolbar.</li>
+<li>Click on the <strong>"File"</strong> button. Click <strong>"Save and Checkpoint"</strong> from the dropdown options.</li>
+</ul>
+</div>
+<div id="title-cells-with-markdown" class="section level3 hasAnchor" number="7.2.7">
+<h3><span class="header-section-number">7.2.7</span> Title cells with markdown<a href="07-NGSAdmix.html#title-cells-with-markdown" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We will be using multiple notebooks in this workshop. We will also have multiple sections per notebook. It will be useful to create header cells with markdown to create visual separation of the different sections.</p>
+<p>To add a header <strong>cell</strong> to the top of our notebook:</p>
+<ul>
+<li>Create a new <strong>cell</strong> at the top of the notebook.</li>
+<li>Click on the <strong>"Code"</strong> drop down and select <strong>"Markdown"</strong>.
+<ul>
+<li>The <strong>"Heading"</strong> option no longer works.</li>
+</ul></li>
+</ul>
+<center>
+<img src="figures/jupyter_notebook_example_5.png" style="width:1000px; border-radius:15px; border:5px solid #333333" />
+</center>
+<ul>
+<li>Add the following to the <strong>"Markdown"</strong> cell to create a first level header.
+<ul>
+<li>Ensure you have a space between the <code>#</code> and header text ("Tutorial").</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb63-1"><a href="07-NGSAdmix.html#cb63-1" tabindex="-1"></a><span class="co"># Tutorial</span></span></code></pre></div>
+<p>Great, we can now add nice headers in our notebooks. <strong>Save</strong> the notebook once more before carrying on to the next section.</p>
+<div class="webex-solution">
+<button>
+Markdown
+</button>
+<p>You won't need to know more about <code>Markdown</code> but if you are interested please see the <a href="https://www.markdownguide.org/basic-syntax/"><code>Markdown</code> guide</a>.</p>
+</div>
+</div>
+<div id="close-the-notebook" class="section level3 hasAnchor" number="7.2.8">
+<h3><span class="header-section-number">7.2.8</span> Close the notebook<a href="07-NGSAdmix.html#close-the-notebook" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To close the notebook:</p>
+<ul>
+<li>Click on <strong>"File"</strong>.</li>
+<li>From the dropdown options click <strong>"Close and Halt"</strong>.</li>
+</ul>
+<p>When you are back in the file explorer page, you may not yet see the new file you saved. If so, you will need to refresh the page with the Refresh button <svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M320,146s24.36-12-64-12A160,160,0,1,0,416,294" style="fill:none;stroke:#000;stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"></path> <polyline points="256 58 336 138 256 218" style="fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></polyline></svg> towards the top right.</p>
+<center>
+<img src="figures/jupyter_notebook_refresh.png" style="width:1000px; border-radius:15px; border:5px solid #333333" />
+</center>
+<p>With that quick tutorial of <code>jupyter-notebook</code>, we can start visualizing our admixture plots.</p>
+</div>
+<div id="video-tutorial" class="section level3 hasAnchor" number="7.2.9">
+<h3><span class="header-section-number">7.2.9</span> Video tutorial<a href="07-NGSAdmix.html#video-tutorial" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="container">
+<iframe src="https://www.youtube.com/embed/-c_6HoPMw9g" frameborder="0" allowfullscreen class="video">
+</iframe>
+</div>
+</div>
+</div>
+<div id="admixture-plots" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Admixture plots<a href="07-NGSAdmix.html#admixture-plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As mentioned above, we will be using <code>R</code> to generate some plots for the admixture inferences when K=2 within Jupyter Notebooks.</p>
+<p>Create a new notebook called <strong>"Chp07a-Admixture"</strong>.</p>
+<ul>
+<li>Add a markdown cell with the first level header: # Admixture analysis</li>
+</ul>
+<p>Now let’s load the admixture proportions, the information about the individuals, and let’s do some plotting. Remember this is typed into a code cell and then run. Please create your own coding and markdown cells where you think appropriate.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb64-1"><a href="07-NGSAdmix.html#cb64-1" tabindex="-1"></a><span class="co"># Load admixture proportions</span></span>
+<span id="cb64-2"><a href="07-NGSAdmix.html#cb64-2" tabindex="-1"></a>admix<span class="ot">&lt;-</span><span class="fu">t</span>(<span class="fu">as.matrix</span>(<span class="fu">read.table</span>(<span class="st">&quot;ngsadmix/snps_K2.qopt&quot;</span>)))</span>
+<span id="cb64-3"><a href="07-NGSAdmix.html#cb64-3" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="07-NGSAdmix.html#cb64-4" tabindex="-1"></a><span class="co"># Load info about samples</span></span>
+<span id="cb64-5"><a href="07-NGSAdmix.html#cb64-5" tabindex="-1"></a>id.info<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;sample_location.tsv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span>T)</span>
+<span id="cb64-6"><a href="07-NGSAdmix.html#cb64-6" tabindex="-1"></a></span>
+<span id="cb64-7"><a href="07-NGSAdmix.html#cb64-7" tabindex="-1"></a><span class="co"># Palette for plotting</span></span>
+<span id="cb64-8"><a href="07-NGSAdmix.html#cb64-8" tabindex="-1"></a>mypal<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;#E41A1C&quot;</span>,<span class="st">&quot;#377EB8&quot;</span>,<span class="st">&quot;#4DAF4A&quot;</span>,<span class="st">&quot;#984EA3&quot;</span>)</span>
+<span id="cb64-9"><a href="07-NGSAdmix.html#cb64-9" tabindex="-1"></a></span>
+<span id="cb64-10"><a href="07-NGSAdmix.html#cb64-10" tabindex="-1"></a><span class="co"># sort by sampling area and plot</span></span>
+<span id="cb64-11"><a href="07-NGSAdmix.html#cb64-11" tabindex="-1"></a>admix<span class="ot">&lt;-</span>admix[,<span class="fu">order</span>(id.info<span class="sc">$</span>area)]</span>
+<span id="cb64-12"><a href="07-NGSAdmix.html#cb64-12" tabindex="-1"></a></span>
+<span id="cb64-13"><a href="07-NGSAdmix.html#cb64-13" tabindex="-1"></a>id.info<span class="ot">&lt;-</span>id.info[<span class="fu">order</span>(id.info<span class="sc">$</span>area),]</span>
+<span id="cb64-14"><a href="07-NGSAdmix.html#cb64-14" tabindex="-1"></a></span>
+<span id="cb64-15"><a href="07-NGSAdmix.html#cb64-15" tabindex="-1"></a><span class="fu">barplot</span>(admix,<span class="at">col=</span>mypal,<span class="at">space=</span><span class="dv">0</span>,<span class="at">border=</span><span class="cn">NA</span>,<span class="at">xlab=</span><span class="st">&quot;Samples&quot;</span>,<span class="at">ylab=</span><span class="st">&quot;admixture&quot;</span>)</span>
+<span id="cb64-16"><a href="07-NGSAdmix.html#cb64-16" tabindex="-1"></a></span>
+<span id="cb64-17"><a href="07-NGSAdmix.html#cb64-17" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">tapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(id.info),id.info<span class="sc">$</span>area,min),<span class="sc">-</span><span class="fl">0.05</span>,<span class="fu">unique</span>(id.info<span class="sc">$</span>area),<span class="at">xpd=</span>T, <span class="at">srt=</span><span class="sc">-</span><span class="dv">45</span>, <span class="at">adj=</span><span class="fl">0.2</span>)</span></code></pre></div>
+<p>This generates a plot for K=2 which should look something like this:</p>
+<center>
+<img src="figures/snps_K2_byarea.png" style="width:800px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
+<p>Do individuals appear to be genetically structured in relation to the ocean they are sampled in?</p>
+<p>Plot the admixture proportions for K=3.</p>
+<p>Can you infer anything further than with the K=2 plot?</p>
+<p>There appears to be some similarities between, for example, Australasian and Pacific samples. However, without knowing the exact sampling locations, as you hopefully would for your own study!, it is hard to interpret these plots robustly, but hopefully this code will be useful for making your own structure plots from your SNP datasets.</p>
+<p>Important: You may notice the results vary across runs. This happens when the maximum-likelihood searches gets stuck in different local optima. In production runs, it is recommended to run multiple searches for each K and check the likelihoods.</p>
+</div>
+<div id="pca" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> PCA<a href="07-NGSAdmix.html#pca" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/Scatterplot_2.png" style="width:150px; border-radius:5px; border:5px solid #333333; background:white" />
+</center>
+<p>Next we are going to carry out PCA using R. For that, we have converted our BCF file to mean genotype format (based on the BIMBAM format), where genotypes are encoded as mean genotypes. A mean genotype is a value between 0 and 2 that can be interpreted as the minor allele dosage: 0 is homozygous for the major allele, 1 is a heterozygote, and 2 is a homozygote for the minor allele. Although genotype calls can be used, it is also possible to use genotype likelihoods to get intermediate values that incorporate uncertainty in genotype calling. We have already done this for you for the purposes of the course.</p>
+<p><strong>First navigate to the 'pca' directory within Jupyter.</strong></p>
+<p>We will use R within Jupyter to perform the PCA with the mean genotypes.</p>
+<p>Create a new Jupyter notebook called <strong>"Chp07b-PCA"</strong>.</p>
+<ul>
+<li>Add a markdown cell with the first level header: # PCA analysis</li>
+</ul>
+<p>First, let’s load the genotypes in a new markdown cell:</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb65-1"><a href="07-NGSAdmix.html#cb65-1" tabindex="-1"></a><span class="do">## load genotypes</span></span>
+<span id="cb65-2"><a href="07-NGSAdmix.html#cb65-2" tabindex="-1"></a>genotypes<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;orca16_filtered.bbgeno&quot;</span>,<span class="at">header=</span>T, <span class="at">check.names=</span>F)</span>
+<span id="cb65-3"><a href="07-NGSAdmix.html#cb65-3" tabindex="-1"></a><span class="fu">head</span>(genotypes)</span></code></pre></div>
+<p>We can now do a the PCA with the genotype matrix, excluding the first 3 columns that contain information for SNP id, reference allele and alternate allele:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb66-1"><a href="07-NGSAdmix.html#cb66-1" tabindex="-1"></a>pca.genotypes<span class="ot">&lt;-</span><span class="fu">prcomp</span>(<span class="fu">t</span>(genotypes[,<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)]), <span class="at">center=</span><span class="cn">TRUE</span>, <span class="at">scale=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p>Then we can have a look at the proportion of variance explained by each PC:</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb67-1"><a href="07-NGSAdmix.html#cb67-1" tabindex="-1"></a><span class="fu">summary</span>(pca.genotypes)</span></code></pre></div>
+<p>As you can see, ~30% of the variance is explained by the first 4 PCs. We will extract the PCs vectors and plot them by pairs (i.e. PC1xPC2, PC2xPC3, PC3xPC4):</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb68-1"><a href="07-NGSAdmix.html#cb68-1" tabindex="-1"></a><span class="co"># Get PCs</span></span>
+<span id="cb68-2"><a href="07-NGSAdmix.html#cb68-2" tabindex="-1"></a>pcs<span class="ot">&lt;-</span>pca.genotypes<span class="sc">$</span>x</span>
+<span id="cb68-3"><a href="07-NGSAdmix.html#cb68-3" tabindex="-1"></a></span>
+<span id="cb68-4"><a href="07-NGSAdmix.html#cb68-4" tabindex="-1"></a><span class="co"># Load info about samples</span></span>
+<span id="cb68-5"><a href="07-NGSAdmix.html#cb68-5" tabindex="-1"></a>id.info<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;sample_location.tsv&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">header=</span>T)</span>
+<span id="cb68-6"><a href="07-NGSAdmix.html#cb68-6" tabindex="-1"></a></span>
+<span id="cb68-7"><a href="07-NGSAdmix.html#cb68-7" tabindex="-1"></a><span class="co"># sort as in the pcs</span></span>
+<span id="cb68-8"><a href="07-NGSAdmix.html#cb68-8" tabindex="-1"></a>id.info<span class="ot">&lt;-</span>id.info[<span class="fu">match</span>(<span class="fu">rownames</span>(pcs), id.info<span class="sc">$</span>run_accession),]</span>
+<span id="cb68-9"><a href="07-NGSAdmix.html#cb68-9" tabindex="-1"></a></span>
+<span id="cb68-10"><a href="07-NGSAdmix.html#cb68-10" tabindex="-1"></a><span class="co"># colours</span></span>
+<span id="cb68-11"><a href="07-NGSAdmix.html#cb68-11" tabindex="-1"></a>id.colours<span class="ot">&lt;-</span><span class="fu">as.character</span>(id.info<span class="sc">$</span>area)</span>
+<span id="cb68-12"><a href="07-NGSAdmix.html#cb68-12" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Atlantic_Ocean&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;red&quot;</span> <span class="co"># Atlantic as red</span></span>
+<span id="cb68-13"><a href="07-NGSAdmix.html#cb68-13" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Australasia&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;blue&quot;</span> <span class="co"># Australasia as blue</span></span>
+<span id="cb68-14"><a href="07-NGSAdmix.html#cb68-14" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Indian_Ocean&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;green&quot;</span> <span class="co"># Indian as green</span></span>
+<span id="cb68-15"><a href="07-NGSAdmix.html#cb68-15" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Pacific_Ocean&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;orange&quot;</span> <span class="co"># Pacific as orange</span></span>
+<span id="cb68-16"><a href="07-NGSAdmix.html#cb68-16" tabindex="-1"></a>id.colours[id.colours<span class="sc">==</span><span class="st">&quot;Southern_Ocean&quot;</span>]<span class="ot">&lt;-</span><span class="st">&quot;purple&quot;</span> <span class="co"># Southern as purple</span></span>
+<span id="cb68-17"><a href="07-NGSAdmix.html#cb68-17" tabindex="-1"></a></span>
+<span id="cb68-18"><a href="07-NGSAdmix.html#cb68-18" tabindex="-1"></a><span class="fu">plot</span>(pcs[,<span class="dv">1</span>], pcs[,<span class="dv">2</span>], <span class="at">main =</span> <span class="st">&quot;PCA using genotype matrix&quot;</span>, </span>
+<span id="cb68-19"><a href="07-NGSAdmix.html#cb68-19" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;PC1&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;PC2&quot;</span>, <span class="at">col=</span>id.colours, <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb68-20"><a href="07-NGSAdmix.html#cb68-20" tabindex="-1"></a><span class="fu">plot</span>(pcs[,<span class="dv">2</span>], pcs[,<span class="dv">3</span>], <span class="at">main =</span> <span class="st">&quot;PCA using genotype matrix&quot;</span>, </span>
+<span id="cb68-21"><a href="07-NGSAdmix.html#cb68-21" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;PC2&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;PC3&quot;</span>, <span class="at">col=</span>id.colours, <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb68-22"><a href="07-NGSAdmix.html#cb68-22" tabindex="-1"></a><span class="fu">plot</span>(pcs[,<span class="dv">3</span>], pcs[,<span class="dv">4</span>], <span class="at">main =</span> <span class="st">&quot;PCA using genotype matrix&quot;</span>, </span>
+<span id="cb68-23"><a href="07-NGSAdmix.html#cb68-23" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;PC3&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;PC4&quot;</span>, <span class="at">col=</span>id.colours, <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div>
+<p>The first plot should look like this:</p>
+<center>
+<img src="figures/genotype_matrix-pc1-pc2.png" style="width:800px; border-radius:15px; border:5px solid #333333; background:null" />
+</center>
+<p>There is some structure evident: PC1 separates out the Australasian and Pacific Ocean samples, the Atlantic Ocean samples are split, and the Indian Ocean sample does not cluster closely with any other. In reality, you would want more specific information about the sampling locations, and ideally more than 16 samples! However, hopefully this code will be useful in generating your own PCA plots.</p>
+
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  var t = document.getElementsByClassName("webex-total_correct");
+  for (var i = 0; i < t.length; i++) {
+    p = t[i].parentElement;
+    var correct = p.getElementsByClassName("webex-correct").length;
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+    var selects = p.getElementsByClassName("webex-select").length;
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* check answers */
+check_func = function() {
+  console.log("webex: check answers");
+
+  var cl = this.parentElement.classList;
+  if (cl.contains('unchecked')) {
+    cl.remove("unchecked");
+    this.innerHTML = "Hide Answers";
+  } else {
+    cl.add("unchecked");
+    this.innerHTML = "Show Answers";
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+
+  var cl = this.classList
+
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("webex onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  var check_sections = document.getElementsByClassName("webex-check");
+  console.log("check:", check_sections.length);
+  for (var i = 0; i < check_sections.length; i++) {
+    check_sections[i].classList.add("unchecked");
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Show Answers";
+    btn.classList.add("webex-check-button");
+    btn.onclick = check_func;
+    check_sections[i].appendChild(btn);
+
+    let spn = document.createElement("span");
+    spn.classList.add("webex-total_correct");
+    check_sections[i].appendChild(spn);
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="06-SNPs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="08-Summary_stats.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": null,
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
