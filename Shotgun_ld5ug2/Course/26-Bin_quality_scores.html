@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 7 Host removal | Shotgun Metagenomics</title>
+  <title>Chapter 26 Bin quality scores | Shotgun Metagenomics</title>
   <meta name="description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 7 Host removal | Shotgun Metagenomics" />
+  <meta property="og:title" content="Chapter 26 Bin quality scores | Shotgun Metagenomics" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 7 Host removal | Shotgun Metagenomics" />
+  <meta name="twitter:title" content="Chapter 26 Bin quality scores | Shotgun Metagenomics" />
   
   <meta name="twitter:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-<link rel="prev" href="06-Trimming_data.html"/>
-<link rel="next" href="08-Taxonomic_profiling.html"/>
+<link rel="prev" href="25-CoCoPyE.html"/>
+<link rel="next" href="27-Assembly_functional_annotation.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -402,123 +402,161 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="hostremoval" class="section level1 hasAnchor" number="7">
-<h1><span class="header-section-number">Chapter 7</span> Host removal<a href="07-Host_removal.html#hostremoval" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="bin-quality-scores" class="section level1 hasAnchor" number="26">
+<h1><span class="header-section-number">Chapter 26</span> Bin quality scores<a href="26-Bin_quality_scores.html#bin-quality-scores" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/bowtie2.png" style="width:300px; background: white; border-radius:5px" />
+<img src="figures/quality_ribbon.png" style="width:150px; background: white ; border-radius: 5px; border: white solid 5px" />
 </center>
-<p>It is good practice to remove any host sequences from your data before further analysis. A good method for this is to align/map your reads to a reference of your host genome and remove the mapped sequences (i.e sequences we believe belong to the host).</p>
-<p>If there is no host genome available before you start your sample collections and sequencing it may be a good idea to attempt to sequence and assemble the host genome. We would recommend long read technologies for single genome assembly projects.</p>
-<p>This chapter contains a small example on how to carry out host removal. It uses only a section of a human (host of our samples) reference genome assembly. In real life you should use the entire reference.</p>
-<p>The first step is to copy over the reference fasta file we will use.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb17-1"><a href="07-Host_removal.html#cb17-1" tabindex="-1"></a><span class="fu">cp</span> /pub14/tea/nsc206/NEOF/Shotgun_metagenomics/GRCh38_slice.fasta .</span></code></pre></div>
-<div id="index-reference" class="section level2 hasAnchor" number="7.1">
-<h2><span class="header-section-number">7.1</span> Index reference<a href="07-Host_removal.html#index-reference" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<center>
-<img src="figures/index.png" style="width:150px; background: white; border-radius:5px; border: white solid 5px" />
-</center>
-<p>We will will use the <code>Bowtie2</code> aligner for mapping/aligning. Prior to alignment/mapping we need to index our reference.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb18-1"><a href="07-Host_removal.html#cb18-1" tabindex="-1"></a><span class="ex">bowtie2-build</span> GRCh38_slice.fasta GRCh38_slice.fasta</span></code></pre></div>
-<p>If you use <code>ls</code> you will now see a bunch of files starting with <code>GRCh38_slice.fasta</code> and ending with various suffixes that contain <code>bt2</code>. These are the index files which allow us to use the reference with <code>Bowtie2</code>.</p>
-</div>
-<div id="alignment" class="section level2 hasAnchor" number="7.2">
-<h2><span class="header-section-number">7.2</span> Alignment<a href="07-Host_removal.html#alignment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<center>
-<img src="figures/alignment.png" style="width:200px; background: white; border-radius:5px; border: white 5px solid" />
-</center>
-<p>With the indexed reference we will align the K1 reads to the reference. This creates a BAM file that contains alignment and read information (<code>K1_mapped.bam</code>).</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb19-1"><a href="07-Host_removal.html#cb19-1" tabindex="-1"></a><span class="ex">bowtie2</span> <span class="at">-x</span> GRCh38_slice.fasta <span class="at">-1</span> K1_R1.fq.gz <span class="at">-2</span> K1_R2.fq.gz <span class="dt">\</span></span>
-<span id="cb19-2"><a href="07-Host_removal.html#cb19-2" tabindex="-1"></a>-p12 <span class="dv">2</span><span class="op">&gt;</span> K1_bowtie2_out.log <span class="kw">|</span> <span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-S</span> <span class="at">-h</span> <span class="op">&gt;</span> K1_mapped.bam</span></code></pre></div>
-<div id="parameters" class="section level4 unnumbered hasAnchor">
-<h4>Parameters<a href="07-Host_removal.html#parameters" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<center>
-<img src="figures/parameter_black.png" style="width:100px; background: white; border-radius:5px; border:white 5px solid" />
-</center>
-<p>This command is split into two commands. The first is <code>bowtie2</code> that creates the alignment. The parameters for the command are:</p>
+<p>One quick way to calculate the overall quality of a <u id='mag'>MAG</u>/bin is with the following equation:</p>
+<p><span class="math display">\[
+q = comp - (5 * cont)
+\]</span>
+Where:</p>
 <ul>
-<li><strong><code>-x</code></strong>: Indexed reference the reads will be aligned to.</li>
-<li><strong><code>-1</code></strong>: The forward reads.</li>
-<li><strong><code>-2</code></strong>: The reverse reads.</li>
-<li><strong><code>-p</code></strong>: Number of threads to be used. 12 in this case.</li>
-<li><strong><code>2&gt;</code></strong>: This will cause the standard error to be redirected to the chosen file. In this case <code>K1_bowtie2_out.log</code>.
-<ul>
-<li>This is useful for commands that may produce a lot of output to screen. If an error occurs you can view this file to see the error messages.</li>
-</ul></li>
+<li><strong>q</strong> = Overall quality</li>
+<li><strong>comp</strong> = Completeness</li>
+<li><strong>cont</strong> = Contamination</li>
 </ul>
-<p>The alignment is then piped (<code>|</code>) to the command <code>samtools view</code>. For more information on pipes please see our <a href="https://neof-workshops.github.io/Unix_nxcdf7/Course/12-Advanced_linux_practice.html#pipes">Intro to Unix course book</a>.</p>
-<p>The parameters for <code>samtools view</code> are:</p>
+<p>A score of at least 70-80% (i.e. 0.7 to 0.8) would be the aim, with a maximum/perfect value being 100% (100% completeness, 0% contamination). We'll therefore calculate this for the bins with some bash and <code>awk</code> scripting.</p>
+<p><strong>Note</strong>: Values will range from:</p>
 <ul>
-<li><strong><code>-b</code></strong>: Output the alignment as a BAM file.
-<ul>
-<li>BAM files are a binary form of SAM files so they are smaller in memory size.</li>
-<li>If you are interested in the SAM format please see its <a href="https://samtools.github.io/hts-specs/SAMv1.pdf">specification file</a>.</li>
-</ul></li>
-<li><strong><code>-S</code></strong>: Auto detect input format.</li>
-<li><strong><code>-h</code></strong>: Include header.</li>
+<li>100% (i.e. 1): 1 Completeness - (5 * 0 Contamination)</li>
+<li>-500% (i.e. -5): 0 Completeness - (5 * 1 Contamination)</li>
 </ul>
-<p>The binary alignment is redirected to a new file called <code>K1_mapped.bam</code>. For more information on redirection please see our <a href="https://neof-workshops.github.io/Unix_nxcdf7/Course/12-Advanced_linux_practice.html#redirection">Intro to Unix course book</a>.</p>
-</div>
-</div>
-<div id="unmapped-read-extraction" class="section level2 hasAnchor" number="7.3">
-<h2><span class="header-section-number">7.3</span> Unmapped read extraction<a href="07-Host_removal.html#unmapped-read-extraction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="quality-file" class="section level2 hasAnchor" number="26.1">
+<h2><span class="header-section-number">26.1</span> Quality file<a href="26-Bin_quality_scores.html#quality-file" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/exctractor.png" style="width:150px; border-radius:5px; background: white" />
+<img src="figures/header_2.png" style="width:100px; background: white ; border-radius: 5px" />
 </center>
-<p>Next step is to extract the reads that did not map to the host reference from the <code>K1_mapped.bam</code> file with the <code>samtools fastq</code> command (unmapped reads).</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb20-1"><a href="07-Host_removal.html#cb20-1" tabindex="-1"></a><span class="ex">samtools</span> fastq <span class="at">-f</span> 4 <span class="at">-1</span> K1_R1.u.fastq <span class="at">-2</span> K1_R2.u.fastq K1_mapped.bam</span></code></pre></div>
-<div id="parameters-1" class="section level4 unnumbered hasAnchor">
-<h4>Parameters<a href="07-Host_removal.html#parameters-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<center>
-<img src="figures/parameter_green.png" style="width:100px; background: white; border-radius:5px; border: white solid 5px" />
-</center>
-<ul>
-<li><strong><code>-f</code></strong>: Output reads that only include the SAM flag.
-<ul>
-<li>In this case <code>4</code> stands for unmapped reads. Therefore, our resulting fastq files will only contain unmapped reads.</li>
-<li>The following link is very useful to create a SAM flag you may need: <a href="https://broadinstitute.github.io/picard/explain-flags.html" class="uri">https://broadinstitute.github.io/picard/explain-flags.html</a>.</li>
-</ul></li>
-<li><strong><code>-1</code></strong>: The output R1 fastq file of unmapped reads.</li>
-<li><strong><code>-2</code></strong>: The output R2 fastq file of unmapped reads.</li>
-<li><strong>Last file</strong>: The last file name is the input file for the command, <code>K1_mapped.bam</code> in this case.</li>
-</ul>
-<p>This step may make unmatched paired files (why we have <code>.u.</code> in the output file names). This occurs when a read from R2 is removed but the matching read in R1 is not removed, or vice versa. This will cause issues for further analysis.</p>
+<p>We will create a new file with only the quality information called "MAGS_quality.csv".</p>
+<p>Make the file with it only containing the header "quality.
+We will add the quality scores to this later.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb88-1"><a href="26-Bin_quality_scores.html#cb88-1" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;quality&quot;</span> <span class="op">&gt;</span> MAGS_quality.csv</span></code></pre></div>
 </div>
-</div>
-<div id="re-pair" class="section level2 hasAnchor" number="7.4">
-<h2><span class="header-section-number">7.4</span> Re-pair<a href="07-Host_removal.html#re-pair" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="calculate-quality-with-awk" class="section level2 hasAnchor" number="26.2">
+<h2><span class="header-section-number">26.2</span> Calculate quality with awk<a href="26-Bin_quality_scores.html#calculate-quality-with-awk" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/repair.png" style="width:300px; background:white; border-radius:5px" />
+<img src="figures/calculator_3.png" style="width:150px; background: white ; border-radius: 5px" />
 </center>
-<p>The below <code>BBTools</code> command will re-pair the reads by removing reads with a missing pair. The command ensures the order of the reads are identical in the 2 output paired files.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb21-1"><a href="07-Host_removal.html#cb21-1" tabindex="-1"></a><span class="ex">repair.sh</span> in1=K1_R1.u.fastq in2=K1_R2.u.fastq <span class="dt">\</span></span>
-<span id="cb21-2"><a href="07-Host_removal.html#cb21-2" tabindex="-1"></a>out1=K1_R1.final.fastq out2=K1_R2.final.fastq <span class="dt">\</span></span>
-<span id="cb21-3"><a href="07-Host_removal.html#cb21-3" tabindex="-1"></a>outs=K1_singletons.fastq</span></code></pre></div>
-<div id="parameters-2" class="section level4 unnumbered hasAnchor">
-<h4>Parameters<a href="07-Host_removal.html#parameters-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<center>
-<img src="figures/parameter_blue.png" style="width:100px; background: white; border-radius:5px; border: white solid 5px" />
-</center>
+<p>Next is the most complicated command. We will be calculating the Overall quality (see calculation above) for each row except the header row.</p>
+<p>We will be using a complicated linux based language called <code>awk</code>. This is very useful as it can carry out calculations on columns or as <code>awk</code> calls them, <strong>fields</strong>.</p>
+<p>As this is new and complicated we will build up our command step by step.</p>
+<div id="extract-fieldscolumns" class="section level3 hasAnchor" number="26.2.1">
+<h3><span class="header-section-number">26.2.1</span> Extract fields/columns<a href="26-Bin_quality_scores.html#extract-fieldscolumns" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>The first step</strong> is to extract the completeness and contamination fields/columns.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb89-1"><a href="26-Bin_quality_scores.html#cb89-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;{print $2,$3}&#39;</span> cocopye_output.csv</span></code></pre></div>
 <ul>
-<li><strong><code>in1=</code></strong>: The input R1 fastq file of unmapped unpaired reads.</li>
-<li><strong><code>in2=</code></strong>: The input R2 fastq file of unmapped unpaired reads.</li>
-<li><strong><code>out1=</code></strong>: The output R1 fastq file of unmapped paired reads.</li>
-<li><strong><code>out2=</code></strong>: The output R2 fastq file of unmapped paired reads.</li>
-<li><strong><code>outs=</code></strong>: The output fastq file containing the left over singletons (a sequence missing a pair).
-<ul>
-<li>This file can normally be ignored.</li>
-</ul></li>
+<li><code>-F,</code>: Indicates the input fields are separated by commas (<code>,</code>).</li>
+<li><code>''</code>: All the <code>awk</code> options are contained within the quotes.</li>
+<li><code>{}</code>: We can supply a function to <code>awk</code> within the braces.</li>
+<li><code>print $2,$3</code>: This function instructs <code>awk</code> to print the 2nd (completeness) and 3rd (contamination) fields. It is common to put commas (<code>,</code>) between fields if printing multiple fields.</li>
+<li><code>cocopye_output.csv</code>: Our last parameter is the input file. We are not changing the contents of the file, only printing information to screen/stdout.</li>
 </ul>
 </div>
+<div id="ignore-header" class="section level3 hasAnchor" number="26.2.2">
+<h3><span class="header-section-number">26.2.2</span> Ignore header<a href="26-Bin_quality_scores.html#ignore-header" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>We do not want the header</strong> in our calculation so we will add an extra <code>awk</code> option.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb90-1"><a href="26-Bin_quality_scores.html#cb90-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;NR&gt;1 {print $2,$3}&#39;</span> cocopye_output.csv</span></code></pre></div>
+<ul>
+<li><code>NR&gt;1</code>: <code>NR</code> stands for number of records. Rows are called records in <code>awk</code>. Therefore <code>NR&gt;1</code> means <code>awk</code> will only carry out the functions on the records numbered greater than 1. I.e. skip row 1, the header row.</li>
+</ul>
 </div>
-<div id="host-removal-summary" class="section level2 hasAnchor" number="7.5">
-<h2><span class="header-section-number">7.5</span> Host removal summary<a href="07-Host_removal.html#host-removal-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="calculate-quality" class="section level3 hasAnchor" number="26.2.3">
+<h3><span class="header-section-number">26.2.3</span> Calculate quality<a href="26-Bin_quality_scores.html#calculate-quality" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>The next step</strong> is to carry out the overall quality calculation.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb91-1"><a href="26-Bin_quality_scores.html#cb91-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;NR&gt;1 {print $2 - (5 * $3)}&#39;</span> cocopye_output.csv</span></code></pre></div>
+<p>Our new function, <code>{print $2 - (5 * 13)}</code>, carries out the overall quality calculation and prints it for each record/row except the first (<code>NR&gt;1</code>).</p>
+<p>You will notice that we have values that equal 4.
+Let us fix that.</p>
+</div>
+<div id="fix-values" class="section level3 hasAnchor" number="26.2.4">
+<h3><span class="header-section-number">26.2.4</span> Fix values<a href="26-Bin_quality_scores.html#fix-values" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Some quality values come out as 4.
+This is not correct and comes about as some completeness and contamination values have been set to -1 (-1 - (5 * -1) = 4).
+If you look at the file <code>cocopye_output.csv</code> you will notice the bins with -1 values have the <code>rejected</code> for their <code>method</code> value.
+These are bins which failed the Input Pre-procesing step.</p>
+<p>We will therefore change these quality values to the lowest possible value of -5 (0 - (5 * 1) = -5).</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb92-1"><a href="26-Bin_quality_scores.html#cb92-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;NR&gt;1 {print $2 - (5 * $3)}&#39;</span> cocopye_output.csv <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb92-2"><a href="26-Bin_quality_scores.html#cb92-2" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/^4$/-5/&quot;</span></span></code></pre></div>
+<p>In this case we <a href="https://neof-workshops.github.io/Unix_nxcdf7/Course/12-Advanced_linux_practice.html#pipes">pipe (<code>|</code>)</a> our output to <a href="https://neof-workshops.github.io/Unix_nxcdf7/Course/12-Advanced_linux_practice.html#sed"><code>sed</code></a> to substitute lines that start with (<code>^</code>) and end with (<code>$</code>) the same <code>4</code> with <code>-5</code>.</p>
+<p>In other words we replace lines that only contain a 4 with a -5.</p>
+</div>
+<div id="append-to-quality-file" class="section level3 hasAnchor" number="26.2.5">
+<h3><span class="header-section-number">26.2.5</span> Append to quality file<a href="26-Bin_quality_scores.html#append-to-quality-file" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Finally we can append the quality values to our <code>MAGS_quality.csv</code> file.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb93-1"><a href="26-Bin_quality_scores.html#cb93-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;NR&gt;1 {print $2 - (5 * $3)}&#39;</span> cocopye_output.csv <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb93-2"><a href="26-Bin_quality_scores.html#cb93-2" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/^4$/-5/&quot;</span> <span class="op">&gt;&gt;</span> MAGS_quality.csv</span></code></pre></div>
+<p>In the above case we use <code>&gt;&gt;</code> to append the information to the file <code>MAGS_quality.csv</code>. We append because we want to retain the header we added to the file earlier.</p>
+<p>You can view the file to ensure it worked. The first and second values should be 0.9838 and 0.493</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb94-1"><a href="26-Bin_quality_scores.html#cb94-1" tabindex="-1"></a><span class="fu">less</span> MAGS_quality.csv</span></code></pre></div>
+</div>
+</div>
+<div id="add-quality-to-the-checkm-results-file" class="section level2 hasAnchor" number="26.3">
+<h2><span class="header-section-number">26.3</span> Add quality to the checkm results file<a href="26-Bin_quality_scores.html#add-quality-to-the-checkm-results-file" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/sum_blue.png" style="width:100px; background: white; border-radius:5px; border: white solid 5px" />
+<img src="figures/two_columns.png" style="width:150px; background: white ; border-radius: 5px" />
 </center>
-<p>We have run through quality control including host removal for our K1 sample. As our data has pretty much no human data we will skip this step for the other samples and use the trimmed data for the downstream analysis.</p>
-<p>In a real analysis project you would use a whole genome reference for your host. However, that would have taken too long for this practical. The most current Human reference (when this was written) is GRCh38. We used a random 10kb section to align our reads to.</p>
-<p>For more resources on the Human reference please see: <a href="https://www.ncbi.nlm.nih.gov/genome/guide/human/" class="uri">https://www.ncbi.nlm.nih.gov/genome/guide/human/</a></p>
-<p>The assembly we used was: <a href="https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz" class="uri">https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz</a></p>
+<p>Now we can combine the files <code>cocopye_output.csv</code> and <code>MAGS_quality.csv</code> with the <code>paste</code> command into a new file called <code>cocopye_quality.csv</code>. The <code>-d ","</code> option indicates the merged files will be separated by commas (<code>,</code>), matching the column separation in <code>cocopye_output.csv</code>.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb95-1"><a href="26-Bin_quality_scores.html#cb95-1" tabindex="-1"></a><span class="fu">paste</span> <span class="at">-d</span> <span class="st">&quot;,&quot;</span> cocopye_output.csv MAGS_quality.csv <span class="op">&gt;</span> cocopye_quality.csv</span></code></pre></div>
+</div>
+<div id="mcqs-7" class="section level2 hasAnchor" number="26.4">
+<h2><span class="header-section-number">26.4</span> MCQs<a href="26-Bin_quality_scores.html#mcqs-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/question_bubble_blue.png" style="width:100px; background: white; border-radius: 5px; border: 5px white solid" />
+</center>
+<p>Viewing the file <code>cocopye_output.csv</code> attempt the below questions.</p>
+<p><strong>Tip</strong>: You can use the <code>cut</code> command to look at specific columns. For example:</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb96-1"><a href="26-Bin_quality_scores.html#cb96-1" tabindex="-1"></a><span class="co">#look at the &quot;bin&quot; and &quot;quality&quot; columns</span></span>
+<span id="cb96-2"><a href="26-Bin_quality_scores.html#cb96-2" tabindex="-1"></a><span class="co">#Convert the printed output&#39;s commas to tabs for readability</span></span>
+<span id="cb96-3"><a href="26-Bin_quality_scores.html#cb96-3" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d</span> <span class="st">&quot;,&quot;</span> <span class="at">-f</span> 1,8 cocopye_quality.csv <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&quot;,&quot;</span> <span class="st">&quot;\t&quot;</span></span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>What lineage was assigned to bin <strong>K1.1</strong>?
+<div id="radio_CBRELVMSXT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_CBRELVMSXT" value=""></input> <span><strong>Bacteria</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CBRELVMSXT" value="answer"></input> <span><strong>Bacteroides</strong></span></label><label><input type="radio" autocomplete="off" name="radio_CBRELVMSXT" value=""></input> <span><strong>Lachnospiraceae</strong></span></label>
+</div></li>
+<li>What lineage was assigned to bin <strong>K1.22</strong>?
+<div id="radio_DRHQPKTMNQ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DRHQPKTMNQ" value=""></input> <span><strong>Bacteria</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DRHQPKTMNQ" value=""></input> <span><strong>Bacteroides</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DRHQPKTMNQ" value="answer"></input> <span><strong>Lachnospiraceae</strong></span></label>
+</div></li>
+<li>What lineage was assigned to bin <strong>K1.8</strong>?
+<div id="radio_PJXKPQPOCM" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PJXKPQPOCM" value="answer"></input> <span><strong>Bacteria</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PJXKPQPOCM" value=""></input> <span><strong>Bacteroides</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PJXKPQPOCM" value=""></input> <span><strong>Lachnospiraceae</strong></span></label>
+</div></li>
+<li>What is the quality value of <strong>K1.1</strong>?
+<div id="radio_XNPLNCCTCH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_XNPLNCCTCH" value=""></input> <span><strong>0.0202</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XNPLNCCTCH" value="answer"></input> <span><strong>0.6724</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XNPLNCCTCH" value=""></input> <span><strong>0.9769</strong></span></label>
+</div></li>
+<li>What is the completeness value of <strong>K1.30</strong>?
+<div id="radio_UCJNYLLQWM" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UCJNYLLQWM" value=""></input> <span><strong>0.0202</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UCJNYLLQWM" value=""></input> <span><strong>0.6724</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UCJNYLLQWM" value="answer"></input> <span><strong>0.9769</strong></span></label>
+</div></li>
+<li>What is the contamination value of <strong>K1.12</strong> bin?
+<div id="radio_JFCGYPIUCS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JFCGYPIUCS" value="answer"></input> <span><strong>0.0202</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JFCGYPIUCS" value=""></input> <span><strong>0.6724</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JFCGYPIUCS" value=""></input> <span><strong>0.9769</strong></span></label>
+</div></li>
+<li>Which bin has the highest quality value (98.38%)?
+<div id="radio_AEMDSLNOJC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_AEMDSLNOJC" value=""></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AEMDSLNOJC" value=""></input> <span><strong>K1.26</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AEMDSLNOJC" value="answer"></input> <span><strong>K1.22</strong></span></label>
+</div></li>
+<li>Which bin has the quality value of -2.9215?
+<div id="radio_XQSKCTONYT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_XQSKCTONYT" value="answer"></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XQSKCTONYT" value=""></input> <span><strong>K1.26</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XQSKCTONYT" value=""></input> <span><strong>K1.22</strong></span></label>
+</div></li>
+<li>Which bin has the highest completeness value (98.59%)?
+<div id="radio_ERVUZEQQLH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ERVUZEQQLH" value=""></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ERVUZEQQLH" value="answer"></input> <span><strong>K1.26</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ERVUZEQQLH" value=""></input> <span><strong>K1.22</strong></span></label>
+</div></li>
+</ol>
+</div>
+<div id="bin-quality-summary" class="section level2 hasAnchor" number="26.5">
+<h2><span class="header-section-number">26.5</span> Bin quality summary<a href="26-Bin_quality_scores.html#bin-quality-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<center>
+<img src="figures/sum_blue.png" style="width:100px; background: white ; border-radius:5px; border: 5px white solid" />
+</center>
+<p>It is always useful to know the quality of your bins so you know which are more reliable than others. With that information you can be more or less certain when concluding your findings.</p>
+<p>We have some good quality bins but many poorer quality bins too. Ultimately binning is trying to separate all the genomes from each other. A better metagenome assembly would most likely have led to better binning.</p>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-b5e3480ec1c40d06b855" width="672"></span>
+<script type="application/json" data-for="htmlwidget-b5e3480ec1c40d06b855">{"x":{"element":"mag","opts":{"content":"Metagenome-Assembled Genome","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
 
 </div>
 </div>
@@ -736,8 +774,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-<a href="06-Trimming_data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="08-Taxonomic_profiling.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="25-CoCoPyE.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="27-Assembly_functional_annotation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

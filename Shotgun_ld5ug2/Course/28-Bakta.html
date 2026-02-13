@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 7 Host removal | Shotgun Metagenomics</title>
+  <title>Chapter 28 Bakta | Shotgun Metagenomics</title>
   <meta name="description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 7 Host removal | Shotgun Metagenomics" />
+  <meta property="og:title" content="Chapter 28 Bakta | Shotgun Metagenomics" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="/figures/NEOF.png" />
   <meta property="og:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 7 Host removal | Shotgun Metagenomics" />
+  <meta name="twitter:title" content="Chapter 28 Bakta | Shotgun Metagenomics" />
   
   <meta name="twitter:description" content="NEOF book for the Microbial shotgun metagenomics workshop" />
   <meta name="twitter:image" content="/figures/NEOF.png" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="figures/NEOF_favicon.png" type="image/x-icon" />
-<link rel="prev" href="06-Trimming_data.html"/>
-<link rel="next" href="08-Taxonomic_profiling.html"/>
+<link rel="prev" href="27-Assembly_functional_annotation.html"/>
+<link rel="next" href="29-Minpath.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -402,129 +402,130 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="hostremoval" class="section level1 hasAnchor" number="7">
-<h1><span class="header-section-number">Chapter 7</span> Host removal<a href="07-Host_removal.html#hostremoval" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="bakta_chap" class="section level1 hasAnchor" number="28">
+<h1><span class="header-section-number">Chapter 28</span> Bakta<a href="28-Bakta.html#bakta_chap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <center>
-<img src="figures/bowtie2.png" style="width:300px; background: white; border-radius:5px" />
+<img src="figures/bakta_logo.png" style="border-radius: 15px; width: 250px; border: 5px solid white" />
 </center>
-<p>It is good practice to remove any host sequences from your data before further analysis. A good method for this is to align/map your reads to a reference of your host genome and remove the mapped sequences (i.e sequences we believe belong to the host).</p>
-<p>If there is no host genome available before you start your sample collections and sequencing it may be a good idea to attempt to sequence and assemble the host genome. We would recommend long read technologies for single genome assembly projects.</p>
-<p>This chapter contains a small example on how to carry out host removal. It uses only a section of a human (host of our samples) reference genome assembly. In real life you should use the entire reference.</p>
-<p>The first step is to copy over the reference fasta file we will use.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb17-1"><a href="07-Host_removal.html#cb17-1" tabindex="-1"></a><span class="fu">cp</span> /pub14/tea/nsc206/NEOF/Shotgun_metagenomics/GRCh38_slice.fasta .</span></code></pre></div>
-<div id="index-reference" class="section level2 hasAnchor" number="7.1">
-<h2><span class="header-section-number">7.1</span> Index reference<a href="07-Host_removal.html#index-reference" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will carry out <code>Bakta</code> functional annotation. <code>Bakta</code> can annotate bacterial genomes and plasmids from both isolates and MAGs.</p>
+<p>Make a new directory and move into it.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb97-1"><a href="28-Bakta.html#cb97-1" tabindex="-1"></a><span class="fu">mkdir</span> ~/8-Annotation</span>
+<span id="cb97-2"><a href="28-Bakta.html#cb97-2" tabindex="-1"></a><span class="bu">cd</span> ~/8-Annotation</span></code></pre></div>
+<div id="annotation" class="section level2 hasAnchor" number="28.1">
+<h2><span class="header-section-number">28.1</span> Annotation<a href="28-Bakta.html#annotation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/index.png" style="width:150px; background: white; border-radius:5px; border: white solid 5px" />
+<img src="figures/play_blue.png" style="width:100px" />
 </center>
-<p>We will will use the <code>Bowtie2</code> aligner for mapping/aligning. Prior to alignment/mapping we need to index our reference.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb18-1"><a href="07-Host_removal.html#cb18-1" tabindex="-1"></a><span class="ex">bowtie2-build</span> GRCh38_slice.fasta GRCh38_slice.fasta</span></code></pre></div>
-<p>If you use <code>ls</code> you will now see a bunch of files starting with <code>GRCh38_slice.fasta</code> and ending with various suffixes that contain <code>bt2</code>. These are the index files which allow us to use the reference with <code>Bowtie2</code>.</p>
-</div>
-<div id="alignment" class="section level2 hasAnchor" number="7.2">
-<h2><span class="header-section-number">7.2</span> Alignment<a href="07-Host_removal.html#alignment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now we can annotate one of the bins.</p>
+<p>The below will take a long time to run (&gt;1 hour). Instead of running it skip onto the next section to copy pre-made output to continue with. This command is here so you know what to run in your own future analyses.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb98-1"><a href="28-Bakta.html#cb98-1" tabindex="-1"></a><span class="ex">bakta</span> <span class="dt">\</span></span>
+<span id="cb98-2"><a href="28-Bakta.html#cb98-2" tabindex="-1"></a>--db /pub14/tea/nsc206/databases/bakta/db/ <span class="dt">\</span></span>
+<span id="cb98-3"><a href="28-Bakta.html#cb98-3" tabindex="-1"></a>-o K1.1 <span class="dt">\</span></span>
+<span id="cb98-4"><a href="28-Bakta.html#cb98-4" tabindex="-1"></a>~/7-Binning/K1_fullset/bins/K1.1.fa</span></code></pre></div>
+<div id="parameters-11" class="section level4 unnumbered hasAnchor">
+<h4>Parameters<a href="28-Bakta.html#parameters-11" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <center>
-<img src="figures/alignment.png" style="width:200px; background: white; border-radius:5px; border: white 5px solid" />
-</center>
-<p>With the indexed reference we will align the K1 reads to the reference. This creates a BAM file that contains alignment and read information (<code>K1_mapped.bam</code>).</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb19-1"><a href="07-Host_removal.html#cb19-1" tabindex="-1"></a><span class="ex">bowtie2</span> <span class="at">-x</span> GRCh38_slice.fasta <span class="at">-1</span> K1_R1.fq.gz <span class="at">-2</span> K1_R2.fq.gz <span class="dt">\</span></span>
-<span id="cb19-2"><a href="07-Host_removal.html#cb19-2" tabindex="-1"></a>-p12 <span class="dv">2</span><span class="op">&gt;</span> K1_bowtie2_out.log <span class="kw">|</span> <span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-S</span> <span class="at">-h</span> <span class="op">&gt;</span> K1_mapped.bam</span></code></pre></div>
-<div id="parameters" class="section level4 unnumbered hasAnchor">
-<h4>Parameters<a href="07-Host_removal.html#parameters" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<center>
-<img src="figures/parameter_black.png" style="width:100px; background: white; border-radius:5px; border:white 5px solid" />
-</center>
-<p>This command is split into two commands. The first is <code>bowtie2</code> that creates the alignment. The parameters for the command are:</p>
-<ul>
-<li><strong><code>-x</code></strong>: Indexed reference the reads will be aligned to.</li>
-<li><strong><code>-1</code></strong>: The forward reads.</li>
-<li><strong><code>-2</code></strong>: The reverse reads.</li>
-<li><strong><code>-p</code></strong>: Number of threads to be used. 12 in this case.</li>
-<li><strong><code>2&gt;</code></strong>: This will cause the standard error to be redirected to the chosen file. In this case <code>K1_bowtie2_out.log</code>.
-<ul>
-<li>This is useful for commands that may produce a lot of output to screen. If an error occurs you can view this file to see the error messages.</li>
-</ul></li>
-</ul>
-<p>The alignment is then piped (<code>|</code>) to the command <code>samtools view</code>. For more information on pipes please see our <a href="https://neof-workshops.github.io/Unix_nxcdf7/Course/12-Advanced_linux_practice.html#pipes">Intro to Unix course book</a>.</p>
-<p>The parameters for <code>samtools view</code> are:</p>
-<ul>
-<li><strong><code>-b</code></strong>: Output the alignment as a BAM file.
-<ul>
-<li>BAM files are a binary form of SAM files so they are smaller in memory size.</li>
-<li>If you are interested in the SAM format please see its <a href="https://samtools.github.io/hts-specs/SAMv1.pdf">specification file</a>.</li>
-</ul></li>
-<li><strong><code>-S</code></strong>: Auto detect input format.</li>
-<li><strong><code>-h</code></strong>: Include header.</li>
-</ul>
-<p>The binary alignment is redirected to a new file called <code>K1_mapped.bam</code>. For more information on redirection please see our <a href="https://neof-workshops.github.io/Unix_nxcdf7/Course/12-Advanced_linux_practice.html#redirection">Intro to Unix course book</a>.</p>
-</div>
-</div>
-<div id="unmapped-read-extraction" class="section level2 hasAnchor" number="7.3">
-<h2><span class="header-section-number">7.3</span> Unmapped read extraction<a href="07-Host_removal.html#unmapped-read-extraction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<center>
-<img src="figures/exctractor.png" style="width:150px; border-radius:5px; background: white" />
-</center>
-<p>Next step is to extract the reads that did not map to the host reference from the <code>K1_mapped.bam</code> file with the <code>samtools fastq</code> command (unmapped reads).</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb20-1"><a href="07-Host_removal.html#cb20-1" tabindex="-1"></a><span class="ex">samtools</span> fastq <span class="at">-f</span> 4 <span class="at">-1</span> K1_R1.u.fastq <span class="at">-2</span> K1_R2.u.fastq K1_mapped.bam</span></code></pre></div>
-<div id="parameters-1" class="section level4 unnumbered hasAnchor">
-<h4>Parameters<a href="07-Host_removal.html#parameters-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<center>
-<img src="figures/parameter_green.png" style="width:100px; background: white; border-radius:5px; border: white solid 5px" />
+<img src="figures/parameter_blue.png" style="width:100px" />
 </center>
 <ul>
-<li><strong><code>-f</code></strong>: Output reads that only include the SAM flag.
-<ul>
-<li>In this case <code>4</code> stands for unmapped reads. Therefore, our resulting fastq files will only contain unmapped reads.</li>
-<li>The following link is very useful to create a SAM flag you may need: <a href="https://broadinstitute.github.io/picard/explain-flags.html" class="uri">https://broadinstitute.github.io/picard/explain-flags.html</a>.</li>
-</ul></li>
-<li><strong><code>-1</code></strong>: The output R1 fastq file of unmapped reads.</li>
-<li><strong><code>-2</code></strong>: The output R2 fastq file of unmapped reads.</li>
-<li><strong>Last file</strong>: The last file name is the input file for the command, <code>K1_mapped.bam</code> in this case.</li>
-</ul>
-<p>This step may make unmatched paired files (why we have <code>.u.</code> in the output file names). This occurs when a read from R2 is removed but the matching read in R1 is not removed, or vice versa. This will cause issues for further analysis.</p>
-</div>
-</div>
-<div id="re-pair" class="section level2 hasAnchor" number="7.4">
-<h2><span class="header-section-number">7.4</span> Re-pair<a href="07-Host_removal.html#re-pair" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<center>
-<img src="figures/repair.png" style="width:300px; background:white; border-radius:5px" />
-</center>
-<p>The below <code>BBTools</code> command will re-pair the reads by removing reads with a missing pair. The command ensures the order of the reads are identical in the 2 output paired files.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb21-1"><a href="07-Host_removal.html#cb21-1" tabindex="-1"></a><span class="ex">repair.sh</span> in1=K1_R1.u.fastq in2=K1_R2.u.fastq <span class="dt">\</span></span>
-<span id="cb21-2"><a href="07-Host_removal.html#cb21-2" tabindex="-1"></a>out1=K1_R1.final.fastq out2=K1_R2.final.fastq <span class="dt">\</span></span>
-<span id="cb21-3"><a href="07-Host_removal.html#cb21-3" tabindex="-1"></a>outs=K1_singletons.fastq</span></code></pre></div>
-<div id="parameters-2" class="section level4 unnumbered hasAnchor">
-<h4>Parameters<a href="07-Host_removal.html#parameters-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<center>
-<img src="figures/parameter_blue.png" style="width:100px; background: white; border-radius:5px; border: white solid 5px" />
-</center>
-<ul>
-<li><strong><code>in1=</code></strong>: The input R1 fastq file of unmapped unpaired reads.</li>
-<li><strong><code>in2=</code></strong>: The input R2 fastq file of unmapped unpaired reads.</li>
-<li><strong><code>out1=</code></strong>: The output R1 fastq file of unmapped paired reads.</li>
-<li><strong><code>out2=</code></strong>: The output R2 fastq file of unmapped paired reads.</li>
-<li><strong><code>outs=</code></strong>: The output fastq file containing the left over singletons (a sequence missing a pair).
-<ul>
-<li>This file can normally be ignored.</li>
-</ul></li>
+<li><code>--db</code>: Location of <code>Bakta</code> database. You will need to install this in your own installation. Instructions are in the <a href="30-Appendix.html#mamba_install">appendix</a>.</li>
+<li><code>-o</code>: The output directory. This must not exist before running the command.</li>
+<li>The last parameter is the fasta file containing the genome/plasmid you would like annotated.</li>
 </ul>
 </div>
+<div id="bakta-premade-results" class="section level3 hasAnchor" number="28.1.1">
+<h3><span class="header-section-number">28.1.1</span> Bakta: premade results<a href="28-Bakta.html#bakta-premade-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Link the pre-made results for all the K1 bins.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb99-1"><a href="28-Bakta.html#cb99-1" tabindex="-1"></a><span class="co">#Link all data</span></span>
+<span id="cb99-2"><a href="28-Bakta.html#cb99-2" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc206/NEOF/Shotgun_metagenomics/bakta/K1_fullset/<span class="pp">*</span> .</span></code></pre></div>
 </div>
-<div id="host-removal-summary" class="section level2 hasAnchor" number="7.5">
-<h2><span class="header-section-number">7.5</span> Host removal summary<a href="07-Host_removal.html#host-removal-summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="annotation-files" class="section level2 hasAnchor" number="28.2">
+<h2><span class="header-section-number">28.2</span> Annotation files<a href="28-Bakta.html#annotation-files" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/sum_blue.png" style="width:100px; background: white; border-radius:5px; border: white solid 5px" />
+<img src="figures/output_file_blue.png" style="width:100px" />
 </center>
-<p>We have run through quality control including host removal for our K1 sample. As our data has pretty much no human data we will skip this step for the other samples and use the trimmed data for the downstream analysis.</p>
-<p>In a real analysis project you would use a whole genome reference for your host. However, that would have taken too long for this practical. The most current Human reference (when this was written) is GRCh38. We used a random 10kb section to align our reads to.</p>
-<p>For more resources on the Human reference please see: <a href="https://www.ncbi.nlm.nih.gov/genome/guide/human/" class="uri">https://www.ncbi.nlm.nih.gov/genome/guide/human/</a></p>
-<p>The assembly we used was: <a href="https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz" class="uri">https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz</a></p>
+<p>List the files in the newly created K1.1 directory. Each of the files has the prefix "K1.1" and contains the following information:</p>
+<ul>
+<li><strong><prefix>.tsv</strong>: annotations as simple human readble TSV</li>
+<li><strong><prefix>.gff3</strong>: annotations &amp; sequences in GFF3 format</li>
+<li><strong><prefix>.gbff</strong>: annotations &amp; sequences in (multi) GenBank format</li>
+<li><strong><prefix>.embl</strong>: annotations &amp; sequences in (multi) EMBL format</li>
+<li><strong><prefix>.fna</strong>: replicon/contig DNA sequences as FASTA</li>
+<li><strong><prefix>.ffn</strong>: feature nucleotide sequences as FASTA</li>
+<li><strong><prefix>.faa</strong>: CDS/sORF amino acid sequences as FASTA</li>
+<li><strong><prefix>.hypotheticals.tsv</strong>: further information on hypothetical protein CDS as simple human readable tab separated values</li>
+<li><strong><prefix>.hypotheticals.faa</strong>: hypothetical protein CDS amino acid sequences as FASTA</li>
+<li><strong><prefix>.json</strong>: all (internal) annotation &amp; sequence information as JSON</li>
+<li><strong><prefix>.txt</strong>: summary as TXT</li>
+<li><strong><prefix>.png</strong>: circular genome annotation plot as PNG
+<ul>
+<li>These are only useful for complete/near complete circular genomes</li>
+<li>I would suggest looking at <a href="https://github.com/robotoD/GenoVi/wiki/User-guide#tutorials-">GenoVi</a> for circular genome plots</li>
+</ul></li>
+<li><strong><prefix>.svg</strong>: circular genome annotation plot as SVG</li>
+<li><strong><prefix>.log</strong>: Log file of command</li>
+</ul>
+<p>View the summary file for bin K1.1.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb100-1"><a href="28-Bakta.html#cb100-1" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> K1.1/K1.1.txt</span></code></pre></div>
+<div class="webex-solution">
+<button>
+Summary fields
+</button>
+<p>Sequence information</p>
+<ul>
+<li>Length: Number of bases</li>
+<li>Count: Number of contigs/scaffolds</li>
+<li>GC: GC%</li>
+<li>N50: <a href="21_MEGAHIT.html#quast_report">N50</a></li>
+<li>N ratio: Ratio of N bases to non-N bases</li>
+<li>coding density: Percentage of bases within coding regions</li>
+</ul>
+<p>Annotation information.</p>
+<ul>
+<li>tRNAs: Transfer RNAs</li>
+<li>tmRNAs: Transfer-messenger RNA</li>
+<li>rRNAs: Ribosomal RNAs</li>
+<li>ncRNAs: Non-coding RNAs</li>
+<li>ncRNA regions: Non-coding RNA regions</li>
+<li>CRISPR arrays: CRISPR arrays</li>
+<li>CDSs: Coding sequences</li>
+<li>pseudogenes: Segments of DNA that structurally resembles a gene but is not capable of coding for a protein</li>
+<li>hypotheticals: Hypothetical genes, which are predicted solely by computer algorithms, are experimentally uncharacterized genes</li>
+<li>signal peptides: Short peptides (usually 16-30 amino acids long) normally present at the N-terminus of most newly synthesized proteins that are destined toward the secretory pathway</li>
+<li>sORFs: Short open reading frames (&lt;100 amino acids)</li>
+<li>gaps: Gaps in the genome assembly</li>
+<li>oriCs: Chromosome replication origin for bacteria</li>
+<li>oriVs: Plasmid replication origin</li>
+<li>oriTs: An origin of transfer (oriT) is a short sequence ranging from 40-500 base pairs in length. It is necessary for the transfer of DNA from a gram-negative bacterial donor to recipient during bacterial conjugation</li>
+</ul>
+</div>
+<p>View the gff file for bin K1.1.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb101-1"><a href="28-Bakta.html#cb101-1" tabindex="-1"></a><span class="fu">less</span> K1.1/K1.1.gff3</span></code></pre></div>
+<p>The GFF file is a tab delimited file containing annotation information for the features in the assembly/bin. In this case it is a GFF3 file (most curent version of GFF).</p>
+<p>There is quite a lot of information contained in each row so instead of listing all the columns here please have a look at the official documentation:</p>
+<p><a href="https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md" class="uri">https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md</a></p>
+<div class="webex-solution">
+<button>
+Loop used to analyse all bins
+</button>
+<p>The code below is for your future analysis, do not run it now as it will take too long.</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb102-1"><a href="28-Bakta.html#cb102-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> ~/7-Biinning/K1_fullset/bins/<span class="pp">*</span>fa <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">f</span> <span class="kw">;</span> <span class="dt">\</span></span>
+<span id="cb102-2"><a href="28-Bakta.html#cb102-2" tabindex="-1"></a><span class="cf">do</span> <span class="va">s</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$f</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.fa//&quot;</span><span class="va">)</span> <span class="kw">;</span> <span class="bu">echo</span> <span class="va">$s</span> <span class="kw">;</span> <span class="dt">\</span></span>
+<span id="cb102-3"><a href="28-Bakta.html#cb102-3" tabindex="-1"></a><span class="ex">bakta</span> <span class="at">--db</span> /pub14/tea/nsc206/databases/bakta/db/ <span class="dt">\</span></span>
+<span id="cb102-4"><a href="28-Bakta.html#cb102-4" tabindex="-1"></a>-o <span class="va">${s}</span> <span class="dt">\</span></span>
+<span id="cb102-5"><a href="28-Bakta.html#cb102-5" tabindex="-1"></a>~/7-Binning/K1_fullset/bins/K1.1.fa</span></code></pre></div>
+</div>
+<p>We can quickly see if any of the bins contain a specific annotation. For example, if we wanted to know if there were any ATP-binding proteins in any of the bins we could carry out the below command:</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb103-1"><a href="28-Bakta.html#cb103-1" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;ATP-binding protein&quot;</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div>
+<p>We can now view the lines containing "ATP-binding protein" with the start of the line containing the file name the line belongs to.</p>
+<p>In your future analyses you can expect these files further with excel, R, or visualisation software like <code>IGV</code> (<a href="https://software.broadinstitute.org/software/igv/GFF" class="uri">https://software.broadinstitute.org/software/igv/GFF</a>).</p>
+<p>What if you want to know about pathways?</p>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-bd3ee965e186301f419f" width="672"></span>
+<script type="application/json" data-for="htmlwidget-bd3ee965e186301f419f">{"x":{"element":"mag","opts":{"content":"Metagenome-Assembled Genome","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
 
 </div>
 </div>
-
-
-
 <script>
 
 /* update total correct if #webex-total_correct exists */
@@ -736,8 +737,8 @@ window.onload = function() {
           </div>
         </div>
       </div>
-<a href="06-Trimming_data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="08-Taxonomic_profiling.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="27-Assembly_functional_annotation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="29-Minpath.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
