@@ -478,6 +478,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#dataset" id="toc-dataset" class="nav-link active" data-scroll-target="#dataset">Dataset</a></li>
   <li><a href="#wide-to-long" id="toc-wide-to-long" class="nav-link" data-scroll-target="#wide-to-long">Wide to long</a></li>
+  <li><a href="#more-metadata-columns" id="toc-more-metadata-columns" class="nav-link" data-scroll-target="#more-metadata-columns">More metadata columns</a></li>
   </ul>
 </nav>
     </div>
@@ -581,6 +582,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # ℹ 15,566 more rows</code></pre>
 </div>
 </div>
+</section>
+<section id="more-metadata-columns" class="level2">
+<h2 class="anchored" data-anchor-id="more-metadata-columns">More metadata columns</h2>
+<p>What if we have more than one metadata column such as in the <code>world_pop_wide_tbl</code> displayed below?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>world_pop_wide_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 234 × 13
+   CCA3  `Country/Territory` Capital       Continent `2022` `2020` `2015` `2010`
+   &lt;fct&gt; &lt;fct&gt;               &lt;chr&gt;         &lt;fct&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+ 1 AFG   Afghanistan         Kabul         Asia      4.11e7 3.90e7 3.38e7 2.82e7
+ 2 ALB   Albania             Tirana        Europe    2.84e6 2.87e6 2.88e6 2.91e6
+ 3 DZA   Algeria             Algiers       Africa    4.49e7 4.35e7 3.95e7 3.59e7
+ 4 ASM   American Samoa      Pago Pago     Oceania   4.43e4 4.62e4 5.14e4 5.48e4
+ 5 AND   Andorra             Andorra la V… Europe    7.98e4 7.77e4 7.17e4 7.15e4
+ 6 AGO   Angola              Luanda        Africa    3.56e7 3.34e7 2.81e7 2.34e7
+ 7 AIA   Anguilla            The Valley    North Am… 1.59e4 1.56e4 1.45e4 1.32e4
+ 8 ATG   Antigua and Barbuda Saint John’s  North Am… 9.38e4 9.27e4 8.99e4 8.57e4
+ 9 ARG   Argentina           Buenos Aires  South Am… 4.55e7 4.50e7 4.33e7 4.11e7
+10 ARM   Armenia             Yerevan       Asia      2.78e6 2.81e6 2.88e6 2.95e6
+# ℹ 224 more rows
+# ℹ 5 more variables: `2000` &lt;dbl&gt;, `1990` &lt;dbl&gt;, `1980` &lt;dbl&gt;, `1970` &lt;dbl&gt;,
+#   Area_km2 &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>In this case in it easier to specify which columns we want longified. That is columns 2022 to 1970.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>world_pop_wide_tbl <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(<span class="st">`</span><span class="at">2022</span><span class="st">`</span><span class="sc">:</span><span class="st">`</span><span class="at">1970</span><span class="st">`</span>, <span class="at">names_to=</span><span class="st">"Year"</span>, <span class="at">values_to=</span><span class="st">"Population"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,872 × 7
+   CCA3  `Country/Territory` Capital Continent Area_km2 Year  Population
+   &lt;fct&gt; &lt;fct&gt;               &lt;chr&gt;   &lt;fct&gt;        &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;
+ 1 AFG   Afghanistan         Kabul   Asia        652230 2022    41128771
+ 2 AFG   Afghanistan         Kabul   Asia        652230 2020    38972230
+ 3 AFG   Afghanistan         Kabul   Asia        652230 2015    33753499
+ 4 AFG   Afghanistan         Kabul   Asia        652230 2010    28189672
+ 5 AFG   Afghanistan         Kabul   Asia        652230 2000    19542982
+ 6 AFG   Afghanistan         Kabul   Asia        652230 1990    10694796
+ 7 AFG   Afghanistan         Kabul   Asia        652230 1980    12486631
+ 8 AFG   Afghanistan         Kabul   Asia        652230 1970    10752971
+ 9 ALB   Albania             Tirana  Europe       28748 2022     2842321
+10 ALB   Albania             Tirana  Europe       28748 2020     2866849
+# ℹ 1,862 more rows</code></pre>
+</div>
+</div>
+<p><strong>Note:</strong> Quotes are used for <code>2022</code> and <code>1970</code> as column/variable names that are numbers need them or they will not work.</p>
 
 
 </section>
