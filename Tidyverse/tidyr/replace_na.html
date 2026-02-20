@@ -514,18 +514,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <center>
 <img src="images/tidyr_replace_na.png" class="img-fluid" style="width:200px">
 </center>
-<p>It is common to have NAs in your data. However, sometimes instead of removing them you may want to replace them. below are three methods to carry this out.</p>
+<p>It is common to have <code>NA</code>s in your data. However, sometimes instead of removing them you may want to replace them. Below are three methods to carry this out.</p>
 <ul>
-<li>Replace all NAs in a column with a specific value with <code>tidyr::replace_na()</code>. A common example is to replace all NAs with 0.</li>
-<li>Use the corresponding value of another column to replace NAs.</li>
+<li>Replace all <code>NA</code>s in a column with a specific value with <code>tidyr::replace_na()</code>
+<ul>
+<li>A common example is to replace all NAs with 0</li>
+</ul></li>
+<li>Use the corresponding value of another column to replace <code>NA</code>s</li>
+<li>Replace all <code>NA</code>s</li>
 </ul>
 <p><a href="https://tidyr.tidyverse.org//reference/replace_na.html">Tidyverse reference page</a></p>
 <section id="dataset" class="level2">
 <h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
 <p>For demonstration we’ll load the <code>mammal_sleep_tbl</code> data from the <a href="../datasets/mgrtibbles.html">mgrtibbles package</a> (hyperlink includes install instructions). Additionally, we’ll subset it to:</p>
 <ul>
-<li>Keep the first ten rows with at least one NA.</li>
-<li>Columns species to life_span</li>
+<li>Keep the first ten rows with at least one <code>NA</code></li>
+<li>Keep columns <code>species</code> to <code>life_span</code></li>
 </ul>
 <p><a href="https://github.com/m-gemmell/mgrtibbles/wiki/mammal_sleep_tbl">mammal_sleep_tbl details</a></p>
 <div class="cell">
@@ -558,11 +562,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="replace-with-a-value" class="level2">
 <h2 class="anchored" data-anchor-id="replace-with-a-value">Replace with a value</h2>
-<p>Replace NAs in specified columns with <code>tidyr::replace_na()</code>.</p>
+<p>Replace <code>NA</code>s in specified columns with <code>tidyr::replace_na()</code>.</p>
 <p>When used with a <strong>tibble</strong>/<strong>data.frame</strong> the function needs to be provided with a <strong>list</strong>. The list contains the column names and the replacement value.</p>
 <section id="one-column" class="level3">
 <h3 class="anchored" data-anchor-id="one-column">One column</h3>
-<p>Replaces NAs in the <code>dreaming</code> column with 0.</p>
+<p>Replace <code>NA</code>s in the <code>dreaming</code> column with 0.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_na_tbl <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">dreaming=</span><span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -585,10 +589,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="multiple-columns" class="level3">
 <h3 class="anchored" data-anchor-id="multiple-columns">Multiple columns</h3>
-<p>Replaces:</p>
+<p>Replace:</p>
 <ul>
-<li>NAs in the <code>dreaming</code> column with 0.</li>
-<li>NAs in the <code>life_span</code> column with 1.</li>
+<li><code>NA</code>s in the <code>dreaming</code> column with 0</li>
+<li><code>NA</code>s in the <code>life_span</code> column with 1</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_na_tbl <span class="sc">|&gt;</span></span>
@@ -612,7 +616,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="vector" class="level3">
 <h3 class="anchored" data-anchor-id="vector">Vector</h3>
-<p>the <code>replace_na()</code> function can be used with vectors. In this case the function only needs to value to be replace NAs with.</p>
+<p>The <code>replace_na()</code> function can be used with vectors. In this case the function only needs the value that <code>NA</code>s will be replaced with.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_na_tbl <span class="sc">|&gt;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Pull out non_dreaming column as a vector</span></span>
@@ -627,11 +631,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="replace-with-other-column" class="level2">
 <h2 class="anchored" data-anchor-id="replace-with-other-column">Replace with other column</h2>
-<p>NAs can be replaced with the corresponding value in another column. This carried out with the following functions:</p>
+<p><code>NA</code>s can be replaced with the corresponding value in another column. This is carried out with the following functions:</p>
 <ul>
-<li><a href="../dplyr/mutate.html"><code>dplyr::mutate</code></a>: Mutate columns to create new columns based on existing ones, modify existing columns, and delete columns.</li>
-<li><a href="https://dplyr.tidyverse.org//reference/coalesce.html"><code>dplyr::coalesce</code></a>: Finds the first non-missing value at each point.</li>
+<li><a href="../dplyr/mutate.html"><code>dplyr::mutate</code></a>: Mutate columns to create new columns based on existing ones, modify existing columns, and delete columns</li>
+<li><a href="https://dplyr.tidyverse.org//reference/coalesce.html"><code>dplyr::coalesce</code></a>: Finds the first non-missing value at each point</li>
 </ul>
+<p>The below command replaces <code>NA</code>s in the <code>dreaming</code> column with corresponding values in the <code>total_sleep</code> column.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_na_tbl <span class="sc">|&gt;</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">dreaming =</span> dplyr<span class="sc">::</span><span class="fu">coalesce</span>(dreaming, total_sleep))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -651,10 +656,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 10 Graywolf           36.3    0.120          NA       13          13        16.2</code></pre>
 </div>
 </div>
+<p>Ensure the column you are editing is the first option in the <code>coalesce()</code> function. If not then in the above all the <code>dreaming</code> values would be changed to the non missing <code>total_sleep</code> values.</p>
 </section>
 <section id="replace-all-nas" class="level2">
 <h2 class="anchored" data-anchor-id="replace-all-nas">Replace all NAs</h2>
-<p>All NAs can be replaced with a value using base R’s <code>is.na()</code> function.</p>
+<p>All the <code>NA</code>s in a tibble/data.frame can be replaced with a value using base R’s <code>is.na()</code> function.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_na_tbl[<span class="fu">is.na</span>(mammal_sleep_na_tbl)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>mammal_sleep_na_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

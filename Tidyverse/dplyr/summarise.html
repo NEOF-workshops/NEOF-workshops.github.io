@@ -569,22 +569,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The function <code>summarise()</code> allows you to get a summary of values based on the groups within a grouped <strong>tibble</strong>. It will produce a <strong>tibble</strong> of the summarised information.</p>
 <p>Various helper functions can be used to get specific info including:</p>
 <ul>
-<li><code>n()</code>: Count number of instances of group.</li>
-<li><code>mean()</code>: Calculate means of a columns.</li>
-<li><code>median()</code>: Calculate median of columns.</li>
-<li><code>sd()</code>: Calculate standard deviation.</li>
-<li><code>IQR()</code>: Calculate interquartile range. iqr = upper quartile - lower quartile</li>
+<li><code>n()</code>: Count number of instances of group</li>
+<li><code>mean()</code>: Calculate means of a columns</li>
+<li><code>median()</code>: Calculate median of columns</li>
+<li><code>sd()</code>: Calculate standard deviation</li>
+<li><code>IQR()</code>: Calculate interquartile range
+<ul>
+<li>iqr = upper quartile - lower quartile</li>
+</ul></li>
 <li>`min(): Minimum value</li>
 <li><code>max()</code>: Maximum value</li>
-<li><code>first()</code>: Extract first value.</li>
-<li><code>last()</code>: Extract last value.</li>
-<li><code>nth()</code>: Extract specified nth value.</li>
+<li><code>first()</code>: Extract first value</li>
+<li><code>last()</code>: Extract last value</li>
+<li><code>nth()</code>: Extract specified nth value</li>
 </ul>
 <p><a href="https://dplyr.tidyverse.org//reference/summarise.html">Tidyverse reference page</a></p>
 <section id="dataset" class="level2">
 <h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
 <p>For demonstration we’ll load the <code>amphibian_div_tbl</code> data from the <a href="../datasets/mgrtibbles.html">mgrtibbles package</a> (hyperlink includes install instructions).</p>
-<p>We’ll remove any rows with NAs as NAs cause mean and other other calculations to return NA.</p>
+<p>We’ll remove any rows with <code>NA</code>s as <code>NA</code>s cause mean and other other calculations to return <code>NA</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load package</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"mgrtibbles"</span>)</span>
@@ -635,8 +638,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="count" class="level2">
 <h2 class="anchored" data-anchor-id="count">Count</h2>
-<p>The counts of each unique value can be added with <code>n()</code>.</p>
-<p>Notice that the new column’s name is specified before the <code>=</code> sign. This is the same as the <a href="../dplyr/count.html"><code>count()</code></a> function.</p>
+<p>The counts of each unique value can be added with <code>n()</code>. This is the same as the <a href="../dplyr/count.html"><code>count()</code></a> function.</p>
+<p>Notice that the new column’s name is specified before the <code>=</code> sign.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>amphibian_div_tbl <span class="sc">|&gt;</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">group_by</span>(IUCN.Red.List.Status) <span class="sc">|&gt;</span></span>
@@ -686,7 +689,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Summarise</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), </span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mean_body_size =</span> <span class="fu">mean</span>(Body_size_mm), </span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mean_max_litter_size =</span> <span class="fu">mean</span>(Litter_size_max_n))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mean_max_litter_size =</span> <span class="fu">mean</span>(Litter_size_max_n)                    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 4
   IUCN.Red.List.Status                 n mean_body_size mean_max_litter_size
@@ -722,7 +725,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="standard-deviation-and-iqr" class="level2">
 <h2 class="anchored" data-anchor-id="standard-deviation-and-iqr">Standard deviation and IQR</h2>
 <p>The <code>sd()</code> and <code>IQR()</code> function calculate standard deviation and inter quartile range (upper quartile - lower quartile).</p>
-<p>Note NAs are provided for standard deviation and 0 for IQR if there is only one value in the group.</p>
+<p><strong>Note:</strong> <code>NA</code>s are provided for standard deviation and 0 for IQR if there is only one value in the group.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>amphibian_div_tbl <span class="sc">|&gt;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Group by IUCN.Red.List.Status</span></span>
@@ -746,8 +749,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="first-last-and-nth-values" class="level2">
 <h2 class="anchored" data-anchor-id="first-last-and-nth-values">First, last and nth values</h2>
-<p>The first, last, and nth value can be extracted with the function <code>first()</code>, <code>last()</code>, and <code>nth()</code>.</p>
-<p>Note NAs are provided for <code>nth()</code> as there is only one value. <code>first()</code> and <code>last()</code> work as the single value is the first and last value.</p>
+<p>The first, last, and nth values can be extracted with the functions: <code>first()</code>, <code>last()</code>, and <code>nth()</code>.</p>
+<p><strong>Note:</strong> <code>NA</code>s are provided for as some of the <code>nth()</code> values as there is only one value in those groups. <code>first()</code> and <code>last()</code> work as the single value is the first and last value.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>amphibian_div_tbl <span class="sc">|&gt;</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Group by IUCN.Red.List.Status</span></span>
