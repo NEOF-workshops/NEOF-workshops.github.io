@@ -23,7 +23,7 @@
 <meta name="author" content="Sam Haldenby and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2026-02-23" />
+<meta name="date" content="2026-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -266,7 +266,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="16" data-path="16-Heatmap.html"><a href="16-Heatmap.html"><i class="fa fa-check"></i><b>16</b> Heatmap</a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="16-Heatmap.html"><a href="16-Heatmap.html#file-edit"><i class="fa fa-check"></i><b>16.1</b> File edit</a></li>
+<li class="chapter" data-level="16.1" data-path="16-Heatmap.html"><a href="16-Heatmap.html#heatmap_file_edit"><i class="fa fa-check"></i><b>16.1</b> File edit</a></li>
 <li class="chapter" data-level="16.2" data-path="16-Heatmap.html"><a href="16-Heatmap.html#hclust2"><i class="fa fa-check"></i><b>16.2</b> hclust2</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="17-LEfSe_humann.html"><a href="17-LEfSe_humann.html"><i class="fa fa-check"></i><b>17</b> LEfSe</a></li>
@@ -422,8 +422,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>3.1.1</strong>: Carboxylic Ester Hydrolases.</li>
 </ul>
 <p>With all that information we will extract the EC annotations from the GFF files. First we'll create a directory for the output.</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb104-1"><a href="29-Minpath.html#cb104-1" tabindex="-1"></a><span class="co">#Create EC directory</span></span>
-<span id="cb104-2"><a href="29-Minpath.html#cb104-2" tabindex="-1"></a><span class="fu">mkdir</span> EC</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb105-1"><a href="29-Minpath.html#cb105-1" tabindex="-1"></a><span class="co">#Create EC directory</span></span>
+<span id="cb105-2"><a href="29-Minpath.html#cb105-2" tabindex="-1"></a><span class="fu">mkdir</span> EC</span></code></pre></div>
 <p>We will now use a loop with various parts to create EC annotation files.
 The input <code>.ec</code> files required for <code>MinPath</code> are tab delimited with two columns:</p>
 <ol style="list-style-type: decimal">
@@ -433,11 +433,11 @@ The input <code>.ec</code> files required for <code>MinPath</code> are tab delim
 <p><strong>Note</strong>: The lack of <code>\</code> at the end of most of the lines is intentional.
 The below is all one command over multiple lines but loops work slightly different and don't need <code>\</code> in certain parts.
 Ensure you press enter at the end of each line.</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb105-1"><a href="29-Minpath.html#cb105-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s|.*/||&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.gff3//&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">bin</span></span>
-<span id="cb105-2"><a href="29-Minpath.html#cb105-2" tabindex="-1"></a><span class="cf">do</span></span>
-<span id="cb105-3"><a href="29-Minpath.html#cb105-3" tabindex="-1"></a><span class="fu">cat</span> <span class="va">${bin}</span>/<span class="va">${bin}</span>.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/ID=//&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb105-4"><a href="29-Minpath.html#cb105-4" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/;.*EC:/\t/&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/,.*//&quot;</span> <span class="op">&gt;</span> EC/<span class="va">${bin}</span>.ec</span>
-<span id="cb105-5"><a href="29-Minpath.html#cb105-5" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb106-1"><a href="29-Minpath.html#cb106-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s|.*/||&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.gff3//&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">bin</span></span>
+<span id="cb106-2"><a href="29-Minpath.html#cb106-2" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb106-3"><a href="29-Minpath.html#cb106-3" tabindex="-1"></a><span class="fu">cat</span> <span class="va">${bin}</span>/<span class="va">${bin}</span>.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/ID=//&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb106-4"><a href="29-Minpath.html#cb106-4" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/;.*EC:/\t/&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/,.*//&quot;</span> <span class="op">&gt;</span> EC/<span class="va">${bin}</span>.ec</span>
+<span id="cb106-5"><a href="29-Minpath.html#cb106-5" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <div id="code-explanation" class="section level3 hasAnchor" number="29.1.1">
 <h3><span class="header-section-number">29.1.1</span> Code explanation<a href="29-Minpath.html#code-explanation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>That is quite a bit of code. You don't need to understand it as it should always work for <code>Bakta</code> output.
@@ -455,31 +455,31 @@ Loop exterior
 <li>Then the suffix <code>.gff</code> is substituted with nothing <code>sed "s/.gff//"</code>.</li>
 </ul>
 <p>This gives us the name of each bin (e.g. <code>K1.1</code>, <code>K1.2</code>).</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb106-1"><a href="29-Minpath.html#cb106-1" tabindex="-1"></a><span class="co">#List all gff files on one (-1) each</span></span>
-<span id="cb106-2"><a href="29-Minpath.html#cb106-2" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>/<span class="pp">*</span>gff3</span>
-<span id="cb106-3"><a href="29-Minpath.html#cb106-3" tabindex="-1"></a><span class="co">#Remove the directory name</span></span>
-<span id="cb106-4"><a href="29-Minpath.html#cb106-4" tabindex="-1"></a><span class="co">#You can use any character as the divider in sed</span></span>
-<span id="cb106-5"><a href="29-Minpath.html#cb106-5" tabindex="-1"></a><span class="co">#Useful when you want to move slashes from a file name</span></span>
-<span id="cb106-6"><a href="29-Minpath.html#cb106-6" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s|.*/||&quot;</span></span>
-<span id="cb106-7"><a href="29-Minpath.html#cb106-7" tabindex="-1"></a><span class="co">#List all the file prefixes (on one line each)</span></span>
-<span id="cb106-8"><a href="29-Minpath.html#cb106-8" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s|.*/||&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.gff3//&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb107-1"><a href="29-Minpath.html#cb107-1" tabindex="-1"></a><span class="co">#List all gff files on one (-1) each</span></span>
+<span id="cb107-2"><a href="29-Minpath.html#cb107-2" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>/<span class="pp">*</span>gff3</span>
+<span id="cb107-3"><a href="29-Minpath.html#cb107-3" tabindex="-1"></a><span class="co">#Remove the directory name</span></span>
+<span id="cb107-4"><a href="29-Minpath.html#cb107-4" tabindex="-1"></a><span class="co">#You can use any character as the divider in sed</span></span>
+<span id="cb107-5"><a href="29-Minpath.html#cb107-5" tabindex="-1"></a><span class="co">#Useful when you want to move slashes from a file name</span></span>
+<span id="cb107-6"><a href="29-Minpath.html#cb107-6" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s|.*/||&quot;</span></span>
+<span id="cb107-7"><a href="29-Minpath.html#cb107-7" tabindex="-1"></a><span class="co">#List all the file prefixes (on one line each)</span></span>
+<span id="cb107-8"><a href="29-Minpath.html#cb107-8" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s|.*/||&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.gff3//&quot;</span></span></code></pre></div>
 <p>With the above code we can loop through each file prefix and use the variable <code>bin</code> (arbitrarily chosen) which contains the file prefix.
 This is carried out with <code>while read bin</code>.
 All lines between the <code>do</code> (start of the loop) and <code>done</code> (end of loop) are lines run in the loop.</p>
 <p>Run the loop with an echo command to show we are using the <code>${bin}</code> variable to specify the input and output files.</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb107-1"><a href="29-Minpath.html#cb107-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s|.*/||&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.gff3//&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">bin</span></span>
-<span id="cb107-2"><a href="29-Minpath.html#cb107-2" tabindex="-1"></a><span class="cf">do</span></span>
-<span id="cb107-3"><a href="29-Minpath.html#cb107-3" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">${bin}</span><span class="st">/</span><span class="va">${bin}</span><span class="st">.gff3 ../EC/</span><span class="va">${bin}</span><span class="st">.ec&quot;</span></span>
-<span id="cb107-4"><a href="29-Minpath.html#cb107-4" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb108-1"><a href="29-Minpath.html#cb108-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s|.*/||&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.gff3//&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">bin</span></span>
+<span id="cb108-2"><a href="29-Minpath.html#cb108-2" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb108-3"><a href="29-Minpath.html#cb108-3" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">${bin}</span><span class="st">/</span><span class="va">${bin}</span><span class="st">.gff3 ../EC/</span><span class="va">${bin}</span><span class="st">.ec&quot;</span></span>
+<span id="cb108-4"><a href="29-Minpath.html#cb108-4" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 </div>
 <div class="webex-solution">
 <button>
 Loop interior
 </button>
 <p>Now to look at the command within the loop:</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb108-1"><a href="29-Minpath.html#cb108-1" tabindex="-1"></a><span class="fu">cat</span> <span class="va">${bin}</span>.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb108-2"><a href="29-Minpath.html#cb108-2" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/ID=//&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/;.*;Dbxref=/,/&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb108-3"><a href="29-Minpath.html#cb108-3" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/,.*EC:/\t/&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/,.*//&quot;</span> <span class="op">&gt;</span>../EC/<span class="va">${bin}</span>.ec</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb109-1"><a href="29-Minpath.html#cb109-1" tabindex="-1"></a><span class="fu">cat</span> <span class="va">${bin}</span>.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb109-2"><a href="29-Minpath.html#cb109-2" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/ID=//&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/;.*;Dbxref=/,/&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb109-3"><a href="29-Minpath.html#cb109-3" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/,.*EC:/\t/&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/,.*//&quot;</span> <span class="op">&gt;</span>../EC/<span class="va">${bin}</span>.ec</span></code></pre></div>
 <p>A good way to figure out what a workflow is doing, is by building it up step by step.
 Run the first part of workflow and then add the next section, run, repeat.
 This shows you how each new section is affecting the output.
@@ -491,28 +491,28 @@ Additionally, it is always good to run it on one file and <code>head</code> the 
 <li>Use the up arrow to go back to previously run commands that you can then edit.</li>
 <li>Remember the <code>clear</code> command.</li>
 </ul>
-<div class="sourceCode" id="cb109"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb109-1"><a href="29-Minpath.html#cb109-1" tabindex="-1"></a><span class="co">#Grab every line containing &quot;EC:&quot;</span></span>
-<span id="cb109-2"><a href="29-Minpath.html#cb109-2" tabindex="-1"></a><span class="fu">cat</span> K1.1/K1.1.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
-<div class="sourceCode" id="cb110"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb110-1"><a href="29-Minpath.html#cb110-1" tabindex="-1"></a><span class="co">#Cut out the 9th column/field (-f) (i.e. only keep the 9th column)</span></span>
-<span id="cb110-2"><a href="29-Minpath.html#cb110-2" tabindex="-1"></a><span class="co">#This is the attributes field in GFF3</span></span>
-<span id="cb110-3"><a href="29-Minpath.html#cb110-3" tabindex="-1"></a><span class="co">#This contains a plethora of information including the EC annotation if present</span></span>
-<span id="cb110-4"><a href="29-Minpath.html#cb110-4" tabindex="-1"></a><span class="co">#cut uses tabs as the default column/field delimiter</span></span>
-<span id="cb110-5"><a href="29-Minpath.html#cb110-5" tabindex="-1"></a><span class="fu">cat</span> K1.1/K1.1.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
-<div class="sourceCode" id="cb111"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb111-1"><a href="29-Minpath.html#cb111-1" tabindex="-1"></a><span class="co">#The gff3 attributes field starts with the ID</span></span>
-<span id="cb111-2"><a href="29-Minpath.html#cb111-2" tabindex="-1"></a><span class="co">#We want to keep this but remove the &quot;ID=&quot; part</span></span>
-<span id="cb111-3"><a href="29-Minpath.html#cb111-3" tabindex="-1"></a><span class="fu">cat</span> K1.1/K1.1.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/ID=//&quot;</span> <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
-<div class="sourceCode" id="cb112"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb112-1"><a href="29-Minpath.html#cb112-1" tabindex="-1"></a><span class="co">#We don&#39;t want any of the info between the ID and the EC number</span></span>
-<span id="cb112-2"><a href="29-Minpath.html#cb112-2" tabindex="-1"></a><span class="co">#Therefore we want to remove everything (.*) between</span></span>
-<span id="cb112-3"><a href="29-Minpath.html#cb112-3" tabindex="-1"></a><span class="co"># the first &quot;;&quot; (at the end of the ID info)</span></span>
-<span id="cb112-4"><a href="29-Minpath.html#cb112-4" tabindex="-1"></a><span class="co"># and &quot;EC=&quot;</span></span>
-<span id="cb112-5"><a href="29-Minpath.html#cb112-5" tabindex="-1"></a><span class="co">#We&#39;ll replace this with a \t to seprarate the ID and EC</span></span>
-<span id="cb112-6"><a href="29-Minpath.html#cb112-6" tabindex="-1"></a><span class="co"># columns with a tab (required by MinPath)</span></span>
-<span id="cb112-7"><a href="29-Minpath.html#cb112-7" tabindex="-1"></a><span class="fu">cat</span> K1.1/K1.1.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span>  <span class="fu">sed</span> <span class="st">&quot;s/ID=//&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb112-8"><a href="29-Minpath.html#cb112-8" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/;.*EC:/\t/&quot;</span> <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
-<div class="sourceCode" id="cb113"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb113-1"><a href="29-Minpath.html#cb113-1" tabindex="-1"></a><span class="co">#Finally remove all the info after the EC number</span></span>
-<span id="cb113-2"><a href="29-Minpath.html#cb113-2" tabindex="-1"></a><span class="co">#This info will be after the last ,</span></span>
-<span id="cb113-3"><a href="29-Minpath.html#cb113-3" tabindex="-1"></a><span class="fu">cat</span> K1.1/K1.1.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/ID=//&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb113-4"><a href="29-Minpath.html#cb113-4" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/;.*EC:/\t/&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/,.*//&quot;</span> <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb110-1"><a href="29-Minpath.html#cb110-1" tabindex="-1"></a><span class="co">#Grab every line containing &quot;EC:&quot;</span></span>
+<span id="cb110-2"><a href="29-Minpath.html#cb110-2" tabindex="-1"></a><span class="fu">cat</span> K1.1/K1.1.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb111-1"><a href="29-Minpath.html#cb111-1" tabindex="-1"></a><span class="co">#Cut out the 9th column/field (-f) (i.e. only keep the 9th column)</span></span>
+<span id="cb111-2"><a href="29-Minpath.html#cb111-2" tabindex="-1"></a><span class="co">#This is the attributes field in GFF3</span></span>
+<span id="cb111-3"><a href="29-Minpath.html#cb111-3" tabindex="-1"></a><span class="co">#This contains a plethora of information including the EC annotation if present</span></span>
+<span id="cb111-4"><a href="29-Minpath.html#cb111-4" tabindex="-1"></a><span class="co">#cut uses tabs as the default column/field delimiter</span></span>
+<span id="cb111-5"><a href="29-Minpath.html#cb111-5" tabindex="-1"></a><span class="fu">cat</span> K1.1/K1.1.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb112-1"><a href="29-Minpath.html#cb112-1" tabindex="-1"></a><span class="co">#The gff3 attributes field starts with the ID</span></span>
+<span id="cb112-2"><a href="29-Minpath.html#cb112-2" tabindex="-1"></a><span class="co">#We want to keep this but remove the &quot;ID=&quot; part</span></span>
+<span id="cb112-3"><a href="29-Minpath.html#cb112-3" tabindex="-1"></a><span class="fu">cat</span> K1.1/K1.1.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/ID=//&quot;</span> <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb113-1"><a href="29-Minpath.html#cb113-1" tabindex="-1"></a><span class="co">#We don&#39;t want any of the info between the ID and the EC number</span></span>
+<span id="cb113-2"><a href="29-Minpath.html#cb113-2" tabindex="-1"></a><span class="co">#Therefore we want to remove everything (.*) between</span></span>
+<span id="cb113-3"><a href="29-Minpath.html#cb113-3" tabindex="-1"></a><span class="co"># the first &quot;;&quot; (at the end of the ID info)</span></span>
+<span id="cb113-4"><a href="29-Minpath.html#cb113-4" tabindex="-1"></a><span class="co"># and &quot;EC=&quot;</span></span>
+<span id="cb113-5"><a href="29-Minpath.html#cb113-5" tabindex="-1"></a><span class="co">#We&#39;ll replace this with a \t to seprarate the ID and EC</span></span>
+<span id="cb113-6"><a href="29-Minpath.html#cb113-6" tabindex="-1"></a><span class="co"># columns with a tab (required by MinPath)</span></span>
+<span id="cb113-7"><a href="29-Minpath.html#cb113-7" tabindex="-1"></a><span class="fu">cat</span> K1.1/K1.1.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span>  <span class="fu">sed</span> <span class="st">&quot;s/ID=//&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb113-8"><a href="29-Minpath.html#cb113-8" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/;.*EC:/\t/&quot;</span> <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb114-1"><a href="29-Minpath.html#cb114-1" tabindex="-1"></a><span class="co">#Finally remove all the info after the EC number</span></span>
+<span id="cb114-2"><a href="29-Minpath.html#cb114-2" tabindex="-1"></a><span class="co">#This info will be after the last ,</span></span>
+<span id="cb114-3"><a href="29-Minpath.html#cb114-3" tabindex="-1"></a><span class="fu">cat</span> K1.1/K1.1.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;EC:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/ID=//&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb114-4"><a href="29-Minpath.html#cb114-4" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/;.*EC:/\t/&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/,.*//&quot;</span> <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
 <p>In the looped command, output is written into files: <code>&gt; EC/${bin}.ec</code>.</p>
 </div>
 </div>
@@ -524,15 +524,15 @@ Additionally, it is always good to run it on one file and <code>head</code> the 
 </center>
 <p>With our <code>.ec</code> files we can create our MetaCyc predictions.</p>
 <p>First we'll change directory into the EC directory. Then create an output directory for the MetaCyc predictions.</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb114-1"><a href="29-Minpath.html#cb114-1" tabindex="-1"></a><span class="bu">cd</span> ./EC</span>
-<span id="cb114-2"><a href="29-Minpath.html#cb114-2" tabindex="-1"></a><span class="fu">mkdir</span> ../MetaCyc</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb115-1"><a href="29-Minpath.html#cb115-1" tabindex="-1"></a><span class="bu">cd</span> ./EC</span>
+<span id="cb115-2"><a href="29-Minpath.html#cb115-2" tabindex="-1"></a><span class="fu">mkdir</span> ../MetaCyc</span></code></pre></div>
 <p>Now we can loop through the file suffixes to run MinPath.</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb115-1"><a href="29-Minpath.html#cb115-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>ec <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.ec//&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">bin</span></span>
-<span id="cb115-2"><a href="29-Minpath.html#cb115-2" tabindex="-1"></a><span class="cf">do</span></span>
-<span id="cb115-3"><a href="29-Minpath.html#cb115-3" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/Minpath/MinPath.py <span class="dt">\</span></span>
-<span id="cb115-4"><a href="29-Minpath.html#cb115-4" tabindex="-1"></a>-ec <span class="va">${bin}</span>.ec <span class="dt">\</span></span>
-<span id="cb115-5"><a href="29-Minpath.html#cb115-5" tabindex="-1"></a>-report ../MetaCyc/<span class="va">${bin}</span>.minpath</span>
-<span id="cb115-6"><a href="29-Minpath.html#cb115-6" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb116-1"><a href="29-Minpath.html#cb116-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>ec <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.ec//&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">bin</span></span>
+<span id="cb116-2"><a href="29-Minpath.html#cb116-2" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb116-3"><a href="29-Minpath.html#cb116-3" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/Minpath/MinPath.py <span class="dt">\</span></span>
+<span id="cb116-4"><a href="29-Minpath.html#cb116-4" tabindex="-1"></a>-ec <span class="va">${bin}</span>.ec <span class="dt">\</span></span>
+<span id="cb116-5"><a href="29-Minpath.html#cb116-5" tabindex="-1"></a>-report ../MetaCyc/<span class="va">${bin}</span>.minpath</span>
+<span id="cb116-6"><a href="29-Minpath.html#cb116-6" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p>A lot of output will be printed to screen but this can be ignored unless you see warnings.</p>
 </div>
 <div id="metacyc-report" class="section level2 hasAnchor" number="29.3">
@@ -541,13 +541,13 @@ Additionally, it is always good to run it on one file and <code>head</code> the 
 <img src="figures/output_file_green.png" style="width:100px" />
 </center>
 <p>First, change directory into the <code>MetaCyc</code> directory.</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb116-1"><a href="29-Minpath.html#cb116-1" tabindex="-1"></a><span class="co">#Change directory</span></span>
-<span id="cb116-2"><a href="29-Minpath.html#cb116-2" tabindex="-1"></a><span class="bu">cd</span> ../MetaCyc</span>
-<span id="cb116-3"><a href="29-Minpath.html#cb116-3" tabindex="-1"></a><span class="co">#List contents</span></span>
-<span id="cb116-4"><a href="29-Minpath.html#cb116-4" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb117-1"><a href="29-Minpath.html#cb117-1" tabindex="-1"></a><span class="co">#Change directory</span></span>
+<span id="cb117-2"><a href="29-Minpath.html#cb117-2" tabindex="-1"></a><span class="bu">cd</span> ../MetaCyc</span>
+<span id="cb117-3"><a href="29-Minpath.html#cb117-3" tabindex="-1"></a><span class="co">#List contents</span></span>
+<span id="cb117-4"><a href="29-Minpath.html#cb117-4" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
 <p>From the <code>CoCoPyE</code> results we found that bin K1.22 was very good with a quality score &gt;98%. We will therefore have a look at its output.</p>
 <p>Have a look at the <code>.minpath</code> <code>-report</code> file for K1.22.</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb117-1"><a href="29-Minpath.html#cb117-1" tabindex="-1"></a><span class="fu">less</span> K1.22.minpath</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb118-1"><a href="29-Minpath.html#cb118-1" tabindex="-1"></a><span class="fu">less</span> K1.22.minpath</span></code></pre></div>
 <p>The file contains the following columns</p>
 <ol style="list-style-type: decimal">
 <li><strong>Pathway ID</strong></li>
@@ -560,10 +560,10 @@ Additionally, it is always good to run it on one file and <code>head</code> the 
 </ol>
 <p>Quit (<code>q</code>) <code>less</code> when you are happy.</p>
 <p>There are some quick things we can do in bash with these files.</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb118-1"><a href="29-Minpath.html#cb118-1" tabindex="-1"></a><span class="co">#Count number of pathways found in each bin with word count</span></span>
-<span id="cb118-2"><a href="29-Minpath.html#cb118-2" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="pp">*</span>minpath</span>
-<span id="cb118-3"><a href="29-Minpath.html#cb118-3" tabindex="-1"></a><span class="co">#Grab every line with &quot;PWY-6972&quot; from every file</span></span>
-<span id="cb118-4"><a href="29-Minpath.html#cb118-4" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;PWY-6972&quot;</span> <span class="pp">*</span>minpath <span class="kw">|</span> <span class="fu">less</span></span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb119-1"><a href="29-Minpath.html#cb119-1" tabindex="-1"></a><span class="co">#Count number of pathways found in each bin with word count</span></span>
+<span id="cb119-2"><a href="29-Minpath.html#cb119-2" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="pp">*</span>minpath</span>
+<span id="cb119-3"><a href="29-Minpath.html#cb119-3" tabindex="-1"></a><span class="co">#Grab every line with &quot;PWY-6972&quot; from every file</span></span>
+<span id="cb119-4"><a href="29-Minpath.html#cb119-4" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&quot;PWY-6972&quot;</span> <span class="pp">*</span>minpath <span class="kw">|</span> <span class="fu">less</span></span></code></pre></div>
 </div>
 <div id="keggs" class="section level2 hasAnchor" number="29.4">
 <h2><span class="header-section-number">29.4</span> KEGGs<a href="29-Minpath.html#keggs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -572,33 +572,33 @@ Additionally, it is always good to run it on one file and <code>head</code> the 
 </center>
 <p>You can also get KEGG information with <code>MinPath</code>.</p>
 <p>The code:</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb119-1"><a href="29-Minpath.html#cb119-1" tabindex="-1"></a><span class="co">#Change to correct directory</span></span>
-<span id="cb119-2"><a href="29-Minpath.html#cb119-2" tabindex="-1"></a><span class="bu">cd</span> ~/8-Annotation</span>
-<span id="cb119-3"><a href="29-Minpath.html#cb119-3" tabindex="-1"></a><span class="co">#Make directory for KEGGs</span></span>
-<span id="cb119-4"><a href="29-Minpath.html#cb119-4" tabindex="-1"></a><span class="fu">mkdir</span> KEGG</span>
-<span id="cb119-5"><a href="29-Minpath.html#cb119-5" tabindex="-1"></a><span class="co">#KEGG extractions</span></span>
-<span id="cb119-6"><a href="29-Minpath.html#cb119-6" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s|.*/||&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.gff3//&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">bin</span></span>
-<span id="cb119-7"><a href="29-Minpath.html#cb119-7" tabindex="-1"></a><span class="cf">do</span></span>
-<span id="cb119-8"><a href="29-Minpath.html#cb119-8" tabindex="-1"></a><span class="fu">cat</span> <span class="va">${bin}</span>/<span class="va">${bin}</span>.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;KEGG:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/ID=//&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb119-9"><a href="29-Minpath.html#cb119-9" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/;.*KEGG:/\t/&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/,.*//&quot;</span> <span class="op">&gt;</span> KEGG/<span class="va">${bin}</span>.kegg</span>
-<span id="cb119-10"><a href="29-Minpath.html#cb119-10" tabindex="-1"></a><span class="cf">done</span></span>
-<span id="cb119-11"><a href="29-Minpath.html#cb119-11" tabindex="-1"></a><span class="co">#Make directory for KEGG minpath output</span></span>
-<span id="cb119-12"><a href="29-Minpath.html#cb119-12" tabindex="-1"></a><span class="fu">mkdir</span> KEGG_minpath</span>
-<span id="cb119-13"><a href="29-Minpath.html#cb119-13" tabindex="-1"></a><span class="co">#Change directory to KEGG</span></span>
-<span id="cb119-14"><a href="29-Minpath.html#cb119-14" tabindex="-1"></a><span class="bu">cd</span> KEGG</span>
-<span id="cb119-15"><a href="29-Minpath.html#cb119-15" tabindex="-1"></a><span class="co">#Run MinPath</span></span>
-<span id="cb119-16"><a href="29-Minpath.html#cb119-16" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>kegg <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.kegg//&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">bin</span></span>
-<span id="cb119-17"><a href="29-Minpath.html#cb119-17" tabindex="-1"></a><span class="cf">do</span></span>
-<span id="cb119-18"><a href="29-Minpath.html#cb119-18" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/Minpath/MinPath.py <span class="dt">\</span></span>
-<span id="cb119-19"><a href="29-Minpath.html#cb119-19" tabindex="-1"></a>-ko <span class="va">${bin}</span>.kegg <span class="dt">\</span></span>
-<span id="cb119-20"><a href="29-Minpath.html#cb119-20" tabindex="-1"></a>-report ../KEGG_minpath/<span class="va">${bin}</span>.minpath</span>
-<span id="cb119-21"><a href="29-Minpath.html#cb119-21" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb120-1"><a href="29-Minpath.html#cb120-1" tabindex="-1"></a><span class="co">#Change to correct directory</span></span>
+<span id="cb120-2"><a href="29-Minpath.html#cb120-2" tabindex="-1"></a><span class="bu">cd</span> ~/8-Annotation</span>
+<span id="cb120-3"><a href="29-Minpath.html#cb120-3" tabindex="-1"></a><span class="co">#Make directory for KEGGs</span></span>
+<span id="cb120-4"><a href="29-Minpath.html#cb120-4" tabindex="-1"></a><span class="fu">mkdir</span> KEGG</span>
+<span id="cb120-5"><a href="29-Minpath.html#cb120-5" tabindex="-1"></a><span class="co">#KEGG extractions</span></span>
+<span id="cb120-6"><a href="29-Minpath.html#cb120-6" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>/<span class="pp">*</span>gff3 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s|.*/||&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.gff3//&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">bin</span></span>
+<span id="cb120-7"><a href="29-Minpath.html#cb120-7" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb120-8"><a href="29-Minpath.html#cb120-8" tabindex="-1"></a><span class="fu">cat</span> <span class="va">${bin}</span>/<span class="va">${bin}</span>.gff3 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;KEGG:&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 9 <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/ID=//&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb120-9"><a href="29-Minpath.html#cb120-9" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/;.*KEGG:/\t/&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/,.*//&quot;</span> <span class="op">&gt;</span> KEGG/<span class="va">${bin}</span>.kegg</span>
+<span id="cb120-10"><a href="29-Minpath.html#cb120-10" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb120-11"><a href="29-Minpath.html#cb120-11" tabindex="-1"></a><span class="co">#Make directory for KEGG minpath output</span></span>
+<span id="cb120-12"><a href="29-Minpath.html#cb120-12" tabindex="-1"></a><span class="fu">mkdir</span> KEGG_minpath</span>
+<span id="cb120-13"><a href="29-Minpath.html#cb120-13" tabindex="-1"></a><span class="co">#Change directory to KEGG</span></span>
+<span id="cb120-14"><a href="29-Minpath.html#cb120-14" tabindex="-1"></a><span class="bu">cd</span> KEGG</span>
+<span id="cb120-15"><a href="29-Minpath.html#cb120-15" tabindex="-1"></a><span class="co">#Run MinPath</span></span>
+<span id="cb120-16"><a href="29-Minpath.html#cb120-16" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="pp">*</span>kegg <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/.kegg//&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">bin</span></span>
+<span id="cb120-17"><a href="29-Minpath.html#cb120-17" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb120-18"><a href="29-Minpath.html#cb120-18" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/Minpath/MinPath.py <span class="dt">\</span></span>
+<span id="cb120-19"><a href="29-Minpath.html#cb120-19" tabindex="-1"></a>-ko <span class="va">${bin}</span>.kegg <span class="dt">\</span></span>
+<span id="cb120-20"><a href="29-Minpath.html#cb120-20" tabindex="-1"></a>-report ../KEGG_minpath/<span class="va">${bin}</span>.minpath</span>
+<span id="cb120-21"><a href="29-Minpath.html#cb120-21" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p>With these files you can then investigate what bins have which pathways. Additionally, with more samples analysed you can determine which samples have which pathways present.</p>
 <p>Splendid!
 That is the end of the workshop materials aside from the appendix in the next chapter.
 I hope you enjoyed it and foudn it useful.</p>
-<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-8c772249e2019f591f66" width="672"></span>
-<script type="application/json" data-for="htmlwidget-8c772249e2019f591f66">{"x":{"element":"mag","opts":{"content":"Metagenome-Assembled Genome","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-0ba0e8656a221926a9b8" width="672"></span>
+<script type="application/json" data-for="htmlwidget-0ba0e8656a221926a9b8">{"x":{"element":"mag","opts":{"content":"Metagenome-Assembled Genome","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
 
 </div>
 </div>

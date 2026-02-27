@@ -23,7 +23,7 @@
 <meta name="author" content="Sam Haldenby and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2026-02-23" />
+<meta name="date" content="2026-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -266,7 +266,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="16" data-path="16-Heatmap.html"><a href="16-Heatmap.html"><i class="fa fa-check"></i><b>16</b> Heatmap</a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="16-Heatmap.html"><a href="16-Heatmap.html#file-edit"><i class="fa fa-check"></i><b>16.1</b> File edit</a></li>
+<li class="chapter" data-level="16.1" data-path="16-Heatmap.html"><a href="16-Heatmap.html#heatmap_file_edit"><i class="fa fa-check"></i><b>16.1</b> File edit</a></li>
 <li class="chapter" data-level="16.2" data-path="16-Heatmap.html"><a href="16-Heatmap.html#hclust2"><i class="fa fa-check"></i><b>16.2</b> hclust2</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="17-LEfSe_humann.html"><a href="17-LEfSe_humann.html"><i class="fa fa-check"></i><b>17</b> LEfSe</a></li>
@@ -413,38 +413,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Are samples from one diet group distinguishable from those from the other diet group?</li>
 </ul>
 <p>To visualise this we will create a heatmap with <code>hclust2</code>.</p>
-<div id="file-edit" class="section level2 hasAnchor" number="16.1">
-<h2><span class="header-section-number">16.1</span> File edit<a href="16-Heatmap.html#file-edit" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="heatmap_file_edit" class="section level2 hasAnchor" number="16.1">
+<h2><span class="header-section-number">16.1</span> File edit<a href="16-Heatmap.html#heatmap_file_edit" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Before carrying out the command we will need to edit the file. Carry out the following alterations:</p>
 <p>Remove the <code>_Abundance</code> part of the sample names whilst creating a copy that we will use (It is always a good idea to keep the original file in case a mistake happens).</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb56-1"><a href="16-Heatmap.html#cb56-1" tabindex="-1"></a><span class="fu">cat</span> diet_unstratified.relab.tsv <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&quot;s/_Abundance//g&quot;</span> <span class="op">&gt;</span> diet_unstratified.relab.comp.tsv</span></code></pre></div>
+<p>Next using your text editor of choice (we recommend <code>nano</code>) carry out the following changes on the file <code>diet_unstratified.relab.comp.tsv</code>.</p>
+<ul>
+<li>Remove the <code>#</code> (including the one space after the <code>#</code>) from the start of the header so it starts as <code>Pathway</code></li>
+<li>Add in the same metadata line as we did for <a href="12-Lefse.html#kraken2_lefse_metadata">12.1</a> but this time below the header line, i.e. as the 2nd line (ensure you are using tabs instead of spaces)</li>
+</ul>
+<p>Your top 2 lines of <code>diet_unstratified.relab.comp.tsv</code> should then look like the below (fields/columns are separated by tabs):</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb57-1"><a href="16-Heatmap.html#cb57-1" tabindex="-1"></a><span class="ex">Pathway</span> K10 K11 K12 K1  K2  K3  K4  K5  K6  K7  K8  K9  W10 W11 W12 W1  W2  W3  W4  W5  W6  W7  W8  W9</span>
+<span id="cb57-2"><a href="16-Heatmap.html#cb57-2" tabindex="-1"></a><span class="ex">diet</span>  K K K K K K K K K K K K W W W W W W W W W W W W</span></code></pre></div>
 <p><strong>Intro to unix links</strong>:</p>
 <ul>
 <li><a href="https://neof-workshops.github.io/Unix_nxcdf7/Course/12-Advanced_linux_practice.html#sed">Text editing with <strong><code>sed</code></strong></a></li>
 <li><a href="https://neof-workshops.github.io/Unix_nxcdf7/Course/12-Advanced_linux_practice.html#redirection">Redirection with <strong><code>&gt;</code></strong></a></li>
-</ul>
-<p>Next using your text editor of choice carry out the following changes on the file <code>diet_unstratified.relab.comp.tsv</code>.</p>
-<ul>
-<li>Remove the <code>#</code> (including the one space after the <code>#</code>) from the start of the header so it starts as <code>Pathway</code>.</li>
-<li>Add in the same metadata line as we did for <a href="12-Lefse.html#kraken2_lefse_metadata">12.1</a> but this time below the header line, i.e. as the 2nd line (ensure you are using tabs instead of spaces).</li>
+<li><a href="https://neof-workshops.github.io/Unix_nxcdf7/Course/08-File_reading_and_processing.html#nano">Text editor <code>nano</code></a></li>
 </ul>
 <div class="webex-solution">
 <button>
 Issues with creating file?
 </button>
 <p>If you are having issues with creating and editing the file <code>all_num.lefse.bracken</code> you can copy a pre-made version.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb57-1"><a href="16-Heatmap.html#cb57-1" tabindex="-1"></a><span class="fu">cp</span> /pub14/tea/nsc206/NEOF/Shotgun_metagenomics/lefse/diet_unstratified.relab.comp.tsv .</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb58-1"><a href="16-Heatmap.html#cb58-1" tabindex="-1"></a><span class="fu">cp</span> /pub14/tea/nsc206/NEOF/Shotgun_metagenomics/lefse/diet_unstratified.relab.comp.tsv .</span></code></pre></div>
 </div>
 </div>
 <div id="hclust2" class="section level2 hasAnchor" number="16.2">
 <h2><span class="header-section-number">16.2</span> hclust2<a href="16-Heatmap.html#hclust2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Now we can use the <code>hclust2</code> tool to create a heatmap of our pathway abundances.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb58-1"><a href="16-Heatmap.html#cb58-1" tabindex="-1"></a><span class="ex">hclust2.py</span> <span class="dt">\</span></span>
-<span id="cb58-2"><a href="16-Heatmap.html#cb58-2" tabindex="-1"></a>-i diet_unstratified.relab.comp.tsv <span class="dt">\</span></span>
-<span id="cb58-3"><a href="16-Heatmap.html#cb58-3" tabindex="-1"></a>-o diet_unstratified.relab.heatmap.png <span class="dt">\</span></span>
-<span id="cb58-4"><a href="16-Heatmap.html#cb58-4" tabindex="-1"></a>--ftop 40 <span class="dt">\</span></span>
-<span id="cb58-5"><a href="16-Heatmap.html#cb58-5" tabindex="-1"></a>--metadata_rows 1 <span class="dt">\</span></span>
-<span id="cb58-6"><a href="16-Heatmap.html#cb58-6" tabindex="-1"></a>--dpi 300</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb59-1"><a href="16-Heatmap.html#cb59-1" tabindex="-1"></a><span class="ex">hclust2.py</span> <span class="dt">\</span></span>
+<span id="cb59-2"><a href="16-Heatmap.html#cb59-2" tabindex="-1"></a>-i diet_unstratified.relab.comp.tsv <span class="dt">\</span></span>
+<span id="cb59-3"><a href="16-Heatmap.html#cb59-3" tabindex="-1"></a>-o diet_unstratified.relab.heatmap.png <span class="dt">\</span></span>
+<span id="cb59-4"><a href="16-Heatmap.html#cb59-4" tabindex="-1"></a>--ftop 40 <span class="dt">\</span></span>
+<span id="cb59-5"><a href="16-Heatmap.html#cb59-5" tabindex="-1"></a>--metadata_rows 1 <span class="dt">\</span></span>
+<span id="cb59-6"><a href="16-Heatmap.html#cb59-6" tabindex="-1"></a>--dpi 300</span></code></pre></div>
 <p><strong>Note:</strong> You will get 2 <code>MatplotlibDeprecationWarnings</code>, these are normal and can be ignored. However, ensure these are the only warnings/errors before continuing.</p>
 <div id="parameters-6" class="section level4 unnumbered hasAnchor">
 <h4>Parameters<a href="16-Heatmap.html#parameters-6" class="anchor-section" aria-label="Anchor link to header"></a></h4>
@@ -467,8 +471,9 @@ Issues with creating file?
 <div id="visualise" class="section level4 unnumbered hasAnchor">
 <h4>Visualise<a href="16-Heatmap.html#visualise" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Now we can view the plot.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb59-1"><a href="16-Heatmap.html#cb59-1" tabindex="-1"></a><span class="ex">firefox</span> diet_unstratified.relab.heatmap.png</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb60-1"><a href="16-Heatmap.html#cb60-1" tabindex="-1"></a><span class="ex">firefox</span> diet_unstratified.relab.heatmap.png</span></code></pre></div>
 <p>From this, we can see that there is a small amount of clustering caused by the differences between the Korean and Western diet. Other factors that we do not know about the samples must also be casuing an effect. This is normal as we cannot account for everything but it is good to try to account for as much as possible.</p>
+<p><strong>Note:</strong> Your plot should look the same as the below. If it does not you may not have carried out the <a href="16-Heatmap.html#heatmap_file_edit">file edit</a> step correctly.</p>
 <center>
 <img src="figures/humann_heatmap.png" style="border-radius: 15px; width: 750px; border: 5px solid white" />
 </center>
@@ -477,16 +482,16 @@ Issues with creating file?
 <h4>MCQs<a href="16-Heatmap.html#mcqs-4" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ol style="list-style-type: decimal">
 <li>Which pathway stands out the most?
-<div id="radio_SKDZSXRROZ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SKDZSXRROZ" value=""></input> <span><strong>ARO-PWY</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SKDZSXRROZ" value="answer"></input> <span><strong>DTDPRHAMSYN</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SKDZSXRROZ" value=""></input> <span><strong>PWY-6385</strong></span></label>
+<div id="radio_ULPTNVUYDA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ULPTNVUYDA" value=""></input> <span><strong>ARO-PWY</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ULPTNVUYDA" value="answer"></input> <span><strong>DTDPRHAMSYN</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ULPTNVUYDA" value=""></input> <span><strong>PWY-6385</strong></span></label>
 </div></li>
 <li>How many clusters are formed based on diet (Colours on tree at top of heatmap)?
-<div id="radio_BVCZHGPDDM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_BVCZHGPDDM" value=""></input> <span><strong>1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BVCZHGPDDM" value="answer"></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BVCZHGPDDM" value=""></input> <span><strong>3</strong></span></label>
+<div id="radio_AHHMIZQROV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_AHHMIZQROV" value=""></input> <span><strong>1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AHHMIZQROV" value="answer"></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AHHMIZQROV" value=""></input> <span><strong>3</strong></span></label>
 </div></li>
 <li>How many clusters are formed based on pathways (Colours on tree at the side of heatmap)?
-<div id="radio_SOYVBTHJFU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SOYVBTHJFU" value=""></input> <span><strong>1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SOYVBTHJFU" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SOYVBTHJFU" value="answer"></input> <span><strong>3</strong></span></label>
+<div id="radio_DIOBENGYVU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DIOBENGYVU" value=""></input> <span><strong>1</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DIOBENGYVU" value=""></input> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DIOBENGYVU" value="answer"></input> <span><strong>3</strong></span></label>
 </div></li>
 </ol>
 <p>You can look up the pathway names in the table file to see a fuller description.</p>

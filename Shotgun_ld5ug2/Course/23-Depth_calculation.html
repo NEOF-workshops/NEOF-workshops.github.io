@@ -23,7 +23,7 @@
 <meta name="author" content="Sam Haldenby and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2026-02-23" />
+<meta name="date" content="2026-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -266,7 +266,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="16" data-path="16-Heatmap.html"><a href="16-Heatmap.html"><i class="fa fa-check"></i><b>16</b> Heatmap</a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="16-Heatmap.html"><a href="16-Heatmap.html#file-edit"><i class="fa fa-check"></i><b>16.1</b> File edit</a></li>
+<li class="chapter" data-level="16.1" data-path="16-Heatmap.html"><a href="16-Heatmap.html#heatmap_file_edit"><i class="fa fa-check"></i><b>16.1</b> File edit</a></li>
 <li class="chapter" data-level="16.2" data-path="16-Heatmap.html"><a href="16-Heatmap.html#hclust2"><i class="fa fa-check"></i><b>16.2</b> hclust2</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="17-LEfSe_humann.html"><a href="17-LEfSe_humann.html"><i class="fa fa-check"></i><b>17</b> LEfSe</a></li>
@@ -419,7 +419,7 @@ The average of all the base depths in a contig is its average depth.</p>
 <img src="figures/index.png" style="width:150px; background: white; border-radius:5px; border: white solid 5px" />
 </center>
 <p>For the alignment we will use <code>bwa</code>. We need to index our assembly file prior to alignment.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb70-1"><a href="23-Depth_calculation.html#cb70-1" tabindex="-1"></a><span class="ex">bwa</span> index ~/6-Assembly/K1/final.contigs.fa</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb71-1"><a href="23-Depth_calculation.html#cb71-1" tabindex="-1"></a><span class="ex">bwa</span> index ~/6-Assembly/K1/final.contigs.fa</span></code></pre></div>
 </div>
 <div id="alignment-1" class="section level2 hasAnchor" number="23.2">
 <h2><span class="header-section-number">23.2</span> Alignment<a href="23-Depth_calculation.html#alignment-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -430,9 +430,9 @@ The average of all the base depths in a contig is its average depth.</p>
 We will carry this out with the <code>bwa mem</code> command.</p>
 <p><code>bwa mem</code> is a good aligner for short reads.
 If you are using long reads (PacBio or Nanopore) <code>minimap2</code> will be more appropriate.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb71-1"><a href="23-Depth_calculation.html#cb71-1" tabindex="-1"></a><span class="ex">bwa</span> mem ~/6-Assembly/K1/final.contigs.fa <span class="dt">\</span></span>
-<span id="cb71-2"><a href="23-Depth_calculation.html#cb71-2" tabindex="-1"></a>~/2-Trimmed/K1_R1.fq.gz ~/2-Trimmed/K1_R2.fq.gz <span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb71-3"><a href="23-Depth_calculation.html#cb71-3" tabindex="-1"></a>K1.sam</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb72-1"><a href="23-Depth_calculation.html#cb72-1" tabindex="-1"></a><span class="ex">bwa</span> mem ~/6-Assembly/K1/final.contigs.fa <span class="dt">\</span></span>
+<span id="cb72-2"><a href="23-Depth_calculation.html#cb72-2" tabindex="-1"></a>~/2-Trimmed/K1_R1.fq.gz ~/2-Trimmed/K1_R2.fq.gz <span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb72-3"><a href="23-Depth_calculation.html#cb72-3" tabindex="-1"></a>K1.sam</span></code></pre></div>
 </div>
 <div id="sam-to-sorted-bam" class="section level2 hasAnchor" number="23.3">
 <h2><span class="header-section-number">23.3</span> SAM to sorted BAM<a href="23-Depth_calculation.html#sam-to-sorted-bam" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -440,10 +440,10 @@ If you are using long reads (PacBio or Nanopore) <code>minimap2</code> will be m
 <img src="figures/sort.png" style="width:150px; background: white; border-radius:5px" />
 </center>
 <p>After alignment we need to get the file ready for the contig depth summarisation step. This requires converting the <code>SAM</code> file to a <code>BAM</code> (binary form of a <code>SAM</code> file) file and then sorting the <code>BAM</code> file.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb72-1"><a href="23-Depth_calculation.html#cb72-1" tabindex="-1"></a><span class="co"># Convert sam to bam file</span></span>
-<span id="cb72-2"><a href="23-Depth_calculation.html#cb72-2" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-bu</span> K1.sam <span class="op">&gt;</span> K1.bam</span>
-<span id="cb72-3"><a href="23-Depth_calculation.html#cb72-3" tabindex="-1"></a><span class="co"># Created sorted bam file</span></span>
-<span id="cb72-4"><a href="23-Depth_calculation.html#cb72-4" tabindex="-1"></a><span class="ex">samtools</span> sort K1.bam <span class="op">&gt;</span> K1.sort.bam</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb73-1"><a href="23-Depth_calculation.html#cb73-1" tabindex="-1"></a><span class="co"># Convert sam to bam file</span></span>
+<span id="cb73-2"><a href="23-Depth_calculation.html#cb73-2" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-bu</span> K1.sam <span class="op">&gt;</span> K1.bam</span>
+<span id="cb73-3"><a href="23-Depth_calculation.html#cb73-3" tabindex="-1"></a><span class="co"># Created sorted bam file</span></span>
+<span id="cb73-4"><a href="23-Depth_calculation.html#cb73-4" tabindex="-1"></a><span class="ex">samtools</span> sort K1.bam <span class="op">&gt;</span> K1.sort.bam</span></code></pre></div>
 </div>
 <div id="summarise-depths" class="section level2 hasAnchor" number="23.4">
 <h2><span class="header-section-number">23.4</span> Summarise depths<a href="23-Depth_calculation.html#summarise-depths" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -451,7 +451,7 @@ If you are using long reads (PacBio or Nanopore) <code>minimap2</code> will be m
 <img src="figures/depth.png" style="width:150px; background: white; border-radius:5px" />
 </center>
 <p>Now we can summarise the contig depths from the sorted <code>bam</code> files with <code>MetaBAT2</code>'s <code>jgi_summarize_bam_contig_depths</code> command.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb73-1"><a href="23-Depth_calculation.html#cb73-1" tabindex="-1"></a><span class="ex">jgi_summarize_bam_contig_depths</span> <span class="at">--outputDepth</span> K1.depth.txt K1.sort.bam</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb74-1"><a href="23-Depth_calculation.html#cb74-1" tabindex="-1"></a><span class="ex">jgi_summarize_bam_contig_depths</span> <span class="at">--outputDepth</span> K1.depth.txt K1.sort.bam</span></code></pre></div>
 </div>
 <div id="view-depths" class="section level2 hasAnchor" number="23.5">
 <h2><span class="header-section-number">23.5</span> View depths<a href="23-Depth_calculation.html#view-depths" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -459,7 +459,7 @@ If you are using long reads (PacBio or Nanopore) <code>minimap2</code> will be m
 <img src="figures/periscope.png" style="width:150px; background: white; border-radius:5px; border: white solid 5px" />
 </center>
 <p>Have a look at the depth file.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb74-1"><a href="23-Depth_calculation.html#cb74-1" tabindex="-1"></a><span class="fu">less</span> K1.depth.txt</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb75-1"><a href="23-Depth_calculation.html#cb75-1" tabindex="-1"></a><span class="fu">less</span> K1.depth.txt</span></code></pre></div>
 <p>Many contigs have low depths of less than 10 (<code>totalAvgDepth</code>) and short lengths of less than &lt;1500 (<code>contigLen</code>).</p>
 </div>
 <div id="summarise-with-r" class="section level2 hasAnchor" number="23.6">
@@ -469,16 +469,16 @@ If you are using long reads (PacBio or Nanopore) <code>minimap2</code> will be m
 </center>
 <p>For tutorial purposes we will have a better at the depth by summarising the contig depths with <code>R</code>.</p>
 <p>Activate <code>R</code>:</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb75-1"><a href="23-Depth_calculation.html#cb75-1" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb76-1"><a href="23-Depth_calculation.html#cb76-1" tabindex="-1"></a><span class="ex">R</span></span></code></pre></div>
 <div id="column-summaries" class="section level3 hasAnchor" number="23.6.1">
 <h3><span class="header-section-number">23.6.1</span> Column summaries<a href="23-Depth_calculation.html#column-summaries" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Read in the file and get a <code>summary()</code> of it.</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb76-1"><a href="23-Depth_calculation.html#cb76-1" tabindex="-1"></a><span class="co">#Read in the table as an object called df (short for data frame)</span></span>
-<span id="cb76-2"><a href="23-Depth_calculation.html#cb76-2" tabindex="-1"></a><span class="co">#We want the first row to be the column names (header=TRUE)</span></span>
-<span id="cb76-3"><a href="23-Depth_calculation.html#cb76-3" tabindex="-1"></a><span class="co">#We do not want R to check the column names and &quot;fix&quot; them (check.names=FALSE)</span></span>
-<span id="cb76-4"><a href="23-Depth_calculation.html#cb76-4" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;K1.depth.txt&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">check.names=</span><span class="cn">FALSE</span>)</span>
-<span id="cb76-5"><a href="23-Depth_calculation.html#cb76-5" tabindex="-1"></a><span class="co">#Create a summary of the data</span></span>
-<span id="cb76-6"><a href="23-Depth_calculation.html#cb76-6" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb77-1"><a href="23-Depth_calculation.html#cb77-1" tabindex="-1"></a><span class="co">#Read in the table as an object called df (short for data frame)</span></span>
+<span id="cb77-2"><a href="23-Depth_calculation.html#cb77-2" tabindex="-1"></a><span class="co">#We want the first row to be the column names (header=TRUE)</span></span>
+<span id="cb77-3"><a href="23-Depth_calculation.html#cb77-3" tabindex="-1"></a><span class="co">#We do not want R to check the column names and &quot;fix&quot; them (check.names=FALSE)</span></span>
+<span id="cb77-4"><a href="23-Depth_calculation.html#cb77-4" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;K1.depth.txt&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">check.names=</span><span class="cn">FALSE</span>)</span>
+<span id="cb77-5"><a href="23-Depth_calculation.html#cb77-5" tabindex="-1"></a><span class="co">#Create a summary of the data</span></span>
+<span id="cb77-6"><a href="23-Depth_calculation.html#cb77-6" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code></pre></div>
 <p>The last command gave us summary information of all the columns.
 This includes the minimum, maximum, mean, median, and Inter-Quartile Range (IQR) values.</p>
 <p>We can see the values of the <code>contigLen</code> and <code>totalAvgDepth</code> are very low. However, this is most likely due to a bunch of short and low coverage contigs which will be ignored by <code>MetaBAT2</code>, our binning tool.</p>
@@ -487,21 +487,21 @@ This includes the minimum, maximum, mean, median, and Inter-Quartile Range (IQR)
 <h3><span class="header-section-number">23.6.2</span> Filter then summarise<a href="23-Depth_calculation.html#filter-then-summarise" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We'll remove rows with information on contigs shorter than 1500 and rerun the summary.
 <code>MetaBAT2</code>'s documentation dictates the minimum contig length should be &gt;=1500 with its default being 2500.</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb77-1"><a href="23-Depth_calculation.html#cb77-1" tabindex="-1"></a><span class="co">#Set the new object &quot;df_min1500len&quot; as all rows</span></span>
-<span id="cb77-2"><a href="23-Depth_calculation.html#cb77-2" tabindex="-1"></a><span class="co">#where the value in the column &quot;contigLen&quot; of &quot;df&quot;</span></span>
-<span id="cb77-3"><a href="23-Depth_calculation.html#cb77-3" tabindex="-1"></a><span class="co">#Is greater than or equal to 1500</span></span>
-<span id="cb77-4"><a href="23-Depth_calculation.html#cb77-4" tabindex="-1"></a>df_min1500len <span class="ot">&lt;-</span> df[df<span class="sc">$</span>contigLen <span class="sc">&gt;=</span> <span class="dv">1500</span>,]</span>
-<span id="cb77-5"><a href="23-Depth_calculation.html#cb77-5" tabindex="-1"></a><span class="co">#Summary of our new data frame</span></span>
-<span id="cb77-6"><a href="23-Depth_calculation.html#cb77-6" tabindex="-1"></a><span class="fu">summary</span>(df_min1500len)</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb78-1"><a href="23-Depth_calculation.html#cb78-1" tabindex="-1"></a><span class="co">#Set the new object &quot;df_min1500len&quot; as all rows</span></span>
+<span id="cb78-2"><a href="23-Depth_calculation.html#cb78-2" tabindex="-1"></a><span class="co">#where the value in the column &quot;contigLen&quot; of &quot;df&quot;</span></span>
+<span id="cb78-3"><a href="23-Depth_calculation.html#cb78-3" tabindex="-1"></a><span class="co">#Is greater than or equal to 1500</span></span>
+<span id="cb78-4"><a href="23-Depth_calculation.html#cb78-4" tabindex="-1"></a>df_min1500len <span class="ot">&lt;-</span> df[df<span class="sc">$</span>contigLen <span class="sc">&gt;=</span> <span class="dv">1500</span>,]</span>
+<span id="cb78-5"><a href="23-Depth_calculation.html#cb78-5" tabindex="-1"></a><span class="co">#Summary of our new data frame</span></span>
+<span id="cb78-6"><a href="23-Depth_calculation.html#cb78-6" tabindex="-1"></a><span class="fu">summary</span>(df_min1500len)</span></code></pre></div>
 <p>That is looking better.
 The minimum average depth for <code>MetaBAT2</code> is 1 and our minimum value is 2.700 with a maximum of ~93 (your values may differ slightly).</p>
 </div>
 <div id="quit-r" class="section level3 hasAnchor" number="23.6.3">
 <h3><span class="header-section-number">23.6.3</span> Quit R<a href="23-Depth_calculation.html#quit-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Now you can quit R and continue.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb78-1"><a href="23-Depth_calculation.html#cb78-1" tabindex="-1"></a><span class="co">#quit R</span></span>
-<span id="cb78-2"><a href="23-Depth_calculation.html#cb78-2" tabindex="-1"></a><span class="fu">q</span>()</span>
-<span id="cb78-3"><a href="23-Depth_calculation.html#cb78-3" tabindex="-1"></a><span class="co">#On the prompt to save your workspace press &quot;n&quot; and then enter.</span></span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb79-1"><a href="23-Depth_calculation.html#cb79-1" tabindex="-1"></a><span class="co">#quit R</span></span>
+<span id="cb79-2"><a href="23-Depth_calculation.html#cb79-2" tabindex="-1"></a><span class="fu">q</span>()</span>
+<span id="cb79-3"><a href="23-Depth_calculation.html#cb79-3" tabindex="-1"></a><span class="co">#On the prompt to save your workspace press &quot;n&quot; and then enter.</span></span></code></pre></div>
 <p><strong>Note</strong>: One of the reasons for our short contigs is that we only used a subset of our sequencing dataset for this tutorial due to time concerns.</p>
 </div>
 </div>
@@ -509,11 +509,11 @@ The minimum average depth for <code>MetaBAT2</code> is 1 and our minimum value i
 <h2><span class="header-section-number">23.7</span> Remove SAM and BAM files<a href="23-Depth_calculation.html#remove-sam-and-bam-files" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>SAM and BAM files are large so it is good practice to delete them when you don't need them anymore.</p>
 <p>Delete you SAM and BAM files.</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb79-1"><a href="23-Depth_calculation.html#cb79-1" tabindex="-1"></a><span class="fu">rm</span> K1.sam K1.bam K1.sort.bam</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb80-1"><a href="23-Depth_calculation.html#cb80-1" tabindex="-1"></a><span class="fu">rm</span> K1.sam K1.bam K1.sort.bam</span></code></pre></div>
 <p>Great!
 With our <code>K1.depth.txt</code> file we will next carry out <code>MetaBAT2</code> genome binning.</p>
-<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-61622e31fcd473eb4897" width="672"></span>
-<script type="application/json" data-for="htmlwidget-61622e31fcd473eb4897">{"x":{"element":"mag","opts":{"content":"Metagenome-Assembled Genome","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-4c4a357625e755aa92d7" width="672"></span>
+<script type="application/json" data-for="htmlwidget-4c4a357625e755aa92d7">{"x":{"element":"mag","opts":{"content":"Metagenome-Assembled Genome","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
 
 </div>
 </div>

@@ -23,7 +23,7 @@
 <meta name="author" content="Sam Haldenby and Matthew R. Gemmell" />
 
 
-<meta name="date" content="2026-02-23" />
+<meta name="date" content="2026-02-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -266,7 +266,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="16" data-path="16-Heatmap.html"><a href="16-Heatmap.html"><i class="fa fa-check"></i><b>16</b> Heatmap</a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="16-Heatmap.html"><a href="16-Heatmap.html#file-edit"><i class="fa fa-check"></i><b>16.1</b> File edit</a></li>
+<li class="chapter" data-level="16.1" data-path="16-Heatmap.html"><a href="16-Heatmap.html#heatmap_file_edit"><i class="fa fa-check"></i><b>16.1</b> File edit</a></li>
 <li class="chapter" data-level="16.2" data-path="16-Heatmap.html"><a href="16-Heatmap.html#hclust2"><i class="fa fa-check"></i><b>16.2</b> hclust2</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="17-LEfSe_humann.html"><a href="17-LEfSe_humann.html"><i class="fa fa-check"></i><b>17</b> LEfSe</a></li>
@@ -431,7 +431,7 @@ Where:</p>
 <p>We will create a new file with only the quality information called "MAGS_quality.csv".</p>
 <p>Make the file with it only containing the header "quality.
 We will add the quality scores to this later.</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb88-1"><a href="26-Bin_quality_scores.html#cb88-1" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;quality&quot;</span> <span class="op">&gt;</span> MAGS_quality.csv</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb89-1"><a href="26-Bin_quality_scores.html#cb89-1" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;quality&quot;</span> <span class="op">&gt;</span> MAGS_quality.csv</span></code></pre></div>
 </div>
 <div id="calculate-quality-with-awk" class="section level2 hasAnchor" number="26.2">
 <h2><span class="header-section-number">26.2</span> Calculate quality with awk<a href="26-Bin_quality_scores.html#calculate-quality-with-awk" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -444,7 +444,7 @@ We will add the quality scores to this later.</p>
 <div id="extract-fieldscolumns" class="section level3 hasAnchor" number="26.2.1">
 <h3><span class="header-section-number">26.2.1</span> Extract fields/columns<a href="26-Bin_quality_scores.html#extract-fieldscolumns" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>The first step</strong> is to extract the completeness and contamination fields/columns.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb89-1"><a href="26-Bin_quality_scores.html#cb89-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;{print $2,$3}&#39;</span> cocopye_output.csv</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb90-1"><a href="26-Bin_quality_scores.html#cb90-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;{print $2,$3}&#39;</span> cocopye_output.csv</span></code></pre></div>
 <ul>
 <li><code>-F,</code>: Indicates the input fields are separated by commas (<code>,</code>).</li>
 <li><code>''</code>: All the <code>awk</code> options are contained within the quotes.</li>
@@ -456,7 +456,7 @@ We will add the quality scores to this later.</p>
 <div id="ignore-header" class="section level3 hasAnchor" number="26.2.2">
 <h3><span class="header-section-number">26.2.2</span> Ignore header<a href="26-Bin_quality_scores.html#ignore-header" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>We do not want the header</strong> in our calculation so we will add an extra <code>awk</code> option.</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb90-1"><a href="26-Bin_quality_scores.html#cb90-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;NR&gt;1 {print $2,$3}&#39;</span> cocopye_output.csv</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb91-1"><a href="26-Bin_quality_scores.html#cb91-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;NR&gt;1 {print $2,$3}&#39;</span> cocopye_output.csv</span></code></pre></div>
 <ul>
 <li><code>NR&gt;1</code>: <code>NR</code> stands for number of records. Rows are called records in <code>awk</code>. Therefore <code>NR&gt;1</code> means <code>awk</code> will only carry out the functions on the records numbered greater than 1. I.e. skip row 1, the header row.</li>
 </ul>
@@ -464,7 +464,7 @@ We will add the quality scores to this later.</p>
 <div id="calculate-quality" class="section level3 hasAnchor" number="26.2.3">
 <h3><span class="header-section-number">26.2.3</span> Calculate quality<a href="26-Bin_quality_scores.html#calculate-quality" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>The next step</strong> is to carry out the overall quality calculation.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb91-1"><a href="26-Bin_quality_scores.html#cb91-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;NR&gt;1 {print $2 - (5 * $3)}&#39;</span> cocopye_output.csv</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb92-1"><a href="26-Bin_quality_scores.html#cb92-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;NR&gt;1 {print $2 - (5 * $3)}&#39;</span> cocopye_output.csv</span></code></pre></div>
 <p>Our new function, <code>{print $2 - (5 * 13)}</code>, carries out the overall quality calculation and prints it for each record/row except the first (<code>NR&gt;1</code>).</p>
 <p>You will notice that we have values that equal 4.
 Let us fix that.</p>
@@ -476,19 +476,19 @@ This is not correct and comes about as some completeness and contamination value
 If you look at the file <code>cocopye_output.csv</code> you will notice the bins with -1 values have the <code>rejected</code> for their <code>method</code> value.
 These are bins which failed the Input Pre-procesing step.</p>
 <p>We will therefore change these quality values to the lowest possible value of -5 (0 - (5 * 1) = -5).</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb92-1"><a href="26-Bin_quality_scores.html#cb92-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;NR&gt;1 {print $2 - (5 * $3)}&#39;</span> cocopye_output.csv <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb92-2"><a href="26-Bin_quality_scores.html#cb92-2" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/^4$/-5/&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb93-1"><a href="26-Bin_quality_scores.html#cb93-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;NR&gt;1 {print $2 - (5 * $3)}&#39;</span> cocopye_output.csv <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb93-2"><a href="26-Bin_quality_scores.html#cb93-2" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/^4$/-5/&quot;</span></span></code></pre></div>
 <p>In this case we <a href="https://neof-workshops.github.io/Unix_nxcdf7/Course/12-Advanced_linux_practice.html#pipes">pipe (<code>|</code>)</a> our output to <a href="https://neof-workshops.github.io/Unix_nxcdf7/Course/12-Advanced_linux_practice.html#sed"><code>sed</code></a> to substitute lines that start with (<code>^</code>) and end with (<code>$</code>) the same <code>4</code> with <code>-5</code>.</p>
 <p>In other words we replace lines that only contain a 4 with a -5.</p>
 </div>
 <div id="append-to-quality-file" class="section level3 hasAnchor" number="26.2.5">
 <h3><span class="header-section-number">26.2.5</span> Append to quality file<a href="26-Bin_quality_scores.html#append-to-quality-file" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Finally we can append the quality values to our <code>MAGS_quality.csv</code> file.</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb93-1"><a href="26-Bin_quality_scores.html#cb93-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;NR&gt;1 {print $2 - (5 * $3)}&#39;</span> cocopye_output.csv <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb93-2"><a href="26-Bin_quality_scores.html#cb93-2" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/^4$/-5/&quot;</span> <span class="op">&gt;&gt;</span> MAGS_quality.csv</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb94-1"><a href="26-Bin_quality_scores.html#cb94-1" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F,</span> <span class="st">&#39;NR&gt;1 {print $2 - (5 * $3)}&#39;</span> cocopye_output.csv <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb94-2"><a href="26-Bin_quality_scores.html#cb94-2" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&quot;s/^4$/-5/&quot;</span> <span class="op">&gt;&gt;</span> MAGS_quality.csv</span></code></pre></div>
 <p>In the above case we use <code>&gt;&gt;</code> to append the information to the file <code>MAGS_quality.csv</code>. We append because we want to retain the header we added to the file earlier.</p>
 <p>You can view the file to ensure it worked. The first and second values should be 0.9838 and 0.493</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb94-1"><a href="26-Bin_quality_scores.html#cb94-1" tabindex="-1"></a><span class="fu">less</span> MAGS_quality.csv</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb95-1"><a href="26-Bin_quality_scores.html#cb95-1" tabindex="-1"></a><span class="fu">less</span> MAGS_quality.csv</span></code></pre></div>
 </div>
 </div>
 <div id="add-quality-to-the-checkm-results-file" class="section level2 hasAnchor" number="26.3">
@@ -497,7 +497,7 @@ These are bins which failed the Input Pre-procesing step.</p>
 <img src="figures/two_columns.png" style="width:150px; background: white ; border-radius: 5px" />
 </center>
 <p>Now we can combine the files <code>cocopye_output.csv</code> and <code>MAGS_quality.csv</code> with the <code>paste</code> command into a new file called <code>cocopye_quality.csv</code>. The <code>-d ","</code> option indicates the merged files will be separated by commas (<code>,</code>), matching the column separation in <code>cocopye_output.csv</code>.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb95-1"><a href="26-Bin_quality_scores.html#cb95-1" tabindex="-1"></a><span class="fu">paste</span> <span class="at">-d</span> <span class="st">&quot;,&quot;</span> cocopye_output.csv MAGS_quality.csv <span class="op">&gt;</span> cocopye_quality.csv</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb96-1"><a href="26-Bin_quality_scores.html#cb96-1" tabindex="-1"></a><span class="fu">paste</span> <span class="at">-d</span> <span class="st">&quot;,&quot;</span> cocopye_output.csv MAGS_quality.csv <span class="op">&gt;</span> cocopye_quality.csv</span></code></pre></div>
 </div>
 <div id="mcqs-7" class="section level2 hasAnchor" number="26.4">
 <h2><span class="header-section-number">26.4</span> MCQs<a href="26-Bin_quality_scores.html#mcqs-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -506,45 +506,45 @@ These are bins which failed the Input Pre-procesing step.</p>
 </center>
 <p>Viewing the file <code>cocopye_output.csv</code> attempt the below questions.</p>
 <p><strong>Tip</strong>: You can use the <code>cut</code> command to look at specific columns. For example:</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb96-1"><a href="26-Bin_quality_scores.html#cb96-1" tabindex="-1"></a><span class="co">#look at the &quot;bin&quot; and &quot;quality&quot; columns</span></span>
-<span id="cb96-2"><a href="26-Bin_quality_scores.html#cb96-2" tabindex="-1"></a><span class="co">#Convert the printed output&#39;s commas to tabs for readability</span></span>
-<span id="cb96-3"><a href="26-Bin_quality_scores.html#cb96-3" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d</span> <span class="st">&quot;,&quot;</span> <span class="at">-f</span> 1,8 cocopye_quality.csv <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&quot;,&quot;</span> <span class="st">&quot;\t&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb97-1"><a href="26-Bin_quality_scores.html#cb97-1" tabindex="-1"></a><span class="co">#look at the &quot;bin&quot; and &quot;quality&quot; columns</span></span>
+<span id="cb97-2"><a href="26-Bin_quality_scores.html#cb97-2" tabindex="-1"></a><span class="co">#Convert the printed output&#39;s commas to tabs for readability</span></span>
+<span id="cb97-3"><a href="26-Bin_quality_scores.html#cb97-3" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d</span> <span class="st">&quot;,&quot;</span> <span class="at">-f</span> 1,8 cocopye_quality.csv <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&quot;,&quot;</span> <span class="st">&quot;\t&quot;</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>What lineage was assigned to bin <strong>K1.1</strong>?
-<div id="radio_WILKMZNQIM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WILKMZNQIM" value=""></input> <span><strong>Bacteria</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WILKMZNQIM" value="answer"></input> <span><strong>Bacteroides</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WILKMZNQIM" value=""></input> <span><strong>Lachnospiraceae</strong></span></label>
+<div id="radio_MWODWIPHXL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MWODWIPHXL" value=""></input> <span><strong>Bacteria</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MWODWIPHXL" value="answer"></input> <span><strong>Bacteroides</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MWODWIPHXL" value=""></input> <span><strong>Lachnospiraceae</strong></span></label>
 </div></li>
 <li>What lineage was assigned to bin <strong>K1.22</strong>?
-<div id="radio_ZUSPKRGKKO" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ZUSPKRGKKO" value=""></input> <span><strong>Bacteria</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZUSPKRGKKO" value=""></input> <span><strong>Bacteroides</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZUSPKRGKKO" value="answer"></input> <span><strong>Lachnospiraceae</strong></span></label>
+<div id="radio_YCJKVAVYIN" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YCJKVAVYIN" value=""></input> <span><strong>Bacteria</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YCJKVAVYIN" value=""></input> <span><strong>Bacteroides</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YCJKVAVYIN" value="answer"></input> <span><strong>Lachnospiraceae</strong></span></label>
 </div></li>
 <li>What lineage was assigned to bin <strong>K1.8</strong>?
-<div id="radio_PTBEMSVZVK" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PTBEMSVZVK" value="answer"></input> <span><strong>Bacteria</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PTBEMSVZVK" value=""></input> <span><strong>Bacteroides</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PTBEMSVZVK" value=""></input> <span><strong>Lachnospiraceae</strong></span></label>
+<div id="radio_ECHWVJBKCU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ECHWVJBKCU" value="answer"></input> <span><strong>Bacteria</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ECHWVJBKCU" value=""></input> <span><strong>Bacteroides</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ECHWVJBKCU" value=""></input> <span><strong>Lachnospiraceae</strong></span></label>
 </div></li>
 <li>What is the quality value of <strong>K1.1</strong>?
-<div id="radio_FNAWGJDHVY" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FNAWGJDHVY" value=""></input> <span><strong>0.0202</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FNAWGJDHVY" value="answer"></input> <span><strong>0.6724</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FNAWGJDHVY" value=""></input> <span><strong>0.9769</strong></span></label>
+<div id="radio_AKHLQAZUZQ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_AKHLQAZUZQ" value=""></input> <span><strong>0.0202</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AKHLQAZUZQ" value="answer"></input> <span><strong>0.6724</strong></span></label><label><input type="radio" autocomplete="off" name="radio_AKHLQAZUZQ" value=""></input> <span><strong>0.9769</strong></span></label>
 </div></li>
 <li>What is the completeness value of <strong>K1.30</strong>?
-<div id="radio_PFBYHIYOYG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PFBYHIYOYG" value=""></input> <span><strong>0.0202</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PFBYHIYOYG" value=""></input> <span><strong>0.6724</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PFBYHIYOYG" value="answer"></input> <span><strong>0.9769</strong></span></label>
+<div id="radio_NZCDHOURWG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NZCDHOURWG" value=""></input> <span><strong>0.0202</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NZCDHOURWG" value=""></input> <span><strong>0.6724</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NZCDHOURWG" value="answer"></input> <span><strong>0.9769</strong></span></label>
 </div></li>
 <li>What is the contamination value of <strong>K1.12</strong> bin?
-<div id="radio_LWKRCULGTR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_LWKRCULGTR" value="answer"></input> <span><strong>0.0202</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LWKRCULGTR" value=""></input> <span><strong>0.6724</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LWKRCULGTR" value=""></input> <span><strong>0.9769</strong></span></label>
+<div id="radio_DKYITMQNWR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DKYITMQNWR" value="answer"></input> <span><strong>0.0202</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DKYITMQNWR" value=""></input> <span><strong>0.6724</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DKYITMQNWR" value=""></input> <span><strong>0.9769</strong></span></label>
 </div></li>
 <li>Which bin has the highest quality value (98.38%)?
-<div id="radio_JWFXLIERGU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_JWFXLIERGU" value=""></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JWFXLIERGU" value=""></input> <span><strong>K1.26</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JWFXLIERGU" value="answer"></input> <span><strong>K1.22</strong></span></label>
+<div id="radio_MTBSYQCYWW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MTBSYQCYWW" value=""></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MTBSYQCYWW" value=""></input> <span><strong>K1.26</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MTBSYQCYWW" value="answer"></input> <span><strong>K1.22</strong></span></label>
 </div></li>
 <li>Which bin has the quality value of -2.9215?
-<div id="radio_ARGFHSWYEM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ARGFHSWYEM" value="answer"></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ARGFHSWYEM" value=""></input> <span><strong>K1.26</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ARGFHSWYEM" value=""></input> <span><strong>K1.22</strong></span></label>
+<div id="radio_SFLUZECJHI" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SFLUZECJHI" value="answer"></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SFLUZECJHI" value=""></input> <span><strong>K1.26</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SFLUZECJHI" value=""></input> <span><strong>K1.22</strong></span></label>
 </div></li>
 <li>Which bin has the highest completeness value (98.59%)?
-<div id="radio_WOOMLCYWFV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WOOMLCYWFV" value=""></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WOOMLCYWFV" value="answer"></input> <span><strong>K1.26</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WOOMLCYWFV" value=""></input> <span><strong>K1.22</strong></span></label>
+<div id="radio_LVXIIFJTHB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LVXIIFJTHB" value=""></input> <span><strong>K1.20</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LVXIIFJTHB" value="answer"></input> <span><strong>K1.26</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LVXIIFJTHB" value=""></input> <span><strong>K1.22</strong></span></label>
 </div></li>
 </ol>
 </div>
@@ -555,8 +555,8 @@ These are bins which failed the Input Pre-procesing step.</p>
 </center>
 <p>It is always useful to know the quality of your bins so you know which are more reliable than others. With that information you can be more or less certain when concluding your findings.</p>
 <p>We have some good quality bins but many poorer quality bins too. Ultimately binning is trying to separate all the genomes from each other. A better metagenome assembly would most likely have led to better binning.</p>
-<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-2e1598f32f858dba5ad3" width="672"></span>
-<script type="application/json" data-for="htmlwidget-2e1598f32f858dba5ad3">{"x":{"element":"mag","opts":{"content":"Metagenome-Assembled Genome","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<span class="tippy html-widget html-fill-item" height="480" id="htmlwidget-722b9b1752c1da0f23d4" width="672"></span>
+<script type="application/json" data-for="htmlwidget-722b9b1752c1da0f23d4">{"x":{"element":"mag","opts":{"content":"Metagenome-Assembled Genome","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
 
 </div>
 </div>
