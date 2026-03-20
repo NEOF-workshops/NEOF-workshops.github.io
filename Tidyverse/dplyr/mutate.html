@@ -535,6 +535,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#modify-existing-column" id="toc-modify-existing-column" class="nav-link" data-scroll-target="#modify-existing-column">Modify existing column</a></li>
   <li><a href="#delete-columns" id="toc-delete-columns" class="nav-link" data-scroll-target="#delete-columns">Delete columns</a></li>
   <li><a href="#multiple-columns-with-across" id="toc-multiple-columns-with-across" class="nav-link" data-scroll-target="#multiple-columns-with-across">Multiple columns with across()</a></li>
+  <li><a href="#changing-column-classes" id="toc-changing-column-classes" class="nav-link" data-scroll-target="#changing-column-classes">Changing column classes</a></li>
   <li><a href="#na-filling" id="toc-na-filling" class="nav-link" data-scroll-target="#na-filling">NA filling</a></li>
   </ul>
 </nav>
@@ -572,6 +573,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Delete columns</li>
 <li>Modify multiple columns at once with <code>dplyr::across()</code></li>
 </ul>
+<p>You can use operators and/or functions in a <code>mutate()</code> function with one or multiple columns/variables within the <strong>tibble</strong> you are mutating.</p>
 <p><a href="https://dplyr.tidyverse.org//reference/mutate.html">Tidyverse reference page</a></p>
 <section id="dataset" class="level2">
 <h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
@@ -760,6 +762,116 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # ℹ 52 more rows
 # ℹ 4 more variables: gestation &lt;dbl&gt;, predation &lt;fct&gt;, exposure &lt;fct&gt;,
 #   danger &lt;fct&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="changing-column-classes" class="level2">
+<h2 class="anchored" data-anchor-id="changing-column-classes">Changing column classes</h2>
+<p>You can convert a column to a different class with the <code>as.</code> functions, including:</p>
+<ul>
+<li><code>as.numeric()</code>: Convert to numerics
+<ul>
+<li>Especially useful when a column of numbers is set to characters</li>
+</ul></li>
+<li><code>as.character()</code>: Convert to string/character</li>
+<li><code>as.factor()</code>: Convert to factors</li>
+</ul>
+<p>First we’ll use the function <code>forcats::fct_recode()</code> to recode the factor levels of <code>predation</code>, <code>exposure</code>, and <code>danger</code> from 1-5 to least likely-most likely.</p>
+<p>Glimpse original numbered factors.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Original numbers factors</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Select columns of interest</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(species,predation<span class="sc">:</span>danger) <span class="sc">|&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 62
+Columns: 4
+$ species   &lt;chr&gt; "Africanelephant", "Africangiantpouchedrat", "ArcticFox", "A…
+$ predation &lt;fct&gt; 3, 3, 1, 5, 3, 4, 1, 4, 1, 1, 5, 5, 2, 5, 1, 2, 2, 2, 1, 1, …
+$ exposure  &lt;fct&gt; 5, 1, 1, 2, 5, 4, 1, 5, 2, 1, 4, 5, 1, 5, 1, 2, 2, 2, 2, 1, …
+$ danger    &lt;fct&gt; 3, 3, 1, 3, 4, 4, 1, 4, 1, 1, 4, 5, 2, 5, 1, 2, 2, 2, 1, 1, …</code></pre>
+</div>
+</div>
+<p>Recode factors to strings and glimpse new tibble.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#New string factors tibble</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>mammal_sleep_fct_indexes_tbl <span class="ot">&lt;-</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    mammal_sleep_tbl <span class="sc">|&gt;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Select columns of interest</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(species,predation<span class="sc">:</span>danger) <span class="sc">|&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Mutate predation to convert indexes from number to character values</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Demonstrates factor recoding on one column</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">predation=</span>forcats<span class="sc">::</span><span class="fu">fct_recode</span>(</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>            predation, <span class="st">"least likely"</span><span class="ot">=</span><span class="st">"1"</span>,<span class="st">"unlikely"</span><span class="ot">=</span><span class="st">"2"</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">"neither"</span><span class="ot">=</span><span class="st">"3"</span>,<span class="st">"likely"</span><span class="ot">=</span><span class="st">"4"</span>,<span class="st">"most likely"</span><span class="ot">=</span><span class="st">"5"</span>)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Mutate exposure and danger to convert indexes from number to character values</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Demonstrates the same factor recoding on multiple columns</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>            exposure<span class="sc">:</span>danger,</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>            <span class="sc">~</span> forcats<span class="sc">::</span><span class="fu">fct_recode</span>(.x,</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">"least likely"</span><span class="ot">=</span><span class="st">"1"</span>,<span class="st">"unlikely"</span><span class="ot">=</span><span class="st">"2"</span>,</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>            <span class="st">"neither"</span><span class="ot">=</span><span class="st">"3"</span>,<span class="st">"likely"</span><span class="ot">=</span><span class="st">"4"</span>,<span class="st">"most likely"</span><span class="ot">=</span><span class="st">"5"</span>)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co">#Glimpse created tibble</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>mammal_sleep_fct_indexes_tbl <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">glimpse</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 62
+Columns: 4
+$ species   &lt;chr&gt; "Africanelephant", "Africangiantpouchedrat", "ArcticFox", "A…
+$ predation &lt;fct&gt; neither, neither, least likely, most likely, neither, likely…
+$ exposure  &lt;fct&gt; most likely, least likely, least likely, unlikely, most like…
+$ danger    &lt;fct&gt; neither, neither, least likely, neither, likely, likely, lea…</code></pre>
+</div>
+</div>
+<p>Convert the <code>predation</code> <strong>factor</strong> column to <strong>strings</strong> and convert the <code>exposure</code> <strong>factor</strong> columns to <strong>numerics</strong>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_fct_indexes_tbl <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Mutate factors to strings and to numerics</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">exposure=</span><span class="fu">as.character</span>(exposure), <span class="at">danger=</span><span class="fu">as.numeric</span>(danger))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 62 × 4
+   species                predation    exposure     danger
+   &lt;chr&gt;                  &lt;fct&gt;        &lt;chr&gt;         &lt;dbl&gt;
+ 1 Africanelephant        neither      most likely       1
+ 2 Africangiantpouchedrat neither      least likely      1
+ 3 ArcticFox              least likely least likely      2
+ 4 Arcticgroundsquirrel   most likely  unlikely          1
+ 5 Asianelephant          neither      most likely       3
+ 6 Baboon                 likely       likely            3
+ 7 Bigbrownbat            least likely least likely      2
+ 8 Braziliantapir         likely       most likely       3
+ 9 Cat                    least likely unlikely          2
+10 Chimpanzee             least likely least likely      2
+# ℹ 52 more rows</code></pre>
+</div>
+</div>
+<p>Convert the columns <code>gestation:exposure</code> from <strong>factors</strong> to <strong>characters</strong>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_fct_indexes_tbl <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Mutate factors to strings and to numerics</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">across</span>(predation<span class="sc">:</span>danger, as.character)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 62 × 4
+   species                predation    exposure     danger      
+   &lt;chr&gt;                  &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;       
+ 1 Africanelephant        neither      most likely  neither     
+ 2 Africangiantpouchedrat neither      least likely neither     
+ 3 ArcticFox              least likely least likely least likely
+ 4 Arcticgroundsquirrel   most likely  unlikely     neither     
+ 5 Asianelephant          neither      most likely  likely      
+ 6 Baboon                 likely       likely       likely      
+ 7 Bigbrownbat            least likely least likely least likely
+ 8 Braziliantapir         likely       most likely  likely      
+ 9 Cat                    least likely unlikely     least likely
+10 Chimpanzee             least likely least likely least likely
+# ℹ 52 more rows</code></pre>
 </div>
 </div>
 </section>
