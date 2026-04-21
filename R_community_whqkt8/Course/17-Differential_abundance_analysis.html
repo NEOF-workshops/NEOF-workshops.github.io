@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 17 Differential abundance (DA) analysis | R community analysis</title>
   <meta name="description" content="NEOF book for the R community analysis workflow" />
-  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 17 Differential abundance (DA) analysis | R community analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2025-09-24" />
+<meta name="date" content="2026-04-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,7 +56,7 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
-<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<link href="libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
 <link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
@@ -532,7 +532,7 @@ What are factors?
 <p>It is quite a large table so let's save it as a tsv (tab separated value) file.</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb110-1"><a href="17-Differential_abundance_analysis.html#cb110-1" tabindex="-1"></a><span class="co">#Save as file</span></span>
 <span id="cb110-2"><a href="17-Differential_abundance_analysis.html#cb110-2" tabindex="-1"></a><span class="fu">write.table</span>(<span class="at">x =</span> res_ancom_class, <span class="at">file =</span> <span class="st">&quot;ANCOMBC2_class_results.tsv&quot;</span>,</span>
-<span id="cb110-3"><a href="17-Differential_abundance_analysis.html#cb110-3" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<span id="cb110-3"><a href="17-Differential_abundance_analysis.html#cb110-3" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
 <p>This is good to open in excel but we don't have something like that on our cluster. Therefore, we will use the package <code>DT</code> to create an interactive table with the function <code>datatable()</code>. We can then save this object as an HTML with <code>htmlwidgets::saveWidget()</code>.</p>
 <div class="sourceCode" id="cb111"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb111-1"><a href="17-Differential_abundance_analysis.html#cb111-1" tabindex="-1"></a><span class="co">#Create data table</span></span>
 <span id="cb111-2"><a href="17-Differential_abundance_analysis.html#cb111-2" tabindex="-1"></a>m <span class="ot">&lt;-</span> DT<span class="sc">::</span><span class="fu">datatable</span>(res_ancom_class,</span>
@@ -685,16 +685,16 @@ Tidyverse
 <span id="cb117-20"><a href="17-Differential_abundance_analysis.html#cb117-20" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./ANCOMBC_class_media_ref_ENV.png&quot;</span>)</span></code></pre></div>
 <p>Great, now we can see the biomarker with higher abundances in the ENV sample (blue) and higher abundances in the comparison media (red). Any 0 values are non-significant results we turned to 0 when we created the long data frame.</p>
 <strong>Q1:</strong> Are there more biomarkers in higher abundance in ENV rather than the comparison media (i.e blue/negative results)?
-<div id="radio_JKYUNYVQIU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_JKYUNYVQIU" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JKYUNYVQIU" value=""></input> <span><strong>No</strong></span></label>
+<div id="radio_KELCHIQFDF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KELCHIQFDF" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KELCHIQFDF" value=""></input> <span><strong>No</strong></span></label>
 </div>
 <strong>Q2:</strong> Which biomarker has the highest positive values?
-<div id="radio_HQZFHRLVMR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_HQZFHRLVMR" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HQZFHRLVMR" value="answer"></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HQZFHRLVMR" value=""></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
+<div id="radio_BWBGSGZIEF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BWBGSGZIEF" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BWBGSGZIEF" value="answer"></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BWBGSGZIEF" value=""></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
 </div>
 <strong>Q3:</strong> Which biomarker has the lowest value?
-<div id="radio_XNPYYNLHIG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XNPYYNLHIG" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XNPYYNLHIG" value=""></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XNPYYNLHIG" value="answer"></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
+<div id="radio_EUYICJLARV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EUYICJLARV" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EUYICJLARV" value=""></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EUYICJLARV" value="answer"></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
 </div>
 <p>From these results we can see that there are a lot of biomarkers with low abundances in the comparison media samples. There are only 2 biomarkers with higher abundance in the media samples.</p>
 <p>The LFC values between the different media are quite similar. There are some biomarkers that are only significant in 1 or 2 of the media though. It seems that CVP and KBC are more similar to each other than to TSA. This matches the clustering we found in the beta diversity.</p>
