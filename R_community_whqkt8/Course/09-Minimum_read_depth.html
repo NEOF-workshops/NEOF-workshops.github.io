@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2026-04-21" />
+<meta name="date" content="2026-04-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -434,11 +434,11 @@ Normally, for 16S data, a depth of at least 20K per sample is suggested.
 This is the general consensus for <strong>human microbiome</strong> data.</p>
 <p>In this chapter we will:</p>
 <ul>
-<li>Cover a brief intro to considerations of what is an acceptable minimum depth for your dataset.</li>
-<li>Reinvestigate our sample depths with a previously created histogram.</li>
-<li>View the depth ranges of different sample groups (site &amp; media) with box plots.</li>
-<li>Create a rarefaction curve to assess if the depth of our samples has captured a good amount of biodiversity.</li>
-<li>Demonstrate how to filter samples by depth.</li>
+<li>Cover a brief intro to considerations of what is an acceptable minimum depth for your dataset</li>
+<li>Reinvestigate our sample depths with a previously created histogram</li>
+<li>View the depth ranges of different sample groups (site &amp; media) with box plots</li>
+<li>Create a rarefaction curve to assess if the depth of our samples has captured a good amount of biodiversity</li>
+<li>Demonstrate how to filter samples by depth</li>
 </ul>
 <div id="considerations" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Considerations<a href="09-Minimum_read_depth.html#considerations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -447,24 +447,24 @@ This is the general consensus for <strong>human microbiome</strong> data.</p>
 </center>
 <p>There are 3 main considerations to take into account when choosing an appropriate depth for your dataset.</p>
 <ul>
-<li><strong>The biodiversity of your samples.</strong>
+<li><strong>The biodiversity of your samples</strong>
 <ul>
-<li>If your sample is very biodiverse, such as the human gut microbiome, you will need a good depth (&gt;20K per sample).</li>
-<li>If your sample is less biodiverse, such as many geological environments or skin, then you will not need as much read depth.</li>
-<li>Rarefaction curves are a good method to determine if your samples have enough depth. We will look at this in this chapter.</li>
+<li>If your sample is very biodiverse, such as the human gut microbiome, you will need a good depth (&gt;20K per sample)</li>
+<li>If your sample is less biodiverse, such as many geological environments or skin, then you will not need as much read depth</li>
+<li>Rarefaction curves are a good method to determine if your samples have enough depth. We will look at this in this chapter</li>
 </ul></li>
-<li><strong>The biomass of your samples.</strong>
+<li><strong>The biomass of your samples</strong>
 <ul>
-<li>Some environments are hard to extract DNA from.</li>
-<li>If this is the case for you, then people will hopefully accept that this is an unfortunate reality of life and you will use what you can.</li>
-<li>Be careful of your conclusions. If you think your dataset doesn't have as much data as it could, do not make very definitive detailed claims.</li>
+<li>Some environments are hard to extract DNA from</li>
+<li>If this is the case for you, then people will hopefully accept that this is an unfortunate reality of life and you will use what you can</li>
+<li>Be careful of your conclusions. If you think your dataset doesn't have as much data as it could, do not make very definitive detailed claims</li>
 </ul></li>
-<li><strong>Read depth of sample groups.</strong>
+<li><strong>Read depth of sample groups</strong>
 <ul>
-<li>It may be possible that a few samples have a much lower depth than the rest. It may be a good idea to remove them.</li>
-<li>However, these may all come from the same sample group and so you will lose all information of one group.</li>
-<li>For instance, you may be comparing different geological surfaces and your rock samples have much lower read depths than the various soil samples.</li>
-<li>For comparisons including the lower depth sample group (e.g. rock samples) you will need to retain the lower depth samples.</li>
+<li>It may be possible that a few samples have a much lower depth than the rest. It may be a good idea to remove them</li>
+<li>However, these may all come from the same sample group and so you will lose all information of one group</li>
+<li>For instance, you may be comparing different geological surfaces and your rock samples have much lower read depths than the various soil samples</li>
+<li>For comparisons including the lower depth sample group (e.g. rock samples) you will need to retain the lower depth samples</li>
 </ul></li>
 </ul>
 <p>That is a brief overview of that topic. If you are interested in more I suggest you look at papers where they have studied an environment similar to yours.</p>
@@ -486,8 +486,8 @@ This is the general consensus for <strong>human microbiome</strong> data.</p>
 <p>We have already created a vector and histogram of the read depths across our samples. Scroll up your notebook to view these and answer the following MCQ:</p>
 <ul>
 <li>What is the approximate read depth range of our dataset?
-<div id="radio_LCXQJQBOXQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_LCXQJQBOXQ" value=""></input> <span><strong>1-8</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LCXQJQBOXQ" value="answer"></input> <span><strong>10,000-18,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_LCXQJQBOXQ" value=""></input> <span><strong>20,000+</strong></span></label>
+<div id="radio_FCERFSTTTR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FCERFSTTTR" value=""></input> <span><strong>1-8</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FCERFSTTTR" value="answer"></input> <span><strong>10,000-18,000</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FCERFSTTTR" value=""></input> <span><strong>20,000+</strong></span></label>
 </div></li>
 </ul>
 <p>This is a good first step but what if we want to know how the read depths vary between sample groups?</p>
@@ -513,11 +513,11 @@ Thankfully the metadata in our <code>phyloseq</code> object contains all this in
 <span id="cb28-4"><a href="09-Minimum_read_depth.html#cb28-4" tabindex="-1"></a><span class="fu">head</span>(abundance_metadf)</span></code></pre></div>
 <p>The 2 new functions above are:</p>
 <ul>
-<li><code>phyloseq::sample_data()</code>: Extracts the sample data (metadata) data frame from a <code>phyloseq</code> object.</li>
-<li><code>head()</code>: Returns the first 6 parts of an R object by default.
+<li><code>phyloseq::sample_data()</code>: Extracts the sample data (metadata) data frame from a <code>phyloseq</code> object</li>
+<li><code>head()</code>: Returns the first 6 parts of an R object by default
 <ul>
-<li>It can be used for a vector, matrix, table, data frame, or function.</li>
-<li>In the case of a data frame it returns the first 6 rows.</li>
+<li>It can be used for a vector, matrix, table, data frame, or function</li>
+<li>In the case of a data frame it returns the first 6 rows</li>
 </ul></li>
 </ul>
 <p>We need to add the depth information to our new data frame.
@@ -544,13 +544,19 @@ However, before adding it we want to check if it has the same order of samples a
 We won't go into too much detail on how the code works here, instead learning more later in this book.</p>
 <p>The code below creates a <code>ggplot2</code> boxplot. We carry this out with 2 functions:</p>
 <ul>
-<li><code>ggplot()</code>: This creates a <code>ggplot2</code> object, storing the information and aesthetics.
+<li><code>ggplot()</code>: This creates a <code>ggplot2</code> object, storing the information and aesthetics
 <ul>
-<li>The first option is the data we want to use for plotting (<code>abundance_metadf</code>).</li>
-<li>The second option is the aesthetics (<code>aes()</code>) to plot. In this case we want the depth column to be plotted on the y-axis (<code>y=depth</code>) and the site column to be plotted on the x-axis (<code>x=site</code>).</li>
+<li>The first option is the data we want to use for plotting (<code>abundance_metadf</code>)</li>
+<li>The second option is the aesthetics (<code>aes()</code>) to plot
+<ul>
+<li>In this case we want the depth column to be plotted on the y-axis (<code>y=depth</code>) and the site column to be plotted on the x-axis (<code>x=site</code>)</li>
 </ul></li>
-<li><code>+</code>: We need to have a <code>+</code> at the end of the <code>ggplot()</code> function to add the next component of the plot.</li>
-<li><code>geom_boxplot()</code>: This adds a <strong>layer</strong> to our <code>ggplot2</code> object. In this case it converts the <code>ggplot</code> object, which is just information, into a boxplot.</li>
+</ul></li>
+<li><code>+</code>: We need to have a <code>+</code> at the end of the <code>ggplot()</code> function to add the next component of the plot</li>
+<li><code>geom_boxplot()</code>: This adds a <strong>layer</strong> to our <code>ggplot2</code> object
+<ul>
+<li>THe function converts the <code>ggplot</code> object, which is just information, into a boxplot</li>
+</ul></li>
 </ul>
 <p>Write and run the following code in a new cell:</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb31-1"><a href="09-Minimum_read_depth.html#cb31-1" tabindex="-1"></a><span class="co">#Load the ggplot2 library</span></span>
@@ -575,8 +581,8 @@ This can then be displayed with <code>IRdisplay::display_png()</code>.</p>
 <span id="cb32-4"><a href="09-Minimum_read_depth.html#cb32-4" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
 <span id="cb32-5"><a href="09-Minimum_read_depth.html#cb32-5" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./boxplot_x_site_y_depth.png&quot;</span>)</span></code></pre></div>
 Which site has the highest median depth (middle line of boxplot)?
-<div id="radio_SGNYHAXTNG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SGNYHAXTNG" value="answer"></input> <span><strong>LD (Lower Durance)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SGNYHAXTNG" value=""></input> <span><strong>MD (Middle Durance)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SGNYHAXTNG" value=""></input> <span><strong>UD (Upper Durance</strong></span></label>
+<div id="radio_SUHHQOHIHW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SUHHQOHIHW" value="answer"></input> <span><strong>LD (Lower Durance)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SUHHQOHIHW" value=""></input> <span><strong>MD (Middle Durance)</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SUHHQOHIHW" value=""></input> <span><strong>UD (Upper Durance</strong></span></label>
 </div>
 </div>
 <div id="media-by-depth-boxplot" class="section level3 hasAnchor" number="9.4.4">
@@ -596,8 +602,8 @@ Carry this out in the same cell and run the code.</p>
 <span id="cb33-7"><a href="09-Minimum_read_depth.html#cb33-7" tabindex="-1"></a><span class="co">#Display the plot in jupyter notebook</span></span>
 <span id="cb33-8"><a href="09-Minimum_read_depth.html#cb33-8" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./boxplot_x_media_y_depth.png&quot;</span>)</span></code></pre></div>
 Which media has the lowest median depth (middle line of boxplot)?
-<div id="radio_IABJBTXMFH" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_IABJBTXMFH" value="answer"></input> <span><strong>CVP</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IABJBTXMFH" value=""></input> <span><strong>ENV</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IABJBTXMFH" value=""></input> <span><strong>TSA</strong></span></label>
+<div id="radio_MMXDXFBTOH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_MMXDXFBTOH" value="answer"></input> <span><strong>CVP</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MMXDXFBTOH" value=""></input> <span><strong>ENV</strong></span></label><label><input type="radio" autocomplete="off" name="radio_MMXDXFBTOH" value=""></input> <span><strong>TSA</strong></span></label>
 </div>
 <p>From the boxplots we can see there is no drastic difference between the depths of the different media groups. We will therefore continue and make some rarefaction curves to further assess the depth of our samples.</p>
 <p>For more resources on <code>ggplot2</code> please see the <a href="20-Appendix.html#ggplot2_appendix">appendix</a> of this book.</p>
@@ -676,14 +682,14 @@ It will create a new subsetted <code>phyloseq</code> object.</p>
 This can occur when ASVs are only present in the samples which have been removed.</p>
 <p>To remove these ASVs we can use two <code>phyloseq</code> functions:</p>
 <ul>
-<li><strong><code>taxa_sums()</code></strong>: Returns a vector showing sum of all taxa in the abundance table.
+<li><strong><code>taxa_sums()</code></strong>: Returns a vector showing sum of all taxa in the abundance table
 <ul>
-<li>In our <code>phyloseq</code> object the ASVs are the taxa.</li>
-<li>ASVs have long human unfriendly names that are unique to every single ASV possible.</li>
+<li>In our <code>phyloseq</code> object the ASVs are the taxa</li>
+<li>ASVs have long human unfriendly names that are unique to every single ASV possible</li>
 </ul></li>
-<li><strong><code>prune_taxa()</code></strong>: This retains taxa/ASVs based on a provided vector.
+<li><strong><code>prune_taxa()</code></strong>: This retains taxa/ASVs based on a provided vector
 <ul>
-<li>We are creating a logical vector (<code>TRUE</code>/<code>FALSE</code>) where ASVs with 0 abundance are <code>FALSE</code> and ASVs with abundance &gt; 0 are <code>TRUE</code>.</li>
+<li>We are creating a logical vector (<code>TRUE</code>/<code>FALSE</code>) where ASVs with 0 abundance are <code>FALSE</code> and ASVs with abundance &gt; 0 are <code>TRUE</code></li>
 </ul></li>
 </ul>
 <p>We'll first write and run some commands with <code>taxa_sums()</code> to get some practice with it. Carry this out in the same <strong>cell</strong> as the <code>subset_samples()</code> command.</p>
@@ -707,16 +713,16 @@ Add the following in the same cell and then run the code in the cell.</p>
 <p>We can see that the data lost 26 ASVs (2551 - 2525).</p>
 <p>Try to write your own R code in a new cell to answer the following questions:</p>
 What is the difference between the minimum number of reads of <code>pseq_min11K</code> and <code>pseq</code>?
-<div id="radio_NCYMYQKJPH" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_NCYMYQKJPH" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NCYMYQKJPH" value="answer"></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NCYMYQKJPH" value=""></input> <span><strong>42507</strong></span></label>
+<div id="radio_DHNOWARYRK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DHNOWARYRK" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DHNOWARYRK" value="answer"></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DHNOWARYRK" value=""></input> <span><strong>42507</strong></span></label>
 </div>
 How many samples were removed due to the read depth filtering?
-<div id="radio_IJOXTGHZME" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_IJOXTGHZME" value="answer"></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IJOXTGHZME" value=""></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IJOXTGHZME" value=""></input> <span><strong>42507</strong></span></label>
+<div id="radio_ZSEKQTKQIR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZSEKQTKQIR" value="answer"></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZSEKQTKQIR" value=""></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZSEKQTKQIR" value=""></input> <span><strong>42507</strong></span></label>
 </div>
 How many reads were removed by the minimum read filtering?
-<div id="radio_YGCEJKLKMG" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YGCEJKLKMG" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YGCEJKLKMG" value=""></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YGCEJKLKMG" value="answer"></input> <span><strong>42507</strong></span></label>
+<div id="radio_NXHFVJASHH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NXHFVJASHH" value=""></input> <span><strong>4</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NXHFVJASHH" value=""></input> <span><strong>613</strong></span></label><label><input type="radio" autocomplete="off" name="radio_NXHFVJASHH" value="answer"></input> <span><strong>42507</strong></span></label>
 </div>
 <div class="webex-solution">
 <button>
@@ -753,9 +759,9 @@ You can therefore remove the new <code>phyloseq</code> object in a new <strong>c
 <p>We have assessed the read depth in this chapter and decided to not remove any samples.
 This assessment included:</p>
 <ul>
-<li>Viewing a histogram of sample read depths.</li>
-<li>Creating boxplots to compare the sample read depths across sample groups (site and media).</li>
-<li>Producing a rarefaction depth to determine if any samples did not represent a good amount of the ASVs present in the environment.</li>
+<li>Viewing a histogram of sample read depths</li>
+<li>Creating boxplots to compare the sample read depths across sample groups (site and media)</li>
+<li>Producing a rarefaction depth to determine if any samples did not represent a good amount of the ASVs present in the environment</li>
 </ul>
 <p>Additionally, we created a new <code>phyloseq</code> object where the samples were filtered by depth.
 Ultimately we did not keep the filtered <code>phyloseq</code> object but it is good to know how to do this for your future research.</p>

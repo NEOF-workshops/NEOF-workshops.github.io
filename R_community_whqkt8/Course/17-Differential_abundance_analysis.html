@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2026-04-21" />
+<meta name="date" content="2026-04-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -475,7 +475,7 @@ What are factors?
 <div id="da-ancom-bc-analysis" class="section level2 hasAnchor" number="17.3">
 <h2><span class="header-section-number">17.3</span> DA: ANCOM-BC analysis<a href="17-Differential_abundance_analysis.html#da-ancom-bc-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/play_blue.png" style="width:200px" />
+<img src="figures/play_blue.png" style="width:150px" />
 </center>
 <p>Now that we have our data the way we would like it we can carry out the ANCOM analysis. We'll use the function <code>ANCOMBC::ancombc2()</code> for our ANCOM-BC analysis.</p>
 <p><strong>Note:</strong> This command will take a few minutes to run.</p>
@@ -489,14 +489,17 @@ What are factors?
 <div id="ancombc2-options" class="section level3 hasAnchor" number="17.3.1">
 <h3><span class="header-section-number">17.3.1</span> ANCOMBC2 options<a href="17-Differential_abundance_analysis.html#ancombc2-options" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <center>
-<img src="figures/parameter_blue.png" style="width:200px" />
+<img src="figures/parameter_blue.png" style="width:150px" />
 </center>
 <p>The options we used in the function are:</p>
 <ul>
-<li><code>data =</code>: The data to be analysed. This can be provided in various types of objects including the <code>phyloseq</code> object.</li>
-<li><code>fix_formula =</code>: The groupings within your data. It is important to add all groupings that may have an influence on the microbial abundances.</li>
-<li><code>p_adj_method =</code>: The p adjustment value to use.</li>
-<li><code>tax_level =</code>: The taxonomic level of interest.</li>
+<li><code>data =</code>: The data to be analysed. This can be provided in various types of objects including the <code>phyloseq</code> object</li>
+<li><code>fix_formula =</code>: The groupings within your data
+<ul>
+<li>It is important to add all groupings that may have an influence on the microbial abundances.</li>
+</ul></li>
+<li><code>p_adj_method =</code>: The p adjustment value to use</li>
+<li><code>tax_level =</code>: The taxonomic level of interest</li>
 </ul>
 <p>There are many more options that have been left as the default. Please see the package <a href="https://www.bioconductor.org/packages/release/bioc/manuals/ANCOMBC/man/ANCOMBC.pdf">PDF</a> for more options and explanations.</p>
 </div>
@@ -504,7 +507,7 @@ What are factors?
 <div id="da-ancom-bc-results" class="section level2 hasAnchor" number="17.4">
 <h2><span class="header-section-number">17.4</span> DA: ANCOM-BC results<a href="17-Differential_abundance_analysis.html#da-ancom-bc-results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/output_file_blue.png" style="width:200px" />
+<img src="figures/output_file_blue.png" style="width:150px" />
 </center>
 <p>There is a lot of information in <code>ancom_class_out</code>. Therefore, let's extract the results we want to look at and then remove the large object.</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb109-1"><a href="17-Differential_abundance_analysis.html#cb109-1" tabindex="-1"></a><span class="co">#Output of analysis compared to reference groups</span></span>
@@ -515,19 +518,19 @@ What are factors?
 <span id="cb109-6"><a href="17-Differential_abundance_analysis.html#cb109-6" tabindex="-1"></a><span class="fu">head</span>(res_ancom_class)</span></code></pre></div>
 <p>These results only contain taxon where a significant result was found in at least one comparison. This is based on the adjusted p-values (&lt;0.05). There are a lot of columns (37) in our result data frame. Apart from the "taxon" column they are split by the comparison groups. These contain the following information:</p>
 <ul>
-<li><strong>taxon:</strong> The taxa groups found to be a biomarker in at least one comparison.</li>
-<li><strong>lfc_*:</strong> This contains the log (natural log) fold changes with respect to the reference group.
+<li><strong>taxon:</strong> The taxa groups found to be a biomarker in at least one comparison</li>
+<li><strong>lfc_*:</strong> This contains the log (natural log) fold changes with respect to the reference group
 <ul>
-<li>For example The values for lfc_mediaCVP would equal LFC(CVP - ENV).</li>
-<li>A positive value means the abundances are higher in the comparison group (CVP) and lower in the ref (ENV).</li>
-<li>A negative value means the abundances are lower in the comparison group (CVP) and higher in the ref (ENV).</li>
-<li>The intercept value is the grand mean and is likely not of interest.</li>
+<li>For example The values for lfc_mediaCVP would equal LFC(CVP - ENV)</li>
+<li>A positive value means the abundances are higher in the comparison group (CVP) and lower in the ref (ENV)</li>
+<li>A negative value means the abundances are lower in the comparison group (CVP) and higher in the ref (ENV)</li>
+<li>The intercept value is the grand mean and is likely not of interest</li>
 </ul></li>
-<li><strong>se_*:</strong> The standard error for the LFC values.</li>
-<li><strong>W_*:</strong> The W statistic. The higher this value the more significant the feature is differentially abundant between groups.</li>
-<li><strong>p_*:</strong> The P-value.</li>
-<li><strong>q_*:</strong> The Q-value. This is the adjusted P-value.</li>
-<li><strong>diff*:</strong> This indicates whether there is a significant difference in the abundances of the comparison and reference group. In other words, is the Q-value &lt; 0.05.</li>
+<li><strong>se_*:</strong> The standard error for the LFC values</li>
+<li><strong>W_*:</strong> The W statistic. The higher this value the more significant the feature is differentially abundant between groups</li>
+<li><strong>p_*:</strong> The P-value</li>
+<li><strong>q_*:</strong> The Q-value. This is the adjusted P-value</li>
+<li><strong>diff*:</strong> This indicates whether there is a significant difference in the abundances of the comparison and reference group. In other words, is the Q-value &lt; 0.05</li>
 </ul>
 <p>It is quite a large table so let's save it as a tsv (tab separated value) file.</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb110-1"><a href="17-Differential_abundance_analysis.html#cb110-1" tabindex="-1"></a><span class="co">#Save as file</span></span>
@@ -573,7 +576,7 @@ Tidyverse
 <div id="da-create-significant-lfc-long-data-frame" class="section level2 hasAnchor" number="17.6">
 <h2><span class="header-section-number">17.6</span> DA: Create significant LFC long data frame<a href="17-Differential_abundance_analysis.html#da-create-significant-lfc-long-data-frame" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <center>
-<img src="figures/portrait.png" style="width:200px; border-radius:15px; background:white" />
+<img src="figures/portrait.png" style="width:150px; border-radius:15px; background:white" />
 </center>
 <p>The results table is good but let's make a heatmap showing the LFCs (Log fold changes) of the significant biomarkers. First, we need to do some preprocessing.</p>
 <p>Remove columns unrelated to the media comparisons.</p>
@@ -602,9 +605,9 @@ Tidyverse
 <p>This has removed one biomarker which is great.</p>
 <p>Next we need to do a variety of preprocessing steps. This will create an edited long data frame. Long data frames are needed for <code>ggplot2()</code> when not using a <code>phyloseq</code> object. Instead of having the LFC (log fold change) values over many columns there will be only one column for the values. The long data frame will contain the following columns:</p>
 <ul>
-<li><strong>taxon</strong>: The biomarker name.</li>
-<li><strong>group</strong>: The comparison group.</li>
-<li><strong>value</strong>: The LFC value.</li>
+<li><strong>taxon</strong>: The biomarker name</li>
+<li><strong>group</strong>: The comparison group</li>
+<li><strong>value</strong>: The LFC value</li>
 </ul>
 <p>Please see the code and its annotation below. If you do not fully understand the code that is fine. As long as you can edit it to work with your own future code.</p>
 <div class="sourceCode" id="cb114"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb114-1"><a href="17-Differential_abundance_analysis.html#cb114-1" tabindex="-1"></a><span class="co">#Create edited long df to plot significant log fold changes on heatmap</span></span>
@@ -685,16 +688,16 @@ Tidyverse
 <span id="cb117-20"><a href="17-Differential_abundance_analysis.html#cb117-20" tabindex="-1"></a>IRdisplay<span class="sc">::</span><span class="fu">display_png</span>(<span class="at">file=</span><span class="st">&quot;./ANCOMBC_class_media_ref_ENV.png&quot;</span>)</span></code></pre></div>
 <p>Great, now we can see the biomarker with higher abundances in the ENV sample (blue) and higher abundances in the comparison media (red). Any 0 values are non-significant results we turned to 0 when we created the long data frame.</p>
 <strong>Q1:</strong> Are there more biomarkers in higher abundance in ENV rather than the comparison media (i.e blue/negative results)?
-<div id="radio_KELCHIQFDF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_KELCHIQFDF" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KELCHIQFDF" value=""></input> <span><strong>No</strong></span></label>
+<div id="radio_PKNZHUCQBG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PKNZHUCQBG" value="answer"></input> <span><strong>Yes</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PKNZHUCQBG" value=""></input> <span><strong>No</strong></span></label>
 </div>
 <strong>Q2:</strong> Which biomarker has the highest positive values?
-<div id="radio_BWBGSGZIEF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_BWBGSGZIEF" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BWBGSGZIEF" value="answer"></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_BWBGSGZIEF" value=""></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
+<div id="radio_EHTYMKJMMR" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EHTYMKJMMR" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EHTYMKJMMR" value="answer"></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EHTYMKJMMR" value=""></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
 </div>
 <strong>Q3:</strong> Which biomarker has the lowest value?
-<div id="radio_EUYICJLARV" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_EUYICJLARV" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EUYICJLARV" value=""></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EUYICJLARV" value="answer"></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
+<div id="radio_KLROAXLTFU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KLROAXLTFU" value=""></input> <span><strong>Phylum:Verrucomicrobia</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KLROAXLTFU" value=""></input> <span><strong>Class:Bacilli</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KLROAXLTFU" value="answer"></input> <span><strong>Class:Alphaproteobacteria</strong></span></label>
 </div>
 <p>From these results we can see that there are a lot of biomarkers with low abundances in the comparison media samples. There are only 2 biomarkers with higher abundance in the media samples.</p>
 <p>The LFC values between the different media are quite similar. There are some biomarkers that are only significant in 1 or 2 of the media though. It seems that CVP and KBC are more similar to each other than to TSA. This matches the clustering we found in the beta diversity.</p>
@@ -730,13 +733,13 @@ Tidyverse
 <p>We have used ANCOMBC to detect biomarkers in the media samples compared to the ENV samples. This showed most biomarkers were caused by depletion of many classes and selection of a few classes by the media.</p>
 <p>You could carry out more analysis in your future research in various ways:</p>
 <ul>
-<li>Carry out biomarker detection at different taxonomy levels such as genus.
+<li>Carry out biomarker detection at different taxonomy levels such as genus
 <ul>
-<li>We used class in this tutorial so we would have enough groups for a comparison but not too many to increase speed of analysis and so there weren't too many results to look at.</li>
+<li>We used class in this tutorial so we would have enough groups for a comparison but not too many to increase speed of analysis and so there weren't too many results to look at</li>
 </ul></li>
-<li>There are many other types of tests and considerations to keep in mind. Check out the <a href="https://www.bioconductor.org/packages/release/bioc/vignettes/ANCOMBC/inst/doc/ANCOMBC2.html">ANCOMBC2 tutorial</a>, it is very in depth.
+<li>There are many other types of tests and considerations to keep in mind. Check out the <a href="https://www.bioconductor.org/packages/release/bioc/vignettes/ANCOMBC/inst/doc/ANCOMBC2.html">ANCOMBC2 tutorial</a>, it is very in depth
 <ul>
-<li>There is also a handy FAQ on the <a href="https://github.com/FrederickHuangLin/ANCOMBC">ANCOMBC github page</a>.</li>
+<li>There is also a handy FAQ on the <a href="https://github.com/FrederickHuangLin/ANCOMBC">ANCOMBC github page</a></li>
 </ul></li>
 </ul>
 <p>That is the last part of the analysis. In the final chapter we will review the steps we carried out and the answers to the various questions we have about the dataset.</p>
