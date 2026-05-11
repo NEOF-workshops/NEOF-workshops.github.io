@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Check for contamination | Eukaryote genome assembly</title>
   <meta name="description" content="NEOF book for the Eukaryote genome assembly workshop" />
-  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Check for contamination | Eukaryote genome assembly" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Sujai Kumar &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2025-09-24" />
+<meta name="date" content="2026-05-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,7 +56,7 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
-<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<link href="libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
 <link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
@@ -268,12 +268,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In general, a non-target organism in your sample can be called a co-biont, i.e., an organism present alongside your organism of interest in a given sample.</p>
 <p>A full discussion of methods for separating these cobionts is beyond the scope of this course. However, when doing a eukaryote genome assembly, it is always a good idea to do a quick check for bacteria and other prokaryotes using <code>Tiara</code>. <a href="https://academic.oup.com/bioinformatics/article/38/2/344/6375939"><code>Tiara</code></a> is a very fast deep-learning based tool for identifying archaea, bacteria, prokarya, eukarya and organelle (mitochondria and plastids) sequences.</p>
 <p>First we need to open a new terminal window (<code>right click -&gt; click terminal</code>), load the <code>tiara environment</code> and then navigate to your <code>3-assessment</code> directory.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb20-1"><a href="08-Contamination_check.html#cb20-1" tabindex="-1"></a><span class="bu">.</span> usetiara</span>
-<span id="cb20-2"><a href="08-Contamination_check.html#cb20-2" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="08-Contamination_check.html#cb20-3" tabindex="-1"></a><span class="bu">cd</span> ~/eukaryote_assembly/3-assessment</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb21-1"><a href="08-Contamination_check.html#cb21-1" tabindex="-1"></a><span class="bu">.</span> usetiara</span>
+<span id="cb21-2"><a href="08-Contamination_check.html#cb21-2" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="08-Contamination_check.html#cb21-3" tabindex="-1"></a><span class="bu">cd</span> ~/eukaryote_assembly/3-assessment</span></code></pre></div>
 <p>In this example, we will use a bash environment variable called <code>ASSEMBLY</code>. This means if you want to run it again with another sample you can change the value of this variable in the first line and then rerun the subsequent command.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb21-1"><a href="08-Contamination_check.html#cb21-1" tabindex="-1"></a><span class="va">ASSEMBLY</span><span class="op">=</span>ERR7979900_hifiasm.bp.p_ctg.fa</span>
-<span id="cb21-2"><a href="08-Contamination_check.html#cb21-2" tabindex="-1"></a><span class="ex">tiara</span> <span class="at">-i</span> <span class="va">$ASSEMBLY</span> <span class="at">-o</span> <span class="va">$ASSEMBLY</span>.tiara <span class="at">-t</span> 16 <span class="at">--pr</span> <span class="at">--tf</span> all</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb22-1"><a href="08-Contamination_check.html#cb22-1" tabindex="-1"></a><span class="va">ASSEMBLY</span><span class="op">=</span>ERR7979900_hifiasm.bp.p_ctg.fa</span>
+<span id="cb22-2"><a href="08-Contamination_check.html#cb22-2" tabindex="-1"></a><span class="ex">tiara</span> <span class="at">-i</span> <span class="va">$ASSEMBLY</span> <span class="at">-o</span> <span class="va">$ASSEMBLY</span>.tiara <span class="at">-t</span> 16 <span class="at">--pr</span> <span class="at">--tf</span> all</span></code></pre></div>
 <ul>
 <li><code>-i</code> is the input sequence fasta file</li>
 <li><code>-o</code> is the name of the main output file</li>
@@ -282,16 +282,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>--tf all</code> splits the input fasta files into separate fasta files for each high probability assignment.</li>
 </ul>
 <p>Take a look inside the main output file <code>ERR7979900_hifiasm.bp.p_ctg.fa.tiara</code>. The first few lines should look like this:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb22-1"><a href="08-Contamination_check.html#cb22-1" tabindex="-1"></a><span class="ex">sequence_id</span>   class_fst_stage   class_snd_stage   org       bac       arc       euk       unk1        pla     unk2  mit</span>
-<span id="cb22-2"><a href="08-Contamination_check.html#cb22-2" tabindex="-1"></a><span class="ex">ptg000001l</span>    eukarya           n/a               0.001638  0.001968    0.000518    0.995876    0.000000    n/a     n/a   n/a</span>
-<span id="cb22-3"><a href="08-Contamination_check.html#cb22-3" tabindex="-1"></a><span class="ex">ptg000002l</span>    eukarya           n/a               0.000000  0.000059    0.000574    0.999367    0.000000    n/a     n/a   n/a</span>
-<span id="cb22-4"><a href="08-Contamination_check.html#cb22-4" tabindex="-1"></a><span class="ex">ptg000003l</span>    eukarya           n/a               0.000011  0.001375    0.001749    0.996865    0.000000    n/a     n/a   n/a</span>
-<span id="cb22-5"><a href="08-Contamination_check.html#cb22-5" tabindex="-1"></a><span class="ex">ptg000004l</span>    eukarya           n/a               0.000000  0.001148    0.000726    0.998127    0.000000    n/a     n/a   n/a</span>
-<span id="cb22-6"><a href="08-Contamination_check.html#cb22-6" tabindex="-1"></a><span class="ex">ptg000005c</span>    bacteria          n/a               0.000000  0.999976    0.000024    0.000000    0.000000    n/a     n/a   n/a</span>
-<span id="cb22-7"><a href="08-Contamination_check.html#cb22-7" tabindex="-1"></a><span class="ex">ptg000006l</span>    bacteria          n/a               0.000000  0.999999    0.000001    0.000000    0.000000    n/a     n/a   n/a</span>
-<span id="cb22-8"><a href="08-Contamination_check.html#cb22-8" tabindex="-1"></a><span class="ex">ptg000007l</span>    eukarya           n/a               0.000019  0.001668    0.004887    0.993426    0.000000    n/a     n/a   n/a</span>
-<span id="cb22-9"><a href="08-Contamination_check.html#cb22-9" tabindex="-1"></a><span class="ex">ptg000008l</span>    eukarya           n/a               0.000001  0.000232    0.000022    0.999745    0.000000    n/a     n/a   n/a</span>
-<span id="cb22-10"><a href="08-Contamination_check.html#cb22-10" tabindex="-1"></a><span class="ex">ptg000009c</span>    bacteria          n/a               0.000000  0.999979    0.000001    0.000020    0.000000    n/a     n/a   n/a</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb23-1"><a href="08-Contamination_check.html#cb23-1" tabindex="-1"></a><span class="ex">sequence_id</span>   class_fst_stage   class_snd_stage   org       bac       arc       euk       unk1        pla     unk2  mit</span>
+<span id="cb23-2"><a href="08-Contamination_check.html#cb23-2" tabindex="-1"></a><span class="ex">ptg000001l</span>    eukarya           n/a               0.001638  0.001968    0.000518    0.995876    0.000000    n/a     n/a   n/a</span>
+<span id="cb23-3"><a href="08-Contamination_check.html#cb23-3" tabindex="-1"></a><span class="ex">ptg000002l</span>    eukarya           n/a               0.000000  0.000059    0.000574    0.999367    0.000000    n/a     n/a   n/a</span>
+<span id="cb23-4"><a href="08-Contamination_check.html#cb23-4" tabindex="-1"></a><span class="ex">ptg000003l</span>    eukarya           n/a               0.000011  0.001375    0.001749    0.996865    0.000000    n/a     n/a   n/a</span>
+<span id="cb23-5"><a href="08-Contamination_check.html#cb23-5" tabindex="-1"></a><span class="ex">ptg000004l</span>    eukarya           n/a               0.000000  0.001148    0.000726    0.998127    0.000000    n/a     n/a   n/a</span>
+<span id="cb23-6"><a href="08-Contamination_check.html#cb23-6" tabindex="-1"></a><span class="ex">ptg000005c</span>    bacteria          n/a               0.000000  0.999976    0.000024    0.000000    0.000000    n/a     n/a   n/a</span>
+<span id="cb23-7"><a href="08-Contamination_check.html#cb23-7" tabindex="-1"></a><span class="ex">ptg000006l</span>    bacteria          n/a               0.000000  0.999999    0.000001    0.000000    0.000000    n/a     n/a   n/a</span>
+<span id="cb23-8"><a href="08-Contamination_check.html#cb23-8" tabindex="-1"></a><span class="ex">ptg000007l</span>    eukarya           n/a               0.000019  0.001668    0.004887    0.993426    0.000000    n/a     n/a   n/a</span>
+<span id="cb23-9"><a href="08-Contamination_check.html#cb23-9" tabindex="-1"></a><span class="ex">ptg000008l</span>    eukarya           n/a               0.000001  0.000232    0.000022    0.999745    0.000000    n/a     n/a   n/a</span>
+<span id="cb23-10"><a href="08-Contamination_check.html#cb23-10" tabindex="-1"></a><span class="ex">ptg000009c</span>    bacteria          n/a               0.000000  0.999979    0.000001    0.000020    0.000000    n/a     n/a   n/a</span></code></pre></div>
 <p>Columns 2 and 3 show you that Tiara runs in two stages:</p>
 <ul>
 <li>the first stage identifies organelles, bacteria, archaea, eukarya, and unknown (unk1)</li>
@@ -299,8 +299,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>The final set of probabilities for each sequence is in the remaining columns. If the probability for a particular class (e.g., eukarya) is above a certain threshold, it will put the fasta sequence for that class in a separate <code>CLASS_$ASSEMBLY</code> file, (eg <code>eukarya_ERR7979900_hifiasm.bp.p_ctg.fa</code>). You can see the default thresholds by just typing the <code>tiara</code> command on its own.</p>
 <p>Let's see how many sequences got assigned to each category. We can use the <code>seqkit stats</code> that we used earlier and give all the files created. First go back to your terminal window with the <code>assembly</code> environment loaded (hint: the command prompt will start with <code>(assembly)</code>). First you'll need to specify the <code>$ASSEMBLY</code> variable again for this terminal, tnen run <code>seqkit</code>:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb23-1"><a href="08-Contamination_check.html#cb23-1" tabindex="-1"></a><span class="va">ASSEMBLY</span><span class="op">=</span>ERR7979900_hifiasm.bp.p_ctg.fa</span>
-<span id="cb23-2"><a href="08-Contamination_check.html#cb23-2" tabindex="-1"></a><span class="ex">seqkit</span> stats <span class="pp">*</span><span class="va">$ASSEMBLY</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb24-1"><a href="08-Contamination_check.html#cb24-1" tabindex="-1"></a><span class="va">ASSEMBLY</span><span class="op">=</span>ERR7979900_hifiasm.bp.p_ctg.fa</span>
+<span id="cb24-2"><a href="08-Contamination_check.html#cb24-2" tabindex="-1"></a><span class="ex">seqkit</span> stats <span class="pp">*</span><span class="va">$ASSEMBLY</span></span></code></pre></div>
 <ul>
 <li><code>*$ASSEMBLY</code> will list all files that begin with the wildcard <code>*</code> (0 or more characters) and end with <code>$ASSEMBLY</code>, in this case all files that end with ERR7979900_hifiasm.bp.p_ctg.fa:</li>
 </ul>
@@ -311,13 +311,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Based on this table, most of the assembly by number (490 out of 548 sequences), and almost half by span (56 Mb out of 122 Mb) is actually bacterial in origin.</p>
 <ol style="list-style-type: decimal">
 <li>The default threshold for assigning a sequence to one of the above classes is 0.65. If you change that to 0.9 (Hint: use the <code>-p</code> option in <code>tiara</code>), what is the span of eukaryotic sequences?
-<div id="radio_LOGQWVTTTF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_LOGQWVTTTF" value=""></input> <span>55 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_LOGQWVTTTF" value="answer"></input> <span>65 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_LOGQWVTTTF" value=""></input> <span>75 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_LOGQWVTTTF" value=""></input> <span>85 Mb</span></label>
+<div id="radio_TXHXEYMUFW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_TXHXEYMUFW" value=""></input> <span>55 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_TXHXEYMUFW" value="answer"></input> <span>65 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_TXHXEYMUFW" value=""></input> <span>75 Mb</span></label><label><input type="radio" autocomplete="off" name="radio_TXHXEYMUFW" value=""></input> <span>85 Mb</span></label>
 </div></li>
 </ol>
 <p>In this case, <code>Tiara</code> has done a very good job of separating the eukaryotic nematode sequences from the rest, because we know that the <em>Oscheius onirici</em> genome is 65 Mb in size.</p>
 <p>However, the 16 kb sequence labelled plastid is odd as only plants should have plastids. We can check this sequence by Blasting it. Using <code>firefox</code>, load the BLAST webpage and upload the plastid fasta file.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb24-1"><a href="08-Contamination_check.html#cb24-1" tabindex="-1"></a><span class="ex">firefox</span> https://blast.ncbi.nlm.nih.gov/Blast.cgi<span class="pp">?</span>PROGRAM=blastn <span class="kw">&amp;</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb25-1"><a href="08-Contamination_check.html#cb25-1" tabindex="-1"></a><span class="ex">firefox</span> https://blast.ncbi.nlm.nih.gov/Blast.cgi<span class="pp">?</span>PROGRAM=blastn <span class="kw">&amp;</span></span></code></pre></div>
 <p>Click on <code>Nucleotide BLAST</code> &gt; <code>Browse</code> next to where it says 'upload file'. It may take a little while for the “File Upload” pop-up to appear. When it does, choose the plastid assembly file.</p>
 <p>Under 'Organism' enter 'Oscheius (taxid:42476)' and run a megablast search.</p>
 <center>

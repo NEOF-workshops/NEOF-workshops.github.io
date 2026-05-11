@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 12 Mitochondrial assembly | Eukaryote genome assembly</title>
   <meta name="description" content="NEOF book for the Eukaryote genome assembly workshop" />
-  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 12 Mitochondrial assembly | Eukaryote genome assembly" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Sujai Kumar &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2025-09-24" />
+<meta name="date" content="2026-05-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,7 +56,7 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
-<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<link href="libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
 <link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
@@ -267,12 +267,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="figures/setup_2.png" style="width:200px; background: white; border-radius:15px" />
 </center>
 <p>Open a new terminal and load the <code>MitoHiFi</code> environment:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb36-1"><a href="12-Mitochondrial_assembly.html#cb36-1" tabindex="-1"></a><span class="bu">.</span> usemitohifi</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb37-1"><a href="12-Mitochondrial_assembly.html#cb37-1" tabindex="-1"></a><span class="bu">.</span> usemitohifi</span></code></pre></div>
 <p>Create a new directory, change into it, and link to the files we need:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb37-1"><a href="12-Mitochondrial_assembly.html#cb37-1" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/eukaryote_assembly/4-mito</span>
-<span id="cb37-2"><a href="12-Mitochondrial_assembly.html#cb37-2" tabindex="-1"></a><span class="bu">cd</span> ~/eukaryote_assembly/4-mito</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb38-1"><a href="12-Mitochondrial_assembly.html#cb38-1" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/eukaryote_assembly/4-mito</span>
+<span id="cb38-2"><a href="12-Mitochondrial_assembly.html#cb38-2" tabindex="-1"></a><span class="bu">cd</span> ~/eukaryote_assembly/4-mito</span></code></pre></div>
 <p>Link to the full assembly:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb38-1"><a href="12-Mitochondrial_assembly.html#cb38-1" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc202/ERR7979900_hifiasm.bp.p_ctg.fa</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb39-1"><a href="12-Mitochondrial_assembly.html#cb39-1" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc202/ERR7979900_hifiasm.bp.p_ctg.fa</span></code></pre></div>
 </div>
 <div id="run-mitohifi" class="section level2 hasAnchor" number="12.3">
 <h2><span class="header-section-number">12.3</span> Run MitoHiFi<a href="12-Mitochondrial_assembly.html#run-mitohifi" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -281,20 +281,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </center>
 <p>We will use <code>MitoHifi</code>, which has been developed by the <a href="https://www.darwintreeoflife.org">Darwin Tree of Life</a> team to assemble mitochondrial genomes from PacBio HiFi sequencing data.</p>
 <p>The pipeline requires an existing mitochondrial genome reference from a closely-related species. The software includes a script that can be used to find and download this from NCBI. We could carry this out with the below command, where we will specify the name of our study species and a minimum sequence length of 16 kb. However, do not run it.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb39-1"><a href="12-Mitochondrial_assembly.html#cb39-1" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/MitoHiFi/findMitoReference.py <span class="dt">\</span></span>
-<span id="cb39-2"><a href="12-Mitochondrial_assembly.html#cb39-2" tabindex="-1"></a>--species <span class="st">&quot;Oscheius onirici&quot;</span> <span class="dt">\</span></span>
-<span id="cb39-3"><a href="12-Mitochondrial_assembly.html#cb39-3" tabindex="-1"></a>--outfolder ./ <span class="dt">\</span></span>
-<span id="cb39-4"><a href="12-Mitochondrial_assembly.html#cb39-4" tabindex="-1"></a>--min_length 16000</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb40-1"><a href="12-Mitochondrial_assembly.html#cb40-1" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/MitoHiFi/findMitoReference.py <span class="dt">\</span></span>
+<span id="cb40-2"><a href="12-Mitochondrial_assembly.html#cb40-2" tabindex="-1"></a>--species <span class="st">&quot;Oscheius onirici&quot;</span> <span class="dt">\</span></span>
+<span id="cb40-3"><a href="12-Mitochondrial_assembly.html#cb40-3" tabindex="-1"></a>--outfolder ./ <span class="dt">\</span></span>
+<span id="cb40-4"><a href="12-Mitochondrial_assembly.html#cb40-4" tabindex="-1"></a>--min_length 16000</span></code></pre></div>
 <p>The above command may provide a new reference than the one used to create these materials. Instead create a link of the reference mitogenome which was used for these materials.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb40-1"><a href="12-Mitochondrial_assembly.html#cb40-1" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc206/NEOF/Euk_assembly/mito_data/NC_016067.1<span class="pp">*</span> .</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb41-1"><a href="12-Mitochondrial_assembly.html#cb41-1" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /pub14/tea/nsc206/NEOF/Euk_assembly/mito_data/NC_016067.1<span class="pp">*</span> .</span></code></pre></div>
 <p>You will now have a fasta and GenBank file for a mitochondrial genome of a closely-related species.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb41-1"><a href="12-Mitochondrial_assembly.html#cb41-1" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb42-1"><a href="12-Mitochondrial_assembly.html#cb42-1" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div>
 <p>You should see the links to these two files with the prefix 'NC_0167067.1'. If you ran the earlier command, you will also see two files with the prefix 'PP584052.1'.</p>
 <p><code>MitoHifi</code> can either assemble the mitochondrial genome using raw HiFi reads, or using an assembly. Here we'll use our existing assembly, as this runs faster.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb42-1"><a href="12-Mitochondrial_assembly.html#cb42-1" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/MitoHiFi/mitohifi.py <span class="dt">\</span></span>
-<span id="cb42-2"><a href="12-Mitochondrial_assembly.html#cb42-2" tabindex="-1"></a>-c ERR7979900_hifiasm.bp.p_ctg.fa <span class="dt">\</span></span>
-<span id="cb42-3"><a href="12-Mitochondrial_assembly.html#cb42-3" tabindex="-1"></a>-f NC_016067.1.fasta <span class="at">-g</span> NC_016067.1.gb <span class="dt">\</span></span>
-<span id="cb42-4"><a href="12-Mitochondrial_assembly.html#cb42-4" tabindex="-1"></a>-t 1 <span class="at">-o</span> 5</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb43-1"><a href="12-Mitochondrial_assembly.html#cb43-1" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/MitoHiFi/mitohifi.py <span class="dt">\</span></span>
+<span id="cb43-2"><a href="12-Mitochondrial_assembly.html#cb43-2" tabindex="-1"></a>-c ERR7979900_hifiasm.bp.p_ctg.fa <span class="dt">\</span></span>
+<span id="cb43-3"><a href="12-Mitochondrial_assembly.html#cb43-3" tabindex="-1"></a>-f NC_016067.1.fasta <span class="at">-g</span> NC_016067.1.gb <span class="dt">\</span></span>
+<span id="cb43-4"><a href="12-Mitochondrial_assembly.html#cb43-4" tabindex="-1"></a>-t 1 <span class="at">-o</span> 5</span></code></pre></div>
 <p>This should take about 5 minutes to run.
 The parameter options we have specified are:</p>
 <ul>
@@ -312,19 +312,19 @@ The parameter options we have specified are:</p>
 <li><strong>contigs_stats.tsv</strong>: The statistics of your assembled mitochondrial genome including the number of genes and the total size.</li>
 </ul>
 <p>We can view the image of the predicted genes:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb43-1"><a href="12-Mitochondrial_assembly.html#cb43-1" tabindex="-1"></a><span class="ex">feh</span> final_mitogenome.annotation.png</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb44-1"><a href="12-Mitochondrial_assembly.html#cb44-1" tabindex="-1"></a><span class="ex">feh</span> final_mitogenome.annotation.png</span></code></pre></div>
 <center>
 <img src="figures/final_mitogenome.annotation.png" style="width:1000px; border-radius:15px" />
 </center>
 <p>Close the image to return to the terminal.</p>
 <p>View the <code>contigs_stats.tsv</code> file.</p>
 What is the total length of the assembled mitogenome?
-<div id="radio_YWEDATDIOC" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YWEDATDIOC" value=""></input> <span><strong>16005</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YWEDATDIOC" value=""></input> <span><strong>16568</strong></span></label><label><input type="radio" autocomplete="off" name="radio_YWEDATDIOC" value="answer"></input> <span><strong>16569</strong></span></label>
+<div id="radio_PTRTUEDEKB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PTRTUEDEKB" value=""></input> <span><strong>16005</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PTRTUEDEKB" value=""></input> <span><strong>16568</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PTRTUEDEKB" value="answer"></input> <span><strong>16569</strong></span></label>
 </div>
 What is the number of genes on the assembled mitogenome?
-<div id="radio_ILMRBQAROF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ILMRBQAROF" value="answer"></input> <span><strong>30</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ILMRBQAROF" value=""></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ILMRBQAROF" value=""></input> <span><strong>38</strong></span></label>
+<div id="radio_ZGLEUUGCDO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ZGLEUUGCDO" value="answer"></input> <span><strong>30</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZGLEUUGCDO" value=""></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_ZGLEUUGCDO" value=""></input> <span><strong>38</strong></span></label>
 </div>
 </div>
 <div id="run-mitohifi-on-the-organelle-reference" class="section level2 hasAnchor" number="12.4">
@@ -334,23 +334,23 @@ What is the number of genes on the assembled mitogenome?
 </center>
 <p>Of course when we ran Tiara in Chapter 8 it also identified the contig with the mitochondrial genome, but did not give us the annotation. We could instead run <code>MitoHiFi</code> using the same command but with the identified contig as the reference assembly.</p>
 <p>Make a new directory and enter it:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb44-1"><a href="12-Mitochondrial_assembly.html#cb44-1" tabindex="-1"></a><span class="fu">mkdir</span> mito_tiara</span>
-<span id="cb44-2"><a href="12-Mitochondrial_assembly.html#cb44-2" tabindex="-1"></a><span class="bu">cd</span> mito_tiara</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb45-1"><a href="12-Mitochondrial_assembly.html#cb45-1" tabindex="-1"></a><span class="fu">mkdir</span> mito_tiara</span>
+<span id="cb45-2"><a href="12-Mitochondrial_assembly.html#cb45-2" tabindex="-1"></a><span class="bu">cd</span> mito_tiara</span></code></pre></div>
 <p>Copy across the mitochondrial contig identified in Chapter 8:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb45-1"><a href="12-Mitochondrial_assembly.html#cb45-1" tabindex="-1"></a><span class="fu">cp</span> ~/eukaryote_assembly/3-assessment/plastid_ERR7979900_hifiasm.bp.p_ctg.fa .</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb46-1"><a href="12-Mitochondrial_assembly.html#cb46-1" tabindex="-1"></a><span class="fu">cp</span> ~/eukaryote_assembly/3-assessment/plastid_ERR7979900_hifiasm.bp.p_ctg.fa .</span></code></pre></div>
 <p>Run <code>MitoHifi</code>:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb46-1"><a href="12-Mitochondrial_assembly.html#cb46-1" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/MitoHiFi/mitohifi.py <span class="dt">\</span></span>
-<span id="cb46-2"><a href="12-Mitochondrial_assembly.html#cb46-2" tabindex="-1"></a>-c plastid_ERR7979900_hifiasm.bp.p_ctg.fa <span class="dt">\</span></span>
-<span id="cb46-3"><a href="12-Mitochondrial_assembly.html#cb46-3" tabindex="-1"></a>-f ../NC_016067.1.fasta <span class="at">-g</span> ../NC_016067.1.gb <span class="dt">\</span></span>
-<span id="cb46-4"><a href="12-Mitochondrial_assembly.html#cb46-4" tabindex="-1"></a>-t 1 <span class="at">-o</span> 5</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb47-1"><a href="12-Mitochondrial_assembly.html#cb47-1" tabindex="-1"></a><span class="ex">python</span> /pub14/tea/nsc206/git_installs/MitoHiFi/mitohifi.py <span class="dt">\</span></span>
+<span id="cb47-2"><a href="12-Mitochondrial_assembly.html#cb47-2" tabindex="-1"></a>-c plastid_ERR7979900_hifiasm.bp.p_ctg.fa <span class="dt">\</span></span>
+<span id="cb47-3"><a href="12-Mitochondrial_assembly.html#cb47-3" tabindex="-1"></a>-f ../NC_016067.1.fasta <span class="at">-g</span> ../NC_016067.1.gb <span class="dt">\</span></span>
+<span id="cb47-4"><a href="12-Mitochondrial_assembly.html#cb47-4" tabindex="-1"></a>-t 1 <span class="at">-o</span> 5</span></code></pre></div>
 <p>Let's compare this to our original mitogenome.</p>
 What is the total length of the assembled mitogenome?
-<div id="radio_KIZEUJBPIX" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_KIZEUJBPIX" value=""></input> <span><strong>16005</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KIZEUJBPIX" value="answer"></input> <span><strong>16568</strong></span></label><label><input type="radio" autocomplete="off" name="radio_KIZEUJBPIX" value=""></input> <span><strong>16569</strong></span></label>
+<div id="radio_HOPJMRWGDG" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_HOPJMRWGDG" value=""></input> <span><strong>16005</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HOPJMRWGDG" value="answer"></input> <span><strong>16568</strong></span></label><label><input type="radio" autocomplete="off" name="radio_HOPJMRWGDG" value=""></input> <span><strong>16569</strong></span></label>
 </div>
 What is the number of genes on the assembled mitogenome?
-<div id="radio_TLLZAWMUHS" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_TLLZAWMUHS" value="answer"></input> <span><strong>30</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TLLZAWMUHS" value=""></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_TLLZAWMUHS" value=""></input> <span><strong>38</strong></span></label>
+<div id="radio_SUKSZBYUZT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_SUKSZBYUZT" value="answer"></input> <span><strong>30</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SUKSZBYUZT" value=""></input> <span><strong>37</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SUKSZBYUZT" value=""></input> <span><strong>38</strong></span></label>
 </div>
 </div>
 <div id="summary-2" class="section level2 hasAnchor" number="12.5">

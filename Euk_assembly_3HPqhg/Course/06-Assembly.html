@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Genome assembly | Eukaryote genome assembly</title>
   <meta name="description" content="NEOF book for the Eukaryote genome assembly workshop" />
-  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Genome assembly | Eukaryote genome assembly" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Sujai Kumar &amp; Helen Hipperson" />
 
 
-<meta name="date" content="2025-09-24" />
+<meta name="date" content="2026-05-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,7 +56,7 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
-<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<link href="libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
 <link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
@@ -271,8 +271,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="figures/subsample.png" style="width:200px; background:white; border-radius:15px" />
 </center>
 <p>First, we need to create a directory to put the data in and then change directory to it.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb11-1"><a href="06-Assembly.html#cb11-1" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/eukaryote_assembly/2-assembly</span>
-<span id="cb11-2"><a href="06-Assembly.html#cb11-2" tabindex="-1"></a><span class="bu">cd</span> ~/eukaryote_assembly/2-assembly</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb12-1"><a href="06-Assembly.html#cb12-1" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/eukaryote_assembly/2-assembly</span>
+<span id="cb12-2"><a href="06-Assembly.html#cb12-2" tabindex="-1"></a><span class="bu">cd</span> ~/eukaryote_assembly/2-assembly</span></code></pre></div>
 <p>Assembling the whole raw read file takes about 3 hours on our computers. So we are going to downsample the raw reads file so that it runs in a few minutes for this tutorial. If you were doing a real genome assembly project, you would give the whole file as an input.</p>
 <p>The original file had 10,800 Mb, whereas the expected genome size is &lt;100 Mb, or ~108X sequencing depth. For this exercise we will sample only 6% of the input data using a popular tool called <code>seqtk</code>. 6% of the data is roughly equal to 6X sequencing depth/coverage. A good PacBio HiFi assembly usually needs at least 30X depth.</p>
 <p>Even if you are doing a real genome assembly project and not a tutorial/workshop like this one, it can be helpful to work with downsampled data that runs fast to check that the software tools are all installed correctly.</p>
@@ -282,8 +282,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Alternatively, you can type <code>\</code> during a command and then press the enter key. The next line on the command line will start with <code>&gt;</code>. This will allow you to continue typing the command on the line. This can be used to type one command over multiple lines. We often present the command lines like this in the workbook to help make them easier to read.</li>
 </ul>
 <p>To downsample the data to only 6% of the original size:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb12-1"><a href="06-Assembly.html#cb12-1" tabindex="-1"></a><span class="ex">seqtk</span> sample ~/eukaryote_assembly/1-preassembly/ERR7979900.fastq 0.06 <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb12-2"><a href="06-Assembly.html#cb12-2" tabindex="-1"></a><span class="fu">gzip</span> <span class="at">-c</span> <span class="op">&gt;</span> ERR7979900.6pct.fastq.gz</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb13-1"><a href="06-Assembly.html#cb13-1" tabindex="-1"></a><span class="ex">seqtk</span> sample ~/eukaryote_assembly/1-preassembly/ERR7979900.fastq 0.06 <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb13-2"><a href="06-Assembly.html#cb13-2" tabindex="-1"></a><span class="fu">gzip</span> <span class="at">-c</span> <span class="op">&gt;</span> ERR7979900.6pct.fastq.gz</span></code></pre></div>
 <p>The <code>seqtk sample</code> command takes two arguments <code>input_file</code> and <code>percentage_to_sample</code> so we gave it the original raw read file from the previous directory, and 0.06 or 6%. The <code>| gzip -c &gt;</code> part pipes the output of the first command through the gzip programme and stores the result in <code>ERR7979900.6pct.fastq.gz</code>. This command may take a couple of minutes to run.</p>
 </div>
 <div id="run-the-hifiasm-assembler" class="section level2 hasAnchor" number="6.3">
@@ -292,7 +292,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="figures/combine_assembly.png" style="width:200px" />
 </center>
 <p>We are now ready to use <a href="https://hifiasm.readthedocs.io/en/latest/index.html"><code>Hifiasm</code></a> to assemble the 6% downsampled data. Hifiasm is a very fast genome assembler for PacBio HiFi data:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb13-1"><a href="06-Assembly.html#cb13-1" tabindex="-1"></a><span class="ex">hifiasm</span> <span class="at">-l</span> 0 <span class="at">-t</span> 16 <span class="at">-o</span> ERR7979900_hifiasm6l0 ERR7979900.6pct.fastq.gz</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb14-1"><a href="06-Assembly.html#cb14-1" tabindex="-1"></a><span class="ex">hifiasm</span> <span class="at">-l</span> 0 <span class="at">-t</span> 16 <span class="at">-o</span> ERR7979900_hifiasm6l0 ERR7979900.6pct.fastq.gz</span></code></pre></div>
 <p>This command should take ~8 minutes, during which time information about the progress of the assembly is printed to the terminal. Further information and discussion on this can be found <a href="https://hifiasm.readthedocs.io/en/latest/interpreting-output.html#hifiasm-log-interpretation">here</a>.</p>
 <p>Explanation of the parameters:</p>
 <ul>
@@ -301,9 +301,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>-t</code>: Number of CPU threads</li>
 </ul>
 <p><code>Hifiasm</code> returns several <code>.gfa</code> files which have the graph structure of the assembled fasta contigs. We need the file with the suffix <code>.bp.p_ctg.gfa</code> as that has the primary assembled contigs. To convert it to fasta, we use an <code>awk</code> command that prints out the sequence headers and the sequence in fasta format:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb14-1"><a href="06-Assembly.html#cb14-1" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;/^S/{print &quot;&gt;&quot;$2;print $3}&#39;</span> ERR7979900_hifiasm6l0.bp.p_ctg.gfa <span class="op">&gt;</span> ERR7979900_hifiasm6l0.bp.p_ctg.fa</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb15-1"><a href="06-Assembly.html#cb15-1" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;/^S/{print &quot;&gt;&quot;$2;print $3}&#39;</span> ERR7979900_hifiasm6l0.bp.p_ctg.gfa <span class="op">&gt;</span> ERR7979900_hifiasm6l0.bp.p_ctg.fa</span></code></pre></div>
 <p>If you run the UNIX command <code>ls -lh</code> to see the size of the files, you should see it is about 80 Megabytes in size:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb15-1"><a href="06-Assembly.html#cb15-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> ERR7979900_hifiasm6l0.bp.p_ctg.fa</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash Rchunk"><code class="sourceCode bash"><span id="cb16-1"><a href="06-Assembly.html#cb16-1" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> ERR7979900_hifiasm6l0.bp.p_ctg.fa</span></code></pre></div>
 </div>
 <div id="summary-1" class="section level2 hasAnchor" number="6.4">
 <h2><span class="header-section-number">6.4</span> Summary<a href="06-Assembly.html#summary-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
