@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 14 Visualising the results | RNA-seq gene expression and pathway analysis</title>
   <meta name="description" content="NEOF book for the RNA-seq gene expression and pathway analysis workshop" />
-  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 14 Visualising the results | RNA-seq gene expression and pathway analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Ewan Harney, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2025-10-14" />
+<meta name="date" content="2026-06-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,7 +56,7 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
-<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<link href="libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
 <link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
@@ -298,9 +298,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="figures/MA_horseshoe.png" style="width:200px; background: white; border-radius:5px; border: white 5px solid" />
 </center>
 <p>We will first plot an MA plot. This gives us an overview of the experiment and how DESeq2 calls significant DEG. Each gene is represented by a dot. Genes with significant adjusted p-values (default &lt; 0.01) are coloured in blue. This shows that DESeq2 will only call significant DGE in genes with a large average normalised count as only these genes contain sufficient information to be able to do so.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb59-1"><a href="14-DGE_visualisation.html#cb59-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb59-2"><a href="14-DGE_visualisation.html#cb59-2" tabindex="-1"></a></span>
-<span id="cb59-3"><a href="14-DGE_visualisation.html#cb59-3" tabindex="-1"></a><span class="fu">plotMA</span>(res, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb60-1"><a href="14-DGE_visualisation.html#cb60-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb60-2"><a href="14-DGE_visualisation.html#cb60-2" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="14-DGE_visualisation.html#cb60-3" tabindex="-1"></a><span class="fu">plotMA</span>(res, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">10</span>))</span></code></pre></div>
 <center>
 <img src="figures/MA.png" style="width:700px; border-radius:15px" />
 </center>
@@ -311,22 +311,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="figures/volcano_icon.png" style="width:200px; background: white; border-radius:5px; border: white 5px solid" />
 </center>
 <p>One nice way to visualise your results is to plot a volcano plot.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb60-1"><a href="14-DGE_visualisation.html#cb60-1" tabindex="-1"></a><span class="co"># Make the basic volcano plot</span></span>
-<span id="cb60-2"><a href="14-DGE_visualisation.html#cb60-2" tabindex="-1"></a><span class="fu">with</span>(res, <span class="fu">plot</span>(log2FoldChange, </span>
-<span id="cb60-3"><a href="14-DGE_visualisation.html#cb60-3" tabindex="-1"></a>               <span class="sc">-</span><span class="fu">log10</span>(pvalue), </span>
-<span id="cb60-4"><a href="14-DGE_visualisation.html#cb60-4" tabindex="-1"></a>               <span class="at">pch=</span><span class="dv">20</span>, <span class="at">main=</span><span class="st">&quot;Volcano plot&quot;</span>, </span>
-<span id="cb60-5"><a href="14-DGE_visualisation.html#cb60-5" tabindex="-1"></a>               <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>),  <span class="at">col=</span><span class="st">&quot;grey&quot;</span>))</span>
-<span id="cb60-6"><a href="14-DGE_visualisation.html#cb60-6" tabindex="-1"></a></span>
-<span id="cb60-7"><a href="14-DGE_visualisation.html#cb60-7" tabindex="-1"></a><span class="co"># Colour points light blue if padj&lt;0.01</span></span>
-<span id="cb60-8"><a href="14-DGE_visualisation.html#cb60-8" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">subset</span>(res, padj<span class="sc">&lt;</span><span class="fl">0.01</span> ), </span>
-<span id="cb60-9"><a href="14-DGE_visualisation.html#cb60-9" tabindex="-1"></a>     <span class="fu">points</span>(log2FoldChange, </span>
-<span id="cb60-10"><a href="14-DGE_visualisation.html#cb60-10" tabindex="-1"></a>            <span class="sc">-</span><span class="fu">log10</span>(pvalue), </span>
-<span id="cb60-11"><a href="14-DGE_visualisation.html#cb60-11" tabindex="-1"></a>            <span class="at">pch=</span><span class="dv">20</span>, <span class="at">col=</span><span class="st">&quot;#a6cee3&quot;</span>))</span>
-<span id="cb60-12"><a href="14-DGE_visualisation.html#cb60-12" tabindex="-1"></a><span class="co"># Colour points dark blue if log2FC&gt;1 and padj&lt;0.01</span></span>
-<span id="cb60-13"><a href="14-DGE_visualisation.html#cb60-13" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">subset</span>(res, padj<span class="sc">&lt;</span><span class="fl">0.01</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(log2FoldChange)<span class="sc">&gt;</span><span class="dv">1</span>), </span>
-<span id="cb60-14"><a href="14-DGE_visualisation.html#cb60-14" tabindex="-1"></a>     <span class="fu">points</span>(log2FoldChange, </span>
-<span id="cb60-15"><a href="14-DGE_visualisation.html#cb60-15" tabindex="-1"></a>            <span class="sc">-</span><span class="fu">log10</span>(pvalue), </span>
-<span id="cb60-16"><a href="14-DGE_visualisation.html#cb60-16" tabindex="-1"></a>            <span class="at">pch=</span><span class="dv">20</span>, <span class="at">col=</span><span class="st">&quot;#1f78b4&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb61-1"><a href="14-DGE_visualisation.html#cb61-1" tabindex="-1"></a><span class="co"># Make the basic volcano plot</span></span>
+<span id="cb61-2"><a href="14-DGE_visualisation.html#cb61-2" tabindex="-1"></a><span class="fu">with</span>(res, <span class="fu">plot</span>(log2FoldChange, </span>
+<span id="cb61-3"><a href="14-DGE_visualisation.html#cb61-3" tabindex="-1"></a>               <span class="sc">-</span><span class="fu">log10</span>(pvalue), </span>
+<span id="cb61-4"><a href="14-DGE_visualisation.html#cb61-4" tabindex="-1"></a>               <span class="at">pch=</span><span class="dv">20</span>, <span class="at">main=</span><span class="st">&quot;Volcano plot&quot;</span>, </span>
+<span id="cb61-5"><a href="14-DGE_visualisation.html#cb61-5" tabindex="-1"></a>               <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>),  <span class="at">col=</span><span class="st">&quot;grey&quot;</span>))</span>
+<span id="cb61-6"><a href="14-DGE_visualisation.html#cb61-6" tabindex="-1"></a></span>
+<span id="cb61-7"><a href="14-DGE_visualisation.html#cb61-7" tabindex="-1"></a><span class="co"># Colour points light blue if padj&lt;0.01</span></span>
+<span id="cb61-8"><a href="14-DGE_visualisation.html#cb61-8" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">subset</span>(res, padj<span class="sc">&lt;</span><span class="fl">0.01</span> ), </span>
+<span id="cb61-9"><a href="14-DGE_visualisation.html#cb61-9" tabindex="-1"></a>     <span class="fu">points</span>(log2FoldChange, </span>
+<span id="cb61-10"><a href="14-DGE_visualisation.html#cb61-10" tabindex="-1"></a>            <span class="sc">-</span><span class="fu">log10</span>(pvalue), </span>
+<span id="cb61-11"><a href="14-DGE_visualisation.html#cb61-11" tabindex="-1"></a>            <span class="at">pch=</span><span class="dv">20</span>, <span class="at">col=</span><span class="st">&quot;#a6cee3&quot;</span>))</span>
+<span id="cb61-12"><a href="14-DGE_visualisation.html#cb61-12" tabindex="-1"></a><span class="co"># Colour points dark blue if log2FC&gt;1 and padj&lt;0.01</span></span>
+<span id="cb61-13"><a href="14-DGE_visualisation.html#cb61-13" tabindex="-1"></a><span class="fu">with</span>(<span class="fu">subset</span>(res, padj<span class="sc">&lt;</span><span class="fl">0.01</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(log2FoldChange)<span class="sc">&gt;</span><span class="dv">1</span>), </span>
+<span id="cb61-14"><a href="14-DGE_visualisation.html#cb61-14" tabindex="-1"></a>     <span class="fu">points</span>(log2FoldChange, </span>
+<span id="cb61-15"><a href="14-DGE_visualisation.html#cb61-15" tabindex="-1"></a>            <span class="sc">-</span><span class="fu">log10</span>(pvalue), </span>
+<span id="cb61-16"><a href="14-DGE_visualisation.html#cb61-16" tabindex="-1"></a>            <span class="at">pch=</span><span class="dv">20</span>, <span class="at">col=</span><span class="st">&quot;#1f78b4&quot;</span>))</span></code></pre></div>
 <center>
 <img src="figures/volcano.png" style="width:700px; border-radius:15px" />
 </center>
@@ -342,22 +342,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>PCA and Correlation Heatmap plots visualise the outcomes of the assessment of the variation within and between sample groups.</p>
 <p>Before we plot these we will transform the data. For the differential expression analysis we use raw counts but for visualisation and clustering purposes it is common to work with transformed data. There are two main ways suggested for transforming data for visualisation and clustering in DESeq2: VST (variance stabilising transformations) and the rlog (regularised logarithm). For more information see <a href="http://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#data-transformations-and-visualization">here</a>. Here we will use the rlog transformation before plotting the Heatmap and PCA plots.</p>
 <p>First use the rlog transformation to normalise the data.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb61-1"><a href="14-DGE_visualisation.html#cb61-1" tabindex="-1"></a>rld <span class="ot">&lt;-</span> <span class="fu">rlog</span>(dds, <span class="at">blind=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb62-1"><a href="14-DGE_visualisation.html#cb62-1" tabindex="-1"></a>rld <span class="ot">&lt;-</span> <span class="fu">rlog</span>(dds, <span class="at">blind=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p>The argument blind, refers to whether the transformation should be blind to the sample information specified by the design formula. This is not appopriate to use as we are expecting many of the genes to have counts which are explained by the experimental design we specified (i.e. sex), so we have set this argument to false.</p>
 <p>We will use the package <code>pheatmap</code> to plot a heatmap for our samples and see how they cluster.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb62-1"><a href="14-DGE_visualisation.html#cb62-1" tabindex="-1"></a><span class="co"># load pheatmap &amp; ggplot2</span></span>
-<span id="cb62-2"><a href="14-DGE_visualisation.html#cb62-2" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span>
-<span id="cb62-3"><a href="14-DGE_visualisation.html#cb62-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb62-4"><a href="14-DGE_visualisation.html#cb62-4" tabindex="-1"></a></span>
-<span id="cb62-5"><a href="14-DGE_visualisation.html#cb62-5" tabindex="-1"></a><span class="co"># extract assay of numeric values from the rld object needed by pheatmap</span></span>
-<span id="cb62-6"><a href="14-DGE_visualisation.html#cb62-6" tabindex="-1"></a>rld_mat <span class="ot">&lt;-</span> <span class="fu">assay</span>(rld)</span>
-<span id="cb62-7"><a href="14-DGE_visualisation.html#cb62-7" tabindex="-1"></a><span class="co"># compute the pairwise correlation values for samples and make a matrix of correlations</span></span>
-<span id="cb62-8"><a href="14-DGE_visualisation.html#cb62-8" tabindex="-1"></a>rld_cor <span class="ot">&lt;-</span> <span class="fu">cor</span>(rld_mat)</span>
-<span id="cb62-9"><a href="14-DGE_visualisation.html#cb62-9" tabindex="-1"></a><span class="co"># rename the coldata by the sex column in the metadata</span></span>
-<span id="cb62-10"><a href="14-DGE_visualisation.html#cb62-10" tabindex="-1"></a><span class="fu">rownames</span>(rld_cor)<span class="ot">&lt;-</span>coldata<span class="sc">$</span>sex</span>
-<span id="cb62-11"><a href="14-DGE_visualisation.html#cb62-11" tabindex="-1"></a><span class="fu">head</span>(rld_cor)</span></code></pre></div>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb63-1"><a href="14-DGE_visualisation.html#cb63-1" tabindex="-1"></a><span class="co"># plot heatmap</span></span>
-<span id="cb63-2"><a href="14-DGE_visualisation.html#cb63-2" tabindex="-1"></a><span class="fu">pheatmap</span>(rld_cor)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb63-1"><a href="14-DGE_visualisation.html#cb63-1" tabindex="-1"></a><span class="co"># load pheatmap &amp; ggplot2</span></span>
+<span id="cb63-2"><a href="14-DGE_visualisation.html#cb63-2" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span>
+<span id="cb63-3"><a href="14-DGE_visualisation.html#cb63-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb63-4"><a href="14-DGE_visualisation.html#cb63-4" tabindex="-1"></a></span>
+<span id="cb63-5"><a href="14-DGE_visualisation.html#cb63-5" tabindex="-1"></a><span class="co"># extract assay of numeric values from the rld object needed by pheatmap</span></span>
+<span id="cb63-6"><a href="14-DGE_visualisation.html#cb63-6" tabindex="-1"></a>rld_mat <span class="ot">&lt;-</span> <span class="fu">assay</span>(rld)</span>
+<span id="cb63-7"><a href="14-DGE_visualisation.html#cb63-7" tabindex="-1"></a><span class="co"># compute the pairwise correlation values for samples and make a matrix of correlations</span></span>
+<span id="cb63-8"><a href="14-DGE_visualisation.html#cb63-8" tabindex="-1"></a>rld_cor <span class="ot">&lt;-</span> <span class="fu">cor</span>(rld_mat)</span>
+<span id="cb63-9"><a href="14-DGE_visualisation.html#cb63-9" tabindex="-1"></a><span class="co"># rename the coldata by the sex column in the metadata</span></span>
+<span id="cb63-10"><a href="14-DGE_visualisation.html#cb63-10" tabindex="-1"></a><span class="fu">rownames</span>(rld_cor)<span class="ot">&lt;-</span>coldata<span class="sc">$</span>sex</span>
+<span id="cb63-11"><a href="14-DGE_visualisation.html#cb63-11" tabindex="-1"></a><span class="fu">head</span>(rld_cor)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb64-1"><a href="14-DGE_visualisation.html#cb64-1" tabindex="-1"></a><span class="co"># plot heatmap</span></span>
+<span id="cb64-2"><a href="14-DGE_visualisation.html#cb64-2" tabindex="-1"></a><span class="fu">pheatmap</span>(rld_cor)</span></code></pre></div>
 <center>
 <img src="figures/heatmap.png" style="width:700px; border-radius:15px" />
 </center>
@@ -369,21 +369,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="figures/Scatterplot_2.png" style="width:200px; background: white; border-radius:5px; border: white 5px solid" />
 </center>
 <p>We will now plot the PCA and colour the points based on sex. We specify that females will be coloured green and males orange.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb64-1"><a href="14-DGE_visualisation.html#cb64-1" tabindex="-1"></a><span class="fu">plotPCA</span>(rld, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)<span class="sc">+</span></span>
-<span id="cb64-2"><a href="14-DGE_visualisation.html#cb64-2" tabindex="-1"></a>            <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb64-3"><a href="14-DGE_visualisation.html#cb64-3" tabindex="-1"></a>            <span class="fu">theme</span>(<span class="at">legend.title=</span><span class="fu">element_blank</span>())<span class="sc">+</span></span>
-<span id="cb64-4"><a href="14-DGE_visualisation.html#cb64-4" tabindex="-1"></a>            <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#33a02c&quot;</span>, <span class="st">&quot;#ff7f00&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb65-1"><a href="14-DGE_visualisation.html#cb65-1" tabindex="-1"></a><span class="fu">plotPCA</span>(rld, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)<span class="sc">+</span></span>
+<span id="cb65-2"><a href="14-DGE_visualisation.html#cb65-2" tabindex="-1"></a>            <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb65-3"><a href="14-DGE_visualisation.html#cb65-3" tabindex="-1"></a>            <span class="fu">theme</span>(<span class="at">legend.title=</span><span class="fu">element_blank</span>())<span class="sc">+</span></span>
+<span id="cb65-4"><a href="14-DGE_visualisation.html#cb65-4" tabindex="-1"></a>            <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#33a02c&quot;</span>, <span class="st">&quot;#ff7f00&quot;</span>))</span></code></pre></div>
 <center>
 <img src="figures/PCA_sex.png" style="width:700px; border-radius:15px" />
 </center>
 <p>The PCA shows us that 32% of the variance can be explained by PC1 and looking at how the points are clustered we can suggest that sex is driving the division based on the x axis.</p>
 <p>24% assigned to PC2. We can recolour the plot based on the group variable from our metadata to see if this sheds some more light on what could be driving the differences between samples on the y axis.</p>
 <p>Plot again and colour based on group.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb65-1"><a href="14-DGE_visualisation.html#cb65-1" tabindex="-1"></a><span class="fu">plotPCA</span>(rld, <span class="at">intgroup=</span><span class="st">&quot;group&quot;</span>)<span class="sc">+</span></span>
-<span id="cb65-2"><a href="14-DGE_visualisation.html#cb65-2" tabindex="-1"></a>                <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb65-3"><a href="14-DGE_visualisation.html#cb65-3" tabindex="-1"></a>                <span class="fu">theme</span>(<span class="at">legend.title=</span><span class="fu">element_blank</span>())<span class="sc">+</span></span>
-<span id="cb65-4"><a href="14-DGE_visualisation.html#cb65-4" tabindex="-1"></a>                <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#a6cee3&quot;</span>, <span class="st">&quot;#1f78b4&quot;</span>, <span class="st">&quot;#fb9a99&quot;</span>, </span>
-<span id="cb65-5"><a href="14-DGE_visualisation.html#cb65-5" tabindex="-1"></a>                                              <span class="st">&quot;#e31a1c&quot;</span>, <span class="st">&quot;#b2df8a&quot;</span>, <span class="st">&quot;#33a02c&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb66-1"><a href="14-DGE_visualisation.html#cb66-1" tabindex="-1"></a><span class="fu">plotPCA</span>(rld, <span class="at">intgroup=</span><span class="st">&quot;group&quot;</span>)<span class="sc">+</span></span>
+<span id="cb66-2"><a href="14-DGE_visualisation.html#cb66-2" tabindex="-1"></a>                <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb66-3"><a href="14-DGE_visualisation.html#cb66-3" tabindex="-1"></a>                <span class="fu">theme</span>(<span class="at">legend.title=</span><span class="fu">element_blank</span>())<span class="sc">+</span></span>
+<span id="cb66-4"><a href="14-DGE_visualisation.html#cb66-4" tabindex="-1"></a>                <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#a6cee3&quot;</span>, <span class="st">&quot;#1f78b4&quot;</span>, <span class="st">&quot;#fb9a99&quot;</span>, </span>
+<span id="cb66-5"><a href="14-DGE_visualisation.html#cb66-5" tabindex="-1"></a>                                              <span class="st">&quot;#e31a1c&quot;</span>, <span class="st">&quot;#b2df8a&quot;</span>, <span class="st">&quot;#33a02c&quot;</span>))</span></code></pre></div>
 <center>
 <img src="figures/PCA_group.png" style="width:700px; border-radius:15px" />
 </center>

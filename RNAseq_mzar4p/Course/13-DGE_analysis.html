@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 13 DGE analysis | RNA-seq gene expression and pathway analysis</title>
   <meta name="description" content="NEOF book for the RNA-seq gene expression and pathway analysis workshop" />
-  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 13 DGE analysis | RNA-seq gene expression and pathway analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Ewan Harney, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2025-10-14" />
+<meta name="date" content="2026-06-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -56,7 +56,7 @@
 <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
-<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<link href="libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
 <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet" />
 <link href="libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet" />
@@ -303,9 +303,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="figures/play_red.png" style="width:100px; background: white; border-radius:5px; border: white 5px solid" />
 </center>
 <p>Run the <code>DESeq()</code> function with your filtered DESeqDataSet object (<code>dds</code>).</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb52-1"><a href="13-DGE_analysis.html#cb52-1" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeq</span>(dds)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb53-1"><a href="13-DGE_analysis.html#cb53-1" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeq</span>(dds)</span></code></pre></div>
 <p>For more details of each step you can check the help section of the DESeq2 help using:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb53-1"><a href="13-DGE_analysis.html#cb53-1" tabindex="-1"></a>?DESeq</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb54-1"><a href="13-DGE_analysis.html#cb54-1" tabindex="-1"></a>?DESeq</span></code></pre></div>
 <p>You can also read more about the estimation steps <a href="http://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#theory">here</a> or in the DESeq2 <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8">publication</a>.</p>
 </div>
 <div id="dge-extract-results" class="section level2 hasAnchor" number="13.2">
@@ -314,9 +314,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="figures/extract.png" style="width:100px; background: white; border-radius:5px; border: white 5px solid" />
 </center>
 <p>We will now extract the results table for our DGE analysis using the <code>results()</code> function.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb54-1"><a href="13-DGE_analysis.html#cb54-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">results</span>(dds)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb55-1"><a href="13-DGE_analysis.html#cb55-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">results</span>(dds)</span></code></pre></div>
 <p>We can look at the start of our results object by running.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb55-1"><a href="13-DGE_analysis.html#cb55-1" tabindex="-1"></a><span class="fu">head</span>(res)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb56-1"><a href="13-DGE_analysis.html#cb56-1" tabindex="-1"></a><span class="fu">head</span>(res)</span></code></pre></div>
 <p>You can see we have several columns in our results:</p>
 <ul>
 <li><strong>baseMean:</strong> the average of the normalized count values, dividing by size factors, taken over all samples</li>
@@ -327,11 +327,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>padj:</strong> Benjamini-Hochberg adjusted p-value (This is a p-value adjusted to account for multiple testing). We need to apply a correction as we have run thousands of tests which means that the chance of getting a false significant result is much higher. For more info see this <a href="http://www.nature.com/nbt/journal/v27/n12/full/nbt1209-1135.html">link</a>.</li>
 </ul>
 <p>We can summarise the results by running the following command.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb56-1"><a href="13-DGE_analysis.html#cb56-1" tabindex="-1"></a><span class="fu">summary</span>(res)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb57-1"><a href="13-DGE_analysis.html#cb57-1" tabindex="-1"></a><span class="fu">summary</span>(res)</span></code></pre></div>
 <p>This shows us that we have 646 genes with a positive log fold change (higher expression in males and lower expression in females)</p>
 How many genes have a negative log fold change (higher expression in females and lower expression in males)?
-<div id="radio_QMTRISQUYE" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_QMTRISQUYE" value=""></input> <span>646</span></label><label><input type="radio" autocomplete="off" name="radio_QMTRISQUYE" value="answer"></input> <span>690</span></label><label><input type="radio" autocomplete="off" name="radio_QMTRISQUYE" value=""></input> <span>3,661</span></label>
+<div id="radio_ARZNWTCRQK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ARZNWTCRQK" value=""></input> <span>646</span></label><label><input type="radio" autocomplete="off" name="radio_ARZNWTCRQK" value="answer"></input> <span>690</span></label><label><input type="radio" autocomplete="off" name="radio_ARZNWTCRQK" value=""></input> <span>3,661</span></label>
 </div>
 </div>
 <div id="dge-order-by-significance" class="section level2 hasAnchor" number="13.3">
@@ -340,11 +340,11 @@ How many genes have a negative log fold change (higher expression in females and
 <img src="figures/significance.png" style="width:200px; background: white; border-radius:5px; border: white 5px solid" />
 </center>
 <p>We can order our results by the adjusted p-value to look at the most significant DEG.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb57-1"><a href="13-DGE_analysis.html#cb57-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> res[<span class="fu">order</span>(res<span class="sc">$</span>padj),]</span>
-<span id="cb57-2"><a href="13-DGE_analysis.html#cb57-2" tabindex="-1"></a><span class="fu">head</span>(res)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb58-1"><a href="13-DGE_analysis.html#cb58-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> res[<span class="fu">order</span>(res<span class="sc">$</span>padj),]</span>
+<span id="cb58-2"><a href="13-DGE_analysis.html#cb58-2" tabindex="-1"></a><span class="fu">head</span>(res)</span></code></pre></div>
 Which gene has the largest log fold change difference of the top 6 genes shown?
-<div id="radio_PUZYADYAUT" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PUZYADYAUT" value=""></input> <span>FBgn0079420</span></label><label><input type="radio" autocomplete="off" name="radio_PUZYADYAUT" value=""></input> <span>FBgn0245773</span></label><label><input type="radio" autocomplete="off" name="radio_PUZYADYAUT" value="answer"></input> <span>FBgn0075575</span></label>
+<div id="radio_XIJMQQPNAT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_XIJMQQPNAT" value=""></input> <span>FBgn0079420</span></label><label><input type="radio" autocomplete="off" name="radio_XIJMQQPNAT" value=""></input> <span>FBgn0245773</span></label><label><input type="radio" autocomplete="off" name="radio_XIJMQQPNAT" value="answer"></input> <span>FBgn0075575</span></label>
 </div>
 </div>
 <div id="dge-plot-counts-of-significant-features" class="section level2 hasAnchor" number="13.4">
@@ -354,14 +354,14 @@ Which gene has the largest log fold change difference of the top 6 genes shown?
 </center>
 <p>For the last part of this chapter we will plot the expression differences for the most significant differentially expressed genes.</p>
 <p>We can visually plot these genes by typing:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb58-1"><a href="13-DGE_analysis.html#cb58-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
-<span id="cb58-2"><a href="13-DGE_analysis.html#cb58-2" tabindex="-1"></a></span>
-<span id="cb58-3"><a href="13-DGE_analysis.html#cb58-3" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0245773&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
-<span id="cb58-4"><a href="13-DGE_analysis.html#cb58-4" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0075575&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
-<span id="cb58-5"><a href="13-DGE_analysis.html#cb58-5" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0071323&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
-<span id="cb58-6"><a href="13-DGE_analysis.html#cb58-6" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0072657&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
-<span id="cb58-7"><a href="13-DGE_analysis.html#cb58-7" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0249407&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
-<span id="cb58-8"><a href="13-DGE_analysis.html#cb58-8" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0079420&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb59-1"><a href="13-DGE_analysis.html#cb59-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb59-2"><a href="13-DGE_analysis.html#cb59-2" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="13-DGE_analysis.html#cb59-3" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0245773&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
+<span id="cb59-4"><a href="13-DGE_analysis.html#cb59-4" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0075575&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
+<span id="cb59-5"><a href="13-DGE_analysis.html#cb59-5" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0071323&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
+<span id="cb59-6"><a href="13-DGE_analysis.html#cb59-6" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0072657&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
+<span id="cb59-7"><a href="13-DGE_analysis.html#cb59-7" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0249407&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span>
+<span id="cb59-8"><a href="13-DGE_analysis.html#cb59-8" tabindex="-1"></a><span class="fu">plotCounts</span>(dds, <span class="at">gene=</span><span class="st">&quot;FBgn0079420&quot;</span>, <span class="at">intgroup=</span><span class="st">&quot;sex&quot;</span>)</span></code></pre></div>
 <center>
 <img src="figures/6_genes.png" style="width:700px; border-radius:15px" />
 </center>
