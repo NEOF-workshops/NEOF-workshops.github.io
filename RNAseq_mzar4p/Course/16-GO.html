@@ -23,7 +23,7 @@
 <meta name="author" content="Katy Maher, Helen Hipperson, Ewan Harney, Steve Paterson, Bert Overduin, Matthew Gemmell, Xuan Liu" />
 
 
-<meta name="date" content="2026-06-09" />
+<meta name="date" content="2026-06-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -307,21 +307,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We will perform GO enrichment analysis using the topGO package in R. We strongly recommend reading through the topGO <a href="https://bioc.r-universe.dev/topGO/doc/manual.html">manual</a> when you come to analyse your own data.</p>
 <p>First create a new notebook called <strong>"GO_enrichment"</strong>.</p>
 <p>Load the topGO package and load an example gene dataset, this also loads a function to define a list of differentially expressed genes that we will use in our analysis. We will also re-load our results from the DGE analysis.</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb69-1"><a href="16-GO.html#cb69-1" tabindex="-1"></a><span class="fu">library</span>(topGO)</span>
-<span id="cb69-2"><a href="16-GO.html#cb69-2" tabindex="-1"></a><span class="fu">library</span>(Rgraphviz)</span>
-<span id="cb69-3"><a href="16-GO.html#cb69-3" tabindex="-1"></a></span>
-<span id="cb69-4"><a href="16-GO.html#cb69-4" tabindex="-1"></a><span class="fu">data</span>(geneList)</span>
-<span id="cb69-5"><a href="16-GO.html#cb69-5" tabindex="-1"></a></span>
-<span id="cb69-6"><a href="16-GO.html#cb69-6" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;DESeq2_DGE_results_sex.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb68-1"><a href="16-GO.html#cb68-1" tabindex="-1"></a><span class="fu">library</span>(topGO)</span>
+<span id="cb68-2"><a href="16-GO.html#cb68-2" tabindex="-1"></a><span class="fu">library</span>(Rgraphviz)</span>
+<span id="cb68-3"><a href="16-GO.html#cb68-3" tabindex="-1"></a></span>
+<span id="cb68-4"><a href="16-GO.html#cb68-4" tabindex="-1"></a><span class="fu">data</span>(geneList)</span>
+<span id="cb68-5"><a href="16-GO.html#cb68-5" tabindex="-1"></a></span>
+<span id="cb68-6"><a href="16-GO.html#cb68-6" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;DESeq2_DGE_results_sex.RData&quot;</span>)</span></code></pre></div>
 <p>We will now modify the geneList object to contain the results we obtained from our DGE analysis containing the adjusted p-values and the names of the genes.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb70-1"><a href="16-GO.html#cb70-1" tabindex="-1"></a><span class="co"># extract the adjusted p-values from  our results object</span></span>
-<span id="cb70-2"><a href="16-GO.html#cb70-2" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> res<span class="sc">$</span>padj</span>
-<span id="cb70-3"><a href="16-GO.html#cb70-3" tabindex="-1"></a></span>
-<span id="cb70-4"><a href="16-GO.html#cb70-4" tabindex="-1"></a><span class="co"># add the gene names from our results to our list of adjusted p-values</span></span>
-<span id="cb70-5"><a href="16-GO.html#cb70-5" tabindex="-1"></a><span class="fu">names</span>(geneList) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(res)</span>
-<span id="cb70-6"><a href="16-GO.html#cb70-6" tabindex="-1"></a></span>
-<span id="cb70-7"><a href="16-GO.html#cb70-7" tabindex="-1"></a><span class="co"># remove genes with an adjusted p-value recorded as NA</span></span>
-<span id="cb70-8"><a href="16-GO.html#cb70-8" tabindex="-1"></a>geneList<span class="ot">&lt;-</span><span class="fu">na.omit</span>(geneList)</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb69-1"><a href="16-GO.html#cb69-1" tabindex="-1"></a><span class="co"># extract the adjusted p-values from  our results object</span></span>
+<span id="cb69-2"><a href="16-GO.html#cb69-2" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> res<span class="sc">$</span>padj</span>
+<span id="cb69-3"><a href="16-GO.html#cb69-3" tabindex="-1"></a></span>
+<span id="cb69-4"><a href="16-GO.html#cb69-4" tabindex="-1"></a><span class="co"># add the gene names from our results to our list of adjusted p-values</span></span>
+<span id="cb69-5"><a href="16-GO.html#cb69-5" tabindex="-1"></a><span class="fu">names</span>(geneList) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(res)</span>
+<span id="cb69-6"><a href="16-GO.html#cb69-6" tabindex="-1"></a></span>
+<span id="cb69-7"><a href="16-GO.html#cb69-7" tabindex="-1"></a><span class="co"># remove genes with an adjusted p-value recorded as NA</span></span>
+<span id="cb69-8"><a href="16-GO.html#cb69-8" tabindex="-1"></a>geneList<span class="ot">&lt;-</span><span class="fu">na.omit</span>(geneList)</span></code></pre></div>
 </div>
 <div id="go-extract-top-differential-genes" class="section level2 hasAnchor" number="16.2">
 <h2><span class="header-section-number">16.2</span> GO: Extract top differential genes<a href="16-GO.html#go-extract-top-differential-genes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -329,7 +329,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="figures/spinning_top.png" style="width:200px; background: white; border-radius:5px; border: white 5px solid" />
 </center>
 <p>We can use the topDiffGenes function to extract genes with an adjusted p-value of less than 0.01. This will be used as our list of genes of interest for our GO enrichment analysis.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb71-1"><a href="16-GO.html#cb71-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">topDiffGenes</span>(geneList))</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb70-1"><a href="16-GO.html#cb70-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">topDiffGenes</span>(geneList))</span></code></pre></div>
 <p>We have 666 genes which are significantly differentially expressed when using a cutoff of 0.01.</p>
 </div>
 <div id="go-map-gos-to-genes" class="section level2 hasAnchor" number="16.3">
@@ -338,8 +338,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="figures/mapping_2.png" style="width:200px; background: white; border-radius:5px; border: white 5px solid" />
 </center>
 <p>We will now read in a list of genes and their associated biological process GO annotations.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb72-1"><a href="16-GO.html#cb72-1" tabindex="-1"></a>geneID2GO <span class="ot">&lt;-</span> <span class="fu">readMappings</span>(<span class="st">&quot;geneanno_goBio.tsv&quot;</span>)</span>
-<span id="cb72-2"><a href="16-GO.html#cb72-2" tabindex="-1"></a><span class="fu">head</span>(geneID2GO)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb71-1"><a href="16-GO.html#cb71-1" tabindex="-1"></a>geneID2GO <span class="ot">&lt;-</span> <span class="fu">readMappings</span>(<span class="st">&quot;geneanno_goBio.tsv&quot;</span>)</span>
+<span id="cb71-2"><a href="16-GO.html#cb71-2" tabindex="-1"></a><span class="fu">head</span>(geneID2GO)</span></code></pre></div>
 <p>You can see we now have a list of GO annotations associated with each gene ID.</p>
 </div>
 <div id="go-create-topgodata-object" class="section level2 hasAnchor" number="16.4">
@@ -348,13 +348,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="figures/clay_pot.png" style="width:200px; background: white; border-radius:5px; border: white 5px solid" />
 </center>
 <p>We now have all the data we need to make a topGOdata object. This will contain all the information needed to perform the enrichment analysis including the gene lists we've made, the GO annotations and the GO hierarchical structure.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb73-1"><a href="16-GO.html#cb73-1" tabindex="-1"></a>sampleGOdata <span class="ot">&lt;-</span> <span class="fu">new</span>(<span class="st">&quot;topGOdata&quot;</span>,</span>
-<span id="cb73-2"><a href="16-GO.html#cb73-2" tabindex="-1"></a>              <span class="at">ontology =</span> <span class="st">&quot;BP&quot;</span>, </span>
-<span id="cb73-3"><a href="16-GO.html#cb73-3" tabindex="-1"></a>              <span class="at">allGenes =</span> geneList,</span>
-<span id="cb73-4"><a href="16-GO.html#cb73-4" tabindex="-1"></a>              <span class="at">geneSel =</span> topDiffGenes,</span>
-<span id="cb73-5"><a href="16-GO.html#cb73-5" tabindex="-1"></a>              <span class="at">nodeSize =</span> <span class="dv">10</span>,</span>
-<span id="cb73-6"><a href="16-GO.html#cb73-6" tabindex="-1"></a>              <span class="at">annot =</span> annFUN.gene2GO, </span>
-<span id="cb73-7"><a href="16-GO.html#cb73-7" tabindex="-1"></a>              <span class="at">gene2GO =</span> geneID2GO)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb72-1"><a href="16-GO.html#cb72-1" tabindex="-1"></a>sampleGOdata <span class="ot">&lt;-</span> <span class="fu">new</span>(<span class="st">&quot;topGOdata&quot;</span>,</span>
+<span id="cb72-2"><a href="16-GO.html#cb72-2" tabindex="-1"></a>              <span class="at">ontology =</span> <span class="st">&quot;BP&quot;</span>, </span>
+<span id="cb72-3"><a href="16-GO.html#cb72-3" tabindex="-1"></a>              <span class="at">allGenes =</span> geneList,</span>
+<span id="cb72-4"><a href="16-GO.html#cb72-4" tabindex="-1"></a>              <span class="at">geneSel =</span> topDiffGenes,</span>
+<span id="cb72-5"><a href="16-GO.html#cb72-5" tabindex="-1"></a>              <span class="at">nodeSize =</span> <span class="dv">10</span>,</span>
+<span id="cb72-6"><a href="16-GO.html#cb72-6" tabindex="-1"></a>              <span class="at">annot =</span> annFUN.gene2GO, </span>
+<span id="cb72-7"><a href="16-GO.html#cb72-7" tabindex="-1"></a>              <span class="at">gene2GO =</span> geneID2GO)</span></code></pre></div>
 <ul>
 <li><strong>ontology =</strong> specifies which ontology to use (biological processes, cellular components or molecular function)</li>
 <li><strong>allGenes =</strong> a list of all genes which we tested in our DGE analysis with their associated adjusted p-values</li>
@@ -364,7 +364,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>gene2GO =</strong> our list of genes and their associated GOs</li>
 </ul>
 <p>If you check the topGOdata object we can see a summary of the data we added.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb74-1"><a href="16-GO.html#cb74-1" tabindex="-1"></a>sampleGOdata</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb73-1"><a href="16-GO.html#cb73-1" tabindex="-1"></a>sampleGOdata</span></code></pre></div>
 </div>
 <div id="go-enrichment-analysis" class="section level2 hasAnchor" number="16.5">
 <h2><span class="header-section-number">16.5</span> GO: enrichment analysis<a href="16-GO.html#go-enrichment-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -372,15 +372,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="figures/fertiliser.png" style="width:150px; background: white; border-radius:5px; border: white 5px solid" />
 </center>
 <p>Now we have the topGOdata object ready we can start with the enrichment analysis. Here we run the analysis using the Fisher’s exact test statistic using the runTest function and test whether there is an over-representation of GO terms within the group of differentially expressed genes. Each GO category is tested independently with the algorithm classic.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb75-1"><a href="16-GO.html#cb75-1" tabindex="-1"></a>resultFisher <span class="ot">&lt;-</span> <span class="fu">runTest</span>(sampleGOdata, <span class="at">algorithm =</span> <span class="st">&quot;classic&quot;</span>, <span class="at">statistic =</span> <span class="st">&quot;fisher&quot;</span>)</span>
-<span id="cb75-2"><a href="16-GO.html#cb75-2" tabindex="-1"></a></span>
-<span id="cb75-3"><a href="16-GO.html#cb75-3" tabindex="-1"></a>resultFisher</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb74-1"><a href="16-GO.html#cb74-1" tabindex="-1"></a>resultFisher <span class="ot">&lt;-</span> <span class="fu">runTest</span>(sampleGOdata, <span class="at">algorithm =</span> <span class="st">&quot;classic&quot;</span>, <span class="at">statistic =</span> <span class="st">&quot;fisher&quot;</span>)</span>
+<span id="cb74-2"><a href="16-GO.html#cb74-2" tabindex="-1"></a></span>
+<span id="cb74-3"><a href="16-GO.html#cb74-3" tabindex="-1"></a>resultFisher</span></code></pre></div>
 <p>The enrichment analysis has identified 59 significantly enriched GO categories (p &lt; 0.01).</p>
 <p>We can then pull out the most significant GO terms from the results and the corresponding p-values using the function GenTable. In this case we will print the top 10 GO categories.</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb76-1"><a href="16-GO.html#cb76-1" tabindex="-1"></a>allRes <span class="ot">&lt;-</span> <span class="fu">GenTable</span>(sampleGOdata, <span class="at">classicFisher =</span> resultFisher,</span>
-<span id="cb76-2"><a href="16-GO.html#cb76-2" tabindex="-1"></a>                                       <span class="at">orderBy =</span> <span class="st">&quot;classicFisher&quot;</span>, <span class="at">topNodes =</span> <span class="dv">10</span>)</span>
-<span id="cb76-3"><a href="16-GO.html#cb76-3" tabindex="-1"></a></span>
-<span id="cb76-4"><a href="16-GO.html#cb76-4" tabindex="-1"></a>allRes</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb75-1"><a href="16-GO.html#cb75-1" tabindex="-1"></a>allRes <span class="ot">&lt;-</span> <span class="fu">GenTable</span>(sampleGOdata, <span class="at">classicFisher =</span> resultFisher,</span>
+<span id="cb75-2"><a href="16-GO.html#cb75-2" tabindex="-1"></a>                                       <span class="at">orderBy =</span> <span class="st">&quot;classicFisher&quot;</span>, <span class="at">topNodes =</span> <span class="dv">10</span>)</span>
+<span id="cb75-3"><a href="16-GO.html#cb75-3" tabindex="-1"></a></span>
+<span id="cb75-4"><a href="16-GO.html#cb75-4" tabindex="-1"></a>allRes</span></code></pre></div>
 </div>
 <div id="go-enrichment-network-plot" class="section level2 hasAnchor" number="16.6">
 <h2><span class="header-section-number">16.6</span> GO: Enrichment network plot<a href="16-GO.html#go-enrichment-network-plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -388,14 +388,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="figures/network.png" style="width:200px; background: white; border-radius:5px; border: white 5px solid" />
 </center>
 <p>Plot a figure of the most significant GO terms. We will plot the top 5 to make it easier to view the plot.</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb77-1"><a href="16-GO.html#cb77-1" tabindex="-1"></a><span class="fu">showSigOfNodes</span>(sampleGOdata, <span class="fu">score</span>(resultFisher), <span class="at">firstSigNodes =</span> <span class="dv">5</span>, <span class="at">useInfo =</span> <span class="st">&#39;all&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb76-1"><a href="16-GO.html#cb76-1" tabindex="-1"></a><span class="fu">showSigOfNodes</span>(sampleGOdata, <span class="fu">score</span>(resultFisher), <span class="at">firstSigNodes =</span> <span class="dv">5</span>, <span class="at">useInfo =</span> <span class="st">&#39;all&#39;</span>)</span></code></pre></div>
 <p>This plot is nice but it's quite hard to read. Instead we will write this plot to a png file to view it.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb78-1"><a href="16-GO.html#cb78-1" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;GO.png&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
-<span id="cb78-2"><a href="16-GO.html#cb78-2" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">200</span>)</span>
-<span id="cb78-3"><a href="16-GO.html#cb78-3" tabindex="-1"></a></span>
-<span id="cb78-4"><a href="16-GO.html#cb78-4" tabindex="-1"></a><span class="fu">showSigOfNodes</span>(sampleGOdata, <span class="fu">score</span>(resultFisher), <span class="at">firstSigNodes =</span> <span class="dv">5</span>, <span class="at">useInfo =</span> <span class="st">&#39;all&#39;</span>)</span>
-<span id="cb78-5"><a href="16-GO.html#cb78-5" tabindex="-1"></a></span>
-<span id="cb78-6"><a href="16-GO.html#cb78-6" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb77-1"><a href="16-GO.html#cb77-1" tabindex="-1"></a><span class="fu">png</span>(<span class="at">filename =</span> <span class="st">&quot;GO.png&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
+<span id="cb77-2"><a href="16-GO.html#cb77-2" tabindex="-1"></a>    <span class="at">units =</span> <span class="st">&quot;mm&quot;</span>, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span> <span class="dv">200</span>)</span>
+<span id="cb77-3"><a href="16-GO.html#cb77-3" tabindex="-1"></a></span>
+<span id="cb77-4"><a href="16-GO.html#cb77-4" tabindex="-1"></a><span class="fu">showSigOfNodes</span>(sampleGOdata, <span class="fu">score</span>(resultFisher), <span class="at">firstSigNodes =</span> <span class="dv">5</span>, <span class="at">useInfo =</span> <span class="st">&#39;all&#39;</span>)</span>
+<span id="cb77-5"><a href="16-GO.html#cb77-5" tabindex="-1"></a></span>
+<span id="cb77-6"><a href="16-GO.html#cb77-6" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
 <p>You can open the png file you just made by clicking on the Jupyter 'home page' tab and then clicking on the GO.png file you just created. You will then be able to zoom in to see the text of the plot in more details.</p>
 <center>
 <img src="figures/GO.png" style="width:800px; border-radius:15px" />
