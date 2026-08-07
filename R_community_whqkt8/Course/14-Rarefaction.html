@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 14 Rarefaction | R community analysis</title>
   <meta name="description" content="NEOF book for the R community analysis workflow" />
-  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.47 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 14 Rarefaction | R community analysis" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Matthew R. Gemmell" />
 
 
-<meta name="date" content="2026-06-13" />
+<meta name="date" content="2026-08-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -639,16 +639,16 @@ A slope of 1 shows a flat vertical line (not what we want).</p>
 <p>With the calculated slopes attempt the following questions:</p>
 <ol style="list-style-type: decimal">
 <li>Which sample has the largest slope value?
-<div id="radio_SVAJVPMSHS" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SVAJVPMSHS" value=""></input> <span><strong>UD_ENV_rep2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SVAJVPMSHS" value="answer"></input> <span><strong>MD_ENV_rep3</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SVAJVPMSHS" value=""></input> <span><strong>LD_CVP_rep1</strong></span></label>
+<div id="radio_JZBJQJFTAT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JZBJQJFTAT" value=""></input> <span><strong>UD_ENV_rep2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JZBJQJFTAT" value="answer"></input> <span><strong>MD_ENV_rep3</strong></span></label><label><input type="radio" autocomplete="off" name="radio_JZBJQJFTAT" value=""></input> <span><strong>LD_CVP_rep1</strong></span></label>
 </div></li>
 <li>Which sample has the lowest slope value?
-<div id="radio_DHERPJGFEF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DHERPJGFEF" value=""></input> <span><strong>UD_ENV_rep2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DHERPJGFEF" value=""></input> <span><strong>MD_ENV_rep3</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DHERPJGFEF" value="answer"></input> <span><strong>LD_CVP_rep1</strong></span></label>
+<div id="radio_QIXXXRKEGH" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QIXXXRKEGH" value=""></input> <span><strong>UD_ENV_rep2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QIXXXRKEGH" value=""></input> <span><strong>MD_ENV_rep3</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QIXXXRKEGH" value="answer"></input> <span><strong>LD_CVP_rep1</strong></span></label>
 </div></li>
 <li>Which samples have larger slope values, the environmental samples or media samples?
-<div id="radio_EYGUNATQHL" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_EYGUNATQHL" value="answer"></input> <span><strong>Environmental</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EYGUNATQHL" value=""></input> <span><strong>Media</strong></span></label>
+<div id="radio_VGPEYSIJGZ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VGPEYSIJGZ" value="answer"></input> <span><strong>Environmental</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VGPEYSIJGZ" value=""></input> <span><strong>Media</strong></span></label>
 </div></li>
 </ol>
 <p>Overall the slopes values are low (&lt;0.01).
@@ -668,12 +668,18 @@ In your own analyses you may need to balance the loss of samples with the loss o
 <div class="sourceCode" id="cb72"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb72-1"><a href="14-Rarefaction.html#cb72-1" tabindex="-1"></a><span class="co">#Rarefy to minimum depth</span></span>
 <span id="cb72-2"><a href="14-Rarefaction.html#cb72-2" tabindex="-1"></a>pseq_rarefy <span class="ot">&lt;-</span> phyloseq<span class="sc">::</span><span class="fu">rarefy_even_depth</span>(</span>
 <span id="cb72-3"><a href="14-Rarefaction.html#cb72-3" tabindex="-1"></a>  pseq, <span class="at">sample.size =</span> <span class="fu">min</span>(microbiome<span class="sc">::</span><span class="fu">readcount</span>(pseq)),</span>
-<span id="cb72-4"><a href="14-Rarefaction.html#cb72-4" tabindex="-1"></a>  <span class="at">rngseed =</span> <span class="dv">1000</span></span>
-<span id="cb72-5"><a href="14-Rarefaction.html#cb72-5" tabindex="-1"></a>  )</span></code></pre></div>
+<span id="cb72-4"><a href="14-Rarefaction.html#cb72-4" tabindex="-1"></a>  <span class="at">replace=</span><span class="cn">FALSE</span>,</span>
+<span id="cb72-5"><a href="14-Rarefaction.html#cb72-5" tabindex="-1"></a>  <span class="at">rngseed =</span> <span class="dv">1000</span></span>
+<span id="cb72-6"><a href="14-Rarefaction.html#cb72-6" tabindex="-1"></a>  )</span></code></pre></div>
 <p>The options we provided to the function <code>rarefy_even_depth</code> were:</p>
 <ul>
 <li><strong><code>pseq</code></strong>: The <code>phyloseq</code> object to rarefy</li>
-<li><strong><code>sample.size =</code></strong>: The sampling depth to rarefy to</li>
+<li><strong><code>sample.size</code></strong>: The sampling depth to rarefy to</li>
+<li><strong><code>replace</code></strong>: Whether to rarefy with replacement (<code>TRUE</code>) or without replacement (<code>FALSE</code>)
+<ul>
+<li>The default is <code>TRUE</code> (with replacement)</li>
+<li>We recommend rarefying without replacement (<code>FALSE</code>)</li>
+</ul></li>
 <li><strong><code>rngseed</code></strong>: This is the seed used for random subsampling
 <ul>
 <li>If you rarefy the data again with the same seed it will extract the same data</li>
@@ -689,8 +695,8 @@ In your own analyses you may need to balance the loss of samples with the loss o
 <span id="cb73-5"><a href="14-Rarefaction.html#cb73-5" tabindex="-1"></a><span class="co">#Add relative abundance ASV count</span></span>
 <span id="cb73-6"><a href="14-Rarefaction.html#cb73-6" tabindex="-1"></a>num_asvs_vec[<span class="st">&quot;rarefied&quot;</span>] <span class="ot">&lt;-</span> <span class="fu">nrow</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(pseq_rarefy))</span>
 <span id="cb73-7"><a href="14-Rarefaction.html#cb73-7" tabindex="-1"></a>num_asvs_vec</span></code></pre></div>
-<p>With this we can see that all our samples have the correct depth (10,433) and very few ASVs have been lost (2551-2498 = 53).
-I would definetly be happy with this outcome.</p>
+<p>With this we can see that all our samples have the correct depth (10,433) and very few ASVs have been lost (2551-2541 = 10).
+I would definitely be happy with this outcome.</p>
 <p>Once you have viewed the outputs save your <code>phyloseq</code> object and ASV count vector.</p>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r Rchunk"><code class="sourceCode r"><span id="cb74-1"><a href="14-Rarefaction.html#cb74-1" tabindex="-1"></a><span class="co">#Phyloseq save</span></span>
 <span id="cb74-2"><a href="14-Rarefaction.html#cb74-2" tabindex="-1"></a><span class="fu">save</span>(pseq_rarefy, <span class="at">file =</span><span class="st">&quot;phyloseq_rarefied.RData&quot;</span>)</span>
