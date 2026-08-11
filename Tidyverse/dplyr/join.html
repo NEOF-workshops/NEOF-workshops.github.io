@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Relocate – NEOF Tidyverse</title>
+<title>Join – NEOF Tidyverse</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -68,8 +68,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../dplyr/rename.html" rel="next">
-<link href="../dplyr/pull.html" rel="prev">
+<link href="../dplyr/cheatsheets.html" rel="next">
+<link href="../dplyr/bind_tibbles.html" rel="prev">
 <link href="..//images/NEOF_favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -370,7 +370,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <a class="flex-grow-1 no-decor" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-          <h1 class="quarto-secondary-nav-title">Relocate</h1>
+          <h1 class="quarto-secondary-nav-title">Join</h1>
         </a>     
     </div>
   </nav>
@@ -457,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../dplyr/relocate.html" class="sidebar-item-text sidebar-link active">
+  <a href="../dplyr/relocate.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Relocate</span></a>
   </div>
 </li>
@@ -521,7 +521,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../dplyr/join.html" class="sidebar-item-text sidebar-link">
+  <a href="../dplyr/join.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Join</span></a>
   </div>
 </li>
@@ -544,11 +544,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#dataset" id="toc-dataset" class="nav-link active" data-scroll-target="#dataset">Dataset</a></li>
-  <li><a href="#relocate-to-first-column" id="toc-relocate-to-first-column" class="nav-link" data-scroll-target="#relocate-to-first-column">Relocate to first column</a></li>
-  <li><a href="#relocate-after-another-column" id="toc-relocate-after-another-column" class="nav-link" data-scroll-target="#relocate-after-another-column">Relocate after another column</a></li>
-  <li><a href="#relocate-before-another-column" id="toc-relocate-before-another-column" class="nav-link" data-scroll-target="#relocate-before-another-column">Relocate before another column</a></li>
-  <li><a href="#relocate-a-column-to-the-last-column" id="toc-relocate-a-column-to-the-last-column" class="nav-link" data-scroll-target="#relocate-a-column-to-the-last-column">Relocate a column to the last column</a></li>
-  <li><a href="#relocate-all-columns-of-a-certain-data-type" id="toc-relocate-all-columns-of-a-certain-data-type" class="nav-link" data-scroll-target="#relocate-all-columns-of-a-certain-data-type">Relocate all columns of a certain data type</a></li>
+  <li><a href="#inner_join" id="toc-inner_join" class="nav-link" data-scroll-target="#inner_join">inner_join()</a></li>
   </ul>
 </nav>
     </div>
@@ -558,7 +554,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Relocate</h1>
+<h1 class="title d-none d-lg-block">Join</h1>
 </div>
 
 
@@ -576,166 +572,117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <center>
-<img src="images/dplyr_relocate.png" class="img-fluid" style="width:200px">
+<img src="images/dplyr_join.png" class="img-fluid" style="width:200px">
 </center>
-<p>The function <code>dplyr::relocate()</code> can change the order of columns.</p>
-<p><a href="https://dplyr.tidyverse.org//reference/relocate.html">Tidyverse reference page</a></p>
+<p>There are various join functions in <code>dplyr</code>. This page will only show the use of <code>dplyr::inner_join()</code>. This function joins 2 <code>tibbles</code>/<code>data.frames</code> based on a key column. This allows you to add data from matching rows similar to VLOOKUP in excel.</p>
+<p><a href="https://dplyr.tidyverse.org//reference/mutate-joins.html">Tidyverse reference page</a></p>
 <section id="dataset" class="level2">
 <h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
-<p>For demonstration we’ll load the <code>mammal_sleep_tbl</code> data from the <a href="../datasets/mgrtibbles.html">mgrtibbles package</a> (hyperlink includes install instructions). For easier viewing we’ll subset it so it only has 5 rows.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load package</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"mgrtibbles"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#mammal_sleep_tbl tibble for demonstration</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl<span class="ot">&lt;-</span> mgrtibbles<span class="sc">::</span>mammal_sleep_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Slice to extract rows 1:5</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 11
-  species body_wt brain_wt non_dreaming dreaming total_sleep life_span gestation
-  &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-1 Africa… 6654      5.71           NA       NA           3.3      38.6       645
-2 Africa…    1      0.0066          6.3      2           8.3       4.5        42
-3 Arctic…    3.38   0.0445         NA       NA          12.5      14          60
-4 Arctic…    0.92   0.0057         NA       NA          16.5      NA          25
-5 Asiane… 2547      4.60            2.1      1.8         3.9      69         624
-# ℹ 3 more variables: predation &lt;fct&gt;, exposure &lt;fct&gt;, danger &lt;fct&gt;</code></pre>
-</div>
-</div>
-</section>
-<section id="relocate-to-first-column" class="level2">
-<h2 class="anchored" data-anchor-id="relocate-to-first-column">Relocate to first column</h2>
-<p>Relocating a column to the first column is the default behaviour of <code>dplyr::relocate()</code>.</p>
-<p>Relocate column <code>body_wt</code> to the first column.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">relocate</span>(body_wt)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 11
-  body_wt species brain_wt non_dreaming dreaming total_sleep life_span gestation
-    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-1 6654    Africa…   5.71           NA       NA           3.3      38.6       645
-2    1    Africa…   0.0066          6.3      2           8.3       4.5        42
-3    3.38 Arctic…   0.0445         NA       NA          12.5      14          60
-4    0.92 Arctic…   0.0057         NA       NA          16.5      NA          25
-5 2547    Asiane…   4.60            2.1      1.8         3.9      69         624
-# ℹ 3 more variables: predation &lt;fct&gt;, exposure &lt;fct&gt;, danger &lt;fct&gt;</code></pre>
-</div>
-</div>
-</section>
-<section id="relocate-after-another-column" class="level2">
-<h2 class="anchored" data-anchor-id="relocate-after-another-column">Relocate after another column</h2>
-<p>Relocate the <code>body_wt</code> column after the <code>brain_wt</code> column with the <code>.after=</code> option.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">relocate</span>(body_wt, <span class="at">.after=</span>brain_wt)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 11
-  species brain_wt body_wt non_dreaming dreaming total_sleep life_span gestation
-  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-1 Africa…   5.71   6654            NA       NA           3.3      38.6       645
-2 Africa…   0.0066    1             6.3      2           8.3       4.5        42
-3 Arctic…   0.0445    3.38         NA       NA          12.5      14          60
-4 Arctic…   0.0057    0.92         NA       NA          16.5      NA          25
-5 Asiane…   4.60   2547             2.1      1.8         3.9      69         624
-# ℹ 3 more variables: predation &lt;fct&gt;, exposure &lt;fct&gt;, danger &lt;fct&gt;</code></pre>
-</div>
-</div>
-</section>
-<section id="relocate-before-another-column" class="level2">
-<h2 class="anchored" data-anchor-id="relocate-before-another-column">Relocate before another column</h2>
-<p>Relocate the <code>dreaming</code> column before the <code>non_dreaming</code> column with the <code>.before=</code> option.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">relocate</span>(dreaming, <span class="at">.before=</span>non_dreaming)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 11
-  species body_wt brain_wt dreaming non_dreaming total_sleep life_span gestation
-  &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-1 Africa… 6654      5.71       NA           NA           3.3      38.6       645
-2 Africa…    1      0.0066      2            6.3         8.3       4.5        42
-3 Arctic…    3.38   0.0445     NA           NA          12.5      14          60
-4 Arctic…    0.92   0.0057     NA           NA          16.5      NA          25
-5 Asiane… 2547      4.60        1.8          2.1         3.9      69         624
-# ℹ 3 more variables: predation &lt;fct&gt;, exposure &lt;fct&gt;, danger &lt;fct&gt;</code></pre>
-</div>
-</div>
-</section>
-<section id="relocate-a-column-to-the-last-column" class="level2">
-<h2 class="anchored" data-anchor-id="relocate-a-column-to-the-last-column">Relocate a column to the last column</h2>
-<p>Use the <code>last_col()</code> helper function as the <code>.after()</code> option to move the <code>predation</code> column to the last column.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Select columns predation to danger</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(predation<span class="sc">:</span>danger) <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Relocate predation to last column</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">relocate</span>(predation, <span class="at">.after=</span><span class="fu">last_col</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 3
-  exposure danger predation
-  &lt;fct&gt;    &lt;fct&gt;  &lt;fct&gt;    
-1 5        3      3        
-2 1        3      3        
-3 1        1      1        
-4 2        3      5        
-5 5        4      3        </code></pre>
-</div>
-</div>
-</section>
-<section id="relocate-all-columns-of-a-certain-data-type" class="level2">
-<h2 class="anchored" data-anchor-id="relocate-all-columns-of-a-certain-data-type">Relocate all columns of a certain data type</h2>
-<p>All columns of a specific data type can be moved at once using the <code>where()</code> function. The <code>where()</code> function is given one of the following:</p>
+<p>Before demonstrating various examples we will create a 2 tibbles:</p>
 <ul>
-<li><code>is.numeric</code>: Numeric</li>
-<li><code>is.character</code>: String/character</li>
-<li><code>is.factor</code>: Factor</li>
-<li><code>is.logical</code>: Logical</li>
-<li><code>is.Date</code>: Date</li>
+<li><code>acris_records</code>: Contain records of frogs from Acris species (Cricket frogs).</li>
+<li><code>species_info</code>: Contains IUCN and lineage information on the the 2 frog</li>
 </ul>
-<p>Relocate all numeric (integer and floats) columns to the start of the <strong>tibble</strong>.</p>
+<p>We’ll use these for joining.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="fu">where</span>(is.numeric))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Vectors for tibble</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Species <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Acris gryllus"</span>,<span class="st">"Acris blanchardi"</span>,<span class="st">"Acris blanchardi"</span>,<span class="st">"Acris crepitans"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Acris crepitans"</span>,<span class="st">"Acris blanchardi"</span>,<span class="st">"Acris blanchardi"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Acris blanchardi"</span>,<span class="st">"Acris gryllus"</span>,<span class="st">"Acris gryllus"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>length <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">32</span>,<span class="dv">10</span>,<span class="dv">14</span>,<span class="dv">23</span>,<span class="dv">19</span>,<span class="dv">11</span>,<span class="dv">9</span>,<span class="dv">14</span>,<span class="dv">32</span>,<span class="dv">22</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Tibble</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>acris_records <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(Species, length)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>acris_records</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 11
-  body_wt brain_wt non_dreaming dreaming total_sleep life_span gestation species
-    &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
-1 6654      5.71           NA       NA           3.3      38.6       645 Africa…
-2    1      0.0066          6.3      2           8.3       4.5        42 Africa…
-3    3.38   0.0445         NA       NA          12.5      14          60 Arctic…
-4    0.92   0.0057         NA       NA          16.5      NA          25 Arctic…
-5 2547      4.60            2.1      1.8         3.9      69         624 Asiane…
-# ℹ 3 more variables: predation &lt;fct&gt;, exposure &lt;fct&gt;, danger &lt;fct&gt;</code></pre>
+<pre><code># A tibble: 10 × 2
+   Species          length
+   &lt;chr&gt;             &lt;dbl&gt;
+ 1 Acris gryllus        32
+ 2 Acris blanchardi     10
+ 3 Acris blanchardi     14
+ 4 Acris crepitans      23
+ 5 Acris crepitans      19
+ 6 Acris blanchardi     11
+ 7 Acris blanchardi      9
+ 8 Acris blanchardi     14
+ 9 Acris gryllus        32
+10 Acris gryllus        22</code></pre>
 </div>
 </div>
-<p>Relocate all factor columns after the <code>species</code> column.</p>
+<p>Acquire IUCN and lineage information from the <code>amphibian_div_tbl</code> data from the <a href="../datasets/mgrtibbles.html">mgrtibbles package</a>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="fu">where</span>(is.factor), <span class="at">.after=</span>species)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load package</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"mgrtibbles"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>species_info <span class="ot">&lt;-</span> mgrtibbles<span class="sc">::</span>amphibian_div_tbl <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Select columns</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(Species<span class="sc">:</span>Genus) <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Extract distinct/unique rows</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">distinct</span>() <span class="sc">|&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Select Acris rows</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(Genus<span class="sc">==</span><span class="st">"Acris"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>species_info</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 11
-  species       predation exposure danger body_wt brain_wt non_dreaming dreaming
-  &lt;chr&gt;         &lt;fct&gt;     &lt;fct&gt;    &lt;fct&gt;    &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;
-1 Africaneleph… 3         5        3      6654      5.71           NA       NA  
-2 Africangiant… 3         1        3         1      0.0066          6.3      2  
-3 ArcticFox     1         1        1         3.38   0.0445         NA       NA  
-4 Arcticground… 5         2        3         0.92   0.0057         NA       NA  
-5 Asianelephant 3         5        4      2547      4.60            2.1      1.8
-# ℹ 3 more variables: total_sleep &lt;dbl&gt;, life_span &lt;dbl&gt;, gestation &lt;dbl&gt;</code></pre>
+<pre><code># A tibble: 3 × 6
+  Species          IUCN.Red.List.Status iucn_2cat Order Family  Genus
+  &lt;chr&gt;            &lt;fct&gt;                &lt;fct&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;
+1 Acris blanchardi &lt;NA&gt;                 &lt;NA&gt;      Anura Hylidae Acris
+2 Acris crepitans  Least Concern (LC)   LC        Anura Hylidae Acris
+3 Acris gryllus    Least Concern (LC)   LC        Anura Hylidae Acris</code></pre>
 </div>
 </div>
-<p>Relocate all character (string) columns to the end.</p>
+</section>
+<section id="inner_join" class="level2">
+<h2 class="anchored" data-anchor-id="inner_join">inner_join()</h2>
+<p>Join 2 <code>tibbles</code>/<code>data.frames</code> with a key column. This key column must have the same name and matching values.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mammal_sleep_tbl <span class="sc">|&gt;</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Relocate string columns to end</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="fu">where</span>(is.character), <span class="at">.after=</span><span class="fu">last_col</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Select last five columns</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">last_col</span>(<span class="dv">4</span>)<span class="sc">:</span><span class="fu">last_col</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">inner_join</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Left tibble</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    acris_records,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Right tibble</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    species_info,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Key column</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"Species"</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 5
-  gestation predation exposure danger species               
-      &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;    &lt;fct&gt;  &lt;chr&gt;                 
-1       645 3         5        3      Africanelephant       
-2        42 3         1        3      Africangiantpouchedrat
-3        60 1         1        1      ArcticFox             
-4        25 5         2        3      Arcticgroundsquirrel  
-5       624 3         5        4      Asianelephant         </code></pre>
+<pre><code># A tibble: 10 × 7
+   Species          length IUCN.Red.List.Status iucn_2cat Order Family  Genus
+   &lt;chr&gt;             &lt;dbl&gt; &lt;fct&gt;                &lt;fct&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;
+ 1 Acris gryllus        32 Least Concern (LC)   LC        Anura Hylidae Acris
+ 2 Acris blanchardi     10 &lt;NA&gt;                 &lt;NA&gt;      Anura Hylidae Acris
+ 3 Acris blanchardi     14 &lt;NA&gt;                 &lt;NA&gt;      Anura Hylidae Acris
+ 4 Acris crepitans      23 Least Concern (LC)   LC        Anura Hylidae Acris
+ 5 Acris crepitans      19 Least Concern (LC)   LC        Anura Hylidae Acris
+ 6 Acris blanchardi     11 &lt;NA&gt;                 &lt;NA&gt;      Anura Hylidae Acris
+ 7 Acris blanchardi      9 &lt;NA&gt;                 &lt;NA&gt;      Anura Hylidae Acris
+ 8 Acris blanchardi     14 &lt;NA&gt;                 &lt;NA&gt;      Anura Hylidae Acris
+ 9 Acris gryllus        32 Least Concern (LC)   LC        Anura Hylidae Acris
+10 Acris gryllus        22 Least Concern (LC)   LC        Anura Hylidae Acris</code></pre>
+</div>
+</div>
+<p>Swapping the left and right <code>tibbles</code> swaps their positions in the joined <code>tibble</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">inner_join</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Left tibble</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    species_info,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Right tibble</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    acris_records,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Key column</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"Species"</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 7
+   Species          IUCN.Red.List.Status iucn_2cat Order Family  Genus length
+   &lt;chr&gt;            &lt;fct&gt;                &lt;fct&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;
+ 1 Acris blanchardi &lt;NA&gt;                 &lt;NA&gt;      Anura Hylidae Acris     10
+ 2 Acris blanchardi &lt;NA&gt;                 &lt;NA&gt;      Anura Hylidae Acris     14
+ 3 Acris blanchardi &lt;NA&gt;                 &lt;NA&gt;      Anura Hylidae Acris     11
+ 4 Acris blanchardi &lt;NA&gt;                 &lt;NA&gt;      Anura Hylidae Acris      9
+ 5 Acris blanchardi &lt;NA&gt;                 &lt;NA&gt;      Anura Hylidae Acris     14
+ 6 Acris crepitans  Least Concern (LC)   LC        Anura Hylidae Acris     23
+ 7 Acris crepitans  Least Concern (LC)   LC        Anura Hylidae Acris     19
+ 8 Acris gryllus    Least Concern (LC)   LC        Anura Hylidae Acris     32
+ 9 Acris gryllus    Least Concern (LC)   LC        Anura Hylidae Acris     32
+10 Acris gryllus    Least Concern (LC)   LC        Anura Hylidae Acris     22</code></pre>
 </div>
 </div>
 
@@ -1570,13 +1517,13 @@ window.onload = function() {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../dplyr/pull.html" class="pagination-link" aria-label="Pull">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Pull</span>
+      <a href="../dplyr/bind_tibbles.html" class="pagination-link" aria-label="Bind tibbles">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Bind tibbles</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../dplyr/rename.html" class="pagination-link" aria-label="Rename">
-        <span class="nav-page-text">Rename</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../dplyr/cheatsheets.html" class="pagination-link" aria-label="Cheatsheets">
+        <span class="nav-page-text">Cheatsheets</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
