@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>categorical_linear_plots – Advanced R community analysis</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -70,17 +76,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="..//images/NEOF_favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-f54fa83ccd8f86fe7238c9291c42d766.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8f4e3aabaa80e3e650ae20f2c24f966b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-3419ea62b3ca2d77d3d547f86109e84e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-eaeb381c6b7494c50009502241a4985c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-920c2a24aad7d016c65733e49842bc73.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-4cb16f4e3284d4a322b9f3cfd53615fa.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-5ff86afcab613e4ddd69836011fbfac3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-3fa8645101ca5b03c5f6878d083093ed.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -295,7 +300,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="../index.html" aria-current="page"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Overview</span></a>
   </li>  
   <li class="nav-item">
@@ -315,7 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Upset</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../maaslin3/maaslin3.html"> 
+    <a class="nav-link active" href="../maaslin3/maaslin3.html" aria-current="page"> 
 <span class="menu-text">MaAsLin3</span></a>
   </li>  
   <li class="nav-item">
@@ -365,10 +370,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../index.html" class="sidebar-logo-link">
-      </a>
-      </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -899,20 +900,20 @@ Note
 <p>View the metrics of the top five significant Soil associations with negative coefficient values. I.e. filter out associations with positive values and then look at the five associations with the lowest (most significant) q-values.</p>
 <ol type="1">
 <li>Which feature association has the highest significance (i.e lowest individual q-value)?
-<div id="radio_QSUYIHMBWX" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_QSUYIHMBWX" value="answer"> <span>Streptosporangium</span></label><label><input type="radio" autocomplete="off" name="radio_QSUYIHMBWX" value=""> <span>Pseudonocardia</span></label><label><input type="radio" autocomplete="off" name="radio_QSUYIHMBWX" value=""> <span>Hyphomicrobium</span></label><label><input type="radio" autocomplete="off" name="radio_QSUYIHMBWX" value=""> <span>Desulfosporosinus</span></label><label><input type="radio" autocomplete="off" name="radio_QSUYIHMBWX" value=""> <span>Kribbella</span></label>
+<div id="radio_PWAUMQXTTB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PWAUMQXTTB" value="answer"> <span>Streptosporangium</span></label><label><input type="radio" autocomplete="off" name="radio_PWAUMQXTTB" value=""> <span>Pseudonocardia</span></label><label><input type="radio" autocomplete="off" name="radio_PWAUMQXTTB" value=""> <span>Hyphomicrobium</span></label><label><input type="radio" autocomplete="off" name="radio_PWAUMQXTTB" value=""> <span>Desulfosporosinus</span></label><label><input type="radio" autocomplete="off" name="radio_PWAUMQXTTB" value=""> <span>Kribbella</span></label>
 </div></li>
 </ol>
 <ol start="2" type="1">
 <li>Which feature association has the greatest coefficient value (i.e.&nbsp;the value furtherest from 0 representing the largest fold change difference comparing the query to the reference)?
-<div id="radio_ODODBQTRFQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ODODBQTRFQ" value=""> <span>Streptosporangium</span></label><label><input type="radio" autocomplete="off" name="radio_ODODBQTRFQ" value=""> <span>Pseudonocardia</span></label><label><input type="radio" autocomplete="off" name="radio_ODODBQTRFQ" value=""> <span>Hyphomicrobium</span></label><label><input type="radio" autocomplete="off" name="radio_ODODBQTRFQ" value="answer"> <span>Desulfosporosinus</span></label><label><input type="radio" autocomplete="off" name="radio_ODODBQTRFQ" value=""> <span>Kribbella</span></label>
+<div id="radio_GHWQFAXHYB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_GHWQFAXHYB" value=""> <span>Streptosporangium</span></label><label><input type="radio" autocomplete="off" name="radio_GHWQFAXHYB" value=""> <span>Pseudonocardia</span></label><label><input type="radio" autocomplete="off" name="radio_GHWQFAXHYB" value=""> <span>Hyphomicrobium</span></label><label><input type="radio" autocomplete="off" name="radio_GHWQFAXHYB" value="answer"> <span>Desulfosporosinus</span></label><label><input type="radio" autocomplete="off" name="radio_GHWQFAXHYB" value=""> <span>Kribbella</span></label>
 </div></li>
 </ol>
 <ol start="3" type="1">
 <li>Which feature association has the lowest prevalence (i.e.&nbsp;the lowest <code>N_not_zero</code> value)?
-<div id="radio_JCUBVQXTAJ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_JCUBVQXTAJ" value=""> <span>Streptosporangium</span></label><label><input type="radio" autocomplete="off" name="radio_JCUBVQXTAJ" value=""> <span>Pseudonocardia</span></label><label><input type="radio" autocomplete="off" name="radio_JCUBVQXTAJ" value=""> <span>Hyphomicrobium</span></label><label><input type="radio" autocomplete="off" name="radio_JCUBVQXTAJ" value="answer"> <span>Desulfosporosinus</span></label><label><input type="radio" autocomplete="off" name="radio_JCUBVQXTAJ" value=""> <span>Kribbella</span></label>
+<div id="radio_OMZVJIIZEU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OMZVJIIZEU" value=""> <span>Streptosporangium</span></label><label><input type="radio" autocomplete="off" name="radio_OMZVJIIZEU" value=""> <span>Pseudonocardia</span></label><label><input type="radio" autocomplete="off" name="radio_OMZVJIIZEU" value=""> <span>Hyphomicrobium</span></label><label><input type="radio" autocomplete="off" name="radio_OMZVJIIZEU" value="answer"> <span>Desulfosporosinus</span></label><label><input type="radio" autocomplete="off" name="radio_OMZVJIIZEU" value=""> <span>Kribbella</span></label>
 </div></li>
 </ol>
 <div class="callout callout-style-default callout-note callout-titled" title="Code solution">
@@ -943,20 +944,20 @@ Note
 <p>Using the relevant plots answer the below MCQs:</p>
 <ol type="1">
 <li>Approximately, what is the median log relative abundance of <em>Desulfosporosinus</em> for the Rhizosphere Soil samples?
-<div id="radio_IAUKTLWGWR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_IAUKTLWGWR" value=""> <span><strong>-7</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IAUKTLWGWR" value=""> <span><strong>-7.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_IAUKTLWGWR" value="answer"> <span><strong>-17</strong></span></label>
+<div id="radio_FIGFFREXOA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FIGFFREXOA" value=""> <span><strong>-7</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FIGFFREXOA" value=""> <span><strong>-7.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FIGFFREXOA" value="answer"> <span><strong>-17</strong></span></label>
 </div></li>
 </ol>
 <ol start="2" type="1">
 <li>Approximately, what is the median log relative abundance of <em>Pseudonocardia</em> for the Bulk Soil samples?
-<div id="radio_XYAAZMBYSA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_XYAAZMBYSA" value="answer"> <span><strong>-7</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XYAAZMBYSA" value=""> <span><strong>-7.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_XYAAZMBYSA" value=""> <span><strong>-17</strong></span></label>
+<div id="radio_VQHMYJOOJJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_VQHMYJOOJJ" value="answer"> <span><strong>-7</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VQHMYJOOJJ" value=""> <span><strong>-7.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_VQHMYJOOJJ" value=""> <span><strong>-17</strong></span></label>
 </div></li>
 </ol>
 <ol start="3" type="1">
 <li>Approximately, what is the median log relative abundance of <em>Noviherbaspirillum</em> for the Rhizosphere Soil samples?
-<div id="radio_SBCBCEFXOR" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_SBCBCEFXOR" value=""> <span><strong>-7</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SBCBCEFXOR" value="answer"> <span><strong>-7.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_SBCBCEFXOR" value=""> <span><strong>-17</strong></span></label>
+<div id="radio_UXKVVNSYKY" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UXKVVNSYKY" value=""> <span><strong>-7</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UXKVVNSYKY" value="answer"> <span><strong>-7.5</strong></span></label><label><input type="radio" autocomplete="off" name="radio_UXKVVNSYKY" value=""> <span><strong>-17</strong></span></label>
 </div></li>
 </ol>
 </section>
