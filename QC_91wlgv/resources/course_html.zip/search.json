@@ -1,0 +1,906 @@
+[
+  {
+    "objectID": "cluster_intro.html",
+    "href": "cluster_intro.html",
+    "title": "Cluster Introduction",
+    "section": "",
+    "text": "For this workshop we will be using Virtual Network Computing (VNC). Connect to the VNC with a browser by using the webVNC link you were sent.\nYou will now be in a logged-in Linux VNC desktop with two terminals. You will see something as below (there may be only one terminal which is fine). If you do not see something similar please ask for assistance.\n\n\n\nIf the VNC is taking up too much/little space of your browser you can press the button “Fit Desktop to Browser”. This will automatically adjust the size of the webVNC desktop to your browser window.\nThese instructions will not work outside of this workshop. If you would like to install your own Linux OS on your desktop or laptop we would recommend Mint Linux\nThe following link is a guide to install Mint Linux:\nhttps://linuxmint-installation-guide.readthedocs.io/en/latest/\nIf you have a windows machine and would like to install linux on it you can install Windows Subsystem for Linux (WSL).\nThe following link is a guide to install linux via (WSL): https://learn.microsoft.com/en-us/windows/wsl/install\n\n\n\nIn our case the terminal window looks like the picture below. We are using the terminal window as our shell to interpret our commands to the kernel. Depending on your system and preferences it may look different.\n\n\n\nAlready there is useful information for us on the terminal window.\n\nnsc201: This is the login name, also known as the username. In this case nsc201 is a demonstrator’s account. Your screen should show a different account name which will be your username for the Linux machine/cluster you are logged into.\nada02: This is the machine name the user is logged into.\n~: This represents the current directory of the user, or the directory a command was run in. In the Linux (OS) and others ‘~’ is a shortcut to the user’s home directory.\nEverything after the ‘$’ is where commands are typed into the terminal. This is also referred to as the command line.\n\nTo open a new terminal window, right click on the main screen, choose Terminal.\n\n\n\nWIth the cluster intro please continue onto the Illumina part.",
+    "crumbs": [
+      "Intro",
+      "Cluster Introduction"
+    ]
+  },
+  {
+    "objectID": "cluster_intro.html#logon-instructions",
+    "href": "cluster_intro.html#logon-instructions",
+    "title": "Cluster Introduction",
+    "section": "",
+    "text": "For this workshop we will be using Virtual Network Computing (VNC). Connect to the VNC with a browser by using the webVNC link you were sent.\nYou will now be in a logged-in Linux VNC desktop with two terminals. You will see something as below (there may be only one terminal which is fine). If you do not see something similar please ask for assistance.\n\n\n\nIf the VNC is taking up too much/little space of your browser you can press the button “Fit Desktop to Browser”. This will automatically adjust the size of the webVNC desktop to your browser window.\nThese instructions will not work outside of this workshop. If you would like to install your own Linux OS on your desktop or laptop we would recommend Mint Linux\nThe following link is a guide to install Mint Linux:\nhttps://linuxmint-installation-guide.readthedocs.io/en/latest/\nIf you have a windows machine and would like to install linux on it you can install Windows Subsystem for Linux (WSL).\nThe following link is a guide to install linux via (WSL): https://learn.microsoft.com/en-us/windows/wsl/install",
+    "crumbs": [
+      "Intro",
+      "Cluster Introduction"
+    ]
+  },
+  {
+    "objectID": "cluster_intro.html#the-terminal-window",
+    "href": "cluster_intro.html#the-terminal-window",
+    "title": "Cluster Introduction",
+    "section": "",
+    "text": "In our case the terminal window looks like the picture below. We are using the terminal window as our shell to interpret our commands to the kernel. Depending on your system and preferences it may look different.\n\n\n\nAlready there is useful information for us on the terminal window.\n\nnsc201: This is the login name, also known as the username. In this case nsc201 is a demonstrator’s account. Your screen should show a different account name which will be your username for the Linux machine/cluster you are logged into.\nada02: This is the machine name the user is logged into.\n~: This represents the current directory of the user, or the directory a command was run in. In the Linux (OS) and others ‘~’ is a shortcut to the user’s home directory.\nEverything after the ‘$’ is where commands are typed into the terminal. This is also referred to as the command line.\n\nTo open a new terminal window, right click on the main screen, choose Terminal.",
+    "crumbs": [
+      "Intro",
+      "Cluster Introduction"
+    ]
+  },
+  {
+    "objectID": "cluster_intro.html#next-step",
+    "href": "cluster_intro.html#next-step",
+    "title": "Cluster Introduction",
+    "section": "",
+    "text": "WIth the cluster intro please continue onto the Illumina part.",
+    "crumbs": [
+      "Intro",
+      "Cluster Introduction"
+    ]
+  },
+  {
+    "objectID": "illumina/multiqc.html",
+    "href": "illumina/multiqc.html",
+    "title": "MultiQC",
+    "section": "",
+    "text": "MultiQC is a brilliant tool that can be used to collate multiple fastqc reports into one interactive html file. This means if you have 100 sets of paired reads you can look at 2 htmls rather than 200 FastQC reports. I say 2 htmls because it is best to put the forward reads into one MultiQC report and the reverse reads into another.\nMain page: https://multiqc.info/\nDocumentation: https://multiqc.info/docs/\nWe will carry out a quick example of using MultiQC with fastqcdata.\n\n\n\n\n\n\n\nMove into the multiqc_example directory:\n\ncd ~/QC_workshop/Illumina_QC/multiqc_example\n\nNote: Ensure you are in the illumina_qc conda environment. If (illumina_qc) is at the start of your command prompt in your current terminal you are in the environment. If you are not in the environment please see the Mamba section to activate it.\nWe will be quality checking 4 Aeromonas hydrophila samples. List the contents of the directory and you will see the fastq files containing our data.\n\n#List all the contents\nls\n#List the raw fastq files\nls *_R*.fastq\n#List the paired fastq files trimmed with trimmomatic\nls *P.fastq\n\nAs you can see from listing the contents you have been provided the raw and trimmed data. This is to save you time so all you need to carry out is the fastqc and multiqc commands.\n\n\n\n\n\n\n\n\nThe first step is to carry out fastqc on the raw data.\n\n#Make output directory\nmkdir raw_fastqc_output\n#Run fastqc\nfastqc -o raw_fastqc_output *_R*.fastq\n\nNow that we have our fastqc output we can carry out multiqc. Due to the inherent differences between the forward and reverse reads it is best to make separate multiqc reports for them.\n\n#Create output directories\nmkdir raw_multiqc_output\nmkdir raw_multiqc_output/r1\nmkdir raw_multiqc_output/r2\n#Run multiqc\nmultiqc -o raw_multiqc_output/r1 raw_fastqc_output/*R1*\nmultiqc -o raw_multiqc_output/r2 raw_fastqc_output/*R2*\n\nNow we can open the multiqc reports with firefox.\n\nfirefox raw_multiqc_output/*/*.html\n\nInvestigate the report. Notice how you can hover over parts of the plots to get information. If you would like more information there is a handy link to a tutorial video at the top of the report.\n\n\n\n\n\n\n\n\nNow that you have looked at the multiqc report for the raw data it is time to carry out fastqc and multiqc on the trimmed data.\n\n#Make fastqc output directory\nmkdir trimmomatic_fastqc_output\n#Run fastqc\nfastqc -o trimmomatic_fastqc_output *P.fastq\n#Create output directories\nmkdir trimmomatic_multiqc_output\nmkdir trimmomatic_multiqc_output/r1\nmkdir trimmomatic_multiqc_output/r2\n#Run multiqc\nmultiqc -o trimmomatic_multiqc_output/r1 trimmomatic_fastqc_output/*1P*\nmultiqc -o trimmomatic_multiqc_output/r2 trimmomatic_fastqc_output/*2P*\n#Look at the reports in firefox\nfirefox trimmomatic_multiqc_output/*/*.html\n\nThis is a brilliant use of MultiQC. However, it can also be used to collate the output from many other bioinformatic tools (https://multiqc.info/#supported-tools).\n\n\n\n\n\n\n\n\nThe read data was simulated from the Aeromonas hydrophila genome assembly in the GAGE-B dataset https://ccb.jhu.edu/gage_b/datasets/index.html.\n\n\n\nAmazing! With the Illumina QC part complete please continue to the ONT QC part.",
+    "crumbs": [
+      "Illumina",
+      "MultiQC"
+    ]
+  },
+  {
+    "objectID": "illumina/multiqc.html#the-data",
+    "href": "illumina/multiqc.html#the-data",
+    "title": "MultiQC",
+    "section": "",
+    "text": "Move into the multiqc_example directory:\n\ncd ~/QC_workshop/Illumina_QC/multiqc_example\n\nNote: Ensure you are in the illumina_qc conda environment. If (illumina_qc) is at the start of your command prompt in your current terminal you are in the environment. If you are not in the environment please see the Mamba section to activate it.\nWe will be quality checking 4 Aeromonas hydrophila samples. List the contents of the directory and you will see the fastq files containing our data.\n\n#List all the contents\nls\n#List the raw fastq files\nls *_R*.fastq\n#List the paired fastq files trimmed with trimmomatic\nls *P.fastq\n\nAs you can see from listing the contents you have been provided the raw and trimmed data. This is to save you time so all you need to carry out is the fastqc and multiqc commands.",
+    "crumbs": [
+      "Illumina",
+      "MultiQC"
+    ]
+  },
+  {
+    "objectID": "illumina/multiqc.html#fastqc-of-the-raw-data",
+    "href": "illumina/multiqc.html#fastqc-of-the-raw-data",
+    "title": "MultiQC",
+    "section": "",
+    "text": "The first step is to carry out fastqc on the raw data.\n\n#Make output directory\nmkdir raw_fastqc_output\n#Run fastqc\nfastqc -o raw_fastqc_output *_R*.fastq\n\nNow that we have our fastqc output we can carry out multiqc. Due to the inherent differences between the forward and reverse reads it is best to make separate multiqc reports for them.\n\n#Create output directories\nmkdir raw_multiqc_output\nmkdir raw_multiqc_output/r1\nmkdir raw_multiqc_output/r2\n#Run multiqc\nmultiqc -o raw_multiqc_output/r1 raw_fastqc_output/*R1*\nmultiqc -o raw_multiqc_output/r2 raw_fastqc_output/*R2*\n\nNow we can open the multiqc reports with firefox.\n\nfirefox raw_multiqc_output/*/*.html\n\nInvestigate the report. Notice how you can hover over parts of the plots to get information. If you would like more information there is a handy link to a tutorial video at the top of the report.",
+    "crumbs": [
+      "Illumina",
+      "MultiQC"
+    ]
+  },
+  {
+    "objectID": "illumina/multiqc.html#fastqc-of-the-trimmed-data",
+    "href": "illumina/multiqc.html#fastqc-of-the-trimmed-data",
+    "title": "MultiQC",
+    "section": "",
+    "text": "Now that you have looked at the multiqc report for the raw data it is time to carry out fastqc and multiqc on the trimmed data.\n\n#Make fastqc output directory\nmkdir trimmomatic_fastqc_output\n#Run fastqc\nfastqc -o trimmomatic_fastqc_output *P.fastq\n#Create output directories\nmkdir trimmomatic_multiqc_output\nmkdir trimmomatic_multiqc_output/r1\nmkdir trimmomatic_multiqc_output/r2\n#Run multiqc\nmultiqc -o trimmomatic_multiqc_output/r1 trimmomatic_fastqc_output/*1P*\nmultiqc -o trimmomatic_multiqc_output/r2 trimmomatic_fastqc_output/*2P*\n#Look at the reports in firefox\nfirefox trimmomatic_multiqc_output/*/*.html\n\nThis is a brilliant use of MultiQC. However, it can also be used to collate the output from many other bioinformatic tools (https://multiqc.info/#supported-tools).",
+    "crumbs": [
+      "Illumina",
+      "MultiQC"
+    ]
+  },
+  {
+    "objectID": "illumina/multiqc.html#read-data",
+    "href": "illumina/multiqc.html#read-data",
+    "title": "MultiQC",
+    "section": "",
+    "text": "The read data was simulated from the Aeromonas hydrophila genome assembly in the GAGE-B dataset https://ccb.jhu.edu/gage_b/datasets/index.html.",
+    "crumbs": [
+      "Illumina",
+      "MultiQC"
+    ]
+  },
+  {
+    "objectID": "illumina/multiqc.html#next-step",
+    "href": "illumina/multiqc.html#next-step",
+    "title": "MultiQC",
+    "section": "",
+    "text": "Amazing! With the Illumina QC part complete please continue to the ONT QC part.",
+    "crumbs": [
+      "Illumina",
+      "MultiQC"
+    ]
+  },
+  {
+    "objectID": "illumina/good_quality.html",
+    "href": "illumina/good_quality.html",
+    "title": "Good quality genomic dataset",
+    "section": "",
+    "text": "The first dataset will comprise of good quality reads for the genome of Psychrobacter arcticus.\nP. arcticus is a bacteria that was first isolated from Siberian permafrost. I am fond of Psychrobacter as my BSc project involved studying it.\nPrior to analysis we need to change directory to the example 1 directory.\n\ncd example_1\n\nThis directory contains the forward (R1) and reverse (R2) read fastq files.\nList the contents of the current directory to confirm this.\n\nls\n\n\n\n\n\n\n\n\nWe will carry out fastqc quality checking of the reads.\nFirst make a directory for the output.\n\nmkdir raw_fastqc_output\n\nNow we can run fastqc.\n\nfastqc -o raw_fastqc_output \\\np_arcticus_R1.fastq p_arcticus_R2.fastq\n\n\n\n\n\n\n\nNote\n\n\n\nThe above command can be run over one line excluding the \\.\nAlternatively, you can type \\ during a command and then press the enter key. The next line on the command line will start with &gt;. This will allow you to continue typing the command on the line. This can be used to type one command over multiple lines.\nFor more information on bash escape please see our Intro to unix materials\n\n\n\n\n\n\n\n\n\n\nThe next step is to view the fastqc report. But first we will talk about background and foreground processes.\nNormally when you run a command it will run the process in the foreground. This means your command line will be locked whilst the process is running. You will only be able to type a new command in the terminal once the foreground process is finished.\nThis is normally wanted but not always, for example when you run a process like firefox. To run a process in the background, so you can type and run new commands, you can add the symbol & to the end of a command.\n\n\n\n\n\n\n\n\nUsing firefox have a look at the output html reports and answer the following questions.\nOpen all the fastqc html files in the directory.\n\nfirefox raw_fastqc_output/*_fastqc.html &\n\n\n\n\n\n\n\nNoteNote on *\n\n\n\n\n\nThe * is a wildcard character that represents anything.\n*_fastqc.html represents all the files that end with _fastqc.html.\nFor more information on wildcard characters please see our Intro to Linux materials.\n\n\n\n\nHow many total reads/sequences are there in the R1 file?\n\n 42 175,697 150\n\n\n\nWhat is the length of the reads?\n\n 42 175,697 150\n\n\n\nWhat is the average GC (%) content of the reads?\n\n 42 175,697 150\n\n\n\nIn R1 at what quality range is base position 1?\n\n 0-40 20-40 28-40\n\n\n\nIn R2 at what quality range are base positions 15-19?\n\n 0-40 20-40 28-40\n\n\n\nIn R1 at what quality range are base positions 45-49?\n\n 0-40 20-40 28-40\n\n\n\nIn R2 at what quality range is base position 150?\n\n 0-40 20-40 28-40\n\n\nIn this case the reads have been simulated from a genome assembly. This is the reason it looks so nice. Real data from a sequencing machine will unfortunately not look as good and will require quality trimming and filtering.\nGenerally even if data does look very nice we would carry out quality control to get rid of any poor data that is masked by the very good data. However, for the purposes of time we will skip this at the moment.\nFor your own interest the genome assembly can be found in the following link: https://www.ncbi.nlm.nih.gov/nuccore/CP000082.1",
+    "crumbs": [
+      "Illumina",
+      "Good quality genomic dataset"
+    ]
+  },
+  {
+    "objectID": "illumina/good_quality.html#run-fastqc",
+    "href": "illumina/good_quality.html#run-fastqc",
+    "title": "Good quality genomic dataset",
+    "section": "",
+    "text": "We will carry out fastqc quality checking of the reads.\nFirst make a directory for the output.\n\nmkdir raw_fastqc_output\n\nNow we can run fastqc.\n\nfastqc -o raw_fastqc_output \\\np_arcticus_R1.fastq p_arcticus_R2.fastq\n\n\n\n\n\n\n\nNote\n\n\n\nThe above command can be run over one line excluding the \\.\nAlternatively, you can type \\ during a command and then press the enter key. The next line on the command line will start with &gt;. This will allow you to continue typing the command on the line. This can be used to type one command over multiple lines.\nFor more information on bash escape please see our Intro to unix materials",
+    "crumbs": [
+      "Illumina",
+      "Good quality genomic dataset"
+    ]
+  },
+  {
+    "objectID": "illumina/good_quality.html#background-and-foreground-processes",
+    "href": "illumina/good_quality.html#background-and-foreground-processes",
+    "title": "Good quality genomic dataset",
+    "section": "",
+    "text": "The next step is to view the fastqc report. But first we will talk about background and foreground processes.\nNormally when you run a command it will run the process in the foreground. This means your command line will be locked whilst the process is running. You will only be able to type a new command in the terminal once the foreground process is finished.\nThis is normally wanted but not always, for example when you run a process like firefox. To run a process in the background, so you can type and run new commands, you can add the symbol & to the end of a command.",
+    "crumbs": [
+      "Illumina",
+      "Good quality genomic dataset"
+    ]
+  },
+  {
+    "objectID": "illumina/good_quality.html#view-fastqc-output",
+    "href": "illumina/good_quality.html#view-fastqc-output",
+    "title": "Good quality genomic dataset",
+    "section": "",
+    "text": "Using firefox have a look at the output html reports and answer the following questions.\nOpen all the fastqc html files in the directory.\n\nfirefox raw_fastqc_output/*_fastqc.html &\n\n\n\n\n\n\n\nNoteNote on *\n\n\n\n\n\nThe * is a wildcard character that represents anything.\n*_fastqc.html represents all the files that end with _fastqc.html.\nFor more information on wildcard characters please see our Intro to Linux materials.\n\n\n\n\nHow many total reads/sequences are there in the R1 file?\n\n 42 175,697 150\n\n\n\nWhat is the length of the reads?\n\n 42 175,697 150\n\n\n\nWhat is the average GC (%) content of the reads?\n\n 42 175,697 150\n\n\n\nIn R1 at what quality range is base position 1?\n\n 0-40 20-40 28-40\n\n\n\nIn R2 at what quality range are base positions 15-19?\n\n 0-40 20-40 28-40\n\n\n\nIn R1 at what quality range are base positions 45-49?\n\n 0-40 20-40 28-40\n\n\n\nIn R2 at what quality range is base position 150?\n\n 0-40 20-40 28-40\n\n\nIn this case the reads have been simulated from a genome assembly. This is the reason it looks so nice. Real data from a sequencing machine will unfortunately not look as good and will require quality trimming and filtering.\nGenerally even if data does look very nice we would carry out quality control to get rid of any poor data that is masked by the very good data. However, for the purposes of time we will skip this at the moment.\nFor your own interest the genome assembly can be found in the following link: https://www.ncbi.nlm.nih.gov/nuccore/CP000082.1",
+    "crumbs": [
+      "Illumina",
+      "Good quality genomic dataset"
+    ]
+  },
+  {
+    "objectID": "illumina/exercises.html",
+    "href": "illumina/exercises.html",
+    "title": "QC exercises",
+    "section": "",
+    "text": "Now you will carry out Quality checking and control of a whole genome shotgun study and a 16S rRNA study. You will run through the Quality checking and Quality control using the examples to help you. There will be questions to answer. After the question there will be info on the data and what the QC has shown.\n\n\n\n\n\n\n\nThe data from this exercise comes from the following link:\nhttps://www.ebi.ac.uk/ena/browser/view/SRR2081071\nThis contains the genomic content of many organisms.\nThe read data is within your ~/QC_workshop/Illumina_QC/exercise_1 directory (ensure to change directory to this). The reads have been subsampled so you will be working on 100,000 paired reads.\n\n\nCarry out fastqc on the raw reads and ponder the below questions.\n\nWhat may be causing the weird GC content at the start of the reads?\nThe “Per sequence GC content” has a weird peak. Why might this be?\n\nCarry out trimmomatic quality control, deciding on the sliding window and the length threshold. After trimmomatic carry out fastqc on the trimmed and filtered reads to determine if it was successful. Afterwards answer the following questions. If your answers don’t match the correct answers below try to rerun trimmomatic with different parameter options.\n\n\n\n\nIs the number of quality controlled reads above 60,000?\n\n Yes No\n\n\n\nDoes the quality for either R1 or R2 drop below Q24 (Including the whiskers)?\n\n Yes No\n\n\n\nIs the weird GC content still at the start of the read?\n\n Yes No\n\n\n\nDoes the “Per sequence GC content” still have a weird peak?\n\n Yes No\n\n\n\n\n\nIn this case it helps to know the adapter sequence, used for the Illumina sequencing, was Nextera. Nextera is decent but I and others online have experienced it has a slight bias. It prefers to ligate to certain sequence patterns, this bias is then shown as the GC content bias at the start of reads. Fortunately the rest of the GC content is fine.\nIn previous tests I have trimmed off the first 20bps to remove this bias and not removed the first 20bp. I found there was little difference in the downstream results for the two methods. I therefore normally retain the first 20bp.\nAs for the weird \"Per sequence GC content\" peak, We must remember that the metagenome sample contains many different organisms with different GC contents. Therefore a flat GC peak would be expected.\n\n\n\n\n\n\n\n\n\nBefore starting this exercise I must note this is not the normal method to quality control 16S rRNA data. Both QIIME2 and other 16S pipelines have their own methods but it can be useful to check the quality of 16S rRNA data beofre analysis.\nWith that in mind we will only use fastqc to check the quality and features of a 16S rRNA dataset.\nThe dataset can be found in the following link:\nhttps://www.ebi.ac.uk/ena/data/view/SRR2081030\nThe dataset in the cluster is the full dataset. It can be found in your ~/QC_workshop/Illumina_QC/exercise_2 directory.\nRun fastqc on the data and view the reports. Looking at the report you may be worried by its appearance, however this is normal for 16S rRNA data. Some explanations for the features are:\n\nThe base quality of R2 is very low towards the end. For most 16S rRNA studies the paired reads overlap and so poor quality bases at the end of R1 are corrected by the overlapping R2 reads and vice versa.\nThe “Per base sequence content” is heavily biased. This again is normal as we are targeting a specific region within the genome, a 16S rRNA region. This means a lot of the sequences will share very similar content. The fact we are targeting a specific region also makes the “Per sequence GC content”, “Sequence duplication levels”, and “overrepresented sequences” look worrying and warnings are given. These warnings are designed to help with whole genome data and so they are not useful in this circumstance.\n\nThese features show that it is important to understand what your data contains and what analyses you will be carrying out with the data.",
+    "crumbs": [
+      "Illumina",
+      "QC exercises"
+    ]
+  },
+  {
+    "objectID": "illumina/exercises.html#shotgun",
+    "href": "illumina/exercises.html#shotgun",
+    "title": "QC exercises",
+    "section": "",
+    "text": "The data from this exercise comes from the following link:\nhttps://www.ebi.ac.uk/ena/browser/view/SRR2081071\nThis contains the genomic content of many organisms.\nThe read data is within your ~/QC_workshop/Illumina_QC/exercise_1 directory (ensure to change directory to this). The reads have been subsampled so you will be working on 100,000 paired reads.\n\n\nCarry out fastqc on the raw reads and ponder the below questions.\n\nWhat may be causing the weird GC content at the start of the reads?\nThe “Per sequence GC content” has a weird peak. Why might this be?\n\nCarry out trimmomatic quality control, deciding on the sliding window and the length threshold. After trimmomatic carry out fastqc on the trimmed and filtered reads to determine if it was successful. Afterwards answer the following questions. If your answers don’t match the correct answers below try to rerun trimmomatic with different parameter options.\n\n\n\n\nIs the number of quality controlled reads above 60,000?\n\n Yes No\n\n\n\nDoes the quality for either R1 or R2 drop below Q24 (Including the whiskers)?\n\n Yes No\n\n\n\nIs the weird GC content still at the start of the read?\n\n Yes No\n\n\n\nDoes the “Per sequence GC content” still have a weird peak?\n\n Yes No\n\n\n\n\n\nIn this case it helps to know the adapter sequence, used for the Illumina sequencing, was Nextera. Nextera is decent but I and others online have experienced it has a slight bias. It prefers to ligate to certain sequence patterns, this bias is then shown as the GC content bias at the start of reads. Fortunately the rest of the GC content is fine.\nIn previous tests I have trimmed off the first 20bps to remove this bias and not removed the first 20bp. I found there was little difference in the downstream results for the two methods. I therefore normally retain the first 20bp.\nAs for the weird \"Per sequence GC content\" peak, We must remember that the metagenome sample contains many different organisms with different GC contents. Therefore a flat GC peak would be expected.",
+    "crumbs": [
+      "Illumina",
+      "QC exercises"
+    ]
+  },
+  {
+    "objectID": "illumina/exercises.html#s-rrna-metagenetics",
+    "href": "illumina/exercises.html#s-rrna-metagenetics",
+    "title": "QC exercises",
+    "section": "",
+    "text": "Before starting this exercise I must note this is not the normal method to quality control 16S rRNA data. Both QIIME2 and other 16S pipelines have their own methods but it can be useful to check the quality of 16S rRNA data beofre analysis.\nWith that in mind we will only use fastqc to check the quality and features of a 16S rRNA dataset.\nThe dataset can be found in the following link:\nhttps://www.ebi.ac.uk/ena/data/view/SRR2081030\nThe dataset in the cluster is the full dataset. It can be found in your ~/QC_workshop/Illumina_QC/exercise_2 directory.\nRun fastqc on the data and view the reports. Looking at the report you may be worried by its appearance, however this is normal for 16S rRNA data. Some explanations for the features are:\n\nThe base quality of R2 is very low towards the end. For most 16S rRNA studies the paired reads overlap and so poor quality bases at the end of R1 are corrected by the overlapping R2 reads and vice versa.\nThe “Per base sequence content” is heavily biased. This again is normal as we are targeting a specific region within the genome, a 16S rRNA region. This means a lot of the sequences will share very similar content. The fact we are targeting a specific region also makes the “Per sequence GC content”, “Sequence duplication levels”, and “overrepresented sequences” look worrying and warnings are given. These warnings are designed to help with whole genome data and so they are not useful in this circumstance.\n\nThese features show that it is important to understand what your data contains and what analyses you will be carrying out with the data.",
+    "crumbs": [
+      "Illumina",
+      "QC exercises"
+    ]
+  },
+  {
+    "objectID": "appendix/faq.html",
+    "href": "appendix/faq.html",
+    "title": "FAQ",
+    "section": "",
+    "text": "This is a page of frequently asked questions. It will be updated with the answers to questions asked during these courses.\n\n\n\n\nYou cannot copy and paste from your computer to the webVNC and vice versa. This is because the webVNC and your computer have two different clipboards (used for copy and pasting) which are not able to interact with each other as they are 2 different computers.\n\n\n\nThese are included in the resources webpage that is accessed after filling in the feedback form.\n\n\n\nYou can quite less by press the q key.",
+    "crumbs": [
+      "Appendix",
+      "FAQ"
+    ]
+  },
+  {
+    "objectID": "appendix/faq.html#general",
+    "href": "appendix/faq.html#general",
+    "title": "FAQ",
+    "section": "",
+    "text": "You cannot copy and paste from your computer to the webVNC and vice versa. This is because the webVNC and your computer have two different clipboards (used for copy and pasting) which are not able to interact with each other as they are 2 different computers.\n\n\n\nThese are included in the resources webpage that is accessed after filling in the feedback form.\n\n\n\nYou can quite less by press the q key.",
+    "crumbs": [
+      "Appendix",
+      "FAQ"
+    ]
+  },
+  {
+    "objectID": "appendix/mamba.html",
+    "href": "appendix/mamba.html",
+    "title": "Mamba",
+    "section": "",
+    "text": "Once you start using bioinformatic tools you will notice that a lot of installing is required. I would highly suggest using Mamba for this purpose.\nMamba is a reimplementation of conda. It is a great tool for installing bioinformatic packages including R packages.\nMamba github: https://github.com/mamba-org/mamba\nThe best way to use Mamba is to install Miniforge. It has both Conda and Mamba commands.\nMiniforge installation: https://github.com/conda-forge/miniforge\nMamba guide: https://mamba.readthedocs.io/en/latest/user_guide/mamba.html\n\n\n\nTo create the mamba environment illumina_qc run the below commands in your bash. You will need to have installed mamba first.\n\n#Illumina QC\nmamba create -n illumina_qc\nmamba activate illumina_qc\nmamba install -c bioconda fastqc\nmamba install -c bioconda trimmomatic\nmamba install -c bioconda multiqc",
+    "crumbs": [
+      "Appendix",
+      "Mamba"
+    ]
+  },
+  {
+    "objectID": "appendix/mamba.html#mamba-installation",
+    "href": "appendix/mamba.html#mamba-installation",
+    "title": "Mamba",
+    "section": "",
+    "text": "Once you start using bioinformatic tools you will notice that a lot of installing is required. I would highly suggest using Mamba for this purpose.\nMamba is a reimplementation of conda. It is a great tool for installing bioinformatic packages including R packages.\nMamba github: https://github.com/mamba-org/mamba\nThe best way to use Mamba is to install Miniforge. It has both Conda and Mamba commands.\nMiniforge installation: https://github.com/conda-forge/miniforge\nMamba guide: https://mamba.readthedocs.io/en/latest/user_guide/mamba.html",
+    "crumbs": [
+      "Appendix",
+      "Mamba"
+    ]
+  },
+  {
+    "objectID": "appendix/mamba.html#illumina-qc-environment",
+    "href": "appendix/mamba.html#illumina-qc-environment",
+    "title": "Mamba",
+    "section": "",
+    "text": "To create the mamba environment illumina_qc run the below commands in your bash. You will need to have installed mamba first.\n\n#Illumina QC\nmamba create -n illumina_qc\nmamba activate illumina_qc\nmamba install -c bioconda fastqc\nmamba install -c bioconda trimmomatic\nmamba install -c bioconda multiqc",
+    "crumbs": [
+      "Appendix",
+      "Mamba"
+    ]
+  },
+  {
+    "objectID": "ont/chopper.html",
+    "href": "ont/chopper.html",
+    "title": "Chopper",
+    "section": "",
+    "text": "Chopper can be used to remove/filter reads by quality and/or read length (https://github.com/wdecoster/chopper). This is very useful as you will most likely want long and good quality reads for downstream processes, such as genome assemblies.\nChopper also removes any reads that map to the lambda phage genome. The lambda phage genome is used for DNA Control experiments for ONT sequencers.\nIt is always important to know what your data is and if your planned filtering and trimming is appropriate. For example, you may be working with amplicon data where the read lengths will vary between 500bp and 750bp. In that case it is useful to set a min length of 500 and a max length of 750.\nThis data is from a genome so wanting long and high quality reads is appropriate. Overall the quality of our data looks good. The main exception is the low amount of sequencing/coverage. The low coverage is because it is a subset of the whole data for workshop purposes (the full dataset would take too long to run here). There are some shorter length and lower quality reads which we will remove.\n\n\n\n\n\n\n\nFirst we will create an output directory.\n\nmkdir chopper\n\nWe will filter out sequences that are shorter than 500bp (-l 500bp) and filter out sequences with an average read quality less than Q10 (-q 10). We have chosen these values as they are a good default for genomic data. Q10 appeared to be a good choice from NanoPlot as the majority of reads had a quality of &gt;Q10.\n\nchopper -q 10 -l 500 \\\n-i porechop/Acinetobacter.porechop.fastq &gt; \\\nchopper/Acinetobacter.chopperq10minlen500.porechop.fastq\n\nAre the chosen options appropriate? Let’s find out.",
+    "crumbs": [
+      "ONT",
+      "Chopper"
+    ]
+  },
+  {
+    "objectID": "ont/chopper.html#run",
+    "href": "ont/chopper.html#run",
+    "title": "Chopper",
+    "section": "",
+    "text": "First we will create an output directory.\n\nmkdir chopper\n\nWe will filter out sequences that are shorter than 500bp (-l 500bp) and filter out sequences with an average read quality less than Q10 (-q 10). We have chosen these values as they are a good default for genomic data. Q10 appeared to be a good choice from NanoPlot as the majority of reads had a quality of &gt;Q10.\n\nchopper -q 10 -l 500 \\\n-i porechop/Acinetobacter.porechop.fastq &gt; \\\nchopper/Acinetobacter.chopperq10minlen500.porechop.fastq\n\nAre the chosen options appropriate? Let’s find out.",
+    "crumbs": [
+      "ONT",
+      "Chopper"
+    ]
+  },
+  {
+    "objectID": "ont/intro.html",
+    "href": "ont/intro.html",
+    "title": "Intro",
+    "section": "",
+    "text": "Intro\n\n\n\n\n\nThe most popular long read sequencers are produced by ONT and PacBio. It is beneficial to understand how they work and their error profiles to fully utilise the data they produce.\nAt the end of this part learners will be able to:\n\nExplain how ONT & PacBio sequencing works\nUnderstand the advantages and disadvantages of both technologies\nQuality check ONT data with NanoPlot\nRemove ONT adaptors with Porechop\nFilter ONT reads by length and quality with Chopper",
+    "crumbs": [
+      "ONT",
+      "Intro"
+    ]
+  },
+  {
+    "objectID": "ont/nanostat.html",
+    "href": "ont/nanostat.html",
+    "title": "NanoStat",
+    "section": "",
+    "text": "The first step is to acquire stats for the sequences in our fastq file. We will use NanoStat (https://github.com/wdecoster/nanostat).\nNanoStat is one of the many tools contained in the NanoPack suite (https://github.com/wdecoster/nanopack). We will also use the tools NanoPlot and NanoFilt downstream.\n\n\n\n\n\n\n\nWe want to have a tidy set of directories at the end of this analysis. It would be an untidy mess if we had all the output files in the current directory. We will therefore be making directories and subdirectories to send our output to.\n\nmkdir nanostats\n\nFinally we will now run NanoStat. The options used are:\n\n-n : File name/path for the output.\n-t : Number of threads the script can use.\n--fastq : Input data is in fastq format. Other options that can be used are --fasta, --summary, and --bam.\n\n\nNanoStat -n nanostats/Acinetobacter_nanostats.tsv \\\n-t 4 --fastq ./data/Acinetobacter/Acinetobacter_genome_ONT.fastq\n\nWhen the command has finished you can look at the output text file. In this case we will use the convenient less command.\n\nless nanostats/Acinetobacter_nanostats.tsv\n\n\n\n\n\n\n\n\n\nThe file contains four sections with informative headers. These are:\n\nGeneral summary\n\nA list of general summary metrics.\n\nNumber, percentage and megabases of reads above quality cutoffs\n\nBased on the mean quality value of a read.\nThe \"&gt;Q10\" line shows the number and % of reads with a mean quality above Q10. It also shows the total amount of megabases these reads contain.\n\nTop 5 highest mean basecall quality scores and their read lengths\n\nShows the top 5 reads with the highest mean quality scores.\n\nTop 5 longest reads and their mean basecall quality score\n\nShows the top 5 longest reads.\n\n\n\n\n\n\n\n\n\n\nWith the output of NanoStat and the above info on the output please answer the following Multiple-choice questions.\n\nWhat is the mean base quality for the read with the highest mean base quality?\n\n 9.2 9.5 12.3\n\n\n\nWhat is the mean base quality for the longest read?\n\n 9.2 9.5 12.3\n\n\n\nWhat is the mean read quality for all the data?\n\n 9.2 9.5 12.3\n\n\n\nWhat is the length of the read with the 2nd highest mean quality?\n\n 5,770 6,700.5 25,072\n\n\n\nWhat is the length of the 3rd longest read?\n\n 5,770 6,700.5 25,072\n\n\n\nWhat is the median read length of the data?\n\n 5,770 6,700.5 25,072\n\n\n\nTo the nearest 0.1 Megabases (i.e. 100,000 bases), what is the total number of bases of the data?\n\n 0.0Mb 8.8Mb 14.1Mb\n\n\n\nHow many Megabases are within reads with a quality cutoff of &gt;Q10?\n\n 0.0Mb 8.8Mb 14.1Mb\n\n\n\nHow many Megabases are within reads with a quality cutoff of &gt;Q15?\n\n 0.0Mb 8.8Mb 14.1Mb\n\n\n\nTo the nearest 0.1 Megabases (i.e. 100,000 bases), what is the total number of bases within reads with a mean quality of Q10 or less (you will need to do some mental maths)?\n\n 5.3Mb 8.8Mb 14.1Mb\n\n\n\n\n\n\n\n\n\n\nWe have carried out our first step of QC by quality checking the fastq file with NanoStat. Overall the data has good quality, for ONT data &gt;Q10 is good. However, there is some poor quality data so quality control will be needed.",
+    "crumbs": [
+      "ONT",
+      "NanoStat"
+    ]
+  },
+  {
+    "objectID": "ont/nanostat.html#run",
+    "href": "ont/nanostat.html#run",
+    "title": "NanoStat",
+    "section": "",
+    "text": "We want to have a tidy set of directories at the end of this analysis. It would be an untidy mess if we had all the output files in the current directory. We will therefore be making directories and subdirectories to send our output to.\n\nmkdir nanostats\n\nFinally we will now run NanoStat. The options used are:\n\n-n : File name/path for the output.\n-t : Number of threads the script can use.\n--fastq : Input data is in fastq format. Other options that can be used are --fasta, --summary, and --bam.\n\n\nNanoStat -n nanostats/Acinetobacter_nanostats.tsv \\\n-t 4 --fastq ./data/Acinetobacter/Acinetobacter_genome_ONT.fastq\n\nWhen the command has finished you can look at the output text file. In this case we will use the convenient less command.\n\nless nanostats/Acinetobacter_nanostats.tsv",
+    "crumbs": [
+      "ONT",
+      "NanoStat"
+    ]
+  },
+  {
+    "objectID": "ont/nanostat.html#output",
+    "href": "ont/nanostat.html#output",
+    "title": "NanoStat",
+    "section": "",
+    "text": "The file contains four sections with informative headers. These are:\n\nGeneral summary\n\nA list of general summary metrics.\n\nNumber, percentage and megabases of reads above quality cutoffs\n\nBased on the mean quality value of a read.\nThe \"&gt;Q10\" line shows the number and % of reads with a mean quality above Q10. It also shows the total amount of megabases these reads contain.\n\nTop 5 highest mean basecall quality scores and their read lengths\n\nShows the top 5 reads with the highest mean quality scores.\n\nTop 5 longest reads and their mean basecall quality score\n\nShows the top 5 longest reads.",
+    "crumbs": [
+      "ONT",
+      "NanoStat"
+    ]
+  },
+  {
+    "objectID": "ont/nanostat.html#mcqs",
+    "href": "ont/nanostat.html#mcqs",
+    "title": "NanoStat",
+    "section": "",
+    "text": "With the output of NanoStat and the above info on the output please answer the following Multiple-choice questions.\n\nWhat is the mean base quality for the read with the highest mean base quality?\n\n 9.2 9.5 12.3\n\n\n\nWhat is the mean base quality for the longest read?\n\n 9.2 9.5 12.3\n\n\n\nWhat is the mean read quality for all the data?\n\n 9.2 9.5 12.3\n\n\n\nWhat is the length of the read with the 2nd highest mean quality?\n\n 5,770 6,700.5 25,072\n\n\n\nWhat is the length of the 3rd longest read?\n\n 5,770 6,700.5 25,072\n\n\n\nWhat is the median read length of the data?\n\n 5,770 6,700.5 25,072\n\n\n\nTo the nearest 0.1 Megabases (i.e. 100,000 bases), what is the total number of bases of the data?\n\n 0.0Mb 8.8Mb 14.1Mb\n\n\n\nHow many Megabases are within reads with a quality cutoff of &gt;Q10?\n\n 0.0Mb 8.8Mb 14.1Mb\n\n\n\nHow many Megabases are within reads with a quality cutoff of &gt;Q15?\n\n 0.0Mb 8.8Mb 14.1Mb\n\n\n\nTo the nearest 0.1 Megabases (i.e. 100,000 bases), what is the total number of bases within reads with a mean quality of Q10 or less (you will need to do some mental maths)?\n\n 5.3Mb 8.8Mb 14.1Mb",
+    "crumbs": [
+      "ONT",
+      "NanoStat"
+    ]
+  },
+  {
+    "objectID": "ont/nanostat.html#summary",
+    "href": "ont/nanostat.html#summary",
+    "title": "NanoStat",
+    "section": "",
+    "text": "We have carried out our first step of QC by quality checking the fastq file with NanoStat. Overall the data has good quality, for ONT data &gt;Q10 is good. However, there is some poor quality data so quality control will be needed.",
+    "crumbs": [
+      "ONT",
+      "NanoStat"
+    ]
+  },
+  {
+    "objectID": "ont/setup.html",
+    "href": "ont/setup.html",
+    "title": "Setup",
+    "section": "",
+    "text": "As with the Illumina part we need to make sure we have the tutorial data and setup our environment.\n\n\n\n\n\n\n\nThe data for today is in the \"QC_workshop\" directory that you copied into your home directory (\"~\") in the Illumina QC day.\nCheck you have the directory.\n\nls ~\n\nIf you do not have the \"QC_workshop\" directory, the command to copy it all to your home directory is below.\n\ncp -r /pub14/tea/nsc206/NEOF/QC_workshop/ ~\n\n\n\n\n\n\n\nWe need to initialise the environment to use the programs we need. This needs to be done in each terminal you want to run the commands from this ONT section in. Each terminal will only remember what you have told that terminal.\nRun the following command in a new terminal. To open a new terminal window, right click on the main screen, and choose Terminal.\n\n. useontqcv2\n\nBefore carrying out any more commands move into the relevant directory.\n\ncd ~/QC_workshop/ONT_QC/\n\nLook in the directory called data and you will notice there are a few directories. You can see the contents of all these directories with the below command.\n\nls data/*\n\nEach directory has one fastq file. ONT data likes to be organised with data for one sample being in one directory.\nTo start we will only use the fastq file within the directory called \"Acinetobacter\". As you may have figured out, this contains ONT sequencing data of an Acinetobacter genome. Specifically the data is a subset of the SRA (Sequence Read Archive) Run: SRR7119550.",
+    "crumbs": [
+      "ONT",
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "ont/setup.html#the-data",
+    "href": "ont/setup.html#the-data",
+    "title": "Setup",
+    "section": "",
+    "text": "The data for today is in the \"QC_workshop\" directory that you copied into your home directory (\"~\") in the Illumina QC day.\nCheck you have the directory.\n\nls ~\n\nIf you do not have the \"QC_workshop\" directory, the command to copy it all to your home directory is below.\n\ncp -r /pub14/tea/nsc206/NEOF/QC_workshop/ ~",
+    "crumbs": [
+      "ONT",
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "ont/setup.html#mamba-environment",
+    "href": "ont/setup.html#mamba-environment",
+    "title": "Setup",
+    "section": "",
+    "text": "We need to initialise the environment to use the programs we need. This needs to be done in each terminal you want to run the commands from this ONT section in. Each terminal will only remember what you have told that terminal.\nRun the following command in a new terminal. To open a new terminal window, right click on the main screen, and choose Terminal.\n\n. useontqcv2\n\nBefore carrying out any more commands move into the relevant directory.\n\ncd ~/QC_workshop/ONT_QC/\n\nLook in the directory called data and you will notice there are a few directories. You can see the contents of all these directories with the below command.\n\nls data/*\n\nEach directory has one fastq file. ONT data likes to be organised with data for one sample being in one directory.\nTo start we will only use the fastq file within the directory called \"Acinetobacter\". As you may have figured out, this contains ONT sequencing data of an Acinetobacter genome. Specifically the data is a subset of the SRA (Sequence Read Archive) Run: SRR7119550.",
+    "crumbs": [
+      "ONT",
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Introduction",
+    "section": "",
+    "text": "Illumina sequencing technology is the most common method used for DNA sequencing. However, it is not perfect and the produced data contains errors. This course aims to introduce you to Illumina quality control and checking, vital steps before carrying out most analyses with Illumina data.\nAdditionally, the most popular long read sequencers are produced by ONT and PacBio. It is beneficial to understand how they work and their error profiles to fully utilise the data they produce. This course aims to introduce you to ONT and PacBio quality control and checking.\nSessions will start with a brief presentation followed by self-paced computer practicals guided by an online interactive book. The book will contain theory, practice code, and exercises. Multiple choice questions will guide the interpretation of results.\n\n\n\n\n\n\n\nAt the end of this course learners will be able to:\n\nExplain how sequencing by synthesis works\nUnderstand where common Illumina errors come from\nQuality check Illumina fastq files with fastQC and multiQC\nQuality control Illumina fastq files by trimming and filtering\nExplain how ONT & PacBio sequencing works\nUnderstand the advantages and disadvantages of both technologies\nQuality check ONT data with NanoPlot\nRemove ONT adaptors with Porechop\nFilter ONT reads by length and quality with Chopper\nFilter adapters from PacBio data with HiFiAdapterFilt\nConvert PacBio BAM files to fastq\nQuality check PacBio CCS reads with RabbitQCPlus\n\n\n\n\n\nCluster intro\nIllumina\nONT\nPacBio\nAppendix",
+    "crumbs": [
+      "Intro",
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "index.html#learning-outcomes",
+    "href": "index.html#learning-outcomes",
+    "title": "Introduction",
+    "section": "",
+    "text": "At the end of this course learners will be able to:\n\nExplain how sequencing by synthesis works\nUnderstand where common Illumina errors come from\nQuality check Illumina fastq files with fastQC and multiQC\nQuality control Illumina fastq files by trimming and filtering\nExplain how ONT & PacBio sequencing works\nUnderstand the advantages and disadvantages of both technologies\nQuality check ONT data with NanoPlot\nRemove ONT adaptors with Porechop\nFilter ONT reads by length and quality with Chopper\nFilter adapters from PacBio data with HiFiAdapterFilt\nConvert PacBio BAM files to fastq\nQuality check PacBio CCS reads with RabbitQCPlus",
+    "crumbs": [
+      "Intro",
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "index.html#order",
+    "href": "index.html#order",
+    "title": "Introduction",
+    "section": "",
+    "text": "Cluster intro\nIllumina\nONT\nPacBio\nAppendix",
+    "crumbs": [
+      "Intro",
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "pacbio/background.html",
+    "href": "pacbio/background.html",
+    "title": "Background",
+    "section": "",
+    "text": "In this section we will convert PacBio sequencing data (BAM files) into fastq files, filter out any adapter sequences and generate quality control plots and statistics.\n\n\n\n\n\n\n\nSequence data from PacBio are output as subreads in unaligned BAM format. (Further explanation of the BAM format is in section 3.1.4).\nThe figure below shows a schematic of a circular DNA molecule of a PacBio library with the colours representing:\n\nBlack, I = Insert DNA, i.e. the double-stranded DNA of your sample\nRed, B = Barcodes, optional single (Left or Right) or double (Left & Right) for multiplexing samples\nGreen, A = Adapter, SMRTbell adapters with a double-stranded stem and single-stranded hairpin loop.\n\n\n\n\n\n\nSequencing follows the direction of the arrows and continues around until either the end of the sequencing run or if the DNA polymerase fails.\nPacBio sequencing takes place in Zero-Mode Waveguides (ZMWs) on a sequencing cell. These are tiny holes where a DNA polymerase binds a single molecule of DNA for sequencing, and each DNA base is detected when a labelled nucleotide is incorporated and fluoresces when excited by light.\nA ZMW read consists of the data collected from a single ZMW, with the HQ (high quality) region recorded when just a single molecule of DNA is present in the ZMW.\n\n\n\n\n\nThis schematic shows the structure of a ZMW read in linear format. Insert DNA subreads are interspersed with the barcode and adapter sequence of the SMRTbell library. For more information see: https://pacbiofileformats.readthedocs.io/en/13.0/Primer.html\n\n\n\nThe ZMW reads are processed on the sequencing instrument to produce HiFi reads, using the circular consensus (CCS) tool. CCS generates high accuracy sequences from a consensus of many subreads (i.e. there would be several of the grey insert regions shown above in every ZMW read). By taking the consensus sequences HiFi reads have an accuracy of Q≥20 (99%). In the diagram below the insert region is shown by purple and yellow lines representing the sequences obtained by each strand of the template DNA, sequencing errors by the red bases, and the green line represents the high-accuracy consensus read.\n\n\n\n\n\nFor this tutorial we will carry out adapter filtering and quality checking of a HiFi BAM file.\n\n\n\n\n\n\n\n\n\n\nhttps://github.com/sheinasim/HiFiAdapterFilt\nWe will use HiFiAdapterFilt to remove any reads containing PacBio adapter sequences.\n\n\n\nhttps://www.pacb.com/smrt-link/\nWe will also use SMRTlink tools from PacBio to:\n\nGenerate any missing index files\nConvert BAM to fasta/q format.\n\n\n\n\nhttps://github.com/RabbitBio/RabbitQCPlus\nLastly, we will also use RabbitQCPlus to assess the CCS assembled reads in fastq format.",
+    "crumbs": [
+      "PacBio",
+      "Background"
+    ]
+  },
+  {
+    "objectID": "pacbio/background.html#file-formats",
+    "href": "pacbio/background.html#file-formats",
+    "title": "Background",
+    "section": "",
+    "text": "Sequence data from PacBio are output as subreads in unaligned BAM format. (Further explanation of the BAM format is in section 3.1.4).\nThe figure below shows a schematic of a circular DNA molecule of a PacBio library with the colours representing:\n\nBlack, I = Insert DNA, i.e. the double-stranded DNA of your sample\nRed, B = Barcodes, optional single (Left or Right) or double (Left & Right) for multiplexing samples\nGreen, A = Adapter, SMRTbell adapters with a double-stranded stem and single-stranded hairpin loop.\n\n\n\n\n\n\nSequencing follows the direction of the arrows and continues around until either the end of the sequencing run or if the DNA polymerase fails.\nPacBio sequencing takes place in Zero-Mode Waveguides (ZMWs) on a sequencing cell. These are tiny holes where a DNA polymerase binds a single molecule of DNA for sequencing, and each DNA base is detected when a labelled nucleotide is incorporated and fluoresces when excited by light.\nA ZMW read consists of the data collected from a single ZMW, with the HQ (high quality) region recorded when just a single molecule of DNA is present in the ZMW.\n\n\n\n\n\nThis schematic shows the structure of a ZMW read in linear format. Insert DNA subreads are interspersed with the barcode and adapter sequence of the SMRTbell library. For more information see: https://pacbiofileformats.readthedocs.io/en/13.0/Primer.html",
+    "crumbs": [
+      "PacBio",
+      "Background"
+    ]
+  },
+  {
+    "objectID": "pacbio/background.html#hifi-reads",
+    "href": "pacbio/background.html#hifi-reads",
+    "title": "Background",
+    "section": "",
+    "text": "The ZMW reads are processed on the sequencing instrument to produce HiFi reads, using the circular consensus (CCS) tool. CCS generates high accuracy sequences from a consensus of many subreads (i.e. there would be several of the grey insert regions shown above in every ZMW read). By taking the consensus sequences HiFi reads have an accuracy of Q≥20 (99%). In the diagram below the insert region is shown by purple and yellow lines representing the sequences obtained by each strand of the template DNA, sequencing errors by the red bases, and the green line represents the high-accuracy consensus read.\n\n\n\n\n\nFor this tutorial we will carry out adapter filtering and quality checking of a HiFi BAM file.",
+    "crumbs": [
+      "PacBio",
+      "Background"
+    ]
+  },
+  {
+    "objectID": "pacbio/background.html#tools",
+    "href": "pacbio/background.html#tools",
+    "title": "Background",
+    "section": "",
+    "text": "https://github.com/sheinasim/HiFiAdapterFilt\nWe will use HiFiAdapterFilt to remove any reads containing PacBio adapter sequences.\n\n\n\nhttps://www.pacb.com/smrt-link/\nWe will also use SMRTlink tools from PacBio to:\n\nGenerate any missing index files\nConvert BAM to fasta/q format.\n\n\n\n\nhttps://github.com/RabbitBio/RabbitQCPlus\nLastly, we will also use RabbitQCPlus to assess the CCS assembled reads in fastq format.",
+    "crumbs": [
+      "PacBio",
+      "Background"
+    ]
+  },
+  {
+    "objectID": "pacbio/qc.html",
+    "href": "pacbio/qc.html",
+    "title": "QC",
+    "section": "",
+    "text": "We will now look at some quality metrics of our filtered HiFi sequences.\nBefore carrying out any specific commands first make sure you are in the relevant directory.\n\ncd ~/QC_workshop/PB_QC/data/hifi\n\n\n\n\n\n\n\n\nRabbitQCPlus generates QC information using a fastq file as input.\nLet’s run RabbitQC on our filtered HiFi data:\n\nRabbitQCPlus -i ERR13246467_qc.filt.fastq.gz -w 1 --TGS\n\nParameters:\n\n-i to specify the input fastq file name\n-w to specify the number of threads\n--TGS to specifiy the data is Third Generation Sequencing data (ONT or PB)\n\nView the output using firefox.\n\nfirefox ERR13246467_qc.filt_RabbitQCPlus.html\n\nAt the top of the html file are some summary tables followed by a histogram showing the distribution of read lengths in the fastq file (with a bin width of 10). You can zoom in on parts of the histogram by dragging the arrows along the bars at the bottom and to the right of the plot.\nWhich bin contains the greatest number of reads?\n\n 7370 10540 11300\n\nUnderneath the plot showing the distribution of read lengths are two quality plots showing the phred quality of head and tail bases (the first and last 100 bases in a read). You should see that quality scores are mostly in the range of 83-86.\nRabbitQCPlus does not show the quality across the entire lengths of the reads. Due to the variable length of PacBio reads you do not normally want to view the quality over the entire length but in case you do, one solution is to use an alternative program to inspect quality. In Chapter 4 of the Illumina QC bookdown you used a program called fastqc to inspect the quality of Illumina data. How might you use fastqc to inspect the quality of this PacBio hifi file? Have a go at this before checking the answer below.\n\n\n\n\n\n\nNoteInspecting PacBio data quality with fastqc\n\n\n\n\n\n\n#Open a new terminal and activate the illuminaqc environment\n. useilluminaqc\n#Navigate to the directory containing the hifi fastq file\ncd QC_workshop/PB_QC/data/hifi\n#Create an output directory for the fastqc file\nmkdir fastqc_output\n#Run fastqc\nfastqc -o fastqc_output/ ERR13246467_qc.filt.fastq.gz\n#View the file with firefox\nfirefox fastqc_output/ERR13246467_qc.filt.fastqc.html\n\n\n\n\nYou should now be able to view the fastqc quality plots for the PacBio hifi fastq file. RabbitQCPlus is considerably quicker and more efficient than fastqc at generating plots, which can be very useful when dealing with many and/or large files. If you want to do a quick inspection of summary tables, read length distribution, GC content, and head+tail quality, RabbitQCPlus is a useful tool. But if you want a more detailed visual output, consider using fastqc (either on the complete file, or on a subset of reads).\n\n\n\n\n\n\n\n\nBodacious! That is the end of this course. You have learnt how to QC ONT & PacBio data. Of course there are various other tools out there and the field is always advancing so we suggest you also have a look what is out there.\nThanks for reading. Feel free to check out the appendix for more information.",
+    "crumbs": [
+      "PacBio",
+      "QC"
+    ]
+  },
+  {
+    "objectID": "pacbio/qc.html#qc-the-subreads-with-rabbitqcplus",
+    "href": "pacbio/qc.html#qc-the-subreads-with-rabbitqcplus",
+    "title": "QC",
+    "section": "",
+    "text": "RabbitQCPlus generates QC information using a fastq file as input.\nLet’s run RabbitQC on our filtered HiFi data:\n\nRabbitQCPlus -i ERR13246467_qc.filt.fastq.gz -w 1 --TGS\n\nParameters:\n\n-i to specify the input fastq file name\n-w to specify the number of threads\n--TGS to specifiy the data is Third Generation Sequencing data (ONT or PB)\n\nView the output using firefox.\n\nfirefox ERR13246467_qc.filt_RabbitQCPlus.html\n\nAt the top of the html file are some summary tables followed by a histogram showing the distribution of read lengths in the fastq file (with a bin width of 10). You can zoom in on parts of the histogram by dragging the arrows along the bars at the bottom and to the right of the plot.\nWhich bin contains the greatest number of reads?\n\n 7370 10540 11300\n\nUnderneath the plot showing the distribution of read lengths are two quality plots showing the phred quality of head and tail bases (the first and last 100 bases in a read). You should see that quality scores are mostly in the range of 83-86.\nRabbitQCPlus does not show the quality across the entire lengths of the reads. Due to the variable length of PacBio reads you do not normally want to view the quality over the entire length but in case you do, one solution is to use an alternative program to inspect quality. In Chapter 4 of the Illumina QC bookdown you used a program called fastqc to inspect the quality of Illumina data. How might you use fastqc to inspect the quality of this PacBio hifi file? Have a go at this before checking the answer below.\n\n\n\n\n\n\nNoteInspecting PacBio data quality with fastqc\n\n\n\n\n\n\n#Open a new terminal and activate the illuminaqc environment\n. useilluminaqc\n#Navigate to the directory containing the hifi fastq file\ncd QC_workshop/PB_QC/data/hifi\n#Create an output directory for the fastqc file\nmkdir fastqc_output\n#Run fastqc\nfastqc -o fastqc_output/ ERR13246467_qc.filt.fastq.gz\n#View the file with firefox\nfirefox fastqc_output/ERR13246467_qc.filt.fastqc.html\n\n\n\n\nYou should now be able to view the fastqc quality plots for the PacBio hifi fastq file. RabbitQCPlus is considerably quicker and more efficient than fastqc at generating plots, which can be very useful when dealing with many and/or large files. If you want to do a quick inspection of summary tables, read length distribution, GC content, and head+tail quality, RabbitQCPlus is a useful tool. But if you want a more detailed visual output, consider using fastqc (either on the complete file, or on a subset of reads).",
+    "crumbs": [
+      "PacBio",
+      "QC"
+    ]
+  },
+  {
+    "objectID": "pacbio/qc.html#final-summary",
+    "href": "pacbio/qc.html#final-summary",
+    "title": "QC",
+    "section": "",
+    "text": "Bodacious! That is the end of this course. You have learnt how to QC ONT & PacBio data. Of course there are various other tools out there and the field is always advancing so we suggest you also have a look what is out there.\nThanks for reading. Feel free to check out the appendix for more information.",
+    "crumbs": [
+      "PacBio",
+      "QC"
+    ]
+  },
+  {
+    "objectID": "pacbio/setup.html",
+    "href": "pacbio/setup.html",
+    "title": "Setup",
+    "section": "",
+    "text": "We need to initialise the environment to use the programs we need. This needs to be done in each terminal you want to run the commands from this PacBio section in. Each terminal will only remember what you have told that terminal.\nRun the following command in a new terminal. To open a new terminal window, right click on the main screen, choose Terminal.\n\n. usepbqc\n\nBefore carrying out any specific commands we will move into the relevant directory.\n\ncd ~/QC_workshop/PB_QC/data/hifi\n\nUse ls to list the contents of this directory. You will see that there is a BAM HiFi reads file. These data were generated from high molecular weight DNA of the springtail Orchesella dallaii for de novo genome assembly.\n\n\nPacBio’s SMRTlink tools are a set of software applications for analyzing long-read sequencing data. There are many functions in this toolkit, but we are going to just use a couple: pbindex and bam2fastq.\nWe will use the SMRTlink Tools package to first index the BAM file and then convert it to fastq format. The index file is necessary for performing the fastq conversion.\nYou can do this with the following commands:\n\n# Index the BAM file containing the hifi reads and \npbindex ERR13246467_subset.hifi_reads.bam\n\n# Convert the indexed BAM file to fastq format\nbam2fastq ERR13246467_subset.hifi_reads.bam -o ERR13246467_qc\n\nUse ls to list the contents of this directory. Along with the original BAM file you should now see a .pbi index file and a .fastq.gz compressed fastq file.",
+    "crumbs": [
+      "PacBio",
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "pacbio/setup.html#pacbio-smrtlink-tools",
+    "href": "pacbio/setup.html#pacbio-smrtlink-tools",
+    "title": "Setup",
+    "section": "",
+    "text": "PacBio’s SMRTlink tools are a set of software applications for analyzing long-read sequencing data. There are many functions in this toolkit, but we are going to just use a couple: pbindex and bam2fastq.\nWe will use the SMRTlink Tools package to first index the BAM file and then convert it to fastq format. The index file is necessary for performing the fastq conversion.\nYou can do this with the following commands:\n\n# Index the BAM file containing the hifi reads and \npbindex ERR13246467_subset.hifi_reads.bam\n\n# Convert the indexed BAM file to fastq format\nbam2fastq ERR13246467_subset.hifi_reads.bam -o ERR13246467_qc\n\nUse ls to list the contents of this directory. Along with the original BAM file you should now see a .pbi index file and a .fastq.gz compressed fastq file.",
+    "crumbs": [
+      "PacBio",
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "pacbio/filtering.html",
+    "href": "pacbio/filtering.html",
+    "title": "Filtering",
+    "section": "",
+    "text": "PacBio HiFi reads are generated via CCS analysis which computes a consensus sequence from multiple passes of the circularised SMRTbell molecules. Each ‘pass’ will be interspersed with an adapter sequence (as shown in 10.1). Whilst the majority of these adapter sequences are removed by the CCS analysis that generates the HiFi BAM file, it is good practice to check for any remaining sequences to ensure they are removed before downstream analysis.\nWe will perform this using the software HiFiAdapterFilt.\nThis software has already been installed, but we will start by setting the PATH variable.\n\n\nThe PATH environment variable is a list of directories that an operating system searches to find executable files and commands (programs). If a directory is included in the $PATH, it won’t be necessary to type out the full name of the executable when running a command. Directories can be added to the path on a temporary basis using the export command, but if you close your terminal or start a new session you will have to rerun the export command.\n\n# Add the hifiadapterfilt script and the database to your path\n\nexport PATH=$PATH:/pub14/tea/nsc206/git_installs/HiFiAdapterFilt\n\nexport PATH=$PATH:/pub14/tea/nsc206/git_installs/HiFiAdapterFilt/DB\n\nThe echo command displays text on the screen, and we can use it to show the contents of the $PATH environment variable now that we have exported the locations of hifiadapterfilt and hifiadapterfilt/db.\n\n# Check the PATH environment variable with echo\n\necho $PATH\n\nGreat, now we can proceed to adapter filtering.\n\n\n\n\n\n\n\n\nHiFiAdapterFilt blasts the reads against a database of PacBio adapter sequences and excludes reads if the match with an adapter is good enough (the default is a blast percent identity match of 97% and a minimum length of 44 bp). It creates a file with the suffix ‘.filt.fastq.gz’ with the adapters removed that can be used for QC and downstream analysis.\nRun HiFiAdapterFilt on the fastq file:\n\nhifiadapterfilt.sh -p ERR13246467_qc\n\nThe -p parameter sets the prefix of the file to be filtered.\nUse less to inspect the results to check for adapter contamination:\n\nless ERR13246467_qc.stats\n\nHow many CCS reads are in the unfiltered dataset?\n\n 99.99% 2 13798\n\nHow many adapter contaminated reads were found?\n\n 99.99% 2 13798\n\nWhat percentage of CCS reads are retained (i.e. unfiltered)?\n\n 99.99% 2 13798\n\nVery few reads were found to contain adapter sequences. This isn’t entirely unexpected as the CCS algorithm on the instrument will filter out most of them. However, the authors of HiFiAdapterFilt found that &gt;95% of published HiFi datasets did contain some adapter sequences, so it is worthwile to check and remove these.\n\n\n\n\n\n\n\n\nWe have now filtered any remaining sequencing adapters from our HiFi data. Next we will learn how to QC the data.",
+    "crumbs": [
+      "PacBio",
+      "Filtering"
+    ]
+  },
+  {
+    "objectID": "pacbio/filtering.html#path",
+    "href": "pacbio/filtering.html#path",
+    "title": "Filtering",
+    "section": "",
+    "text": "The PATH environment variable is a list of directories that an operating system searches to find executable files and commands (programs). If a directory is included in the $PATH, it won’t be necessary to type out the full name of the executable when running a command. Directories can be added to the path on a temporary basis using the export command, but if you close your terminal or start a new session you will have to rerun the export command.\n\n# Add the hifiadapterfilt script and the database to your path\n\nexport PATH=$PATH:/pub14/tea/nsc206/git_installs/HiFiAdapterFilt\n\nexport PATH=$PATH:/pub14/tea/nsc206/git_installs/HiFiAdapterFilt/DB\n\nThe echo command displays text on the screen, and we can use it to show the contents of the $PATH environment variable now that we have exported the locations of hifiadapterfilt and hifiadapterfilt/db.\n\n# Check the PATH environment variable with echo\n\necho $PATH\n\nGreat, now we can proceed to adapter filtering.",
+    "crumbs": [
+      "PacBio",
+      "Filtering"
+    ]
+  },
+  {
+    "objectID": "pacbio/filtering.html#hifiadapterfilt",
+    "href": "pacbio/filtering.html#hifiadapterfilt",
+    "title": "Filtering",
+    "section": "",
+    "text": "HiFiAdapterFilt blasts the reads against a database of PacBio adapter sequences and excludes reads if the match with an adapter is good enough (the default is a blast percent identity match of 97% and a minimum length of 44 bp). It creates a file with the suffix ‘.filt.fastq.gz’ with the adapters removed that can be used for QC and downstream analysis.\nRun HiFiAdapterFilt on the fastq file:\n\nhifiadapterfilt.sh -p ERR13246467_qc\n\nThe -p parameter sets the prefix of the file to be filtered.\nUse less to inspect the results to check for adapter contamination:\n\nless ERR13246467_qc.stats\n\nHow many CCS reads are in the unfiltered dataset?\n\n 99.99% 2 13798\n\nHow many adapter contaminated reads were found?\n\n 99.99% 2 13798\n\nWhat percentage of CCS reads are retained (i.e. unfiltered)?\n\n 99.99% 2 13798\n\nVery few reads were found to contain adapter sequences. This isn’t entirely unexpected as the CCS algorithm on the instrument will filter out most of them. However, the authors of HiFiAdapterFilt found that &gt;95% of published HiFi datasets did contain some adapter sequences, so it is worthwile to check and remove these.",
+    "crumbs": [
+      "PacBio",
+      "Filtering"
+    ]
+  },
+  {
+    "objectID": "pacbio/filtering.html#pacbio-adapter-filtering-summary",
+    "href": "pacbio/filtering.html#pacbio-adapter-filtering-summary",
+    "title": "Filtering",
+    "section": "",
+    "text": "We have now filtered any remaining sequencing adapters from our HiFi data. Next we will learn how to QC the data.",
+    "crumbs": [
+      "PacBio",
+      "Filtering"
+    ]
+  },
+  {
+    "objectID": "pacbio/intro.html",
+    "href": "pacbio/intro.html",
+    "title": "Intro",
+    "section": "",
+    "text": "Intro\n\n\n\n\n\nWith Illumina and ONT QC covered we can move onto the final of the main three, PacBio.\nAt the end of this part learners will be able to:\n\nFilter adapters from PacBio data with HiFiAdapterFilt\nConvert PacBio BAM files to fastq\nQuality check PacBio CCS reads with RabbitQCPlus",
+    "crumbs": [
+      "PacBio",
+      "Intro"
+    ]
+  },
+  {
+    "objectID": "course_resources.html",
+    "href": "course_resources.html",
+    "title": "Course resources",
+    "section": "",
+    "text": "Slides\n\n\n29 OCT 2024\n\n\n\n\n\n\n\n\n07 NOV 2023\n\n\n\n\n\n\n\n\n01 NOV 2022\n\n\n\n\n\n\n\n\n\n\n\n\n\nSlides\n\n\n31 OCT 2024\n\n\n\n\n\n\n\n\n09 NOV 2023\n\n\n\n\n\n\n\n\n\nThe below compressed directory is provided so you may attempt the workshop materials on a computer/cluster available to you.\nNote:\n\nThe file locations will not match\nCopy the link and paste it to your browser’s address bar.\n\nQC files\n\n\n\nOnline website link\nYou can download the html files of the site below. Ensure you unzip the directory before use.\nDownload zipped htmls"
+  },
+  {
+    "objectID": "course_resources.html#intro-illumina-qc",
+    "href": "course_resources.html#intro-illumina-qc",
+    "title": "Course resources",
+    "section": "",
+    "text": "Slides\n\n\n29 OCT 2024\n\n\n\n\n\n\n\n\n07 NOV 2023\n\n\n\n\n\n\n\n\n01 NOV 2022"
+  },
+  {
+    "objectID": "course_resources.html#long-read-qc",
+    "href": "course_resources.html#long-read-qc",
+    "title": "Course resources",
+    "section": "",
+    "text": "Slides\n\n\n31 OCT 2024\n\n\n\n\n\n\n\n\n09 NOV 2023"
+  },
+  {
+    "objectID": "course_resources.html#workshop-files",
+    "href": "course_resources.html#workshop-files",
+    "title": "Course resources",
+    "section": "",
+    "text": "The below compressed directory is provided so you may attempt the workshop materials on a computer/cluster available to you.\nNote:\n\nThe file locations will not match\nCopy the link and paste it to your browser’s address bar.\n\nQC files"
+  },
+  {
+    "objectID": "course_resources.html#bookdown",
+    "href": "course_resources.html#bookdown",
+    "title": "Course resources",
+    "section": "",
+    "text": "Online website link\nYou can download the html files of the site below. Ensure you unzip the directory before use.\nDownload zipped htmls"
+  },
+  {
+    "objectID": "ont/porechop.html",
+    "href": "ont/porechop.html",
+    "title": "Porechop",
+    "section": "",
+    "text": "Porechop is a tool to find and remove adapters from ONT data (https://github.com/rrwick/Porechop). Adapters are artificial sequences essential for sequencing but of no biological value and so you will typically want them removed.\nPorechop is no longer supported but it still works and is a good tool. Depending on which basecaller was used on your data, adapter removal may have already been carried out. However, it is always best to run porechop if you are not sure.\nPorechop has a list of known adapters it will look for and remove. These contain:\n\nLigation kit adapters\nRapid kit adapters\nPCR kit adapters\nBarcodes\nNative barcoding\nRapid barcoding\n\nPorechop will look for these adapters at the start and end of each read. Then it will look for adapters within the sequence (known as middle adapters to Porechop). If it finds a middle adapter it will conclude that the read is chimeric (a recombinant read containing sequences from 2 or more reads) and split the read. Depending on the number of middle adapters the chimeric read may split into 2 or more reads.\n\n\n\n\n\n\n\nWith all that explanation we will now run Porechop. Thankfully the command is relatively straight forward with the options:\n\n-t: Number of threads to be used.\n-i: Input path of a fasta file, fastq file, or a directory. If a directory is specified it will be recursively searched for fastq files.\n-o: Output path. This will either be a fastq or fasta file name.\n\n\n#Create output directory\nmkdir porechop\n#Run porechop command\nporechop -t 4 -i ./data/Acinetobacter/Acinetobacter_genome_ONT.fastq \\\n-o porechop/Acinetobacter.porechop.fastq\n\nPorechop will take a while to run. Whilst it is running, look at the screen output to get an idea of what it is doing. When finished, look at the bottom of the printed results.\n\n\n\n\n\n\n\n\n\nHow many reads had adapters trimmed from their start?\n\n 0 1,952 79,015\n\n\n\nHow many bases were removed by adapters being trimmed from the end of reads?\n\n 0 1,952 79,015\n\n\n\nHow many reads were split based on middle adapters?\n\n 0 1,952 79,015\n\n\n\n\n\n\n\n\n\n\nPorechop did its job and removed adapters successfully. The next step is to view the quality of our reads so we can be informed when we filter out poor quality reads and bases.\nFor more uses of Porechop please see the below links:\n\nhttps://github.com/rrwick/Porechop#quick-usage-examples\nhttps://github.com/rrwick/Porechop#full-usage",
+    "crumbs": [
+      "ONT",
+      "Porechop"
+    ]
+  },
+  {
+    "objectID": "ont/porechop.html#run",
+    "href": "ont/porechop.html#run",
+    "title": "Porechop",
+    "section": "",
+    "text": "With all that explanation we will now run Porechop. Thankfully the command is relatively straight forward with the options:\n\n-t: Number of threads to be used.\n-i: Input path of a fasta file, fastq file, or a directory. If a directory is specified it will be recursively searched for fastq files.\n-o: Output path. This will either be a fastq or fasta file name.\n\n\n#Create output directory\nmkdir porechop\n#Run porechop command\nporechop -t 4 -i ./data/Acinetobacter/Acinetobacter_genome_ONT.fastq \\\n-o porechop/Acinetobacter.porechop.fastq\n\nPorechop will take a while to run. Whilst it is running, look at the screen output to get an idea of what it is doing. When finished, look at the bottom of the printed results.",
+    "crumbs": [
+      "ONT",
+      "Porechop"
+    ]
+  },
+  {
+    "objectID": "ont/porechop.html#mcqs",
+    "href": "ont/porechop.html#mcqs",
+    "title": "Porechop",
+    "section": "",
+    "text": "How many reads had adapters trimmed from their start?\n\n 0 1,952 79,015\n\n\n\nHow many bases were removed by adapters being trimmed from the end of reads?\n\n 0 1,952 79,015\n\n\n\nHow many reads were split based on middle adapters?\n\n 0 1,952 79,015",
+    "crumbs": [
+      "ONT",
+      "Porechop"
+    ]
+  },
+  {
+    "objectID": "ont/porechop.html#summary",
+    "href": "ont/porechop.html#summary",
+    "title": "Porechop",
+    "section": "",
+    "text": "Porechop did its job and removed adapters successfully. The next step is to view the quality of our reads so we can be informed when we filter out poor quality reads and bases.\nFor more uses of Porechop please see the below links:\n\nhttps://github.com/rrwick/Porechop#quick-usage-examples\nhttps://github.com/rrwick/Porechop#full-usage",
+    "crumbs": [
+      "ONT",
+      "Porechop"
+    ]
+  },
+  {
+    "objectID": "ont/background.html",
+    "href": "ont/background.html",
+    "title": "Background",
+    "section": "",
+    "text": "In this section we are going to carry out a quick QC of ONT data using the tool suite NanoPack and the tool Porechop. For this we will use fastq files.\nBefore carrying out analysis we will cover some background of ONT data. This will include file formats, & basecalling.\n\n\n\n\n\n\n\nAlthough we will only be using fastq files for this tutorial it is important to know the other file formats you may encounter when working with ONT data.\n\n\n\n\n\n\n\nThe POD5 format is the ONT created format to store nanopore DNA data in an easily accessible manner. The files end with the extension .pod5 and is normally created by the ONT tool MinKNOW. It is a collection of Apache Arrow tables (it is very unlikely you need to understand Apache Arrow tables).\nThe POD5 file format contains the following information:\n\nReads Table: Describes the metadata for each read.\nSignal Table: Contains the signal data from the sequencer.\nRun Info Table: Contains information on the MinKNOW runs that created the reads that are in the POD5 file.\n\nThe POD5 format is quite new and was released as an early preview in May 2022. Prior to POD5 they used Fast5 files. They changed to POD5 with the following design goals in mind:\n\nGood write performance for MinKNOW\nRecoverable if the writing process crashes\nGood read performance for downstream tools, including basecall model generation\nEfficient use of space\nStraightforward to implement and maintain\nExtensibility\n\nPOD5 links:\n\nMain POD5 github page\nPOD5 File Format Design Details\nPOD5 Format Specification\nPOD5 Tools commands\n\n\n\n\n\n\n\n\n\nThe Fast5 format was the previous format used to store raw data from ONT machine. It is now a legacy format. However, if you use older data for your research you may encounter it.\nThe format contains the signal data from the pore which can be processed into more useful files.\nFast5 files can contain:\n\nRaw signal data\nRun metadata\nfastq-basecalls\nOther additional analyses\n\nThe Fast5 file format is an implementation of the HDF5 file format specifically for ONT sequencing data. For more information on Fast5 and a tool to interface with these types of file please see: https://github.com/nanoporetech/ont_fast5_api\nYou can convert a Fast5 file to a Pod5 file with the pod5 tools command pod5 convert fast5\n\n\n\nThe MinION and GridION output a single sequencing summary file in addition to the POD5/Fast5 files. This file contains metdata which describes each sequenced read.\nWe will not use POD5, Fast5 or summary files for this tutorial as they are not needed most of the time. It is likely these files will not be initially provided to you by a sequencing service as they are very large. However, if you do require them you can always ask but be careful with how long the sequencing centre will retain your data.\n\n\n\n\n\n\n\n\nBAM files (.bam) are the binary version of SAM files (.sam).\n\nSAM stands for “Sequence Alignment/Map” (the B in BAM is Binary).\nSAM files are tab delimited and contain alignment information.\nBAM files are not human readable whilst SAM files are.\nSAM files are larger than BAM.\n\nGenerally programs that can work on SAM files can also work on BAM files. Due to the size difference it is preferable to store data in BAM format over SAM. Even though a BAM file is smaller than its matching SAM file, BAM files are still very large and can be &gt;100GB.\nIt can be useful to contain unaligned reads from sequencing machines (e.g. PacBio and ONT) in BAM files as they can contain more metadata in the header and per-record auxiliary tags compared to fastq files.\nIf you are working with SAM/BAM files the following link will prove useful: https://www.htslib.org/\nFor more information on the SAM and BAM format please see: https://samtools.github.io/hts-specs/SAMv1.pdf\n\n\n\n\n\n\n\n\nThe fastq file format is very consistent and so there is no real difference between fastq files for Illumina, PacBio, and ONT data.\nAll fastq files will contain a number of lines divisible by 4. This is because each entry/sequence will take up four lines consisting of the following information:\n\nHeader for fastq entry known as the fastq header.\n\nThis always begins with a '@'\nThis is where you might see the most difference between different data. Different machines and different public databases will use different formats for fastq headers.\n\nSequence content\nQuality header\n\nAlways begins with a '+'. Sometimes also contains the same information as the fastq header.\n\n\nQuality\n\nEach base in the 2nd line will have a corresponding quality value in this line.\nNote this uses Phred encoding, of which there are different formats. Most, if not all, new files will use Phred+33 but be careful if you are using older data as it may use a different one. See the \"Encoding\" section in the following link for more info: https://en.wikipedia.org/wiki/FASTQ_format.\nNOTE: '@' can be used as a quality value.\n\n\nAn example of the information of one sequence/entry is:\n@Sequence 1\nCTGTTAAATACCGACTTGCGTCAGGTGCGTGAACAACTGGGCCGCTTT\n+\n=&lt;&lt;&lt;=&gt;@@@ACDCBCDAC@BAA@BA@BBCBBDA@BB@&gt;CD@A@B?B@@\n\n\n\n\n\n\n\n\n\nIn short, basecalling is the conversion of ONT signals to bases and quality. This step converts the POD5/Fast5 files to BAM and/or fastq files.\nThere are many tools to carry out basecalling with ONT data. ONT sequencing machines carry this out with in built programs. However, if you are interested in the tools used for this the primary ones are MinKNOW, Guppy, Dorado, and Albacore. Unfortunately it is quite hard to find information about these tools unless you own an ONT machine.\nWe will not go into any more detail about basecalling as this is normally carried out by the machine/sequencing centre. Instead please find some useful links below if you would like to know more.\n\nMinKNOW\n\nOverview on working with MinKNOW\nBasecalling algorithms\n\nGuppy\n\nBasecalling with Guppy tutorials\nInput and output files\n\nDorado\n\nGithub page\n\nLiterature\n\nComprehensive benchmark and architectural analysis of deep learning models for nanopore sequencing basecalling",
+    "crumbs": [
+      "ONT",
+      "Background"
+    ]
+  },
+  {
+    "objectID": "ont/background.html#ont_file_formats",
+    "href": "ont/background.html#ont_file_formats",
+    "title": "Background",
+    "section": "",
+    "text": "Although we will only be using fastq files for this tutorial it is important to know the other file formats you may encounter when working with ONT data.\n\n\n\n\n\n\n\nThe POD5 format is the ONT created format to store nanopore DNA data in an easily accessible manner. The files end with the extension .pod5 and is normally created by the ONT tool MinKNOW. It is a collection of Apache Arrow tables (it is very unlikely you need to understand Apache Arrow tables).\nThe POD5 file format contains the following information:\n\nReads Table: Describes the metadata for each read.\nSignal Table: Contains the signal data from the sequencer.\nRun Info Table: Contains information on the MinKNOW runs that created the reads that are in the POD5 file.\n\nThe POD5 format is quite new and was released as an early preview in May 2022. Prior to POD5 they used Fast5 files. They changed to POD5 with the following design goals in mind:\n\nGood write performance for MinKNOW\nRecoverable if the writing process crashes\nGood read performance for downstream tools, including basecall model generation\nEfficient use of space\nStraightforward to implement and maintain\nExtensibility\n\nPOD5 links:\n\nMain POD5 github page\nPOD5 File Format Design Details\nPOD5 Format Specification\nPOD5 Tools commands\n\n\n\n\n\n\n\n\n\nThe Fast5 format was the previous format used to store raw data from ONT machine. It is now a legacy format. However, if you use older data for your research you may encounter it.\nThe format contains the signal data from the pore which can be processed into more useful files.\nFast5 files can contain:\n\nRaw signal data\nRun metadata\nfastq-basecalls\nOther additional analyses\n\nThe Fast5 file format is an implementation of the HDF5 file format specifically for ONT sequencing data. For more information on Fast5 and a tool to interface with these types of file please see: https://github.com/nanoporetech/ont_fast5_api\nYou can convert a Fast5 file to a Pod5 file with the pod5 tools command pod5 convert fast5\n\n\n\nThe MinION and GridION output a single sequencing summary file in addition to the POD5/Fast5 files. This file contains metdata which describes each sequenced read.\nWe will not use POD5, Fast5 or summary files for this tutorial as they are not needed most of the time. It is likely these files will not be initially provided to you by a sequencing service as they are very large. However, if you do require them you can always ask but be careful with how long the sequencing centre will retain your data.\n\n\n\n\n\n\n\n\nBAM files (.bam) are the binary version of SAM files (.sam).\n\nSAM stands for “Sequence Alignment/Map” (the B in BAM is Binary).\nSAM files are tab delimited and contain alignment information.\nBAM files are not human readable whilst SAM files are.\nSAM files are larger than BAM.\n\nGenerally programs that can work on SAM files can also work on BAM files. Due to the size difference it is preferable to store data in BAM format over SAM. Even though a BAM file is smaller than its matching SAM file, BAM files are still very large and can be &gt;100GB.\nIt can be useful to contain unaligned reads from sequencing machines (e.g. PacBio and ONT) in BAM files as they can contain more metadata in the header and per-record auxiliary tags compared to fastq files.\nIf you are working with SAM/BAM files the following link will prove useful: https://www.htslib.org/\nFor more information on the SAM and BAM format please see: https://samtools.github.io/hts-specs/SAMv1.pdf\n\n\n\n\n\n\n\n\nThe fastq file format is very consistent and so there is no real difference between fastq files for Illumina, PacBio, and ONT data.\nAll fastq files will contain a number of lines divisible by 4. This is because each entry/sequence will take up four lines consisting of the following information:\n\nHeader for fastq entry known as the fastq header.\n\nThis always begins with a '@'\nThis is where you might see the most difference between different data. Different machines and different public databases will use different formats for fastq headers.\n\nSequence content\nQuality header\n\nAlways begins with a '+'. Sometimes also contains the same information as the fastq header.\n\n\nQuality\n\nEach base in the 2nd line will have a corresponding quality value in this line.\nNote this uses Phred encoding, of which there are different formats. Most, if not all, new files will use Phred+33 but be careful if you are using older data as it may use a different one. See the \"Encoding\" section in the following link for more info: https://en.wikipedia.org/wiki/FASTQ_format.\nNOTE: '@' can be used as a quality value.\n\n\nAn example of the information of one sequence/entry is:\n@Sequence 1\nCTGTTAAATACCGACTTGCGTCAGGTGCGTGAACAACTGGGCCGCTTT\n+\n=&lt;&lt;&lt;=&gt;@@@ACDCBCDAC@BAA@BA@BBCBBDA@BB@&gt;CD@A@B?B@@",
+    "crumbs": [
+      "ONT",
+      "Background"
+    ]
+  },
+  {
+    "objectID": "ont/background.html#ont_basecalling",
+    "href": "ont/background.html#ont_basecalling",
+    "title": "Background",
+    "section": "",
+    "text": "In short, basecalling is the conversion of ONT signals to bases and quality. This step converts the POD5/Fast5 files to BAM and/or fastq files.\nThere are many tools to carry out basecalling with ONT data. ONT sequencing machines carry this out with in built programs. However, if you are interested in the tools used for this the primary ones are MinKNOW, Guppy, Dorado, and Albacore. Unfortunately it is quite hard to find information about these tools unless you own an ONT machine.\nWe will not go into any more detail about basecalling as this is normally carried out by the machine/sequencing centre. Instead please find some useful links below if you would like to know more.\n\nMinKNOW\n\nOverview on working with MinKNOW\nBasecalling algorithms\n\nGuppy\n\nBasecalling with Guppy tutorials\nInput and output files\n\nDorado\n\nGithub page\n\nLiterature\n\nComprehensive benchmark and architectural analysis of deep learning models for nanopore sequencing basecalling",
+    "crumbs": [
+      "ONT",
+      "Background"
+    ]
+  },
+  {
+    "objectID": "ont/final_check.html",
+    "href": "ont/final_check.html",
+    "title": "Final check",
+    "section": "",
+    "text": "After trimming or filtering reads (quality control) it is always important to carry out a quality check. We will therefore run NanoPlot again.\n\n\n\n\n\n\n\nRun NanoPlot for our quality controlled reads.\n\n\n\n\n\n\nNote\n\n\n\nWe are using a long informative output directory name. This is important as we may need to rerun chopper a few more times with different options until we are happy.\n\n\n\n#Make an output directory before running NanoPlot\nmkdir nanoplot/chopperq10minlen500_porechop\n#Run NanoPlot on the fastq file with the filtered and porechopped data\nNanoPlot -t 4 \\\n--fastq chopper/Acinetobacter.chopperq10minlen500.porechop.fastq \\\n-o nanoplot/chopperq10minlen500_porechop/ -p Acinetobacter_\n\nNow inspect the report.\n\nfirefox nanoplot/chopperq10minlen500_porechop/Acinetobacter_NanoPlot-report.html\n\n\n\n\n\n\n\n\n\nUltimately when quality checking we need to take into account how much data we are left with. We need to make sure we have a good amount of bases and reads for our application. However, we also want to make sure we aren't left with a lot of poor quality data.\nDepending on our application the quality of the reads may be less important, or the other way around. This is the same with the amount of reads and bases. What is needed will be clearer when you know what type of data you have. These considerations will be covered in our future workshops of the specific data types\nA quick example is data for a genome assembly. For this type of analysis we will want our number of bases to reach a certain coverage. We'll want a decent quality but a high coverage can help overcome lower quality (more on this in a future workshop). Generally for ONT assemblies you will want 20X - 100X coverage with a higher coverage producing a better assembly (100x coverage= 100bp sequencing data per 1bp of the genome size). Higher coverages may be worse as it can be too much information for an assembly algorithm to cope with.\nIn addition to the amount of bases, the length of reads is also important. One read that is 10kbp long is likely better than 10 reads that are each 1kbp long for a genome assembly. This is because less reads need to be assembled.\n\n\n\n\n\n\n\n\nKeeping all this in mind, let’s say this sequencing is for a genome with a size of 0.5 Mbp (0.5 million base pairs). We want at least 20X coverage (i.e 10,000,000 total bases). Do we have this for the data that was porechopped and chopper’d?\nIf not, try running chopper with a different choice for -q until you do. Then attempt to answer the questions below. These aren’t MCQs as you will get different answers based on what value you use for -q.\n\nWhat is an option that works to get the desired coverage?\nIs the overall quality decent (Mean & Median read quality &gt; 10)?\nWhat is the N50 of your QC’d reads?\nHow many extra reads and bases did you retain compared to the Q10 filtering?\n\nTips:\n\nMake sure your new output paths have unique names.\nUse NanoPlot results to compare the Q10 filtering to your own. The NanoStat part is especially helpful.\n\n\n\n\n\n\n\n\n\nBrilliant! That is the end of the ONT QC section.\nWe carried out:\n\nNanoStat: Produced read quality and length stats of our raw reads.\nPorechop: Removed adapters from our reads.\nNanoPlot: Produced read quality and length stats and plots of our porechopped reads.\nchopper: Filtered our porechopped reads based on quality and length.\nFinal check: NanoPlot of our filtered reads. It is always good to check the quality after every quality control step.\n\nWith ONT QC complete please continue onto the PacBio QC part.",
+    "crumbs": [
+      "ONT",
+      "Final check"
+    ]
+  },
+  {
+    "objectID": "ont/final_check.html#final-nanoplot",
+    "href": "ont/final_check.html#final-nanoplot",
+    "title": "Final check",
+    "section": "",
+    "text": "Run NanoPlot for our quality controlled reads.\n\n\n\n\n\n\nNote\n\n\n\nWe are using a long informative output directory name. This is important as we may need to rerun chopper a few more times with different options until we are happy.\n\n\n\n#Make an output directory before running NanoPlot\nmkdir nanoplot/chopperq10minlen500_porechop\n#Run NanoPlot on the fastq file with the filtered and porechopped data\nNanoPlot -t 4 \\\n--fastq chopper/Acinetobacter.chopperq10minlen500.porechop.fastq \\\n-o nanoplot/chopperq10minlen500_porechop/ -p Acinetobacter_\n\nNow inspect the report.\n\nfirefox nanoplot/chopperq10minlen500_porechop/Acinetobacter_NanoPlot-report.html",
+    "crumbs": [
+      "ONT",
+      "Final check"
+    ]
+  },
+  {
+    "objectID": "ont/final_check.html#ont-qc-considerations",
+    "href": "ont/final_check.html#ont-qc-considerations",
+    "title": "Final check",
+    "section": "",
+    "text": "Ultimately when quality checking we need to take into account how much data we are left with. We need to make sure we have a good amount of bases and reads for our application. However, we also want to make sure we aren't left with a lot of poor quality data.\nDepending on our application the quality of the reads may be less important, or the other way around. This is the same with the amount of reads and bases. What is needed will be clearer when you know what type of data you have. These considerations will be covered in our future workshops of the specific data types\nA quick example is data for a genome assembly. For this type of analysis we will want our number of bases to reach a certain coverage. We'll want a decent quality but a high coverage can help overcome lower quality (more on this in a future workshop). Generally for ONT assemblies you will want 20X - 100X coverage with a higher coverage producing a better assembly (100x coverage= 100bp sequencing data per 1bp of the genome size). Higher coverages may be worse as it can be too much information for an assembly algorithm to cope with.\nIn addition to the amount of bases, the length of reads is also important. One read that is 10kbp long is likely better than 10 reads that are each 1kbp long for a genome assembly. This is because less reads need to be assembled.",
+    "crumbs": [
+      "ONT",
+      "Final check"
+    ]
+  },
+  {
+    "objectID": "ont/final_check.html#chopper-reattempts",
+    "href": "ont/final_check.html#chopper-reattempts",
+    "title": "Final check",
+    "section": "",
+    "text": "Keeping all this in mind, let’s say this sequencing is for a genome with a size of 0.5 Mbp (0.5 million base pairs). We want at least 20X coverage (i.e 10,000,000 total bases). Do we have this for the data that was porechopped and chopper’d?\nIf not, try running chopper with a different choice for -q until you do. Then attempt to answer the questions below. These aren’t MCQs as you will get different answers based on what value you use for -q.\n\nWhat is an option that works to get the desired coverage?\nIs the overall quality decent (Mean & Median read quality &gt; 10)?\nWhat is the N50 of your QC’d reads?\nHow many extra reads and bases did you retain compared to the Q10 filtering?\n\nTips:\n\nMake sure your new output paths have unique names.\nUse NanoPlot results to compare the Q10 filtering to your own. The NanoStat part is especially helpful.",
+    "crumbs": [
+      "ONT",
+      "Final check"
+    ]
+  },
+  {
+    "objectID": "ont/final_check.html#ont-recap",
+    "href": "ont/final_check.html#ont-recap",
+    "title": "Final check",
+    "section": "",
+    "text": "Brilliant! That is the end of the ONT QC section.\nWe carried out:\n\nNanoStat: Produced read quality and length stats of our raw reads.\nPorechop: Removed adapters from our reads.\nNanoPlot: Produced read quality and length stats and plots of our porechopped reads.\nchopper: Filtered our porechopped reads based on quality and length.\nFinal check: NanoPlot of our filtered reads. It is always good to check the quality after every quality control step.\n\nWith ONT QC complete please continue onto the PacBio QC part.",
+    "crumbs": [
+      "ONT",
+      "Final check"
+    ]
+  },
+  {
+    "objectID": "ont/nanoplot.html",
+    "href": "ont/nanoplot.html",
+    "title": "NanoPlot",
+    "section": "",
+    "text": "NanoPlot can be thought of as the fastqc for ONT data. It produces a lot of useful visualisations to investigate the quality of ONT sequencing data. It can be used for fastq, fasta, BAM, and sequencing summary files. The link for its github page is: https://github.com/wdecoster/NanoPlot\nONT data has much lower quality scores than Illumina with Q10 being good. If you have enough coverage and length the low quality can be corrected by downstream processes not covered in this tutorial.\n\n\n\n\n\n\n\nPrior to running NanoPlot we will make a directory for the NanoPlot output. As NanoPlot creates a lot of files, we’ll make a subdirectory for the NanoPlot output for the porechopped data.\n\nmkdir nanoplot\nmkdir nanoplot/porechop\n\nNow to run NanoPlot. The options we will use are:\n\n-t: Number of threads to be used.\n--fastq: Specifies the input path which is a fastq file.\n-o: Directory where the output will be created.\n-p: Prefix of output files. It is useful to have “_” at the end of the prefix.\n\n\nNanoPlot -t 4 \\\n--fastq porechop/Acinetobacter.porechop.fastq \\\n-o nanoplot/porechop -p Acinetobacter_ \n\n\n\n\n\n\n\n\n\nList the files in the output directory.\n\nls nanoplot/porechop/\n\nThere are quite a few files. These should all start with \"Acinetobacter_\" thanks to the -p option. To quickly check all the results we can open the report html file with firefox.\n\nfirefox nanoplot/porechop/Acinetobacter_NanoPlot-report.html\n\nThe first section contains NanoStat output. Quickly look over this and see how it compares to the NanoStat output of the pre-porechopped reads.\n\n\n\n\n\n\nNoteNanoStat of pre-porechopped reads\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGeneral summary\nvalues\n\n\n\n\nMean read length\n7,070.8\n\n\nMean read quality\n9.5\n\n\nMedian read length\n6,700.5\n\n\nMedian read quality\n10.4\n\n\nNumber of reads\n2,000.0\n\n\nRead length N50\n8,143.0\n\n\nSTDEV read length\n3,336.0\n\n\nTotal bases\n14,141,646.0\n\n\nNumber, percentage and megabases of reads above quality cutoffs\n\n\n\n&gt;Q5\n2000 (100.0%) 14.1Mb\n\n\n&gt;Q7\n1998 (99.9%) 14.1Mb\n\n\n&gt;Q10\n1231 (61.6%) 8.8Mb\n\n\n&gt;Q12\n29 (1.5%) 0.2Mb\n\n\n&gt;Q15\n0 (0.0%) 0.0Mb\n\n\nTop 5 highest mean basecall quality scores and their read lengths\n\n\n\n1\n12.3 (7039)\n\n\n2\n12.3 (5770)\n\n\n3\n12.3 (8052)\n\n\n4\n12.2 (8120)\n\n\n5\n12.2 (3041)\n\n\nTop 5 longest reads and their mean basecall quality score\n\n\n\n1\n34661 (9.2)\n\n\n2\n31549 (8.5)\n\n\n3\n25072 (10.0)\n\n\n4\n24871 (10.3)\n\n\n5\n23185 (10.7)\n\n\n\n\n\n\n\n\nAfter the Summary Statistics section there is a Plots section. These are all plots created by plotly meaning they are interactive. With these plots you can:\n\nMake boxes to zoom into a specific area.\nClick and drag left or right only to zoom into a specific part of the x axis.\nClick and drag up or down only to zoom into a specific part of the y axis.\nClick the home icon (   ) on the top right to reset the axes.\nHover over a points/bars to see the specific values of it.\n\nThe plots are:\n\nWeighted Histogram of read lengths\n\nHistogram of \"Number of bases\" (y) against \"Read length\" (x).\n\nWeighted Histogram of read lengths after log transformation\n\nHistogram of \"Number of bases\" (y) against log transformed \"Read length\" (x).\n\nNon weighted histogram of read lengths\n\nHistogram of \"Number of reads\" (y) against \"Read length\" (x).\n\nNon weighted histogram of read lengths after log transformations\n\nHistogram of \"Number of reads\" (y) against log transformed \"Read length\" (x).\n\nYield by length\n\nPlot showing the \"Cumulative yield for minimal length\" (y) by \"Read length\" (x).\nThe cumulative yield is measured in Gigabases (billion bases).\nThis plot is useful to know how many bases you would retain if you filtered reads based on read length.\n\nRead lengths vs Average read quality plot using dots\n\nEach dot represents a single read.\nAt the top of the plot is a histogram of Number of reads against read lengths.\nAt the right of the plot is a sideways histogram of number of reads against average read quality.\n\nRead lengths vs Average read quality kde plot\n\nEach dot represents a single read with a topology map showing the density of plots. The darker the area the more dense.\nThis is the most informative plot.\nAt the top of the plot is a histogram of Number of reads against read lengths.\nAt the right of the plot is a sideways histogram of number of reads against average read quality.\n\n\n\n\n\n\n\n\n\n\nPlease attempt the below MCQs with the information in the report html.\n\nWhat is the mean read quality for all the data?\n\n 9.5 6,962.1 8.8Mb\n\n\n\nWhat is the mean read length of the data?\n\n 9.5 6,962.1 8.8Mb\n\n\n\nHow many Megabases are within reads with a quality cutoff of &gt;Q10?\n\n 9.5 6,962.1 8.8Mb\n\n\n\nApproximately how many bases would you retain if you filtered out/removed reads with a length &lt;10,000bp (Yield by length)?\n\n 10Mb (0.01Gb) 146Mb (0.146Gb) 4Mb (0.004Gb)\n\n\n\nLook at the Read lengths vs Average read quality plots. In what average quality range are the majority of reads?\n\n 6-8 8-10 10-12\n\n\n\n\n\n\n\n\n\n\nWe have used NanoPlot to produce read quality and length stats in table and plot form. Our data still looks good after porechopping but we still need to carry out some filtering.\nYou can use NanoPlot with different input files. This will give you different plots. For more details please see the \"Plots Generated\" section on: https://github.com/wdecoster/NanoPlot.",
+    "crumbs": [
+      "ONT",
+      "NanoPlot"
+    ]
+  },
+  {
+    "objectID": "ont/nanoplot.html#run",
+    "href": "ont/nanoplot.html#run",
+    "title": "NanoPlot",
+    "section": "",
+    "text": "Prior to running NanoPlot we will make a directory for the NanoPlot output. As NanoPlot creates a lot of files, we’ll make a subdirectory for the NanoPlot output for the porechopped data.\n\nmkdir nanoplot\nmkdir nanoplot/porechop\n\nNow to run NanoPlot. The options we will use are:\n\n-t: Number of threads to be used.\n--fastq: Specifies the input path which is a fastq file.\n-o: Directory where the output will be created.\n-p: Prefix of output files. It is useful to have “_” at the end of the prefix.\n\n\nNanoPlot -t 4 \\\n--fastq porechop/Acinetobacter.porechop.fastq \\\n-o nanoplot/porechop -p Acinetobacter_",
+    "crumbs": [
+      "ONT",
+      "NanoPlot"
+    ]
+  },
+  {
+    "objectID": "ont/nanoplot.html#output",
+    "href": "ont/nanoplot.html#output",
+    "title": "NanoPlot",
+    "section": "",
+    "text": "List the files in the output directory.\n\nls nanoplot/porechop/\n\nThere are quite a few files. These should all start with \"Acinetobacter_\" thanks to the -p option. To quickly check all the results we can open the report html file with firefox.\n\nfirefox nanoplot/porechop/Acinetobacter_NanoPlot-report.html\n\nThe first section contains NanoStat output. Quickly look over this and see how it compares to the NanoStat output of the pre-porechopped reads.\n\n\n\n\n\n\nNoteNanoStat of pre-porechopped reads\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGeneral summary\nvalues\n\n\n\n\nMean read length\n7,070.8\n\n\nMean read quality\n9.5\n\n\nMedian read length\n6,700.5\n\n\nMedian read quality\n10.4\n\n\nNumber of reads\n2,000.0\n\n\nRead length N50\n8,143.0\n\n\nSTDEV read length\n3,336.0\n\n\nTotal bases\n14,141,646.0\n\n\nNumber, percentage and megabases of reads above quality cutoffs\n\n\n\n&gt;Q5\n2000 (100.0%) 14.1Mb\n\n\n&gt;Q7\n1998 (99.9%) 14.1Mb\n\n\n&gt;Q10\n1231 (61.6%) 8.8Mb\n\n\n&gt;Q12\n29 (1.5%) 0.2Mb\n\n\n&gt;Q15\n0 (0.0%) 0.0Mb\n\n\nTop 5 highest mean basecall quality scores and their read lengths\n\n\n\n1\n12.3 (7039)\n\n\n2\n12.3 (5770)\n\n\n3\n12.3 (8052)\n\n\n4\n12.2 (8120)\n\n\n5\n12.2 (3041)\n\n\nTop 5 longest reads and their mean basecall quality score\n\n\n\n1\n34661 (9.2)\n\n\n2\n31549 (8.5)\n\n\n3\n25072 (10.0)\n\n\n4\n24871 (10.3)\n\n\n5\n23185 (10.7)\n\n\n\n\n\n\n\n\nAfter the Summary Statistics section there is a Plots section. These are all plots created by plotly meaning they are interactive. With these plots you can:\n\nMake boxes to zoom into a specific area.\nClick and drag left or right only to zoom into a specific part of the x axis.\nClick and drag up or down only to zoom into a specific part of the y axis.\nClick the home icon (   ) on the top right to reset the axes.\nHover over a points/bars to see the specific values of it.\n\nThe plots are:\n\nWeighted Histogram of read lengths\n\nHistogram of \"Number of bases\" (y) against \"Read length\" (x).\n\nWeighted Histogram of read lengths after log transformation\n\nHistogram of \"Number of bases\" (y) against log transformed \"Read length\" (x).\n\nNon weighted histogram of read lengths\n\nHistogram of \"Number of reads\" (y) against \"Read length\" (x).\n\nNon weighted histogram of read lengths after log transformations\n\nHistogram of \"Number of reads\" (y) against log transformed \"Read length\" (x).\n\nYield by length\n\nPlot showing the \"Cumulative yield for minimal length\" (y) by \"Read length\" (x).\nThe cumulative yield is measured in Gigabases (billion bases).\nThis plot is useful to know how many bases you would retain if you filtered reads based on read length.\n\nRead lengths vs Average read quality plot using dots\n\nEach dot represents a single read.\nAt the top of the plot is a histogram of Number of reads against read lengths.\nAt the right of the plot is a sideways histogram of number of reads against average read quality.\n\nRead lengths vs Average read quality kde plot\n\nEach dot represents a single read with a topology map showing the density of plots. The darker the area the more dense.\nThis is the most informative plot.\nAt the top of the plot is a histogram of Number of reads against read lengths.\nAt the right of the plot is a sideways histogram of number of reads against average read quality.",
+    "crumbs": [
+      "ONT",
+      "NanoPlot"
+    ]
+  },
+  {
+    "objectID": "ont/nanoplot.html#mcqs",
+    "href": "ont/nanoplot.html#mcqs",
+    "title": "NanoPlot",
+    "section": "",
+    "text": "Please attempt the below MCQs with the information in the report html.\n\nWhat is the mean read quality for all the data?\n\n 9.5 6,962.1 8.8Mb\n\n\n\nWhat is the mean read length of the data?\n\n 9.5 6,962.1 8.8Mb\n\n\n\nHow many Megabases are within reads with a quality cutoff of &gt;Q10?\n\n 9.5 6,962.1 8.8Mb\n\n\n\nApproximately how many bases would you retain if you filtered out/removed reads with a length &lt;10,000bp (Yield by length)?\n\n 10Mb (0.01Gb) 146Mb (0.146Gb) 4Mb (0.004Gb)\n\n\n\nLook at the Read lengths vs Average read quality plots. In what average quality range are the majority of reads?\n\n 6-8 8-10 10-12",
+    "crumbs": [
+      "ONT",
+      "NanoPlot"
+    ]
+  },
+  {
+    "objectID": "ont/nanoplot.html#summary",
+    "href": "ont/nanoplot.html#summary",
+    "title": "NanoPlot",
+    "section": "",
+    "text": "We have used NanoPlot to produce read quality and length stats in table and plot form. Our data still looks good after porechopping but we still need to carry out some filtering.\nYou can use NanoPlot with different input files. This will give you different plots. For more details please see the \"Plots Generated\" section on: https://github.com/wdecoster/NanoPlot.",
+    "crumbs": [
+      "ONT",
+      "NanoPlot"
+    ]
+  },
+  {
+    "objectID": "appendix/illumina.html",
+    "href": "appendix/illumina.html",
+    "title": "Illumina tools and considerations",
+    "section": "",
+    "text": "There are various other useful tools for sequencing QC of Illumina data. Below are some suggestions but there are many more.\n\n\n\n\n\n\n\nFrom the people who brought you FastQC, Trim Galore. This is a wrapper around cutadapt and FastQC. It has a lot of options and can output fastqc results of the quality controlled reads at the same time.\nGithub page: https://github.com/FelixKrueger/TrimGalore\nManual: https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md\n\n\n\n\n\n\n\nSometimes a fasta/fastq file will need to be modified to be properly used with a file or to remove a specific feature. Thankfully if you need to carry out a specific action someone else has probably needed to before you. Below are some tools that can be used to modify fasta/fastq files.\n\n\nThis is a tool designed to be an \"all-in-one\" preprocessor for fastq files. This includes quality control. I find it very useful as the tool will only do what you tell it to do. This means you can tell it to only carry out length filtering and it will only do length filtering (unlike Trim Galore which will insist on quality trimming).\nYou could therefore use the below command to trim all reads to a length of 120 and remove any read pairs where at least one read has a length shorter than 120. You’ll then only have reads that are a length of 120. This is required for a few tools.\n\nfastp --in1 R1.fastq --in2 R2.fastq \\\n--out1 R1.120.fastq --out2 R2.120.fastq \\\n--max_len1 120 --max_len2 120 --length_required 120\n\nMain page: https://github.com/OpenGene/fastp\n\n\n\nA tool to process fasta or fastq files. It can carry out many tasks but I primarily use it to:\n\nconvert fastq files to fasta\n\n\nseqtk seq -a in.fastq &gt; out.fasta\n\n\nsubsample paired reads from fastq files\n\n\nseqtk sample -s100 read1.fastq 10000 &gt; subsample1.fastq\nseqtk sample -s100 read2.fastq 10000 &gt; subsample2.fastq\n\nFor more information on how these commands work and for further commands please see the link below.\nGithub: https://github.com/lh3/seqtk\n\n\n\nA tool to process fasta or fastq files. It is quite useful but unfortunately does not take paired read information into context. This means if a read is removed from the reverse read it will not necessarily be removed from the forward file.\nMy favourite tool from this is 'fasta_formatter'. It can be used to set the maximum number of bases that will be on one line in a fasta file. I primarily use this so that each seq in a fasta file is on one line.\n\nfasta_formatter -i in.fasta -o out.fasta -w 0\n\nGithub: https://github.com/agordon/fastx_toolkit",
+    "crumbs": [
+      "Appendix",
+      "Illumina tools and considerations"
+    ]
+  },
+  {
+    "objectID": "appendix/illumina.html#quality-trimming-and-filtering-tools",
+    "href": "appendix/illumina.html#quality-trimming-and-filtering-tools",
+    "title": "Illumina tools and considerations",
+    "section": "",
+    "text": "From the people who brought you FastQC, Trim Galore. This is a wrapper around cutadapt and FastQC. It has a lot of options and can output fastqc results of the quality controlled reads at the same time.\nGithub page: https://github.com/FelixKrueger/TrimGalore\nManual: https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md",
+    "crumbs": [
+      "Appendix",
+      "Illumina tools and considerations"
+    ]
+  },
+  {
+    "objectID": "appendix/illumina.html#fasta-and-fastq-processing-toolkits",
+    "href": "appendix/illumina.html#fasta-and-fastq-processing-toolkits",
+    "title": "Illumina tools and considerations",
+    "section": "",
+    "text": "Sometimes a fasta/fastq file will need to be modified to be properly used with a file or to remove a specific feature. Thankfully if you need to carry out a specific action someone else has probably needed to before you. Below are some tools that can be used to modify fasta/fastq files.\n\n\nThis is a tool designed to be an \"all-in-one\" preprocessor for fastq files. This includes quality control. I find it very useful as the tool will only do what you tell it to do. This means you can tell it to only carry out length filtering and it will only do length filtering (unlike Trim Galore which will insist on quality trimming).\nYou could therefore use the below command to trim all reads to a length of 120 and remove any read pairs where at least one read has a length shorter than 120. You’ll then only have reads that are a length of 120. This is required for a few tools.\n\nfastp --in1 R1.fastq --in2 R2.fastq \\\n--out1 R1.120.fastq --out2 R2.120.fastq \\\n--max_len1 120 --max_len2 120 --length_required 120\n\nMain page: https://github.com/OpenGene/fastp\n\n\n\nA tool to process fasta or fastq files. It can carry out many tasks but I primarily use it to:\n\nconvert fastq files to fasta\n\n\nseqtk seq -a in.fastq &gt; out.fasta\n\n\nsubsample paired reads from fastq files\n\n\nseqtk sample -s100 read1.fastq 10000 &gt; subsample1.fastq\nseqtk sample -s100 read2.fastq 10000 &gt; subsample2.fastq\n\nFor more information on how these commands work and for further commands please see the link below.\nGithub: https://github.com/lh3/seqtk\n\n\n\nA tool to process fasta or fastq files. It is quite useful but unfortunately does not take paired read information into context. This means if a read is removed from the reverse read it will not necessarily be removed from the forward file.\nMy favourite tool from this is 'fasta_formatter'. It can be used to set the maximum number of bases that will be on one line in a fasta file. I primarily use this so that each seq in a fasta file is on one line.\n\nfasta_formatter -i in.fasta -o out.fasta -w 0\n\nGithub: https://github.com/agordon/fastx_toolkit",
+    "crumbs": [
+      "Appendix",
+      "Illumina tools and considerations"
+    ]
+  },
+  {
+    "objectID": "appendix/neof.html",
+    "href": "appendix/neof.html",
+    "title": "NEOF",
+    "section": "",
+    "text": "NEOF\n\n\n\n\n\nNEOF is a centre of excellence that allows the UK to maintain and develop its world-leading position in environmental omics.\n\nNEOF website\nSubscribe to the NEOF email newsletter\nRegister for other NEOF workshops\nNEOF Bioinformatics resources",
+    "crumbs": [
+      "Appendix",
+      "NEOF"
+    ]
+  },
+  {
+    "objectID": "illumina/setup.html",
+    "href": "illumina/setup.html",
+    "title": "Setup",
+    "section": "",
+    "text": "Before carrying out any analysis we need to get our workshop data and setup our environment.\n\n\n\n\n\n\n\nBefore copying over the workshop directory ensure you are in your home directory.\n\ncd ~\n\nNow copy the specified folder to you home directory.\n\ncp -r /pub14/tea/nsc206/NEOF/QC_workshop/ .\n\nBefore running any examples change directory to the Illumina Quality control directory.\n\ncd QC_workshop/Illumina_QC/\n\n\n\n\n\n\n\n\n\nThis book requires some packages. Miniforge was used to install them. To learn more about Miniforge and how to create your own environment please see the appendix.\nTo set-up your environment for this book please run the following code (you must include the full stop and space at the front of the command).\n\n. useilluminaqc\n\nYou will have successfully activated the environment if you now see (illumina_qc) at the start of your command prompt. This indicates you are now in the mamba environment called illumina_qc created by the instructor.\nIf you are interested in the use script you can look at its contents.\n\nless /usr/local/bin/useilluminaqc\n\nTip: press q to quit less.\nFor more about mamba and how to create your own illumina_qc environment please see the appendix.",
+    "crumbs": [
+      "Illumina",
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "illumina/setup.html#workshop-data",
+    "href": "illumina/setup.html#workshop-data",
+    "title": "Setup",
+    "section": "",
+    "text": "Before copying over the workshop directory ensure you are in your home directory.\n\ncd ~\n\nNow copy the specified folder to you home directory.\n\ncp -r /pub14/tea/nsc206/NEOF/QC_workshop/ .\n\nBefore running any examples change directory to the Illumina Quality control directory.\n\ncd QC_workshop/Illumina_QC/",
+    "crumbs": [
+      "Illumina",
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "illumina/setup.html#mamba",
+    "href": "illumina/setup.html#mamba",
+    "title": "Setup",
+    "section": "",
+    "text": "This book requires some packages. Miniforge was used to install them. To learn more about Miniforge and how to create your own environment please see the appendix.\nTo set-up your environment for this book please run the following code (you must include the full stop and space at the front of the command).\n\n. useilluminaqc\n\nYou will have successfully activated the environment if you now see (illumina_qc) at the start of your command prompt. This indicates you are now in the mamba environment called illumina_qc created by the instructor.\nIf you are interested in the use script you can look at its contents.\n\nless /usr/local/bin/useilluminaqc\n\nTip: press q to quit less.\nFor more about mamba and how to create your own illumina_qc environment please see the appendix.",
+    "crumbs": [
+      "Illumina",
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "illumina/poorer_quality.html",
+    "href": "illumina/poorer_quality.html",
+    "title": "Poorer quality genomic dataset",
+    "section": "",
+    "text": "Now let us look at actual read data. We will be looking at Bacillus cereus MiSeq data that can be found in the following link: https://ccb.jhu.edu/gage_b/datasets/index.html.\nFor the purposes of the tutorial I subsampled the reads down to a more manageable 50,000 pairs, normally read data will not come in such round numbers.\nBefore running any analysis we need to change directory to the example_2 directory. From the example_1 directory we can use the following command, where ../ represents going up one directory.\n\ncd ../example_2\n#List contents of directory\nls\n\n\n\n\n\n\n\n\nLet’s make a directory for the fastqc output\n\nmkdir raw_fastqc_output\n\nRun fastqc on the all paired read files (*.fastq representing all the files that end with .fastq)\n\nfastqc -o raw_fastqc_output *.fastq\n\nWe can open the fastqc output with the following command\n\nfirefox raw_fastqc_output/*_fastqc.html &\n\nSome typical features to note are:\n\nThe quality decreases towards the end of the reads\nThe R2 reads have poorer quality than the R1 reads\nThe read sizes have a range compared to all being one size, however most of the reads are towards the long end of the range\n\n\n\n\n\n\n\n\nInvestigate the fastqc reports and answer the below question.\n\nHow many total reads/sequences are there in the R2 file?\n\n 36 35-251 50,000\n\n\n\nWhat is the length range of the data?\n\n 36 35-251 50,000\n\n\n\nWhat is the average GC (%) content of the data?\n\n 36 35-251 50,000\n\n\n\nAt what base position/s does the IQR (Interquartile Range/yellow box) drop below a quality of Q28 for the R1 data?\n\n 15-19 235-239 250-251\n\n\n\nAt what base position/s does the IQR and whiskers (lines) first completely go above a quality of Q28 for the R2 data?\n\n 15-19 235-239 250-251\n\n\n\nAt what base position/s does the IQR (Interquartile Range/yellow box) drop below a quality of Q20 for the R2 data?\n\n 15-19 235-239 250-251\n\n\n\nWhat is the most common “mean sequence quality” for the reads in R2 (see the peak of the “Per sequence quality scores” graph)?\n\n 37 129 250-251\n\n\n\nWhat is the total count of overrepresented sequences in R1?\n\n 37 129 250-251\n\n\n\nWhat is the most common base length range for R2 (see the peak of the “Sequence Length Distribution” graph)?\n\n 37 129 250-251\n\n\nThis data is pretty typical of what would normally be seen. We are therefore going to quality trim and filter the data. Unfortunately data straight from the sequencer always needs quality control.\n\n\n\n\n\n\n\n\n\nQuality control generally comes in two forms:\n\nTrimming: This is directly cutting off bits of sequence. This is typical in the form of trimming off low quality bases from the end of reads and trimming off adapters at the start of reads.\nFiltering: This occurs when entire reads are removed. A typical occurrence of this is when a read is too small as we do not want reads below a certain length.\n\nTo carry this out we are going to use trimmomatic. http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf\nTo run trimmomatic with the reads we will use the below command.\n\ntrimmomatic PE \\\n-phred33 \\\nB_cereus_R1.fastq B_cereus_R2.fastq \\\n-baseout B_cereus.fastq \\\nSLIDINGWINDOW:4:20 MINLEN:50\n\nParameters:\n\nPE: Input data consists of paired-end reads.\n-phred33: indicates input data has Phred33 encoding. Phred33 includes Sanger, Illumina 1.8+, and PacBio quality encoding.\nB_cereus_R1.fastq B_cereus_R2.fastq: The input forward and reverse read files.\n-baseout: This parameter is used to create the names of the four output files (more info below).\nSLIDINGWINDOW: This will cause sliding window trimming to be carried out. The :4:20 specifies the window size (4) and the average quality required to retain the window (20).\nMINLEN: This specifies the minimum length for a read to be retained. We have set this to 50 (:50).\n\nNote: When using trimmomatic on future data ensure you change the input files and the -baseout parameter to match your data.\nOnce the command is run it will give you some useful output to the screen. Based on it, what percentage of paired reads were kept?\n\n 4.73% 14.99% 76.62%\n\nOutput\nThe command produces four files with names based off the -baseout parameter. You can use ls to see the output files. The files are:\n\nB_cereus_1P.fastq & B_cereus_2P.fastq: The paired forward and reverse reads after successful trimming. In the vast majority of cases these are the two files which will be used for further analysis.\nB_cereus_1U.fastq: The trimmed unpaired forward reads. These are produced when the forward read is retained after trimming but not the matching reverse read. This can be ignored in most cases.\nB_cereus_2U.fastq: The trimmed unpaired reverse reads. These are produced when the reverse read is retained after trimming but not the matching forward read. This can be ignored in most cases.\n\n\n\n\n\n\n\n\n\nTo see how successful the quality control has been we need to run fastqc on the trimmomatic output.\nFirst create a new directory for the fastqc output\n\nmkdir trimmomatic_fastqc_output\n\nNow run fastqc on the two paired read files\n\nfastqc -o trimmomatic_fastqc_output \\\nB_cereus_1P.fastq B_cereus_2P.fastq\n\nWe can open the fastqc output with the following commands\n\nfirefox trimmomatic_fastqc_output/*_fastqc.html &\n\n\n\n\n\n\n\n\nTo see how well the reads have improved answer the below questions and compare to them to the answers of the raw read fastqc questions.\n\nHow many total reads/sequences are there in the R2 (2P) file?\n\n 35 50-251 38,309\n\n\n\nWhat is the length range of the data?\n\n 35 50-251 38,309\n\n\n\nWhat is the average GC (%) content of the data?\n\n 35 50-251 38,309\n\n\n\nIn R1 (1P), do the IQRs and/or whiskers drop below Q28 in the “Per base sequence quality” graph?\n\n Yes No\n\n\n\nIn R2 (2P), do the IQRs and/or whiskers drop below Q28 in the “Per base sequence quality” graph?\n\n Yes No\n\n\n\nIn R2 (2P), do the IQRs drop below Q28 in the “Per base sequence quality” graph?\n\n Yes No\n\n\n\nWhat is the most common “mean sequence quality” for the reads in R2 (2P) (see the peak of the “Per sequence quality scores” graph)?\n\n 0 37 250-251\n\n\n\nWhat is the total count of overrepresented sequences in R1 (1P)?\n\n 0 37 250-251\n\n\n\nWhat is the most common base length range for R2 (see the peak of the “Sequence Length Distribution” graph)?\n\n 0 37 250-251\n\n\nSome things to note:\n\nThe amount of reads has significantly decreased due to quality control. This is expected, however this will need to be taken into account. If you do not have enough reads for the downstream analysis you will need to be less stringent on the trimming or filtering. What is the minimum number of reads required for downstream analysis? Unfortunately this depends on the specific analysis at hand. For genome assemblies generally the rule of thumb is you want at least 20 times as much bases in the reads as would be in the final assembly (based on the genome size of the organism).\nR2 quality is still worse than R1 quality. Again this is normal.\nThe quality controlled reads of the reverse reads still drop below Q28 towards the end of the reads. This is pretty typical. You could be more stringent but as previously mentioned you may be removing too many reads.\nThe overrepresented sequences, which were Illumina adapters needed for sequencing, were removed by trimmomatic. This is good as we don’t need/want them any more.\n\nNote: If you are getting data from a sequencing centre they will have most likely removed the adapters already. Be sure to check they are not appearing in the Overrepresented sequences or the Adapter Content section of the fastqc report after trimming before continuing.\nIf adapters are present you can use Cutadapt to remove them: https://cutadapt.readthedocs.io/en/stable/guide.html",
+    "crumbs": [
+      "Illumina",
+      "Poorer quality genomic dataset"
+    ]
+  },
+  {
+    "objectID": "illumina/poorer_quality.html#quality-checking",
+    "href": "illumina/poorer_quality.html#quality-checking",
+    "title": "Poorer quality genomic dataset",
+    "section": "",
+    "text": "Let’s make a directory for the fastqc output\n\nmkdir raw_fastqc_output\n\nRun fastqc on the all paired read files (*.fastq representing all the files that end with .fastq)\n\nfastqc -o raw_fastqc_output *.fastq\n\nWe can open the fastqc output with the following command\n\nfirefox raw_fastqc_output/*_fastqc.html &\n\nSome typical features to note are:\n\nThe quality decreases towards the end of the reads\nThe R2 reads have poorer quality than the R1 reads\nThe read sizes have a range compared to all being one size, however most of the reads are towards the long end of the range\n\n\n\n\n\n\n\n\nInvestigate the fastqc reports and answer the below question.\n\nHow many total reads/sequences are there in the R2 file?\n\n 36 35-251 50,000\n\n\n\nWhat is the length range of the data?\n\n 36 35-251 50,000\n\n\n\nWhat is the average GC (%) content of the data?\n\n 36 35-251 50,000\n\n\n\nAt what base position/s does the IQR (Interquartile Range/yellow box) drop below a quality of Q28 for the R1 data?\n\n 15-19 235-239 250-251\n\n\n\nAt what base position/s does the IQR and whiskers (lines) first completely go above a quality of Q28 for the R2 data?\n\n 15-19 235-239 250-251\n\n\n\nAt what base position/s does the IQR (Interquartile Range/yellow box) drop below a quality of Q20 for the R2 data?\n\n 15-19 235-239 250-251\n\n\n\nWhat is the most common “mean sequence quality” for the reads in R2 (see the peak of the “Per sequence quality scores” graph)?\n\n 37 129 250-251\n\n\n\nWhat is the total count of overrepresented sequences in R1?\n\n 37 129 250-251\n\n\n\nWhat is the most common base length range for R2 (see the peak of the “Sequence Length Distribution” graph)?\n\n 37 129 250-251\n\n\nThis data is pretty typical of what would normally be seen. We are therefore going to quality trim and filter the data. Unfortunately data straight from the sequencer always needs quality control.",
+    "crumbs": [
+      "Illumina",
+      "Poorer quality genomic dataset"
+    ]
+  },
+  {
+    "objectID": "illumina/poorer_quality.html#quality-control",
+    "href": "illumina/poorer_quality.html#quality-control",
+    "title": "Poorer quality genomic dataset",
+    "section": "",
+    "text": "Quality control generally comes in two forms:\n\nTrimming: This is directly cutting off bits of sequence. This is typical in the form of trimming off low quality bases from the end of reads and trimming off adapters at the start of reads.\nFiltering: This occurs when entire reads are removed. A typical occurrence of this is when a read is too small as we do not want reads below a certain length.\n\nTo carry this out we are going to use trimmomatic. http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf\nTo run trimmomatic with the reads we will use the below command.\n\ntrimmomatic PE \\\n-phred33 \\\nB_cereus_R1.fastq B_cereus_R2.fastq \\\n-baseout B_cereus.fastq \\\nSLIDINGWINDOW:4:20 MINLEN:50\n\nParameters:\n\nPE: Input data consists of paired-end reads.\n-phred33: indicates input data has Phred33 encoding. Phred33 includes Sanger, Illumina 1.8+, and PacBio quality encoding.\nB_cereus_R1.fastq B_cereus_R2.fastq: The input forward and reverse read files.\n-baseout: This parameter is used to create the names of the four output files (more info below).\nSLIDINGWINDOW: This will cause sliding window trimming to be carried out. The :4:20 specifies the window size (4) and the average quality required to retain the window (20).\nMINLEN: This specifies the minimum length for a read to be retained. We have set this to 50 (:50).\n\nNote: When using trimmomatic on future data ensure you change the input files and the -baseout parameter to match your data.\nOnce the command is run it will give you some useful output to the screen. Based on it, what percentage of paired reads were kept?\n\n 4.73% 14.99% 76.62%\n\nOutput\nThe command produces four files with names based off the -baseout parameter. You can use ls to see the output files. The files are:\n\nB_cereus_1P.fastq & B_cereus_2P.fastq: The paired forward and reverse reads after successful trimming. In the vast majority of cases these are the two files which will be used for further analysis.\nB_cereus_1U.fastq: The trimmed unpaired forward reads. These are produced when the forward read is retained after trimming but not the matching reverse read. This can be ignored in most cases.\nB_cereus_2U.fastq: The trimmed unpaired reverse reads. These are produced when the reverse read is retained after trimming but not the matching forward read. This can be ignored in most cases.",
+    "crumbs": [
+      "Illumina",
+      "Poorer quality genomic dataset"
+    ]
+  },
+  {
+    "objectID": "illumina/poorer_quality.html#post-quality-control-check",
+    "href": "illumina/poorer_quality.html#post-quality-control-check",
+    "title": "Poorer quality genomic dataset",
+    "section": "",
+    "text": "To see how successful the quality control has been we need to run fastqc on the trimmomatic output.\nFirst create a new directory for the fastqc output\n\nmkdir trimmomatic_fastqc_output\n\nNow run fastqc on the two paired read files\n\nfastqc -o trimmomatic_fastqc_output \\\nB_cereus_1P.fastq B_cereus_2P.fastq\n\nWe can open the fastqc output with the following commands\n\nfirefox trimmomatic_fastqc_output/*_fastqc.html &\n\n\n\n\n\n\n\n\nTo see how well the reads have improved answer the below questions and compare to them to the answers of the raw read fastqc questions.\n\nHow many total reads/sequences are there in the R2 (2P) file?\n\n 35 50-251 38,309\n\n\n\nWhat is the length range of the data?\n\n 35 50-251 38,309\n\n\n\nWhat is the average GC (%) content of the data?\n\n 35 50-251 38,309\n\n\n\nIn R1 (1P), do the IQRs and/or whiskers drop below Q28 in the “Per base sequence quality” graph?\n\n Yes No\n\n\n\nIn R2 (2P), do the IQRs and/or whiskers drop below Q28 in the “Per base sequence quality” graph?\n\n Yes No\n\n\n\nIn R2 (2P), do the IQRs drop below Q28 in the “Per base sequence quality” graph?\n\n Yes No\n\n\n\nWhat is the most common “mean sequence quality” for the reads in R2 (2P) (see the peak of the “Per sequence quality scores” graph)?\n\n 0 37 250-251\n\n\n\nWhat is the total count of overrepresented sequences in R1 (1P)?\n\n 0 37 250-251\n\n\n\nWhat is the most common base length range for R2 (see the peak of the “Sequence Length Distribution” graph)?\n\n 0 37 250-251\n\n\nSome things to note:\n\nThe amount of reads has significantly decreased due to quality control. This is expected, however this will need to be taken into account. If you do not have enough reads for the downstream analysis you will need to be less stringent on the trimming or filtering. What is the minimum number of reads required for downstream analysis? Unfortunately this depends on the specific analysis at hand. For genome assemblies generally the rule of thumb is you want at least 20 times as much bases in the reads as would be in the final assembly (based on the genome size of the organism).\nR2 quality is still worse than R1 quality. Again this is normal.\nThe quality controlled reads of the reverse reads still drop below Q28 towards the end of the reads. This is pretty typical. You could be more stringent but as previously mentioned you may be removing too many reads.\nThe overrepresented sequences, which were Illumina adapters needed for sequencing, were removed by trimmomatic. This is good as we don’t need/want them any more.\n\nNote: If you are getting data from a sequencing centre they will have most likely removed the adapters already. Be sure to check they are not appearing in the Overrepresented sequences or the Adapter Content section of the fastqc report after trimming before continuing.\nIf adapters are present you can use Cutadapt to remove them: https://cutadapt.readthedocs.io/en/stable/guide.html",
+    "crumbs": [
+      "Illumina",
+      "Poorer quality genomic dataset"
+    ]
+  },
+  {
+    "objectID": "illumina/intro.html",
+    "href": "illumina/intro.html",
+    "title": "Intro",
+    "section": "",
+    "text": "Intro\n\n\n\n\n\nIllumina sequencing technology is the most common method used for DNA sequencing. However, it is not perfect and the generated data contains errors. This course aims to introduce you to Illumina quality control and checking, vital steps before carrying out most analyses with Illumina data.\nAt the end of this part learners will be able to:\n\nExplain how sequencing by synthesis works.\nUnderstand where common Illumina errors come from.\nQuality check Illumina fastq files with fastQC and multiQC.\nQuality control Illumina fastq files by trimming and filtering.",
+    "crumbs": [
+      "Illumina",
+      "Intro"
+    ]
+  }
+]
