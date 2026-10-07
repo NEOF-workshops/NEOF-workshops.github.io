@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>NEOF Introduction to sequencing data and quality control</title>
+<title>qc – NEOF Introduction to sequencing data and quality control</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,30 +26,65 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./cluster_intro.html" rel="next">
-<link href="./images/NEOF_favicon.png" rel="icon" type="image/png">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-3419ea62b3ca2d77d3d547f86109e84e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-eaeb381c6b7494c50009502241a4985c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5ff86afcab613e4ddd69836011fbfac3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-3fa8645101ca5b03c5f6878d083093ed.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../pacbio/filtering.html" rel="prev">
+<link href="../images/NEOF_favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-3419ea62b3ca2d77d3d547f86109e84e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-eaeb381c6b7494c50009502241a4985c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ff86afcab613e4ddd69836011fbfac3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-3fa8645101ca5b03c5f6878d083093ed.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -77,17 +112,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<link href="site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
-<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-<link href="site_libs/tippyjs-3.2.0/themes/google.css" rel="stylesheet">
-<link href="site_libs/tippyjs-3.2.0/themes/light-border.css" rel="stylesheet">
-<link href="site_libs/tippyjs-3.2.0/themes/light.css" rel="stylesheet">
-<link href="site_libs/tippyjs-3.2.0/themes/translucent.css" rel="stylesheet">
-<script src="site_libs/tippyjs-3.2.0/tippy.all.min.js"></script>
-<script src="site_libs/tippy-binding-0.1.0/tippy.js"></script>
 
 
-<link rel="stylesheet" href="include/webex.css">
+<link rel="stylesheet" href="../include/webex.css">
 </head>
 
 <body class="nav-sidebar floating nav-fixed quarto-dark"><script id="quarto-html-before-body" type="application/javascript">
@@ -257,11 +284,11 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./images/NEOF_logo_no_background.png" alt="" class="navbar-logo light-content">
-    <img src="./images/NEOF_logo_no_background.png" alt="" class="navbar-logo dark-content">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/NEOF_logo_no_background.png" alt="" class="navbar-logo light-content">
+    <img src="../images/NEOF_logo_no_background.png" alt="" class="navbar-logo dark-content">
     </a>
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">NEOF Intro to QC</span>
     </a>
   </div>
@@ -272,23 +299,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Intro</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./illumina/intro.html"> 
+    <a class="nav-link" href="../illumina/intro.html"> 
 <span class="menu-text">Illumina</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./ont/intro.html"> 
+    <a class="nav-link" href="../ont/intro.html"> 
 <span class="menu-text">ONT</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./pacbio/intro.html"> 
+    <a class="nav-link active" href="../pacbio/intro.html" aria-current="page"> 
 <span class="menu-text">PacBio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./appendix/neof.html"> 
+    <a class="nav-link" href="../appendix/neof.html"> 
 <span class="menu-text">Appendix</span></a>
   </li>  
 </ul>
@@ -334,14 +361,32 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Introduction</span></a>
+  <a href="../pacbio/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Intro</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./cluster_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Cluster Introduction</span></a>
+  <a href="../pacbio/background.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Background</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pacbio/setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setup</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pacbio/filtering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Filtering</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pacbio/qc.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">QC</span></a>
   </div>
 </li>
     </ul>
@@ -354,10 +399,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <li><a href="#qc" id="toc-qc" class="nav-link active" data-scroll-target="#qc">QC</a>
   <ul class="collapse">
-  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning outcomes</a></li>
-  <li><a href="#order" id="toc-order" class="nav-link" data-scroll-target="#order">Order</a></li>
+  <li><a href="#qc-the-subreads-with-rabbitqcplus" id="toc-qc-the-subreads-with-rabbitqcplus" class="nav-link" data-scroll-target="#qc-the-subreads-with-rabbitqcplus">QC the subreads with RabbitQCPlus</a></li>
+  <li><a href="#final-summary" id="toc-final-summary" class="nav-link" data-scroll-target="#final-summary">Final summary</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -369,58 +414,85 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
+<section id="qc" class="level1">
+<h1>QC</h1>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/magnify_glass.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:200px; background: white; border-radius:5px; border: white 5px solid"></p>
+<p><img src="../images/ccs.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:600px; border-radius:15px; background:null"></p>
 </figure>
 </div>
-<p>Illumina sequencing technology is the most common method used for DNA sequencing. However, it is not perfect and the produced data contains errors. This course aims to introduce you to Illumina quality control and checking, vital steps before carrying out most analyses with Illumina data.</p>
-<p>Additionally, the most popular long read sequencers are produced by ONT and PacBio. It is beneficial to understand how they work and their error profiles to fully utilise the data they produce. This course aims to introduce you to ONT and PacBio quality control and checking.</p>
-<p>Sessions will start with a brief presentation followed by self-paced computer practicals guided by an online interactive book. The book will contain theory, practice code, and exercises. Multiple choice questions will guide the interpretation of results.</p>
-<section id="learning-outcomes" class="level2">
-<h2 class="anchored" data-anchor-id="learning-outcomes">Learning outcomes</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/chalkboard.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:200px"></p>
-</figure>
-</div>
-<p>At the end of this course learners will be able to:</p>
-<ul>
-<li>Explain how sequencing by synthesis works</li>
-<li>Understand where common Illumina errors come from</li>
-<li>Quality check Illumina fastq files with fastQC and multiQC</li>
-<li>Quality control Illumina fastq files by trimming and filtering</li>
-<li>Explain how ONT &amp; PacBio sequencing works</li>
-<li>Understand the advantages and disadvantages of both technologies</li>
-<li>Quality check ONT data with NanoPlot</li>
-<li>Remove ONT adaptors with Porechop</li>
-<li>Filter ONT reads by length and quality with Chopper</li>
-<li>Filter adapters from PacBio data with HiFiAdapterFilt</li>
-<li>Convert PacBio BAM files to fastq</li>
-<li>Quality check PacBio CCS reads with RabbitQCPlus</li>
-</ul>
-</section>
-<section id="order" class="level2">
-<h2 class="anchored" data-anchor-id="order">Order</h2>
-<ol type="1">
-<li><a href="./cluster_intro.html">Cluster intro</a></li>
-<li><a href="./illumina/intro.html">Illumina</a></li>
-<li><a href="./ont/intro.html">ONT</a></li>
-<li><a href="./pacbio/intro.html">PacBio</a></li>
-<li><a href="./appendix/neof.html">Appendix</a></li>
-</ol>
+<p>We will now look at some quality metrics of our filtered HiFi sequences.</p>
+<p>Before carrying out any specific commands first make sure you are in the relevant directory.</p>
 <div class="cell">
-<div class="cell-output-display">
-<span class="tippy html-widget html-fill-item" height="464px" id="htmlwidget-9bd91e8da73c8bddced6" width="100%"></span>
-<script type="application/json" data-for="htmlwidget-9bd91e8da73c8bddced6">{"x":{"element":"os","opts":{"content":"Operating System","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/QC_workshop/PB_QC/data/hifi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell-output-display">
-<span class="tippy html-widget html-fill-item" height="464px" id="htmlwidget-5b8b18645c6326e661ef" width="100%"></span>
-<script type="application/json" data-for="htmlwidget-5b8b18645c6326e661ef">{"x":{"element":"gui","opts":{"content":"Graphical User Interface","arrow":true,"placement":"bottom"}},"evals":[],"jsHooks":[]}</script>
+<section id="qc-the-subreads-with-rabbitqcplus" class="level2">
+<h2 class="anchored" data-anchor-id="qc-the-subreads-with-rabbitqcplus">QC the subreads with RabbitQCPlus</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/RabbitQCPlus.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:500px; border-radius:15px; background:null"></p>
+</figure>
+</div>
+<p><code>RabbitQCPlus</code> generates QC information using a fastq file as input.</p>
+<p>Let’s run <code>RabbitQC</code> on our filtered HiFi data:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">RabbitQCPlus</span> <span class="at">-i</span> ERR13246467_qc.filt.fastq.gz <span class="at">-w</span> 1 <span class="at">--TGS</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Parameters</strong>:</p>
+<ul>
+<li><code>-i</code> to specify the input fastq file name</li>
+<li><code>-w</code> to specify the number of threads</li>
+<li><code>--TGS</code> to specifiy the data is Third Generation Sequencing data (ONT or PB)</li>
+</ul>
+<p>View the output using <code>firefox</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">firefox</span> ERR13246467_qc.filt_RabbitQCPlus.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>At the top of the html file are some summary tables followed by a histogram showing the distribution of read lengths in the fastq file (with a bin width of 10). You can zoom in on parts of the histogram by dragging the arrows along the bars at the bottom and to the right of the plot.</p>
+Which bin contains the greatest number of reads?
+<div id="radio_QCCLPWHDGD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QCCLPWHDGD" value=""> <span><strong>7370</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QCCLPWHDGD" value="answer"> <span><strong>10540</strong></span></label><label><input type="radio" autocomplete="off" name="radio_QCCLPWHDGD" value=""> <span><strong>11300</strong></span></label>
+</div>
+<p>Underneath the plot showing the distribution of read lengths are two quality plots showing the phred quality of head and tail bases (the first and last 100 bases in a read). You should see that quality scores are mostly in the range of 83-86.</p>
+<p>RabbitQCPlus does not show the quality across the entire lengths of the reads. Due to the variable length of PacBio reads you do not normally want to view the quality over the entire length but in case you do, one solution is to use an alternative program to inspect quality. In <a href="https://neof-workshops.github.io/QC_91wlgv/Illumina/04-Good_quality_data.html">Chapter 4</a> of the Illumina QC bookdown you used a program called fastqc to inspect the quality of Illumina data. How might you use fastqc to inspect the quality of this PacBio hifi file? Have a go at this before checking the answer below.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Inspecting PacBio data quality with fastqc">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Inspecting PacBio data quality with fastqc
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Open a new terminal and activate the illuminaqc environment</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>. useilluminaqc</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Navigate to the directory containing the hifi fastq file</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>cd QC_workshop<span class="sc">/</span>PB_QC<span class="sc">/</span>data<span class="sc">/</span>hifi</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Create an output directory for the fastqc file</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>mkdir fastqc_output</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Run fastqc</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>fastqc <span class="sc">-</span>o fastqc_output<span class="sc">/</span> ERR13246467_qc.filt.fastq.gz</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#View the file with firefox</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>firefox fastqc_output<span class="sc">/</span>ERR13246467_qc.filt.fastqc.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
+</div>
+</div>
+<p>You should now be able to view the fastqc quality plots for the PacBio hifi fastq file. RabbitQCPlus is considerably quicker and more efficient than fastqc at generating plots, which can be very useful when dealing with many and/or large files. If you want to do a quick inspection of summary tables, read length distribution, GC content, and head+tail quality, RabbitQCPlus is a useful tool. But if you want a more detailed visual output, consider using fastqc (either on the complete file, or on a subset of reads).</p>
+</section>
+<section id="final-summary" class="level2">
+<h2 class="anchored" data-anchor-id="final-summary">Final summary</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/sum_black.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:150px; background: white; border-radius:5px; border: white solid 5px"></p>
+</figure>
+</div>
+<p>Bodacious! That is the end of this course. You have learnt how to QC ONT &amp; PacBio data. Of course there are various other tools out there and the field is always advancing so we suggest you also have a look what is out there.</p>
+<p>Thanks for reading. Feel free to check out the <a href="../appendix/neof.html">appendix</a> for more information.</p>
 
 
 </section>
@@ -1048,11 +1120,11 @@ window.onload = function() {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../pacbio/filtering.html" class="pagination-link" aria-label="Filtering">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Filtering</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./cluster_intro.html" class="pagination-link" aria-label="Cluster Introduction">
-        <span class="nav-page-text">Cluster Introduction</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -1062,7 +1134,7 @@ window.onload = function() {
 <p><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="CC BY-SA 4.0" height="30"></a></p>
 </div>   
     <div class="nav-footer-center">
-<p><a href="https://neof.org.uk/"><img src="./images/NEOF_rounded_corners.png" alt="NEOF" height="60"></a></p>
+<p><a href="https://neof.org.uk/"><img src="../images/NEOF_rounded_corners.png" alt="NEOF" height="60"></a></p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
