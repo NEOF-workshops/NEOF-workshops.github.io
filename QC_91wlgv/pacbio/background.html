@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.18">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,13 +12,10 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
+code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: 1.5em;}
-div.column{flex: auto;}
-@media screen {
-div.columns{gap: min(4vw, 1.5em);}
-div.column{overflow-x: auto;}
-}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -45,12 +42,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-3419ea62b3ca2d77d3d547f86109e84e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-eaeb381c6b7494c50009502241a4985c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-60a43b3ec93e2447876471c051c8a42d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9e4972685516a961969d5a905841f092.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5ff86afcab613e4ddd69836011fbfac3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-3fa8645101ca5b03c5f6878d083093ed.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-d7006d5f0d8cf95b9ba55cc9a928223e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-cdcf27c73c5ca9500ccdce38cd3c2ad4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -390,35 +387,41 @@ ul.task-list li input[type="checkbox"] {
 <h1>Background</h1>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../images/logo_PacBio_web_RGB-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:400px; border-radius:15px; background:white"></p>
+<p><img src="..\images/logo_PacBio_web_RGB-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:400px; border-radius:15px; background:white"></p>
 </figure>
 </div>
-<p>In this section we will convert PacBio sequencing data (BAM files) into fastq files, filter out any adapter sequences and generate quality control plots and statistics.</p>
+<p>In this section we will:</p>
+<ul>
+<li>Convert PacBio sequencing data (BAM files) into fastq files</li>
+<li>Filter out any adapter sequences</li>
+<li>Generate quality control plots and statistics</li>
+</ul>
+<p>But first let’s read through some useful information.</p>
 <section id="file-formats" class="level2">
 <h2 class="anchored" data-anchor-id="file-formats">File formats</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../images/files.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:150px; background: white; border-radius:5px; border: white solid 5px"></p>
+<p><img src="..\images/files.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:150px; background: white; border-radius:5px; border: white solid 5px"></p>
 </figure>
 </div>
-<p>Sequence data from PacBio are output as subreads in unaligned BAM format. (Further explanation of the BAM format is in section 3.1.4).</p>
+<p>Sequence data from PacBio are output as subreads in unaligned BAM format.</p>
 <p>The figure below shows a schematic of a circular DNA molecule of a PacBio library with the colours representing:</p>
 <ul>
 <li>Black, I = Insert DNA, i.e. the double-stranded DNA of your sample</li>
 <li>Red, B = Barcodes, optional single (Left or Right) or double (Left &amp; Right) for multiplexing samples</li>
-<li>Green, A = Adapter, SMRTbell adapters with a double-stranded stem and single-stranded hairpin loop.</li>
+<li>Green, A = Adapter, SMRTbell adapters with a double-stranded stem and single-stranded hairpin loop</li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../images/smrtbell.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:900px; border-radius:15px; background:null"></p>
+<p><img src="..\images/smrtbell.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:900px; border-radius:15px; background:null"></p>
 </figure>
 </div>
 <p>Sequencing follows the direction of the arrows and continues around until either the end of the sequencing run or if the DNA polymerase fails.</p>
-<p>PacBio sequencing takes place in Zero-Mode Waveguides (ZMWs) on a sequencing cell. These are tiny holes where a DNA polymerase binds a single molecule of DNA for sequencing, and each DNA base is detected when a labelled nucleotide is incorporated and fluoresces when excited by light.</p>
+<p>PacBio sequencing takes place in Zero-Mode Waveguides (ZMWs) on a sequencing cell. These are tiny holes where a DNA polymerase binds to a single molecule of DNA for sequencing, and each DNA base is detected when a labelled nucleotide is incorporated and fluoresces when excited by light.</p>
 <p>A ZMW read consists of the data collected from a single ZMW, with the HQ (high quality) region recorded when just a single molecule of DNA is present in the ZMW.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../images/zmw.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:900px; border-radius:15px; background:null"></p>
+<p><img src="..\images/zmw.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:900px; border-radius:15px; background:null"></p>
 </figure>
 </div>
 <p>This schematic shows the structure of a ZMW read in linear format. Insert DNA subreads are interspersed with the barcode and adapter sequence of the SMRTbell library. For more information see: <a href="https://pacbiofileformats.readthedocs.io/en/13.0/Primer.html" class="uri">https://pacbiofileformats.readthedocs.io/en/13.0/Primer.html</a></p>
@@ -428,7 +431,7 @@ ul.task-list li input[type="checkbox"] {
 <p>The ZMW reads are processed on the sequencing instrument to produce HiFi reads, using the circular consensus (CCS) tool. CCS generates high accuracy sequences from a consensus of many subreads (i.e. there would be several of the grey insert regions shown above in every ZMW read). By taking the consensus sequences HiFi reads have an accuracy of Q≥20 (99%). In the diagram below the insert region is shown by purple and yellow lines representing the sequences obtained by each strand of the template DNA, sequencing errors by the red bases, and the green line represents the high-accuracy consensus read.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../images/hifi.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:800px; border-radius:15px; background:null; border: white solid 5px"></p>
+<p><img src="..\images/hifi.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:800px; border-radius:15px; background:null; border: white solid 5px"></p>
 </figure>
 </div>
 <p>For this tutorial we will carry out adapter filtering and quality checking of a HiFi BAM file.</p>
@@ -437,7 +440,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="tools">Tools</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../images/toolbox.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:200px; background: white; border-radius:5px; border: white solid 5px"></p>
+<p><img src="..\images/toolbox.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:200px; background: white; border-radius:5px; border: white solid 5px"></p>
 </figure>
 </div>
 <section id="hifiadapterfilt" class="level3">
@@ -467,210 +470,416 @@ ul.task-list li input[type="checkbox"] {
 </main> <!-- /main -->
 <script>
 
+
+
 /* update total correct if #webex-total_correct exists */
+
 update_total_correct = function() {
+
   console.log("webex: update total_correct");
 
+
+
   var t = document.getElementsByClassName("webex-total_correct");
+
   for (var i = 0; i < t.length; i++) {
+
     p = t[i].parentElement;
+
     var correct = p.getElementsByClassName("webex-correct").length;
+
     var solvemes = p.getElementsByClassName("webex-solveme").length;
+
     var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+
     var selects = p.getElementsByClassName("webex-select").length;
 
+
+
     t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+
   }
+
 }
+
+
 
 /* webex-solution button toggling function */
+
 b_func = function() {
+
   console.log("webex: toggle hide");
 
+
+
   var cl = this.parentElement.classList;
+
   if (cl.contains('open')) {
+
     cl.remove("open");
+
   } else {
+
     cl.add("open");
+
   }
+
 }
+
+
 
 /* check answers */
+
 check_func = function() {
+
   console.log("webex: check answers");
 
+
+
   var cl = this.parentElement.classList;
+
   if (cl.contains('unchecked')) {
+
     cl.remove("unchecked");
+
     this.innerHTML = "Hide Answers";
+
   } else {
+
     cl.add("unchecked");
+
     this.innerHTML = "Show Answers";
+
   }
+
 }
+
+
 
 /* function for checking solveme answers */
+
 solveme_func = function(e) {
+
   console.log("webex: check solveme");
 
+
+
   var real_answers = JSON.parse(this.dataset.answer);
+
   var my_answer = this.value;
+
   var cl = this.classList;
+
   if (cl.contains("ignorecase")) {
+
     my_answer = my_answer.toLowerCase();
+
   }
+
   if (cl.contains("nospaces")) {
+
     my_answer = my_answer.replace(/ /g, "")
+
   }
+
+
 
   if (my_answer == "") {
+
     cl.remove("webex-correct");
+
     cl.remove("webex-incorrect");
+
   } else if (real_answers.includes(my_answer)) {
+
     cl.add("webex-correct");
+
     cl.remove("webex-incorrect");
+
   } else {
+
     cl.add("webex-incorrect");
+
     cl.remove("webex-correct");
+
   }
+
+
 
   // match numeric answers within a specified tolerance
+
   if(this.dataset.tol > 0){
+
     var tol = JSON.parse(this.dataset.tol);
+
     var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+
     if (matches.reduce((a, b) => a + b, 0) > 0) {
+
       cl.add("webex-correct");
+
     } else {
+
       cl.remove("webex-correct");
+
     }
+
   }
+
+
 
   // added regex bit
+
   if (cl.contains("regex")){
+
     answer_regex = RegExp(real_answers.join("|"))
+
     if (answer_regex.test(my_answer)) {
+
       cl.add("webex-correct");
+
     }
+
   }
 
+
+
   update_total_correct();
+
 }
 
+
+
 /* function for checking select answers */
+
 select_func = function(e) {
+
   console.log("webex: check select");
+
+
 
   var cl = this.classList
 
+
+
   /* add style */
+
   cl.remove("webex-incorrect");
+
   cl.remove("webex-correct");
+
   if (this.value == "answer") {
+
     cl.add("webex-correct");
+
   } else if (this.value != "blank") {
+
     cl.add("webex-incorrect");
+
   }
 
+
+
   update_total_correct();
+
 }
+
+
 
 /* function for checking radiogroups answers */
+
 radiogroups_func = function(e) {
+
   console.log("webex: check radiogroups");
 
+
+
   var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+
   var cl = checked_button.parentElement.classList;
+
   var labels = checked_button.parentElement.parentElement.children;
 
+
+
   /* get rid of styles */
+
   for (i = 0; i < labels.length; i++) {
+
     labels[i].classList.remove("webex-incorrect");
+
     labels[i].classList.remove("webex-correct");
+
   }
+
+
 
   /* add style */
+
   if (checked_button.value == "answer") {
+
     cl.add("webex-correct");
+
   } else {
+
     cl.add("webex-incorrect");
+
   }
 
+
+
   update_total_correct();
+
 }
+
+
 
 window.onload = function() {
+
   console.log("webex onload");
+
   /* set up solution buttons */
+
   var buttons = document.getElementsByTagName("button");
 
+
+
   for (var i = 0; i < buttons.length; i++) {
+
     if (buttons[i].parentElement.classList.contains('webex-solution')) {
+
       buttons[i].onclick = b_func;
+
     }
+
   }
+
+
 
   var check_sections = document.getElementsByClassName("webex-check");
+
   console.log("check:", check_sections.length);
+
   for (var i = 0; i < check_sections.length; i++) {
+
     check_sections[i].classList.add("unchecked");
 
+
+
     let btn = document.createElement("button");
+
     btn.innerHTML = "Show Answers";
+
     btn.classList.add("webex-check-button");
+
     btn.onclick = check_func;
+
     check_sections[i].appendChild(btn);
 
+
+
     let spn = document.createElement("span");
+
     spn.classList.add("webex-total_correct");
+
     check_sections[i].appendChild(spn);
+
   }
+
+
 
   /* set up webex-solveme inputs */
+
   var solveme = document.getElementsByClassName("webex-solveme");
 
+
+
   for (var i = 0; i < solveme.length; i++) {
+
     /* make sure input boxes don't auto-anything */
+
     solveme[i].setAttribute("autocomplete","off");
+
     solveme[i].setAttribute("autocorrect", "off");
+
     solveme[i].setAttribute("autocapitalize", "off");
+
     solveme[i].setAttribute("spellcheck", "false");
+
     solveme[i].value = "";
 
+
+
     /* adjust answer for ignorecase or nospaces */
+
     var cl = solveme[i].classList;
+
     var real_answer = solveme[i].dataset.answer;
+
     if (cl.contains("ignorecase")) {
+
       real_answer = real_answer.toLowerCase();
+
     }
+
     if (cl.contains("nospaces")) {
+
       real_answer = real_answer.replace(/ /g, "");
+
     }
+
     solveme[i].dataset.answer = real_answer;
 
+
+
     /* attach checking function */
+
     solveme[i].onkeyup = solveme_func;
+
     solveme[i].onchange = solveme_func;
 
+
+
     solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+
   }
+
+
 
   /* set up radiogroups */
+
   var radiogroups = document.getElementsByClassName("webex-radiogroup");
+
   for (var i = 0; i < radiogroups.length; i++) {
+
     radiogroups[i].onchange = radiogroups_func;
+
   }
+
+
 
   /* set up selects */
+
   var selects = document.getElementsByClassName("webex-select");
+
   for (var i = 0; i < selects.length; i++) {
+
     selects[i].onchange = select_func;
+
     selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+
   }
 
+
+
   update_total_correct();
+
 }
 
+
+
 </script>
+
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
