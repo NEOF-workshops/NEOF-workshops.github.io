@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -77,12 +80,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-60a43b3ec93e2447876471c051c8a42d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9e4972685516a961969d5a905841f092.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-5981ca9ed2f01d41a9ae447c87bc4519.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-5a07d9f573de810e4e0204a3fc88c056.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-d7006d5f0d8cf95b9ba55cc9a928223e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-cdcf27c73c5ca9500ccdce38cd3c2ad4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-48e7d81eeb1de436c9c69269a6532de2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-d39630f428076f2ede93a0af808caec0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -417,7 +420,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Filtering</h1>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="..\images/quality_filtering.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:150px; background: white; border-radius:5px; border: white solid 5px"></p>
+<p><img src="../images/quality_filtering.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:150px; background: white; border-radius:5px; border: white solid 5px"></p>
 </figure>
 </div>
 <p>PacBio HiFi reads are generated via CCS analysis which computes a consensus sequence from multiple passes of the circularised SMRTbell molecules. Each ‘pass’ will be interspersed with an adapter sequence. Whilst the majority of these adapter sequences are removed by the CCS analysis that generates the HiFi BAM file, it is good practice to check for any remaining sequences to ensure they are removed before downstream analysis.</p>
@@ -442,7 +445,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="hifiadapterfilt">HiFiAdapterFilt</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="..\images/enter_key_purple.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:150px; ; background: white; border-radius:5px; border: white solid 5px"></p>
+<p><img src="../images/enter_key_purple.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:150px; ; background: white; border-radius:5px; border: white solid 5px"></p>
 </figure>
 </div>
 <p><a href="https://github.com/sheinasim/HiFiAdapterFilt">HiFiAdapterFilt</a> blasts the reads against a database of PacBio adapter sequences and excludes reads if the match with an adapter is good enough (the default is a blast percent identity match of 97% and a minimum length of 44 bp). It creates a file with the suffix ‘.filt.fastq.gz’ with the adapters removed that can be used for QC and downstream analysis.</p>
@@ -456,16 +459,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> ERR13246467_qc.stats</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 How many CCS reads are in the unfiltered dataset?
-<div id="radio_DAKFNRBCDH" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_DAKFNRBCDH" value=""> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DAKFNRBCDH" value=""> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_DAKFNRBCDH" value="answer"> <span><strong>13798</strong></span></label>
+<div id="radio_PTYJNZYPCB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_PTYJNZYPCB" value=""> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PTYJNZYPCB" value=""> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_PTYJNZYPCB" value="answer"> <span><strong>13798</strong></span></label>
 </div>
 How many adapter contaminated reads were found?
-<div id="radio_EDXWDHNDST" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_EDXWDHNDST" value=""> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EDXWDHNDST" value="answer"> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EDXWDHNDST" value=""> <span><strong>13798</strong></span></label>
+<div id="radio_FXSLHTLTLB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FXSLHTLTLB" value=""> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FXSLHTLTLB" value="answer"> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_FXSLHTLTLB" value=""> <span><strong>13798</strong></span></label>
 </div>
 What percentage of CCS reads are retained (i.e.&nbsp;unfiltered)?
-<div id="radio_WVQTQXRYMU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WVQTQXRYMU" value="answer"> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WVQTQXRYMU" value=""> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_WVQTQXRYMU" value=""> <span><strong>13798</strong></span></label>
+<div id="radio_EKSPNGEVIM" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EKSPNGEVIM" value="answer"> <span><strong>99.99%</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EKSPNGEVIM" value=""> <span><strong>2</strong></span></label><label><input type="radio" autocomplete="off" name="radio_EKSPNGEVIM" value=""> <span><strong>13798</strong></span></label>
 </div>
 <p>Very few reads were found to contain adapter sequences. This isn’t entirely unexpected as the CCS algorithm on the instrument will filter out most of them. However, the authors of HiFiAdapterFilt found that &gt;95% of published HiFi datasets did contain some adapter sequences, so it is worthwile to check and remove these.</p>
 </section>
@@ -473,7 +476,7 @@ What percentage of CCS reads are retained (i.e.&nbsp;unfiltered)?
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="..\images/sum_purple.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:150px; background: white; border-radius:5px; border: white solid 5px"></p>
+<p><img src="../images/sum_purple.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:150px; background: white; border-radius:5px; border: white solid 5px"></p>
 </figure>
 </div>
 <p>We have now filtered any remaining sequencing adapters from our HiFi data. Next we will learn how to QC the data.</p>
