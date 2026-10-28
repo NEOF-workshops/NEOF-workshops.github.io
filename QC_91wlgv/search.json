@@ -264,8 +264,8 @@
     ]
   },
   {
-    "objectID": "illumina/shotgun.html",
-    "href": "illumina/shotgun.html",
+    "objectID": "illumina_qc/shotgun.html",
+    "href": "illumina_qc/shotgun.html",
     "title": "Whole shotgun metagenomics",
     "section": "",
     "text": "The data from this exercise comes from the following link:\nhttps://www.ebi.ac.uk/ena/browser/view/SRR2081071\nThis contains the genomic content of many organisms.\nThe read data is within your ~/QC_workshop/Illumina_QC/exercise_1 directory (ensure to change directory to this). The reads have been subsampled so you will be working on 100,000 paired reads.\n\n\nCarry out fastqc on the raw reads and ponder the below questions.\n\nWhat may be causing the weird GC content at the start of the reads?\nThe “Per sequence GC content” has a weird peak. Why might this be?\n\nCarry out trimmomatic quality control, deciding on the sliding window and the length threshold. After trimmomatic carry out fastqc on the trimmed and filtered reads to determine if it was successful. Afterwards, answer the following questions. If your answers don’t match the correct answers below try to rerun trimmomatic with different parameter options.\n\n\n\n\nIs the number of quality controlled reads above 60,000?\n\n Yes No\n\n\n\nDoes the quality for either R1 or R2 drop below Q24 (Including the whiskers)?\n\n Yes No\n\n\n\nIs the weird GC content still at the start of the read?\n\n Yes No\n\n\n\nDoes the “Per sequence GC content” still have a weird peak?\n\n Yes No\n\n\n\n\n\nIn this case it helps to know the adapter sequence, used for the Illumina sequencing, was Nextera. Nextera is decent but I and others online have experienced it has a slight bias. It prefers to ligate to certain sequence patterns, this bias is then shown as the GC content bias at the start of reads. Fortunately the rest of the GC content is fine.\nIn previous tests I have trimmed off the first 20bps to remove this bias and not removed the first 20bp. I found there was little difference in the downstream results for the two methods. I therefore normally retain the first 20bp.\nAs for the weird \"Per sequence GC content\" peak, We must remember that the metagenome sample contains many different organisms with different GC contents. Therefore a flat GC peak would be expected.",
@@ -276,8 +276,8 @@
     ]
   },
   {
-    "objectID": "illumina/shotgun.html#task",
-    "href": "illumina/shotgun.html#task",
+    "objectID": "illumina_qc/shotgun.html#task",
+    "href": "illumina_qc/shotgun.html#task",
     "title": "Whole shotgun metagenomics",
     "section": "",
     "text": "Carry out fastqc on the raw reads and ponder the below questions.\n\nWhat may be causing the weird GC content at the start of the reads?\nThe “Per sequence GC content” has a weird peak. Why might this be?\n\nCarry out trimmomatic quality control, deciding on the sliding window and the length threshold. After trimmomatic carry out fastqc on the trimmed and filtered reads to determine if it was successful. Afterwards, answer the following questions. If your answers don’t match the correct answers below try to rerun trimmomatic with different parameter options.",
@@ -288,8 +288,8 @@
     ]
   },
   {
-    "objectID": "illumina/shotgun.html#questions",
-    "href": "illumina/shotgun.html#questions",
+    "objectID": "illumina_qc/shotgun.html#questions",
+    "href": "illumina_qc/shotgun.html#questions",
     "title": "Whole shotgun metagenomics",
     "section": "",
     "text": "Is the number of quality controlled reads above 60,000?\n\n Yes No\n\n\n\nDoes the quality for either R1 or R2 drop below Q24 (Including the whiskers)?\n\n Yes No\n\n\n\nIs the weird GC content still at the start of the read?\n\n Yes No\n\n\n\nDoes the “Per sequence GC content” still have a weird peak?\n\n Yes No",
@@ -300,8 +300,8 @@
     ]
   },
   {
-    "objectID": "illumina/shotgun.html#explanations",
-    "href": "illumina/shotgun.html#explanations",
+    "objectID": "illumina_qc/shotgun.html#explanations",
+    "href": "illumina_qc/shotgun.html#explanations",
     "title": "Whole shotgun metagenomics",
     "section": "",
     "text": "In this case it helps to know the adapter sequence, used for the Illumina sequencing, was Nextera. Nextera is decent but I and others online have experienced it has a slight bias. It prefers to ligate to certain sequence patterns, this bias is then shown as the GC content bias at the start of reads. Fortunately the rest of the GC content is fine.\nIn previous tests I have trimmed off the first 20bps to remove this bias and not removed the first 20bp. I found there was little difference in the downstream results for the two methods. I therefore normally retain the first 20bp.\nAs for the weird \"Per sequence GC content\" peak, We must remember that the metagenome sample contains many different organisms with different GC contents. Therefore a flat GC peak would be expected.",
@@ -312,8 +312,8 @@
     ]
   },
   {
-    "objectID": "illumina/poor_data_post_control_check.html",
-    "href": "illumina/poor_data_post_control_check.html",
+    "objectID": "illumina_qc/poor_data_post_control_check.html",
+    "href": "illumina_qc/poor_data_post_control_check.html",
     "title": "Post Quality control check",
     "section": "",
     "text": "To see how successful the quality control has been we need to run fastqc on the trimmomatic output.\nFirst create a new directory for the fastqc output\n\nmkdir trimmomatic_fastqc_output\n\nNow run fastqc on the two paired read files\n\nfastqc -o trimmomatic_fastqc_output \\\nB_cereus_1P.fastq B_cereus_2P.fastq\n\nWe can open the fastqc output with the following commands\n\nfirefox trimmomatic_fastqc_output/*_fastqc.html &\n\n\n\n\n\n\n\n\nTo see how well the reads have improved answer the below questions and compare to them to the answers of the raw read fastqc questions.\n\nHow many total reads/sequences are there in the R2 (2P) file?\n\n 35 50-251 38,309\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\n50,000\n\n\n\nWhat is the length range of the data?\n\n 35 50-251 38,309\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\n35-251\n\n\n\nWhat is the average GC (%) content of the data?\n\n 35 50-251 38,309\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\n36\n\n\n\nIn R1 (1P), do the IQRs and/or whiskers drop below Q28 in the “Per base sequence quality” graph?\n\n Yes No\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\nYes\n\n\n\nIn R2 (2P), do the IQRs and/or whiskers drop below Q28 in the “Per base sequence quality” graph?\n\n Yes No\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\nYes\n\n\n\nIn R2 (2P), do the IQRs drop below Q28 in the “Per base sequence quality” graph?\n\n Yes No\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\nYes\n\n\n\nWhat is the most common “mean sequence quality” for the reads in R2 (2P) (see the peak of the “Per sequence quality scores” graph)?\n\n 0 37 250-251\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\n37\n\n\n\nWhat is the total count of overrepresented sequences in R1 (1P)?\n\n 0 37 250-251\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\n129\n\n\n\nWhat is the most common base length range for R2 (see the peak of the “Sequence Length Distribution” graph)?\n\n 0 37 250-251\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\n250-251\n\n\nSome things to note:\n\nThe amount of reads has significantly decreased due to quality control. This is expected, however this will need to be taken into account. If you do not have enough reads for the downstream analysis you will need to be less stringent on the trimming or filtering. What is the minimum number of reads required for downstream analysis? Unfortunately this depends on the specific analysis at hand. For genome assemblies generally the rule of thumb is you want at least 20 times as much bases in the reads as would be in the final assembly (based on the genome size of the organism).\nR2 quality is still worse than R1 quality. Again this is normal.\nThe quality controlled reads of the reverse reads still drop below Q28 towards the end of the reads. This is pretty typical. You could be more stringent but as previously mentioned you may be removing too many reads.\nThe overrepresented sequences, which were Illumina adapters needed for sequencing, were removed by trimmomatic. This is good as we don’t need/want them any more.\n\n\n\n\n\n\n\nNote\n\n\n\nIf you are getting data from a sequencing centre they will have most likely removed the adapters already. Be sure to check they are not appearing in the Overrepresented sequences or the Adapter Content section of the fastqc report after trimming before continuing.\n\n\nIf adapters are present you can use Cutadapt to remove them: https://cutadapt.readthedocs.io/en/stable/guide.html",
@@ -324,8 +324,8 @@
     ]
   },
   {
-    "objectID": "illumina/poor_data_post_control_check.html#quality-checking-mcqs",
-    "href": "illumina/poor_data_post_control_check.html#quality-checking-mcqs",
+    "objectID": "illumina_qc/poor_data_post_control_check.html#quality-checking-mcqs",
+    "href": "illumina_qc/poor_data_post_control_check.html#quality-checking-mcqs",
     "title": "Post Quality control check",
     "section": "",
     "text": "To see how well the reads have improved answer the below questions and compare to them to the answers of the raw read fastqc questions.\n\nHow many total reads/sequences are there in the R2 (2P) file?\n\n 35 50-251 38,309\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\n50,000\n\n\n\nWhat is the length range of the data?\n\n 35 50-251 38,309\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\n35-251\n\n\n\nWhat is the average GC (%) content of the data?\n\n 35 50-251 38,309\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\n36\n\n\n\nIn R1 (1P), do the IQRs and/or whiskers drop below Q28 in the “Per base sequence quality” graph?\n\n Yes No\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\nYes\n\n\n\nIn R2 (2P), do the IQRs and/or whiskers drop below Q28 in the “Per base sequence quality” graph?\n\n Yes No\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\nYes\n\n\n\nIn R2 (2P), do the IQRs drop below Q28 in the “Per base sequence quality” graph?\n\n Yes No\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\nYes\n\n\n\nWhat is the most common “mean sequence quality” for the reads in R2 (2P) (see the peak of the “Per sequence quality scores” graph)?\n\n 0 37 250-251\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\n37\n\n\n\nWhat is the total count of overrepresented sequences in R1 (1P)?\n\n 0 37 250-251\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\n129\n\n\n\nWhat is the most common base length range for R2 (see the peak of the “Sequence Length Distribution” graph)?\n\n 0 37 250-251\n\n\n\n\n\n\n\n\nNoteRaw read fastqc answer\n\n\n\n250-251\n\n\nSome things to note:\n\nThe amount of reads has significantly decreased due to quality control. This is expected, however this will need to be taken into account. If you do not have enough reads for the downstream analysis you will need to be less stringent on the trimming or filtering. What is the minimum number of reads required for downstream analysis? Unfortunately this depends on the specific analysis at hand. For genome assemblies generally the rule of thumb is you want at least 20 times as much bases in the reads as would be in the final assembly (based on the genome size of the organism).\nR2 quality is still worse than R1 quality. Again this is normal.\nThe quality controlled reads of the reverse reads still drop below Q28 towards the end of the reads. This is pretty typical. You could be more stringent but as previously mentioned you may be removing too many reads.\nThe overrepresented sequences, which were Illumina adapters needed for sequencing, were removed by trimmomatic. This is good as we don’t need/want them any more.\n\n\n\n\n\n\n\nNote\n\n\n\nIf you are getting data from a sequencing centre they will have most likely removed the adapters already. Be sure to check they are not appearing in the Overrepresented sequences or the Adapter Content section of the fastqc report after trimming before continuing.\n\n\nIf adapters are present you can use Cutadapt to remove them: https://cutadapt.readthedocs.io/en/stable/guide.html",
@@ -336,8 +336,8 @@
     ]
   },
   {
-    "objectID": "illumina/poor_data_check.html",
-    "href": "illumina/poor_data_check.html",
+    "objectID": "illumina_qc/poor_data_check.html",
+    "href": "illumina_qc/poor_data_check.html",
     "title": "Quality checking",
     "section": "",
     "text": "Let’s make a directory for the fastqc output.\n\nmkdir raw_fastqc_output\n\nRun fastqc on all the paired read files (*.fastq representing all the files that end with .fastq).\n\nfastqc -o raw_fastqc_output *.fastq\n\nWe can open the fastqc output with the following command.\n\nfirefox raw_fastqc_output/*_fastqc.html &\n\nSome typical features to note are:\n\nThe quality decreases towards the end of the reads\nThe R2 reads have poorer quality than the R1 reads\nThe read sizes have a range compared to all being one size, however most of the reads are towards the long end of the range\n\n\n\n\n\n\n\n\nInvestigate the fastqc reports and answer the below question.\n\nHow many total reads/sequences are there in the R2 file?\n\n 36 35-251 50,000\n\n\n\nWhat is the length range of the data?\n\n 36 35-251 50,000\n\n\n\nWhat is the average GC (%) content of the data?\n\n 36 35-251 50,000\n\n\n\nAt what base position/s does the IQR (Interquartile Range/yellow box) drop below a quality of Q28 for the R1 data?\n\n 15-19 235-239 250-251\n\n\n\nAt what base position/s does the IQR and whiskers (lines) first completely go above a quality of Q28 for the R2 data?\n\n 15-19 235-239 250-251\n\n\n\nAt what base position/s does the IQR (Interquartile Range/yellow box) drop below a quality of Q20 for the R2 data?\n\n 15-19 235-239 250-251\n\n\n\nWhat is the most common “mean sequence quality” for the reads in R2 (see the peak of the “Per sequence quality scores” graph)?\n\n 37 129 250-251\n\n\n\nWhat is the total count of overrepresented sequences in R1?\n\n 37 129 250-251\n\n\n\nWhat is the most common base length range for R2 (see the peak of the “Sequence Length Distribution” graph)?\n\n 37 129 250-251\n\n\nThis data is pretty typical of what would normally be seen. We are therefore going to quality trim and filter the data. Unfortunately data straight from the sequencer always needs quality control.",
@@ -348,8 +348,8 @@
     ]
   },
   {
-    "objectID": "illumina/poor_data_check.html#quality-checking-mcqs",
-    "href": "illumina/poor_data_check.html#quality-checking-mcqs",
+    "objectID": "illumina_qc/poor_data_check.html#quality-checking-mcqs",
+    "href": "illumina_qc/poor_data_check.html#quality-checking-mcqs",
     "title": "Quality checking",
     "section": "",
     "text": "Investigate the fastqc reports and answer the below question.\n\nHow many total reads/sequences are there in the R2 file?\n\n 36 35-251 50,000\n\n\n\nWhat is the length range of the data?\n\n 36 35-251 50,000\n\n\n\nWhat is the average GC (%) content of the data?\n\n 36 35-251 50,000\n\n\n\nAt what base position/s does the IQR (Interquartile Range/yellow box) drop below a quality of Q28 for the R1 data?\n\n 15-19 235-239 250-251\n\n\n\nAt what base position/s does the IQR and whiskers (lines) first completely go above a quality of Q28 for the R2 data?\n\n 15-19 235-239 250-251\n\n\n\nAt what base position/s does the IQR (Interquartile Range/yellow box) drop below a quality of Q20 for the R2 data?\n\n 15-19 235-239 250-251\n\n\n\nWhat is the most common “mean sequence quality” for the reads in R2 (see the peak of the “Per sequence quality scores” graph)?\n\n 37 129 250-251\n\n\n\nWhat is the total count of overrepresented sequences in R1?\n\n 37 129 250-251\n\n\n\nWhat is the most common base length range for R2 (see the peak of the “Sequence Length Distribution” graph)?\n\n 37 129 250-251\n\n\nThis data is pretty typical of what would normally be seen. We are therefore going to quality trim and filter the data. Unfortunately data straight from the sequencer always needs quality control.",
@@ -360,8 +360,8 @@
     ]
   },
   {
-    "objectID": "illumina/multiqc.html",
-    "href": "illumina/multiqc.html",
+    "objectID": "illumina_qc/multiqc.html",
+    "href": "illumina_qc/multiqc.html",
     "title": "MultiQC",
     "section": "",
     "text": "MultiQC is a brilliant tool that can be used to collate multiple fastqc reports into one interactive html file. This means if you have 100 sets of paired reads you can look at 2 htmls rather than 200 FastQC reports. I say 2 htmls because it is best to put the forward reads into one MultiQC report and the reverse reads into another.\nMain page: https://multiqc.info/\nDocumentation: https://multiqc.info/docs/\nWe will carry out a quick example of using MultiQC with fastqcdata.\n\n\n\n\n\n\n\nMove into the multiqc_example directory:\n\ncd ~/QC_workshop/Illumina_QC/multiqc_example\n\n\n\n\n\n\n\nNote\n\n\n\nEnsure you are in the illumina_qc conda environment. If (illumina_qc) is at the start of your command prompt in your current terminal you are in the environment. If you are not in the environment please see the Mamba section to activate it.\n\n\nWe will be quality checking 4 Aeromonas hydrophila samples. List the contents of the directory and you will see the fastq files containing our data.\n\n#List all the contents\nls\n#List the raw fastq files\nls *_R*.fastq\n#List the paired fastq files trimmed with trimmomatic\nls *P.fastq\n\nAs you can see from listing the contents you have been provided the raw and trimmed data. This is to save you time so all you need to carry out is the fastqc and multiqc commands.\n\n\n\n\n\n\n\n\nThe first step is to carry out fastqc on the raw data.\n\n#Make output directory\nmkdir raw_fastqc_output\n#Run fastqc\nfastqc -o raw_fastqc_output *_R*.fastq\n\nNow that we have our fastqc output we can carry out multiqc. Due to the inherent differences between the forward and reverse reads it is best to make separate multiqc reports for them.\n\n#Create output directories\nmkdir raw_multiqc_output\nmkdir raw_multiqc_output/r1\nmkdir raw_multiqc_output/r2\n#Run multiqc\nmultiqc -o raw_multiqc_output/r1 raw_fastqc_output/*R1*\nmultiqc -o raw_multiqc_output/r2 raw_fastqc_output/*R2*\n\nNow we can open the multiqc reports with firefox.\n\nfirefox raw_multiqc_output/*/*.html\n\nInvestigate the report. Notice how you can hover over parts of the plots to get information. If you would like more information there is a handy link to a tutorial video at the top of the report.\n\n\n\n\n\n\n\n\nNow that you have looked at the multiqc report for the raw data it is time to carry out fastqc and multiqc on the trimmed data.\n\n#Make fastqc output directory\nmkdir trimmomatic_fastqc_output\n#Run fastqc\nfastqc -o trimmomatic_fastqc_output *P.fastq\n#Create output directories\nmkdir trimmomatic_multiqc_output\nmkdir trimmomatic_multiqc_output/r1\nmkdir trimmomatic_multiqc_output/r2\n#Run multiqc\nmultiqc -o trimmomatic_multiqc_output/r1 trimmomatic_fastqc_output/*1P*\nmultiqc -o trimmomatic_multiqc_output/r2 trimmomatic_fastqc_output/*2P*\n#Look at the reports in firefox\nfirefox trimmomatic_multiqc_output/*/*.html\n\nThis is a brilliant use of MultiQC. However, it can also be used to collate the output from many other bioinformatic tools (https://multiqc.info/#supported-tools).\n\n\n\n\n\n\n\n\nThe read data was simulated from the Aeromonas hydrophila genome assembly in the GAGE-B dataset https://ccb.jhu.edu/gage_b/datasets/index.html.\n\n\n\nAmazing! With the Illumina QC part complete please continue to the ONT QC part.",
@@ -371,8 +371,8 @@
     ]
   },
   {
-    "objectID": "illumina/multiqc.html#the-data",
-    "href": "illumina/multiqc.html#the-data",
+    "objectID": "illumina_qc/multiqc.html#the-data",
+    "href": "illumina_qc/multiqc.html#the-data",
     "title": "MultiQC",
     "section": "",
     "text": "Move into the multiqc_example directory:\n\ncd ~/QC_workshop/Illumina_QC/multiqc_example\n\n\n\n\n\n\n\nNote\n\n\n\nEnsure you are in the illumina_qc conda environment. If (illumina_qc) is at the start of your command prompt in your current terminal you are in the environment. If you are not in the environment please see the Mamba section to activate it.\n\n\nWe will be quality checking 4 Aeromonas hydrophila samples. List the contents of the directory and you will see the fastq files containing our data.\n\n#List all the contents\nls\n#List the raw fastq files\nls *_R*.fastq\n#List the paired fastq files trimmed with trimmomatic\nls *P.fastq\n\nAs you can see from listing the contents you have been provided the raw and trimmed data. This is to save you time so all you need to carry out is the fastqc and multiqc commands.",
@@ -382,8 +382,8 @@
     ]
   },
   {
-    "objectID": "illumina/multiqc.html#fastqc-of-the-raw-data",
-    "href": "illumina/multiqc.html#fastqc-of-the-raw-data",
+    "objectID": "illumina_qc/multiqc.html#fastqc-of-the-raw-data",
+    "href": "illumina_qc/multiqc.html#fastqc-of-the-raw-data",
     "title": "MultiQC",
     "section": "",
     "text": "The first step is to carry out fastqc on the raw data.\n\n#Make output directory\nmkdir raw_fastqc_output\n#Run fastqc\nfastqc -o raw_fastqc_output *_R*.fastq\n\nNow that we have our fastqc output we can carry out multiqc. Due to the inherent differences between the forward and reverse reads it is best to make separate multiqc reports for them.\n\n#Create output directories\nmkdir raw_multiqc_output\nmkdir raw_multiqc_output/r1\nmkdir raw_multiqc_output/r2\n#Run multiqc\nmultiqc -o raw_multiqc_output/r1 raw_fastqc_output/*R1*\nmultiqc -o raw_multiqc_output/r2 raw_fastqc_output/*R2*\n\nNow we can open the multiqc reports with firefox.\n\nfirefox raw_multiqc_output/*/*.html\n\nInvestigate the report. Notice how you can hover over parts of the plots to get information. If you would like more information there is a handy link to a tutorial video at the top of the report.",
@@ -393,8 +393,8 @@
     ]
   },
   {
-    "objectID": "illumina/multiqc.html#fastqc-of-the-trimmed-data",
-    "href": "illumina/multiqc.html#fastqc-of-the-trimmed-data",
+    "objectID": "illumina_qc/multiqc.html#fastqc-of-the-trimmed-data",
+    "href": "illumina_qc/multiqc.html#fastqc-of-the-trimmed-data",
     "title": "MultiQC",
     "section": "",
     "text": "Now that you have looked at the multiqc report for the raw data it is time to carry out fastqc and multiqc on the trimmed data.\n\n#Make fastqc output directory\nmkdir trimmomatic_fastqc_output\n#Run fastqc\nfastqc -o trimmomatic_fastqc_output *P.fastq\n#Create output directories\nmkdir trimmomatic_multiqc_output\nmkdir trimmomatic_multiqc_output/r1\nmkdir trimmomatic_multiqc_output/r2\n#Run multiqc\nmultiqc -o trimmomatic_multiqc_output/r1 trimmomatic_fastqc_output/*1P*\nmultiqc -o trimmomatic_multiqc_output/r2 trimmomatic_fastqc_output/*2P*\n#Look at the reports in firefox\nfirefox trimmomatic_multiqc_output/*/*.html\n\nThis is a brilliant use of MultiQC. However, it can also be used to collate the output from many other bioinformatic tools (https://multiqc.info/#supported-tools).",
@@ -404,8 +404,8 @@
     ]
   },
   {
-    "objectID": "illumina/multiqc.html#read-data",
-    "href": "illumina/multiqc.html#read-data",
+    "objectID": "illumina_qc/multiqc.html#read-data",
+    "href": "illumina_qc/multiqc.html#read-data",
     "title": "MultiQC",
     "section": "",
     "text": "The read data was simulated from the Aeromonas hydrophila genome assembly in the GAGE-B dataset https://ccb.jhu.edu/gage_b/datasets/index.html.",
@@ -415,8 +415,8 @@
     ]
   },
   {
-    "objectID": "illumina/multiqc.html#next-step",
-    "href": "illumina/multiqc.html#next-step",
+    "objectID": "illumina_qc/multiqc.html#next-step",
+    "href": "illumina_qc/multiqc.html#next-step",
     "title": "MultiQC",
     "section": "",
     "text": "Amazing! With the Illumina QC part complete please continue to the ONT QC part.",
@@ -426,8 +426,8 @@
     ]
   },
   {
-    "objectID": "illumina/good_quality.html",
-    "href": "illumina/good_quality.html",
+    "objectID": "illumina_qc/good_quality.html",
+    "href": "illumina_qc/good_quality.html",
     "title": "Good quality genomic dataset",
     "section": "",
     "text": "The first dataset will comprise of good quality reads for the genome of Psychrobacter arcticus.\nP. arcticus is a bacteria that was first isolated from Siberian permafrost. I am fond of Psychrobacter as my BSc project involved studying it.\nPrior to analysis we need to change directory to the example 1 directory.\n\ncd example_1\n\nThis directory contains the forward (R1) and reverse (R2) read fastq files.\nList the contents of the current directory to confirm this.\n\nls\n\n\n\n\n\n\n\n\nWe will carry out fastqc quality checking of the reads.\nFirst make a directory for the output.\n\nmkdir raw_fastqc_output\n\nNow we can run fastqc.\n\nfastqc -o raw_fastqc_output \\\np_arcticus_R1.fastq p_arcticus_R2.fastq\n\n\n\n\n\n\n\nNote\n\n\n\nThe above command can be run over one line excluding the \\.\nAlternatively, you can type \\ during a command and then press the enter key. The next line on the command line will start with &gt;. This will allow you to continue typing the command on the line. This can be used to type one command over multiple lines.\nFor more information on bash escape please see our Intro to unix materials\n\n\n\n\n\n\n\n\n\n\nThe next step is to view the fastqc report. But first we will talk about background and foreground processes.\nNormally when you run a command it will run the process in the foreground. This means your command line will be locked whilst the process is running. You will only be able to type a new command in the terminal once the foreground process is finished.\nThis is normally wanted but not always, for example when you run a process like firefox. To run a process in the background, so you can type and run new commands, you can add the symbol & to the end of a command.\n\n\n\n\n\n\n\n\nUsing firefox have a look at the output html reports and answer the following questions.\nOpen all the fastqc html files in the directory.\n\nfirefox raw_fastqc_output/*_fastqc.html &\n\n\n\n\n\n\n\nNoteNote on *\n\n\n\n\n\nThe * is a wildcard character that represents anything.\n*_fastqc.html represents all the files that end with _fastqc.html.\nFor more information on wildcard characters please see our Intro to Linux materials.\n\n\n\n\nHow many total reads/sequences are there in the R1 file?\n\n 42 175,697 150\n\n\n\nWhat is the length of the reads?\n\n 42 175,697 150\n\n\n\nWhat is the average GC (%) content of the reads?\n\n 42 175,697 150\n\n\n\nIn R1 at what quality range is base position 1?\n\n 0-40 20-40 28-40\n\n\n\nIn R2 at what quality range are base positions 15-19?\n\n 0-40 20-40 28-40\n\n\n\nIn R1 at what quality range are base positions 45-49?\n\n 0-40 20-40 28-40\n\n\n\nIn R2 at what quality range is base position 150?\n\n 0-40 20-40 28-40\n\n\nIn this case the reads have been simulated from a genome assembly. This is the reason it looks so nice. Real data from a sequencing machine will unfortunately not look as good and will require quality trimming and filtering.\nGenerally even if data does look very nice we would carry out quality control to get rid of any poor data that is masked by the very good data. However, for the purposes of time we will skip this at the moment.\nFor your own interest the genome assembly can be found in the following link: https://www.ncbi.nlm.nih.gov/nuccore/CP000082.1",
@@ -437,8 +437,8 @@
     ]
   },
   {
-    "objectID": "illumina/good_quality.html#run-fastqc",
-    "href": "illumina/good_quality.html#run-fastqc",
+    "objectID": "illumina_qc/good_quality.html#run-fastqc",
+    "href": "illumina_qc/good_quality.html#run-fastqc",
     "title": "Good quality genomic dataset",
     "section": "",
     "text": "We will carry out fastqc quality checking of the reads.\nFirst make a directory for the output.\n\nmkdir raw_fastqc_output\n\nNow we can run fastqc.\n\nfastqc -o raw_fastqc_output \\\np_arcticus_R1.fastq p_arcticus_R2.fastq\n\n\n\n\n\n\n\nNote\n\n\n\nThe above command can be run over one line excluding the \\.\nAlternatively, you can type \\ during a command and then press the enter key. The next line on the command line will start with &gt;. This will allow you to continue typing the command on the line. This can be used to type one command over multiple lines.\nFor more information on bash escape please see our Intro to unix materials",
@@ -448,8 +448,8 @@
     ]
   },
   {
-    "objectID": "illumina/good_quality.html#background-and-foreground-processes",
-    "href": "illumina/good_quality.html#background-and-foreground-processes",
+    "objectID": "illumina_qc/good_quality.html#background-and-foreground-processes",
+    "href": "illumina_qc/good_quality.html#background-and-foreground-processes",
     "title": "Good quality genomic dataset",
     "section": "",
     "text": "The next step is to view the fastqc report. But first we will talk about background and foreground processes.\nNormally when you run a command it will run the process in the foreground. This means your command line will be locked whilst the process is running. You will only be able to type a new command in the terminal once the foreground process is finished.\nThis is normally wanted but not always, for example when you run a process like firefox. To run a process in the background, so you can type and run new commands, you can add the symbol & to the end of a command.",
@@ -459,8 +459,8 @@
     ]
   },
   {
-    "objectID": "illumina/good_quality.html#view-fastqc-output",
-    "href": "illumina/good_quality.html#view-fastqc-output",
+    "objectID": "illumina_qc/good_quality.html#view-fastqc-output",
+    "href": "illumina_qc/good_quality.html#view-fastqc-output",
     "title": "Good quality genomic dataset",
     "section": "",
     "text": "Using firefox have a look at the output html reports and answer the following questions.\nOpen all the fastqc html files in the directory.\n\nfirefox raw_fastqc_output/*_fastqc.html &\n\n\n\n\n\n\n\nNoteNote on *\n\n\n\n\n\nThe * is a wildcard character that represents anything.\n*_fastqc.html represents all the files that end with _fastqc.html.\nFor more information on wildcard characters please see our Intro to Linux materials.\n\n\n\n\nHow many total reads/sequences are there in the R1 file?\n\n 42 175,697 150\n\n\n\nWhat is the length of the reads?\n\n 42 175,697 150\n\n\n\nWhat is the average GC (%) content of the reads?\n\n 42 175,697 150\n\n\n\nIn R1 at what quality range is base position 1?\n\n 0-40 20-40 28-40\n\n\n\nIn R2 at what quality range are base positions 15-19?\n\n 0-40 20-40 28-40\n\n\n\nIn R1 at what quality range are base positions 45-49?\n\n 0-40 20-40 28-40\n\n\n\nIn R2 at what quality range is base position 150?\n\n 0-40 20-40 28-40\n\n\nIn this case the reads have been simulated from a genome assembly. This is the reason it looks so nice. Real data from a sequencing machine will unfortunately not look as good and will require quality trimming and filtering.\nGenerally even if data does look very nice we would carry out quality control to get rid of any poor data that is masked by the very good data. However, for the purposes of time we will skip this at the moment.\nFor your own interest the genome assembly can be found in the following link: https://www.ncbi.nlm.nih.gov/nuccore/CP000082.1",
@@ -470,8 +470,8 @@
     ]
   },
   {
-    "objectID": "illumina/16s.html",
-    "href": "illumina/16s.html",
+    "objectID": "illumina_qc/16s.html",
+    "href": "illumina_qc/16s.html",
     "title": "16S rRNA Metagenetics",
     "section": "",
     "text": "Before starting this exercise I must note this is not the normal method to quality control 16S rRNA data. Both QIIME2 and other 16S pipelines have their own methods but it can be useful to check the quality of 16S rRNA data beofre analysis.\nWith that in mind we will only use fastqc to check the quality and features of a 16S rRNA dataset.\nThe dataset can be found in the following link:\nhttps://www.ebi.ac.uk/ena/data/view/SRR2081030\nThe dataset in the cluster is the full dataset. It can be found in your ~/QC_workshop/Illumina_QC/exercise_2 directory.\n\n\nRun fastqc on the data and view the reports. Looking at the report you may be worried by its appearance, however this is normal for 16S rRNA data. Some explanations for the features are:\n\nThe base quality of R2 is very low towards the end. For most 16S rRNA studies the paired reads overlap and so poor quality bases at the end of R1 are corrected by the overlapping R2 reads and vice versa.\nThe “Per base sequence content” is heavily biased. This again is normal as we are targeting a specific region within the genome, a 16S rRNA region. This means a lot of the sequences will share very similar content. The fact we are targeting a specific region also makes the “Per sequence GC content”, “Sequence duplication levels”, and “overrepresented sequences” look worrying and warnings are given. These warnings are designed to help with whole genome data and so they are not useful in this circumstance.\n\nThese features show that it is important to understand what your data contains and what analyses you will be carrying out with the data.",
@@ -482,8 +482,8 @@
     ]
   },
   {
-    "objectID": "illumina/16s.html#task",
-    "href": "illumina/16s.html#task",
+    "objectID": "illumina_qc/16s.html#task",
+    "href": "illumina_qc/16s.html#task",
     "title": "16S rRNA Metagenetics",
     "section": "",
     "text": "Run fastqc on the data and view the reports. Looking at the report you may be worried by its appearance, however this is normal for 16S rRNA data. Some explanations for the features are:\n\nThe base quality of R2 is very low towards the end. For most 16S rRNA studies the paired reads overlap and so poor quality bases at the end of R1 are corrected by the overlapping R2 reads and vice versa.\nThe “Per base sequence content” is heavily biased. This again is normal as we are targeting a specific region within the genome, a 16S rRNA region. This means a lot of the sequences will share very similar content. The fact we are targeting a specific region also makes the “Per sequence GC content”, “Sequence duplication levels”, and “overrepresented sequences” look worrying and warnings are given. These warnings are designed to help with whole genome data and so they are not useful in this circumstance.\n\nThese features show that it is important to understand what your data contains and what analyses you will be carrying out with the data.",
@@ -749,8 +749,8 @@
     "text": "Online website link\nYou can download the html files of the site below. Ensure you unzip the directory before use.\nDownload zipped htmls"
   },
   {
-    "objectID": "illumina/exercises.html",
-    "href": "illumina/exercises.html",
+    "objectID": "illumina_qc/exercises.html",
+    "href": "illumina_qc/exercises.html",
     "title": "QC exercises",
     "section": "",
     "text": "QC exercises\n\n\n\n\n\nNow you will carry out Quality checking and control of a whole genome shotgun study and a 16S rRNA study. You will run through the Quality checking and Quality control using the examples to help you. There will be questions to answer. After the question there will be info on the data and what the QC has shown.",
@@ -761,8 +761,8 @@
     ]
   },
   {
-    "objectID": "illumina/intro.html",
-    "href": "illumina/intro.html",
+    "objectID": "illumina_qc/intro.html",
+    "href": "illumina_qc/intro.html",
     "title": "Intro",
     "section": "",
     "text": "Intro\n\n\n\n\n\nIllumina sequencing technology is the most common method used for DNA sequencing. However, it is not perfect and the generated data contains errors. This course aims to introduce you to Illumina quality control and checking, vital steps before carrying out most analyses with Illumina data.\nAt the end of this part learners will be able to:\n\nExplain how sequencing by synthesis works\nUnderstand where common Illumina errors come from\nQuality check Illumina fastq files with fastQC and multiQC\nQuality control Illumina fastq files by trimming and filtering",
@@ -772,8 +772,8 @@
     ]
   },
   {
-    "objectID": "illumina/poor_data.html",
-    "href": "illumina/poor_data.html",
+    "objectID": "illumina_qc/poor_data.html",
+    "href": "illumina_qc/poor_data.html",
     "title": "Dataset",
     "section": "",
     "text": "Dataset\n\n\n\n\n\nNow let us look at actual read data. We will be looking at Bacillus cereus MiSeq data that can be found in the following link: https://ccb.jhu.edu/gage_b/datasets/index.html.\nFor the purposes of the tutorial I subsampled the reads down to a more manageable 50,000 pairs, normally read data will not come in such round numbers.\nBefore running any analysis we need to change directory to the example_2 directory. From the example_1 directory we can use the following command, where ../ represents going up one directory.\n\ncd ../example_2\n#List contents of directory\nls",
@@ -784,8 +784,8 @@
     ]
   },
   {
-    "objectID": "illumina/poor_data_control.html",
-    "href": "illumina/poor_data_control.html",
+    "objectID": "illumina_qc/poor_data_control.html",
+    "href": "illumina_qc/poor_data_control.html",
     "title": "Quality control",
     "section": "",
     "text": "Quality control\n\n\n\n\n\nQuality control generally comes in two forms:\n\nTrimming: This is directly cutting off bits of sequence. This is typical in the form of trimming off low quality bases from the end of reads and trimming off adapters at the start of reads.\nFiltering: This occurs when entire reads are removed. A typical occurrence of this is when a read is too small as we do not want reads below a certain length.\n\nTo carry this out we are going to use trimmomatic. http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf\nTo run trimmomatic with the reads we will use the below command.\n\ntrimmomatic PE \\\n-phred33 \\\nB_cereus_R1.fastq B_cereus_R2.fastq \\\n-baseout B_cereus.fastq \\\nSLIDINGWINDOW:4:20 MINLEN:50\n\nParameters:\n\nPE: Input data consists of paired-end reads.\n-phred33: indicates input data has Phred33 encoding. Phred33 includes Sanger, Illumina 1.8+, and PacBio quality encoding.\nB_cereus_R1.fastq B_cereus_R2.fastq: The input forward and reverse read files.\n-baseout: This parameter is used to create the names of the four output files (more info below).\nSLIDINGWINDOW: This will cause sliding window trimming to be carried out. The :4:20 specifies the window size (4) and the average quality required to retain the window (20).\nMINLEN: This specifies the minimum length for a read to be retained. We have set this to 50 (:50).\n\nNote: When using trimmomatic on future data ensure you change the input files and the -baseout parameter to match your data.\nOnce the command is run it will give you some useful output to the screen. Based on it, what percentage of paired reads were kept?\n\n 4.73% 14.99% 76.62%\n\nOutput\nThe command produces four files with names based off the -baseout parameter. You can use ls to see the output files. The files are:\n\nB_cereus_1P.fastq & B_cereus_2P.fastq: The paired forward and reverse reads after successful trimming. In the vast majority of cases these are the two files which will be used for further analysis.\nB_cereus_1U.fastq: The trimmed unpaired forward reads. These are produced when the forward read is retained after trimming but not the matching reverse read. This can be ignored in most cases.\nB_cereus_2U.fastq: The trimmed unpaired reverse reads. These are produced when the reverse read is retained after trimming but not the matching forward read. This can be ignored in most cases.",
@@ -796,8 +796,8 @@
     ]
   },
   {
-    "objectID": "illumina/setup.html",
-    "href": "illumina/setup.html",
+    "objectID": "illumina_qc/setup.html",
+    "href": "illumina_qc/setup.html",
     "title": "Setup",
     "section": "",
     "text": "Before carrying out any analysis we need to get our workshop data and setup our environment.\n\n\n\n\n\n\n\nBefore copying over the workshop directory ensure you are in your home directory.\n\ncd ~\n\nNow copy the specified folder/directory to your current working directory (i.e. your home directory).\n\ncp -r /pub14/tea/nsc206/NEOF/QC_workshop/ .\n\nBefore running any examples change directory to the Illumina Quality control directory.\n\ncd QC_workshop/Illumina_QC/\n\n\n\n\n\n\n\n\n\nThis book requires some packages. Miniforge was used to install them. To learn more about Miniforge and how to create your own environment please see the appendix.\nTo set-up your environment for this book please run the following code (you must include the full stop and space at the front of the command).\n\n. useilluminaqc\n\nYou will have successfully activated the environment if you now see (illumina_qc) at the start of your command prompt. This indicates you are now in the mamba environment called illumina_qc created by the instructor.\nIf you are interested in the use script you can look at its contents.\n\nless /usr/local/bin/useilluminaqc\n\nTip: press q to quit less.\nFor more about mamba and how to create your own illumina_qc environment please see the appendix.",
@@ -807,8 +807,8 @@
     ]
   },
   {
-    "objectID": "illumina/setup.html#workshop-data",
-    "href": "illumina/setup.html#workshop-data",
+    "objectID": "illumina_qc/setup.html#workshop-data",
+    "href": "illumina_qc/setup.html#workshop-data",
     "title": "Setup",
     "section": "",
     "text": "Before copying over the workshop directory ensure you are in your home directory.\n\ncd ~\n\nNow copy the specified folder/directory to your current working directory (i.e. your home directory).\n\ncp -r /pub14/tea/nsc206/NEOF/QC_workshop/ .\n\nBefore running any examples change directory to the Illumina Quality control directory.\n\ncd QC_workshop/Illumina_QC/",
@@ -818,8 +818,8 @@
     ]
   },
   {
-    "objectID": "illumina/setup.html#mamba",
-    "href": "illumina/setup.html#mamba",
+    "objectID": "illumina_qc/setup.html#mamba",
+    "href": "illumina_qc/setup.html#mamba",
     "title": "Setup",
     "section": "",
     "text": "This book requires some packages. Miniforge was used to install them. To learn more about Miniforge and how to create your own environment please see the appendix.\nTo set-up your environment for this book please run the following code (you must include the full stop and space at the front of the command).\n\n. useilluminaqc\n\nYou will have successfully activated the environment if you now see (illumina_qc) at the start of your command prompt. This indicates you are now in the mamba environment called illumina_qc created by the instructor.\nIf you are interested in the use script you can look at its contents.\n\nless /usr/local/bin/useilluminaqc\n\nTip: press q to quit less.\nFor more about mamba and how to create your own illumina_qc environment please see the appendix.",
